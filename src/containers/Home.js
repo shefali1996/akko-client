@@ -38,12 +38,12 @@ export default class Home extends Component {
     (product, i) =>
       i !== 0
         ? <ListGroupItem
-            key={product.title}
+            key={product.productId}
             href={`/inventory/${product.productId}`}
             onClick={this.handleProductClick}
-            header={product.content.trim().split("\n")[0]}
+            header={product.productTitle.trim()/*.split("\n")[0]*/}
           >
-            {"Last updated: " + new Date(product.lastUpdated).toLocaleString()}
+            {"Last updated: " + product.lastUpdated}
           </ListGroupItem>
         : <ListGroupItem>
             <h4>
