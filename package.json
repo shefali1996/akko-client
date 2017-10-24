@@ -6,12 +6,22 @@
     "amazon-cognito-identity-js": "^1.19.0",
     "aws-sdk": "^2.117.0",
     "crypto-js": "^3.1.8",
+    "font-awesome": "^4.7.0",
+    "history": "^4.7.2",
+    "namor": "^1.0.1",
     "query-string": "^5.0.0",
     "react": "^15.6.1",
     "react-bootstrap": "^0.31.3",
+    "react-bootstrap-table": "^4.1.0",
     "react-dom": "^15.6.1",
+    "react-redux": "^5.0.6",
+    "react-router": "^4.2.0",
     "react-router-dom": "^4.2.2",
-    "react-scripts": "0.9.5"
+    "react-scripts": "0.9.5",
+    "react-search-input": "^0.11.3",
+    "react-select": "^1.0.0-rc.10",
+    "redux": "^3.7.2",
+    "redux-logger": "^3.0.6"
   },
   "devDependencies": {},
   "scripts": {
