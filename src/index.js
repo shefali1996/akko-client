@@ -1,9 +1,10 @@
 import React from "react";
 import ReactDOM from "react-dom";
-import { BrowserRouter as Router } from "react-router-dom";
-import App from "./App";
+import './styles/index.css';
+import App from './App';
+import 'font-awesome/css/font-awesome.min.css';
+import { BrowserRouter as Router } from "react-router-dom"; // \todo: required?
 import registerServiceWorker from "./registerServiceWorker";
-import "./index.css";
 
 ReactDOM.render(
   <Router>
