@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
+import {findDOMNode} from 'react-dom'
 import {connect} from 'react-redux';
 import {Grid, Row, Col, Button, Label, Image, FormGroup, FormControl} from 'react-bootstrap';
+import ReactTooltip from 'react-tooltip';
 import Header from '../components/Header';
 import { validateEmail } from '../constants';
 import '../styles/App.css';
@@ -11,20 +13,21 @@ class Landing extends Component {
 	constructor(props) {
 		super(props);
 		this.state = {
-			email: ''
+            email: '',
+            isValid: false
         };
         this.goSignUp = this.goSignUp.bind(this)
         this.onEmailChange = this.onEmailChange.bind(this)
 	}
 
 	async componentWillMount() {
-	  // redirect to inventory page if user is already logged in
-	  try {
-	    if (await authUser()) {
-	      this.props.history.push('/inventory');
-	      }
+        // redirect to inventory page if user is already logged in
+        try {
+            if (await authUser()) {
+            this.props.history.push('/inventory');
+            }
 	    }catch(e) {
-	      alert(e);
+           alert(e);
 	    }
 	}
 
@@ -37,18 +40,25 @@ class Landing extends Component {
     goSignUp() {
         let {email} = this.state
         if(validateEmail(email)) {
+            this.setState({
+                isValid: true
+            })
             this.props.history.push({
                 pathname: '/signup',
                 query: {
                     email: email
                 }
             })
+        }else {
+            this.setState({
+                isValid: true
+            })
+            ReactTooltip.show(this.refs.email)
         }
     }
 
-  render() {
-
-        let {email} = this.state
+    render() {
+        let {email, isValid} = this.state
 		return (
             <Grid className="main-layout">
                 <Header history={this.props.history}/>
@@ -70,23 +80,27 @@ class Landing extends Component {
                     </Col>
                     <Col md={12} className="padding-t-30">
                         <Col md={7} className="text-right">
-                            <Col md={6}>
-                            </Col>
-                            <Col md={6} className="text-center">
+                            <Col md={6} className="text-center" mdOffset={6}>
                                 <Col md={12} className="text-center">
                                     <Label className="small-title">
                                         Sign up now for a 30 day free trial
                                     </Label>
                                 </Col>
                                 <Col md={12} className="text-center flex-center">
-                                    <FormGroup className="padding-t-10">
-                                        <FormControl
-                                            type="text"
-                                            placeholder="email"
-                                            className="email-input"
-                                            value={email}
-                                            onChange={this.onEmailChange}/>
-                                    </FormGroup>
+                                    <FormControl
+                                        ref="email"
+                                        type="text"
+                                        placeholder="email"
+                                        className="email-input"
+                                        value={email}
+                                        data-tip="invalid email address"
+                                        data-for='sadFace'
+                                        onChange={this.onEmailChange}
+                                    />
+                                    {isValid &&
+                                        <ReactTooltip id='sadFace' type='error' place="bottom" effect="solid">
+                                        </ReactTooltip>
+                                    }
                                 </Col>
                             </Col>
                         </Col>

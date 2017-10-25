@@ -235,7 +235,6 @@ class Inventory extends Component {
 			nextPage: 'Next   »',
 			withFirstAndLast: false
         };
-        console.log(data)
 		return (
 			<div>
 				<Navigationbar history={this.props.history}/>
