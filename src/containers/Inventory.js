@@ -112,24 +112,26 @@ class Inventory extends Component {
 			  </label>
 			</div>);
 		} else {
-		  return (
-			<div className='checkbox-personalized'>
-			  <input
-				type={ type }
-				name={ 'checkbox' + rowIndex }
-				id={ 'checkbox' + rowIndex }
-				checked={ checked }
-				disabled={ disabled }
-				onChange={ e=> onChange(e, rowIndex) }
-				ref={ input => {
-				  if (input) {
-					input.indeterminate = props.indeterminate;
-				  }
-				} }/>
-			  <label htmlFor={ 'checkbox' + rowIndex }>
-				<div className='check'></div>
-			  </label>
-			</div>);
+		    return (
+                <div className='checkbox-personalized'>
+                    <input
+                        type={ type }
+                        name={ 'checkbox' + rowIndex }
+                        id={ 'checkbox' + rowIndex }
+                        checked={ checked }
+                        disabled={ disabled }
+                        onChange={ e=> onChange(e, rowIndex) }
+                        ref={ input => {
+                            if (input) {
+                                input.indeterminate = props.indeterminate;
+                            }
+                        } }
+                    />
+                    <label htmlFor={ 'checkbox' + rowIndex }>
+                        <div className='check'></div>
+                    </label>
+                </div>
+            );
 		}
 	}
 
@@ -170,12 +172,12 @@ class Inventory extends Component {
 		return (
 		  <div className='btn-group'>
 			{
-			  [ 10, 25, 30 ].map((n, idx) => {
-				const isActive = (n === props.currSizePerPage) ? 'active' : null;
-				return (
-				  <button key={ idx } type='button' className={ `btn btn-info ${isActive}` } onClick={ () => props.changeSizePerPage(n) }>{ n }</button>
-				);
-			  })
+                [ 10, 25, 30 ].map((n, idx) => {
+                    const isActive = (n === props.currSizePerPage) ? 'active' : null;
+                    return (
+                        <button key={ idx } type='button' className={ `btn btn-info ${isActive}` } onClick={ () => props.changeSizePerPage(n) }>{ n }</button>
+                    );
+                })
 			}
 		  </div>
 		);
@@ -199,16 +201,15 @@ class Inventory extends Component {
 					{ props.exportCSVBtn }
 					{ props.deleteBtn }
 				</div>
-
 		  </ButtonGroup>
 		);
 	}
 
 	createCustomToolBar(props) {
 		return (
-		  <div style={ { margin: '15px' } }>
-			{ props.components.btnGroup }
-		  </div>
+            <div style={ { margin: '15px' } }>
+                { props.components.btnGroup }
+            </div>
 		);
 	}
 
@@ -233,7 +234,7 @@ class Inventory extends Component {
 			prePage: '«   Previous',
 			nextPage: 'Next   »',
 			withFirstAndLast: false
-		};
+        };
 		return (
 			<div>
 				<Navigationbar history={this.props.history}/>
@@ -288,8 +289,18 @@ class Inventory extends Component {
 											pagination
 											trClassName="custom-table"
 										>
-											<TableHeaderColumn
+                                            <TableHeaderColumn
 												isKey
+												dataField='id'
+												dataAlign="center"
+												dataSort
+												className="custom-table-header"
+												caretRender={ getCaret }
+                                                hidden={true}
+											>
+												ID
+											</TableHeaderColumn>
+											<TableHeaderColumn
 												dataField='productTitle'
 												dataAlign="center"
 												dataSort
