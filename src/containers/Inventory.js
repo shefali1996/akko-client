@@ -35,6 +35,26 @@ function getCaret(direction) {
 	);
 }
 
+function convertInventoryJSONToObject(inventoryJSON){
+	var products = [];
+	for(let i = 0; i < inventoryJSON.length; i++)
+	{
+		const currProduct = inventoryJSON[i];
+
+		const productEntry = {
+			id: currProduct.productId,
+			productTitle: currProduct.productTitle,
+			stockOnHand: currProduct.stock,
+			committed: currProduct.committed,
+			availableForSale: currProduct.available_for_sale,
+			shopId: currProduct.shopId,
+			variantTitle: currProduct.variantTitle
+		}
+		products.push(productEntry);
+	}
+	return products;
+}
+
 class Inventory extends Component {
 	constructor(props) {
 		super(props);
@@ -50,9 +70,8 @@ class Inventory extends Component {
 	async componentDidMount() {
 		try {
 			const results = await this.products();
-			console.log("Products Data Fetched...");
-			console.log(results);
-			this.setState({ data: results });
+			var products = convertInventoryJSONToObject(results);
+			this.setState({ data: products });
 		} catch (e) {
 			alert(e);
 		}
@@ -201,7 +220,7 @@ class Inventory extends Component {
 			customComponent: this.customMultiSelect
 		};
 		const options = {
-			defaultSortName: 'name',
+			defaultSortName: 'productTitle',
 			defaultSortOrder: 'desc',
 			insertBtn: this.createCustomInsertButton,
 			deleteBtn: this.createCustomDeleteButton,
@@ -271,7 +290,7 @@ class Inventory extends Component {
 										>
 											<TableHeaderColumn
 												isKey
-												dataField='name'
+												dataField='productTitle'
 												dataAlign="center"
 												dataSort
 												className="custom-table-header"
@@ -280,7 +299,7 @@ class Inventory extends Component {
 												Product
 											</TableHeaderColumn>
 											<TableHeaderColumn
-												dataField='stock'
+												dataField='stockOnHand'
 												dataAlign="center"
 												dataSort
 												className="custom-table-header"
@@ -289,7 +308,7 @@ class Inventory extends Component {
 												Stock on Hand
 											</TableHeaderColumn>
 											<TableHeaderColumn
-												dataField='commit'
+												dataField='committed'
 												dataAlign="center"
 												dataSort
 												className="custom-table-header"
@@ -298,7 +317,7 @@ class Inventory extends Component {
 												Committed
 											</TableHeaderColumn>
 											<TableHeaderColumn
-												dataField='available'
+												dataField='availableForSale'
 												dataAlign="center"
 												dataSort
 												className="custom-table-header"
