@@ -301,7 +301,7 @@ render() {
                                 <div>
                                     <Col md={12} className="padding-t-30">
                                         <Label className="signup-title">
-                                            We've sent a verification code to $(email_address)
+                                            We've sent a verification code to {email}
                                         </Label>
                                     </Col>
                                     <Col md={12}>

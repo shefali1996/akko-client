@@ -257,7 +257,7 @@ class Channels extends Component {
 												dataAlign="center"
 												dataSort
 												className="custom-table-header"
-                                                caretRender = { getCaret }
+                                                caretRender={ getCaret }
 											>
 												Product
 											</TableHeaderColumn>
@@ -266,7 +266,7 @@ class Channels extends Component {
 												dataAlign="center"
 												dataSort
 												className="custom-table-header"
-                                                caretRender = { getCaret }
+                                                caretRender={ getCaret }
 											>
 												Stock on Hand
 											</TableHeaderColumn>
@@ -275,7 +275,7 @@ class Channels extends Component {
 												dataAlign="center"
 												dataSort
 												className="custom-table-header"
-                                                caretRender = { getCaret }
+                                                caretRender={ getCaret }
 											>
 												Committed
 											</TableHeaderColumn>
@@ -284,7 +284,7 @@ class Channels extends Component {
 												dataAlign="center"
 												dataSort
 												className="custom-table-header"
-                                                caretRender = { getCaret }
+                                                caretRender={ getCaret }
 											>
 												Available for Sale
 											</TableHeaderColumn>

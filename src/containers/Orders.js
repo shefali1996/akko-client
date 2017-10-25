@@ -261,7 +261,7 @@ class Orders extends Component {
 											dataAlign="center"
 											dataSort
 											className="custom-table-header"
-                                            caretRender = { getCaret }
+                                            caretRender={ getCaret }
 										>
 											Product
 										</TableHeaderColumn>
@@ -270,7 +270,7 @@ class Orders extends Component {
 											dataAlign="center"
 											dataSort
 											className="custom-table-header"
-                                            caretRender = { getCaret }
+                                            caretRender={ getCaret }
 										>
 											Stock on Hand
 										</TableHeaderColumn>
@@ -279,7 +279,7 @@ class Orders extends Component {
 											dataAlign="center"
 											dataSort
 											className="custom-table-header"
-                                            caretRender = { getCaret }
+                                            caretRender={ getCaret }
 										>
 											Committed
 										</TableHeaderColumn>
@@ -288,7 +288,7 @@ class Orders extends Component {
 											dataAlign="center"
 											dataSort
 											className="custom-table-header"
-                                            caretRender = { getCaret }
+                                            caretRender={ getCaret }
 										>
 											Available for Sale
 										</TableHeaderColumn>

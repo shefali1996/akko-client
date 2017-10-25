@@ -3,7 +3,7 @@ import {Grid, Row, Col, Tabs, Tab, Image, Label} from 'react-bootstrap';
 import {connect} from 'react-redux';
 import SearchInput, {createFilter} from 'react-search-input'
 import { BootstrapTable, TableHeaderColumn, ButtonGroup } from 'react-bootstrap-table';
-import { makeData } from "../components/Utils";
+// import { makeData } from "../components/Utils";
 import Navigationbar from '../components/Navigationbar';
 import Footer from '../components/Footer';
 import Checkbox from '../components/Checkbox';
@@ -294,7 +294,7 @@ class Inventory extends Component {
 												dataAlign="center"
 												dataSort
 												className="custom-table-header"
-												caretRender = { getCaret }
+												caretRender={ getCaret }
 											>
 												Product
 											</TableHeaderColumn>
@@ -303,7 +303,7 @@ class Inventory extends Component {
 												dataAlign="center"
 												dataSort
 												className="custom-table-header"
-												caretRender = { getCaret }
+												caretRender={ getCaret }
 											>
 												Stock on Hand
 											</TableHeaderColumn>
@@ -312,7 +312,7 @@ class Inventory extends Component {
 												dataAlign="center"
 												dataSort
 												className="custom-table-header"
-												caretRender = { getCaret }
+												caretRender={ getCaret }
 											>
 												Committed
 											</TableHeaderColumn>
@@ -321,7 +321,7 @@ class Inventory extends Component {
 												dataAlign="center"
 												dataSort
 												className="custom-table-header"
-												caretRender = { getCaret }
+												caretRender={ getCaret }
 											>
 												Available for Sale
 											</TableHeaderColumn>
