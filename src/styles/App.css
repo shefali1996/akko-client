@@ -1,0 +1,758 @@
+.App {
+  text-align: center;
+}
+.App-header {
+  background-color: #ffffff;
+  height: 100px;
+  color: white;
+  display: flex;
+  flex-direction: row;
+  border: none;
+  width: 100%;
+  margin: 0;
+  padding: 0;
+}
+.white-bg {
+  background: #fff;
+}
+.App-header .container {
+  width: 100%;
+  margin-top: 9px;
+}
+.app-title {
+  font-family: Ubuntu;
+	font-size: 32px;
+	font-weight: 600;
+  color: #1d2fb5;
+  text-decoration: none solid rgb(29, 47, 181);
+  background: none;
+  padding-top: 20px;
+  display: block;
+}
+.user-profile {
+  width: 165px;
+  height: 40px;
+  background-color: #1d2fb5;
+}
+.down {
+  width: 32px;
+  height: 32px;
+  display: inline-block;
+}
+.username {
+  font-family: Ubuntu;
+  font-size: 16px;
+  font-weight: 200;
+  color: #ffffff;
+  text-decoration: none solid rgb(255, 255, 255);
+  background: none;
+  display: inline-block;
+  vertical-align: middle;
+  margin-top: 2px;
+}
+.setting {
+  font-family: Ubuntu;
+  font-size: 16px;
+  font-weight: 200;
+  color: #ffffff;
+  text-decoration: none solid rgb(255, 255, 255);
+  background: none;
+  display: inline-block;
+  vertical-align: middle;
+	margin-top: 2px;
+	margin-left: 14px;
+}
+.user {
+  width: 25px;
+  height: 25px;
+  display: inline-block;
+}
+.dropdown .btn-default {
+  border: none;
+  padding-top: 10px;
+}
+.dropdown .dropdown-menu {
+	padding: 0;
+	margin: 0;
+	width: 100%;
+	border: none;
+}
+.dropdown .btn-default:hover,
+.dropdown.open .btn-default:hover,
+.dropdown .btn-default:active,
+.dropdown.open .btn-default:active,
+.dropdown .btn-default:focus,
+.dropdown.open .btn-default:focus {
+  box-shadow: none;
+  outline: none;
+  background-color: #1d2fb5;
+}
+.btn-default.active, .btn-default:active,
+.open>.dropdown-toggle.btn-default {
+  background-color: #1d2fb5;
+}
+.dropdown .btn-default .caret {
+  display: none;
+}
+.dropdown .btn-default {
+  padding: 0;
+  border: none;
+  margin-top: 10px;
+  border-radius: 0px;
+}
+.no-margin {
+  margin: 0;
+}
+.no-padding {
+  padding: 0;
+}
+.nav-container {
+  background: #F3F3F3;
+  padding: 0px 240px;
+}
+.footer-container {
+	background: #F3F3F3;
+	padding: 0px 240px;
+}
+.top-border {
+	border-top: 1px solid #c8c8e8;
+	padding-top: 10px;
+}
+.inventory-container {
+  overflow: auto;
+  width: 100%;
+  padding: 0px 240px;
+}
+.padding-header {
+	padding-left: 70px;
+	padding-right: 70px;
+	padding-bottom: 50px;
+}
+.min-height {
+  min-height: calc(100vh - 60px);
+}
+.padding-t-5 {
+	padding-top: 5px;
+}
+.padding-t-10 {
+	padding-top: 10px;
+}
+.padding-t-20 {
+	padding-top: 20px;
+}
+.padding-t-30 {
+	padding-top: 30px;
+}
+.padding-t-40 {
+	padding-top: 40px;
+}
+.padding-t-50 {
+	padding-top: 50px;
+}
+.padding-t-66 {
+	padding-top: 66px;
+}
+.padding-t-70 {
+	padding-top: 70px;
+}
+.padding-t-80 {
+	padding-top: 80px;
+}
+.company-title {
+	font-family: Ubuntu;
+	font-size: 16px;
+	font-weight: 100;
+	color: #1d2fb5;
+	text-decoration: none solid rgb(29, 47, 181);
+	background: none;
+}
+.contact-title {
+	font-family: Ubuntu;
+	font-size: 16px;
+	font-weight: 100;
+	color: #1d2fb5;
+	text-decoration: none solid rgb(29, 47, 181);
+	background: none;
+	padding: 0;
+}
+.header-title {
+	font-family: Ubuntu;
+	font-size: 32px;
+	font-weight: 700;
+	color: #1d2fb5;
+	text-decoration: none solid rgb(29, 47, 181);
+	background: none;
+	padding: 0;
+}
+.headerIcon {
+	width: 23px;
+	height: 23px;
+}
+.custom-shadow {
+	transform: translateZ(0);
+}
+.inventory-tab {
+	text-align: center;
+	padding-top: 10px;
+  padding-left: 40px;
+  padding-right: 40px;
+}
+.inventory-tab ul.nav.nav-tabs > li, ul.nav.nav-pills > li {
+  float:none;
+  display:inline-block;
+}
+.inventory-tab ul.nav.nav-tabs {
+  text-align:center;
+}
+.inventory-tab .nav.nav-tabs >li.active>a, .nav-tabs>li.active>a:focus, .nav-tabs>li.active>a:hover {
+  cursor: default;
+  background-color: #fff;
+  border-bottom: 2px solid #1d2fb5;
+  padding: 15px 20px 0px 20px;
+  outline: 0px;
+  font-family: 'Ubuntu';
+  font-weight: 200;
+  font-size: 20px;
+  color: #1d2fb5;
+  text-decoration: none solid rgb(29, 47, 181);
+  width: 120px;
+}
+.inventory-tab .nav.nav-tabs >li>a, .nav-tabs>li>a:focus, .nav-tabs>li>a:hover {
+  cursor: default;
+  background-color: #fff;
+  border: none;
+  margin: 0;
+  padding: 15px 20px 0px 20px;
+  outline: 0px;
+  font-family: 'Ubuntu';
+  font-weight: 200;
+  font-size: 20px;
+  color: #1d2fb5;
+  text-decoration: none solid rgb(29, 47, 181);
+  width: 120px;
+  cursor: pointer;
+}
+.inventory-tab .nav.nav-tabs {
+  border-top-width: 0px;
+  border-left-width: 0px;
+  border-right-width: 0px;
+  border-bottom: 1px solid #c8c8e8;
+  background-color: white;
+  text-align: left;
+}
+.gray-view {
+  background-color: #ebebeb;
+  width: 100%;
+  height: 178px;
+}
+.margin-t-30 {
+  margin-top: 30px;
+}
+.btn-group.open .dropdown-toggle {
+  box-shadow: none;
+}
+.custom-table {
+  height: 100px;
+  font-family: Ubuntu;
+  font-size: 16px;
+  font-weight: 400;
+  color: #1d2fb5;
+  text-decoration: none solid rgb(29, 47, 181);
+  
+}
+.custom-table td {
+  line-height: 100px !important;
+	text-align: center;
+	outline: none;
+  border-bottom: 1px solid #C8C8E8;
+}
+.custom-table-header {
+  font-family: Ubuntu;
+  font-size: 16px;
+  font-weight: 400;
+  color: #1d2fb5;
+}
+.padding-50 {
+  padding: 50px;
+}
+.add-button {
+  background: #1d2fb5;
+  display: inline-block;
+  padding: 10px;
+  cursor: pointer;
+}
+.plus-icon {
+  width: 22px;
+  height: 22px;
+}
+.delete-button {
+  background: #d42920;
+  display: inline-block;
+  padding: 10px;
+  cursor: pointer;
+}
+.merge-button {
+  background: #1d2fb5;
+  display: inline-block;
+  padding: 10px;
+  cursor: pointer;
+  margin-right: 10px;
+}
+.button-text {
+  font-family: Ubuntu;
+  font-size: 14px;
+  font-weight: 100;
+  color: #ffffff;
+  text-decoration: none solid rgb(255, 255, 255);
+  text-align: center;
+  background: none;
+}
+.select-page-button {
+  /* display: none; */
+}
+.pageList-style .pagination .page-item .page-link {
+  font-family: Lato;
+  font-size: 14px;
+  font-weight: 400;
+  color: #000000;
+  text-decoration: none solid rgb(0, 0, 0);
+  text-align: center;
+  border: none;
+}
+.pageList-style .pagination .active.page-item .page-link {
+  font-family: Lato;
+  font-size: 14px;
+  font-weight: 400;
+  color: #fff;
+  text-decoration: none solid rgb(0, 0, 0);
+  text-align: center;
+  border: none;
+  border-radius: 0px;
+  background: #2199e8;
+}
+.sort-icon {
+  width: 20px;
+  height: 20px;
+  margin-left: 5px;
+}
+.button-group-custom-class {
+  width: 100%;
+  display: inline-block;
+}
+.left-button-view {
+  width: 50%;
+  display: inline-block;
+  text-align: left;
+}
+.right-button-view {
+  width: 50%;
+  display: inline-block;
+  text-align: right;
+}
+.main-layout {
+	height: 100vh;
+	margin: 0;
+	width: 100%;
+	background: #1d2fb5; /* For browsers that do not support gradients */
+	background: -webkit-linear-gradient(#1d2fb5, #ffffff); /* For Safari 5.1 to 6.0 */
+	background: -o-linear-gradient(#1d2fb5, #ffffff); /* For Opera 11.1 to 12.0 */
+	background: -moz-linear-gradient(#1d2fb5, #ffffff); /* For Firefox 3.6 to 15 */
+	background: linear-gradient(#1d2fb5, #ffffff); /* Standard syntax */
+}
+.header-layout {
+	background: #1d2fb5; /* For browsers that do not support gradients */
+	background: -webkit-linear-gradient(#1d2fb5, #1d2fb5); /* For Safari 5.1 to 6.0 */
+	background: -o-linear-gradient(#1d2fb5, #1d2fb5); /* For Opera 11.1 to 12.0 */
+	background: -moz-linear-gradient(#1d2fb5, #1d2fb5); /* For Firefox 3.6 to 15 */
+	background: linear-gradient(#1d2fb5, #1d2fb5); /* Standard syntax */
+}
+.logo-title {
+	font-family: Ubuntu;
+	font-size: 32px;
+	color: #ffffff;
+	text-decoration: none solid rgb(29, 47, 181);
+	background: none;
+	padding-top: 20px;
+	display: block;
+	text-align: left;
+	padding-left: 5px;
+}
+.feature-text {
+	font-family: Ubuntu;
+	font-size: 16px;
+	color: #ffffff;
+	font-weight: 400;
+	text-decoration: none solid rgb(255, 255, 255);
+	background: none;
+	border: none;
+  background-image: none;
+  border-radius: 0px;
+  border-width: 0px;
+	box-shadow: none !important;
+	outline: none;
+}
+.feature-text:active,
+.feature-text:hover,
+.feature-text:focus,
+.feature-text:active:focus {
+	color: #ffffff;
+	background: none;
+	border: none;
+  background-image: none;
+  border-radius: 0px;
+  border-width: 0px;
+	box-shadow: none !important;
+	outline: none;
+}
+.signup-button-text {
+	width: 90px;
+	height: 36px;
+	background-color: #5bc0de;
+	background-repeat: no-repeat;
+	font-family: Ubuntu;
+	font-size: 14px;
+	color: #ffffff;
+	font-weight: 400;
+	text-decoration: none solid rgba(255, 255, 255, 0.84);
+	text-align: center;
+	box-shadow: 0 1px 2px rgba(0, 0, 0, 0.5);
+	border: none;
+	border-radius: 0;
+}
+.signup-button-text:active,
+.signup-button-text:hover,
+.signup-button-text:focus,
+.signup-button-text:active:focus {
+	width: 90px;
+	height: 36px;
+	background-color: #5bc0de;
+	background-repeat: no-repeat;
+	font-family: Ubuntu;
+	font-size: 14px;
+	color: #ffffff;
+	font-weight: 400;
+	text-decoration: none solid rgba(255, 255, 255, 0.84);
+	text-align: center;
+	outline: none;
+	box-shadow: 0 1px 2px rgba(0, 0, 0, 0.5);
+	border: none;
+	border-radius: 0;
+}
+.large-title {
+	font-family: Ubuntu;
+	font-size: 32px;
+	font-weight: 700;
+	color: #ffffff;
+	text-decoration: none solid rgb(255, 255, 255);
+	text-align: center;
+	background: none;
+}
+.middle-title {
+	font-family: Ubuntu;
+	font-size: 24px;
+	font-weight: 200;
+	color: #ffffff;
+	text-decoration: none solid rgb(255, 255, 255);
+	text-align: center;
+	background: none;
+}
+.small-title {
+	font-family: Ubuntu;
+	font-size: 16px;
+	font-weight: 100;
+	color: #ffffff;
+	text-decoration: none solid rgb(255, 255, 255);
+	text-align: center;
+	background: none;
+}
+.trial-button {
+	width: 146px;
+	height: 43px;
+	padding: 6px 10px;
+	border-radius: 5px;
+	background-color: #e8e8e8;
+	font-family: Ubuntu;
+	font-size: 14px;
+	color: #1d2fb5;
+	font-weight: 200;
+	text-decoration: none solid rgb(29, 47, 181);
+	text-align: center;
+	box-shadow: 0 1px 2px rgba(0, 0, 0, 0.5);
+	/* outline: none; */
+}
+.trial-button:active,
+.trial-button:hover,
+.trial-button:focus,
+.trial-button:active:focus {
+	width: 146px;
+	height: 43px;
+	padding: 6px 10px;
+	border-radius: 5px;
+	background-color: #e8e8e8;
+	font-family: Ubuntu;
+	font-size: 14px;
+	color: #1d2fb5;
+	font-weight: 200;
+	text-decoration: none solid rgb(29, 47, 181);
+	text-align: center;
+	box-shadow: 0 1px 2px rgba(0, 0, 0, 0.5);
+	outline: none;
+}
+.email-input {
+	width: 339px;
+	height: 43px;
+	padding: 0px 10px;
+	border: 1px solid #c8c8e8;
+	border-radius: 5px;
+	background-color: #ffffff;
+	font-family: Ubuntu;
+	font-size: 14px;
+	color: #C8C8E8;
+	font-weight: 400;
+	text-decoration: none solid rgb(29, 47, 181);
+	line-height: 14px;
+}
+.login-layout {
+	height: 100vh;
+	margin: 0;
+	width: 100%;
+	background: #ebebeb;
+}
+.login-title {
+  font-family: Ubuntu;
+  font-size: 32px;
+  color: #1d2fb5;
+  text-decoration: none solid rgb(29, 47, 181);
+  background: none;
+  padding-top: 20px;
+}
+.close-button {
+	width: 43px;
+	height: 43px;
+	fill: #c8c8e8;
+	background-image: url("../assets/close.svg");
+	background-repeat: no-repeat;
+	background-color: transparent;
+	border: none;
+	background-size: contain;
+}
+.close-button:active,
+.close-button:hover,
+.close-button:focus,
+.close-button:active:focus {
+	width: 43px;
+	height: 43px;
+	fill: #c8c8e8;
+	background-image: url("../assets/close.svg");
+	background-repeat: no-repeat;
+	background-color: transparent;
+	border: none;
+	background-size: contain;
+	outline: none;
+}
+.login-tab {
+	text-align: center;
+	padding-top: 10px;
+  padding-left: 40px;
+  padding-right: 40px;
+}
+.login-tab ul.nav.nav-tabs > li, ul.nav.nav-pills > li {
+  float:none;
+  display:inline-block;
+}
+.login-tab ul.nav.nav-tabs {
+  text-align:center;
+}
+.login-tab .nav.nav-tabs >li.active>a, .nav-tabs>li.active>a:focus, .nav-tabs>li.active>a:hover {
+  cursor: default;
+  background-color: #ebebeb;;
+  border-bottom: 2px solid #1d2fb5;
+  padding: 15px 20px 0px 20px;
+  outline: 0px;
+  font-family: 'Ubuntu';
+  font-weight: 200;
+  font-size: 20px;
+  color: #1d2fb5;
+  text-decoration: none solid rgb(29, 47, 181);
+  width: 120px;
+}
+.login-tab .nav.nav-tabs >li>a, .nav-tabs>li>a:focus, .nav-tabs>li>a:hover {
+  cursor: default;
+  background-color: #ebebeb;
+  border: none;
+  margin: 0;
+  padding: 15px 20px 0px 20px;
+  outline: 0px;
+  font-family: 'Ubuntu';
+  font-weight: 200;
+  font-size: 20px;
+  color: #1d2fb5;
+  text-decoration: none solid rgb(29, 47, 181);
+  width: 120px;
+  cursor: pointer;
+}
+.login-tab .nav.nav-tabs {
+  border-top-width: 0px;
+  border-left-width: 0px;
+  border-right-width: 0px;
+  border-bottom: 1px solid #c8c8e8;
+  background-color: #ebebeb;
+  text-align: left;
+}
+.flex-center {
+	display: flex;
+	justify-content: center;
+}
+.flex-right {
+	display: flex;
+	justify-content: flex-end;
+}
+.flex-left {
+	display: flex;
+	justify-content: flex-start;
+}
+.form-control::-webkit-input-placeholder {
+	color: #c8c8e8;
+}
+.form-control:-moz-placeholder { /* Firefox 18- */
+	color: #c8c8e8;
+}
+	 
+.form-control::-moz-placeholder { /* Firefox 19+ */
+	color: #c8c8e8;
+}
+	 
+.form-control:-ms-input-placeholder {
+	color: #c8c8e8;
+}
+.Select-arrow {
+	border-color: #c8c8e8 transparent transparent !important;
+	border-style: solid;
+	border-width: 5px 5px 2.5px;
+	display: inline-block;
+	height: 0;
+	width: 0;
+	position: relative;
+}
+.is-open .Select-arrow .Select-arrow-zone:hover > .Select-arrow{
+	border-top-color: #c8c8e8 !important;
+}
+.is-open > .Select-arrow .Select-arrow{
+	top: -2px;
+	border-color: #c8c8e8 transparent transparent !important;
+	border-width: 0 5px 5px;
+}
+.Select-clear-zone {
+	color: #c8c8e8 !important;
+}
+.forgot-text {
+	font-family: Ubuntu;
+	font-size: 16px;
+	color: #1d2fb5;
+	font-weight: 400;
+	text-decoration: none solid rgb(29, 47, 181);
+	background: none;
+	border: none;
+}
+.forgot-text:active,
+.forgot-text:hover,
+.forgot-text:focus,
+.forgot-text:active:focus {
+	font-family: Ubuntu;
+	font-size: 16px;
+	color: #1d2fb5;
+	font-weight: 400;
+	text-decoration: none solid rgb(29, 47, 181);
+	background: none;
+	border: none;
+	outline: none;
+}
+.login-button {
+	width: 100px;
+	height: 34px;
+	padding: 6px 10px;
+	background-color: #ffffff;
+	font-family: Ubuntu;
+	font-size: 14px;
+	color: #1d2fb5;
+	font-weight: 400;
+	text-decoration: none solid rgb(29, 47, 181);
+	text-align: center;
+	box-shadow: 0 1px 2px rgba(0, 0, 0, 0.5);
+	border: none;
+	border-radius: 0;
+}
+.login-button:active,
+.login-button:hover,
+.login-button:focus,
+.login-button:active:focus {
+	width: 100px;
+	height: 34px;
+	padding: 6px 10px;
+	background-color: #ffffff;
+	font-family: Ubuntu;
+	font-size: 14px;
+	color: #1d2fb5;
+	font-weight: 400;
+	text-decoration: none solid rgb(29, 47, 181);
+	text-align: center;
+	box-shadow: 0 1px 2px rgba(0, 0, 0, 0.5);
+	outline: 0;
+	border: none;
+	border-radius: 0;
+}
+.signup-email-input {
+	width: 200px;
+	height: 43px;
+	padding: 0px 10px;
+	border: 1px solid #c8c8e8;
+	border-radius: 5px;
+	background-color: #ffffff;
+	font-family: Ubuntu;
+	font-size: 14px;
+	color: #c8c8e8;
+	font-weight: 400;
+	text-decoration: none solid rgb(29, 47, 181);
+	line-height: 14px;	
+}
+.signup-role-input {
+	width: 200px;
+	padding-top: 0px;
+	font-family: Ubuntu;
+	font-size: 14px;
+	color: #c8c8e8;
+	font-weight: 400;
+	text-decoration: none solid rgb(29, 47, 181);
+	line-height: 14px;	
+	text-align: left;
+}
+.Select-control {
+	height: 43px !important;
+	border: 1px solid #c8c8e8 !important;
+	border-radius: 5px;
+}
+.has-value.Select--single > .Select-control .Select-value .Select-value-label, .has-value.is-pseudo-focused.Select--single > .Select-control .Select-value .Select-value-label {
+	color: #c8c8e8 !important;
+	padding-top: 5px !important;
+}
+.Select-placeholder, .Select--single > .Select-control .Select-value {
+	line-height: 43px !important;
+}
+.signup-title {
+  font-family: Ubuntu;
+	font-size: 16px;
+	font-weight: 200;
+  color: #1d2fb5;
+  text-decoration: none solid rgb(29, 47, 181);
+  background: none;
+}
+.cursor-pointer {
+	cursor: pointer;
+}
+.custom-dropdown-view {
+	background: #1d2fb5;
+	padding: 10px;
+}
+.Select-placeholder, .Select--single > .Select-control .Select-value {
+	color: #c8c8e8 !important;
+}

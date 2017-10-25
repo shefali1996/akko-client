@@ -1,0 +1,112 @@
+import React, { Component } from 'react';
+import {connect} from 'react-redux';
+import {Grid, Row, Col, Button, Label, Image, FormGroup, FormControl} from 'react-bootstrap';
+import Header from '../components/Header';
+import { validateEmail } from '../constants';
+import '../styles/App.css';
+import computer from '../assets/computer.png'
+import { authUser } from "../libs/awsLib";
+
+class Landing extends Component {
+	constructor(props) {
+		super(props);
+		this.state = {
+			email: ''
+        };
+        this.goSignUp = this.goSignUp.bind(this)
+        this.onEmailChange = this.onEmailChange.bind(this)
+	}
+
+	async componentWillMount() {
+	  // redirect to inventory page if user is already logged in
+	  try {
+	    if (await authUser()) {
+	      this.props.history.push('/inventory');
+	      }
+	    }catch(e) {
+	      alert(e);
+	    }
+	}
+
+    onEmailChange(e) {
+        this.setState({
+			email: e.target.value
+		});
+    }
+
+    goSignUp() {
+        let {email} = this.state
+        if(validateEmail(email)) {
+            this.props.history.push({
+                pathname: '/signup',
+                query: {
+                    email: email
+                }
+            })
+        }
+    }
+
+  render() {
+
+        let {email} = this.state
+		return (
+            <Grid className="main-layout">
+                <Header history={this.props.history}/>
+                <Row>
+                    <Col md={12} className="text-center padding-t-66">
+                        <Label className="large-title">
+                            Real-time dashboard for multi-channel eCommerce
+                        </Label>
+                    </Col>
+                    <Col md={12} className="text-center padding-t-20">
+                        <Label className="middle-title">
+                            Instantly sync inventory and orders across multiple channels
+                        </Label>
+                    </Col>
+                    <Col md={12} className="text-center padding-t-5">
+                        <Label className="middle-title">
+                            Track and compare performance in real-time
+                        </Label>
+                    </Col>
+                    <Col md={12} className="padding-t-30">
+                        <Col md={7} className="text-right">
+                            <Col md={6}>
+                            </Col>
+                            <Col md={6} className="text-center">
+                                <Col md={12} className="text-center">
+                                    <Label className="small-title">
+                                        Sign up now for a 30 day free trial
+                                    </Label>
+                                </Col>
+                                <Col md={12} className="text-center flex-center">
+                                    <FormGroup className="padding-t-10">
+                                        <FormControl
+                                            type="text"
+                                            placeholder="email"
+                                            className="email-input"
+                                            value={email}
+                                            onChange={this.onEmailChange}/>
+                                    </FormGroup>
+                                </Col>
+                            </Col>
+                        </Col>
+                        <Col md={5} className="padding-t-30">
+                            <Button className="trial-button" onClick={this.goSignUp}>
+                                START FREE TRIAL
+                            </Button>
+                        </Col>
+                    </Col>
+                    <Col md={12} className="padding-t-50 text-center">
+                        <Image src={computer}/>
+                    </Col>
+                </Row>
+            </Grid>
+		);
+	}
+}
+
+const mapStateToProps = state => ({
+
+})
+
+export default connect(mapStateToProps)(Landing);
