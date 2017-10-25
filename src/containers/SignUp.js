@@ -30,7 +30,9 @@ class SignUp extends Component {
       yourRole: '',
       email: '',
       password: '',
-      newUser: null
+      newUser: null,
+      emailSent: false,
+      verifyCode: ''
     };
     this.goLanding = this.goLanding.bind(this)
     this.handleSelect = this.handleSelect.bind(this)
@@ -114,11 +116,18 @@ onPasswordChange(e) {
   })
 }
 
+onVerifyCodeChange(e) {
+    this.setState({
+        verifyCode: e.target.value
+    })
+}
 onSignUp() {
   let {firstName, lastName, companyName, yourRole, email, password} = this.state
-  if(firstName.length > 0 && lastName.length > 0 && companyName.length > 0 && yourRole.length > 0 && validateEmail(email) && password.length > 8 )
-  {
-    this.props.history.push('/');
+  if(firstName.length > 0 && lastName.length > 0 && companyName.length > 0 && yourRole.length > 0 && validateEmail(email) && password.length > 8 ) {
+    // this.props.history.push('/inventory');
+    this.setState({
+        emailSent: true
+    })
   }
 }
 
@@ -194,7 +203,7 @@ logChange(val) {
 
 render() {
 
-    let {firstName, lastName, companyName, yourRole, email, password} = this.state
+    let {firstName, lastName, companyName, yourRole, email, password, emailSent, verifyCode} = this.state
     return (
         <Grid className="login-layout">
             <Row>
@@ -231,7 +240,7 @@ render() {
                                             onChange={this.onFirstNameChange}/>
                                     </div>
                                 </Col>
-                            <Col md={6}>
+                                <Col md={6}>
                                     <div className="flex-left padding-t-20">
                                         <FormControl
                                             type="text"
@@ -239,7 +248,7 @@ render() {
                                             className="signup-email-input"
                                             value={lastName}
                                             onChange={this.onLastNameChange}/>
-                                </div>
+                                    </div>
                                 </Col>
                             </Col>
                             <Col md={12}>
@@ -270,29 +279,57 @@ render() {
                                 <Col md={6}>
                                     <div className="flex-right padding-t-20">
                                         <FormControl
-                                        type="text"
-                                        placeholder="email"
-                                        className="signup-email-input"
-                                        value={email}
-                                        onChange={this.onEmailChange}/>
+                                            type="text"
+                                            placeholder="email"
+                                            className="signup-email-input"
+                                            value={email}
+                                            onChange={this.onEmailChange}/>
                                     </div>
                                 </Col>
                                 <Col md={6}>
                                     <div className="flex-left padding-t-20">
                                         <FormControl
-                                        type="password"
-                                        placeholder="password"
-                                        className="signup-email-input"
-                                        value={password}
-                                        onChange={this.onPasswordChange}/>
+                                            type="password"
+                                            placeholder="password"
+                                            className="signup-email-input"
+                                            value={password}
+                                            onChange={this.onPasswordChange}/>
                                     </div>
                                 </Col>
                             </Col>
-                            <Col md={12} className="padding-t-30">
-                                <Button className="login-button" onClick={this.onSignUp}>
-                                    SIGN UP
-                                </Button>
-                            </Col>
+                            {emailSent ?
+                                <div>
+                                    <Col md={12} className="padding-t-30">
+                                        <Label className="signup-title">
+                                            We've sent a verification code to $(email_address)
+                                        </Label>
+                                    </Col>
+                                    <Col md={12}>
+                                        <Label className="signup-title">
+                                            Please enter the code to verify your email address
+                                        </Label>
+                                    </Col>
+                                    <Col md={12} className="flex-center padding-t-10">
+                                        <FormControl
+                                            type="text"
+                                            placeholder="verification code"
+                                            className="signup-email-input"
+                                            value={verifyCode}
+                                            onChange={this.onVerifyCodeChange}/>
+                                    </Col>
+                                    <Col md={12} className="padding-t-30">
+                                        <Button className="login-button" onClick={this.onSignUp}>
+                                            VERIFY
+                                        </Button>
+                                    </Col>
+                                </div>
+                            :
+                                <Col md={12} className="padding-t-30">
+                                    <Button className="login-button" onClick={this.onSignUp}>
+                                        SIGN UP
+                                    </Button>
+                                </Col>
+                            }
                         </div>
                     </Tab>
                 </Tabs>
