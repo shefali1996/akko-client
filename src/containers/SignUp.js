@@ -196,108 +196,108 @@ render() {
 
     let {firstName, lastName, companyName, yourRole, email, password} = this.state
     return (
-      <Grid className="login-layout">
-      <Row>
-      <Col md={12}>
-      <Col md={6} className="text-left padding-t-20">
-      <Label className="login-title">
-      akko
-      </Label>
-      </Col>
-      <Col md={6} className="text-right padding-t-20">
-      <Button className="close-button" onClick={this.goLanding}/>
-      </Col>
-      </Col>
-      </Row>
-      <Row>
-      <Tabs defaultActiveKey={2} id="uncontrolled-tab-example" className="login-tab" onSelect={this.handleSelect}>
-      <Tab eventKey={1} title="Login">
-      </Tab>
-      <Tab eventKey={2} title="Sign Up">
-      <div>
-      <Col md={12} className="padding-t-30">
-      <Label className="signup-title">
-      Sign up for a 30 day free trial
-      </Label>
-      </Col>
-      <Col md={12}>
-      <Col md={6}>
-      <div className="flex-right padding-t-20">
-      <FormControl
-      type="text"
-      placeholder="first name"
-      className="signup-email-input"
-      value={firstName}
-      onChange={this.onFirstNameChange}/>
-      </div>
-      </Col>
-      <Col md={6}>
-      <div className="flex-left padding-t-20">
-      <FormControl
-      type="text"
-      placeholder="last name"
-      className="signup-email-input"
-      value={lastName}
-      onChange={this.onLastNameChange}/>
-      </div>
-      </Col>
-      </Col>
-      <Col md={12}>
-      <Col md={6}>
-      <div className="flex-right padding-t-20">
-      <FormControl
-      type="text"
-      placeholder="company name"
-      className="signup-email-input"
-      value={companyName}
-      onChange={this.onCompanyNameChange}/>
-      </div>
-      </Col>
-      <Col md={6}>
-      <div className="flex-left padding-t-20">
-      <Select
-      name="form-field-name"
-      placeholder="your role"
-      className="signup-role-input"
-      value={yourRole}
-      options={options}
-      onChange={this.logChange}
-      />
-      </div>
-      </Col>
-      </Col>
-      <Col md={12}>
-      <Col md={6}>
-      <div className="flex-right padding-t-20">
-      <FormControl
-      type="text"
-      placeholder="email"
-      className="signup-email-input"
-      value={email}
-      onChange={this.onEmailChange}/>
-      </div>
-      </Col>
-      <Col md={6}>
-      <div className="flex-left padding-t-20">
-      <FormControl
-      type="password"
-      placeholder="password"
-      className="signup-email-input"
-      value={password}
-      onChange={this.onPasswordChange}/>
-      </div>
-      </Col>
-      </Col>
-      <Col md={12} className="padding-t-30">
-      <Button className="login-button" onClick={this.onSignUp}>
-      SIGN UP
-      </Button>
-      </Col>
-      </div>
-      </Tab>
-      </Tabs>
-      </Row>
-      </Grid>
+        <Grid className="login-layout">
+            <Row>
+                <Col md={12}>
+                    <Col md={6} className="text-left padding-t-20">
+                        <Label className="login-title">
+                            akko
+                        </Label>
+                    </Col>
+                    <Col md={6} className="text-right padding-t-20">
+                        <Button className="close-button" onClick={this.goLanding}/>
+                    </Col>
+                </Col>
+            </Row>
+            <Row>
+                <Tabs defaultActiveKey={2} id="uncontrolled-tab-example" className="login-tab" onSelect={this.handleSelect}>
+                    <Tab eventKey={1} title="Login">
+                    </Tab>
+                    <Tab eventKey={2} title="Sign Up">
+                        <div>
+                            <Col md={12} className="padding-t-30">
+                                <Label className="signup-title">
+                                    Sign up for a 30 day free trial
+                                </Label>
+                            </Col>
+                            <Col md={12}>
+                                <Col md={6}>
+                                    <div className="flex-right padding-t-20">
+                                        <FormControl
+                                            type="text"
+                                            placeholder="first name"
+                                            className="signup-email-input"
+                                            value={firstName}
+                                            onChange={this.onFirstNameChange}/>
+                                    </div>
+                                </Col>
+                            <Col md={6}>
+                                    <div className="flex-left padding-t-20">
+                                        <FormControl
+                                            type="text"
+                                            placeholder="last name"
+                                            className="signup-email-input"
+                                            value={lastName}
+                                            onChange={this.onLastNameChange}/>
+                                </div>
+                                </Col>
+                            </Col>
+                            <Col md={12}>
+                                <Col md={6}>
+                                    <div className="flex-right padding-t-20">
+                                        <FormControl
+                                        type="text"
+                                        placeholder="company name"
+                                        className="signup-email-input"
+                                        value={companyName}
+                                        onChange={this.onCompanyNameChange}/>
+                                    </div>
+                                </Col>
+                                <Col md={6}>
+                                    <div className="flex-left padding-t-20">
+                                        <Select
+                                        name="form-field-name"
+                                        placeholder="your role"
+                                        className="signup-role-input"
+                                        value={yourRole}
+                                        options={options}
+                                        onChange={this.logChange}
+                                        />
+                                    </div>
+                                </Col>
+                            </Col>
+                            <Col md={12}>
+                                <Col md={6}>
+                                    <div className="flex-right padding-t-20">
+                                        <FormControl
+                                        type="text"
+                                        placeholder="email"
+                                        className="signup-email-input"
+                                        value={email}
+                                        onChange={this.onEmailChange}/>
+                                    </div>
+                                </Col>
+                                <Col md={6}>
+                                    <div className="flex-left padding-t-20">
+                                        <FormControl
+                                        type="password"
+                                        placeholder="password"
+                                        className="signup-email-input"
+                                        value={password}
+                                        onChange={this.onPasswordChange}/>
+                                    </div>
+                                </Col>
+                            </Col>
+                            <Col md={12} className="padding-t-30">
+                                <Button className="login-button" onClick={this.onSignUp}>
+                                    SIGN UP
+                                </Button>
+                            </Col>
+                        </div>
+                    </Tab>
+                </Tabs>
+            </Row>
+        </Grid>
     );
   }
 }
