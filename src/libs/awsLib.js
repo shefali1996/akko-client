@@ -26,16 +26,26 @@ export async function authUser() {
   ) {
     return true;
   }
-
   const currentUser = getCurrentUser();
 
   if (currentUser === null) {
     return false;
   }
 
-  const userToken = await getUserToken(currentUser);
+let userToken = null;
+try{
+  userToken = await getUserToken(currentUser);
+}catch(e)
+{
+  alert(e);
+}
 
+try{
   await getAwsCredentials(userToken);
+}catch(e)
+{
+  alert(e);
+}
 
   return true;
 }
