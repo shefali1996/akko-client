@@ -79,30 +79,30 @@ class SignIn extends Component {
         }
     }
 
-		// login using amazon cognito user pool
-		login(email, password)
-		{
-			// create a new userPool instance
-			const userPool = new CognitoUserPool({
-				UserPoolId: config.cognito.USER_POOL_ID,
-				ClientId: config.cognito.APP_CLIENT_ID
-			});
+    // login using amazon cognito user pool
+    login(email, password)
+    {
+        // create a new userPool instance
+        const userPool = new CognitoUserPool({
+            UserPoolId: config.cognito.USER_POOL_ID,
+            ClientId: config.cognito.APP_CLIENT_ID
+        });
 
-			// create a new CognitoUser instance
-			const user = new CognitoUser({ Username: email, Pool: userPool });
+        // create a new CognitoUser instance
+        const user = new CognitoUser({ Username: email, Pool: userPool });
 
-			// get authentication data
-			const authenticationData = { Username: email, Password: password };
-			const authenticationDetails = new AuthenticationDetails(authenticationData);
+        // get authentication data
+        const authenticationData = { Username: email, Password: password };
+        const authenticationDetails = new AuthenticationDetails(authenticationData);
 
-			// authenticate user
-			return new Promise((resolve, reject) =>
-			user.authenticateUser(authenticationDetails, {
-				onSuccess: result => resolve(),
-				onFailure: err => reject(err)
-			})
-		);
-		}
+        // authenticate user
+        return new Promise((resolve, reject) =>
+        user.authenticateUser(authenticationDetails, {
+            onSuccess: result => resolve(),
+            onFailure: err => reject(err)
+        })
+    );
+    }
 
     render() {
 

@@ -21,322 +21,317 @@ const options = [
 ];
 
 class SignUp extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      firstName: '',
-      lastName: '',
-      companyName: '',
-      yourRole: '',
-      email: '',
-      password: '',
-      newUser: null,
-      emailSent: false,
-      verifyCode: ''
-    };
-    this.goLanding = this.goLanding.bind(this)
-    this.handleSelect = this.handleSelect.bind(this)
-    this.onFirstNameChange = this.onFirstNameChange.bind(this)
-    this.onLastNameChange = this.onLastNameChange.bind(this)
-    this.onCompanyNameChange = this.onCompanyNameChange.bind(this)
-    this.onYourRoleChange = this.onYourRoleChange.bind(this)
-    this.logChange = this.logChange.bind(this)
-    this.onEmailChange = this.onEmailChange.bind(this)
-    this.onPasswordChange = this.onPasswordChange.bind(this)
-    this.onSignUp = this.onSignUp.bind(this)
-  }
-
-  componentDidMount() {
-    let isEmailValid = this.props.history.location.query;
-    if(isEmailValid !== undefined){
-      this.setState({
-        email: isEmailValid.email
-      })
-    }else {
-      this.setState({
-        email: ''
-      })
-    }
-}
-
-async componentWillMount() {
-  // redirect to inventory page if user is already logged in
-  try {
-    if (await authUser()) {
-      this.props.history.push('/inventory');
-      }
-    }catch(e) {
-      alert(e);
-    }
-}
-
-goLanding() {
-  this.props.history.push('/');
-}
-
-handleSelect(key) {
-  if(key === 1){
-    this.props.history.push('/signin');
-  }else if(key === 2){
-    this.props.history.push('/signup');
-  }
-}
-
-onFirstNameChange(e) {
-  this.setState({
-    firstName: e.target.value
-  })
-}
-
-onLastNameChange(e) {
-  this.setState({
-    lastName: e.target.value
-  })
-}
-
-onCompanyNameChange(e) {
-  this.setState({
-    companyName: e.target.value
-  })
-}
-
-onYourRoleChange(e) {
-
-}
-
-onEmailChange(e) {
-  this.setState({
-    email: e.target.value
-  })
-}
-
-onPasswordChange(e) {
-  this.setState({
-    password: e.target.value
-  })
-}
-
-onVerifyCodeChange(e) {
-    this.setState({
-        verifyCode: e.target.value
-    })
-}
-onSignUp() {
-  let {firstName, lastName, companyName, yourRole, email, password} = this.state
-  if(firstName.length > 0 && lastName.length > 0 && companyName.length > 0 && yourRole.length > 0 && validateEmail(email) && password.length > 8 ) {
-    // this.props.history.push('/inventory');
-    this.setState({
-        emailSent: true
-    })
-  }
-}
-
-createNewUser(userData)
-{
-  return invokeApig({
-    path: "/signup",
-    method: "POST",
-    body: userData
-  });
-}
-
-signup(email, password)
-{
-  const userPool = new CognitoUserPool({
-    UserPoolId: config.cognito.USER_POOL_ID,
-    ClientId: config.cognito.APP_CLIENT_ID
-  });
-
-  return new Promise((resolve, reject) =>
-  userPool.signUp(email, password, [], null, (err, result) => {
-    if (err) {
-      reject(err);
-      return;
+    constructor(props) {
+        super(props);
+        this.state = {
+            firstName: '',
+            lastName: '',
+            companyName: '',
+            yourRole: '',
+            email: '',
+            password: '',
+            newUser: null,
+            emailSent: false,
+            verifyCode: ''
+        };
+        this.goLanding = this.goLanding.bind(this)
+        this.handleSelect = this.handleSelect.bind(this)
+        this.onFirstNameChange = this.onFirstNameChange.bind(this)
+        this.onLastNameChange = this.onLastNameChange.bind(this)
+        this.onCompanyNameChange = this.onCompanyNameChange.bind(this)
+        this.onYourRoleChange = this.onYourRoleChange.bind(this)
+        this.logChange = this.logChange.bind(this)
+        this.onEmailChange = this.onEmailChange.bind(this)
+        this.onPasswordChange = this.onPasswordChange.bind(this)
+        this.onSignUp = this.onSignUp.bind(this)
     }
 
-    resolve(result.user);
-  })
-);
-}
+    componentDidMount() {
+        let isEmailValid = this.props.history.location.query;
+        if(isEmailValid !== undefined){
+            this.setState({
+                email: isEmailValid.email
+            })
+        }else {
+            this.setState({
+                email: ''
+            })
+        }
+    }   
 
-confirm(user, confirmationCode)
-{
-  return new Promise((resolve, reject) =>
-  user.confirmRegistration(confirmationCode, true, function(err, result) {
-    if (err) {
-      reject(err);
-      return;
+    async componentWillMount() {
+        // redirect to inventory page if user is already logged in
+        try {
+            if (await authUser()) {
+                this.props.history.push('/inventory');
+            }
+        }catch(e) {
+            alert(e);
+        }
     }
-    resolve(result);
-  })
-);
-}
 
-authenticate(user, email, password)
-{
-  const authenticationData = {
-    Username: email,
-    Password: password
-  };
-  const authenticationDetails = new AuthenticationDetails(authenticationData);
+    goLanding() {
+        this.props.history.push('/');
+    }
 
-  return new Promise((resolve, reject) =>
-  user.authenticateUser(authenticationDetails, {
-    onSuccess: result => resolve(),
-    onFailure: err => reject(err)
-  })
-);
-}
+    handleSelect(key) {
+        if(key === 1){
+            this.props.history.push('/signin');
+        }else if(key === 2){
+            this.props.history.push('/signup');
+        }
+    }
 
-logChange(val) {
-  if(val !== null) {
-    this.setState({
-      yourRole: val.value
-    })
-  }else {
-    this.setState({
-      yourRole: ''
-    })
-  }
-}
+    onFirstNameChange(e) {
+        this.setState({
+            firstName: e.target.value
+        })
+    }
 
+    onLastNameChange(e) {
+        this.setState({
+            lastName: e.target.value
+        })
+    }
 
-render() {
+    onCompanyNameChange(e) {
+        this.setState({
+            companyName: e.target.value
+        })
+    }
 
-    let {firstName, lastName, companyName, yourRole, email, password, emailSent, verifyCode} = this.state
-    return (
-        <Grid className="login-layout">
-            <Row>
-                <Col md={12}>
-                    <Col md={6} className="text-left padding-t-20">
-                        <Label className="login-title">
-                            akko
-                        </Label>
+    onYourRoleChange(e) {
+
+    }
+
+    onEmailChange(e) {
+        this.setState({
+            email: e.target.value
+        })
+    }
+
+    onPasswordChange(e) {
+        this.setState({
+            password: e.target.value
+        })
+    }
+
+    onVerifyCodeChange(e) {
+        this.setState({
+            verifyCode: e.target.value
+        })
+    }
+    
+    onSignUp() {
+        let {firstName, lastName, companyName, yourRole, email, password} = this.state
+        if(firstName.length > 0 && lastName.length > 0 && companyName.length > 0 && yourRole.length > 0 && validateEmail(email) && password.length > 8 ) {
+            // this.props.history.push('/inventory');
+            this.setState({
+                emailSent: true
+            })
+        }
+    }
+
+    createNewUser(userData) {
+        return invokeApig({
+            path: "/signup",
+            method: "POST",
+            body: userData
+        });
+    }
+
+    signup(email, password) {
+        const userPool = new CognitoUserPool({
+            UserPoolId: config.cognito.USER_POOL_ID,
+            ClientId: config.cognito.APP_CLIENT_ID
+        });
+
+        return new Promise((resolve, reject) =>
+            userPool.signUp(email, password, [], null, (err, result) => {
+                if (err) {
+                reject(err);
+                return;
+                }
+
+                resolve(result.user);
+            })
+        );
+    }
+
+    confirm(user, confirmationCode) {
+        return new Promise((resolve, reject) =>
+            user.confirmRegistration(confirmationCode, true, function(err, result) {
+                if (err) {
+                reject(err);
+                return;
+                }
+                resolve(result);
+            })
+        );
+    }
+
+    authenticate(user, email, password) {
+        const authenticationData = {
+            Username: email,
+            Password: password
+        };
+        const authenticationDetails = new AuthenticationDetails(authenticationData);
+
+        return new Promise((resolve, reject) =>
+            user.authenticateUser(authenticationDetails, {
+                onSuccess: result => resolve(),
+                onFailure: err => reject(err)
+            })
+        );
+    }
+
+    logChange(val) {
+        if(val !== null) {
+            this.setState({
+            yourRole: val.value
+            })
+        }else {
+            this.setState({
+            yourRole: ''
+            })
+        }
+    }
+
+    render() {
+        let {firstName, lastName, companyName, yourRole, email, password, emailSent, verifyCode} = this.state
+        return (
+            <Grid className="login-layout">
+                <Row>
+                    <Col md={12}>
+                        <Col md={6} className="text-left padding-t-20">
+                            <Label className="login-title">
+                                akko
+                            </Label>
+                        </Col>
+                        <Col md={6} className="text-right padding-t-20">
+                            <Button className="close-button" onClick={this.goLanding}/>
+                        </Col>
                     </Col>
-                    <Col md={6} className="text-right padding-t-20">
-                        <Button className="close-button" onClick={this.goLanding}/>
-                    </Col>
-                </Col>
-            </Row>
-            <Row>
-                <Tabs defaultActiveKey={2} id="uncontrolled-tab-example" className="login-tab" onSelect={this.handleSelect}>
-                    <Tab eventKey={1} title="Login">
-                    </Tab>
-                    <Tab eventKey={2} title="Sign Up">
-                        <div>
-                            <Col md={12} className="padding-t-30">
-                                <Label className="signup-title">
-                                    Sign up for a 30 day free trial
-                                </Label>
-                            </Col>
-                            <Col md={12}>
-                                <Col md={6}>
-                                    <div className="flex-right padding-t-20">
-                                        <FormControl
-                                            type="text"
-                                            placeholder="first name"
-                                            className="signup-email-input"
-                                            value={firstName}
-                                            onChange={this.onFirstNameChange}/>
-                                    </div>
+                </Row>
+                <Row>
+                    <Tabs defaultActiveKey={2} id="uncontrolled-tab-example" className="login-tab" onSelect={this.handleSelect}>
+                        <Tab eventKey={1} title="Login">
+                        </Tab>
+                        <Tab eventKey={2} title="Sign Up">
+                            <div>
+                                <Col md={12} className="padding-t-30">
+                                    <Label className="signup-title">
+                                        Sign up for a 30 day free trial
+                                    </Label>
                                 </Col>
-                                <Col md={6}>
-                                    <div className="flex-left padding-t-20">
-                                        <FormControl
-                                            type="text"
-                                            placeholder="last name"
-                                            className="signup-email-input"
-                                            value={lastName}
-                                            onChange={this.onLastNameChange}/>
-                                    </div>
-                                </Col>
-                            </Col>
-                            <Col md={12}>
-                                <Col md={6}>
-                                    <div className="flex-right padding-t-20">
-                                        <FormControl
-                                        type="text"
-                                        placeholder="company name"
-                                        className="signup-email-input"
-                                        value={companyName}
-                                        onChange={this.onCompanyNameChange}/>
-                                    </div>
-                                </Col>
-                                <Col md={6}>
-                                    <div className="flex-left padding-t-20">
-                                        <Select
-                                        name="form-field-name"
-                                        placeholder="your role"
-                                        className="signup-role-input"
-                                        value={yourRole}
-                                        options={options}
-                                        onChange={this.logChange}
-                                        />
-                                    </div>
-                                </Col>
-                            </Col>
-                            <Col md={12}>
-                                <Col md={6}>
-                                    <div className="flex-right padding-t-20">
-                                        <FormControl
-                                            type="text"
-                                            placeholder="email"
-                                            className="signup-email-input"
-                                            value={email}
-                                            onChange={this.onEmailChange}/>
-                                    </div>
-                                </Col>
-                                <Col md={6}>
-                                    <div className="flex-left padding-t-20">
-                                        <FormControl
-                                            type="password"
-                                            placeholder="password"
-                                            className="signup-email-input"
-                                            value={password}
-                                            onChange={this.onPasswordChange}/>
-                                    </div>
-                                </Col>
-                            </Col>
-                            {emailSent ?
-                                <div>
-                                    <Col md={12} className="padding-t-30">
-                                        <Label className="signup-title">
-                                            We've sent a verification code to {email}
-                                        </Label>
+                                <Col md={12}>
+                                    <Col md={6}>
+                                        <div className="flex-right padding-t-20">
+                                            <FormControl
+                                                type="text"
+                                                placeholder="first name"
+                                                className="signup-email-input"
+                                                value={firstName}
+                                                onChange={this.onFirstNameChange}/>
+                                        </div>
                                     </Col>
-                                    <Col md={12}>
-                                        <Label className="signup-title">
-                                            Please enter the code to verify your email address
-                                        </Label>
+                                    <Col md={6}>
+                                        <div className="flex-left padding-t-20">
+                                            <FormControl
+                                                type="text"
+                                                placeholder="last name"
+                                                className="signup-email-input"
+                                                value={lastName}
+                                                onChange={this.onLastNameChange}/>
+                                        </div>
                                     </Col>
-                                    <Col md={12} className="flex-center padding-t-10">
-                                        <FormControl
+                                </Col>
+                                <Col md={12}>
+                                    <Col md={6}>
+                                        <div className="flex-right padding-t-20">
+                                            <FormControl
                                             type="text"
-                                            placeholder="verification code"
+                                            placeholder="company name"
                                             className="signup-email-input"
-                                            value={verifyCode}
-                                            onChange={this.onVerifyCodeChange}/>
+                                            value={companyName}
+                                            onChange={this.onCompanyNameChange}/>
+                                        </div>
                                     </Col>
+                                    <Col md={6}>
+                                        <div className="flex-left padding-t-20">
+                                            <Select
+                                            name="form-field-name"
+                                            placeholder="your role"
+                                            className="signup-role-input"
+                                            value={yourRole}
+                                            options={options}
+                                            onChange={this.logChange}
+                                            />
+                                        </div>
+                                    </Col>
+                                </Col>
+                                <Col md={12}>
+                                    <Col md={6}>
+                                        <div className="flex-right padding-t-20">
+                                            <FormControl
+                                                type="text"
+                                                placeholder="email"
+                                                className="signup-email-input"
+                                                value={email}
+                                                onChange={this.onEmailChange}/>
+                                        </div>
+                                    </Col>
+                                    <Col md={6}>
+                                        <div className="flex-left padding-t-20">
+                                            <FormControl
+                                                type="password"
+                                                placeholder="password"
+                                                className="signup-email-input"
+                                                value={password}
+                                                onChange={this.onPasswordChange}/>
+                                        </div>
+                                    </Col>
+                                </Col>
+                                {emailSent ?
+                                    <div>
+                                        <Col md={12} className="padding-t-30">
+                                            <Label className="signup-title">
+                                                We've sent a verification code to {email}
+                                            </Label>
+                                        </Col>
+                                        <Col md={12}>
+                                            <Label className="signup-title">
+                                                Please enter the code to verify your email address
+                                            </Label>
+                                        </Col>
+                                        <Col md={12} className="flex-center padding-t-10">
+                                            <FormControl
+                                                type="text"
+                                                placeholder="verification code"
+                                                className="signup-email-input"
+                                                value={verifyCode}
+                                                onChange={this.onVerifyCodeChange}/>
+                                        </Col>
+                                        <Col md={12} className="padding-t-30">
+                                            <Button className="login-button" onClick={this.onSignUp}>
+                                                VERIFY
+                                            </Button>
+                                        </Col>
+                                    </div>
+                                :
                                     <Col md={12} className="padding-t-30">
                                         <Button className="login-button" onClick={this.onSignUp}>
-                                            VERIFY
+                                            SIGN UP
                                         </Button>
                                     </Col>
-                                </div>
-                            :
-                                <Col md={12} className="padding-t-30">
-                                    <Button className="login-button" onClick={this.onSignUp}>
-                                        SIGN UP
-                                    </Button>
-                                </Col>
-                            }
-                        </div>
-                    </Tab>
-                </Tabs>
-            </Row>
-        </Grid>
-    );
-  }
+                                }
+                            </div>
+                        </Tab>
+                    </Tabs>
+                </Row>
+            </Grid>
+        );
+    }
 }
 
 const mapStateToProps = state => ({
