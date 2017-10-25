@@ -756,3 +756,10 @@
 .Select-placeholder, .Select--single > .Select-control .Select-value {
 	color: #c8c8e8 !important;
 }
+.custom-data-cell {
+	text-align: left;
+	padding-left: 10px;
+}
+.productName {
+	padding-left: 10px;
+}

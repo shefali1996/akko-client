@@ -177,6 +177,15 @@ class Channels extends Component {
 		);
 	}
 
+    cellFormatter(cell, row) {
+        return (
+            <div className="custom-data-cell">
+                <img style={{width:32}} src={cell.thumbnail} alt="thumb"/>
+                <span className="productName">{cell.realName}</span>
+            </div>
+        )
+    }
+
 	render() {
 		let {data, searchTerm} = this.state
         const filteredData = data.filter(createFilter(searchTerm, KEYS_TO_FILTERS))
@@ -198,7 +207,7 @@ class Channels extends Component {
 			prePage: '«   Previous',
 			nextPage: 'Next   »',
 			withFirstAndLast: false
-		};
+        };
 		return (
 			<div>
 				<Navigationbar history={this.props.history}/>
@@ -226,17 +235,13 @@ class Channels extends Component {
 										</Col>
 									</Row>
 									<Row className="margin-t-30">
-										<Col md={3}>
-										</Col>
-										<Col md={6}>
+										<Col md={6} mdOffset={3}>
 											<SearchInput 
 												className="search-input" 
 												placeholder="Search all your sales channels"
 												onChange={this.searchUpdated} 
 												onFocus={this.onFocus}
 											/>
-										</Col>
-										<Col md={3}>
 										</Col>
 									</Row>
 									<Row className="margin-t-30">
@@ -250,6 +255,8 @@ class Channels extends Component {
 											selectRow={ selectRowProp }
 											pagination
 											trClassName="custom-table"
+                                            striped={true} 
+                                            hover={true}
 										>
 											<TableHeaderColumn
 												isKey
@@ -258,6 +265,7 @@ class Channels extends Component {
 												dataSort
 												className="custom-table-header"
                                                 caretRender={ getCaret }
+                                                dataFormat={ this.cellFormatter }
 											>
 												Product
 											</TableHeaderColumn>

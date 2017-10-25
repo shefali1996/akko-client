@@ -12,7 +12,10 @@ const range = len => {
 
 const newPerson = () => {
   return {
-    name: namor.generate({ words: 3, numbers: 0 }),
+    name: {
+        realName: namor.generate({ words: 4, numbers: 0 }),
+        thumbnail: "https://ugross.gallerycdn.vsassets.io/extensions/ugross/vscode-react-snippets/1.1.0/1504467008438/Microsoft.VisualStudio.Services.Icons.Default",
+    },
     stock: Math.floor(Math.random() * 700),
     commit: Math.floor(Math.random() * 30),
     available: Math.floor(Math.random() * 100)

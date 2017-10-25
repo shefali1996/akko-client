@@ -176,7 +176,16 @@ class Orders extends Component {
 		  </div>
 		);
 	}
-	
+    
+    cellFormatter(cell, row) {
+        return (
+            <div className="custom-data-cell">
+                <img style={{width:32}} src={cell.thumbnail} alt="thumb"/>
+                <span className="productName">{cell.realName}</span>
+            </div>
+        )
+    }
+
 	render() {
 		let {data, searchTerm} = this.state
         const filteredData = data.filter(createFilter(searchTerm, KEYS_TO_FILTERS))
@@ -230,18 +239,14 @@ class Orders extends Component {
 										</Col>
 									</Row>
 									<Row className="margin-t-30">
-										<Col md={3}>
-										</Col>
-										<Col md={6}>
-											<SearchInput 
-												className="search-input" 
-												placeholder="Search all your orders"
-												onChange={this.searchUpdated} 
-												onFocus={this.onFocus}
-											/>
-										</Col>
-										<Col md={3}>
-										</Col>
+                                        <Col md={6} mdOffset={3}>
+                                            <SearchInput
+                                                className="search-input"
+                                                placeholder="Search all your inventory"
+                                                onChange={this.searchUpdated}
+                                                onFocus={this.onFocus}
+                                            />
+                                        </Col>
 									</Row>
 									<Row className="margin-t-30">
 									<BootstrapTable
@@ -262,6 +267,7 @@ class Orders extends Component {
 											dataSort
 											className="custom-table-header"
                                             caretRender={ getCaret }
+                                            dataFormat={ this.cellFormatter }
 										>
 											Product
 										</TableHeaderColumn>

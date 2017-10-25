@@ -212,7 +212,7 @@ class Inventory extends Component {
             </div>
 		);
 	}
-
+    
 	render() {
         let {data, searchTerm} = this.state
         const filteredData = data.filter(createFilter(searchTerm, KEYS_TO_FILTERS))
@@ -235,6 +235,7 @@ class Inventory extends Component {
 			nextPage: 'Next   »',
 			withFirstAndLast: false
         };
+        console.log(data)
 		return (
 			<div>
 				<Navigationbar history={this.props.history}/>
@@ -264,17 +265,13 @@ class Inventory extends Component {
 										</Col>
 									</Row>
 									<Row className="margin-t-30">
-										<Col md={3}>
-										</Col>
-										<Col md={6}>
+										<Col md={6} mdOffset={3}>
 											<SearchInput
 												className="search-input"
 												placeholder="Search all your inventory"
 												onChange={this.searchUpdated}
 												onFocus={this.onFocus}
 											/>
-										</Col>
-										<Col md={3}>
 										</Col>
 									</Row>
 									<Row className="margin-t-30">
