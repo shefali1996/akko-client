@@ -107,7 +107,7 @@ class Inventory extends Component {
 	}
 
 	customMultiSelect(props) {
-		const { type, checked, disabled, onChange, rowIndex } = props;
+        const { type, checked, disabled, onChange, rowIndex } = props;
 		if (rowIndex === 'Header') {
 		  return (
 			<div className='checkbox-personalized'>
@@ -232,7 +232,8 @@ class Inventory extends Component {
         const filteredData = data.filter(createFilter(searchTerm, KEYS_TO_FILTERS))
 		const selectRowProp = {
 			mode: 'checkbox',
-			customComponent: this.customMultiSelect
+            customComponent: this.customMultiSelect,
+            clickToSelect: true
 		};
 		const options = {
 			defaultSortOrder: 'desc',
@@ -248,7 +249,6 @@ class Inventory extends Component {
 			nextPage: 'Next   »',
 			withFirstAndLast: false
         };
-        console.log(data)
 		return (
 			<div>
 				<Navigationbar history={this.props.history}/>
