@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
-import {findDOMNode} from 'react-dom'
 import {connect} from 'react-redux';
-import {Grid, Row, Col, Button, Label, Image, FormGroup, FormControl} from 'react-bootstrap';
+import {Grid, Row, Col, Button, Label, Image, FormControl} from 'react-bootstrap';
 import ReactTooltip from 'react-tooltip';
 import Header from '../components/Header';
 import { validateEmail } from '../constants';
@@ -86,7 +85,7 @@ class Landing extends Component {
                                         Sign up now for a 30 day free trial
                                     </Label>
                                 </Col>
-                                <Col md={12} className="text-center flex-center">
+                                <Col md={12} className="text-center flex-center padding-t-10">
                                     <FormControl
                                         ref="email"
                                         type="text"

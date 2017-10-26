@@ -40,13 +40,12 @@ function convertInventoryJSONToObject(inventoryJSON){
 	for(let i = 0; i < inventoryJSON.length; i++)
 	{
 		const currProduct = inventoryJSON[i];
-
 		const productEntry = {
-			id: currProduct.productId,
-			productTitle: currProduct.productTitle,
-			stockOnHand: currProduct.stock,
-			committed: currProduct.committed,
-			availableForSale: currProduct.available_for_sale,
+			id: currProduct.id,
+			productTitle: currProduct.product_details.title,
+			stockOnHand: currProduct.inventory_details.in_stock_units,
+			committed: currProduct.inventory_details.committed_value,
+			availableForSale: currProduct.inventory_details.available_value,
 			shopId: currProduct.shopId,
 			variantTitle: currProduct.variantTitle
 		}
@@ -235,6 +234,7 @@ class Inventory extends Component {
 			nextPage: 'Next   »',
 			withFirstAndLast: false
         };
+        console.log(data)
 		return (
 			<div>
 				<Navigationbar history={this.props.history}/>

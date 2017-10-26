@@ -278,6 +278,7 @@ class SignUp extends Component {
                                                 placeholder="email"
                                                 className="signup-email-input"
                                                 value={email}
+                                                disabled={emailSent ? true: false}
                                                 onChange={this.onEmailChange}/>
                                         </div>
                                     </Col>
@@ -288,6 +289,7 @@ class SignUp extends Component {
                                                 placeholder="password"
                                                 className="signup-email-input"
                                                 value={password}
+                                                disabled={emailSent ? true: false}
                                                 onChange={this.onPasswordChange}/>
                                         </div>
                                     </Col>
