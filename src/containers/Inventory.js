@@ -39,10 +39,10 @@ function convertInventoryJSONToObject(inventoryJSON){
 	var products = [];
 	for(let i = 0; i < inventoryJSON.length; i++)
 	{
-		const currProduct = inventoryJSON[i];
+        const currProduct = inventoryJSON[i];
 		const productEntry = {
 			id: currProduct.id,
-			productTitle: currProduct.product_details.title,
+			productDetail: currProduct.product_details,
 			stockOnHand: currProduct.inventory_details.in_stock_units,
 			committed: currProduct.inventory_details.committed_value,
 			availableForSale: currProduct.inventory_details.available_value,
@@ -72,7 +72,7 @@ class Inventory extends Component {
 			var products = convertInventoryJSONToObject(results);
 			this.setState({ data: products });
 		} catch (e) {
-			alert(e);
+            console.log(e)
 		}
 	}
 
@@ -210,7 +210,16 @@ class Inventory extends Component {
                 { props.components.btnGroup }
             </div>
 		);
-	}
+    }
+    
+    cellFormatter(cell, row) {
+        return (
+            <div className="custom-data-cell">
+                <img style={{width:70}} src={cell.image} alt="thumb"/>
+                <span className="productName">{cell.title}</span>
+            </div>
+        )
+    }
     
 	render() {
         let {data, searchTerm} = this.state
@@ -220,7 +229,6 @@ class Inventory extends Component {
 			customComponent: this.customMultiSelect
 		};
 		const options = {
-			defaultSortName: 'productTitle',
 			defaultSortOrder: 'desc',
 			insertBtn: this.createCustomInsertButton,
 			deleteBtn: this.createCustomDeleteButton,
@@ -234,7 +242,6 @@ class Inventory extends Component {
 			nextPage: 'Next   »',
 			withFirstAndLast: false
         };
-        console.log(data)
 		return (
 			<div>
 				<Navigationbar history={this.props.history}/>
@@ -297,11 +304,12 @@ class Inventory extends Component {
 												ID
 											</TableHeaderColumn>
 											<TableHeaderColumn
-												dataField='productTitle'
+												dataField='productDetail'
 												dataAlign="center"
 												dataSort
 												className="custom-table-header"
 												caretRender={ getCaret }
+                                                dataFormat={ this.cellFormatter }
 											>
 												Product
 											</TableHeaderColumn>

@@ -67,21 +67,18 @@ class SignIn extends Component {
 
     async onLogin() {
         let {email, password} = this.state
-        if(password.length > 7 && validateEmail(email))
-				{
-					try {
-						await this.login(this.state.email, this.state.password);
-						this.props.history.push('/inventory');
-					} catch (e)
-					{
-						alert(e); // \todo: visualize in a pretty way
-					}
+        if(password.length > 7 && validateEmail(email)) {
+            try {
+                await this.login(email, password);
+                this.props.history.push('/inventory');
+            } catch (e) {
+                alert(e); // \todo: visualize in a pretty way
+            }
         }
     }
 
     // login using amazon cognito user pool
-    login(email, password)
-    {
+    login(email, password) {
         // create a new userPool instance
         const userPool = new CognitoUserPool({
             UserPoolId: config.cognito.USER_POOL_ID,
@@ -97,11 +94,11 @@ class SignIn extends Component {
 
         // authenticate user
         return new Promise((resolve, reject) =>
-        user.authenticateUser(authenticationDetails, {
-            onSuccess: result => resolve(),
-            onFailure: err => reject(err)
-        })
-    );
+            user.authenticateUser(authenticationDetails, {
+                onSuccess: result => resolve(),
+                onFailure: err => reject(err)
+            })
+        );
     }
 
     render() {
