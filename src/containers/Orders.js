@@ -180,7 +180,7 @@ class Orders extends Component {
     cellFormatter(cell, row) {
         return (
             <div className="custom-data-cell">
-                <img style={{width:32}} src={cell.thumbnail} alt="thumb"/>
+                <img style={{width:70}} src={cell.thumbnail} alt="thumb"/>
                 <span className="productName">{cell.realName}</span>
             </div>
         )

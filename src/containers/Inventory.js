@@ -68,9 +68,15 @@ class Inventory extends Component {
 
 	async componentDidMount() {
 		try {
-			const results = await this.products();
-			var products = convertInventoryJSONToObject(results);
-			this.setState({ data: products });
+            if(localStorage.getItem('inventoryInfo') === null ) {
+                const results = await this.products();
+                var products = convertInventoryJSONToObject(results);
+                this.setState({ data: products });
+                localStorage.setItem('inventoryInfo', JSON.stringify(products));
+            }else {
+                var existingProducts = JSON.parse(localStorage.getItem('inventoryInfo'));
+                this.setState({ data: existingProducts });
+            }
 		} catch (e) {
             console.log(e)
 		}
@@ -242,6 +248,7 @@ class Inventory extends Component {
 			nextPage: 'Next   »',
 			withFirstAndLast: false
         };
+        console.log(data)
 		return (
 			<div>
 				<Navigationbar history={this.props.history}/>
