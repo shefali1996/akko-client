@@ -18,6 +18,7 @@ class Navigationbar extends Component {
 
     onLogout() {
       signOutUser();
+      localStorage.removeItem("isAuthenticated");
       this.props.history.push('/');
     }
 

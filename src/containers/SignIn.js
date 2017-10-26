@@ -70,6 +70,7 @@ class SignIn extends Component {
         if(password.length > 7 && validateEmail(email)) {
             try {
                 await this.login(email, password);
+                localStorage.setItem("isAuthenticated", true)
                 this.props.history.push('/inventory');
             } catch (e) {
                 alert(e); // \todo: visualize in a pretty way
@@ -91,7 +92,7 @@ class SignIn extends Component {
         // get authentication data
         const authenticationData = { Username: email, Password: password };
         const authenticationDetails = new AuthenticationDetails(authenticationData);
-
+        console.log("authentication", authenticationDetails)
         // authenticate user
         return new Promise((resolve, reject) =>
             user.authenticateUser(authenticationDetails, {

@@ -3,7 +3,6 @@ import {Grid, Row, Col, Tabs, Tab, Image, Label} from 'react-bootstrap';
 import {connect} from 'react-redux';
 import SearchInput, {createFilter} from 'react-search-input'
 import { BootstrapTable, TableHeaderColumn, ButtonGroup } from 'react-bootstrap-table';
-// import { makeData } from "../components/Utils";
 import Navigationbar from '../components/Navigationbar';
 import Footer from '../components/Footer';
 import Checkbox from '../components/Checkbox';
@@ -66,16 +65,25 @@ class Inventory extends Component {
 		this.onFocus = this.onFocus.bind(this);
 	}
 
+    componentWillMount() {
+		
+    }
+    
 	async componentDidMount() {
 		try {
-            if(localStorage.getItem('inventoryInfo') === null ) {
-                const results = await this.products();
-                var products = convertInventoryJSONToObject(results);
-                this.setState({ data: products });
-                localStorage.setItem('inventoryInfo', JSON.stringify(products));
+            let isAuth = localStorage.getItem("isAuthenticated")
+            if (isAuth === null){
+                this.props.history.push('/signin')
             }else {
-                var existingProducts = JSON.parse(localStorage.getItem('inventoryInfo'));
-                this.setState({ data: existingProducts });
+                if(localStorage.getItem('inventoryInfo') === null ) {
+                    const results = await this.products();
+                    var products = convertInventoryJSONToObject(results);
+                    this.setState({ data: products });
+                    localStorage.setItem('inventoryInfo', JSON.stringify(products));
+                }else {
+                    var existingProducts = JSON.parse(localStorage.getItem('inventoryInfo'));
+                    this.setState({ data: existingProducts });
+                }
             }
 		} catch (e) {
             console.log(e)
