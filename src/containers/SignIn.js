@@ -92,7 +92,6 @@ class SignIn extends Component {
         // get authentication data
         const authenticationData = { Username: email, Password: password };
         const authenticationDetails = new AuthenticationDetails(authenticationData);
-        console.log("authentication", authenticationDetails)
         // authenticate user
         return new Promise((resolve, reject) =>
             user.authenticateUser(authenticationDetails, {

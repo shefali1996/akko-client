@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { Provider } from 'react-redux';
-import { Router, Route } from 'react-router';
+import { Router, Route, Switch } from 'react-router';
 import Main from './Main';
 import Landing from './Landing';
 import SignIn from './SignIn';
@@ -21,15 +21,17 @@ class App extends Component {
         return (
             <Provider store={store} key="provider">
                 <Router history={history}>
-                    <Main>
-                        <Route exact path="/" component={Landing}/>
-                        <Route exact path="/signin" component={SignIn}/>
-                        <Route exact path="/signup" component={SignUp}/>
-                        <Route exact path="/channels" component={Channels}/>
-                        <Route exact path="/inventory" component={Inventory}/>
-                        <Route exact path="/orders" component={Orders}/>
+                    <Switch>
+                        <Main>
+                            <Route exact path="/" component={Landing}/>
+                            <Route exact path="/signin" component={SignIn}/>
+                            <Route exact path="/signup" component={SignUp}/>
+                            <Route exact path="/channels" component={Channels}/>
+                            <Route exact path="/inventory" component={Inventory}/>
+                            <Route exact path="/orders" component={Orders}/>
+                        </Main>
                         <Route path="*" component={NotFound} />
-                    </Main>
+                    </Switch>
                 </Router>
             </Provider>
         );
