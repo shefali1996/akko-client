@@ -2,9 +2,9 @@ import React, {Component} from 'react';
 import '../styles/App.css';
 import {connect} from 'react-redux';
 import { Row, Col, Label, Image, DropdownButton } from 'react-bootstrap';
+import user from '../auth/user';
 import down from '../assets/down.svg'
-import user from '../assets/user.svg'
-import { signOutUser } from "../libs/awsLib";
+import userIcon from '../assets/user.svg'
 
 class Navigationbar extends Component {
     constructor(props) {
@@ -17,9 +17,8 @@ class Navigationbar extends Component {
     }
 
     onLogout() {
-      signOutUser();
-      localStorage.removeItem("isAuthenticated");
-      this.props.history.push('/');
+        user.logout();        
+        this.props.history.push('/');
     }
 
   	render() {
@@ -41,7 +40,7 @@ class Navigationbar extends Component {
 									<Label className="username">
 										John Smith
 									</Label>
-									<Image src={user} className="user" />
+									<Image src={userIcon} className="user" />
 								</div>
 							}
 							id="bg-nested-dropdown"

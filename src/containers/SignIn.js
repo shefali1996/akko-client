@@ -9,7 +9,6 @@ import {
   AuthenticationDetails,
   CognitoUser
 } from "amazon-cognito-identity-js";
-import { authUser } from "../libs/awsLib";
 
 class SignIn extends Component {
 	constructor(props) {
@@ -26,15 +25,8 @@ class SignIn extends Component {
         this.onLogin = this.onLogin.bind(this)
 	}
 
-	async componentWillMount() {
-	  // redirect to inventory page if user is already logged in
-	  try {
-	    if (await authUser()) {
-	      this.props.history.push('/inventory');
-	      }
-	    }catch(e) {
-	      alert(e);
-	    }
+	componentWillMount() {
+	  
 	}
 
     goLanding() {
@@ -70,7 +62,7 @@ class SignIn extends Component {
         if(password.length > 7 && validateEmail(email)) {
             try {
                 await this.login(email, password);
-                localStorage.setItem("isAuthenticated", true)
+                localStorage.setItem("isAuthenticated", "isAuthenticated")
                 this.props.history.push('/inventory');
             } catch (e) {
                 alert(e); // \todo: visualize in a pretty way

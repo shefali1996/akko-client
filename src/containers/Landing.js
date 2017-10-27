@@ -6,7 +6,6 @@ import Header from '../components/Header';
 import { validateEmail } from '../constants';
 import '../styles/App.css';
 import computer from '../assets/computer.png'
-import { authUser } from "../libs/awsLib";
 
 class Landing extends Component {
 	constructor(props) {
@@ -19,16 +18,9 @@ class Landing extends Component {
         this.onEmailChange = this.onEmailChange.bind(this)
 	}
 
-	async componentWillMount() {
-        // redirect to inventory page if user is already logged in
-        try {
-            if (await authUser()) {
-            this.props.history.push('/inventory');
-            }
-	    }catch(e) {
-           alert(e);
-	    }
-	}
+	componentWillMount() {
+
+    }
 
     onEmailChange(e) {
         this.setState({

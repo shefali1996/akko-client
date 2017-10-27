@@ -71,19 +71,14 @@ class Inventory extends Component {
     
 	async componentDidMount() {
 		try {
-            let isAuth = localStorage.getItem("isAuthenticated")
-            if (isAuth === null){
-                this.props.history.push('/signin')
+            if(localStorage.getItem('inventoryInfo') === null ) {
+                const results = await this.products();
+                var products = convertInventoryJSONToObject(results);
+                this.setState({ data: products });
+                localStorage.setItem('inventoryInfo', JSON.stringify(products));
             }else {
-                if(localStorage.getItem('inventoryInfo') === null ) {
-                    const results = await this.products();
-                    var products = convertInventoryJSONToObject(results);
-                    this.setState({ data: products });
-                    localStorage.setItem('inventoryInfo', JSON.stringify(products));
-                }else {
-                    var existingProducts = JSON.parse(localStorage.getItem('inventoryInfo'));
-                    this.setState({ data: existingProducts });
-                }
+                var existingProducts = JSON.parse(localStorage.getItem('inventoryInfo'));
+                this.setState({ data: existingProducts });
             }
 		} catch (e) {
             console.log(e)

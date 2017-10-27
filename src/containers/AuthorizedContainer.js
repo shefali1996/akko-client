@@ -8,17 +8,14 @@ import user from '../auth/user';
 
 class AuthorizedContainer extends Component {
     componentWillMount() {
-        if(!user.isAuthenticated) {
-            this.props.history.push(`/login`);
+        if(user.isAuthenticated === null) {
+            this.props.history.push(`/signin`);
             return
         }
     }
 
     componentWillReceiveProps (nextProps) {
-        // if (nextProps.profile.error && nextProps.profile.error.message === 'Unauthorized') {
-        //     user.logout();
-        //     this.props.history.push(`/signin`);
-        // }
+        
     }
 
     render () {
@@ -33,8 +30,7 @@ class AuthorizedContainer extends Component {
 };
 
 const mapStateToProps = (state) => ({
-    // profile: state.user,
-    // dataset: state.dataset
+    
 })
 
 export default connect(mapStateToProps)(AuthorizedContainer);
