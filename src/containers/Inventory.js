@@ -221,9 +221,9 @@ class Inventory extends Component {
 		);
     }
     
-    cellFormatter(cell, row) {
+    productCellFormatter(cell, row) {
         return (
-            <div className="custom-data-cell">
+            <div className="product-data-cell">
                 <div className="productImage">
                     <img style={{width:70}} src={cell.image} alt="thumb"/>
                 </div>
@@ -236,6 +236,15 @@ class Inventory extends Component {
         )
     }
     
+    stockCellFormatter(cell, row) {
+        console.log(cell)
+        return (
+            <div className="stock-data-cell">
+                <span className="stockOnHold">{cell}</span>
+            </div>
+        )
+    }
+
 	render() {
         let {data, searchTerm} = this.state
         const filteredData = data.filter(createFilter(searchTerm, KEYS_TO_FILTERS))
@@ -324,7 +333,7 @@ class Inventory extends Component {
 												dataSort
 												className="custom-table-header"
 												caretRender={ getCaret }
-                                                dataFormat={ this.cellFormatter }
+                                                dataFormat={ this.productCellFormatter }
 											>
 												Product
 											</TableHeaderColumn>
@@ -334,6 +343,7 @@ class Inventory extends Component {
 												dataSort
 												className="custom-table-header"
 												caretRender={ getCaret }
+                                                dataFormat={ this.stockCellFormatter }
 											>
 												Stock on Hand
 											</TableHeaderColumn>
@@ -343,6 +353,7 @@ class Inventory extends Component {
 												dataSort
 												className="custom-table-header"
 												caretRender={ getCaret }
+                                                dataFormat={ this.stockCellFormatter }
 											>
 												Committed
 											</TableHeaderColumn>
@@ -352,6 +363,7 @@ class Inventory extends Component {
 												dataSort
 												className="custom-table-header"
 												caretRender={ getCaret }
+                                                dataFormat={ this.stockCellFormatter }
 											>
 												Available for Sale
 											</TableHeaderColumn>

@@ -2,7 +2,7 @@
   box-sizing: border-box;
 }
 td .checkbox-personalized {
-  padding-top: 35px;
+  padding-top: 25px;
 }
 
 .checkbox-personalized input[type=checkbox] {
