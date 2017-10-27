@@ -44,11 +44,12 @@ function convertInventoryJSONToObject(inventoryJSON){
 		const productEntry = {
 			id: currProduct.id,
 			productDetail: currProduct.product_details,
-			stockOnHand: currProduct.inventory_details.in_stock_units,
+			stockOnHand: {
+                units: currProduct.inventory_details.in_stock_units,
+                values: currProduct.inventory_details.in_stock_value,
+            },
 			committed: currProduct.inventory_details.committed_value,
-			availableForSale: currProduct.inventory_details.available_value,
-			shopId: currProduct.shopId,
-			variantTitle: currProduct.variantTitle
+			availableForSale: currProduct.inventory_details.available_value
 		}
 		products.push(productEntry);
 	}
@@ -116,10 +117,10 @@ class Inventory extends Component {
 		if (rowIndex === 'Header') {
 		  return (
 			<div className='checkbox-personalized'>
-			  <Checkbox {...props}/>
-			  <label htmlFor={ 'checkbox' + rowIndex }>
-				<div className='check'></div>
-			  </label>
+                <Checkbox {...props}/>
+                <label htmlFor={ 'checkbox' + rowIndex }>
+                    <div className='check'></div>
+                </label>
 			</div>);
 		} else {
 		    return (
@@ -239,6 +240,28 @@ class Inventory extends Component {
     }
     
     stockCellFormatter(cell, row) {
+        console.log(row)
+        return (
+            <div className="stock-on-hand-cell">
+                <div className="stock-unit-view">
+                    { cell.units }
+                </div>
+                <div className="stock-unit-view">
+                    { cell.values }
+                </div>
+            </div>
+        )
+    }
+
+    commitCellFormatter(cell, row) {
+        return (
+            <div className="stock-data-cell">
+                <span className="stockOnHold">{cell}</span>
+            </div>
+        )
+    }
+
+    availableSaleCellFormatter(cell, row) {
         return (
             <div className="stock-data-cell">
                 <span className="stockOnHold">{cell}</span>
@@ -360,7 +383,7 @@ class Inventory extends Component {
 												dataSort
 												className="custom-table-header"
 												caretRender={ getCaret }
-                                                dataFormat={ this.stockCellFormatter }
+                                                dataFormat={ this.commitCellFormatter }
 											>
 												Committed
 											</TableHeaderColumn>
@@ -370,7 +393,7 @@ class Inventory extends Component {
 												dataSort
 												className="custom-table-header"
 												caretRender={ getCaret }
-                                                dataFormat={ this.stockCellFormatter }
+                                                dataFormat={ this.availableSaleCellFormatter }
 											>
 												Available for Sale
 											</TableHeaderColumn>

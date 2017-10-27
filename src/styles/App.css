@@ -797,6 +797,11 @@
 .stock-data-cell {
 	padding-top: 25px;
 }
-.stockOnHold {
-	
+.stock-on-hand-cell {
+    display: flex;
+    flex-direction: row;
+    padding-top: 25px;
+}
+.stock-unit-view {
+    width: 50%;
 }
