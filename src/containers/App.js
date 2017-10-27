@@ -5,9 +5,7 @@ import Main from './Main';
 import Landing from './Landing';
 import SignIn from './SignIn';
 import SignUp from './SignUp';
-import Channels from './Channels';
-import Inventory from './Inventory';
-import Orders from './Orders';
+import AuthorizedContainer from './AuthorizedContainer'
 import createHistory from 'history/createBrowserHistory'
 import configureStore from '../store'
 import NotFound from "./NotFound";
@@ -26,9 +24,7 @@ class App extends Component {
                             <Route exact path="/" component={Landing}/>
                             <Route exact path="/signin" component={SignIn}/>
                             <Route exact path="/signup" component={SignUp}/>
-                            <Route exact path="/channels" component={Channels}/>
-                            <Route exact path="/inventory" component={Inventory}/>
-                            <Route exact path="/orders" component={Orders}/>
+                            <Route path="/" name="Authorized Sections" component={AuthorizedContainer} />
                         </Main>
                         <Route path="*" component={NotFound} />
                     </Switch>
