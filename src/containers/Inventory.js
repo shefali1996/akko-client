@@ -224,12 +224,13 @@ class Inventory extends Component {
     cellFormatter(cell, row) {
         return (
             <div className="custom-data-cell">
-                <div>
+                <div className="productImage">
                     <img style={{width:70}} src={cell.image} alt="thumb"/>
                 </div>
                 <div className="product-custom-title">
                     <span className="productName">{cell.title}</span>
                     <span className="variantTitle">{cell.variant}</span>
+                    <span className="channelNumberText">selling in 2 channels</span>
                 </div>
             </div>
         )
