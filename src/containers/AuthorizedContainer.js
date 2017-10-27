@@ -8,7 +8,6 @@ import user from '../auth/user';
 
 class AuthorizedContainer extends Component {
     componentWillMount() {
-        console.log(user.isAuthenticated)
         if(user.isAuthenticated === null) {
             this.props.history.push(`/signin`);
             return
