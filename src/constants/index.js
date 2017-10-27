@@ -1,4 +1,4 @@
-export const KEYS_TO_FILTERS = ['productDetail', 'variantTitle',]
+export const KEYS_TO_FILTERS = ['productDetail.title', 'stockOnHand', 'committed', 'availableForSale']
 
 export const validateEmail = (email) => {
     // eslint-disable-next-line max-len, no-useless-escape
