@@ -3,10 +3,13 @@ import {Grid, Row, Col, Tabs, Tab, Image, Label} from 'react-bootstrap';
 import {connect} from 'react-redux';
 import SearchInput, {createFilter} from 'react-search-input'
 import { BootstrapTable, TableHeaderColumn, ButtonGroup } from 'react-bootstrap-table';
+import _ from 'underscore';
 import Navigationbar from '../components/Navigationbar';
 import Footer from '../components/Footer';
 import Checkbox from '../components/Checkbox';
 import {KEYS_TO_FILTERS} from '../constants';
+import { invokeApig } from '../libs/awsLib';
+
 import '../styles/App.css';
 import '../styles/react-search-input.css'
 import '../styles/react-bootstrap-table.min.css'
@@ -16,7 +19,6 @@ import merge from '../assets/merge.svg'
 import deleteIcon from '../assets/delete.svg'
 import sort from '../assets/sort.svg'
 import inversesort from '../assets/inversesort.svg'
-import { invokeApig } from '../libs/awsLib';
 
 function getCaret(direction) {
 	if (direction === 'asc') {
@@ -62,7 +64,7 @@ class Inventory extends Component {
 		};
 		this.handleSelect = this.handleSelect.bind(this);
 		this.searchUpdated = this.searchUpdated.bind(this);
-		this.onFocus = this.onFocus.bind(this);
+        this.onFocus = this.onFocus.bind(this);
 	}
 
     componentWillMount() {
@@ -237,12 +239,16 @@ class Inventory extends Component {
     }
     
     stockCellFormatter(cell, row) {
-        console.log(cell)
         return (
             <div className="stock-data-cell">
                 <span className="stockOnHold">{cell}</span>
             </div>
         )
+    }
+
+    sortByTitle(a, b, order) {   // order is desc or asc
+        let ascVal = a.productDetail.title.localeCompare(b.productDetail.title);
+        return order === 'asc' ? ascVal : -ascVal;
     }
 
 	render() {
@@ -334,6 +340,7 @@ class Inventory extends Component {
 												className="custom-table-header"
 												caretRender={ getCaret }
                                                 dataFormat={ this.productCellFormatter }
+                                                sortFunc={ this.sortByTitle } 
 											>
 												Product
 											</TableHeaderColumn>

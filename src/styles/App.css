@@ -771,7 +771,8 @@
     flex-direction: column;
     width: 100%;
 		text-align: left;
-		padding-top: 10px;
+		padding-top: 15px;
+		padding-left: 10px;
 }
 .variantTitle {
     font-family: Ubuntu;
@@ -788,7 +789,7 @@
     color: #c8c8c8;
     font-weight: 400;
     text-decoration: none solid rgb(200, 200, 200);
-    padding-top: 5px;
+    padding-top: 3px;
 }
 .productImage {
     padding-top: 10px;
