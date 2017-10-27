@@ -239,7 +239,6 @@ class Inventory extends Component {
             clickToSelect: true
 		};
 		const options = {
-			defaultSortOrder: 'desc',
 			insertBtn: this.createCustomInsertButton,
 			deleteBtn: this.createCustomDeleteButton,
 			exportCSVBtn: this.createCustomExportCSVButton,
