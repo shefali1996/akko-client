@@ -805,3 +805,7 @@
 .stock-unit-view {
     width: 50%;
 }
+.stock-on-hand-header {
+    display: flex;
+    flex-direction: row;
+}

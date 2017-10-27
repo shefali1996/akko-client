@@ -240,7 +240,6 @@ class Inventory extends Component {
     }
     
     stockCellFormatter(cell, row) {
-        console.log(row)
         return (
             <div className="stock-on-hand-cell">
                 <div className="stock-unit-view">
@@ -274,6 +273,24 @@ class Inventory extends Component {
         return order === 'asc' ? ascVal : -ascVal;
     }
 
+    renderCustomHeader() {
+        return(
+            <div>
+                <div>
+                    Stock on Hand
+                </div>
+                <div className="stock-on-hand-header">
+                    <div className="stock-unit-view">
+                        Unit
+                    </div>
+                    <div className="stock-unit-view">
+                        Value
+                    </div>
+                </div>
+            </div>
+        );
+    }
+    
 	render() {
         let {data, searchTerm} = this.state
         const filteredData = data.filter(createFilter(searchTerm, KEYS_TO_FILTERS))
@@ -294,6 +311,10 @@ class Inventory extends Component {
 			prePage: '«   Previous',
 			nextPage: 'Next   »',
 			withFirstAndLast: false
+        };
+        const tdAttr = {
+            'data-attr1': 'value1',
+            'data-attr2': 'value2'
         };
 		return (
 			<div>
@@ -370,12 +391,11 @@ class Inventory extends Component {
 											<TableHeaderColumn
 												dataField='stockOnHand'
 												dataAlign="center"
-												dataSort
 												className="custom-table-header"
-												caretRender={ getCaret }
                                                 dataFormat={ this.stockCellFormatter }
+                                                tdAttr={ tdAttr }
 											>
-												Stock on Hand
+                                                {this.renderCustomHeader()}
 											</TableHeaderColumn>
 											<TableHeaderColumn
 												dataField='committed'
