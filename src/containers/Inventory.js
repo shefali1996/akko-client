@@ -312,10 +312,6 @@ class Inventory extends Component {
 			nextPage: 'Next   »',
 			withFirstAndLast: false
         };
-        const tdAttr = {
-            'data-attr1': 'value1',
-            'data-attr2': 'value2'
-        };
 		return (
 			<div>
 				<Navigationbar history={this.props.history}/>
@@ -393,7 +389,6 @@ class Inventory extends Component {
 												dataAlign="center"
 												className="custom-table-header"
                                                 dataFormat={ this.stockCellFormatter }
-                                                tdAttr={ tdAttr }
 											>
                                                 {this.renderCustomHeader()}
 											</TableHeaderColumn>
