@@ -125,7 +125,6 @@ class SignUp extends Component {
     onSignUp() {
         let {firstName, lastName, companyName, yourRole, email, password} = this.state
         if(firstName.length > 0 && lastName.length > 0 && companyName.length > 0 && yourRole.length > 0 && validateEmail(email) && password.length > 8 ) {
-            // this.props.history.push('/inventory');
             this.setState({
                 emailSent: true
             })
@@ -149,8 +148,8 @@ class SignUp extends Component {
         return new Promise((resolve, reject) =>
             userPool.signUp(email, password, [], null, (err, result) => {
                 if (err) {
-                reject(err);
-                return;
+                    reject(err);
+                    return;
                 }
 
                 resolve(result.user);
@@ -162,8 +161,8 @@ class SignUp extends Component {
         return new Promise((resolve, reject) =>
             user.confirmRegistration(confirmationCode, true, function(err, result) {
                 if (err) {
-                reject(err);
-                return;
+                    reject(err);
+                    return;
                 }
                 resolve(result);
             })
@@ -188,11 +187,11 @@ class SignUp extends Component {
     logChange(val) {
         if(val !== null) {
             this.setState({
-            yourRole: val.value
+                yourRole: val.value
             })
         }else {
             this.setState({
-            yourRole: ''
+                yourRole: ''
             })
         }
     }

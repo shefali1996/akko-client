@@ -739,8 +739,8 @@
 }
 .signup-title {
   font-family: Ubuntu;
-	font-size: 16px;
-	font-weight: 200;
+  font-size: 16px;
+  font-weight: 200;
   color: #1d2fb5;
   text-decoration: none solid rgb(29, 47, 181);
   background: none;
@@ -756,60 +756,60 @@
 	color: #c8c8e8 !important;
 }
 .product-data-cell {
-    display: flex;
-    flex-direction: row;
+	display: flex;
+	flex-direction: row;
 }
 .productName {
-    font-family: Ubuntu;
-    font-size: 16px;
-    color: #1d2fb5;
-    font-weight: 400;
-    text-decoration: none solid rgb(29, 47, 181);
-    white-space: nowrap;
-    text-overflow: ellipsis;    
-    width: 130px;
-    overflow: hidden;
+	font-family: Ubuntu;
+	font-size: 16px;
+	color: #1d2fb5;
+	font-weight: 400;
+	text-decoration: none solid rgb(29, 47, 181);
+	white-space: nowrap;
+	text-overflow: ellipsis;    
+	width: 130px;
+	overflow: hidden;
 }
 .product-custom-title {
-    display: flex;
-    flex-direction: column;
-    width: 100%;
-    text-align: left;
-    padding-top: 15px;
-    padding-left: 10px;
+	display: flex;
+	flex-direction: column;
+	width: 100%;
+	text-align: left;
+	padding-top: 15px;
+	padding-left: 10px;
 }
 .variantTitle {
-    font-family: Ubuntu;
-    font-size: 12px;
-    color: #000000;
-    font-weight: 400;
-    text-decoration: none solid rgb(0, 0, 0);
-    text-align: left;
-    padding-top: 1px;
+	font-family: Ubuntu;
+	font-size: 12px;
+	color: #000000;
+	font-weight: 400;
+	text-decoration: none solid rgb(0, 0, 0);
+	text-align: left;
+	padding-top: 1px;
 }
 .channelNumberText {
-    font-family: Ubuntu;
-    font-size: 12px;
-    color: #c8c8c8;
-    font-weight: 400;
-    text-decoration: none solid rgb(200, 200, 200);
-    padding-top: 3px;
+	font-family: Ubuntu;
+	font-size: 12px;
+	color: #c8c8c8;
+	font-weight: 400;
+	text-decoration: none solid rgb(200, 200, 200);
+	padding-top: 3px;
 }
 .productImage {
-    padding-top: 10px;
+	padding-top: 10px;
 }
 .stock-data-cell {
 	padding-top: 25px;
 }
 .stock-on-hand-cell {
-    display: flex;
-    flex-direction: row;
-    padding-top: 25px;
+	display: flex;
+	flex-direction: row;
+	padding-top: 25px;
 }
 .stock-unit-view {
-    width: 50%;
+	width: 50%;
 }
 .stock-on-hand-header {
-    display: flex;
-    flex-direction: row;
+	display: flex;
+	flex-direction: row;
 }

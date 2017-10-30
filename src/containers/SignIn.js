@@ -17,12 +17,13 @@ class SignIn extends Component {
             email: '',
             password: ''
         };
-        this.goLanding = this.goLanding.bind(this)
-        this.handleSelect = this.handleSelect.bind(this)
-        this.onEmailChange = this.onEmailChange.bind(this)
-        this.onPasswordChange = this.onPasswordChange.bind(this)
-        this.onForgot = this.onForgot.bind(this)
-        this.onLogin = this.onLogin.bind(this)
+        this.goLanding = this.goLanding.bind(this);
+        this.handleSelect = this.handleSelect.bind(this);
+        this.onEmailChange = this.onEmailChange.bind(this);
+        this.onPasswordChange = this.onPasswordChange.bind(this);
+        this._handleKeyPress = this._handleKeyPress.bind(this);
+        this.onForgot = this.onForgot.bind(this);
+        this.onLogin = this.onLogin.bind(this);
 	}
 
 	componentWillMount() {
@@ -51,6 +52,12 @@ class SignIn extends Component {
         this.setState({
             password: e.target.value
         })
+    }
+
+    _handleKeyPress(e) {
+        if (e.key === 'Enter') {
+            this.onLogin()
+        }
     }
 
     onForgot() {
@@ -120,7 +127,8 @@ class SignIn extends Component {
                                     placeholder="email"
                                     className="email-input"
                                     value={email}
-                                    onChange={this.onEmailChange}/>
+                                    onChange={this.onEmailChange}
+                                    onKeyPress={this._handleKeyPress}/>
                             </div>
                             <div className="flex-center padding-t-10">
                                 <FormControl
@@ -128,7 +136,8 @@ class SignIn extends Component {
                                     placeholder="password"
                                     className="email-input"
                                     value={password}
-                                    onChange={this.onPasswordChange}/>
+                                    onChange={this.onPasswordChange}
+                                    onKeyPress={this._handleKeyPress} />
                             </div>
                             <div className="flex-center padding-t-10">
                                 <Button className="forgot-text" onClick={this.onForgot}>
