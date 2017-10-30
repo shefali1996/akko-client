@@ -765,14 +765,18 @@
     color: #1d2fb5;
     font-weight: 400;
     text-decoration: none solid rgb(29, 47, 181);
+    white-space: nowrap;
+    text-overflow: ellipsis;    
+    width: 130px;
+    overflow: hidden;
 }
 .product-custom-title {
     display: flex;
     flex-direction: column;
     width: 100%;
-		text-align: left;
-		padding-top: 15px;
-		padding-left: 10px;
+    text-align: left;
+    padding-top: 15px;
+    padding-left: 10px;
 }
 .variantTitle {
     font-family: Ubuntu;

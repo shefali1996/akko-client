@@ -233,7 +233,7 @@ class Inventory extends Component {
                 <div className="product-custom-title">
                     <span className="productName">{cell.title}</span>
                     <span className="variantTitle">{cell.variant}</span>
-                    <span className="channelNumberText">selling in 2 channels</span>
+                    <span className="channelNumberText"></span>
                 </div>
             </div>
         )
