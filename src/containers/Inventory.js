@@ -46,10 +46,16 @@ function convertInventoryJSONToObject(inventoryJSON){
 			productDetail: currProduct.product_details,
 			stockOnHand: {
                 units: currProduct.inventory_details.in_stock_units,
-                values: currProduct.inventory_details.in_stock_value,
+                values: currProduct.inventory_details.in_stock_value
             },
-			committed: currProduct.inventory_details.committed_value,
-			availableForSale: currProduct.inventory_details.available_value
+			committed: {
+                units: currProduct.inventory_details.committed_value,
+                values: currProduct.inventory_details.committed_value
+            },
+			availableForSale: {
+                units: currProduct.inventory_details.available_units,
+                values: currProduct.inventory_details.available_value
+            }
 		}
 		products.push(productEntry);
 	}
@@ -246,24 +252,8 @@ class Inventory extends Component {
                     { cell.units }
                 </div>
                 <div className="stock-unit-view">
-                    { cell.values }
+                    ${ cell.values }
                 </div>
-            </div>
-        )
-    }
-
-    commitCellFormatter(cell, row) {
-        return (
-            <div className="stock-data-cell">
-                <span className="stockOnHold">{cell}</span>
-            </div>
-        )
-    }
-
-    availableSaleCellFormatter(cell, row) {
-        return (
-            <div className="stock-data-cell">
-                <span className="stockOnHold">{cell}</span>
             </div>
         )
     }
@@ -273,7 +263,7 @@ class Inventory extends Component {
         return order === 'asc' ? ascVal : -ascVal;
     }
 
-    renderCustomHeader() {
+    renderStockHeader() {
         return(
             <div>
                 <div>
@@ -291,6 +281,42 @@ class Inventory extends Component {
         );
     }
     
+    renderCommitHeader() {
+        return(
+            <div>
+                <div>
+                    Committed
+                </div>
+                <div className="stock-on-hand-header">
+                    <div className="stock-unit-view">
+                        Unit
+                    </div>
+                    <div className="stock-unit-view">
+                        Value
+                    </div>
+                </div>
+            </div>
+        );
+    }
+
+    renderSaleHeader() {
+        return(
+            <div>
+                <div>
+                    Available for Sale
+                </div>
+                <div className="stock-on-hand-header">
+                    <div className="stock-unit-view">
+                        Unit
+                    </div>
+                    <div className="stock-unit-view">
+                        Value
+                    </div>
+                </div>
+            </div>
+        );
+    }
+
 	render() {
         let {data, searchTerm} = this.state
         const filteredData = data.filter(createFilter(searchTerm, KEYS_TO_FILTERS))
@@ -390,27 +416,23 @@ class Inventory extends Component {
 												className="custom-table-header"
                                                 dataFormat={ this.stockCellFormatter }
 											>
-                                                {this.renderCustomHeader()}
+                                                {this.renderStockHeader()}
 											</TableHeaderColumn>
 											<TableHeaderColumn
 												dataField='committed'
 												dataAlign="center"
-												dataSort
 												className="custom-table-header"
-												caretRender={ getCaret }
-                                                dataFormat={ this.commitCellFormatter }
+                                                dataFormat={ this.stockCellFormatter }
 											>
-												Committed
+                                                {this.renderCommitHeader()}
 											</TableHeaderColumn>
 											<TableHeaderColumn
 												dataField='availableForSale'
 												dataAlign="center"
-												dataSort
 												className="custom-table-header"
-												caretRender={ getCaret }
-                                                dataFormat={ this.availableSaleCellFormatter }
+                                                dataFormat={ this.stockCellFormatter }
 											>
-												Available for Sale
+                                                {this.renderSaleHeader()}
 											</TableHeaderColumn>
 										</BootstrapTable>
 									</Row>
