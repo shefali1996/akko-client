@@ -252,7 +252,7 @@ class Inventory extends Component {
                     { cell.units }
                 </div>
                 <div className="stock-unit-view">
-                    ${ cell.values }
+                    ${ Math.round(cell.values * 100) / 100 }
                 </div>
             </div>
         )
