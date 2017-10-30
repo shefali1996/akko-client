@@ -271,10 +271,16 @@ class Inventory extends Component {
                 </div>
                 <div className="stock-on-hand-header">
                     <div className="stock-unit-view">
-                        Unit
+                        <span>
+                            Unit
+                        </span>
+                        {getCaret()}
                     </div>
                     <div className="stock-unit-view">
-                        Value
+                        <span>
+                            Value
+                        </span>
+                        {getCaret()}
                     </div>
                 </div>
             </div>
@@ -289,10 +295,16 @@ class Inventory extends Component {
                 </div>
                 <div className="stock-on-hand-header">
                     <div className="stock-unit-view">
-                        Unit
+                        <span>
+                            Unit
+                        </span>
+                        {getCaret()}
                     </div>
                     <div className="stock-unit-view">
-                        Value
+                        <span>
+                            Value
+                        </span>
+                        {getCaret()}
                     </div>
                 </div>
             </div>
@@ -307,10 +319,16 @@ class Inventory extends Component {
                 </div>
                 <div className="stock-on-hand-header">
                     <div className="stock-unit-view">
-                        Unit
+                        <span>
+                            Unit
+                        </span>
+                        {getCaret()}
                     </div>
                     <div className="stock-unit-view">
-                        Value
+                        <span>
+                            Value
+                        </span>
+                        {getCaret()}
                     </div>
                 </div>
             </div>

@@ -11,7 +11,6 @@ import {
 } from "amazon-cognito-identity-js";
 import config from "../config";
 import { invokeApig } from "../libs/awsLib";
-import { authUser } from "../libs/awsLib";
 
 const options = [
   { value: 'CEO/Founder', label: 'CEO/Founder' },

@@ -9,7 +9,7 @@ import user from '../auth/user';
 class AuthorizedContainer extends Component {
     componentWillMount() {
         if(user.isAuthenticated === null) {
-            this.props.history.push(`/signin`);
+            this.props.history.push(`/`);
             return
         }else {
             this.props.history.push(`/inventory`);
