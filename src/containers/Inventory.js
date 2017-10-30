@@ -263,7 +263,31 @@ class Inventory extends Component {
         return order === 'asc' ? ascVal : -ascVal;
     }
 
-    renderStockHeader() {
+    sortByStockUnit(a, b, order) {   // order is desc or asc
+        if (order === 'desc') {
+            return a.stockOnHand.units - b.stockOnHand.units;
+        } else {
+            return b.stockOnHand.units - a.stockOnHand.units;
+        }
+    }
+
+    sortByCommitUnit(a, b, order) {
+        if (order === 'desc') {
+            return a.committed.units - b.committed.units;
+        } else {
+            return b.committed.units - a.committed.units;
+        }
+    }
+
+    sortBySaleUnit(a, b, order) {
+        if (order === 'desc') {
+            return a.availableForSale.units - b.availableForSale.units;
+        } else {
+            return b.availableForSale.units - a.availableForSale.units;
+        }
+    }
+
+    renderStockHeader(direction) {
         return(
             <div>
                 <div>
@@ -274,13 +298,13 @@ class Inventory extends Component {
                         <span>
                             Unit
                         </span>
-                        {getCaret()}
+                        {/* {getCaret()} */}
                     </div>
                     <div className="stock-unit-view">
                         <span>
                             Value
                         </span>
-                        {getCaret()}
+                        {/* {getCaret()} */}
                     </div>
                 </div>
             </div>
@@ -298,13 +322,13 @@ class Inventory extends Component {
                         <span>
                             Unit
                         </span>
-                        {getCaret()}
+                        {/* {getCaret()} */}
                     </div>
                     <div className="stock-unit-view">
                         <span>
                             Value
                         </span>
-                        {getCaret()}
+                        {/* {getCaret()} */}
                     </div>
                 </div>
             </div>
@@ -322,13 +346,13 @@ class Inventory extends Component {
                         <span>
                             Unit
                         </span>
-                        {getCaret()}
+                        {/* {getCaret()} */}
                     </div>
                     <div className="stock-unit-view">
                         <span>
                             Value
                         </span>
-                        {getCaret()}
+                        {/* {getCaret()} */}
                     </div>
                 </div>
             </div>
@@ -354,7 +378,8 @@ class Inventory extends Component {
 			paginationSize: 7,
 			prePage: '«   Previous',
 			nextPage: 'Next   »',
-			withFirstAndLast: false
+            withFirstAndLast: false,
+            sortIndicator: false
         };
 		return (
 			<div>
@@ -424,31 +449,40 @@ class Inventory extends Component {
 												className="custom-table-header"
 												caretRender={ getCaret }
                                                 dataFormat={ this.productCellFormatter }
-                                                sortFunc={ this.sortByTitle } 
+                                                sortFunc={ this.sortByTitle }
 											>
 												Product
 											</TableHeaderColumn>
 											<TableHeaderColumn
 												dataField='stockOnHand'
 												dataAlign="center"
+                                                dataSort
 												className="custom-table-header"
+                                                caretRender={ getCaret }
                                                 dataFormat={ this.stockCellFormatter }
+                                                sortFunc={ this.sortByStockUnit }
 											>
                                                 {this.renderStockHeader()}
 											</TableHeaderColumn>
 											<TableHeaderColumn
 												dataField='committed'
 												dataAlign="center"
+                                                dataSort
 												className="custom-table-header"
+                                                caretRender={ getCaret }
                                                 dataFormat={ this.stockCellFormatter }
+                                                sortFunc={ this.sortByCommitUnit }
 											>
                                                 {this.renderCommitHeader()}
 											</TableHeaderColumn>
 											<TableHeaderColumn
 												dataField='availableForSale'
 												dataAlign="center"
+                                                dataSort
 												className="custom-table-header"
+                                                caretRender={ getCaret }
                                                 dataFormat={ this.stockCellFormatter }
+                                                sortFunc={ this.sortBySaleUnit }
 											>
                                                 {this.renderSaleHeader()}
 											</TableHeaderColumn>
