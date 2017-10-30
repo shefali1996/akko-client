@@ -59,15 +59,8 @@ class SignUp extends Component {
         }
     }   
 
-    async componentWillMount() {
-        // redirect to inventory page if user is already logged in
-        try {
-            if (await authUser()) {
-                this.props.history.push('/inventory');
-            }
-        }catch(e) {
-            alert(e);
-        }
+    componentWillMount() {
+        
     }
 
     goLanding() {
