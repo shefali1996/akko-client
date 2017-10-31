@@ -3,8 +3,7 @@ import '../styles/App.css';
 import {connect} from 'react-redux';
 import { Row, Col, Label, Image, DropdownButton } from 'react-bootstrap';
 import user from '../auth/user';
-import down from '../assets/down.svg'
-import userIcon from '../assets/user.svg'
+import profileIcon from '../assets/profileIcon.svg'
 
 class Navigationbar extends Component {
     constructor(props) {
@@ -25,22 +24,16 @@ class Navigationbar extends Component {
 		return (
 			<div className="nav-container">
 				<Row className="no-margin white-bg">
-					<Col md={3} xs={4} className="flex-left">
+					<Col md={3} className="flex-left">
 						<Label className="app-title">
 							akko
 						</Label>
 					</Col>
-					<Col md={7} xs={3}>
-					</Col>
-					<Col md={2} xs={5} className="text-right no-padding">
+					<Col md={2} mdOffset={7} className="text-right no-padding">
 						<DropdownButton
 							title={
 								<div>
-									<Image src={down} className="down" />
-									<Label className="username">
-										John Smith
-									</Label>
-									<Image src={userIcon} className="user" />
+									<Image src={profileIcon} className="profileIcon" />
 								</div>
 							}
 							id="bg-nested-dropdown"

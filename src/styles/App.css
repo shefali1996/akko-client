@@ -27,12 +27,20 @@
   text-decoration: none solid rgb(29, 47, 181);
   background: none;
   padding-top: 20px;
-  display: block;
+	display: block;
+	position: absolute;
+	top: 25px;
+	left: 10px;
+	z-index: 999;
 }
 .user-profile {
   width: 165px;
-  height: 40px;
-  background-color: #1d2fb5;
+	height: 40px;
+	position: absolute;
+	top: 30px;
+	right: 30px;
+	z-index: 999;
+	text-align: right;
 }
 .down {
   width: 32px;
@@ -73,7 +81,7 @@
 }
 .dropdown .dropdown-menu {
 	padding: 0;
-	margin: 0;
+	margin: 20px;
 	width: 100%;
 	border: none;
 }
@@ -85,11 +93,11 @@
 .dropdown.open .btn-default:focus {
   box-shadow: none;
   outline: none;
-  background-color: #1d2fb5;
+  background-color: #fff;
 }
 .btn-default.active, .btn-default:active,
 .open>.dropdown-toggle.btn-default {
-  background-color: #1d2fb5;
+  background-color: #fff;
 }
 .dropdown .btn-default .caret {
   display: none;
@@ -107,7 +115,7 @@
   padding: 0;
 }
 .nav-container {
-  background-color: #fbfbfb;
+  background-color: #ffffff;
 }
 .footer-container {
 	background-color: #fbfbfb;
@@ -853,4 +861,9 @@
 .rightArrow {
 	width: 32px;
 	height: 32px;
+}
+.profileIcon {
+	width: 34px;
+	height: 34px;
+	fill: #575dde;
 }
