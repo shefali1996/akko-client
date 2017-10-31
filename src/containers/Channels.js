@@ -262,31 +262,7 @@ class Channels extends Component {
         let ascVal = a.productDetail.title.localeCompare(b.productDetail.title);
         return order === 'asc' ? ascVal : -ascVal;
     }
-
-    sortByStockUnit(a, b, order) {   // order is desc or asc
-        if (order === 'desc') {
-            return a.stockOnHand.units - b.stockOnHand.units;
-        } else {
-            return b.stockOnHand.units - a.stockOnHand.units;
-        }
-    }
-
-    sortByCommitUnit(a, b, order) {
-        if (order === 'desc') {
-            return a.committed.units - b.committed.units;
-        } else {
-            return b.committed.units - a.committed.units;
-        }
-    }
-
-    sortBySaleUnit(a, b, order) {
-        if (order === 'desc') {
-            return a.availableForSale.units - b.availableForSale.units;
-        } else {
-            return b.availableForSale.units - a.availableForSale.units;
-        }
-    }
-
+    
     renderStockUnitsHeader() {
         return(
             <div className="text-right">
