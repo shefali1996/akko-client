@@ -227,7 +227,7 @@ class Orders extends Component {
                 <div className="product-custom-title">
                     <span className="productName">{cell.title}</span>
                     <span className="variantTitle">{cell.variant}</span>
-                    <span className="channelNumberText"></span>
+                    <span className="channelNumberText">SKU : {cell.sku}</span>
                 </div>
             </div>
         )
