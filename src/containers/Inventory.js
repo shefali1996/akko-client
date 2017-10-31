@@ -450,6 +450,7 @@ class Inventory extends Component {
 												caretRender={ getCaret }
                                                 dataFormat={ this.productCellFormatter }
                                                 sortFunc={ this.sortByTitle }
+                                                width='40%'
 											>
 												Product
 											</TableHeaderColumn>

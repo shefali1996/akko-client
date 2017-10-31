@@ -770,7 +770,7 @@
 	text-decoration: none solid rgb(29, 47, 181);
 	white-space: nowrap;
 	text-overflow: ellipsis;    
-	width: 300px;
+	max-width: 400px;
 	overflow: hidden;
 }
 .product-custom-title {
