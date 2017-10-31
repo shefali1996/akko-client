@@ -805,9 +805,8 @@
 	padding-top: 25px;
 }
 .stock-on-hand-cell {
-	display: flex;
-	flex-direction: row;
 	padding-top: 25px;
+	text-align: center;
 }
 .stock-unit-view {
 	width: 50%;
