@@ -287,14 +287,14 @@ class Inventory extends Component {
     renderStockUnitsHeader() {
         return(
             <div className="text-right">
-                Stock on
+                Stock on 
             </div>
         );
     }
 
     renderStockValueHeader() {
         return(
-            <div className="text-left">
+            <div className="text-left custom-padding-left">
                 Hand
             </div>
         );
@@ -326,7 +326,7 @@ class Inventory extends Component {
 
     renderSaleValueHeader() {
         return(
-            <div className="text-left">
+            <div className="text-left custom-padding-left">
                 for Sale
             </div>
         );

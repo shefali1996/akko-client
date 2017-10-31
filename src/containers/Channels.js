@@ -42,18 +42,12 @@ function convertInventoryJSONToObject(inventoryJSON){
 		const productEntry = {
 			id: currProduct.id,
 			productDetail: currProduct.product_details,
-			stockOnHand: {
-                units: currProduct.inventory_details.in_stock_units,
-                values: currProduct.inventory_details.in_stock_value
-            },
-			committed: {
-                units: currProduct.inventory_details.committed_value,
-                values: currProduct.inventory_details.committed_value
-            },
-			availableForSale: {
-                units: currProduct.inventory_details.available_units,
-                values: currProduct.inventory_details.available_value
-            }
+			stockOnHandUnits: currProduct.inventory_details.in_stock_units,
+            stockOnHandValue: currProduct.inventory_details.in_stock_value,
+            committedUnits: currProduct.inventory_details.committed_units,
+            committedValue: currProduct.inventory_details.committed_value,
+            availableForSaleUnits: currProduct.inventory_details.available_units,
+            availableForSaleValue: currProduct.inventory_details.available_value,
 		}
 		products.push(productEntry);
 	}
@@ -239,15 +233,18 @@ class Channels extends Component {
         )
     }
     
-    stockCellFormatter(cell, row) {
+    cellUnitFormatter(cell, row) {
         return (
             <div className="stock-on-hand-cell">
-                <div className="stock-unit-view">
-                    { cell.units }
-                </div>
-                <div className="stock-unit-view">
-                    ${ Math.round(cell.values * 100) / 100 }
-                </div>
+                { cell}
+            </div>
+        )
+    }
+    
+    cellValueFormatter(cell, row) {
+        return (
+            <div className="stock-on-hand-cell">
+                ${ Math.round(cell * 100) / 100 }
             </div>
         )
     }
@@ -281,74 +278,50 @@ class Channels extends Component {
         }
     }
 
-    renderStockHeader(direction) {
+    renderStockUnitsHeader() {
         return(
-            <div>
-                <div>
-                    Stock on Hand
-                </div>
-                <div className="stock-on-hand-header">
-                    <div className="stock-unit-view">
-                        <span>
-                            Unit
-                        </span>
-                        {/* {getCaret()} */}
-                    </div>
-                    <div className="stock-unit-view">
-                        <span>
-                            Value
-                        </span>
-                        {/* {getCaret()} */}
-                    </div>
-                </div>
-            </div>
-        );
-    }
-    
-    renderCommitHeader() {
-        return(
-            <div>
-                <div>
-                    Committed
-                </div>
-                <div className="stock-on-hand-header">
-                    <div className="stock-unit-view">
-                        <span>
-                            Unit
-                        </span>
-                        {/* {getCaret()} */}
-                    </div>
-                    <div className="stock-unit-view">
-                        <span>
-                            Value
-                        </span>
-                        {/* {getCaret()} */}
-                    </div>
-                </div>
+            <div className="text-right">
+                Stock on 
             </div>
         );
     }
 
-    renderSaleHeader() {
+    renderStockValueHeader() {
         return(
-            <div>
-                <div>
-                    Available for Sale
-                </div>
-                <div className="stock-on-hand-header">
-                    <div className="stock-unit-view">
-                        <span>
-                            Unit
-                        </span>
-                        {/* {getCaret()} */}
-                    </div>
-                    <div className="stock-unit-view">
-                        <span>
-                            Value
-                        </span>
-                        {/* {getCaret()} */}
-                    </div>
-                </div>
+            <div className="text-left custom-padding-left">
+                Hand
+            </div>
+        );
+    }   
+
+    renderCommitUnitsHeader() {
+        return(
+            <div className="text-right">
+                Commi
+            </div>
+        );
+    }
+
+    renderCommitValueHeader() {
+        return(
+            <div className="text-left">
+                tted
+            </div>
+        );
+    }
+
+    renderSaleUnitsHeader() {
+        return(
+            <div className="text-right">
+                Available
+            </div>
+        );
+    }
+
+    renderSaleValueHeader() {
+        return(
+            <div className="text-left custom-padding-left">
+                for Sale
             </div>
         );
     }
@@ -442,41 +415,75 @@ class Channels extends Component {
                                                 caretRender={ getCaret }
                                                 dataFormat={ this.productCellFormatter }
                                                 sortFunc={ this.sortByTitle }
+                                                width='40%'
                                             >
                                                 Product
                                             </TableHeaderColumn>
                                             <TableHeaderColumn
-                                                dataField='stockOnHand'
+                                                dataField='stockOnHandUnits'
                                                 dataAlign="center"
                                                 dataSort
                                                 className="custom-table-header"
                                                 caretRender={ getCaret }
-                                                dataFormat={ this.stockCellFormatter }
-                                                sortFunc={ this.sortByStockUnit }
+                                                dataFormat={ this.cellUnitFormatter }
                                             >
-                                                {this.renderStockHeader()}
+                                                {this.renderStockUnitsHeader()}
+                                                Units
                                             </TableHeaderColumn>
                                             <TableHeaderColumn
-                                                dataField='committed'
+                                                dataField='stockOnHandValue'
                                                 dataAlign="center"
                                                 dataSort
                                                 className="custom-table-header"
                                                 caretRender={ getCaret }
-                                                dataFormat={ this.stockCellFormatter }
-                                                sortFunc={ this.sortByCommitUnit }
+                                                dataFormat={ this.cellValueFormatter }
                                             >
-                                                {this.renderCommitHeader()}
+                                                {this.renderStockValueHeader()}
+                                                $
                                             </TableHeaderColumn>
                                             <TableHeaderColumn
-                                                dataField='availableForSale'
+                                                dataField='committedUnits'
                                                 dataAlign="center"
                                                 dataSort
                                                 className="custom-table-header"
                                                 caretRender={ getCaret }
-                                                dataFormat={ this.stockCellFormatter }
-                                                sortFunc={ this.sortBySaleUnit }
+                                                dataFormat={ this.cellUnitFormatter }
                                             >
-                                                {this.renderSaleHeader()}
+                                                {this.renderCommitUnitsHeader()}
+                                                Units
+                                            </TableHeaderColumn>
+                                            <TableHeaderColumn
+                                                dataField='committedValue'
+                                                dataAlign="center"
+                                                dataSort
+                                                className="custom-table-header"
+                                                caretRender={ getCaret }
+                                                dataFormat={ this.cellValueFormatter }
+                                            >
+                                                {this.renderCommitValueHeader()}
+                                                $
+                                            </TableHeaderColumn>
+                                            <TableHeaderColumn
+                                                dataField='availableForSaleUnits'
+                                                dataAlign="center"
+                                                dataSort
+                                                className="custom-table-header"
+                                                caretRender={ getCaret }
+                                                dataFormat={ this.cellUnitFormatter }
+                                            >
+                                                {this.renderSaleUnitsHeader()}
+                                                Units
+                                            </TableHeaderColumn>
+                                            <TableHeaderColumn
+                                                dataField='availableForSaleValue'
+                                                dataAlign="center"
+                                                dataSort
+                                                className="custom-table-header"
+                                                caretRender={ getCaret }
+                                                dataFormat={ this.cellValueFormatter }
+                                            >
+                                                {this.renderSaleValueHeader()}
+                                                $
                                             </TableHeaderColumn>
                                         </BootstrapTable>
                                     </Row>
