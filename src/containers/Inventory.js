@@ -392,19 +392,19 @@ class Inventory extends Component {
 							<Tab eventKey={2} title="Inventory">
 								<div className="padding-50">
 									<Row className="padding-50">
-										<Col md={3}>
+										<Col md={3} className="no-left-padding">
 											<div className="white-view">
 											</div>
 										</Col>
-										<Col md={3}>
+										<Col md={3} className="no-left-padding">
 											<div className="white-view">
 											</div>
 										</Col>
-										<Col md={3}>
+										<Col md={3} className="no-left-padding">
 											<div className="white-view">
 											</div>
 										</Col>
-										<Col md={3}>
+										<Col md={3} className="no-right-padding no-left-padding">
 											<div className="white-view">
 											</div>
 										</Col>

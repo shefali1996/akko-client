@@ -249,6 +249,7 @@
 }
 .custom-table {
 	height: 103px;
+	background: white;
   font-family: Ubuntu;
   font-size: 16px;
   font-weight: 400;
@@ -259,22 +260,26 @@
 .custom-table td {
   text-align: center;
 	outline: none;
-  border-bottom: 1px solid #C8C8E8;
+	border-bottom: 1px solid #C8C8E8;
+}
+.react-bs-container-footer, .react-bs-container-header {
+	background: white;
 }
 .custom-table-header {
   font-family: Ubuntu;
   font-size: 16px;
   font-weight: 400;
-  color: #1d2fb5;
+	color: #1d2fb5;
 }
 .padding-50 {
   padding: 50px;
 }
 .add-button {
-  background: #1d2fb5;
+  background: #575dde;
   display: inline-block;
-  padding: 10px;
-  cursor: pointer;
+  padding: 6px 10px;
+	cursor: pointer;
+	box-shadow: 0 1px 2px #000000;
 }
 .plus-icon {
   width: 22px;
@@ -283,15 +288,17 @@
 .delete-button {
   background: #d42920;
   display: inline-block;
-  padding: 10px;
-  cursor: pointer;
+  padding: 6px 10px;
+	cursor: pointer;
+	box-shadow: 0 1px 2px #000000;
 }
 .merge-button {
-  background: #1d2fb5;
+  background: #575dde;
   display: inline-block;
-  padding: 10px;
+  padding: 6px 10px;
   cursor: pointer;
-  margin-right: 10px;
+	margin-right: 10px;
+	box-shadow: 0 1px 2px #000000;
 }
 .button-text {
   font-family: Ubuntu;
@@ -808,4 +815,10 @@
 .stock-on-hand-header {
 	display: flex;
 	flex-direction: row;
+}
+.no-left-padding {
+	padding-left: 0;
+}
+.no-right-padding {
+	padding-right: 0;
 }
