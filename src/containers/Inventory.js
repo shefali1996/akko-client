@@ -505,7 +505,6 @@ class Inventory extends Component {
                                             <TableHeaderColumn
 												dataField='availableForSaleValue'
 												dataAlign="center"
-                                                dataSort
 												className="custom-table-header"
                                                 dataFormat={ this.arrowFormatter }
                                                 width='5%'
