@@ -17,6 +17,7 @@ import merge from '../assets/merge.svg'
 import deleteIcon from '../assets/delete.svg'
 import sort from '../assets/sort.svg'
 import inversesort from '../assets/inversesort.svg'
+import rightArrow from '../assets/rightArrow.svg'
 
 function getCaret(direction) {
 	if (direction === 'asc') {
@@ -249,6 +250,14 @@ class Orders extends Component {
         )
     }
 
+    arrowFormatter(cell, row) {
+        return (
+            <div className="stock-on-hand-cell">
+                <Image src={rightArrow} className="rightArrow" />
+            </div>
+        )
+    }
+    
     sortByTitle(a, b, order) {   // order is desc or asc
         let ascVal = a.productDetail.title.localeCompare(b.productDetail.title);
         return order === 'asc' ? ascVal : -ascVal;
@@ -489,6 +498,14 @@ class Orders extends Component {
                                                 {this.renderSaleValueHeader()}
                                                 $
                                             </TableHeaderColumn>
+                                            <TableHeaderColumn
+												dataField='availableForSaleValue'
+												dataAlign="center"
+												className="custom-table-header"
+                                                dataFormat={ this.arrowFormatter }
+                                                width='5%'
+											>
+											</TableHeaderColumn>
                                         </BootstrapTable>
                                     </Row>
                                 </div>

@@ -17,6 +17,7 @@ import merge from '../assets/merge.svg'
 import deleteIcon from '../assets/delete.svg'
 import sort from '../assets/sort.svg'
 import inversesort from '../assets/inversesort.svg'
+import rightArrow from '../assets/rightArrow.svg'
 
 function getCaret(direction) {
 	if (direction === 'asc') {
@@ -245,6 +246,14 @@ class Channels extends Component {
         return (
             <div className="stock-on-hand-cell">
                 ${ Math.round(cell * 100) / 100 }
+            </div>
+        )
+    }
+
+    arrowFormatter(cell, row) {
+        return (
+            <div className="stock-on-hand-cell">
+                <Image src={rightArrow} className="rightArrow" />
             </div>
         )
     }
@@ -485,6 +494,14 @@ class Channels extends Component {
                                                 {this.renderSaleValueHeader()}
                                                 $
                                             </TableHeaderColumn>
+                                            <TableHeaderColumn
+												dataField='availableForSaleValue'
+												dataAlign="center"
+												className="custom-table-header"
+                                                dataFormat={ this.arrowFormatter }
+                                                width='5%'
+											>
+											</TableHeaderColumn>
                                         </BootstrapTable>
                                     </Row>
                                 </div>
