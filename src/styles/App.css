@@ -830,3 +830,14 @@
 	background: white;
 	padding: 0px;
 }
+.react-bs-table-pagination .row {
+	margin-top: 0px !important;
+}
+.padding-left-right-100 {
+	padding-left: 100px;
+	padding-right: 100px;
+}
+.padding-left-right-50 {
+	padding-left: 50px;
+	padding-right: 50px;
+}

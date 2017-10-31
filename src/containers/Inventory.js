@@ -390,7 +390,7 @@ class Inventory extends Component {
 							<Tab eventKey={1} title="Channels">
 							</Tab>
 							<Tab eventKey={2} title="Inventory">
-								<div className="padding-50">
+								<div className="padding-left-right-100">
 									<Row className="padding-50">
 										<Col md={3} className="no-left-padding">
 											<div className="white-view">
@@ -409,7 +409,7 @@ class Inventory extends Component {
 											</div>
 										</Col>
 									</Row>
-									<Row className="padding-50">
+									<Row className="padding-left-right-50">
 										<Col md={6} mdOffset={3}>
 											<SearchInput
 												className="search-input"
