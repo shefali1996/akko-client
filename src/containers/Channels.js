@@ -3,11 +3,11 @@ import {Grid, Row, Col, Tabs, Tab, Image, Label} from 'react-bootstrap';
 import {connect} from 'react-redux';
 import SearchInput, {createFilter} from 'react-search-input'
 import { BootstrapTable, TableHeaderColumn, ButtonGroup } from 'react-bootstrap-table';
-import { makeData } from "../components/Utils";
 import Navigationbar from '../components/Navigationbar';
 import Footer from '../components/Footer';
 import Checkbox from '../components/Checkbox';
 import {KEYS_TO_FILTERS} from '../constants';
+import { invokeApig } from '../libs/awsLib';
 import '../styles/App.css';
 import '../styles/react-search-input.css'
 import '../styles/react-bootstrap-table.min.css'
@@ -34,16 +34,62 @@ function getCaret(direction) {
 	);
 }
 
+function convertInventoryJSONToObject(inventoryJSON){
+	var products = [];
+	for(let i = 0; i < inventoryJSON.length; i++)
+	{
+        const currProduct = inventoryJSON[i];
+		const productEntry = {
+			id: currProduct.id,
+			productDetail: currProduct.product_details,
+			stockOnHand: {
+                units: currProduct.inventory_details.in_stock_units,
+                values: currProduct.inventory_details.in_stock_value
+            },
+			committed: {
+                units: currProduct.inventory_details.committed_value,
+                values: currProduct.inventory_details.committed_value
+            },
+			availableForSale: {
+                units: currProduct.inventory_details.available_units,
+                values: currProduct.inventory_details.available_value
+            }
+		}
+		products.push(productEntry);
+	}
+	return products;
+}
+
 class Channels extends Component {
 	constructor(props) {
 		super(props);
 		this.state = {
-			data: makeData(),
+			data: [],
             searchTerm: ''
 		};
 		this.handleSelect = this.handleSelect.bind(this);
 		this.searchUpdated = this.searchUpdated.bind(this);
 		this.onFocus = this.onFocus.bind(this);
+	}
+
+	async componentDidMount() {
+		try {
+            if(localStorage.getItem('inventoryInfo') === null ) {
+                const results = await this.products();
+                var products = convertInventoryJSONToObject(results);
+                this.setState({ data: products });
+                localStorage.setItem('inventoryInfo', JSON.stringify(products));
+            }else {
+                var existingProducts = JSON.parse(localStorage.getItem('inventoryInfo'));
+                this.setState({ data: existingProducts });
+            }
+		} catch (e) {
+            console.log(e)
+		}
+	}
+
+	products() {
+		return invokeApig({ path: "/inventory" });
 	}
 
 	handleSelect(key) {
@@ -67,37 +113,39 @@ class Channels extends Component {
 	}
 
 	customMultiSelect(props) {
-		const { type, checked, disabled, onChange, rowIndex } = props;
+        const { type, checked, disabled, onChange, rowIndex } = props;
 		if (rowIndex === 'Header') {
 		  return (
 			<div className='checkbox-personalized'>
-			  <Checkbox {...props}/>
-			  <label htmlFor={ 'checkbox' + rowIndex }>
-				<div className='check'></div>
-			  </label>
+                <Checkbox {...props}/>
+                <label htmlFor={ 'checkbox' + rowIndex }>
+                    <div className='check'></div>
+                </label>
 			</div>);
 		} else {
-		  return (
-			<div className='checkbox-personalized'>
-			  <input
-				type={ type }
-				name={ 'checkbox' + rowIndex }
-				id={ 'checkbox' + rowIndex }
-				checked={ checked }
-				disabled={ disabled }
-				onChange={ e=> onChange(e, rowIndex) }
-				ref={ input => {
-				  if (input) {
-					input.indeterminate = props.indeterminate;
-				  }
-				} }/>
-			  <label htmlFor={ 'checkbox' + rowIndex }>
-				<div className='check'></div>
-			  </label>
-			</div>);
+		    return (
+                <div className='checkbox-personalized'>
+                    <input
+                        type={ type }
+                        name={ 'checkbox' + rowIndex }
+                        id={ 'checkbox' + rowIndex }
+                        checked={ checked }
+                        disabled={ disabled }
+                        onChange={ e=> onChange(e, rowIndex) }
+                        ref={ input => {
+                            if (input) {
+                                input.indeterminate = props.indeterminate;
+                            }
+                        } }
+                    />
+                    <label htmlFor={ 'checkbox' + rowIndex }>
+                        <div className='check'></div>
+                    </label>
+                </div>
+            );
 		}
 	}
-	
+
 	createCustomInsertButton(openModal) {
 		return (
 			<div className="add-button" onClick={openModal}>
@@ -135,12 +183,12 @@ class Channels extends Component {
 		return (
 		  <div className='btn-group'>
 			{
-			  [ 10, 25, 30 ].map((n, idx) => {
-				const isActive = (n === props.currSizePerPage) ? 'active' : null;
-				return (
-				  <button key={ idx } type='button' className={ `btn btn-info ${isActive}` } onClick={ () => props.changeSizePerPage(n) }>{ n }</button>
-				);
-			  })
+                [ 10, 25, 30 ].map((n, idx) => {
+                    const isActive = (n === props.currSizePerPage) ? 'active' : null;
+                    return (
+                        <button key={ idx } type='button' className={ `btn btn-info ${isActive}` } onClick={ () => props.changeSizePerPage(n) }>{ n }</button>
+                    );
+                })
 			}
 		  </div>
 		);
@@ -164,26 +212,145 @@ class Channels extends Component {
 					{ props.exportCSVBtn }
 					{ props.deleteBtn }
 				</div>
-			
 		  </ButtonGroup>
 		);
 	}
 
 	createCustomToolBar(props) {
 		return (
-		  <div style={ { margin: '15px' } }>
-			{ props.components.btnGroup }
-		  </div>
+            <div style={ { margin: '15px' } }>
+                { props.components.btnGroup }
+            </div>
 		);
-	}
-
-    cellFormatter(cell, row) {
+    }
+    
+    productCellFormatter(cell, row) {
         return (
-            <div className="custom-data-cell">
-                <img style={{width:70}} src={cell.thumbnail} alt="thumb"/>
-                <span className="productName">{cell.realName}</span>
+            <div className="product-data-cell">
+                <div className="productImage">
+                    <img style={{width:70}} src={cell.image} alt="thumb"/>
+                </div>
+                <div className="product-custom-title">
+                    <span className="productName">{cell.title}</span>
+                    <span className="variantTitle">{cell.variant}</span>
+                    <span className="channelNumberText"></span>
+                </div>
             </div>
         )
+    }
+    
+    stockCellFormatter(cell, row) {
+        return (
+            <div className="stock-on-hand-cell">
+                <div className="stock-unit-view">
+                    { cell.units }
+                </div>
+                <div className="stock-unit-view">
+                    ${ Math.round(cell.values * 100) / 100 }
+                </div>
+            </div>
+        )
+    }
+
+    sortByTitle(a, b, order) {   // order is desc or asc
+        let ascVal = a.productDetail.title.localeCompare(b.productDetail.title);
+        return order === 'asc' ? ascVal : -ascVal;
+    }
+
+    sortByStockUnit(a, b, order) {   // order is desc or asc
+        if (order === 'desc') {
+            return a.stockOnHand.units - b.stockOnHand.units;
+        } else {
+            return b.stockOnHand.units - a.stockOnHand.units;
+        }
+    }
+
+    sortByCommitUnit(a, b, order) {
+        if (order === 'desc') {
+            return a.committed.units - b.committed.units;
+        } else {
+            return b.committed.units - a.committed.units;
+        }
+    }
+
+    sortBySaleUnit(a, b, order) {
+        if (order === 'desc') {
+            return a.availableForSale.units - b.availableForSale.units;
+        } else {
+            return b.availableForSale.units - a.availableForSale.units;
+        }
+    }
+
+    renderStockHeader(direction) {
+        return(
+            <div>
+                <div>
+                    Stock on Hand
+                </div>
+                <div className="stock-on-hand-header">
+                    <div className="stock-unit-view">
+                        <span>
+                            Unit
+                        </span>
+                        {/* {getCaret()} */}
+                    </div>
+                    <div className="stock-unit-view">
+                        <span>
+                            Value
+                        </span>
+                        {/* {getCaret()} */}
+                    </div>
+                </div>
+            </div>
+        );
+    }
+    
+    renderCommitHeader() {
+        return(
+            <div>
+                <div>
+                    Committed
+                </div>
+                <div className="stock-on-hand-header">
+                    <div className="stock-unit-view">
+                        <span>
+                            Unit
+                        </span>
+                        {/* {getCaret()} */}
+                    </div>
+                    <div className="stock-unit-view">
+                        <span>
+                            Value
+                        </span>
+                        {/* {getCaret()} */}
+                    </div>
+                </div>
+            </div>
+        );
+    }
+
+    renderSaleHeader() {
+        return(
+            <div>
+                <div>
+                    Available for Sale
+                </div>
+                <div className="stock-on-hand-header">
+                    <div className="stock-unit-view">
+                        <span>
+                            Unit
+                        </span>
+                        {/* {getCaret()} */}
+                    </div>
+                    <div className="stock-unit-view">
+                        <span>
+                            Value
+                        </span>
+                        {/* {getCaret()} */}
+                    </div>
+                </div>
+            </div>
+        );
     }
 
 	render() {
@@ -191,11 +358,10 @@ class Channels extends Component {
         const filteredData = data.filter(createFilter(searchTerm, KEYS_TO_FILTERS))
 		const selectRowProp = {
 			mode: 'checkbox',
-			customComponent: this.customMultiSelect
+            customComponent: this.customMultiSelect,
+            clickToSelect: true
 		};
 		const options = {
-			defaultSortName: 'name',
-			defaultSortOrder: 'desc',
 			insertBtn: this.createCustomInsertButton,
 			deleteBtn: this.createCustomDeleteButton,
 			exportCSVBtn: this.createCustomExportCSVButton,
@@ -206,107 +372,123 @@ class Channels extends Component {
 			paginationSize: 7,
 			prePage: '«   Previous',
 			nextPage: 'Next   »',
-			withFirstAndLast: false
+            withFirstAndLast: false,
+            sortIndicator: false
         };
 		return (
 			<div>
-				<Navigationbar history={this.props.history}/>
-				<Grid className="inventory-container">
-					<Row className="no-margin white-bg min-height custom-shadow">
-						<Tabs defaultActiveKey={1} id="uncontrolled-tab-example" className="inventory-tab" onSelect={this.handleSelect}>
-							<Tab eventKey={1} title="Channels">
-								<div className="padding-50">
-									<Row className="margin-t-30">
-										<Col md={3}>
-											<div className="gray-view">
-											</div>
-										</Col>
-										<Col md={3}>
-											<div className="gray-view">
-											</div>
-										</Col>
-										<Col md={3}>
-											<div className="gray-view">
-											</div>
-										</Col>
-										<Col md={3}>
-											<div className="gray-view">
-											</div>
-										</Col>
-									</Row>
-									<Row className="margin-t-30">
-										<Col md={6} mdOffset={3}>
-											<SearchInput 
-												className="search-input" 
-												placeholder="Search all your sales channels"
-												onChange={this.searchUpdated} 
-												onFocus={this.onFocus}
-											/>
-										</Col>
-									</Row>
-									<Row className="margin-t-30">
-										<BootstrapTable
-											data={ filteredData }
-											options={ options }
-											insertRow={ true }
-											deleteRow={ true }
-											exportCSV={ true }
-											bordered={ false }
-											selectRow={ selectRowProp }
-											pagination
-											trClassName="custom-table"
-                                            striped={true} 
-                                            hover={true}
-										>
-											<TableHeaderColumn
-												isKey
-												dataField='name'
-												dataAlign="center"
-												dataSort
-												className="custom-table-header"
+                <Navigationbar history={this.props.history}/>
+                <Grid className="inventory-container no-padding">
+                    <Row className="no-margin min-height custom-shadow">
+                        <Tabs defaultActiveKey={1} id="uncontrolled-tab-example" className="inventory-tab" onSelect={this.handleSelect}>
+                            <Tab eventKey={1} title="Channels">
+                                <div className="padding-left-right-100">
+                                    <Row className="padding-50">
+                                        <Col md={3} className="no-left-padding">
+                                            <div className="white-view">
+                                            </div>
+                                        </Col>
+                                        <Col md={3} className="no-left-padding">
+                                            <div className="white-view">
+                                            </div>
+                                        </Col>
+                                        <Col md={3} className="no-left-padding">
+                                            <div className="white-view">
+                                            </div>
+                                        </Col>
+                                        <Col md={3} className="no-right-padding no-left-padding">
+                                            <div className="white-view">
+                                            </div>
+                                        </Col>
+                                    </Row>
+                                    <Row className="padding-left-right-50">
+                                        <Col md={6} mdOffset={3}>
+                                            <SearchInput
+                                                className="search-input"
+                                                placeholder="Search all your inventory"
+                                                onChange={this.searchUpdated}
+                                                onFocus={this.onFocus}
+                                            />
+                                        </Col>
+                                    </Row>
+                                    <Row className="padding-50">
+                                        <BootstrapTable
+                                            data={ filteredData }
+                                            options={ options }
+                                            insertRow={ true }
+                                            deleteRow={ true }
+                                            exportCSV={ true }
+                                            bordered={ false }
+                                            selectRow={ selectRowProp }
+                                            pagination
+                                            trClassName="custom-table"
+                                        >
+                                            <TableHeaderColumn
+                                                isKey
+                                                dataField='id'
+                                                dataAlign="center"
+                                                dataSort
+                                                className="custom-table-header"
                                                 caretRender={ getCaret }
-                                                dataFormat={ this.cellFormatter }
-											>
-												Product
-											</TableHeaderColumn>
-											<TableHeaderColumn 
-												dataField='stock' 
-												dataAlign="center"
-												dataSort
-												className="custom-table-header"
+                                                hidden={true}
+                                            >
+                                                ID
+                                            </TableHeaderColumn>
+                                            <TableHeaderColumn
+                                                dataField='productDetail'
+                                                dataAlign="center"
+                                                dataSort
+                                                className="custom-table-header"
                                                 caretRender={ getCaret }
-											>
-												Stock on Hand
-											</TableHeaderColumn>
-											<TableHeaderColumn 
-												dataField='commit'
-												dataAlign="center"
-												dataSort
-												className="custom-table-header"
+                                                dataFormat={ this.productCellFormatter }
+                                                sortFunc={ this.sortByTitle }
+                                            >
+                                                Product
+                                            </TableHeaderColumn>
+                                            <TableHeaderColumn
+                                                dataField='stockOnHand'
+                                                dataAlign="center"
+                                                dataSort
+                                                className="custom-table-header"
                                                 caretRender={ getCaret }
-											>
-												Committed
-											</TableHeaderColumn>
-											<TableHeaderColumn 
-												dataField='available'
-												dataAlign="center"
-												dataSort
-												className="custom-table-header"
+                                                dataFormat={ this.stockCellFormatter }
+                                                sortFunc={ this.sortByStockUnit }
+                                            >
+                                                {this.renderStockHeader()}
+                                            </TableHeaderColumn>
+                                            <TableHeaderColumn
+                                                dataField='committed'
+                                                dataAlign="center"
+                                                dataSort
+                                                className="custom-table-header"
                                                 caretRender={ getCaret }
-											>
-												Available for Sale
-											</TableHeaderColumn>
-										</BootstrapTable>
-									</Row>
-								</div>
-							</Tab>
-							<Tab eventKey={2} title="Inventory">
-							</Tab>
-							<Tab eventKey={3} title="Orders">
-							</Tab>
-						</Tabs>
-					</Row>
-				</Grid>
+                                                dataFormat={ this.stockCellFormatter }
+                                                sortFunc={ this.sortByCommitUnit }
+                                            >
+                                                {this.renderCommitHeader()}
+                                            </TableHeaderColumn>
+                                            <TableHeaderColumn
+                                                dataField='availableForSale'
+                                                dataAlign="center"
+                                                dataSort
+                                                className="custom-table-header"
+                                                caretRender={ getCaret }
+                                                dataFormat={ this.stockCellFormatter }
+                                                sortFunc={ this.sortBySaleUnit }
+                                            >
+                                                {this.renderSaleHeader()}
+                                            </TableHeaderColumn>
+                                        </BootstrapTable>
+                                    </Row>
+                                </div>
+                            </Tab>
+                            <Tab eventKey={2} title="Inventory">
+                            </Tab>
+                            <Tab eventKey={3} title="Orders">
+                            </Tab>
+                        </Tabs>
+                    </Row>
+                </Grid>
                 <Footer/>
 			</div>
 		);
