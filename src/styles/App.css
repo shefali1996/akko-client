@@ -108,7 +108,7 @@
 }
 .nav-container {
   background: #F3F3F3;
-  padding: 0px 240px;
+  /* padding: 0px 240px; */
 }
 .footer-container {
 	background: #F3F3F3;
@@ -121,7 +121,6 @@
 .inventory-container {
   overflow: auto;
   width: 100%;
-  padding: 0px 240px;
 }
 .padding-header {
 	padding-left: 70px;
@@ -193,9 +192,7 @@
 }
 .inventory-tab {
 	text-align: center;
-	padding-top: 10px;
-  padding-left: 40px;
-  padding-right: 40px;
+	box-shadow: 0 1px 2px #000000;
 }
 .inventory-tab ul.nav.nav-tabs > li, ul.nav.nav-pills > li {
   float:none;
@@ -236,12 +233,11 @@
   border-top-width: 0px;
   border-left-width: 0px;
   border-right-width: 0px;
-  border-bottom: 1px solid #c8c8e8;
-  background-color: white;
+	background-color: white;
   text-align: left;
 }
-.gray-view {
-  background-color: #ebebeb;
+.white-view {
+  background-color: #ffffff;
   width: 100%;
   height: 178px;
 }

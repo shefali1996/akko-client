@@ -384,32 +384,32 @@ class Inventory extends Component {
 		return (
 			<div>
 				<Navigationbar history={this.props.history}/>
-				<Grid className="inventory-container">
-					<Row className="no-margin white-bg min-height custom-shadow">
+				<Grid className="inventory-container no-padding">
+					<Row className="no-margin min-height custom-shadow">
 						<Tabs defaultActiveKey={2} id="uncontrolled-tab-example" className="inventory-tab" onSelect={this.handleSelect}>
 							<Tab eventKey={1} title="Channels">
 							</Tab>
 							<Tab eventKey={2} title="Inventory">
 								<div className="padding-50">
-									<Row className="margin-t-30">
+									<Row className="padding-50">
 										<Col md={3}>
-											<div className="gray-view">
+											<div className="white-view">
 											</div>
 										</Col>
 										<Col md={3}>
-											<div className="gray-view">
+											<div className="white-view">
 											</div>
 										</Col>
 										<Col md={3}>
-											<div className="gray-view">
+											<div className="white-view">
 											</div>
 										</Col>
 										<Col md={3}>
-											<div className="gray-view">
+											<div className="white-view">
 											</div>
 										</Col>
 									</Row>
-									<Row className="margin-t-30">
+									<Row className="padding-50">
 										<Col md={6} mdOffset={3}>
 											<SearchInput
 												className="search-input"
@@ -419,7 +419,7 @@ class Inventory extends Component {
 											/>
 										</Col>
 									</Row>
-									<Row className="margin-t-30">
+									<Row className="padding-50">
 										<BootstrapTable
 											data={ filteredData }
 											options={ options }
