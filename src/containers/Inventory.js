@@ -284,74 +284,50 @@ class Inventory extends Component {
         }
     }
 
-    renderStockHeader(direction) {
+    renderStockUnitsHeader() {
         return(
-            <div>
-                <div>
-                    Stock on Hand
-                </div>
-                <div className="stock-on-hand-header">
-                    <div className="stock-unit-view">
-                        <span>
-                            Unit
-                        </span>
-                        {/* {getCaret()} */}
-                    </div>
-                    <div className="stock-unit-view">
-                        <span>
-                            Value
-                        </span>
-                        {/* {getCaret()} */}
-                    </div>
-                </div>
-            </div>
-        );
-    }
-    
-    renderCommitHeader() {
-        return(
-            <div>
-                <div>
-                    Committed
-                </div>
-                <div className="stock-on-hand-header">
-                    <div className="stock-unit-view">
-                        <span>
-                            Unit
-                        </span>
-                        {/* {getCaret()} */}
-                    </div>
-                    <div className="stock-unit-view">
-                        <span>
-                            Value
-                        </span>
-                        {/* {getCaret()} */}
-                    </div>
-                </div>
+            <div className="text-right">
+                Stock on
             </div>
         );
     }
 
-    renderSaleHeader() {
+    renderStockValueHeader() {
         return(
-            <div>
-                <div>
-                    Available for Sale
-                </div>
-                <div className="stock-on-hand-header">
-                    <div className="stock-unit-view">
-                        <span>
-                            Unit
-                        </span>
-                        {/* {getCaret()} */}
-                    </div>
-                    <div className="stock-unit-view">
-                        <span>
-                            $
-                        </span>
-                        {/* {getCaret()} */}
-                    </div>
-                </div>
+            <div className="text-left">
+                Hand
+            </div>
+        );
+    }   
+
+    renderCommitUnitsHeader() {
+        return(
+            <div className="text-right">
+                Commi
+            </div>
+        );
+    }
+
+    renderCommitValueHeader() {
+        return(
+            <div className="text-left">
+                tted
+            </div>
+        );
+    }
+
+    renderSaleUnitsHeader() {
+        return(
+            <div className="text-right">
+                Available
+            </div>
+        );
+    }
+
+    renderSaleValueHeader() {
+        return(
+            <div className="text-left">
+                for Sale
             </div>
         );
     }
@@ -446,6 +422,7 @@ class Inventory extends Component {
 												className="custom-table-header"
 												caretRender={ getCaret }
                                                 dataFormat={ this.productCellFormatter }
+                                                sortFunc={ this.sortByTitle }
                                                 width='40%'
 											>
 												Product
@@ -458,7 +435,7 @@ class Inventory extends Component {
                                                 caretRender={ getCaret }
                                                 dataFormat={ this.cellUnitFormatter }
 											>
-                                                {/* {this.renderStockHeader()} */}
+                                                {this.renderStockUnitsHeader()}
                                                 Units
 											</TableHeaderColumn>
                                             <TableHeaderColumn
@@ -469,7 +446,7 @@ class Inventory extends Component {
                                                 caretRender={ getCaret }
                                                 dataFormat={ this.cellValueFormatter }
 											>
-                                                {/* {this.renderStockHeader()} */}
+                                                {this.renderStockValueHeader()}
                                                 $
 											</TableHeaderColumn>
 											<TableHeaderColumn
@@ -480,7 +457,7 @@ class Inventory extends Component {
                                                 caretRender={ getCaret }
                                                 dataFormat={ this.cellUnitFormatter }
 											>
-                                                {/* {this.renderCommitHeader()} */}
+                                                {this.renderCommitUnitsHeader()}
                                                 Units
 											</TableHeaderColumn>
                                             <TableHeaderColumn
@@ -491,7 +468,7 @@ class Inventory extends Component {
                                                 caretRender={ getCaret }
                                                 dataFormat={ this.cellValueFormatter }
 											>
-                                                {/* {this.renderCommitHeader()} */}
+                                                {this.renderCommitValueHeader()}
                                                 $
 											</TableHeaderColumn>
 											<TableHeaderColumn
@@ -502,7 +479,7 @@ class Inventory extends Component {
                                                 caretRender={ getCaret }
                                                 dataFormat={ this.cellUnitFormatter }
 											>
-                                                {/* {this.renderSaleHeader()} */}
+                                                {this.renderSaleUnitsHeader()}
                                                 Units
 											</TableHeaderColumn>
                                             <TableHeaderColumn
@@ -513,7 +490,7 @@ class Inventory extends Component {
                                                 caretRender={ getCaret }
                                                 dataFormat={ this.cellValueFormatter }
 											>
-                                                {/* {this.renderSaleHeader()} */}
+                                                {this.renderSaleValueHeader()}
                                                 $
 											</TableHeaderColumn>
 										</BootstrapTable>
