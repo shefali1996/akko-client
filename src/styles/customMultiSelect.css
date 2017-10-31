@@ -17,7 +17,7 @@ td .checkbox-personalized {
   margin: 0;
   width: 20px;
   height: 20px;
-  border: 2px solid #1d2fb5;
+  border: 2px solid #575dde;
   border-radius: 0px;
   text-align: center;
   position: relative;
@@ -26,9 +26,9 @@ td .checkbox-personalized {
   transition: all 0.2s ease-in;
 }
 .checkbox-personalized input[type=checkbox]:checked + label .check {
-  background: #1d2fb5;
+  background: #575dde;
   transition: all 0.2s ease-in;
-  border: 1px solid #1d2fb5;
+  border: 1px solid #575dde;
 }
 .checkbox-personalized input[type=checkbox]:checked + label .check:after {
     content: '';
@@ -41,9 +41,9 @@ td .checkbox-personalized {
     transform: rotate(45deg);
 }
 .checkbox-personalized input[type=checkbox]:indeterminate + label .check {
-  background: #1d2fb5;
+  background: #575dde;
   transition: all 0.2s ease-in;
-  border: 1px solid #1d2fb5;
+  border: 1px solid #575dde;
 }
 .checkbox-personalized input[type=checkbox]:indeterminate + label .check:after {
   content: '';

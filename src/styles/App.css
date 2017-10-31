@@ -23,7 +23,7 @@
   font-family: Ubuntu;
 	font-size: 32px;
 	font-weight: 600;
-  color: #1d2fb5;
+  color: #575dde;
   text-decoration: none solid rgb(29, 47, 181);
   background: none;
   padding-top: 20px;
@@ -107,16 +107,13 @@
   padding: 0;
 }
 .nav-container {
-  background: #F3F3F3;
-  /* padding: 0px 240px; */
+  background-color: #fbfbfb;
 }
 .footer-container {
-	background: #F3F3F3;
-	padding: 0px 240px;
+	background-color: #fbfbfb;
 }
 .top-border {
-	border-top: 1px solid #c8c8e8;
-	padding-top: 10px;
+	padding-top: 30px;
 }
 .inventory-container {
   overflow: auto;
@@ -161,7 +158,7 @@
 	font-family: Ubuntu;
 	font-size: 16px;
 	font-weight: 100;
-	color: #1d2fb5;
+	color: #575dde;
 	text-decoration: none solid rgb(29, 47, 181);
 	background: none;
 }
@@ -169,7 +166,7 @@
 	font-family: Ubuntu;
 	font-size: 16px;
 	font-weight: 100;
-	color: #1d2fb5;
+	color: #575dde;
 	text-decoration: none solid rgb(29, 47, 181);
 	background: none;
 	padding: 0;
@@ -178,7 +175,7 @@
 	font-family: Ubuntu;
 	font-size: 32px;
 	font-weight: 700;
-	color: #1d2fb5;
+	color: #575dde;
 	text-decoration: none solid rgb(29, 47, 181);
 	background: none;
 	padding: 0;
@@ -204,13 +201,13 @@
 .inventory-tab .nav.nav-tabs >li.active>a, .nav-tabs>li.active>a:focus, .nav-tabs>li.active>a:hover {
   cursor: default;
   background-color: #fff;
-  border-bottom: 2px solid #1d2fb5;
+  border-bottom: 2px solid #575dde;
   padding: 15px 20px 0px 20px;
   outline: 0px;
   font-family: 'Ubuntu';
   font-weight: 200;
   font-size: 20px;
-  color: #1d2fb5;
+  color: #575dde;
   text-decoration: none solid rgb(29, 47, 181);
   width: 120px;
 }
@@ -224,7 +221,7 @@
   font-family: 'Ubuntu';
   font-weight: 200;
   font-size: 20px;
-  color: #1d2fb5;
+  color: #575dde;
   text-decoration: none solid rgb(29, 47, 181);
   width: 120px;
   cursor: pointer;
@@ -311,6 +308,9 @@
 }
 .select-page-button {
   /* display: none; */
+}
+.pageList-style {
+	margin-top: 0px;
 }
 .pageList-style .pagination .page-item .page-link {
   font-family: Lato;
@@ -821,4 +821,12 @@
 }
 .no-right-padding {
 	padding-right: 0;
+}
+.table>tbody>tr>td, .table>tbody>tr>th, .table>tfoot>tr>td, .table>tfoot>tr>th, .table>thead>tr>td, .table>thead>tr>th {
+	border-top: 0px;
+}
+.react-bs-table-pagination {
+	margin-top: 0px !important;
+	background: white;
+	padding: 0px;
 }
