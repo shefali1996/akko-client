@@ -12,6 +12,7 @@ class connectShopify extends Component {
         };
         this.goLanding = this.goLanding.bind(this);
         this.onShopNameChange = this.onShopNameChange.bind(this);
+        this.onConnect = this.onConnect.bind(this);
     }
 
     componentDidMount() {
@@ -30,6 +31,10 @@ class connectShopify extends Component {
         this.setState({
             shopName: e.target.value
         })
+    }
+
+    onConnect() {
+
     }
 
     render() {
@@ -65,6 +70,21 @@ class connectShopify extends Component {
                     <span className="shopify-url-text">
                         .myshopify.com
                     </span>
+                </div>
+                <div className="text-center margin-t-40">
+                    <span className="shopify-instruction-text">
+                        You will be redirected to Shopify where you have to grant us 
+                    </span>
+                </div>
+                <div className="text-center">
+                    <span className="shopify-instruction-text">
+                        permission to access your shop data.
+                    </span>
+                </div>
+                <div className="text-center margin-t-50">
+                    <Button className="login-button" onClick={this.onConnect}>
+                        CONNECT                        
+                    </Button>
                 </div>
             </Grid>
         );
