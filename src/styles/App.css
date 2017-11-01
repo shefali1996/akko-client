@@ -121,7 +121,7 @@
 	background-color: #fbfbfb;
 }
 .top-border {
-	padding-top: 30px;
+	padding-top: 20px;
 }
 .inventory-container {
   overflow: auto;
@@ -130,7 +130,7 @@
 .padding-header {
 	padding-left: 70px;
 	padding-right: 70px;
-	padding-bottom: 50px;
+	padding-bottom: 20px;
 }
 .min-height {
   min-height: calc(100vh - 60px);
