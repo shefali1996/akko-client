@@ -43,6 +43,8 @@ class SignUp extends Component {
         this.onEmailChange = this.onEmailChange.bind(this)
         this.onPasswordChange = this.onPasswordChange.bind(this)
         this.onSignUp = this.onSignUp.bind(this)
+        this.onVerify = this.onVerify.bind(this)
+        this.onVerifyCodeChange = this.onVerifyCodeChange.bind(this)
     }
 
     componentDidMount() {
@@ -120,6 +122,13 @@ class SignUp extends Component {
             this.setState({
                 emailSent: true
             })
+        }
+    }
+
+    onVerify() {
+        let {verifyCode} = this.state
+        if(verifyCode.length > 0) {
+            this.props.history.push('/connectShopity');
         }
     }
 
@@ -306,7 +315,7 @@ class SignUp extends Component {
                                                 onChange={this.onVerifyCodeChange}/>
                                         </Col>
                                         <Col md={12} className="padding-t-30">
-                                            <Button className="login-button" onClick={this.onSignUp}>
+                                            <Button className="login-button" onClick={this.onVerify}>
                                                 VERIFY
                                             </Button>
                                         </Col>
