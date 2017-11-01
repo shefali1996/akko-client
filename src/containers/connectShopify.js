@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import {connect} from 'react-redux';
-import {Grid, Row, Col, Button, Label} from 'react-bootstrap';
+import {Grid, Row, Col, Button, Label, FormControl, Image} from 'react-bootstrap';
 import '../styles/App.css';
 import shopifyIcon from '../assets/shopify.svg'
 
@@ -8,9 +8,10 @@ class connectShopify extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            
+            shopName: ''
         };
-        this.goLanding = this.goLanding.bind(this)
+        this.goLanding = this.goLanding.bind(this);
+        this.onShopNameChange = this.onShopNameChange.bind(this);
     }
 
     componentDidMount() {
@@ -25,7 +26,14 @@ class connectShopify extends Component {
         this.props.history.push('/');
     }
 
+    onShopNameChange(e) {
+        this.setState({
+            shopName: e.target.value
+        })
+    }
+
     render() {
+        let {shopName} = this.state;
         return (
             <Grid className="login-layout">
                 <Row>
@@ -46,7 +54,17 @@ class connectShopify extends Component {
                     </span>
                 </Row>
                 <div className="shopify-input-view">
-
+                    <Image src={shopifyIcon} className="shopify-icon" />
+                    <FormControl
+                        type="text"
+                        placeholder="shop name"
+                        className="signup-email-input"
+                        value={shopName}
+                        onChange={this.onShopNameChange}
+                    />
+                    <span className="shopify-url-text">
+                        .myshopify.com
+                    </span>
                 </div>
             </Grid>
         );

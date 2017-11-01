@@ -883,5 +883,23 @@
 	text-align: center;
 }
 .shopify-input-view {
+	display: flex;
+	flex-direction: row;
+	justify-content: center;
+	align-items: center;
+	margin-top: 60px;
+}
+.shopify-icon {
+	width: 37px;
+	height: 37px;
+	margin-right: 10px;
+}
+.shopify-url-text {
+	font-family: Ubuntu;
+	font-size: 20px;
+	color: #575dde;
+	font-weight: 400;
+	text-decoration: none solid rgb(87, 93, 222);
 	text-align: center;
+	margin-left: 5px;
 }
