@@ -7,7 +7,7 @@ import _ from 'underscore';
 import Navigationbar from '../components/Navigationbar';
 import Footer from '../components/Footer';
 import Checkbox from '../components/Checkbox';
-import {KEYS_TO_FILTERS} from '../constants';
+import {KEYS_TO_FILTERS, numberFormatter} from '../constants';
 import { invokeApig } from '../libs/awsLib';
 
 import '../styles/App.css';
@@ -260,7 +260,7 @@ class Inventory extends Component {
     cellValueFormatter(cell, row) {
         return (
             <div className="stock-on-hand-cell">
-                {cell.currency}{ Math.round(cell.value * 100) / 100 }
+                {cell.currency}{ numberFormatter(Math.round(cell.value * 100) / 100) }
             </div>
         )
     }
