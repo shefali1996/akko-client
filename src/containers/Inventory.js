@@ -46,11 +46,20 @@ function convertInventoryJSONToObject(inventoryJSON){
 			id: currProduct.id,
 			productDetail: currProduct.product_details,
 			stockOnHandUnits: currProduct.inventory_details.in_stock_units,
-            stockOnHandValue: currProduct.inventory_details.in_stock_value,
+            stockOnHandValue: {
+                value: currProduct.inventory_details.in_stock_value,
+                currency: currProduct.currency
+            },
             committedUnits: currProduct.inventory_details.committed_units,
-            committedValue: currProduct.inventory_details.committed_value,
+            committedValue: {
+                value: currProduct.inventory_details.committed_value,
+                currency: currProduct.currency
+            },
             availableForSaleUnits: currProduct.inventory_details.available_units,
-            availableForSaleValue: currProduct.inventory_details.available_value,
+            availableForSaleValue: {
+                value: currProduct.inventory_details.available_value,
+                currency: currProduct.currency
+            }
 		}
 		products.push(productEntry);
 	}
@@ -251,7 +260,7 @@ class Inventory extends Component {
     cellValueFormatter(cell, row) {
         return (
             <div className="stock-on-hand-cell">
-                ${ Math.round(cell * 100) / 100 }
+                {cell.currency}{ Math.round(cell.value * 100) / 100 }
             </div>
         )
     }

@@ -14,8 +14,8 @@ class SignIn extends Component {
 	constructor(props) {
 		super(props);
 		this.state = {
-            email: '',
-            password: ''
+            email: 'giri@akko.io',
+            password: 'dummypassword'
         };
         this.goLanding = this.goLanding.bind(this);
         this.handleSelect = this.handleSelect.bind(this);
@@ -69,8 +69,7 @@ class SignIn extends Component {
         if(password.length > 7 && validateEmail(email)) {
             this.login(email, password).then((result) => {
                 localStorage.setItem("isAuthenticated", "isAuthenticated")
-                this.props.history.push('/connect-shopify');
-                // this.props.history.push('/inventory');
+                this.props.history.push('/inventory');
             })
             .catch(error => {
                 console.log("login error", error);

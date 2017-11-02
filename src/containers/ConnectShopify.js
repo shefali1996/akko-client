@@ -4,7 +4,7 @@ import {Grid, Row, Col, Button, Label, FormControl, Image} from 'react-bootstrap
 import { invokeApig } from "../libs/awsLib";
 import '../styles/App.css';
 import shopifyIcon from '../assets/shopify.svg'
-const queryString = require('query-string');
+// const queryString = require('query-string');
 
 class ConnectShopify extends Component {
     constructor(props) {
@@ -50,7 +50,7 @@ class ConnectShopify extends Component {
 
     render() {
         let {shopName} = this.state;
-        const parsedParams = queryString.parse(this.props.location.search);
+        // const parsedParams = queryString.parse(this.props.location.search);
         return (
             <Grid className="login-layout">
                 <Row>
