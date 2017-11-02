@@ -1,8 +1,10 @@
 import React, { Component } from 'react';
 import {connect} from 'react-redux';
 import {Grid, Row, Col, Button, Label, FormControl, Image} from 'react-bootstrap';
+import { invokeApig } from "../libs/awsLib";
 import '../styles/App.css';
 import shopifyIcon from '../assets/shopify.svg'
+const queryString = require('query-string');
 
 class ConnectShopify extends Component {
     constructor(props) {
@@ -34,11 +36,21 @@ class ConnectShopify extends Component {
     }
 
     onConnect() {
-
+        invokeApig({
+            path: "/connect-shopify",
+            method: "POST",
+            body: {
+              shopId: this.state.shopName
+            }
+        }).then((result) => {
+            const uri = result.uri;
+            window.location = uri;
+        })
     }
 
     render() {
         let {shopName} = this.state;
+        const parsedParams = queryString.parse(this.props.location.search);
         return (
             <Grid className="login-layout">
                 <Row>
@@ -62,6 +74,7 @@ class ConnectShopify extends Component {
                     <Image src={shopifyIcon} className="shopify-icon" />
                     <FormControl
                         type="text"
+                        autoFocus
                         placeholder="shop name"
                         className="signup-email-input"
                         value={shopName}
