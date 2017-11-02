@@ -1,3 +1,6 @@
+import Radium from 'radium';
+import { headShake } from 'react-animations'
+
 export const KEYS_TO_FILTERS = ['productDetail.title', 'stockOnHandUnits', 'stockOnHandValue.value', 'committedUnits', 'committedValue.value', 'availableForSaleUnits', 'availableForSaleValue.value']
 
 export const validateEmail = (email) => {
@@ -15,5 +18,12 @@ export const numberFormatter = (number) => {
         return (number/1000000000).toFixed(1) + 'M';
     }else {
         return number
+    }
+}
+
+export const animationStyle = {
+    headShake: {
+      animation: 'x 1s',
+      animationName: Radium.keyframes(headShake, 'headShake')
     }
 }

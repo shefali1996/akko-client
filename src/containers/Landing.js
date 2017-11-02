@@ -1,9 +1,9 @@
 import React, { Component } from 'react';
 import {connect} from 'react-redux';
 import {Grid, Row, Col, Button, Label, Image, FormControl} from 'react-bootstrap';
-import ReactTooltip from 'react-tooltip';
+import {StyleRoot} from 'radium';
 import Header from '../components/Header';
-import { validateEmail } from '../constants';
+import { validateEmail, animationStyle } from '../constants';
 import '../styles/App.css';
 import computer from '../assets/computer.png'
 
@@ -16,6 +16,8 @@ class Landing extends Component {
         };
         this.goSignUp = this.goSignUp.bind(this)
         this.onEmailChange = this.onEmailChange.bind(this)
+        this.onEmailFocus = this.onEmailFocus.bind(this)
+        this.onEmailBlur = this.onEmailBlur.bind(this)
 	}
 
 	componentWillMount() {
@@ -28,12 +30,31 @@ class Landing extends Component {
 		});
     }
 
-    goSignUp() {
-        let {email} = this.state
-        if(validateEmail(email)) {
+    onEmailFocus() {
+        let {email, isValid} = this.state;
+        if(email.length > 0 && isValid) {
+            this.setState({
+                isValid: false
+            })
+        }
+    }
+
+    onEmailBlur() {
+        console.log("bvlr")
+        let {email, isValid} = this.state;
+        if(email.length > 0 && !isValid) {
             this.setState({
                 isValid: true
             })
+        }
+    }
+    
+    goSignUp() {
+        let {email} = this.state;
+        this.setState({
+            isValid: false
+        })
+        if(validateEmail(email)) {
             this.props.history.push({
                 pathname: '/signup',
                 query: {
@@ -44,7 +65,6 @@ class Landing extends Component {
             this.setState({
                 isValid: true
             })
-            ReactTooltip.show(this.refs.email)
         }
     }
 
@@ -87,11 +107,26 @@ class Landing extends Component {
                                         data-tip="invalid email address"
                                         data-for='sadFace'
                                         onChange={this.onEmailChange}
+                                        onFocus={this.onEmailFocus}
+                                        onBlur={this.onEmailBlur}
                                     />
-                                    {isValid &&
-                                        <ReactTooltip id='sadFace' type='error' place="bottom" effect="solid">
-                                        </ReactTooltip>
-                                    }
+                                </Col>
+                                <Col md={12} className="text-left">
+                                {isValid ?
+                                    <StyleRoot>
+                                        <div className="bubble-alert-view" style={animationStyle.headShake}>
+                                            <span className="alert-text">
+                                                Invalid email address
+                                            </span>
+                                            <i className="fa fa-info-circle fa-lg red-mark" aria-hidden="true"></i>
+                                        </div>
+                                    </StyleRoot>
+                                    :
+                                    <StyleRoot>
+                                        <div className="bubble-alert-view">
+                                        </div>
+                                    </StyleRoot>
+                                }
                                 </Col>
                             </Col>
                         </Col>
