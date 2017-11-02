@@ -64,16 +64,17 @@ class SignIn extends Component {
 
     }
 
-    async onLogin() {
+    onLogin() {
         let {email, password} = this.state
         if(password.length > 7 && validateEmail(email)) {
-            try {
-                await this.login(email, password);
+            this.login(email, password).then((result) => {
                 localStorage.setItem("isAuthenticated", "isAuthenticated")
-                this.props.history.push('/inventory');
-            } catch (e) {
-                alert(e); // \todo: visualize in a pretty way
-            }
+                this.props.history.push('/connect-shopify');
+                // this.props.history.push('/inventory');
+            })
+            .catch(error => {
+                console.log("login error", error);
+            });
         }
     }
 

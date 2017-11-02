@@ -135,7 +135,7 @@ class SignUp extends Component {
         if(verifyCode.length > 0) {
             this.confirm(newUser, verifyCode).then((result) => {
                 if(result === "SUCCESS") {
-                    this.props.history.push('/connectShopify');    
+                    this.props.history.push('/connect-shopify');    
                 }
             })
         }

@@ -4,7 +4,7 @@ import {Grid, Row, Col, Button, Label, FormControl, Image} from 'react-bootstrap
 import '../styles/App.css';
 import shopifyIcon from '../assets/shopify.svg'
 
-class connectShopify extends Component {
+class ConnectShopify extends Component {
     constructor(props) {
         super(props);
         this.state = {
@@ -95,4 +95,4 @@ const mapStateToProps = state => ({
 
 })
 
-export default connect(mapStateToProps)(connectShopify);
+export default connect(mapStateToProps)(ConnectShopify);
