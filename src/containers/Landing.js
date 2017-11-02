@@ -40,7 +40,6 @@ class Landing extends Component {
     }
 
     onEmailBlur() {
-        console.log("bvlr")
         let {email, isValid} = this.state;
         if(email.length > 0 && !isValid) {
             this.setState({
@@ -111,7 +110,7 @@ class Landing extends Component {
                                         onBlur={this.onEmailBlur}
                                     />
                                 </Col>
-                                <Col md={12} className="text-left">
+                                <Col md={12} className="text-center">
                                 {isValid ?
                                     <StyleRoot>
                                         <div className="bubble-alert-view" style={animationStyle.headShake}>

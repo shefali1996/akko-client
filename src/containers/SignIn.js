@@ -1,7 +1,8 @@
 import React, { Component } from 'react';
 import {connect} from 'react-redux';
 import {Grid, Row, Col, Button, Label, Tabs, Tab, FormControl} from 'react-bootstrap';
-import { validateEmail } from '../constants';
+import {StyleRoot} from 'radium';
+import { validateEmail, animationStyle } from '../constants';
 import '../styles/App.css';
 import config from "../config";
 import {
@@ -14,8 +15,10 @@ class SignIn extends Component {
 	constructor(props) {
 		super(props);
 		this.state = {
-            email: 'giri@akko.io',
-            password: 'dummypassword'
+            email: '',
+            password: '',
+            isEmailValid: false,
+            isPasswordValid: false
         };
         this.goLanding = this.goLanding.bind(this);
         this.handleSelect = this.handleSelect.bind(this);
@@ -67,6 +70,10 @@ class SignIn extends Component {
     onLogin() {
         let {email, password} = this.state
         if(password.length > 7 && validateEmail(email)) {
+            this.setState({
+                isEmailValid: false,
+                isPasswordValid: false
+            })
             this.login(email, password).then((result) => {
                 localStorage.setItem("isAuthenticated", "isAuthenticated")
                 this.props.history.push('/inventory');
@@ -74,6 +81,25 @@ class SignIn extends Component {
             .catch(error => {
                 console.log("login error", error);
             });
+        }else {
+            if(password.length < 7) {
+                this.setState({
+                    isPasswordValid: true
+                })
+            }else {
+                this.setState({
+                    isPasswordValid: false
+                })
+            }
+            if(!validateEmail(email)){
+                this.setState({
+                    isEmailValid: true
+                })
+            }else {
+                this.setState({
+                    isEmailValid: false
+                })
+            }
         }
     }
 
@@ -101,8 +127,7 @@ class SignIn extends Component {
     }
 
     render() {
-
-        let {email, password} = this.state
+        let {email, password, isEmailValid, isPasswordValid} = this.state
 		return (
 			<Grid className="login-layout">
                 <Row>
@@ -130,7 +155,24 @@ class SignIn extends Component {
                                     onChange={this.onEmailChange}
                                     onKeyPress={this._handleKeyPress}/>
                             </div>
-                            <div className="flex-center padding-t-10">
+                            <div className="text-center">
+                                {isEmailValid ?
+                                    <StyleRoot>
+                                        <div className="bubble-alert-view" style={animationStyle.headShake}>
+                                            <span className="alert-text">
+                                                Invalid email address
+                                            </span>
+                                            <i className="fa fa-info-circle fa-lg red-mark" aria-hidden="true"></i>
+                                        </div>
+                                    </StyleRoot>
+                                    :
+                                    <StyleRoot>
+                                        <div className="bubble-alert-view">
+                                        </div>
+                                    </StyleRoot>
+                                }
+                            </div>
+                            <div className="flex-center margin-t-5">
                                 <FormControl
                                     type="password"
                                     placeholder="password"
@@ -138,6 +180,23 @@ class SignIn extends Component {
                                     value={password}
                                     onChange={this.onPasswordChange}
                                     onKeyPress={this._handleKeyPress} />
+                            </div>
+                            <div className="text-center">
+                                {isPasswordValid ?
+                                    <StyleRoot>
+                                        <div className="bubble-alert-view" style={animationStyle.headShake}>
+                                            <span className="alert-text">
+                                                Password should be more than 8 character
+                                            </span>
+                                            <i className="fa fa-info-circle fa-lg red-mark" aria-hidden="true"></i>
+                                        </div>
+                                    </StyleRoot>
+                                    :
+                                    <StyleRoot>
+                                        <div className="bubble-alert-view">
+                                        </div>
+                                    </StyleRoot>
+                                }
                             </div>
                             <div className="flex-center padding-t-10">
                                 <Button className="forgot-text" onClick={this.onForgot}>
