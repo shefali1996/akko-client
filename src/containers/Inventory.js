@@ -278,6 +278,30 @@ class Inventory extends Component {
         return order === 'asc' ? ascVal : -ascVal;
     }
 
+    sortByStockValue(a, b, order) {   // order is desc or asc
+        if (order === 'desc') {
+            return a.stockOnHandValue.value - b.stockOnHandValue.value;
+        } else {
+            return b.stockOnHandValue.value - a.stockOnHandValue.value;
+        }
+    }
+
+    sortByCommitValue(a, b, order) {   // order is desc or asc
+        if (order === 'desc') {
+            return a.committedValue.value - b.committedValue.value;
+        } else {
+            return b.committedValue.value - a.committedValue.value;
+        }
+    }
+
+    sortBySaleValue(a, b, order) {   // order is desc or asc
+        if (order === 'desc') {
+            return a.availableForSaleValue.value - b.availableForSaleValue.value;
+        } else {
+            return b.availableForSaleValue.value - a.availableForSaleValue.value;
+        }
+    }
+
     renderStockUnitsHeader() {
         return(
             <div className="text-right">
@@ -439,6 +463,7 @@ class Inventory extends Component {
 												className="custom-table-header"
                                                 caretRender={ getCaret }
                                                 dataFormat={ this.cellValueFormatter }
+                                                sortFunc={ this.sortByStockValue }
 											>
                                                 {this.renderStockValueHeader()}
                                                 $
@@ -461,6 +486,7 @@ class Inventory extends Component {
 												className="custom-table-header"
                                                 caretRender={ getCaret }
                                                 dataFormat={ this.cellValueFormatter }
+                                                sortFunc={ this.sortByCommitValue }
 											>
                                                 {this.renderCommitValueHeader()}
                                                 $
@@ -483,12 +509,12 @@ class Inventory extends Component {
 												className="custom-table-header"
                                                 caretRender={ getCaret }
                                                 dataFormat={ this.cellValueFormatter }
+                                                sortFunc={ this.sortBySaleValue }
 											>
                                                 {this.renderSaleValueHeader()}
                                                 $
 											</TableHeaderColumn>
                                             <TableHeaderColumn
-												dataField='availableForSaleValue'
 												dataAlign="center"
 												className="custom-table-header"
                                                 dataFormat={ this.arrowFormatter }
