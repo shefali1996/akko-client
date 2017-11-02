@@ -122,7 +122,8 @@ class SignUp extends Component {
             this.signup(email, password).then((result) => {
                 if(!result.userConfirmed) {
                     this.setState({
-                        emailSent: true
+                        emailSent: true,
+                        newUser: result.user
                     })
                 }
             })
@@ -130,9 +131,13 @@ class SignUp extends Component {
     }
 
     onVerify() {
-        let {verifyCode} = this.state
+        let {verifyCode, newUser} = this.state
         if(verifyCode.length > 0) {
-            this.props.history.push('/connectShopify');
+            this.confirm(newUser, verifyCode).then((result) => {
+                if(result === "SUCCESS") {
+                    this.props.history.push('/connectShopify');    
+                }
+            })
         }
     }
 
