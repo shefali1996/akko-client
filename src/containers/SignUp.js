@@ -128,7 +128,7 @@ class SignUp extends Component {
     onVerify() {
         let {verifyCode} = this.state
         if(verifyCode.length > 0) {
-            this.props.history.push('/connectShopity');
+            this.props.history.push('/connectShopify');
         }
     }
 

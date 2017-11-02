@@ -25,7 +25,7 @@ class App extends Component {
                             <Route exact path="/" component={Landing}/>
                             <Route exact path="/signin" component={SignIn}/>
                             <Route exact path="/signup" component={SignUp}/>
-                            <Route exact path="/connectShopity" component={connectShopify}/>
+                            <Route exact path="/connectShopify" component={connectShopify}/>
                             <Route path="/" name="Authorized Sections" component={AuthorizedContainer} />
                         </Main>
                         <Route path="*" component={NotFound} />
