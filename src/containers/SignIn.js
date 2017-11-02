@@ -27,6 +27,10 @@ class SignIn extends Component {
         this._handleKeyPress = this._handleKeyPress.bind(this);
         this.onForgot = this.onForgot.bind(this);
         this.onLogin = this.onLogin.bind(this);
+        this.onEmailFocus = this.onEmailFocus.bind(this);
+        this.onEmailBlur = this.onEmailBlur.bind(this);
+        this.onPasswordFocus = this.onPasswordFocus.bind(this);
+        this.onPasswordBlur = this.onPasswordBlur.bind(this);
 	}
 
 	componentWillMount() {
@@ -51,11 +55,48 @@ class SignIn extends Component {
         })
     }
 
+    onEmailFocus() {
+        let {email, isEmailValid} = this.state;
+        if(email.length > 0 && isEmailValid) {
+            this.setState({
+                isEmailValid: false
+            })
+        }
+    }
+
+    onEmailBlur() {
+        let {email, isEmailValid} = this.state;
+        if(email.length > 0 && !isEmailValid) {
+            this.setState({
+                isEmailValid: true
+            })
+        }
+    }
+
     onPasswordChange(e) {
         this.setState({
             password: e.target.value
         })
     }
+
+    onPasswordFocus() {
+        let {password, isPasswordValid} = this.state;
+        if(password.length > 7 && isPasswordValid) {
+            this.setState({
+                isPasswordValid: false
+            })
+        }
+    }
+
+    onPasswordBlur() {
+        let {password, isPasswordValid} = this.state;
+        if(password.length < 7 && !isPasswordValid) {
+            this.setState({
+                isPasswordValid: true
+            })
+        }
+    }
+
 
     _handleKeyPress(e) {
         if (e.key === 'Enter') {
@@ -153,7 +194,10 @@ class SignIn extends Component {
                                     className="email-input"
                                     value={email}
                                     onChange={this.onEmailChange}
-                                    onKeyPress={this._handleKeyPress}/>
+                                    onKeyPress={this._handleKeyPress}
+                                    onFocus={this.onEmailFocus}
+                                    onBlur={this.onEmailBlur}
+                                />
                             </div>
                             <div className="text-center">
                                 {isEmailValid ?
@@ -179,7 +223,10 @@ class SignIn extends Component {
                                     className="email-input"
                                     value={password}
                                     onChange={this.onPasswordChange}
-                                    onKeyPress={this._handleKeyPress} />
+                                    onKeyPress={this._handleKeyPress} 
+                                    onFocus={this.onPasswordFocus}
+                                    onBlur={this.onPasswordBlur}
+                                />
                             </div>
                             <div className="text-center">
                                 {isPasswordValid ?
