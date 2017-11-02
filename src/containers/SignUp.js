@@ -119,8 +119,12 @@ class SignUp extends Component {
     onSignUp() {
         let {firstName, lastName, companyName, yourRole, email, password} = this.state
         if(firstName.length > 0 && lastName.length > 0 && companyName.length > 0 && yourRole.length > 0 && validateEmail(email) && password.length > 8 ) {
-            this.setState({
-                emailSent: true
+            this.signup(email, password).then((result) => {
+                if(!result.userConfirmed) {
+                    this.setState({
+                        emailSent: true
+                    })
+                }
             })
         }
     }
@@ -153,7 +157,7 @@ class SignUp extends Component {
                     return;
                 }
 
-                resolve(result.user);
+                resolve(result);
             })
         );
     }
