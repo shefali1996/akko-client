@@ -125,8 +125,8 @@ class SignIn extends Component {
             })
             this.login(email, password).then((result) => {
                 localStorage.setItem("isAuthenticated", "isAuthenticated")
-                // this.props.history.push('/inventory');
-                this.props.history.push('/connect-shopify');
+                this.props.history.push('/inventory');
+                // this.props.history.push('/connect-shopify');
             })
             .catch(error => {
                 console.log("login error", error);
