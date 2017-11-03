@@ -131,12 +131,26 @@ class SignUp extends Component {
     }
 
     onVerify() {
-        let {verifyCode, newUser} = this.state
+        let {verifyCode, newUser, email, password} = this.state
         if(verifyCode.length > 0) {
-            // this.props.history.push('/connect-shopify');
             this.confirm(newUser, verifyCode).then((result) => {
                 if(result === "SUCCESS") {
-                    this.props.history.push('/connect-shopify');
+                    this.authenticate(
+                        newUser,
+                        email,
+                        password
+                    ).then((result) => {
+                        this.createNewUser({
+                            firstName: this.state.firstName,
+                            lastName: this.state.lastName,
+                            companyName: this.state.companyName,
+                            yourRole: this.state.yourRole,
+                            email: this.state.email,
+                            location: "Earth"
+                        }).then((result) => {
+                            this.props.history.push('/connect-shopify');
+                        })
+                    })
                 }
             })
         }

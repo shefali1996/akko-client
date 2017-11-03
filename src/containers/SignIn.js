@@ -65,7 +65,7 @@ class SignIn extends Component {
     }
 
     onEmailBlur() {
-        let {email, isEmailValid} = this.state;
+        let {email} = this.state;
         if(validateEmail(email)) {
             this.setState({
                 isEmailValid: false
