@@ -56,7 +56,7 @@ class ConnectShopify extends Component {
               shopId: this.state.shop,
               queryParams: this.props.location.search
         }}).then((result) => {
-            console.log("results: " + result);
+            this.props.history.push('/inventory');
         })
     }
 

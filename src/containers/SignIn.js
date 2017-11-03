@@ -66,7 +66,11 @@ class SignIn extends Component {
 
     onEmailBlur() {
         let {email, isEmailValid} = this.state;
-        if(email.length > 0 && !isEmailValid) {
+        if(validateEmail(email)) {
+            this.setState({
+                isEmailValid: false
+            })
+        }else {
             this.setState({
                 isEmailValid: true
             })
@@ -90,7 +94,11 @@ class SignIn extends Component {
 
     onPasswordBlur() {
         let {password, isPasswordValid} = this.state;
-        if(password.length > 0 && !isPasswordValid) {
+        if(password.length > 7) {
+            this.setState({
+                isPasswordValid: false
+            })
+        }else {
             this.setState({
                 isPasswordValid: true
             })
@@ -117,7 +125,8 @@ class SignIn extends Component {
             })
             this.login(email, password).then((result) => {
                 localStorage.setItem("isAuthenticated", "isAuthenticated")
-                this.props.history.push('/inventory');
+                // this.props.history.push('/inventory');
+                this.props.history.push('/connect-shopify');
             })
             .catch(error => {
                 console.log("login error", error);
