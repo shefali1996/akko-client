@@ -148,7 +148,8 @@ class SignUp extends Component {
                             email: this.state.email,
                             location: "Earth"
                         }).then((result) => {
-                            this.props.history.push('/connect-shopify');
+                            console.log(result)
+                            // this.props.history.push('/connect-shopify');
                         })
                     })
                 }

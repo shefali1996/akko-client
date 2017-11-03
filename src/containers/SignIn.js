@@ -93,7 +93,7 @@ class SignIn extends Component {
     }
 
     onPasswordBlur() {
-        let {password, isPasswordValid} = this.state;
+        let {password} = this.state;
         if(password.length > 7) {
             this.setState({
                 isPasswordValid: false
