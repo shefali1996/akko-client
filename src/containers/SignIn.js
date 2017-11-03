@@ -81,7 +81,7 @@ class SignIn extends Component {
 
     onPasswordFocus() {
         let {password, isPasswordValid} = this.state;
-        if(password.length > 7 && isPasswordValid) {
+        if(password.length > 0 && isPasswordValid) {
             this.setState({
                 isPasswordValid: false
             })
@@ -90,7 +90,7 @@ class SignIn extends Component {
 
     onPasswordBlur() {
         let {password, isPasswordValid} = this.state;
-        if(password.length < 7 && !isPasswordValid) {
+        if(password.length > 0 && !isPasswordValid) {
             this.setState({
                 isPasswordValid: true
             })
