@@ -1,9 +1,7 @@
 import React, { Component } from 'react';
 import {connect} from 'react-redux';
-import {Grid, Row, Col, Button, Label, FormControl, Image} from 'react-bootstrap';
-import { invokeApig } from "../libs/awsLib";
+import {Grid, Row, Col, Button, Label} from 'react-bootstrap';
 import '../styles/App.css';
-const queryString = require('query-string');
 
 class BusinessType extends Component {
     constructor(props) {
@@ -12,7 +10,6 @@ class BusinessType extends Component {
             shopName: ''
         };
         this.goLanding = this.goLanding.bind(this);
-        this.onShopNameChange = this.onShopNameChange.bind(this);
         this.onConnect = this.onConnect.bind(this);
     }
 
@@ -27,45 +24,14 @@ class BusinessType extends Component {
     goLanding() {
         this.props.history.push('/');
     }
-
-    onShopNameChange(e) {
-        this.setState({
-            shopName: e.target.value
-        })
-    }
-
+    
     onConnect() {
-        invokeApig({
-            path: "/connect-shopify",
-            method: "POST",
-            body: {
-              shopId: this.state.shopName
-            }
-        }).then((result) => {
-            const uri = result.uri;
-            window.location = uri;
-        })
+        
     }
-
-    renderSuccessPage() {
-        invokeApig({
-            path: "/connect-shopify",
-            method: "PUT",
-            body: {
-              shopId: this.state.shop,
-              queryParams: this.props.location.search
-        }}).then((result) => {
-            localStorage.setItem("isAuthenticated", "isAuthenticated")
-            this.props.history.push('/inventory');
-        })
-    }
-
+    
     render() {
-        let {shopName} = this.state;
-        const parsedParams = queryString.parse(this.props.location.search);
         return (
             <div>
-            {!Object.keys(parsedParams).length ?
                 <Grid className="login-layout">
                     <Row>
                         <Col md={12}>
@@ -85,8 +51,13 @@ class BusinessType extends Component {
                         </span>
                     </Row>
                     <div className="text-center margin-t-40">
-                        <span className="shopify-instruction-text">
-                            
+                        <span className="select-style-text">
+                            Select the style of your business
+                        </span>
+                    </div>
+                    <div className="text-center margin-t-5">
+                        <span className="select-style-comment">
+                            This enables us to customize akko to best suit your business style
                         </span>
                     </div>
                     <div className="text-center margin-t-50">
@@ -95,9 +66,6 @@ class BusinessType extends Component {
                         </Button>
                     </div>
                 </Grid>
-                :
-                this.renderSuccessPage()
-            }
             </div>
         );
     }
