@@ -6,6 +6,7 @@ import Landing from './Landing';
 import SignIn from './SignIn';
 import SignUp from './SignUp';
 import ConnectShopify from './ConnectShopify';
+import BusinessType from './BusinessType';
 import AuthorizedContainer from './AuthorizedContainer'
 import createHistory from 'history/createBrowserHistory'
 import configureStore from '../store'
@@ -26,6 +27,7 @@ class App extends Component {
                             <Route exact path="/signin" component={SignIn}/>
                             <Route exact path="/signup" component={SignUp}/>
                             <Route exact path="/connect-shopify" component={ConnectShopify}/>
+                            <Route exact path="/business-type" component={BusinessType}/>
                             <Route path="/" name="Authorized Sections" component={AuthorizedContainer} />
                         </Main>
                         <Route path="*" component={NotFound} />
