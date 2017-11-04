@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import {connect} from 'react-redux';
-import {Grid, Row, Col, Button, Label} from 'react-bootstrap';
+import {Grid, Row, Col, Button, Label, Image} from 'react-bootstrap';
 import '../styles/App.css';
 import businessType1 from '../assets/businessType1.svg'
 import businessType2 from '../assets/businessType2.svg'
@@ -67,7 +67,18 @@ class BusinessType extends Component {
                     <div className="flex-center margin-t-40">
                         <div className="style-container flex-center">
                             <div className="style-icon-view">
-
+                                <Image src={businessType1} className="business-icon" />
+                            </div>
+                            <div className="style-text-view">
+                                <span className="select-text-large">
+                                    DROPSHIPPER
+                                </span>
+                                <span className="select-text-small">
+                                    You forward orders to your vendors for fulfillment.
+                                </span>
+                                <span className="select-text-small">
+                                    You do not stock inventory nor do your own fulfillment.
+                                </span>
                             </div>
                         </div>
                     </div>

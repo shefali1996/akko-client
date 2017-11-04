@@ -1019,4 +1019,42 @@
 	border: 1px solid #c8c8e8;
 	border-radius: 5px;
 	background-color: #ebebeb;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+}
+.business-icon {
+	width: 50px;
+	height: 50px;
+}
+.style-text-view {
+	width: 408px;
+	font-family: Ubuntu;
+	font-size: 14px;
+	color: #575dde;
+	font-weight: 400;
+	text-decoration: none solid rgb(87, 93, 222);
+	text-align: center;
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
+}
+.select-text-large {
+	font-family: Ubuntu;
+	font-size: 16px;
+	color: #575dde;
+	font-weight: 400;
+	text-decoration: none solid rgb(87, 93, 222);
+	text-align: center;
+	font-weight: lighter;
+}
+.select-text-small {
+	font-family: Ubuntu;
+	font-size: 14px;
+	color: #575dde;
+	font-weight: 400;
+	text-decoration: none solid rgb(87, 93, 222);
+	text-align: center;
+	font-weight: lighter;
 }
