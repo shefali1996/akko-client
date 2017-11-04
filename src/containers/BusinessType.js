@@ -2,6 +2,10 @@ import React, { Component } from 'react';
 import {connect} from 'react-redux';
 import {Grid, Row, Col, Button, Label} from 'react-bootstrap';
 import '../styles/App.css';
+import businessType1 from '../assets/businessType1.svg'
+import businessType2 from '../assets/businessType2.svg'
+import businessType3 from '../assets/businessType3.svg'
+import businessType4 from '../assets/businessType4.svg'
 
 class BusinessType extends Component {
     constructor(props) {
@@ -60,9 +64,31 @@ class BusinessType extends Component {
                             This enables us to customize akko to best suit your business style
                         </span>
                     </div>
+                    <div className="flex-center margin-t-40">
+                        <div className="style-container flex-center">
+                            <div className="style-icon-view">
+
+                            </div>
+                        </div>
+                    </div>
+                    <div className="flex-center margin-t-10">
+                        <div className="style-container flex-center">
+
+                        </div>
+                    </div>
+                    <div className="flex-center margin-t-10">
+                        <div className="style-container flex-center">
+
+                        </div>
+                    </div>
+                    <div className="flex-center margin-t-10">
+                        <div className="style-container flex-center">
+
+                        </div>
+                    </div>
                     <div className="text-center margin-t-50">
                         <Button className="login-button" onClick={this.onConnect}>
-                            CONNECT                        
+                            PROCEED
                         </Button>
                     </div>
                 </Grid>

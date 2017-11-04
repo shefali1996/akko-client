@@ -1003,3 +1003,20 @@
 	text-decoration: none solid rgb(87, 93, 222);
 	text-align: center;
 }
+.style-container {
+	width: 500px;
+	height: 82px;
+	border: 1px solid #c8c8e8;
+	border-radius: 5px;
+	background-color: #ebebeb;
+	display: flex;
+	flex-direction: row;
+	align-items: center;
+}
+.style-icon-view {
+	width: 60px;
+	height: 60px;
+	border: 1px solid #c8c8e8;
+	border-radius: 5px;
+	background-color: #ebebeb;
+}
