@@ -84,17 +84,53 @@ class BusinessType extends Component {
                     </div>
                     <div className="flex-center margin-t-10">
                         <div className="style-container flex-center">
-
+                            <div className="style-icon-view">
+                                <Image src={businessType2} className="business-icon" />
+                            </div>
+                            <div className="style-text-view">
+                                <span className="select-text-large">
+                                    RESELLER / RETAILER
+                                </span>
+                                <span className="select-text-small">
+                                    You buy and resell products with a markup.
+                                </span>
+                                <span className="select-text-small">
+                                    You stock your inventory and do your own fulfillment.
+                                </span>
+                            </div>
                         </div>
                     </div>
                     <div className="flex-center margin-t-10">
                         <div className="style-container flex-center">
-
+                            <div className="style-icon-view">
+                                <Image src={businessType3} className="business-icon" />
+                            </div>
+                            <div className="style-text-view">
+                                <span className="select-text-large">
+                                    MANUFACTURER
+                                </span>
+                                <span className="select-text-small">
+                                    You buy raw materials from vendors and manufacture
+                                </span>
+                                <span className="select-text-small">
+                                    your products. You stock inventory and do your own fulfillment.
+                                </span>
+                            </div>
                         </div>
                     </div>
                     <div className="flex-center margin-t-10">
                         <div className="style-container flex-center">
-
+                            <div className="style-icon-view">
+                                <Image src={businessType4} className="business-icon" />
+                            </div>
+                            <div className="style-text-view">
+                                <span className="select-text-large">
+                                    OTHER
+                                </span>
+                                <span className="select-text-small">
+                                    For all other merchants.
+                                </span>
+                            </div>
                         </div>
                     </div>
                     <div className="text-center margin-t-50">
