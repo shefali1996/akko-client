@@ -1,8 +1,10 @@
 import React, { Component } from 'react';
 import {connect} from 'react-redux';
-import {Grid, Row, Col, Button, Label, FormControl} from 'react-bootstrap';
+import {Grid, Row, Col, Button, Label, FormControl, Image} from 'react-bootstrap';
 import SearchInput from 'react-search-input'
+import Checkbox from '../components/Checkbox';
 import '../styles/App.css';
+import blankImage from '../assets/blankImage.svg'
 
 class SetTable extends Component {
     constructor(props) {
@@ -124,6 +126,48 @@ class SetTable extends Component {
                                         SET MARKUP
                                     </Button>
                                 </Col>
+                            </div>
+                            <div className="product-view margin-t-30">
+                                <div className='checkbox-personalized'>
+                                    <Checkbox />
+                                    <label htmlFor={ 'checkbox' }>
+                                        <div className='check'></div>
+                                    </label>
+                                </div>
+                                <Image src={blankImage} className="blank-image-icon" />
+                                <div className="product-text-view">
+                                    <span className="product-title">
+                                        Super long very long even longer description of p...
+                                    </span>
+                                    <span className="product-type">
+                                        Cotton / Blue / Small
+                                    </span>
+                                    <div>
+                                        <span className="product-type">
+                                            SKU : hanes-blue-small
+                                        </span>
+                                        <span className="product-price-front">
+                                            Selling for:
+                                        </span>
+                                        <span className="product-price-back">
+                                            $195.00
+                                        </span>
+                                    </div>
+                                </div>
+                                <div className="currency-view">
+                                    <span className="product-currency">
+                                        $
+                                    </span>
+                                    <span className="product-currency-text">
+                                        COGS
+                                    </span>
+                                </div>
+                                <FormControl
+                                    type="text"
+                                    className="product-input"
+                                    value={markup}
+                                    onChange={this.onMarkUpChange}
+                                />
                             </div>
                         </Col>
                         <Col md={3} className="center-view">
