@@ -69,7 +69,7 @@ class SetCsv extends Component {
                                 </span>
                             </div>
                             <div className="content-center margin-t-40">
-                                <Col md={7}>
+                                <Col md={7} className="no-padding">
                                     <div>
                                         <div className="step-one-view">
                                             <span className="step-title">
@@ -102,14 +102,38 @@ class SetCsv extends Component {
                                         </div>
                                     </div>
                                 </Col>
-                                <Col md={5} className="flex-right">
+                                <Col md={5} className="flex-right no-padding">
                                     <div className="style-icon-view">
                                         <Image src={cogs2} className="business-icon" />
                                     </div>
                                 </Col>
                             </div>
-                            <div className="drag-view margin-t-40">
-                                
+                            <div className="drag-view margin-t-20">
+                                <span className="drag-text">
+                                    drag and drop your finished CSV file here
+                                </span>
+                            </div>
+                            <div className="flex-center margin-t-20">
+                                <span className="step-content">
+                                    (or)
+                                </span>
+                            </div>
+                            <div className="flex-center margin-t-20">
+                                <Button className="login-button" onClick={this.onConnect}>
+                                    UPLOAD CSV
+                                </Button>
+                            </div>
+                            <div className="content-center margin-t-40">
+                                <Col md={6} className="text-left no-padding">
+                                    <Button className="skip-button" onClick={this.onConnect}>
+                                        SKIP FOR NOW
+                                    </Button>
+                                </Col>
+                                <Col md={6} className="text-right no-padding">
+                                    <Button className="login-button" onClick={this.onConnect}>
+                                        SUBMIT
+                                    </Button>
+                                </Col>
                             </div>
                         </Col>
                         <Col md={3} className="center-view">
@@ -125,11 +149,6 @@ class SetCsv extends Component {
                             </div>
                         </Col>
                     </Row>
-                    <div className="text-center margin-t-50">
-                        <Button className="skip-button" onClick={this.onConnect}>
-                            SKIP FOR NOW
-                        </Button>
-                    </div>
                 </Grid>
             </div>
         );
