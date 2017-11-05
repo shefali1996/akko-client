@@ -2,11 +2,9 @@ import React, { Component } from 'react';
 import {connect} from 'react-redux';
 import {Grid, Row, Col, Button, Label, Image} from 'react-bootstrap';
 import '../styles/App.css';
-import cogs1 from '../assets/cogs1.svg'
 import cogs2 from '../assets/cogs2.svg'
-import cogs3 from '../assets/cogs3.svg'
 
-class SetCogs extends Component {
+class SetCsv extends Component {
     constructor(props) {
         super(props);
         this.state = {
@@ -54,7 +52,7 @@ class SetCogs extends Component {
                         </span>
                     </Row>
                     <Row>
-                        <Col md={6} mdOffset={3}>
+                        <Col md={6} mdOffset={3} className="center-view">
                             <div className="text-center margin-t-40">
                                 <span className="select-style-text">
                                     Set COGS for your products
@@ -70,66 +68,48 @@ class SetCogs extends Component {
                                     ( you can update these anytime from the Settings menu )
                                 </span>
                             </div>
-                            <div className="flex-center margin-t-40">
-                                <span className="select-style-comment">
-                                    We found 112 products in 364 variants from your shop. How do you
-                                </span>
-                            </div>
-                            <div className="flex-center margin-t-5">
-                                <span className="select-style-comment">
-                                    want to set COGS for all these products?
-                                </span>
-                            </div>
-                            <div className="flex-center margin-t-40">
-                                <div className="style-container flex-center">
-                                    <div className="style-icon-view">
-                                        <Image src={cogs1} className="business-icon" />
+                            <div className="content-center margin-t-40">
+                                <Col md={7}>
+                                    <div>
+                                        <div className="step-one-view">
+                                            <span className="step-title">
+                                                STEP 1: 
+                                            </span>
+                                            <span className="step-content">
+                                                &nbsp;Download CSV
+                                            </span>
+                                        </div>
+                                        <div className="margin-t-20 text-center">
+                                            <span className="step-content">
+                                                We have pre-filled this CSV file with your SKUs. Just download the file, enter the COGS values and upload it.
+                                            </span>
+                                        </div>
+                                        <div className="step-one-view margin-t-30">
+                                            <span className="step-title">
+                                                STEP 2: 
+                                            </span>
+                                            <span className="step-content">
+                                                &nbsp;Fill COGS values
+                                            </span>
+                                        </div>
+                                        <div className="step-one-view margin-t-30">
+                                            <span className="step-title">
+                                                STEP 3: 
+                                            </span>
+                                            <span className="step-content">
+                                                &nbsp;Upload the finished CSV file
+                                            </span>
+                                        </div>
                                     </div>
-                                    <div className="style-text-view">
-                                        <span className="select-text-large">
-                                            ENTER MANUALLY
-                                        </span>
-                                        <span className="select-text-small">
-                                            Enter COGS for each product manually.
-                                        </span>
-                                    </div>
-                                </div>
-                            </div>
-                            <div className="flex-center margin-t-10">
-                                <div className="style-container flex-center">
+                                </Col>
+                                <Col md={5} className="flex-right">
                                     <div className="style-icon-view">
                                         <Image src={cogs2} className="business-icon" />
                                     </div>
-                                    <div className="style-text-view">
-                                        <span className="select-text-large">
-                                            UPLOAD CSV
-                                        </span>
-                                        <span className="select-text-small">
-                                            We will prefill the SKUs in a CSV which you can download, enter
-                                        </span>
-                                        <span className="select-text-small">
-                                            COGS and upload.
-                                        </span>
-                                    </div>
-                                </div>
+                                </Col>
                             </div>
-                            <div className="flex-center margin-t-10">
-                                <div className="style-container flex-center">
-                                    <div className="style-icon-view">
-                                        <Image src={cogs3} className="business-icon" />
-                                    </div>
-                                    <div className="style-text-view">
-                                        <span className="select-text-large">
-                                            SET MARKUP
-                                        </span>
-                                        <span className="select-text-small">
-                                            You can set the markup that you charge and we can back
-                                        </span>
-                                        <span className="select-text-small">
-                                            calculate your COGS by comparing it against your selling price.
-                                        </span>
-                                    </div>
-                                </div>
+                            <div className="drag-view margin-t-40">
+                                
                             </div>
                         </Col>
                         <Col md={3} className="center-view">
@@ -160,4 +140,4 @@ const mapStateToProps = state => ({
 
 })
 
-export default connect(mapStateToProps)(SetCogs);
+export default connect(mapStateToProps)(SetCsv);
