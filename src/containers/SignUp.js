@@ -48,6 +48,7 @@ class SignUp extends Component {
         this.onSignUp = this.onSignUp.bind(this)
         this.onVerify = this.onVerify.bind(this)
         this.onVerifyCodeChange = this.onVerifyCodeChange.bind(this)
+        this.onConfirm = this.onConfirm.bind(this)
     }
 
     componentDidMount() {
@@ -120,9 +121,6 @@ class SignUp extends Component {
     }
     
     onSignUp() {
-        this.setState({
-            alertShow: true
-        })
         let {firstName, lastName, companyName, yourRole, email, password} = this.state
         if(firstName.length > 0 && lastName.length > 0 && companyName.length > 0 && yourRole.length > 0 && validateEmail(email) && password.length > 8 ) {
             this.signup(email, password).then((result) => {
@@ -157,12 +155,18 @@ class SignUp extends Component {
                             this.setState({
                                 alertShow: true
                             })
-                            this.props.history.push('/connect-shopify');
                         })
                     })
                 }
             })
         }
+    }
+
+    onConfirm() {
+        this.setState({
+            alertShow: false
+        })
+        this.props.history.push('/connect-shopify');
     }
 
     createNewUser(userData) {
@@ -366,7 +370,7 @@ class SignUp extends Component {
                                     type="success"
                                     title="Thanks for signing up!"
                                     text="Let us now setup your new akko account."
-                                    onConfirm={() => this.setState({ alertShow: false })}
+                                    onConfirm={this.onConfirm}
                                 />
                             </div>
                         </Tab>
