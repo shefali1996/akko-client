@@ -2,9 +2,11 @@ import React, { Component } from 'react';
 import {connect} from 'react-redux';
 import {Grid, Row, Col, Button, Label, Tabs, Tab, FormControl} from 'react-bootstrap';
 import Select from 'react-select';
+import SweetAlert from 'sweetalert-react';
 import { validateEmail } from '../constants';
 import '../styles/App.css';
 import 'react-select/dist/react-select.css';
+import 'sweetalert/dist/sweetalert.css';
 import {
   AuthenticationDetails,
   CognitoUserPool
@@ -31,7 +33,8 @@ class SignUp extends Component {
             password: '',
             newUser: null,
             emailSent: false,
-            verifyCode: ''
+            verifyCode: '',
+            alertShow: false
         };
         this.goLanding = this.goLanding.bind(this)
         this.handleSelect = this.handleSelect.bind(this)
@@ -117,6 +120,9 @@ class SignUp extends Component {
     }
     
     onSignUp() {
+        this.setState({
+            alertShow: true
+        })
         let {firstName, lastName, companyName, yourRole, email, password} = this.state
         if(firstName.length > 0 && lastName.length > 0 && companyName.length > 0 && yourRole.length > 0 && validateEmail(email) && password.length > 8 ) {
             this.signup(email, password).then((result) => {
@@ -148,6 +154,9 @@ class SignUp extends Component {
                             email: this.state.email,
                             location: "Earth"
                         }).then((result) => {
+                            this.setState({
+                                alertShow: true
+                            })
                             this.props.history.push('/connect-shopify');
                         })
                     })
@@ -351,6 +360,14 @@ class SignUp extends Component {
                                         </Button>
                                     </Col>
                                 }
+                                <SweetAlert
+                                    show={this.state.alertShow}
+                                    showConfirmButton
+                                    type="success"
+                                    title="Thanks for signing up!"
+                                    text="Let us now setup your new akko account."
+                                    onConfirm={() => this.setState({ alertShow: false })}
+                                />
                             </div>
                         </Tab>
                     </Tabs>
