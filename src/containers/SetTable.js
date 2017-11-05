@@ -169,6 +169,144 @@ class SetTable extends Component {
                                     onChange={this.onMarkUpChange}
                                 />
                             </div>
+                            <div className="product-view margin-t-10">
+                                <div className='checkbox-personalized'>
+                                    <Checkbox />
+                                    <label htmlFor={ 'checkbox' }>
+                                        <div className='check'></div>
+                                    </label>
+                                </div>
+                                <Image src={blankImage} className="blank-image-icon" />
+                                <div className="product-text-view">
+                                    <span className="product-title">
+                                        Super long very long even longer description of p...
+                                    </span>
+                                    <span className="product-type">
+                                        Cotton / Blue / Small
+                                    </span>
+                                    <div>
+                                        <span className="product-type">
+                                            SKU : hanes-blue-small
+                                        </span>
+                                        <span className="product-price-front">
+                                            Selling for:
+                                        </span>
+                                        <span className="product-price-back">
+                                            $195.00
+                                        </span>
+                                    </div>
+                                </div>
+                                <div className="currency-view">
+                                    <span className="product-currency">
+                                        $
+                                    </span>
+                                    <span className="product-currency-text">
+                                        COGS
+                                    </span>
+                                </div>
+                                <FormControl
+                                    type="text"
+                                    className="product-input"
+                                    value={markup}
+                                    onChange={this.onMarkUpChange}
+                                />
+                            </div>
+                            <div className="product-view margin-t-10">
+                                <div className='checkbox-personalized'>
+                                    <Checkbox />
+                                    <label htmlFor={ 'checkbox' }>
+                                        <div className='check'></div>
+                                    </label>
+                                </div>
+                                <Image src={blankImage} className="blank-image-icon" />
+                                <div className="product-text-view">
+                                    <span className="product-title">
+                                        Super long very long even longer description of p...
+                                    </span>
+                                    <span className="product-type">
+                                        Cotton / Blue / Small
+                                    </span>
+                                    <div>
+                                        <span className="product-type">
+                                            SKU : hanes-blue-small
+                                        </span>
+                                        <span className="product-price-front">
+                                            Selling for:
+                                        </span>
+                                        <span className="product-price-back">
+                                            $195.00
+                                        </span>
+                                    </div>
+                                </div>
+                                <div className="currency-view">
+                                    <span className="product-currency">
+                                        $
+                                    </span>
+                                    <span className="product-currency-text">
+                                        COGS
+                                    </span>
+                                </div>
+                                <FormControl
+                                    type="text"
+                                    className="product-input"
+                                    value={markup}
+                                    onChange={this.onMarkUpChange}
+                                />
+                            </div>
+                            <div className="product-view margin-t-10">
+                                <div className='checkbox-personalized'>
+                                    <Checkbox />
+                                    <label htmlFor={ 'checkbox' }>
+                                        <div className='check'></div>
+                                    </label>
+                                </div>
+                                <Image src={blankImage} className="blank-image-icon" />
+                                <div className="product-text-view">
+                                    <span className="product-title">
+                                        Super long very long even longer description of p...
+                                    </span>
+                                    <span className="product-type">
+                                        Cotton / Blue / Small
+                                    </span>
+                                    <div>
+                                        <span className="product-type">
+                                            SKU : hanes-blue-small
+                                        </span>
+                                        <span className="product-price-front">
+                                            Selling for:
+                                        </span>
+                                        <span className="product-price-back">
+                                            $195.00
+                                        </span>
+                                    </div>
+                                </div>
+                                <div className="currency-view">
+                                    <span className="product-currency">
+                                        $
+                                    </span>
+                                    <span className="product-currency-text">
+                                        COGS
+                                    </span>
+                                </div>
+                                <FormControl
+                                    type="text"
+                                    className="product-input"
+                                    value={markup}
+                                    onChange={this.onMarkUpChange}
+                                />
+                            </div>
+                            <div className="content-center margin-40">
+                                <Col md={6} className="text-left no-padding">
+                                    <Button className="skip-button" onClick={this.onConnect}>
+                                        SKIP FOR NOW
+                                    </Button>
+                                </Col>
+                                <Col md={6} className="text-right no-padding">
+                                    <Button className="login-button" onClick={this.onConnect}>
+                                        FINISH
+                                    </Button>
+                                </Col>
+                            </div>
                         </Col>
                         <Col md={3} className="center-view">
                             <div className="description-view margin-t-40 text-center">
