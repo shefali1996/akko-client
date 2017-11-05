@@ -30,7 +30,7 @@ class SetTable extends Component {
     }
     
     onConnect() {
-        
+        this.props.history.push('/inventory');
     }
     
     onMarkUpChange(e) {

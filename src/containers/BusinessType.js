@@ -30,7 +30,7 @@ class BusinessType extends Component {
     }
     
     onConnect() {
-        
+        this.props.history.push('/set-cogs');
     }
     
     render() {
@@ -64,7 +64,7 @@ class BusinessType extends Component {
                             This enables us to customize akko to best suit your business style
                         </span>
                     </div>
-                    <div className="flex-center margin-t-40">
+                    <div className="flex-center margin-t-40" onClick={this.onConnect}>
                         <div className="style-container flex-center">
                             <div className="style-icon-view">
                                 <Image src={businessType1} className="business-icon" />
@@ -82,7 +82,7 @@ class BusinessType extends Component {
                             </div>
                         </div>
                     </div>
-                    <div className="flex-center margin-t-10">
+                    <div className="flex-center margin-t-10" onClick={this.onConnect}>
                         <div className="style-container flex-center">
                             <div className="style-icon-view">
                                 <Image src={businessType2} className="business-icon" />
@@ -100,7 +100,7 @@ class BusinessType extends Component {
                             </div>
                         </div>
                     </div>
-                    <div className="flex-center margin-t-10">
+                    <div className="flex-center margin-t-10" onClick={this.onConnect}>
                         <div className="style-container flex-center">
                             <div className="style-icon-view">
                                 <Image src={businessType3} className="business-icon" />
@@ -118,7 +118,7 @@ class BusinessType extends Component {
                             </div>
                         </div>
                     </div>
-                    <div className="flex-center margin-t-10">
+                    <div className="flex-center margin-t-10" onClick={this.onConnect}>
                         <div className="style-container flex-center">
                             <div className="style-icon-view">
                                 <Image src={businessType4} className="business-icon" />

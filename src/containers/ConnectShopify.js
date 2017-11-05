@@ -57,7 +57,7 @@ class ConnectShopify extends Component {
               queryParams: this.props.location.search
         }}).then((result) => {
             localStorage.setItem("isAuthenticated", "isAuthenticated")
-            this.props.history.push('/inventory');
+            this.props.history.push('/business-type');
         })
     }
 

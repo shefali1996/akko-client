@@ -27,7 +27,7 @@ class SetCsv extends Component {
     }
     
     onConnect() {
-        
+        this.props.history.push('/set-table');
     }
     
     render() {

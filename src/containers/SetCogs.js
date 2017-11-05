@@ -29,7 +29,7 @@ class SetCogs extends Component {
     }
     
     onConnect() {
-        
+        this.props.history.push('/set-csv');
     }
     
     render() {
@@ -80,7 +80,7 @@ class SetCogs extends Component {
                                     want to set COGS for all these products?
                                 </span>
                             </div>
-                            <div className="flex-center margin-t-40">
+                            <div className="flex-center margin-t-40" onClick={this.onConnect}>
                                 <div className="style-container flex-center">
                                     <div className="style-icon-view">
                                         <Image src={cogs1} className="business-icon" />
@@ -95,7 +95,7 @@ class SetCogs extends Component {
                                     </div>
                                 </div>
                             </div>
-                            <div className="flex-center margin-t-10">
+                            <div className="flex-center margin-t-10" onClick={this.onConnect}>
                                 <div className="style-container flex-center">
                                     <div className="style-icon-view">
                                         <Image src={cogs2} className="business-icon" />
@@ -113,7 +113,7 @@ class SetCogs extends Component {
                                     </div>
                                 </div>
                             </div>
-                            <div className="flex-center margin-t-10">
+                            <div className="flex-center margin-t-10" onClick={this.onConnect}>
                                 <div className="style-container flex-center">
                                     <div className="style-icon-view">
                                         <Image src={cogs3} className="business-icon" />
