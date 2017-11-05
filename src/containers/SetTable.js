@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import {connect} from 'react-redux';
-import {Grid, Row, Col, Button, Label} from 'react-bootstrap';
+import {Grid, Row, Col, Button, Label, FormControl} from 'react-bootstrap';
 import SearchInput from 'react-search-input'
 import '../styles/App.css';
 
@@ -8,10 +8,11 @@ class SetTable extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            shopName: ''
+            markup: ''
         };
         this.goLanding = this.goLanding.bind(this);
         this.onConnect = this.onConnect.bind(this);
+        this.onMarkUpChange = this.onMarkUpChange.bind(this);
     }
 
     componentDidMount() {
@@ -30,7 +31,12 @@ class SetTable extends Component {
         
     }
     
+    onMarkUpChange(e) {
+
+    }
+
     render() {
+        let {markup} = this.state;
         return (
             <div>
                 <Grid className="login-layout">
@@ -86,6 +92,38 @@ class SetTable extends Component {
                                     onChange={this.searchUpdated}
                                     onFocus={this.onFocus}
                                 />
+                            </div>
+                            <div className="markup-center margin-t-30">
+                                <Col md={4} className="flex-right height-center">
+                                    <span className="select-style-comment-small">
+                                        Markup:
+                                    </span>
+                                    <FormControl
+                                        type="text"
+                                        className="markup-input"
+                                        value={markup}
+                                        onChange={this.onMarkUpChange}
+                                    />
+                                </Col>
+                                <Col md={4} className="text-left left-padding">
+                                    <div className="radio">
+                                        <label className="select-style-comment-small">
+                                            <input type="radio" value="option1" />
+                                            Percentage
+                                        </label>
+                                    </div>
+                                    <div className="radio">
+                                        <label className="select-style-comment-small">
+                                            <input type="radio" value="option2" />
+                                            Fixed Markup
+                                        </label>
+                                    </div>
+                                </Col>
+                                <Col md={4} className="flex-center height-center">
+                                    <Button className="skip-button" onClick={this.onConnect}>
+                                        SET MARKUP
+                                    </Button>
+                                </Col>
                             </div>
                         </Col>
                         <Col md={3} className="center-view">

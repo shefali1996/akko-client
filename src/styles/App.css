@@ -1160,3 +1160,22 @@
 	justify-content: center;
 	flex-direction: column;
 }
+.markup-center {
+	width: 668px;
+	display: flex;
+	justify-content: center;
+}
+.markup-input {
+	width: 68px;
+	height: 28px;
+	border: 1px solid #c8c8e8;
+	border-radius: 5px;
+	background-color: #ffffff;
+	margin-left: 10px;
+}
+.height-center {
+	align-items: center;
+}
+.left-padding {
+	padding-left: 50px;
+}
