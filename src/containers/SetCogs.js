@@ -2,10 +2,9 @@ import React, { Component } from 'react';
 import {connect} from 'react-redux';
 import {Grid, Row, Col, Button, Label, Image} from 'react-bootstrap';
 import '../styles/App.css';
-import businessType1 from '../assets/businessType1.svg'
-import businessType2 from '../assets/businessType2.svg'
-import businessType3 from '../assets/businessType3.svg'
-import businessType4 from '../assets/businessType4.svg'
+import cogs1 from '../assets/cogs1.svg'
+import cogs2 from '../assets/cogs2.svg'
+import cogs3 from '../assets/cogs3.svg'
 
 class SetCogs extends Component {
     constructor(props) {
@@ -56,28 +55,40 @@ class SetCogs extends Component {
                     </Row>
                     <div className="text-center margin-t-40">
                         <span className="select-style-text">
-                            Select the style of your business
+                            Set COGS for your products
                         </span>
                     </div>
                     <div className="text-center margin-t-5">
                         <span className="select-style-comment">
-                            This enables us to customize akko to best suit your business style
+                            We will use these Cost of Goods Sold (COGS) estimates to calculate your gross profit
+                        </span>
+                    </div>
+                    <div className="text-center margin-t-5">
+                        <span className="select-style-comment-small">
+                            ( you can update these anytime from the Settings menu )
+                        </span>
+                    </div>
+                    <div className="flex-center margin-t-40">
+                        <span className="select-style-comment">
+                            We found 112 products in 364 variants from your shop. How do you
+                        </span>
+                    </div>
+                    <div className="flex-center margin-t-5">
+                        <span className="select-style-comment">
+                            want to set COGS for all these products?
                         </span>
                     </div>
                     <div className="flex-center margin-t-40">
                         <div className="style-container flex-center">
                             <div className="style-icon-view">
-                                <Image src={businessType1} className="business-icon" />
+                                <Image src={cogs1} className="business-icon" />
                             </div>
                             <div className="style-text-view">
                                 <span className="select-text-large">
-                                    DROPSHIPPER
+                                    ENTER MANUALLY
                                 </span>
                                 <span className="select-text-small">
-                                    You forward orders to your vendors for fulfillment.
-                                </span>
-                                <span className="select-text-small">
-                                    You do not stock inventory nor do your own fulfillment.
+                                    Enter COGS for each product manually.
                                 </span>
                             </div>
                         </div>
@@ -85,17 +96,17 @@ class SetCogs extends Component {
                     <div className="flex-center margin-t-10">
                         <div className="style-container flex-center">
                             <div className="style-icon-view">
-                                <Image src={businessType2} className="business-icon" />
+                                <Image src={cogs2} className="business-icon" />
                             </div>
                             <div className="style-text-view">
                                 <span className="select-text-large">
-                                    RESELLER / RETAILER
+                                    UPLOAD CSV
                                 </span>
                                 <span className="select-text-small">
-                                    You buy and resell products with a markup.
+                                    We will prefill the SKUs in a CSV which you can download, enter
                                 </span>
                                 <span className="select-text-small">
-                                    You stock your inventory and do your own fulfillment.
+                                    COGS and upload.
                                 </span>
                             </div>
                         </div>
@@ -103,39 +114,24 @@ class SetCogs extends Component {
                     <div className="flex-center margin-t-10">
                         <div className="style-container flex-center">
                             <div className="style-icon-view">
-                                <Image src={businessType3} className="business-icon" />
+                                <Image src={cogs3} className="business-icon" />
                             </div>
                             <div className="style-text-view">
                                 <span className="select-text-large">
-                                    MANUFACTURER
+                                    SET MARKUP
                                 </span>
                                 <span className="select-text-small">
-                                    You buy raw materials from vendors and manufacture
+                                    You can set the markup that you charge and we can back
                                 </span>
                                 <span className="select-text-small">
-                                    your products. You stock inventory and do your own fulfillment.
-                                </span>
-                            </div>
-                        </div>
-                    </div>
-                    <div className="flex-center margin-t-10">
-                        <div className="style-container flex-center">
-                            <div className="style-icon-view">
-                                <Image src={businessType4} className="business-icon" />
-                            </div>
-                            <div className="style-text-view">
-                                <span className="select-text-large">
-                                    OTHER
-                                </span>
-                                <span className="select-text-small">
-                                    For all other merchants.
+                                    calculate your COGS by comparing it against your selling price.
                                 </span>
                             </div>
                         </div>
                     </div>
                     <div className="text-center margin-t-50">
-                        <Button className="login-button" onClick={this.onConnect}>
-                            PROCEED
+                        <Button className="skip-button" onClick={this.onConnect}>
+                            SKIP FOR NOW
                         </Button>
                     </div>
                 </Grid>
