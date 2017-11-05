@@ -7,6 +7,7 @@ import SignIn from './SignIn';
 import SignUp from './SignUp';
 import ConnectShopify from './ConnectShopify';
 import BusinessType from './BusinessType';
+import SetCogs from './SetCogs';
 import AuthorizedContainer from './AuthorizedContainer'
 import createHistory from 'history/createBrowserHistory'
 import configureStore from '../store'
@@ -28,6 +29,7 @@ class App extends Component {
                             <Route exact path="/signup" component={SignUp}/>
                             <Route exact path="/connect-shopify" component={ConnectShopify}/>
                             <Route exact path="/business-type" component={BusinessType}/>
+                            <Route exact path="/set-cogs" component={SetCogs}/>
                             <Route path="/" name="Authorized Sections" component={AuthorizedContainer} />
                         </Main>
                         <Route path="*" component={NotFound} />
