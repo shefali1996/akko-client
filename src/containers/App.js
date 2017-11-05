@@ -9,6 +9,7 @@ import ConnectShopify from './ConnectShopify';
 import BusinessType from './BusinessType';
 import SetCogs from './SetCogs';
 import SetCsv from './SetCsv';
+import SetTable from './SetTable';
 import AuthorizedContainer from './AuthorizedContainer'
 import createHistory from 'history/createBrowserHistory'
 import configureStore from '../store'
@@ -32,6 +33,7 @@ class App extends Component {
                             <Route exact path="/business-type" component={BusinessType}/>
                             <Route exact path="/set-cogs" component={SetCogs}/>
                             <Route exact path="/set-csv" component={SetCsv}/>
+                            <Route exact path="/set-table" component={SetTable}/>
                             <Route path="/" name="Authorized Sections" component={AuthorizedContainer} />
                         </Main>
                         <Route path="*" component={NotFound} />
