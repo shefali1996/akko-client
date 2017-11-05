@@ -90,7 +90,7 @@ class SetTable extends Component {
                             <div className="table-center margin-t-10">
                                 <SearchInput
                                     className="search-input"
-                                    placeholder="Search all your inventory"
+                                    placeholder="Search through all your products"
                                     onChange={this.searchUpdated}
                                     onFocus={this.onFocus}
                                 />
