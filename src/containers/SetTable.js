@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
 import {connect} from 'react-redux';
-import {Grid, Row, Col, Button, Label, Image} from 'react-bootstrap';
+import {Grid, Row, Col, Button, Label} from 'react-bootstrap';
+import SearchInput from 'react-search-input'
 import '../styles/App.css';
-import cogs2 from '../assets/cogs2.svg'
 
 class SetTable extends Component {
     constructor(props) {
@@ -68,72 +68,24 @@ class SetTable extends Component {
                                     ( you can update these anytime from the Settings menu )
                                 </span>
                             </div>
-                            <div className="content-center margin-t-40">
-                                <Col md={7} className="no-padding">
-                                    <div>
-                                        <div className="step-one-view">
-                                            <span className="step-title">
-                                                STEP 1: 
-                                            </span>
-                                            <span className="step-content">
-                                                &nbsp;Download CSV
-                                            </span>
-                                        </div>
-                                        <div className="margin-t-20 text-center">
-                                            <span className="step-content">
-                                                We have pre-filled this CSV file with your SKUs. Just download the file, enter the COGS values and upload it.
-                                            </span>
-                                        </div>
-                                        <div className="step-one-view margin-t-30">
-                                            <span className="step-title">
-                                                STEP 2: 
-                                            </span>
-                                            <span className="step-content">
-                                                &nbsp;Fill COGS values
-                                            </span>
-                                        </div>
-                                        <div className="step-one-view margin-t-30">
-                                            <span className="step-title">
-                                                STEP 3: 
-                                            </span>
-                                            <span className="step-content">
-                                                &nbsp;Upload the finished CSV file
-                                            </span>
-                                        </div>
-                                    </div>
-                                </Col>
-                                <Col md={5} className="flex-right no-padding">
-                                    <div className="style-icon-view">
-                                        <Image src={cogs2} className="business-icon" />
-                                    </div>
-                                </Col>
-                            </div>
-                            <div className="drag-view margin-t-20">
-                                <span className="drag-text">
-                                    drag and drop your finished CSV file here
+                            <div className="table-center margin-t-60">
+                                <span className="select-style-comment-small">
+                                    Enter the COGS values for all the products.
                                 </span>
-                            </div>
-                            <div className="flex-center margin-t-20">
-                                <span className="step-content">
+                                <span className="select-style-comment-small margin-t-10">
                                     (or)
                                 </span>
+                                <span className="select-style-comment-small margin-t-10">
+                                    select products and set the markup you charge and we will back-calculate their original price.
+                                </span>
                             </div>
-                            <div className="flex-center margin-t-20">
-                                <Button className="login-button" onClick={this.onConnect}>
-                                    UPLOAD CSV
-                                </Button>
-                            </div>
-                            <div className="content-center margin-t-40">
-                                <Col md={6} className="text-left no-padding">
-                                    <Button className="skip-button" onClick={this.onConnect}>
-                                        SKIP FOR NOW
-                                    </Button>
-                                </Col>
-                                <Col md={6} className="text-right no-padding">
-                                    <Button className="login-button" onClick={this.onConnect}>
-                                        SUBMIT
-                                    </Button>
-                                </Col>
+                            <div className="table-center margin-t-10">
+                                <SearchInput
+                                    className="search-input"
+                                    placeholder="Search all your inventory"
+                                    onChange={this.searchUpdated}
+                                    onFocus={this.onFocus}
+                                />
                             </div>
                         </Col>
                         <Col md={3} className="center-view">

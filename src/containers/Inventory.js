@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import {Grid, Row, Col, Tabs, Tab, Image, Label} from 'react-bootstrap';
 import {connect} from 'react-redux';
-import SearchInput, {createFilter} from 'react-search-input'
+import SearchInput, {createFilter} from 'react-search-input';
 import { BootstrapTable, TableHeaderColumn, ButtonGroup } from 'react-bootstrap-table';
 import _ from 'underscore';
 import Navigationbar from '../components/Navigationbar';

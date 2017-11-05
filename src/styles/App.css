@@ -1154,3 +1154,9 @@
 	text-decoration: none solid rgb(200, 200, 232);
 	text-align: center;
 }
+.table-center {
+	width: 668px;
+	display: flex;
+	justify-content: center;
+	flex-direction: column;
+}
