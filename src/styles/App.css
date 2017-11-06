@@ -1028,7 +1028,7 @@
     border: 2px solid #c8c8e8;
 }
 .style-container:active {
-    border: 2px solid #000000;
+    border: 2px solid #aaaaaa;
 }
 .style-icon-view {
 	width: 60px;
@@ -1064,7 +1064,6 @@
 	font-weight: 400;
 	text-decoration: none solid rgb(87, 93, 222);
 	text-align: center;
-	font-weight: lighter;
 }
 .select-text-small {
 	font-family: Ubuntu;
