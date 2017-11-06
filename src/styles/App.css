@@ -1022,13 +1022,23 @@
 	background-color: #ebebeb;
 	display: flex;
 	flex-direction: row;
-	align-items: center;
+    align-items: center;
+    cursor: pointer;
 }
 .style-container:hover {
     border: 2px solid #c8c8e8;
+    cursor: pointer;
 }
-.style-container:active {
+.active-border {
+    width: 500px;
+	height: 82px;
+	border-radius: 5px;
+	background-color: #ebebeb;
+	display: flex;
+	flex-direction: row;
+	align-items: center;
     border: 2px solid #aaaaaa;
+    cursor: pointer;
 }
 .style-icon-view {
 	width: 60px;

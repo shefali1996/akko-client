@@ -11,10 +11,15 @@ class BusinessType extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            shopName: ''
+            shopName: '',
+            option: ''
         };
         this.goLanding = this.goLanding.bind(this);
         this.onConnect = this.onConnect.bind(this);
+        this.onTypeOneSelected = this.onTypeOneSelected.bind(this);
+        this.onTypeTwoSelected = this.onTypeTwoSelected.bind(this);
+        this.onTypeThreeSelected = this.onTypeThreeSelected.bind(this);
+        this.onTypeFourSelected = this.onTypeFourSelected.bind(this);
     }
 
     componentDidMount() {
@@ -29,11 +34,39 @@ class BusinessType extends Component {
         this.props.history.push('/');
     }
     
-    onConnect() {
-        this.props.history.push('/set-cogs');
+    onTypeOneSelected() {
+        this.setState({
+            option: 'one'
+        })
     }
-    
+
+    onTypeTwoSelected() {
+        this.setState({
+            option: 'two'
+        })
+    }
+            
+    onTypeThreeSelected() {
+        this.setState({
+            option: 'three'
+        })
+    }
+
+    onTypeFourSelected() {
+        this.setState({
+            option: 'four'
+        })
+    }
+
+    onConnect() {
+        let {option} = this.state;
+        if(option.length > 0) {
+            this.props.history.push('/set-cogs');
+        }
+    }
+
     render() {
+        let {option} = this.state;
         return (
             <div>
                 <Grid className="login-layout">
@@ -65,7 +98,7 @@ class BusinessType extends Component {
                         </span>
                     </div>
                     <div className="flex-center margin-t-40">
-                        <div className="style-container flex-center cursor-pointer" onClick={this.onConnect}>
+                        <div className={option==="one"? "flex-center active-border" : "style-container flex-center"} onClick={this.onTypeOneSelected}>
                             <div className="style-icon-view">
                                 <Image src={businessType1} className="business-icon" />
                             </div>
@@ -83,7 +116,7 @@ class BusinessType extends Component {
                         </div>
                     </div>
                     <div className="flex-center margin-t-10">
-                        <div className="style-container flex-center cursor-pointer" onClick={this.onConnect}>
+                        <div className={option==="two"? "flex-center active-border" : "style-container flex-center"} onClick={this.onTypeTwoSelected}>
                             <div className="style-icon-view">
                                 <Image src={businessType2} className="business-icon" />
                             </div>
@@ -101,7 +134,7 @@ class BusinessType extends Component {
                         </div>
                     </div>
                     <div className="flex-center margin-t-10">
-                        <div className="style-container flex-center cursor-pointer" onClick={this.onConnect}>
+                        <div className={option==="three"? "flex-center active-border" : "style-container flex-center"} onClick={this.onTypeThreeSelected}>
                             <div className="style-icon-view">
                                 <Image src={businessType3} className="business-icon" />
                             </div>
@@ -119,7 +152,7 @@ class BusinessType extends Component {
                         </div>
                     </div>
                     <div className="flex-center margin-t-10">
-                        <div className="style-container flex-center cursor-pointer" onClick={this.onConnect}>
+                        <div className={option==="four"? "flex-center active-border" : "style-container flex-center"} onClick={this.onTypeFourSelected}>
                             <div className="style-icon-view">
                                 <Image src={businessType4} className="business-icon" />
                             </div>
