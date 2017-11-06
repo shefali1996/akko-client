@@ -36,16 +36,17 @@ class ConnectShopify extends Component {
     }
 
     onConnect() {
-        invokeApig({
-            path: "/connect-shopify",
-            method: "POST",
-            body: {
-              shopId: this.state.shopName
-            }
-        }).then((result) => {
-            const uri = result.uri;
-            window.location = uri;
-        })
+        this.props.history.push('/business-type');
+        // invokeApig({
+        //     path: "/connect-shopify",
+        //     method: "POST",
+        //     body: {
+        //       shopId: this.state.shopName
+        //     }
+        // }).then((result) => {
+        //     const uri = result.uri;
+        //     window.location = uri;
+        // })
     }
 
     renderSuccessPage() {
