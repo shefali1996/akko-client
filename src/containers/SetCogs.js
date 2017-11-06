@@ -10,10 +10,13 @@ class SetCogs extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            shopName: ''
+            option: ''
         };
         this.goLanding = this.goLanding.bind(this);
         this.onConnect = this.onConnect.bind(this);
+        this.onTypeOneSelected = this.onTypeOneSelected.bind(this);
+        this.onTypeTwoSelected = this.onTypeTwoSelected.bind(this);
+        this.onTypeThreeSelected = this.onTypeThreeSelected.bind(this);
     }
 
     componentDidMount() {
@@ -28,11 +31,33 @@ class SetCogs extends Component {
         this.props.history.push('/');
     }
     
+    onTypeOneSelected() {
+        this.setState({
+            option: 'one'
+        })
+    }
+
+    onTypeTwoSelected() {
+        this.setState({
+            option: 'two'
+        })
+    }
+            
+    onTypeThreeSelected() {
+        this.setState({
+            option: 'three'
+        })
+    }
+
     onConnect() {
-        this.props.history.push('/set-csv');
+        let {option} = this.state;
+        if(option.length > 0) {
+            this.props.history.push('/set-csv');
+        }
     }
     
     render() {
+        let {option} = this.state;
         return (
             <div>
                 <Grid className="login-layout">
@@ -81,7 +106,7 @@ class SetCogs extends Component {
                                 </span>
                             </div>
                             <div className="flex-center margin-t-40">
-                                <div className="style-container flex-center cursor-pointer" onClick={this.onConnect}>
+                                <div className={option==="one"? "flex-center active-border" : "style-container flex-center"} onClick={this.onTypeOneSelected}>
                                     <div className="style-icon-view">
                                         <Image src={cogs1} className="business-icon" />
                                     </div>
@@ -96,7 +121,7 @@ class SetCogs extends Component {
                                 </div>
                             </div>
                             <div className="flex-center margin-t-10">
-                                <div className="style-container flex-center cursor-pointer" onClick={this.onConnect}>
+                                <div className={option==="two"? "flex-center active-border" : "style-container flex-center"} onClick={this.onTypeTwoSelected}>
                                     <div className="style-icon-view">
                                         <Image src={cogs2} className="business-icon" />
                                     </div>
@@ -114,7 +139,7 @@ class SetCogs extends Component {
                                 </div>
                             </div>
                             <div className="flex-center margin-t-10">
-                                <div className="style-container flex-center cursor-pointer" onClick={this.onConnect}>
+                                <div className={option==="three"? "flex-center active-border" : "style-container flex-center"} onClick={this.onTypeThreeSelected}>
                                     <div className="style-icon-view">
                                         <Image src={cogs3} className="business-icon" />
                                     </div>

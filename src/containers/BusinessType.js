@@ -11,7 +11,6 @@ class BusinessType extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            shopName: '',
             option: ''
         };
         this.goLanding = this.goLanding.bind(this);
