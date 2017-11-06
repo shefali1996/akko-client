@@ -36,19 +36,19 @@ class SignUp extends Component {
             verifyCode: '',
             alertShow: false
         };
-        this.goLanding = this.goLanding.bind(this)
-        this.handleSelect = this.handleSelect.bind(this)
-        this.onFirstNameChange = this.onFirstNameChange.bind(this)
-        this.onLastNameChange = this.onLastNameChange.bind(this)
-        this.onCompanyNameChange = this.onCompanyNameChange.bind(this)
-        this.onYourRoleChange = this.onYourRoleChange.bind(this)
-        this.logChange = this.logChange.bind(this)
-        this.onEmailChange = this.onEmailChange.bind(this)
-        this.onPasswordChange = this.onPasswordChange.bind(this)
-        this.onSignUp = this.onSignUp.bind(this)
-        this.onVerify = this.onVerify.bind(this)
-        this.onVerifyCodeChange = this.onVerifyCodeChange.bind(this)
-        this.onConfirm = this.onConfirm.bind(this)
+        this.goLanding = this.goLanding.bind(this);
+        this.handleSelect = this.handleSelect.bind(this);
+        this.onFirstNameChange = this.onFirstNameChange.bind(this);
+        this.onLastNameChange = this.onLastNameChange.bind(this);
+        this.onCompanyNameChange = this.onCompanyNameChange.bind(this);
+        this.onYourRoleChange = this.onYourRoleChange.bind(this);
+        this.logChange = this.logChange.bind(this);
+        this.onEmailChange = this.onEmailChange.bind(this);
+        this.onPasswordChange = this.onPasswordChange.bind(this);
+        this.onSignUp = this.onSignUp.bind(this);
+        this.onVerify = this.onVerify.bind(this);
+        this.onVerifyCodeChange = this.onVerifyCodeChange.bind(this);
+        this.onConfirm = this.onConfirm.bind(this);
     }
 
     componentDidMount() {

@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import {connect} from 'react-redux';
 import {Grid, Row, Col, Button, Label, FormControl, Image} from 'react-bootstrap';
+import SweetAlert from 'sweetalert-react';
 import { invokeApig } from "../libs/awsLib";
 import '../styles/App.css';
 import shopifyIcon from '../assets/shopify.svg'
@@ -10,11 +11,13 @@ class ConnectShopify extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            shopName: ''
+            shopName: '',
+            alertShow: false
         };
         this.goLanding = this.goLanding.bind(this);
         this.onShopNameChange = this.onShopNameChange.bind(this);
         this.onConnect = this.onConnect.bind(this);
+        this.onConfirm = this.onConfirm.bind(this);
     }
 
     componentDidMount() {
@@ -36,7 +39,10 @@ class ConnectShopify extends Component {
     }
 
     onConnect() {
-        this.props.history.push('/business-type');
+        this.setState({
+            alertShow: true
+        });
+        // this.props.history.push('/business-type');
         // invokeApig({
         //     path: "/connect-shopify",
         //     method: "POST",
@@ -49,6 +55,13 @@ class ConnectShopify extends Component {
         // })
     }
 
+    onConfirm() {
+        this.setState({
+            alertShow: false
+        });
+        this.props.history.push('/business-type');
+    }
+
     renderSuccessPage() {
         invokeApig({
             path: "/connect-shopify",
@@ -58,7 +71,9 @@ class ConnectShopify extends Component {
               queryParams: this.props.location.search
         }}).then((result) => {
             localStorage.setItem("isAuthenticated", "isAuthenticated")
-            this.props.history.push('/business-type');
+            this.setState({
+                alertShow: true
+            })
         })
     }
 
@@ -119,6 +134,14 @@ class ConnectShopify extends Component {
                 :
                 this.renderSuccessPage()
             }
+                <SweetAlert
+                    show={this.state.alertShow}
+                    showConfirmButton
+                    type="success"
+                    title="Success!"
+                    text="Connection is successful."
+                    onConfirm={this.onConfirm}
+                />
             </div>
         );
     }
