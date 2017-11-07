@@ -1,19 +1,23 @@
 import React, { Component } from 'react';
-import {Grid, Row, Col, Tabs, Tab, Image, Label} from 'react-bootstrap';
+import {Grid, Row, Col, Tabs, Tab, Image} from 'react-bootstrap';
 import {connect} from 'react-redux';
 import SearchInput, {createFilter} from 'react-search-input'
 import { BootstrapTable, TableHeaderColumn, ButtonGroup } from 'react-bootstrap-table';
 import Navigationbar from '../components/Navigationbar';
 import Footer from '../components/Footer';
-import {KEYS_TO_FILTERS, numberFormatter, convertInventoryJSONToObject, getCaret, customMultiSelect} from '../constants';
+import {KEYS_TO_FILTERS, numberFormatter, convertInventoryJSONToObject} from '../constants';
+import {
+    getCaret, 
+    customMultiSelect, 
+    createCustomInsertButton, 
+    createCustomDeleteButton, 
+    createCustomExportCSVButton
+} from '../components/CustomTable';
 import { invokeApig } from '../libs/awsLib';
 import '../styles/App.css';
 import '../styles/react-search-input.css'
 import '../styles/react-bootstrap-table.min.css'
 import '../styles/customMultiSelect.css'
-import plus from '../assets/plus.svg'
-import merge from '../assets/merge.svg'
-import deleteIcon from '../assets/delete.svg'
 import rightArrow from '../assets/rightArrow.svg'
 
 class Orders extends Component {
@@ -66,39 +70,6 @@ class Orders extends Component {
 
 	onFocus() {
 
-	}
-
-	createCustomInsertButton(openModal) {
-		return (
-			<div className="add-button" onClick={openModal}>
-				<Image src={plus} className="plus-icon" />
-				<Label className="button-text">
-					ADD NEW
-				</Label>
-			</div>
-		);
-	}
-
-	createCustomDeleteButton(openModal) {
-		return (
-			<div className="delete-button" onClick={openModal}>
-				<Image src={deleteIcon} className="plus-icon" />
-				<Label className="button-text">
-					DELETE
-				</Label>
-			</div>
-		);
-	}
-
-	createCustomExportCSVButton(openModal) {
-		return (
-			<div className="merge-button" onClick={openModal}>
-				<Image src={merge} className="plus-icon" />
-				<Label className="button-text">
-					MERGE
-				</Label>
-			</div>
-		);
 	}
 
 	renderSizePerPageDropDown(props) {
@@ -271,9 +242,9 @@ class Orders extends Component {
             clickToSelect: true
 		};
 		const options = {
-			insertBtn: this.createCustomInsertButton,
-			deleteBtn: this.createCustomDeleteButton,
-			exportCSVBtn: this.createCustomExportCSVButton,
+			insertBtn: createCustomInsertButton,
+			deleteBtn: createCustomDeleteButton,
+			exportCSVBtn: createCustomExportCSVButton,
 			sizePerPageDropDown: this.renderSizePerPageDropDown,
 			paginationPanel: this.renderPaginationPanel,
 			btnGroup: this.createCustomButtonGroup,
