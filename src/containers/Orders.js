@@ -1,24 +1,37 @@
 import React, { Component } from 'react';
-import {Grid, Row, Col, Tabs, Tab, Image} from 'react-bootstrap';
+import {Grid, Row, Col, Tabs, Tab} from 'react-bootstrap';
 import {connect} from 'react-redux';
-import SearchInput, {createFilter} from 'react-search-input'
-import { BootstrapTable, TableHeaderColumn, ButtonGroup } from 'react-bootstrap-table';
+import SearchInput, {createFilter} from 'react-search-input';
+import { BootstrapTable, TableHeaderColumn } from 'react-bootstrap-table';
+import _ from 'underscore';
 import Navigationbar from '../components/Navigationbar';
 import Footer from '../components/Footer';
-import {KEYS_TO_FILTERS, numberFormatter, convertInventoryJSONToObject} from '../constants';
+import {KEYS_TO_FILTERS, convertInventoryJSONToObject} from '../constants';
 import {
     getCaret, 
     customMultiSelect, 
     createCustomInsertButton, 
     createCustomDeleteButton, 
-    createCustomExportCSVButton
+    createCustomExportCSVButton,
+    renderSizePerPageDropDown,
+    renderPaginationPanel,
+    createCustomButtonGroup,
+    createCustomToolBar,
+    productCellFormatter,
+    cellUnitFormatter,
+    cellValueFormatter,
+    arrowFormatter,
+    sortByTitle,
+    sortByStockValue,
+    sortByCommitValue,
+    sortBySaleValue
 } from '../components/CustomTable';
 import { invokeApig } from '../libs/awsLib';
+
 import '../styles/App.css';
-import '../styles/react-search-input.css'
-import '../styles/react-bootstrap-table.min.css'
-import '../styles/customMultiSelect.css'
-import rightArrow from '../assets/rightArrow.svg'
+import '../styles/react-search-input.css';
+import '../styles/react-bootstrap-table.min.css';
+import '../styles/customMultiSelect.css';
 
 class Orders extends Component {
 	constructor(props) {
@@ -71,119 +84,6 @@ class Orders extends Component {
 	onFocus() {
 
 	}
-
-	renderSizePerPageDropDown(props) {
-		return (
-		  <div className='btn-group'>
-			{
-                [ 10, 25, 30 ].map((n, idx) => {
-                    const isActive = (n === props.currSizePerPage) ? 'active' : null;
-                    return (
-                        <button key={ idx } type='button' className={ `btn btn-info ${isActive}` } onClick={ () => props.changeSizePerPage(n) }>{ n }</button>
-                    );
-                })
-			}
-		  </div>
-		);
-	}
-
-	renderPaginationPanel(props) {
-		return (
-			<div className="pageList-style">
-				{ props.components.pageList }
-			</div>
-		);
-	}
-
-	createCustomButtonGroup(props) {
-		return (
-		  <ButtonGroup className='button-group-custom-class' sizeClass='btn-group-md'>
-				<div className='left-button-view'>
-					{ props.insertBtn }
-				</div>
-				<div className='right-button-view'>
-					{ props.exportCSVBtn }
-					{ props.deleteBtn }
-				</div>
-		  </ButtonGroup>
-		);
-	}
-
-	createCustomToolBar(props) {
-		return (
-            <div style={ { margin: '15px' } }>
-                { props.components.btnGroup }
-            </div>
-		);
-    }
-
-    productCellFormatter(cell, row) {
-        return (
-            <div className="product-data-cell">
-                <div className="productImage">
-                    <img style={{width:70}} src={cell.image} alt="thumb"/>
-                </div>
-                <div className="product-custom-title">
-                    <span className="productName">{cell.title}</span>
-                    <span className="variantTitle">{cell.variant}</span>
-                    <span className="channelNumberText">SKU : {cell.sku}</span>
-                </div>
-            </div>
-        )
-    }
-    
-    cellUnitFormatter(cell, row) {
-        return (
-            <div className="stock-on-hand-cell">
-                { cell}
-            </div>
-        )
-    }
-    
-    cellValueFormatter(cell, row) {
-        return (
-            <div className="stock-on-hand-cell">
-                {cell.currency}{ numberFormatter(Math.round(cell.value * 100) / 100) }
-            </div>
-        )
-    }
-
-    arrowFormatter(cell, row) {
-        return (
-            <div className="stock-on-hand-cell">
-                <Image src={rightArrow} className="rightArrow" />
-            </div>
-        )
-    }
-
-    sortByTitle(a, b, order) {   // order is desc or asc
-        let ascVal = a.productDetail.title.localeCompare(b.productDetail.title);
-        return order === 'asc' ? ascVal : -ascVal;
-    }
-    
-    sortByStockValue(a, b, order) {   // order is desc or asc
-        if (order === 'desc') {
-            return a.stockOnHandValue.value - b.stockOnHandValue.value;
-        } else {
-            return b.stockOnHandValue.value - a.stockOnHandValue.value;
-        }
-    }
-
-    sortByCommitValue(a, b, order) {   // order is desc or asc
-        if (order === 'desc') {
-            return a.committedValue.value - b.committedValue.value;
-        } else {
-            return b.committedValue.value - a.committedValue.value;
-        }
-    }
-
-    sortBySaleValue(a, b, order) {   // order is desc or asc
-        if (order === 'desc') {
-            return a.availableForSaleValue.value - b.availableForSaleValue.value;
-        } else {
-            return b.availableForSaleValue.value - a.availableForSaleValue.value;
-        }
-    }
 
     renderStockUnitsHeader() {
         return(
@@ -245,10 +145,10 @@ class Orders extends Component {
 			insertBtn: createCustomInsertButton,
 			deleteBtn: createCustomDeleteButton,
 			exportCSVBtn: createCustomExportCSVButton,
-			sizePerPageDropDown: this.renderSizePerPageDropDown,
-			paginationPanel: this.renderPaginationPanel,
-			btnGroup: this.createCustomButtonGroup,
-			toolBar: this.createCustomToolBar,
+			sizePerPageDropDown: renderSizePerPageDropDown,
+			paginationPanel: renderPaginationPanel,
+			btnGroup: createCustomButtonGroup,
+			toolBar: createCustomToolBar,
 			paginationSize: 7,
 			prePage: '«   Previous',
 			nextPage: 'Next   »',
@@ -324,8 +224,8 @@ class Orders extends Component {
                                                 dataSort
                                                 className="custom-table-header"
                                                 caretRender={ getCaret }
-                                                dataFormat={ this.productCellFormatter }
-                                                sortFunc={ this.sortByTitle }
+                                                dataFormat={ productCellFormatter }
+                                                sortFunc={ sortByTitle }
                                                 width='40%'
                                             >
                                                 Product
@@ -336,7 +236,7 @@ class Orders extends Component {
                                                 dataSort
                                                 className="custom-table-header"
                                                 caretRender={ getCaret }
-                                                dataFormat={ this.cellUnitFormatter }
+                                                dataFormat={ cellUnitFormatter }
                                             >
                                                 {this.renderStockUnitsHeader()}
                                                 Units
@@ -347,8 +247,8 @@ class Orders extends Component {
                                                 dataSort
                                                 className="custom-table-header"
                                                 caretRender={ getCaret }
-                                                dataFormat={ this.cellValueFormatter }
-                                                sortFunc={ this.sortByStockValue }
+                                                dataFormat={ cellValueFormatter }
+                                                sortFunc={ sortByStockValue }
                                             >
                                                 {this.renderStockValueHeader()}
                                                 $
@@ -359,7 +259,7 @@ class Orders extends Component {
                                                 dataSort
                                                 className="custom-table-header"
                                                 caretRender={ getCaret }
-                                                dataFormat={ this.cellUnitFormatter }
+                                                dataFormat={ cellUnitFormatter }
                                             >
                                                 {this.renderCommitUnitsHeader()}
                                                 Units
@@ -370,8 +270,8 @@ class Orders extends Component {
                                                 dataSort
                                                 className="custom-table-header"
                                                 caretRender={ getCaret }
-                                                dataFormat={ this.cellValueFormatter }
-                                                sortFunc={ this.sortByCommitValue }
+                                                dataFormat={ cellValueFormatter }
+                                                sortFunc={ sortByCommitValue }
                                             >
                                                 {this.renderCommitValueHeader()}
                                                 $
@@ -382,7 +282,7 @@ class Orders extends Component {
                                                 dataSort
                                                 className="custom-table-header"
                                                 caretRender={ getCaret }
-                                                dataFormat={ this.cellUnitFormatter }
+                                                dataFormat={ cellUnitFormatter }
                                             >
                                                 {this.renderSaleUnitsHeader()}
                                                 Units
@@ -393,19 +293,19 @@ class Orders extends Component {
                                                 dataSort
                                                 className="custom-table-header"
                                                 caretRender={ getCaret }
-                                                dataFormat={ this.cellValueFormatter }
-                                                sortFunc={ this.sortBySaleValue }
+                                                dataFormat={ cellValueFormatter }
+                                                sortFunc={ sortBySaleValue }
                                             >
                                                 {this.renderSaleValueHeader()}
                                                 $
                                             </TableHeaderColumn>
                                             <TableHeaderColumn
-												dataAlign="center"
-												className="custom-table-header"
-                                                dataFormat={ this.arrowFormatter }
+                                                dataAlign="center"
+                                                className="custom-table-header"
+                                                dataFormat={ arrowFormatter }
                                                 width='5%'
-											>
-											</TableHeaderColumn>
+                                            >
+                                            </TableHeaderColumn>
                                         </BootstrapTable>
                                     </Row>
                                 </div>

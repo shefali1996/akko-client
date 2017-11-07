@@ -1,12 +1,16 @@
 import React from 'react';
 import { Image, Label } from 'react-bootstrap';
+import { ButtonGroup } from 'react-bootstrap-table';
 import Checkbox from '../components/Checkbox';
+import {numberFormatter} from '../constants';
 
 import sort from '../assets/sort.svg'
 import inversesort from '../assets/inversesort.svg'
 import plus from '../assets/plus.svg'
 import merge from '../assets/merge.svg'
 import deleteIcon from '../assets/delete.svg'
+import rightArrow from '../assets/rightArrow.svg';
+
 import '../styles/App.css';
 import '../styles/react-search-input.css'
 import '../styles/react-bootstrap-table.min.css'
@@ -91,4 +95,117 @@ export const createCustomExportCSVButton = (openModal) => {
             </Label>
         </div>
     );
+}
+
+export const renderSizePerPageDropDown = (props) => {
+    return (
+      <div className='btn-group'>
+        {
+            [ 10, 25, 30 ].map((n, idx) => {
+                const isActive = (n === props.currSizePerPage) ? 'active' : null;
+                return (
+                    <button key={ idx } type='button' className={ `btn btn-info ${isActive}` } onClick={ () => props.changeSizePerPage(n) }>{ n }</button>
+                );
+            })
+        }
+      </div>
+    );
+}
+
+export const renderPaginationPanel = (props) => {
+    return (
+        <div className="pageList-style">
+            { props.components.pageList }
+        </div>
+    );
+}
+
+export const createCustomButtonGroup = (props) => {
+    return (
+      <ButtonGroup className='button-group-custom-class' sizeClass='btn-group-md'>
+            <div className='left-button-view'>
+                { props.insertBtn }
+            </div>
+            <div className='right-button-view'>
+                { props.exportCSVBtn }
+                { props.deleteBtn }
+            </div>
+      </ButtonGroup>
+    );
+}
+
+export const createCustomToolBar = (props) => {
+    return (
+        <div style={ { margin: '15px' } }>
+            { props.components.btnGroup }
+        </div>
+    );
+}
+
+export const productCellFormatter = (cell, row) => {
+    return (
+        <div className="product-data-cell">
+            <div className="productImage">
+                <img style={{width:70}} src={cell.image} alt="thumb"/>
+            </div>
+            <div className="product-custom-title">
+                <span className="productName">{cell.title}</span>
+                <span className="variantTitle">{cell.variant}</span>
+                <span className="channelNumberText">SKU : {cell.sku}</span>
+            </div>
+        </div>
+    )
+}
+
+export const cellUnitFormatter = (cell, row) => {
+    return (
+        <div className="stock-on-hand-cell">
+            { cell}
+        </div>
+    )
+}
+
+export const cellValueFormatter = (cell, row) => {
+    return (
+        <div className="stock-on-hand-cell">
+            {cell.currency}{ numberFormatter(Math.round(cell.value * 100) / 100) }
+        </div>
+    )
+}
+
+export const arrowFormatter = (cell, row) => {
+    return (
+        <div className="stock-on-hand-cell">
+            <Image src={rightArrow} className="rightArrow" />
+        </div>
+    )
+}
+
+export const sortByTitle = (a, b, order) => {
+    let ascVal = a.productDetail.title.localeCompare(b.productDetail.title);
+    return order === 'asc' ? ascVal : -ascVal;
+}
+
+export const sortByStockValue = (a, b, order) => {
+    if (order === 'desc') {
+        return a.stockOnHandValue.value - b.stockOnHandValue.value;
+    } else {
+        return b.stockOnHandValue.value - a.stockOnHandValue.value;
+    }
+}
+
+export const sortByCommitValue = (a, b, order) => {
+    if (order === 'desc') {
+        return a.committedValue.value - b.committedValue.value;
+    } else {
+        return b.committedValue.value - a.committedValue.value;
+    }
+}
+
+export const sortBySaleValue = (a, b, order) => {
+    if (order === 'desc') {
+        return a.availableForSaleValue.value - b.availableForSaleValue.value;
+    } else {
+        return b.availableForSaleValue.value - a.availableForSaleValue.value;
+    }
 }
