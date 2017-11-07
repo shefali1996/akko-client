@@ -7,64 +7,17 @@ import _ from 'underscore';
 import Navigationbar from '../components/Navigationbar';
 import Footer from '../components/Footer';
 import Checkbox from '../components/Checkbox';
-import {KEYS_TO_FILTERS, numberFormatter} from '../constants';
+import {KEYS_TO_FILTERS, numberFormatter, convertInventoryJSONToObject, getCaret} from '../constants';
 import { invokeApig } from '../libs/awsLib';
 
 import '../styles/App.css';
-import '../styles/react-search-input.css'
-import '../styles/react-bootstrap-table.min.css'
-import '../styles/customMultiSelect.css'
-import plus from '../assets/plus.svg'
-import merge from '../assets/merge.svg'
-import deleteIcon from '../assets/delete.svg'
-import sort from '../assets/sort.svg'
-import inversesort from '../assets/inversesort.svg'
-import rightArrow from '../assets/rightArrow.svg'
-
-function getCaret(direction) {
-	if (direction === 'asc') {
-	  return (
-		<Image src={sort} className="sort-icon" />
-	  );
-	}
-	if (direction === 'desc') {
-	  return (
-		<Image src={inversesort} className="sort-icon" />
-	  );
-	}
-	return (
-	  <Image src={sort} className="sort-icon" />
-	);
-}
-
-function convertInventoryJSONToObject(inventoryJSON){
-	var products = [];
-	for(let i = 0; i < inventoryJSON.length; i++)
-	{
-        const currProduct = inventoryJSON[i];
-		const productEntry = {
-			id: currProduct.id,
-			productDetail: currProduct.product_details,
-			stockOnHandUnits: currProduct.inventory_details.in_stock_units,
-            stockOnHandValue: {
-                value: currProduct.inventory_details.in_stock_value,
-                currency: currProduct.currency
-            },
-            committedUnits: currProduct.inventory_details.committed_units,
-            committedValue: {
-                value: currProduct.inventory_details.committed_value,
-                currency: currProduct.currency
-            },
-            availableForSaleUnits: currProduct.inventory_details.available_units,
-            availableForSaleValue: {
-                value: currProduct.inventory_details.available_value,
-                currency: currProduct.currency
-            }
-		}
-		products.push(productEntry);
-	}
-	return products;
-}
+import '../styles/react-search-input.css';
+import '../styles/react-bootstrap-table.min.css';
+import '../styles/customMultiSelect.css';
+import plus from '../assets/plus.svg';
+import merge from '../assets/merge.svg';
+import deleteIcon from '../assets/delete.svg';
+import rightArrow from '../assets/rightArrow.svg';
 
 class Inventory extends Component {
 	constructor(props) {

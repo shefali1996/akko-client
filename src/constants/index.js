@@ -1,5 +1,10 @@
+import React from 'react';
 import Radium from 'radium';
 import { headShake } from 'react-animations'
+import { Image } from 'react-bootstrap';
+import sort from '../assets/sort.svg'
+import inversesort from '../assets/inversesort.svg'
+
 
 export const KEYS_TO_FILTERS = ['productDetail.title', 'stockOnHandUnits', 'stockOnHandValue.value', 'committedUnits', 'committedValue.value', 'availableForSaleUnits', 'availableForSaleValue.value']
 
@@ -26,4 +31,47 @@ export const animationStyle = {
       animation: 'x 1s',
       animationName: Radium.keyframes(headShake, 'headShake')
     }
+}
+
+export const convertInventoryJSONToObject = (inventoryJSON) => {
+	var products = [];
+	for(let i = 0; i < inventoryJSON.length; i++)
+	{
+        const currProduct = inventoryJSON[i];
+		const productEntry = {
+			id: currProduct.id,
+			productDetail: currProduct.product_details,
+			stockOnHandUnits: currProduct.inventory_details.in_stock_units,
+            stockOnHandValue: {
+                value: currProduct.inventory_details.in_stock_value,
+                currency: currProduct.currency
+            },
+            committedUnits: currProduct.inventory_details.committed_units,
+            committedValue: {
+                value: currProduct.inventory_details.committed_value,
+                currency: currProduct.currency
+            },
+            availableForSaleUnits: currProduct.inventory_details.available_units,
+            availableForSaleValue: {
+                value: currProduct.inventory_details.available_value,
+                currency: currProduct.currency
+            }
+		}
+		products.push(productEntry);
+	}
+	return products;
+}
+
+export const getCaret = (direction) => {
+	if (direction === 'asc') {
+	  return <Image src={sort} className="sort-icon" />;
+	}
+	if (direction === 'desc') {
+	  return (
+		<Image src={inversesort} className="sort-icon" />
+	  );
+	}
+	return (
+	  <Image src={sort} className="sort-icon" />
+	);
 }
