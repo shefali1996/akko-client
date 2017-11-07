@@ -6,7 +6,8 @@ import { BootstrapTable, TableHeaderColumn, ButtonGroup } from 'react-bootstrap-
 import _ from 'underscore';
 import Navigationbar from '../components/Navigationbar';
 import Footer from '../components/Footer';
-import {KEYS_TO_FILTERS, numberFormatter, convertInventoryJSONToObject, getCaret, customMultiSelect} from '../constants';
+import {KEYS_TO_FILTERS, numberFormatter, convertInventoryJSONToObject} from '../constants';
+import {getCaret, customMultiSelect} from '../components/CustomTable';
 import { invokeApig } from '../libs/awsLib';
 
 import '../styles/App.css';

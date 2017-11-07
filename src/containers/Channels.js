@@ -49,11 +49,11 @@ class Channels extends Component {
 	}
 
 	handleSelect(key) {
-		if(key === 1){
+		if(key === 1) {
 			this.props.history.push('/channels');
-		}else if(key === 2){
+		}else if(key === 2) {
 			this.props.history.push('/inventory');
-		}else{
+		}else {
 			this.props.history.push('/orders');
 		}
 	}
