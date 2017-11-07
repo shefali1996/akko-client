@@ -10,7 +10,7 @@ class Footer extends Component {
 			<div className="footer-container">
 				<Row className="no-margin white-bg padding-header">
                     <div className="top-border">
-                        <Col md={4} xs={4} className="text-left padding-t-5 no-padding">
+                        <Col md={4} xs={4} className="text-left padding-t-5 no-padding">
                             <div>
                                 <Image src={headerIcon} className="headerIcon" />
                                 <Label className="company-title">

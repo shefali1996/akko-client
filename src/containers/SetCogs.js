@@ -29,6 +29,7 @@ class SetCogs extends Component {
     componentDidMount() {
         if(localStorage.getItem('inventoryInfo') === null ) {
             this.products().then((results) => {
+                console.log("result", results)
                 var products = convertInventoryJSONToObject(results);
                 this.setState({ data: products });
                 localStorage.setItem('inventoryInfo', JSON.stringify(products));    
@@ -123,7 +124,7 @@ class SetCogs extends Component {
                             </div>
                             <div className="flex-center margin-t-40">
                                 <span className="select-style-comment">
-                                    We found {data.length} products in 364 variants from your shop. How do you
+                                    We found {data.length} product-variants from your shop. How do you
                                 </span>
                             </div>
                             <div className="flex-center margin-t-5">
