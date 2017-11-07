@@ -1,15 +1,19 @@
 import React, { Component } from 'react';
 import {connect} from 'react-redux';
 import {Grid, Row, Col, Button, Label, Image} from 'react-bootstrap';
-import '../styles/App.css';
+import {convertInventoryJSONToObject} from '../constants';
+import { invokeApig } from '../libs/awsLib';
+
 import cogs1 from '../assets/cogs1.svg'
 import cogs2 from '../assets/cogs2.svg'
 import cogs3 from '../assets/cogs3.svg'
 
+import '../styles/App.css';
 class SetCogs extends Component {
     constructor(props) {
         super(props);
         this.state = {
+            data: [],
             option: ''
         };
         this.goLanding = this.goLanding.bind(this);
@@ -20,9 +24,25 @@ class SetCogs extends Component {
     }
 
     componentDidMount() {
-        
-    }   
+        if(localStorage.getItem('inventoryInfo') === null ) {
+            this.products().then((results) => {
+                var products = convertInventoryJSONToObject(results);
+                this.setState({ data: products });
+                localStorage.setItem('inventoryInfo', JSON.stringify(products));    
+            })
+            .catch(error => {
+                console.log("login error", error);
+            });;
+        }else {
+            var existingProducts = JSON.parse(localStorage.getItem('inventoryInfo'));
+            this.setState({ data: existingProducts });
+        }
+	} 
 
+    products() {
+		return invokeApig({ path: "/inventory" });
+    }
+    
     componentWillMount() {
         
     }
@@ -57,7 +77,7 @@ class SetCogs extends Component {
     }
     
     render() {
-        let {option} = this.state;
+        let {option, data} = this.state;
         return (
             <div>
                 <Grid className="login-layout">
@@ -97,7 +117,7 @@ class SetCogs extends Component {
                             </div>
                             <div className="flex-center margin-t-40">
                                 <span className="select-style-comment">
-                                    We found 112 products in 364 variants from your shop. How do you
+                                    We found {data.length} products in 364 variants from your shop. How do you
                                 </span>
                             </div>
                             <div className="flex-center margin-t-5">
