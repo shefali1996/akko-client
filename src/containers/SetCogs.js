@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import {connect} from 'react-redux';
 import {Grid, Row, Col, Button, Label, Image} from 'react-bootstrap';
+import SweetAlert from 'sweetalert-react';
 import {convertInventoryJSONToObject} from '../constants';
 import { invokeApig } from '../libs/awsLib';
 
@@ -14,13 +15,15 @@ class SetCogs extends Component {
         super(props);
         this.state = {
             data: [],
-            option: ''
+            option: '',
+            alertShow: false
         };
         this.goLanding = this.goLanding.bind(this);
-        this.onConnect = this.onConnect.bind(this);
+        this.onSkip = this.onSkip.bind(this);
         this.onTypeOneSelected = this.onTypeOneSelected.bind(this);
         this.onTypeTwoSelected = this.onTypeTwoSelected.bind(this);
         this.onTypeThreeSelected = this.onTypeThreeSelected.bind(this);
+        this.onConfirm = this.onConfirm.bind(this);
     }
 
     componentDidMount() {
@@ -52,28 +55,31 @@ class SetCogs extends Component {
     }
     
     onTypeOneSelected() {
-        this.setState({
-            option: 'one'
-        })
+        this.setState({option: "one"});
+        this.props.history.push('/set-table');
     }
 
     onTypeTwoSelected() {
-        this.setState({
-            option: 'two'
-        })
+        this.setState({option: "two"});
+        this.props.history.push('/set-csv');
     }
             
     onTypeThreeSelected() {
-        this.setState({
-            option: 'three'
-        })
+        this.setState({option: "three"})
+        this.props.history.push('/set-table');
+    }
+    
+    onSkip() {
+        this.setState({alertShow: true})
+        // let {option} = this.state;
+        // if(option.length > 0) {
+        //     this.props.history.push('/set-csv');
+        // }
     }
 
-    onConnect() {
-        let {option} = this.state;
-        if(option.length > 0) {
-            this.props.history.push('/set-csv');
-        }
+    onConfirm() {
+        this.setState({alertShow: false})
+        this.props.history.push('/inventory');
     }
     
     render() {
@@ -191,10 +197,22 @@ class SetCogs extends Component {
                         </Col>
                     </Row>
                     <div className="text-center margin-t-50">
-                        <Button className="skip-button" onClick={this.onConnect}>
+                        <Button className="skip-button" onClick={this.onSkip}>
                             SKIP FOR NOW
                         </Button>
                     </div>
+                    <SweetAlert
+                        show={this.state.alertShow}
+                        showConfirmButton
+                        showCancelButton
+                        type="warning"
+                        title="Confirm"
+                        text="We cannot calculate Gross Profit figures without COGS information. You can also set/update these figures later from the Settings menu"
+                        onConfirm={this.onConfirm}
+                        onCancel={() => {
+                            this.setState({ alertShow: false });
+                        }}
+                    />
                 </Grid>
             </div>
         );
