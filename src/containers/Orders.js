@@ -5,8 +5,7 @@ import SearchInput, {createFilter} from 'react-search-input'
 import { BootstrapTable, TableHeaderColumn, ButtonGroup } from 'react-bootstrap-table';
 import Navigationbar from '../components/Navigationbar';
 import Footer from '../components/Footer';
-import Checkbox from '../components/Checkbox';
-import {KEYS_TO_FILTERS, numberFormatter} from '../constants';
+import {KEYS_TO_FILTERS, numberFormatter, convertInventoryJSONToObject, getCaret, customMultiSelect} from '../constants';
 import { invokeApig } from '../libs/awsLib';
 import '../styles/App.css';
 import '../styles/react-search-input.css'
@@ -15,54 +14,7 @@ import '../styles/customMultiSelect.css'
 import plus from '../assets/plus.svg'
 import merge from '../assets/merge.svg'
 import deleteIcon from '../assets/delete.svg'
-import sort from '../assets/sort.svg'
-import inversesort from '../assets/inversesort.svg'
 import rightArrow from '../assets/rightArrow.svg'
-
-function getCaret(direction) {
-	if (direction === 'asc') {
-	  return (
-		<Image src={sort} className="sort-icon" />
-	  );
-	}
-	if (direction === 'desc') {
-	  return (
-		<Image src={inversesort} className="sort-icon" />
-	  );
-	}
-	return (
-	  <Image src={sort} className="sort-icon" />
-	);
-}
-
-function convertInventoryJSONToObject(inventoryJSON){
-	var products = [];
-	for(let i = 0; i < inventoryJSON.length; i++)
-	{
-        const currProduct = inventoryJSON[i];
-		const productEntry = {
-			id: currProduct.id,
-			productDetail: currProduct.product_details,
-			stockOnHandUnits: currProduct.inventory_details.in_stock_units,
-            stockOnHandValue: {
-                value: currProduct.inventory_details.in_stock_value,
-                currency: currProduct.currency
-            },
-            committedUnits: currProduct.inventory_details.committed_units,
-            committedValue: {
-                value: currProduct.inventory_details.committed_value,
-                currency: currProduct.currency
-            },
-            availableForSaleUnits: currProduct.inventory_details.available_units,
-            availableForSaleValue: {
-                value: currProduct.inventory_details.available_value,
-                currency: currProduct.currency
-            }
-		}
-		products.push(productEntry);
-	}
-	return products;
-}
 
 class Orders extends Component {
 	constructor(props) {
@@ -114,40 +66,6 @@ class Orders extends Component {
 
 	onFocus() {
 
-	}
-
-	customMultiSelect(props) {
-        const { type, checked, disabled, onChange, rowIndex } = props;
-		if (rowIndex === 'Header') {
-		  return (
-			<div className='checkbox-personalized'>
-                <Checkbox {...props}/>
-                <label htmlFor={ 'checkbox' + rowIndex }>
-                    <div className='check'></div>
-                </label>
-			</div>);
-		} else {
-		    return (
-                <div className='checkbox-personalized'>
-                    <input
-                        type={ type }
-                        name={ 'checkbox' + rowIndex }
-                        id={ 'checkbox' + rowIndex }
-                        checked={ checked }
-                        disabled={ disabled }
-                        onChange={ e=> onChange(e, rowIndex) }
-                        ref={ input => {
-                            if (input) {
-                                input.indeterminate = props.indeterminate;
-                            }
-                        } }
-                    />
-                    <label htmlFor={ 'checkbox' + rowIndex }>
-                        <div className='check'></div>
-                    </label>
-                </div>
-            );
-		}
 	}
 
 	createCustomInsertButton(openModal) {
@@ -349,7 +267,7 @@ class Orders extends Component {
         const filteredData = data.filter(createFilter(searchTerm, KEYS_TO_FILTERS))
 		const selectRowProp = {
 			mode: 'checkbox',
-            customComponent: this.customMultiSelect,
+            customComponent: customMultiSelect,
             clickToSelect: true
 		};
 		const options = {

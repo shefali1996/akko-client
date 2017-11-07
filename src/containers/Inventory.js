@@ -6,8 +6,7 @@ import { BootstrapTable, TableHeaderColumn, ButtonGroup } from 'react-bootstrap-
 import _ from 'underscore';
 import Navigationbar from '../components/Navigationbar';
 import Footer from '../components/Footer';
-import Checkbox from '../components/Checkbox';
-import {KEYS_TO_FILTERS, numberFormatter, convertInventoryJSONToObject, getCaret} from '../constants';
+import {KEYS_TO_FILTERS, numberFormatter, convertInventoryJSONToObject, getCaret, customMultiSelect} from '../constants';
 import { invokeApig } from '../libs/awsLib';
 
 import '../styles/App.css';
@@ -73,40 +72,6 @@ class Inventory extends Component {
 
 	onFocus() {
 
-	}
-
-	customMultiSelect(props) {
-        const { type, checked, disabled, onChange, rowIndex } = props;
-		if (rowIndex === 'Header') {
-		  return (
-			<div className='checkbox-personalized'>
-                <Checkbox {...props}/>
-                <label htmlFor={ 'checkbox' + rowIndex }>
-                    <div className='check'></div>
-                </label>
-			</div>);
-		} else {
-		    return (
-                <div className='checkbox-personalized'>
-                    <input
-                        type={ type }
-                        name={ 'checkbox' + rowIndex }
-                        id={ 'checkbox' + rowIndex }
-                        checked={ checked }
-                        disabled={ disabled }
-                        onChange={ e=> onChange(e, rowIndex) }
-                        ref={ input => {
-                            if (input) {
-                                input.indeterminate = props.indeterminate;
-                            }
-                        } }
-                    />
-                    <label htmlFor={ 'checkbox' + rowIndex }>
-                        <div className='check'></div>
-                    </label>
-                </div>
-            );
-		}
 	}
 
 	createCustomInsertButton(openModal) {
@@ -308,7 +273,7 @@ class Inventory extends Component {
         const filteredData = data.filter(createFilter(searchTerm, KEYS_TO_FILTERS))
 		const selectRowProp = {
 			mode: 'checkbox',
-            customComponent: this.customMultiSelect,
+            customComponent: customMultiSelect,
             clickToSelect: true
 		};
 		const options = {
