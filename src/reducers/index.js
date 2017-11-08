@@ -1,7 +1,7 @@
 import { combineReducers } from 'redux';
-import inventory from './inventoryReducer'
-const reducer = combineReducers({
-    inventory
-});
+import inventoryReducer from './inventoryReducer';
 
-export default reducer;
+export default combineReducers({
+	// the keys here are going to be the property of state that we are producing.
+	inventoryReducer
+});

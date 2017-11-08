@@ -3,7 +3,7 @@ import {connect} from 'react-redux';
 import {Grid, Row, Col, Button, Label, Tabs, Tab, FormControl} from 'react-bootstrap';
 import Select from 'react-select';
 import SweetAlert from 'sweetalert-react';
-import { validateEmail } from '../constants';
+// import { validateEmail } from '../constants';
 import '../styles/App.css';
 import 'react-select/dist/react-select.css';
 import 'sweetalert/dist/sweetalert.css';

@@ -1,29 +1,22 @@
 import React, { Component } from 'react';
 import {connect} from 'react-redux';
-import {Grid, Row, Col, Button, Label, FormControl, Image} from 'react-bootstrap';
+import {Grid, Row, Col, Button, Label, FormControl} from 'react-bootstrap';
 import SearchInput, {createFilter} from 'react-search-input';
 import { BootstrapTable, TableHeaderColumn } from 'react-bootstrap-table';
 import {
     getCaret, 
     customMultiSelect, 
-    createCustomInsertButton, 
-    createCustomDeleteButton, 
-    createCustomExportCSVButton,
     renderSizePerPageDropDown,
     renderPaginationPanel,
     createCustomButtonGroup,
     createCustomToolBar,
     productCellFormatter,
     sortByTitle,
-    sortByStockValue,
-    sortByCommitValue,
-    sortBySaleValue
 } from '../components/CustomTable';
 import {KEYS_TO_FILTERS, convertInventoryJSONToObject} from '../constants';
 import { invokeApig } from '../libs/awsLib';
-import Checkbox from '../components/Checkbox';
+import { inventoryGetRequest } from '../actions';
 import '../styles/App.css';
-import blankImage from '../assets/blankImage.svg'
 
 class SetTable extends Component {
     constructor(props) {
@@ -40,21 +33,22 @@ class SetTable extends Component {
     }
 
     componentDidMount() {
-        if(localStorage.getItem('inventoryInfo') === null ) {
-            this.products().then((results) => {
-                console.log("result", results)
-                var products = convertInventoryJSONToObject(results);
-                this.setState({ data: products });
-                localStorage.setItem('inventoryInfo', JSON.stringify(products));    
-            })
-            .catch(error => {
-                console.log("login error", error);
-            });;
-        }else {
-            var existingProducts = JSON.parse(localStorage.getItem('inventoryInfo'));
-            console.log("exsit", existingProducts)
-            this.setState({ data: existingProducts });
-        }
+        // if(localStorage.getItem('inventoryInfo') === null ) {
+        //     this.products().then((results) => {
+        //         console.log("result", results)
+        //         var products = convertInventoryJSONToObject(results);
+        //         this.setState({ data: products });
+        //         localStorage.setItem('inventoryInfo', JSON.stringify(products));    
+        //     })
+        //     .catch(error => {
+        //         console.log("login error", error);
+        //     });;
+        // }else {
+        //     var existingProducts = JSON.parse(localStorage.getItem('inventoryInfo'));
+        //     console.log("exsit", existingProducts)
+        //     this.setState({ data: existingProducts });
+        // }
+        this.props.inventoryGetRequest();
     }   
 
     componentWillMount() {
@@ -275,4 +269,4 @@ const mapStateToProps = state => ({
 
 })
 
-export default connect(mapStateToProps)(SetTable);
+export default connect(mapStateToProps, { inventoryGetRequest })(SetTable);
