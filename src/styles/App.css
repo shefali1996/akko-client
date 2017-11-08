@@ -1282,3 +1282,30 @@
 	display: none;
 	height: 0px;
 }
+.setTablePageList-style {
+    text-align: center;
+	margin-top: 0px;
+}
+.setTablePageList-style .pagination .page-item .page-link {
+  font-family: Lato;
+  font-size: 14px;
+  font-weight: 400;
+  color: #000000;
+  text-decoration: none solid rgb(0, 0, 0);
+  text-align: center;
+  border: none;
+}
+.setTablePageList-style .pagination .active.page-item .page-link {
+  font-family: Lato;
+  font-size: 14px;
+  font-weight: 400;
+  color: #fff;
+  text-decoration: none solid rgb(0, 0, 0);
+  text-align: center;
+  border: none;
+  border-radius: 0px;
+  background: #2199e8;
+}
+.react-bs-table {
+    height: unset !important;
+}

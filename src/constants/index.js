@@ -33,7 +33,6 @@ export const convertInventoryJSONToObject = (inventoryJSON) => {
 	for(let i = 0; i < inventoryJSON.length; i++)
 	{
         const currProduct = inventoryJSON[i];
-        console.log(currProduct)
 		const productEntry = {
 			id: currProduct.id,
 			productDetail: currProduct.product_details,

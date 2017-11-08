@@ -7,9 +7,7 @@ import {
     getCaret, 
     customMultiSelect, 
     renderSizePerPageDropDown,
-    renderPaginationPanel,
-    createCustomButtonGroup,
-    createCustomToolBar,
+    renderSetTablePaginationPanel,
     productCellFormatter,
     sortByTitle,
 } from '../components/CustomTable';
@@ -33,22 +31,21 @@ class SetTable extends Component {
     }
 
     componentDidMount() {
-        // if(localStorage.getItem('inventoryInfo') === null ) {
-        //     this.products().then((results) => {
-        //         console.log("result", results)
-        //         var products = convertInventoryJSONToObject(results);
-        //         this.setState({ data: products });
-        //         localStorage.setItem('inventoryInfo', JSON.stringify(products));    
-        //     })
-        //     .catch(error => {
-        //         console.log("login error", error);
-        //     });;
-        // }else {
-        //     var existingProducts = JSON.parse(localStorage.getItem('inventoryInfo'));
-        //     console.log("exsit", existingProducts)
-        //     this.setState({ data: existingProducts });
-        // }
-        this.props.inventoryGetRequest();
+        if(localStorage.getItem('inventoryInfo') === null ) {
+            this.products().then((results) => {
+                var products = convertInventoryJSONToObject(results);
+                this.setState({ data: products });
+                localStorage.setItem('inventoryInfo', JSON.stringify(products));    
+            })
+            .catch(error => {
+                console.log("get inventory error", error);
+            });;
+        }else {
+            var existingProducts = JSON.parse(localStorage.getItem('inventoryInfo'));
+            console.log(existingProducts)
+            this.setState({ data: existingProducts });
+        }
+        // this.props.inventoryGetRequest();
     }   
 
     componentWillMount() {
@@ -87,9 +84,7 @@ class SetTable extends Component {
 		};
 		const options = {
 			sizePerPageDropDown: renderSizePerPageDropDown,
-			paginationPanel: renderPaginationPanel,
-			btnGroup: createCustomButtonGroup,
-			toolBar: createCustomToolBar,
+			paginationPanel: renderSetTablePaginationPanel,
 			paginationSize: 7,
 			prePage: '«   Previous',
 			nextPage: 'Next   »',
@@ -218,7 +213,7 @@ class SetTable extends Component {
                                     >
                                         Product
                                     </TableHeaderColumn>
-                                    <TableHeaderColumn
+                                    {/* <TableHeaderColumn
                                         dataField='cogsValue'
                                         dataAlign="center"
                                         dataSort
@@ -229,7 +224,7 @@ class SetTable extends Component {
                                         width='20%'
                                     >
                                         Product
-                                    </TableHeaderColumn>
+                                    </TableHeaderColumn> */}
                                 </BootstrapTable>
                             </div>
                             <div className="content-center margin-40">
@@ -264,8 +259,11 @@ class SetTable extends Component {
     }
 }
 
-const mapStateToProps = state => ({
-
-})
+const mapStateToProps = state => {
+    return {
+        // dataset: state.dataset,
+        // profile: state.user
+    }
+}
 
 export default connect(mapStateToProps, { inventoryGetRequest })(SetTable);

@@ -120,6 +120,14 @@ export const renderPaginationPanel = (props) => {
     );
 }
 
+export const renderSetTablePaginationPanel = (props) => {
+    return (
+        <div className="setTablePageList-style">
+            { props.components.pageList }
+        </div>
+    );
+}
+
 export const createCustomButtonGroup = (props) => {
     return (
       <ButtonGroup className='button-group-custom-class' sizeClass='btn-group-md'>
