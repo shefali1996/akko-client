@@ -12,11 +12,10 @@ import SetCsv from './SetCsv';
 import SetTable from './SetTable';
 import AuthorizedContainer from './AuthorizedContainer'
 import createHistory from 'history/createBrowserHistory'
-import configureStore from '../store'
+import store from '../store'
 import NotFound from "./NotFound";
 import '../styles/App.css';
 
-const store = configureStore();
 const history = createHistory();
 
 class App extends Component {

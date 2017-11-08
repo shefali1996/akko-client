@@ -80,7 +80,6 @@ class SetTable extends Component {
     render() {
         let {data, searchTerm, markup} = this.state
         const filteredData = data.filter(createFilter(searchTerm, KEYS_TO_FILTERS))
-        console.log(filteredData)
 		const selectRowProp = {
 			mode: 'checkbox',
             customComponent: customMultiSelect,
