@@ -1160,6 +1160,7 @@
 	display: flex;
 	justify-content: center;
 	align-items: center;
+	cursor: pointer;
 }
 .drag-text {
 	font-family: Ubuntu;
@@ -1283,7 +1284,7 @@
 	height: 0px;
 }
 .setTablePageList-style {
-    text-align: center;
+	text-align: center;
 	margin-top: 0px;
 }
 .setTablePageList-style .pagination .page-item .page-link {
@@ -1311,4 +1312,20 @@
 }
 .no-border {
 	border: 0px solid #c8c8e8;
+}
+.upload-csv-button {
+	width: 120px;
+	height: 34px;
+	padding: 6px 10px;
+	background-color: #ffffff;
+	font-family: Ubuntu;
+	font-size: 14px;
+	color: #1d2fb5;
+	font-weight: 400;
+	text-decoration: none solid rgb(29, 47, 181);
+	text-align: center;
+	box-shadow: 0 1px 2px rgba(0, 0, 0, 0.5);
+	border: none;
+	border-radius: 0;
+	cursor: pointer;
 }

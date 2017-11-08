@@ -160,9 +160,14 @@ class SetCsv extends Component {
                                 </span>
                             </div>
                             <div className="flex-center margin-t-20">
-                                <Button className="login-button" onClick={this.onConnect}>
+                                <Dropzone 
+                                    accept="text/csv"
+                                    onDrop={this.onDrop.bind(this)}
+                                    className="upload-csv-button"
+                                >
                                     UPLOAD CSV
-                                </Button>
+                                </Dropzone>
+                                
                             </div>
                             <div className="content-center margin-t-40">
                                 <Col md={6} className="text-left no-padding">
