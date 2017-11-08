@@ -1,7 +1,26 @@
 import React, { Component } from 'react';
 import {connect} from 'react-redux';
 import {Grid, Row, Col, Button, Label, FormControl, Image} from 'react-bootstrap';
-import SearchInput from 'react-search-input'
+import SearchInput, {createFilter} from 'react-search-input';
+import { BootstrapTable, TableHeaderColumn } from 'react-bootstrap-table';
+import {
+    getCaret, 
+    customMultiSelect, 
+    createCustomInsertButton, 
+    createCustomDeleteButton, 
+    createCustomExportCSVButton,
+    renderSizePerPageDropDown,
+    renderPaginationPanel,
+    createCustomButtonGroup,
+    createCustomToolBar,
+    productCellFormatter,
+    sortByTitle,
+    sortByStockValue,
+    sortByCommitValue,
+    sortBySaleValue
+} from '../components/CustomTable';
+import {KEYS_TO_FILTERS, convertInventoryJSONToObject} from '../constants';
+import { invokeApig } from '../libs/awsLib';
 import Checkbox from '../components/Checkbox';
 import '../styles/App.css';
 import blankImage from '../assets/blankImage.svg'
@@ -10,21 +29,42 @@ class SetTable extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            markup: ''
+            markup: '',
+            data: [],
+            searchTerm: ''
         };
         this.goLanding = this.goLanding.bind(this);
         this.onConnect = this.onConnect.bind(this);
         this.onMarkUpChange = this.onMarkUpChange.bind(this);
+        this.searchUpdated = this.searchUpdated.bind(this);
     }
 
     componentDidMount() {
-        
+        if(localStorage.getItem('inventoryInfo') === null ) {
+            this.products().then((results) => {
+                console.log("result", results)
+                var products = convertInventoryJSONToObject(results);
+                this.setState({ data: products });
+                localStorage.setItem('inventoryInfo', JSON.stringify(products));    
+            })
+            .catch(error => {
+                console.log("login error", error);
+            });;
+        }else {
+            var existingProducts = JSON.parse(localStorage.getItem('inventoryInfo'));
+            console.log("exsit", existingProducts)
+            this.setState({ data: existingProducts });
+        }
     }   
 
     componentWillMount() {
         
     }
 
+    products() {
+		return invokeApig({ path: "/inventory" });
+    }
+    
     goLanding() {
         this.props.history.push('/');
     }
@@ -37,8 +77,32 @@ class SetTable extends Component {
 
     }
 
+    searchUpdated(term) {
+        this.setState({
+            searchTerm: term
+        })
+    }
+    
     render() {
-        let {markup} = this.state;
+        let {data, searchTerm, markup} = this.state
+        const filteredData = data.filter(createFilter(searchTerm, KEYS_TO_FILTERS))
+        console.log(filteredData)
+		const selectRowProp = {
+			mode: 'checkbox',
+            customComponent: customMultiSelect,
+            clickToSelect: true
+		};
+		const options = {
+			sizePerPageDropDown: renderSizePerPageDropDown,
+			paginationPanel: renderPaginationPanel,
+			btnGroup: createCustomButtonGroup,
+			toolBar: createCustomToolBar,
+			paginationSize: 7,
+			prePage: '«   Previous',
+			nextPage: 'Next   »',
+            withFirstAndLast: false,
+            sortIndicator: false
+        };
         return (
             <div>
                 <Grid className="login-layout">
@@ -127,173 +191,53 @@ class SetTable extends Component {
                                     </Button>
                                 </Col>
                             </div>
-                            <div className="product-view margin-t-30">
-                                <div className='checkbox-personalized'>
-                                    <Checkbox />
-                                    <label htmlFor={ 'checkbox' }>
-                                        <div className='check'></div>
-                                    </label>
-                                </div>
-                                <Image src={blankImage} className="blank-image-icon" />
-                                <div className="product-text-view">
-                                    <span className="product-title">
-                                        Super long very long even longer description of p...
-                                    </span>
-                                    <span className="product-type">
-                                        Cotton / Blue / Small
-                                    </span>
-                                    <div>
-                                        <span className="product-type">
-                                            SKU : hanes-blue-small
-                                        </span>
-                                        <span className="product-price-front">
-                                            Selling for:
-                                        </span>
-                                        <span className="product-price-back">
-                                            $195.00
-                                        </span>
-                                    </div>
-                                </div>
-                                <div className="currency-view">
-                                    <span className="product-currency">
-                                        $
-                                    </span>
-                                    <span className="product-currency-text">
-                                        COGS
-                                    </span>
-                                </div>
-                                <FormControl
-                                    type="text"
-                                    className="product-input"
-                                    value={markup}
-                                    onChange={this.onMarkUpChange}
-                                />
-                            </div>
-                            <div className="product-view margin-t-10">
-                                <div className='checkbox-personalized'>
-                                    <Checkbox />
-                                    <label htmlFor={ 'checkbox' }>
-                                        <div className='check'></div>
-                                    </label>
-                                </div>
-                                <Image src={blankImage} className="blank-image-icon" />
-                                <div className="product-text-view">
-                                    <span className="product-title">
-                                        Super long very long even longer description of p...
-                                    </span>
-                                    <span className="product-type">
-                                        Cotton / Blue / Small
-                                    </span>
-                                    <div>
-                                        <span className="product-type">
-                                            SKU : hanes-blue-small
-                                        </span>
-                                        <span className="product-price-front">
-                                            Selling for:
-                                        </span>
-                                        <span className="product-price-back">
-                                            $195.00
-                                        </span>
-                                    </div>
-                                </div>
-                                <div className="currency-view">
-                                    <span className="product-currency">
-                                        $
-                                    </span>
-                                    <span className="product-currency-text">
-                                        COGS
-                                    </span>
-                                </div>
-                                <FormControl
-                                    type="text"
-                                    className="product-input"
-                                    value={markup}
-                                    onChange={this.onMarkUpChange}
-                                />
-                            </div>
-                            <div className="product-view margin-t-10">
-                                <div className='checkbox-personalized'>
-                                    <Checkbox />
-                                    <label htmlFor={ 'checkbox' }>
-                                        <div className='check'></div>
-                                    </label>
-                                </div>
-                                <Image src={blankImage} className="blank-image-icon" />
-                                <div className="product-text-view">
-                                    <span className="product-title">
-                                        Super long very long even longer description of p...
-                                    </span>
-                                    <span className="product-type">
-                                        Cotton / Blue / Small
-                                    </span>
-                                    <div>
-                                        <span className="product-type">
-                                            SKU : hanes-blue-small
-                                        </span>
-                                        <span className="product-price-front">
-                                            Selling for:
-                                        </span>
-                                        <span className="product-price-back">
-                                            $195.00
-                                        </span>
-                                    </div>
-                                </div>
-                                <div className="currency-view">
-                                    <span className="product-currency">
-                                        $
-                                    </span>
-                                    <span className="product-currency-text">
-                                        COGS
-                                    </span>
-                                </div>
-                                <FormControl
-                                    type="text"
-                                    className="product-input"
-                                    value={markup}
-                                    onChange={this.onMarkUpChange}
-                                />
-                            </div>
-                            <div className="product-view margin-t-10">
-                                <div className='checkbox-personalized'>
-                                    <Checkbox />
-                                    <label htmlFor={ 'checkbox' }>
-                                        <div className='check'></div>
-                                    </label>
-                                </div>
-                                <Image src={blankImage} className="blank-image-icon" />
-                                <div className="product-text-view">
-                                    <span className="product-title">
-                                        Super long very long even longer description of p...
-                                    </span>
-                                    <span className="product-type">
-                                        Cotton / Blue / Small
-                                    </span>
-                                    <div>
-                                        <span className="product-type">
-                                            SKU : hanes-blue-small
-                                        </span>
-                                        <span className="product-price-front">
-                                            Selling for:
-                                        </span>
-                                        <span className="product-price-back">
-                                            $195.00
-                                        </span>
-                                    </div>
-                                </div>
-                                <div className="currency-view">
-                                    <span className="product-currency">
-                                        $
-                                    </span>
-                                    <span className="product-currency-text">
-                                        COGS
-                                    </span>
-                                </div>
-                                <FormControl
-                                    type="text"
-                                    className="product-input"
-                                    value={markup}
-                                    onChange={this.onMarkUpChange}
-                                />
+                            <div className="markup-center margin-t-30">
+                                <BootstrapTable
+                                    data={ filteredData }
+                                    options={ options }
+                                    bordered={ false }
+                                    selectRow={ selectRowProp }
+                                    pagination
+                                    trClassName="custom-table"
+                                    hiddenHeader={true}
+                                    tableHeaderClass={"set-table-header"}
+                                >
+                                    <TableHeaderColumn
+                                        isKey
+                                        dataField='id'
+                                        dataAlign="center"
+                                        dataSort
+                                        className="set-table-header"
+                                        caretRender={ getCaret }
+                                        hidden={true}
+                                    >
+                                        ID
+                                    </TableHeaderColumn>
+                                    <TableHeaderColumn
+                                        dataField='productDetail'
+                                        dataAlign="center"
+                                        dataSort
+                                        className="set-table-header"
+                                        caretRender={ getCaret }
+                                        dataFormat={ productCellFormatter }
+                                        sortFunc={ sortByTitle }
+                                        width='40%'
+                                    >
+                                        Product
+                                    </TableHeaderColumn>
+                                    <TableHeaderColumn
+                                        dataField='cogsValue'
+                                        dataAlign="center"
+                                        dataSort
+                                        className="set-table-header"
+                                        caretRender={ getCaret }
+                                        dataFormat={ productCellFormatter }
+                                        sortFunc={ sortByTitle }
+                                        width='20%'
+                                    >
+                                        Product
+                                    </TableHeaderColumn>
+                                </BootstrapTable>
                             </div>
                             <div className="content-center margin-40">
                                 <Col md={6} className="text-left no-padding">
