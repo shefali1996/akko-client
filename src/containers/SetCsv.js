@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
 import {connect} from 'react-redux';
 import {Grid, Row, Col, Button, Label, Image} from 'react-bootstrap';
+import {getProductValue, exportCSVFile, headers} from '../constants';
+import { invokeApig } from '../libs/awsLib';
 import '../styles/App.css';
 import cogs2 from '../assets/cogs2.svg'
 
@@ -8,18 +10,38 @@ class SetCsv extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            shopName: ''
+            shopName: '',
+            data: []
         };
         this.goLanding = this.goLanding.bind(this);
         this.onConnect = this.onConnect.bind(this);
+        this.csvButtonClicked = this.csvButtonClicked.bind(this);
     }
 
     componentDidMount() {
-        
+        if(localStorage.getItem('productInfo') === null ) {
+            this.products().then((results) => {
+                var products = getProductValue(results);
+                this.setState({ data: products });
+                console.log("new parse", products)
+                localStorage.setItem('productInfo', JSON.stringify(products));    
+            })
+            .catch(error => {
+                console.log("get inventory error", error);
+            });;
+        }else {
+            var existingProducts = JSON.parse(localStorage.getItem('productInfo'));
+            console.log("existing", existingProducts)
+            this.setState({ data: existingProducts });
+        }
     }   
 
     componentWillMount() {
         
+    }
+
+    products() {
+		return invokeApig({ path: "/inventory" });
     }
 
     goLanding() {
@@ -28,6 +50,11 @@ class SetCsv extends Component {
     
     onConnect() {
         this.props.history.push('/set-table');
+    }
+
+    csvButtonClicked() {
+        let {data} = this.state;
+        exportCSVFile(headers, data, "inventory");
     }
     
     render() {
@@ -104,7 +131,7 @@ class SetCsv extends Component {
                                 </Col>
                                 <Col md={5} className="flex-right no-padding">
                                     <div className="style-icon-view">
-                                        <Image src={cogs2} className="business-icon" />
+                                        <Image src={cogs2} className="business-icon cursor-pointer" onClick={this.csvButtonClicked}/>
                                     </div>
                                 </Col>
                             </div>

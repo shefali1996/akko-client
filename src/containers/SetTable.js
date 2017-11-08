@@ -42,7 +42,6 @@ class SetTable extends Component {
             });;
         }else {
             var existingProducts = JSON.parse(localStorage.getItem('inventoryInfo'));
-            console.log(existingProducts)
             this.setState({ data: existingProducts });
         }
         // this.props.inventoryGetRequest();
