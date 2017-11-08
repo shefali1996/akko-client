@@ -71,7 +71,7 @@ class SetCogs extends Component {
     }
     
     onSkip() {
-        this.setState({alertShow: true})
+        this.setState({alertShow: true});
         // let {option} = this.state;
         // if(option.length > 0) {
         //     this.props.history.push('/set-csv');
@@ -79,7 +79,7 @@ class SetCogs extends Component {
     }
 
     onConfirm() {
-        this.setState({alertShow: false})
+        this.setState({alertShow: false});
         this.props.history.push('/inventory');
     }
     

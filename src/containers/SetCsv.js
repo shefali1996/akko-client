@@ -12,11 +12,15 @@ class SetCsv extends Component {
         super(props);
         this.state = {
             shopName: '',
-            data: []
+            data: [],
+            importedCSV: null,
+            alertShow: false
         };
         this.goLanding = this.goLanding.bind(this);
         this.onConnect = this.onConnect.bind(this);
+        this.onSkip = this.onSkip.bind(this);
         this.csvButtonClicked = this.csvButtonClicked.bind(this);
+        this.onConfirm = this.onConfirm.bind(this);
     }
 
     componentDidMount() {
@@ -48,10 +52,6 @@ class SetCsv extends Component {
     goLanding() {
         this.props.history.push('/');
     }
-    
-    onConnect() {
-        this.props.history.push('/set-table');
-    }
 
     csvButtonClicked() {
         let {data} = this.state;
@@ -59,10 +59,22 @@ class SetCsv extends Component {
     }
     
     onDrop(files) {
-        console.log(files)
         this.setState({
-            files
+            importedCSV: files[0]
         });
+    }
+
+    onConnect() {
+        this.props.history.push('/set-table');
+    }
+
+    onSkip() {
+        this.setState({alertShow: true});
+    }
+
+    onConfirm() {
+        this.setState({alertShow: false});
+        this.props.history.push('/inventory');
     }
 
     render() {
@@ -171,7 +183,7 @@ class SetCsv extends Component {
                             </div>
                             <div className="content-center margin-t-40">
                                 <Col md={6} className="text-left no-padding">
-                                    <Button className="skip-button" onClick={this.onConnect}>
+                                    <Button className="skip-button" onClick={this.onSkip}>
                                         SKIP FOR NOW
                                     </Button>
                                 </Col>
@@ -195,6 +207,18 @@ class SetCsv extends Component {
                             </div>
                         </Col>
                     </Row>
+                    <SweetAlert
+                        show={this.state.alertShow}
+                        showConfirmButton
+                        showCancelButton
+                        type="warning"
+                        title="Confirm"
+                        text="We cannot calculate Gross Profit figures without COGS information. You can also set/update these figures later from the Settings menu"
+                        onConfirm={this.onConfirm}
+                        onCancel={() => {
+                            this.setState({ alertShow: false });
+                        }}
+                    />
                 </Grid>
             </div>
         );
