@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import {connect} from 'react-redux';
 import {Grid, Row, Col, Button, Label, Image} from 'react-bootstrap';
+import Dropzone from 'react-dropzone';
 import {getProductValue, exportCSVFile, headers} from '../constants';
 import { invokeApig } from '../libs/awsLib';
 import '../styles/App.css';
@@ -57,6 +58,13 @@ class SetCsv extends Component {
         exportCSVFile(headers, data, "inventory");
     }
     
+    onDrop(files) {
+        console.log(files)
+        this.setState({
+            files
+        });
+    }
+
     render() {
         return (
             <div>
@@ -135,10 +143,16 @@ class SetCsv extends Component {
                                     </div>
                                 </Col>
                             </div>
-                            <div className="drag-view margin-t-20">
-                                <span className="drag-text">
-                                    drag and drop your finished CSV file here
-                                </span>
+                            <div className="margin-t-20">
+                                <Dropzone 
+                                    accept="text/csv"
+                                    onDrop={this.onDrop.bind(this)}
+                                    className="drag-view"
+                                >
+                                    <span className="drag-text">
+                                        drag and drop your finished CSV file here
+                                    </span>
+                                </Dropzone>
                             </div>
                             <div className="flex-center margin-t-20">
                                 <span className="step-content">

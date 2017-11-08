@@ -1309,3 +1309,6 @@
 .react-bs-table {
 	height: unset !important;
 }
+.no-border {
+	border: 0px solid #c8c8e8;
+}
