@@ -72,7 +72,7 @@ export const getProductValue = (inventoryJSON) => {
             variant: currProduct.product_details.variant,
             sku: currProduct.product_details.sku,
             price: 100,
-            cogs: 200
+            cogs: ""
 		}
 		products.push(productEntry);
 	}
