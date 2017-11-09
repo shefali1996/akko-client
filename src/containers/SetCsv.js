@@ -105,7 +105,6 @@ class SetCsv extends Component {
                         }
                         updatedProducts.push(oneProduct);
                     }
-                    localStorage.setItem('productInfo', JSON.stringify(updatedProducts));
                     let cogsCount = getCogsValue(updatedProducts);
                     $this.setState({
                         totalProductCount: parsedData.length - 1,
