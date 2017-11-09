@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import {connect} from 'react-redux';
 import {Grid, Row, Col, Button, Label, Image} from 'react-bootstrap';
 import Dropzone from 'react-dropzone';
+import SweetAlert from 'sweetalert-react';
 import {getProductValue, exportCSVFile, headers} from '../constants';
 import { invokeApig } from '../libs/awsLib';
 import '../styles/App.css';
@@ -64,10 +65,6 @@ class SetCsv extends Component {
         });
     }
 
-    onConnect() {
-        this.props.history.push('/set-table');
-    }
-
     onSkip() {
         this.setState({alertShow: true});
     }
@@ -75,6 +72,14 @@ class SetCsv extends Component {
     onConfirm() {
         this.setState({alertShow: false});
         this.props.history.push('/inventory');
+    }
+
+    onConnect() {
+        let {importedCSV} = this.state;
+        if (importedCSV !== null) {
+            // this.props.history.push('/set-table');
+            
+        }
     }
 
     render() {
