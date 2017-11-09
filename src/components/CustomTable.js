@@ -199,7 +199,7 @@ export const cogsValueFormatter = (cell, row) => {
             <FormControl
                 type="text"
                 className="product-input"
-                value={row.cogs}
+                value={cell}
                 onChange={onCogsChange}
             />
         </div>

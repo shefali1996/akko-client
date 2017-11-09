@@ -38,7 +38,6 @@ class SetCsv extends Component {
             this.products().then((results) => {
                 var products = getProductValue(results);
                 this.setState({ data: products });
-                console.log(products);
                 localStorage.setItem('productInfo', JSON.stringify(products));
             })
                 .catch(error => {
@@ -47,7 +46,6 @@ class SetCsv extends Component {
         } else {
             var existingProducts = JSON.parse(localStorage.getItem('productInfo'));
             this.setState({ data: existingProducts });
-            console.log(existingProducts);
         }
     }
 
@@ -74,7 +72,7 @@ class SetCsv extends Component {
         });
         this.refs.container.success(
             "",
-            "Upload CSV file is success.", {
+            "Upload CSV file is success. Click Submit button for next step", {
             timeOut: 2000,
             extendedTimeOut: 2000
         });
@@ -114,6 +112,7 @@ class SetCsv extends Component {
                         }
                         updatedProducts.push(oneProduct);
                     }
+                    localStorage.setItem('productInfo', JSON.stringify(updatedProducts));
                     let cogsCount = getCogsValue(updatedProducts);
                     $this.setState({
                         totalProductCount: parsedData.length - 1,

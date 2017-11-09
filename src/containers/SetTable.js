@@ -11,10 +11,13 @@ import {
     cogsValueFormatter,
     sortByTitle,
 } from '../components/CustomTable';
+import {PriceEditor} from '../components/PriceEditor';
 import { KEYS_TO_FILTERS, getProductValue } from '../constants';
 import { invokeApig } from '../libs/awsLib';
 import { inventoryGetRequest } from '../actions';
 import '../styles/App.css';
+
+const createPriceEditor = (onUpdate, props) => (<PriceEditor onUpdate={ onUpdate } {...props}/>);
 
 class SetTable extends Component {
     constructor(props) {
@@ -28,6 +31,7 @@ class SetTable extends Component {
         this.onConnect = this.onConnect.bind(this);
         this.onMarkUpChange = this.onMarkUpChange.bind(this);
         this.searchUpdated = this.searchUpdated.bind(this);
+        this.onSetMarkup = this.onSetMarkup.bind(this);
     }
 
     componentDidMount() {
@@ -73,6 +77,10 @@ class SetTable extends Component {
         })
     }
 
+    onSetMarkup() {
+
+    }
+
     render() {
         let { data, searchTerm, markup } = this.state
         const filteredData = data.filter(createFilter(searchTerm, KEYS_TO_FILTERS))
@@ -89,6 +97,8 @@ class SetTable extends Component {
             withFirstAndLast: false,
             sortIndicator: false
         };
+
+        console.log(data)
         return (
             <div>
                 <Grid className="login-layout">
@@ -172,7 +182,7 @@ class SetTable extends Component {
                                     </div>
                                 </Col>
                                 <Col md={4} className="flex-center height-center">
-                                    <Button className="skip-button" onClick={this.onConnect}>
+                                    <Button className="skip-button" onClick={this.onSetMarkup}>
                                         SET MARKUP
                                     </Button>
                                 </Col>
@@ -189,7 +199,16 @@ class SetTable extends Component {
                                 >
                                     <TableHeaderColumn
                                         isKey
-                                        dataField='data'
+                                        dataField='id'
+                                        dataAlign="center"
+                                        dataSort
+                                        className="custom-table-header"
+                                        hidden={true}
+                                    >
+                                        ID
+                                    </TableHeaderColumn>
+                                    <TableHeaderColumn
+                                        dataField='title'
                                         dataAlign="center"
                                         dataSort
                                         className="set-table-header"
@@ -200,10 +219,11 @@ class SetTable extends Component {
                                         Product
                                     </TableHeaderColumn>
                                     <TableHeaderColumn
-                                        dataField='data'
+                                        dataField='cogs'
                                         dataAlign="center"
                                         className="set-table-header"
                                         dataFormat={cogsValueFormatter}
+                                        customEditor={ { getElement: createPriceEditor} }
                                         width='20%'
                                     >
                                     </TableHeaderColumn>
