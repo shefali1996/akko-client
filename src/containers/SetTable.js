@@ -98,7 +98,6 @@ class SetTable extends Component {
             sortIndicator: false
         };
 
-        console.log(data)
         return (
             <div>
                 <Grid className="login-layout">

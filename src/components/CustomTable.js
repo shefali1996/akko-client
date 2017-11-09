@@ -36,7 +36,6 @@ export const getCaret = (direction) => {
 
 export const customMultiSelect = (props) => {
     const { type, checked, disabled, onChange, rowIndex } = props;
-    console.log(rowIndex);
     if (rowIndex === 'Header') {
         return (
             <div className='checkbox-personalized'>
@@ -179,7 +178,10 @@ export const productDetailFormatter = (cell, row) => {
             <div className="product-custom-title">
                 <span className="productName">{row.title}</span>
                 <span className="variantTitle">{row.variant}</span>
-                <span className="channelNumberText">SKU : {row.sku}</span>
+                <div>
+                    <span className="channelNumberText">SKU : {row.sku}</span>
+                    <span className="variantTitle margin-l-20">Selling for:  <strong>${parseFloat(Math.round(row.price * 100) / 100).toFixed(2)}</strong></span>
+                </div>
             </div>
         </div>
     )
