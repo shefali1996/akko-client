@@ -101,6 +101,7 @@ class SetCsv extends Component {
                             sku: parsedData[i][2],
                             price: parsedData[i][3],
                             cogs: parsedData[i][4],
+                            image: parsedData[i][5],
                         }
                         updatedProducts.push(oneProduct);
                     }

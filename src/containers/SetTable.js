@@ -9,6 +9,7 @@ import {
     renderSizePerPageDropDown,
     renderSetTablePaginationPanel,
     productDetailFormatter,
+    cogsValueFormatter,
     sortByTitle,
 } from '../components/CustomTable';
 import {KEYS_TO_FILTERS, getProductValue} from '../constants';
@@ -213,18 +214,18 @@ class SetTable extends Component {
                                     >
                                         Product
                                     </TableHeaderColumn>
-                                    {/* <TableHeaderColumn
-                                        dataField='cogsValue'
+                                    <TableHeaderColumn
+                                        dataField='data'
                                         dataAlign="center"
                                         dataSort
                                         className="set-table-header"
                                         caretRender={ getCaret }
-                                        dataFormat={ productCellFormatter }
+                                        dataFormat={ cogsValueFormatter }
                                         sortFunc={ sortByTitle }
                                         width='20%'
                                     >
                                         Product
-                                    </TableHeaderColumn> */}
+                                    </TableHeaderColumn>
                                 </BootstrapTable>
                             </div>
                             <div className="content-center margin-40">

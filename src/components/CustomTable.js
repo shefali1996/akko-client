@@ -1,5 +1,5 @@
 import React from 'react';
-import { Image, Label } from 'react-bootstrap';
+import { Image, Label, FormControl } from 'react-bootstrap';
 import { ButtonGroup } from 'react-bootstrap-table';
 import Checkbox from '../components/Checkbox';
 import {numberFormatter} from '../constants';
@@ -32,6 +32,7 @@ export const getCaret = (direction) => {
 
 export const customMultiSelect = (props) => {
     const { type, checked, disabled, onChange, rowIndex } = props;
+    console.log(rowIndex);
     if (rowIndex === 'Header') {
       return (
         <div className='checkbox-personalized'>
@@ -176,6 +177,27 @@ export const productDetailFormatter = (cell, row) => {
                 <span className="variantTitle">{row.variant}</span>
                 <span className="channelNumberText">SKU : {row.sku}</span>
             </div>
+        </div>
+    )
+}
+
+export const cogsValueFormatter = (cell, row) => {
+    return (
+        <div className="flex-center padding-t-20">
+            <div className="currency-view">
+                <span className="product-currency">
+                    $
+                </span>
+                <span className="product-currency-text">
+                    COGS
+                </span>
+            </div>
+            <FormControl
+                type="text"
+                className="product-input"
+                value={row.cogs}
+                // onChange={this.onMarkUpChange}
+            />
         </div>
     )
 }
