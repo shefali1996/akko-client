@@ -9,6 +9,7 @@
     "font-awesome": "^4.7.0",
     "history": "^4.7.2",
     "namor": "^1.0.1",
+    "papaparse": "^4.3.6",
     "query-string": "^5.0.1",
     "radium": "^0.19.6",
     "react": "^15.6.1",

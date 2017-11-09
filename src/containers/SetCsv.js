@@ -3,10 +3,32 @@ import {connect} from 'react-redux';
 import {Grid, Row, Col, Button, Label, Image} from 'react-bootstrap';
 import Dropzone from 'react-dropzone';
 import SweetAlert from 'sweetalert-react';
+import Papa from 'papaparse';
 import {getProductValue, exportCSVFile, headers} from '../constants';
 import { invokeApig } from '../libs/awsLib';
 import '../styles/App.css';
 import cogs2 from '../assets/cogs2.svg'
+
+const config = {
+	delimiter: "",	// auto-detect
+	newline: "",	// auto-detect
+	quoteChar: '"',
+	header: true,
+	dynamicTyping: false,
+	preview: 0,
+	encoding: "",
+	worker: false,
+	comments: false,
+	step: undefined,
+	complete: undefined,
+	error: undefined,
+	download: false,
+	skipEmptyLines: false,
+	chunk: undefined,
+	fastMode: undefined,
+	beforeFirstChunk: undefined,
+	withCredentials: undefined
+}
 
 class SetCsv extends Component {
     constructor(props) {
@@ -76,9 +98,22 @@ class SetCsv extends Component {
 
     onConnect() {
         let {importedCSV} = this.state;
+        const columns = ["title", "variant", "sku", "price", "cogs"];
         if (importedCSV !== null) {
             // this.props.history.push('/set-table');
-            
+            // require("csv-to-array")({
+            //     file: importedCSV.preview,
+            //     columns: columns
+            // }, function (err, array) {
+            //     console.log(err || array);
+            // });
+
+            Papa.parse(importedCSV, {
+                complete: function(results) {
+                    console.log("Finished:", results.data);
+                    console.log("Finished:", results.meta);
+                }
+            });
         }
     }
 
