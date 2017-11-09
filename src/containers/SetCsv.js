@@ -3,11 +3,14 @@ import { connect } from 'react-redux';
 import { Grid, Row, Col, Button, Label, Image } from 'react-bootstrap';
 import Dropzone from 'react-dropzone';
 import SweetAlert from 'sweetalert-react';
+import { ToastContainer, ToastMessageAnimated } from "react-toastr";
 import Papa from 'papaparse';
 import { getProductValue, exportCSVFile, headers, getCogsValue } from '../constants';
 import { invokeApig } from '../libs/awsLib';
 import '../styles/App.css';
 import cogs2 from '../assets/cogs2.svg'
+
+const ToastMessageFactory = React.createFactory(ToastMessageAnimated);
 
 class SetCsv extends Component {
     constructor(props) {
@@ -69,6 +72,12 @@ class SetCsv extends Component {
         this.setState({
             importedCSV: files[0]
         });
+        this.refs.container.success(
+            "",
+            "Upload CSV file is success.", {
+            timeOut: 2000,
+            extendedTimeOut: 2000
+        });
     }
 
     onSkip() {
@@ -111,7 +120,6 @@ class SetCsv extends Component {
                         selectedCogsValue: cogsCount,
                         cogsValueShow: true
                     });
-
                 }
             });
         }
@@ -274,6 +282,10 @@ class SetCsv extends Component {
                             this.setState({ cogsValueShow: false });
                         }}
                     />
+                    <ToastContainer 
+                        ref="container"
+                        toastMessageFactory={ToastMessageFactory}
+                        className="toast-top-right" />
                 </Grid>
             </div>
         );
