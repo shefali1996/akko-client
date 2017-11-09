@@ -35,6 +35,7 @@ class SetCsv extends Component {
             this.products().then((results) => {
                 var products = getProductValue(results);
                 this.setState({ data: products });
+                console.log(products);
                 localStorage.setItem('productInfo', JSON.stringify(products));
             })
             .catch(error => {
@@ -43,6 +44,7 @@ class SetCsv extends Component {
         }else {
             var existingProducts = JSON.parse(localStorage.getItem('productInfo'));
             this.setState({ data: existingProducts });
+            console.log(existingProducts);
         }
     }   
 

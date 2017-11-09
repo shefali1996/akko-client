@@ -8,10 +8,10 @@ import {
     customMultiSelect, 
     renderSizePerPageDropDown,
     renderSetTablePaginationPanel,
-    productCellFormatter,
+    productDetailFormatter,
     sortByTitle,
 } from '../components/CustomTable';
-import {KEYS_TO_FILTERS, convertInventoryJSONToObject} from '../constants';
+import {KEYS_TO_FILTERS, getProductValue} from '../constants';
 import { invokeApig } from '../libs/awsLib';
 import { inventoryGetRequest } from '../actions';
 import '../styles/App.css';
@@ -31,17 +31,17 @@ class SetTable extends Component {
     }
 
     componentDidMount() {
-        if(localStorage.getItem('inventoryInfo') === null ) {
+        if(localStorage.getItem('productInfo') === null ) {
             this.products().then((results) => {
-                var products = convertInventoryJSONToObject(results);
+                var products = getProductValue(results);
                 this.setState({ data: products });
-                localStorage.setItem('inventoryInfo', JSON.stringify(products));    
+                localStorage.setItem('productInfo', JSON.stringify(products));    
             })
             .catch(error => {
-                console.log("get inventory error", error);
+                console.log("get product error", error);
             });;
         }else {
-            var existingProducts = JSON.parse(localStorage.getItem('inventoryInfo'));
+            var existingProducts = JSON.parse(localStorage.getItem('productInfo'));
             this.setState({ data: existingProducts });
         }
         // this.props.inventoryGetRequest();
@@ -90,6 +90,7 @@ class SetTable extends Component {
             withFirstAndLast: false,
             sortIndicator: false
         };
+        console.log(data)
         return (
             <div>
                 <Grid className="login-layout">
@@ -201,12 +202,12 @@ class SetTable extends Component {
                                         ID
                                     </TableHeaderColumn>
                                     <TableHeaderColumn
-                                        dataField='productDetail'
+                                        dataField='data'
                                         dataAlign="center"
                                         dataSort
                                         className="set-table-header"
                                         caretRender={ getCaret }
-                                        dataFormat={ productCellFormatter }
+                                        dataFormat={ productDetailFormatter }
                                         sortFunc={ sortByTitle }
                                         width='40%'
                                     >

@@ -165,6 +165,21 @@ export const productCellFormatter = (cell, row) => {
     )
 }
 
+export const productDetailFormatter = (cell, row) => {
+    return (
+        <div className="product-data-cell">
+            <div className="productImage">
+                <img style={{width:70}} src={row.image} alt="thumb"/>
+            </div>
+            <div className="product-custom-title">
+                <span className="productName">{row.title}</span>
+                <span className="variantTitle">{row.variant}</span>
+                <span className="channelNumberText">SKU : {row.sku}</span>
+            </div>
+        </div>
+    )
+}
+
 export const cellUnitFormatter = (cell, row) => {
     return (
         <div className="stock-on-hand-cell">

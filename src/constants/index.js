@@ -72,7 +72,8 @@ export const getProductValue = (inventoryJSON) => {
             variant: currProduct.product_details.variant,
             sku: currProduct.product_details.sku,
             price: 100,
-            cogs: ""
+            cogs: "",
+            image: currProduct.product_details.image,
 		}
 		products.push(productEntry);
 	}
@@ -84,7 +85,8 @@ export const headers = {
     variant: "Variant",
     sku: "SKU",
     price: "Price",
-    cogs: "COGS"
+    cogs: "COGS",
+    image: "Url"
 };
 
 export const convertToCSV = (objArray) => {
