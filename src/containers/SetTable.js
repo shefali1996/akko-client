@@ -79,8 +79,7 @@ class SetTable extends Component {
         const filteredData = data.filter(createFilter(searchTerm, KEYS_TO_FILTERS))
 		const selectRowProp = {
 			mode: 'checkbox',
-            customComponent: customMultiSelect,
-            clickToSelect: true
+            customComponent: customMultiSelect
 		};
 		const options = {
 			sizePerPageDropDown: renderSizePerPageDropDown,
@@ -91,7 +90,6 @@ class SetTable extends Component {
             withFirstAndLast: false,
             sortIndicator: false
         };
-        console.log(data)
         return (
             <div>
                 <Grid className="login-layout">

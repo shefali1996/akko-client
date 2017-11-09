@@ -16,6 +16,10 @@ import '../styles/react-search-input.css'
 import '../styles/react-bootstrap-table.min.css'
 import '../styles/customMultiSelect.css'
 
+function onCogsChange(e) {
+
+}
+
 export const getCaret = (direction) => {
 	if (direction === 'asc') {
 	  return <Image src={sort} className="sort-icon" />;
@@ -196,7 +200,7 @@ export const cogsValueFormatter = (cell, row) => {
                 type="text"
                 className="product-input"
                 value={row.cogs}
-                // onChange={this.onMarkUpChange}
+                onChange={onCogsChange}
             />
         </div>
     )
