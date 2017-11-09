@@ -268,7 +268,7 @@ class SetCsv extends Component {
                         type="success"
                         title="Confirm"
                         // text={"COGS set for ``99/110 products. 11 products are still missing COGS"}
-                        text={"COGS set for" + selectedCogsValue + "/" + totalProductCount + " products." + restProduct + " products are still missing COGS"}
+                        text={"COGS set for " + selectedCogsValue + "/" + totalProductCount + " products." + restProduct + " products are still missing COGS"}
                         onConfirm={this.onCogsConfirm}
                         onCancel={() => {
                             this.setState({ cogsValueShow: false });

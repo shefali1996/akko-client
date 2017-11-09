@@ -141,7 +141,7 @@ export const getCogsValue = (objArray) => {
     let cogsCount = 0;
     for (var i = 0; i < objArray.length; i++) {
         console.log(objArray[i])
-        if(objArray[i].cogs.length > 0) {
+        if(objArray[i].cogs.toString().length > 0) {
             cogsCount++;
         }
     }
