@@ -1,16 +1,16 @@
 import React, { Component } from 'react';
-import {connect} from 'react-redux';
-import {Grid, Row, Col, Button, Label, Image, FormControl} from 'react-bootstrap';
-import {StyleRoot} from 'radium';
+import { connect } from 'react-redux';
+import { Grid, Row, Col, Button, Label, Image, FormControl } from 'react-bootstrap';
+import { StyleRoot } from 'radium';
 import Header from '../components/Header';
 import { validateEmail, animationStyle } from '../constants';
 import '../styles/App.css';
 import computer from '../assets/computer.png'
 
 class Landing extends Component {
-	constructor(props) {
-		super(props);
-		this.state = {
+    constructor(props) {
+        super(props);
+        this.state = {
             email: '',
             isValid: false
         };
@@ -18,21 +18,21 @@ class Landing extends Component {
         this.onEmailChange = this.onEmailChange.bind(this)
         this.onEmailFocus = this.onEmailFocus.bind(this)
         this.onEmailBlur = this.onEmailBlur.bind(this)
-	}
+    }
 
-	componentWillMount() {
+    componentWillMount() {
 
     }
 
     onEmailChange(e) {
         this.setState({
-			email: e.target.value
-		});
+            email: e.target.value
+        });
     }
 
     onEmailFocus() {
-        let {email, isValid} = this.state;
-        if(email.length > 0 && isValid) {
+        let { email, isValid } = this.state;
+        if (email.length > 0 && isValid) {
             this.setState({
                 isValid: false
             })
@@ -40,27 +40,27 @@ class Landing extends Component {
     }
 
     onEmailBlur() {
-        let {email, isValid} = this.state;
-        if(email.length > 0 && !isValid) {
+        let { email, isValid } = this.state;
+        if (email.length > 0 && !isValid) {
             this.setState({
                 isValid: true
             })
         }
     }
-    
+
     goSignUp() {
-        let {email} = this.state;
+        let { email } = this.state;
         this.setState({
             isValid: false
         })
-        if(validateEmail(email)) {
+        if (validateEmail(email)) {
             this.props.history.push({
                 pathname: '/signup',
                 query: {
                     email: email
                 }
             })
-        }else {
+        } else {
             this.setState({
                 isValid: true
             })
@@ -68,10 +68,10 @@ class Landing extends Component {
     }
 
     render() {
-        let {email, isValid} = this.state
-		return (
+        let { email, isValid } = this.state
+        return (
             <Grid className="main-layout">
-                <Header history={this.props.history}/>
+                <Header history={this.props.history} />
                 <Row>
                     <Col md={12} className="text-center padding-t-66">
                         <Label className="large-title">
@@ -111,21 +111,21 @@ class Landing extends Component {
                                     />
                                 </Col>
                                 <Col md={12} className="text-center">
-                                {isValid ?
-                                    <StyleRoot>
-                                        <div className="bubble-alert-view" style={animationStyle.headShake}>
-                                            <span className="alert-text">
-                                                Invalid email address
+                                    {isValid ?
+                                        <StyleRoot>
+                                            <div className="bubble-alert-view" style={animationStyle.headShake}>
+                                                <span className="alert-text">
+                                                    Invalid email address
                                             </span>
-                                            <i className="fa fa-info-circle fa-lg red-mark" aria-hidden="true"></i>
-                                        </div>
-                                    </StyleRoot>
-                                    :
-                                    <StyleRoot>
-                                        <div className="bubble-alert-view">
-                                        </div>
-                                    </StyleRoot>
-                                }
+                                                <i className="fa fa-info-circle fa-lg red-mark" aria-hidden="true"></i>
+                                            </div>
+                                        </StyleRoot>
+                                        :
+                                        <StyleRoot>
+                                            <div className="bubble-alert-view">
+                                            </div>
+                                        </StyleRoot>
+                                    }
                                 </Col>
                             </Col>
                         </Col>
@@ -136,12 +136,12 @@ class Landing extends Component {
                         </Col>
                     </Col>
                     <Col md={12} className="padding-t-50 text-center">
-                        <Image src={computer}/>
+                        <Image src={computer} />
                     </Col>
                 </Row>
             </Grid>
-		);
-	}
+        );
+    }
 }
 
 const mapStateToProps = state => ({

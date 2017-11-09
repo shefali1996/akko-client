@@ -1,17 +1,17 @@
 import React, { Component } from 'react';
-import {connect} from 'react-redux';
-import {Grid, Row, Col, Button, Label, FormControl} from 'react-bootstrap';
-import SearchInput, {createFilter} from 'react-search-input';
+import { connect } from 'react-redux';
+import { Grid, Row, Col, Button, Label, FormControl } from 'react-bootstrap';
+import SearchInput, { createFilter } from 'react-search-input';
 import { BootstrapTable, TableHeaderColumn } from 'react-bootstrap-table';
 import {
-    customMultiSelect, 
+    customMultiSelect,
     renderSizePerPageDropDown,
     renderSetTablePaginationPanel,
     productDetailFormatter,
     cogsValueFormatter,
     sortByTitle,
 } from '../components/CustomTable';
-import {KEYS_TO_FILTERS, getProductValue} from '../constants';
+import { KEYS_TO_FILTERS, getProductValue } from '../constants';
 import { invokeApig } from '../libs/awsLib';
 import { inventoryGetRequest } from '../actions';
 import '../styles/App.css';
@@ -31,38 +31,38 @@ class SetTable extends Component {
     }
 
     componentDidMount() {
-        if(localStorage.getItem('productInfo') === null ) {
+        if (localStorage.getItem('productInfo') === null) {
             this.products().then((results) => {
                 var products = getProductValue(results);
                 this.setState({ data: products });
-                localStorage.setItem('productInfo', JSON.stringify(products));    
+                localStorage.setItem('productInfo', JSON.stringify(products));
             })
-            .catch(error => {
-                console.log("get product error", error);
-            });;
-        }else {
+                .catch(error => {
+                    console.log("get product error", error);
+                });;
+        } else {
             var existingProducts = JSON.parse(localStorage.getItem('productInfo'));
             this.setState({ data: existingProducts });
         }
         // this.props.inventoryGetRequest();
-    }   
+    }
 
     componentWillMount() {
-        
+
     }
 
     products() {
-		return invokeApig({ path: "/inventory" });
+        return invokeApig({ path: "/inventory" });
     }
-    
+
     goLanding() {
         this.props.history.push('/');
     }
-    
+
     onConnect() {
         this.props.history.push('/inventory');
     }
-    
+
     onMarkUpChange(e) {
 
     }
@@ -72,20 +72,20 @@ class SetTable extends Component {
             searchTerm: term
         })
     }
-    
+
     render() {
-        let {data, searchTerm, markup} = this.state
+        let { data, searchTerm, markup } = this.state
         const filteredData = data.filter(createFilter(searchTerm, KEYS_TO_FILTERS))
-		const selectRowProp = {
-			mode: 'checkbox',
+        const selectRowProp = {
+            mode: 'checkbox',
             customComponent: customMultiSelect
-		};
-		const options = {
-			sizePerPageDropDown: renderSizePerPageDropDown,
-			paginationPanel: renderSetTablePaginationPanel,
-			paginationSize: 7,
-			prePage: '«   Previous',
-			nextPage: 'Next   »',
+        };
+        const options = {
+            sizePerPageDropDown: renderSizePerPageDropDown,
+            paginationPanel: renderSetTablePaginationPanel,
+            paginationSize: 7,
+            prePage: '«   Previous',
+            nextPage: 'Next   »',
             withFirstAndLast: false,
             sortIndicator: false
         };
@@ -100,7 +100,7 @@ class SetTable extends Component {
                                 </Label>
                             </Col>
                             <Col md={6} className="text-right padding-t-20">
-                                <Button className="logout-button" onClick={this.goLanding}/>
+                                <Button className="logout-button" onClick={this.goLanding} />
                             </Col>
                         </Col>
                     </Row>
@@ -179,10 +179,10 @@ class SetTable extends Component {
                             </div>
                             <div className="markup-center margin-t-30">
                                 <BootstrapTable
-                                    data={ filteredData }
-                                    options={ options }
-                                    bordered={ false }
-                                    selectRow={ selectRowProp }
+                                    data={filteredData}
+                                    options={options}
+                                    bordered={false}
+                                    selectRow={selectRowProp}
                                     pagination
                                     trClassName="custom-table"
                                     tableHeaderClass={"set-table-header"}
@@ -193,8 +193,8 @@ class SetTable extends Component {
                                         dataAlign="center"
                                         dataSort
                                         className="set-table-header"
-                                        dataFormat={ productDetailFormatter }
-                                        sortFunc={ sortByTitle }
+                                        dataFormat={productDetailFormatter}
+                                        sortFunc={sortByTitle}
                                         width='40%'
                                     >
                                         Product
@@ -203,7 +203,7 @@ class SetTable extends Component {
                                         dataField='data'
                                         dataAlign="center"
                                         className="set-table-header"
-                                        dataFormat={ cogsValueFormatter }
+                                        dataFormat={cogsValueFormatter}
                                         width='20%'
                                     >
                                     </TableHeaderColumn>

@@ -1,17 +1,17 @@
 import React, { Component } from 'react';
-import {Grid, Row, Col, Tabs, Tab} from 'react-bootstrap';
-import {connect} from 'react-redux';
-import SearchInput, {createFilter} from 'react-search-input';
+import { Grid, Row, Col, Tabs, Tab } from 'react-bootstrap';
+import { connect } from 'react-redux';
+import SearchInput, { createFilter } from 'react-search-input';
 import { BootstrapTable, TableHeaderColumn } from 'react-bootstrap-table';
 import _ from 'underscore';
 import Navigationbar from '../components/Navigationbar';
 import Footer from '../components/Footer';
-import {KEYS_TO_FILTERS, convertInventoryJSONToObject} from '../constants';
+import { KEYS_TO_FILTERS, convertInventoryJSONToObject } from '../constants';
 import {
-    getCaret, 
-    customMultiSelect, 
-    createCustomInsertButton, 
-    createCustomDeleteButton, 
+    getCaret,
+    customMultiSelect,
+    createCustomInsertButton,
+    createCustomDeleteButton,
     createCustomExportCSVButton,
     renderSizePerPageDropDown,
     renderPaginationPanel,
@@ -34,75 +34,75 @@ import '../styles/react-bootstrap-table.min.css';
 import '../styles/customMultiSelect.css';
 
 class Orders extends Component {
-	constructor(props) {
-		super(props);
-		this.state = {
-			data: [],
+    constructor(props) {
+        super(props);
+        this.state = {
+            data: [],
             searchTerm: ''
-		};
-		this.handleSelect = this.handleSelect.bind(this);
-		this.searchUpdated = this.searchUpdated.bind(this);
-		this.onFocus = this.onFocus.bind(this);
-	}
+        };
+        this.handleSelect = this.handleSelect.bind(this);
+        this.searchUpdated = this.searchUpdated.bind(this);
+        this.onFocus = this.onFocus.bind(this);
+    }
 
-	async componentDidMount() {
-		try {
-            if(localStorage.getItem('inventoryInfo') === null ) {
+    async componentDidMount() {
+        try {
+            if (localStorage.getItem('inventoryInfo') === null) {
                 const results = await this.products();
                 var products = convertInventoryJSONToObject(results);
                 this.setState({ data: products });
                 localStorage.setItem('inventoryInfo', JSON.stringify(products));
-            }else {
+            } else {
                 var existingProducts = JSON.parse(localStorage.getItem('inventoryInfo'));
                 this.setState({ data: existingProducts });
             }
-		} catch (e) {
+        } catch (e) {
             console.log(e)
-		}
-	}
+        }
+    }
 
-	products() {
-		return invokeApig({ path: "/inventory" });
-	}
+    products() {
+        return invokeApig({ path: "/inventory" });
+    }
 
-	handleSelect(key) {
-		if(key === 1){
-			this.props.history.push('/channels');
-		}else if(key === 2){
-			this.props.history.push('/inventory');
-		}else{
-			this.props.history.push('/orders');
-		}
-	}
+    handleSelect(key) {
+        if (key === 1) {
+            this.props.history.push('/channels');
+        } else if (key === 2) {
+            this.props.history.push('/inventory');
+        } else {
+            this.props.history.push('/orders');
+        }
+    }
 
-	searchUpdated(term) {
+    searchUpdated(term) {
         this.setState({
             searchTerm: term
         })
-	}
+    }
 
-	onFocus() {
+    onFocus() {
 
-	}
+    }
 
     renderStockUnitsHeader() {
-        return(
+        return (
             <div className="text-right">
-                Stock on 
+                Stock on
             </div>
         );
     }
 
     renderStockValueHeader() {
-        return(
+        return (
             <div className="text-left custom-padding-left">
                 Hand
             </div>
         );
-    }   
+    }
 
     renderCommitUnitsHeader() {
-        return(
+        return (
             <div className="text-right">
                 Commi
             </div>
@@ -110,7 +110,7 @@ class Orders extends Component {
     }
 
     renderCommitValueHeader() {
-        return(
+        return (
             <div className="text-left">
                 tted
             </div>
@@ -118,7 +118,7 @@ class Orders extends Component {
     }
 
     renderSaleUnitsHeader() {
-        return(
+        return (
             <div className="text-right">
                 Available
             </div>
@@ -126,38 +126,38 @@ class Orders extends Component {
     }
 
     renderSaleValueHeader() {
-        return(
+        return (
             <div className="text-left custom-padding-left">
                 for Sale
             </div>
         );
     }
 
-	render() {
-		let {data, searchTerm} = this.state
+    render() {
+        let { data, searchTerm } = this.state
         const filteredData = data.filter(createFilter(searchTerm, KEYS_TO_FILTERS))
-		const selectRowProp = {
-			mode: 'checkbox',
+        const selectRowProp = {
+            mode: 'checkbox',
             customComponent: customMultiSelect,
             clickToSelect: true
-		};
-		const options = {
-			insertBtn: createCustomInsertButton,
-			deleteBtn: createCustomDeleteButton,
-			exportCSVBtn: createCustomExportCSVButton,
-			sizePerPageDropDown: renderSizePerPageDropDown,
-			paginationPanel: renderPaginationPanel,
-			btnGroup: createCustomButtonGroup,
-			toolBar: createCustomToolBar,
-			paginationSize: 7,
-			prePage: '«   Previous',
-			nextPage: 'Next   »',
+        };
+        const options = {
+            insertBtn: createCustomInsertButton,
+            deleteBtn: createCustomDeleteButton,
+            exportCSVBtn: createCustomExportCSVButton,
+            sizePerPageDropDown: renderSizePerPageDropDown,
+            paginationPanel: renderPaginationPanel,
+            btnGroup: createCustomButtonGroup,
+            toolBar: createCustomToolBar,
+            paginationSize: 7,
+            prePage: '«   Previous',
+            nextPage: 'Next   »',
             withFirstAndLast: false,
             sortIndicator: false
         };
-		return (
-			<div>
-                <Navigationbar history={this.props.history}/>
+        return (
+            <div>
+                <Navigationbar history={this.props.history} />
                 <Grid className="inventory-container no-padding">
                     <Row className="no-margin min-height custom-shadow">
                         <Tabs defaultActiveKey={3} id="uncontrolled-tab-example" className="inventory-tab" onSelect={this.handleSelect}>
@@ -197,13 +197,13 @@ class Orders extends Component {
                                     </Row>
                                     <Row className="padding-50">
                                         <BootstrapTable
-                                            data={ filteredData }
-                                            options={ options }
-                                            insertRow={ true }
-                                            deleteRow={ true }
-                                            exportCSV={ true }
-                                            bordered={ false }
-                                            selectRow={ selectRowProp }
+                                            data={filteredData}
+                                            options={options}
+                                            insertRow={true}
+                                            deleteRow={true}
+                                            exportCSV={true}
+                                            bordered={false}
+                                            selectRow={selectRowProp}
                                             pagination
                                             trClassName="custom-table"
                                         >
@@ -213,7 +213,7 @@ class Orders extends Component {
                                                 dataAlign="center"
                                                 dataSort
                                                 className="custom-table-header"
-                                                caretRender={ getCaret }
+                                                caretRender={getCaret}
                                                 hidden={true}
                                             >
                                                 ID
@@ -223,9 +223,9 @@ class Orders extends Component {
                                                 dataAlign="center"
                                                 dataSort
                                                 className="custom-table-header"
-                                                caretRender={ getCaret }
-                                                dataFormat={ productCellFormatter }
-                                                sortFunc={ sortByTitle }
+                                                caretRender={getCaret}
+                                                dataFormat={productCellFormatter}
+                                                sortFunc={sortByTitle}
                                                 width='40%'
                                             >
                                                 Product
@@ -235,8 +235,8 @@ class Orders extends Component {
                                                 dataAlign="center"
                                                 dataSort
                                                 className="custom-table-header"
-                                                caretRender={ getCaret }
-                                                dataFormat={ cellUnitFormatter }
+                                                caretRender={getCaret}
+                                                dataFormat={cellUnitFormatter}
                                             >
                                                 {this.renderStockUnitsHeader()}
                                                 Units
@@ -246,9 +246,9 @@ class Orders extends Component {
                                                 dataAlign="center"
                                                 dataSort
                                                 className="custom-table-header"
-                                                caretRender={ getCaret }
-                                                dataFormat={ cellValueFormatter }
-                                                sortFunc={ sortByStockValue }
+                                                caretRender={getCaret}
+                                                dataFormat={cellValueFormatter}
+                                                sortFunc={sortByStockValue}
                                             >
                                                 {this.renderStockValueHeader()}
                                                 $
@@ -258,8 +258,8 @@ class Orders extends Component {
                                                 dataAlign="center"
                                                 dataSort
                                                 className="custom-table-header"
-                                                caretRender={ getCaret }
-                                                dataFormat={ cellUnitFormatter }
+                                                caretRender={getCaret}
+                                                dataFormat={cellUnitFormatter}
                                             >
                                                 {this.renderCommitUnitsHeader()}
                                                 Units
@@ -269,9 +269,9 @@ class Orders extends Component {
                                                 dataAlign="center"
                                                 dataSort
                                                 className="custom-table-header"
-                                                caretRender={ getCaret }
-                                                dataFormat={ cellValueFormatter }
-                                                sortFunc={ sortByCommitValue }
+                                                caretRender={getCaret}
+                                                dataFormat={cellValueFormatter}
+                                                sortFunc={sortByCommitValue}
                                             >
                                                 {this.renderCommitValueHeader()}
                                                 $
@@ -281,8 +281,8 @@ class Orders extends Component {
                                                 dataAlign="center"
                                                 dataSort
                                                 className="custom-table-header"
-                                                caretRender={ getCaret }
-                                                dataFormat={ cellUnitFormatter }
+                                                caretRender={getCaret}
+                                                dataFormat={cellUnitFormatter}
                                             >
                                                 {this.renderSaleUnitsHeader()}
                                                 Units
@@ -292,9 +292,9 @@ class Orders extends Component {
                                                 dataAlign="center"
                                                 dataSort
                                                 className="custom-table-header"
-                                                caretRender={ getCaret }
-                                                dataFormat={ cellValueFormatter }
-                                                sortFunc={ sortBySaleValue }
+                                                caretRender={getCaret}
+                                                dataFormat={cellValueFormatter}
+                                                sortFunc={sortBySaleValue}
                                             >
                                                 {this.renderSaleValueHeader()}
                                                 $
@@ -302,7 +302,7 @@ class Orders extends Component {
                                             <TableHeaderColumn
                                                 dataAlign="center"
                                                 className="custom-table-header"
-                                                dataFormat={ arrowFormatter }
+                                                dataFormat={arrowFormatter}
                                                 width='5%'
                                             >
                                             </TableHeaderColumn>
@@ -313,14 +313,14 @@ class Orders extends Component {
                         </Tabs>
                     </Row>
                 </Grid>
-                <Footer/>
-			</div>
-		);
-	}
+                <Footer />
+            </div>
+        );
+    }
 }
 
 const mapStateToProps = state => ({
-	
+
 })
 
 export default connect(mapStateToProps)(Orders);

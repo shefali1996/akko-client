@@ -1,30 +1,30 @@
 import React, { Component } from 'react';
-import {Grid, Row, Col, Tabs, Tab} from 'react-bootstrap';
-import {connect} from 'react-redux';
-import SearchInput, {createFilter} from 'react-search-input';
+import { Grid, Row, Col, Tabs, Tab } from 'react-bootstrap';
+import { connect } from 'react-redux';
+import SearchInput, { createFilter } from 'react-search-input';
 import { BootstrapTable, TableHeaderColumn } from 'react-bootstrap-table';
 import _ from 'underscore';
 import Navigationbar from '../components/Navigationbar';
 import Footer from '../components/Footer';
-import {KEYS_TO_FILTERS, convertInventoryJSONToObject} from '../constants';
+import { KEYS_TO_FILTERS, convertInventoryJSONToObject } from '../constants';
 import {
-    getCaret, 
-    customMultiSelect, 
-    createCustomInsertButton, 
-    createCustomDeleteButton, 
-    createCustomExportCSVButton,
-    renderSizePerPageDropDown,
-    renderPaginationPanel,
-    createCustomButtonGroup,
-    createCustomToolBar,
-    productCellFormatter,
-    cellUnitFormatter,
-    cellValueFormatter,
-    arrowFormatter,
-    sortByTitle,
-    sortByStockValue,
-    sortByCommitValue,
-    sortBySaleValue
+	getCaret,
+	customMultiSelect,
+	createCustomInsertButton,
+	createCustomDeleteButton,
+	createCustomExportCSVButton,
+	renderSizePerPageDropDown,
+	renderPaginationPanel,
+	createCustomButtonGroup,
+	createCustomToolBar,
+	productCellFormatter,
+	cellUnitFormatter,
+	cellValueFormatter,
+	arrowFormatter,
+	sortByTitle,
+	sortByStockValue,
+	sortByCommitValue,
+	sortBySaleValue
 } from '../components/CustomTable';
 import { invokeApig } from '../libs/awsLib';
 
@@ -37,31 +37,31 @@ class Inventory extends Component {
 	constructor(props) {
 		super(props);
 		this.state = {
-            data: [],
-            searchTerm: ''
+			data: [],
+			searchTerm: ''
 		};
 		this.handleSelect = this.handleSelect.bind(this);
 		this.searchUpdated = this.searchUpdated.bind(this);
-        this.onFocus = this.onFocus.bind(this);
+		this.onFocus = this.onFocus.bind(this);
 	}
 
-    componentWillMount() {
-		
-    }
-    
+	componentWillMount() {
+
+	}
+
 	async componentDidMount() {
 		try {
-            if(localStorage.getItem('inventoryInfo') === null ) {
-                const results = await this.products();
-                var products = convertInventoryJSONToObject(results);
-                this.setState({ data: products });
-                localStorage.setItem('inventoryInfo', JSON.stringify(products));
-            }else {
-                var existingProducts = JSON.parse(localStorage.getItem('inventoryInfo'));
-                this.setState({ data: existingProducts });
-            }
+			if (localStorage.getItem('inventoryInfo') === null) {
+				const results = await this.products();
+				var products = convertInventoryJSONToObject(results);
+				this.setState({ data: products });
+				localStorage.setItem('inventoryInfo', JSON.stringify(products));
+			} else {
+				var existingProducts = JSON.parse(localStorage.getItem('inventoryInfo'));
+				this.setState({ data: existingProducts });
+			}
 		} catch (e) {
-            console.log(e)
+			console.log(e)
 		}
 	}
 
@@ -70,80 +70,80 @@ class Inventory extends Component {
 	}
 
 	handleSelect(key) {
-		if(key === 1){
+		if (key === 1) {
 			this.props.history.push('/channels');
-		}else if(key === 2){
+		} else if (key === 2) {
 			this.props.history.push('/inventory');
-		}else{
+		} else {
 			this.props.history.push('/orders');
 		}
 	}
 
 	searchUpdated(term) {
-        this.setState({
-            searchTerm: term
-        })
+		this.setState({
+			searchTerm: term
+		})
 	}
 
 	onFocus() {
 
 	}
 
-    renderStockUnitsHeader() {
-        return(
-            <div className="text-right">
-                Stock on 
+	renderStockUnitsHeader() {
+		return (
+			<div className="text-right">
+				Stock on
             </div>
-        );
-    }
+		);
+	}
 
-    renderStockValueHeader() {
-        return(
-            <div className="text-left custom-padding-left">
-                Hand
+	renderStockValueHeader() {
+		return (
+			<div className="text-left custom-padding-left">
+				Hand
             </div>
-        );
-    }   
+		);
+	}
 
-    renderCommitUnitsHeader() {
-        return(
-            <div className="text-right">
-                Commi
+	renderCommitUnitsHeader() {
+		return (
+			<div className="text-right">
+				Commi
             </div>
-        );
-    }
+		);
+	}
 
-    renderCommitValueHeader() {
-        return(
-            <div className="text-left">
-                tted
+	renderCommitValueHeader() {
+		return (
+			<div className="text-left">
+				tted
             </div>
-        );
-    }
+		);
+	}
 
-    renderSaleUnitsHeader() {
-        return(
-            <div className="text-right">
-                Available
+	renderSaleUnitsHeader() {
+		return (
+			<div className="text-right">
+				Available
             </div>
-        );
-    }
+		);
+	}
 
-    renderSaleValueHeader() {
-        return(
-            <div className="text-left custom-padding-left">
-                for Sale
+	renderSaleValueHeader() {
+		return (
+			<div className="text-left custom-padding-left">
+				for Sale
             </div>
-        );
-    }
+		);
+	}
 
 	render() {
-        let {data, searchTerm} = this.state
-        const filteredData = data.filter(createFilter(searchTerm, KEYS_TO_FILTERS))
+		let { data, searchTerm } = this.state
+		const filteredData = data.filter(createFilter(searchTerm, KEYS_TO_FILTERS))
 		const selectRowProp = {
 			mode: 'checkbox',
-            customComponent: customMultiSelect,
-            clickToSelect: true
+			customComponent: customMultiSelect,
+			clickToSelect: true
 		};
 		const options = {
 			insertBtn: createCustomInsertButton,
@@ -156,12 +156,12 @@ class Inventory extends Component {
 			paginationSize: 7,
 			prePage: '«   Previous',
 			nextPage: 'Next   »',
-            withFirstAndLast: false,
-            sortIndicator: false
-        };
+			withFirstAndLast: false,
+			sortIndicator: false
+		};
 		return (
 			<div>
-				<Navigationbar history={this.props.history}/>
+				<Navigationbar history={this.props.history} />
 				<Grid className="inventory-container no-padding">
 					<Row className="no-margin min-height custom-shadow">
 						<Tabs defaultActiveKey={2} id="uncontrolled-tab-example" className="inventory-tab" onSelect={this.handleSelect}>
@@ -199,24 +199,24 @@ class Inventory extends Component {
 									</Row>
 									<Row className="padding-50">
 										<BootstrapTable
-											data={ filteredData }
-											options={ options }
-											insertRow={ true }
-											deleteRow={ true }
-											exportCSV={ true }
-											bordered={ false }
-											selectRow={ selectRowProp }
+											data={filteredData}
+											options={options}
+											insertRow={true}
+											deleteRow={true}
+											exportCSV={true}
+											bordered={false}
+											selectRow={selectRowProp}
 											pagination
 											trClassName="custom-table"
 										>
-                                            <TableHeaderColumn
+											<TableHeaderColumn
 												isKey
 												dataField='id'
 												dataAlign="center"
 												dataSort
 												className="custom-table-header"
-												caretRender={ getCaret }
-                                                hidden={true}
+												caretRender={getCaret}
+												hidden={true}
 											>
 												ID
 											</TableHeaderColumn>
@@ -225,87 +225,87 @@ class Inventory extends Component {
 												dataAlign="center"
 												dataSort
 												className="custom-table-header"
-												caretRender={ getCaret }
-                                                dataFormat={ productCellFormatter }
-                                                sortFunc={ sortByTitle }
-                                                width='40%'
+												caretRender={getCaret}
+												dataFormat={productCellFormatter}
+												sortFunc={sortByTitle}
+												width='40%'
 											>
 												Product
 											</TableHeaderColumn>
 											<TableHeaderColumn
 												dataField='stockOnHandUnits'
 												dataAlign="center"
-                                                dataSort
+												dataSort
 												className="custom-table-header"
-                                                caretRender={ getCaret }
-                                                dataFormat={ cellUnitFormatter }
+												caretRender={getCaret}
+												dataFormat={cellUnitFormatter}
 											>
-                                                {this.renderStockUnitsHeader()}
-                                                Units
+												{this.renderStockUnitsHeader()}
+												Units
 											</TableHeaderColumn>
-                                            <TableHeaderColumn
+											<TableHeaderColumn
 												dataField='stockOnHandValue'
 												dataAlign="center"
-                                                dataSort
+												dataSort
 												className="custom-table-header"
-                                                caretRender={ getCaret }
-                                                dataFormat={ cellValueFormatter }
-                                                sortFunc={ sortByStockValue }
+												caretRender={getCaret}
+												dataFormat={cellValueFormatter}
+												sortFunc={sortByStockValue}
 											>
-                                                {this.renderStockValueHeader()}
-                                                $
+												{this.renderStockValueHeader()}
+												$
 											</TableHeaderColumn>
 											<TableHeaderColumn
 												dataField='committedUnits'
 												dataAlign="center"
-                                                dataSort
+												dataSort
 												className="custom-table-header"
-                                                caretRender={ getCaret }
-                                                dataFormat={ cellUnitFormatter }
+												caretRender={getCaret}
+												dataFormat={cellUnitFormatter}
 											>
-                                                {this.renderCommitUnitsHeader()}
-                                                Units
+												{this.renderCommitUnitsHeader()}
+												Units
 											</TableHeaderColumn>
-                                            <TableHeaderColumn
+											<TableHeaderColumn
 												dataField='committedValue'
 												dataAlign="center"
-                                                dataSort
+												dataSort
 												className="custom-table-header"
-                                                caretRender={ getCaret }
-                                                dataFormat={ cellValueFormatter }
-                                                sortFunc={ sortByCommitValue }
+												caretRender={getCaret}
+												dataFormat={cellValueFormatter}
+												sortFunc={sortByCommitValue}
 											>
-                                                {this.renderCommitValueHeader()}
-                                                $
+												{this.renderCommitValueHeader()}
+												$
 											</TableHeaderColumn>
 											<TableHeaderColumn
 												dataField='availableForSaleUnits'
 												dataAlign="center"
-                                                dataSort
+												dataSort
 												className="custom-table-header"
-                                                caretRender={ getCaret }
-                                                dataFormat={ cellUnitFormatter }
+												caretRender={getCaret}
+												dataFormat={cellUnitFormatter}
 											>
-                                                {this.renderSaleUnitsHeader()}
-                                                Units
+												{this.renderSaleUnitsHeader()}
+												Units
 											</TableHeaderColumn>
-                                            <TableHeaderColumn
+											<TableHeaderColumn
 												dataField='availableForSaleValue'
 												dataAlign="center"
-                                                dataSort
+												dataSort
 												className="custom-table-header"
-                                                caretRender={ getCaret }
-                                                dataFormat={ cellValueFormatter }
-                                                sortFunc={ sortBySaleValue }
+												caretRender={getCaret}
+												dataFormat={cellValueFormatter}
+												sortFunc={sortBySaleValue}
 											>
-                                                {this.renderSaleValueHeader()}
-                                                $
+												{this.renderSaleValueHeader()}
+												$
 											</TableHeaderColumn>
-                                            <TableHeaderColumn
+											<TableHeaderColumn
 												dataAlign="center"
 												className="custom-table-header"
-                                                dataFormat={ arrowFormatter }
-                                                width='5%'
+												dataFormat={arrowFormatter}
+												width='5%'
 											>
 											</TableHeaderColumn>
 										</BootstrapTable>
@@ -317,7 +317,7 @@ class Inventory extends Component {
 						</Tabs>
 					</Row>
 				</Grid>
-                <Footer/>
+				<Footer />
 			</div>
 		);
 	}

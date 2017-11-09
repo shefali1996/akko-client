@@ -25,14 +25,14 @@ class App extends Component {
                 <Router history={history}>
                     <Switch>
                         <Main>
-                            <Route exact path="/" component={Landing}/>
-                            <Route exact path="/signin" component={SignIn}/>
-                            <Route exact path="/signup" component={SignUp}/>
-                            <Route exact path="/connect-shopify" component={ConnectShopify}/>
-                            <Route exact path="/business-type" component={BusinessType}/>
-                            <Route exact path="/set-cogs" component={SetCogs}/>
-                            <Route exact path="/set-csv" component={SetCsv}/>
-                            <Route exact path="/set-table" component={SetTable}/>
+                            <Route exact path="/" component={Landing} />
+                            <Route exact path="/signin" component={SignIn} />
+                            <Route exact path="/signup" component={SignUp} />
+                            <Route exact path="/connect-shopify" component={ConnectShopify} />
+                            <Route exact path="/business-type" component={BusinessType} />
+                            <Route exact path="/set-cogs" component={SetCogs} />
+                            <Route exact path="/set-csv" component={SetCsv} />
+                            <Route exact path="/set-table" component={SetTable} />
                             <Route path="/" name="Authorized Sections" component={AuthorizedContainer} />
                         </Main>
                         <Route path="*" component={NotFound} />

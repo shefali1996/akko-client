@@ -2,7 +2,7 @@ import React from 'react';
 import { Image, Label, FormControl } from 'react-bootstrap';
 import { ButtonGroup } from 'react-bootstrap-table';
 import Checkbox from '../components/Checkbox';
-import {numberFormatter} from '../constants';
+import { numberFormatter } from '../constants';
 
 import sort from '../assets/sort.svg'
 import inversesort from '../assets/inversesort.svg'
@@ -21,47 +21,47 @@ function onCogsChange(e) {
 }
 
 export const getCaret = (direction) => {
-	if (direction === 'asc') {
-	  return <Image src={sort} className="sort-icon" />;
-	}
-	if (direction === 'desc') {
-	  return (
-		<Image src={inversesort} className="sort-icon" />
-	  );
-	}
-	return (
-	  <Image src={sort} className="sort-icon" />
-	);
+    if (direction === 'asc') {
+        return <Image src={sort} className="sort-icon" />;
+    }
+    if (direction === 'desc') {
+        return (
+            <Image src={inversesort} className="sort-icon" />
+        );
+    }
+    return (
+        <Image src={sort} className="sort-icon" />
+    );
 }
 
 export const customMultiSelect = (props) => {
     const { type, checked, disabled, onChange, rowIndex } = props;
     console.log(rowIndex);
     if (rowIndex === 'Header') {
-      return (
-        <div className='checkbox-personalized'>
-            <Checkbox {...props}/>
-            <label htmlFor={ 'checkbox' + rowIndex }>
-                <div className='check'></div>
-            </label>
-        </div>);
+        return (
+            <div className='checkbox-personalized'>
+                <Checkbox {...props} />
+                <label htmlFor={'checkbox' + rowIndex}>
+                    <div className='check'></div>
+                </label>
+            </div>);
     } else {
         return (
             <div className='checkbox-personalized'>
                 <input
-                    type={ type }
-                    name={ 'checkbox' + rowIndex }
-                    id={ 'checkbox' + rowIndex }
-                    checked={ checked }
-                    disabled={ disabled }
-                    onChange={ e=> onChange(e, rowIndex) }
-                    ref={ input => {
+                    type={type}
+                    name={'checkbox' + rowIndex}
+                    id={'checkbox' + rowIndex}
+                    checked={checked}
+                    disabled={disabled}
+                    onChange={e => onChange(e, rowIndex)}
+                    ref={input => {
                         if (input) {
                             input.indeterminate = props.indeterminate;
                         }
-                    } }
+                    }}
                 />
-                <label htmlFor={ 'checkbox' + rowIndex }>
+                <label htmlFor={'checkbox' + rowIndex}>
                     <div className='check'></div>
                 </label>
             </div>
@@ -104,23 +104,23 @@ export const createCustomExportCSVButton = (openModal) => {
 
 export const renderSizePerPageDropDown = (props) => {
     return (
-      <div className='btn-group'>
-        {
-            [ 10, 25, 30 ].map((n, idx) => {
-                const isActive = (n === props.currSizePerPage) ? 'active' : null;
-                return (
-                    <button key={ idx } type='button' className={ `btn btn-info ${isActive}` } onClick={ () => props.changeSizePerPage(n) }>{ n }</button>
-                );
-            })
-        }
-      </div>
+        <div className='btn-group'>
+            {
+                [10, 25, 30].map((n, idx) => {
+                    const isActive = (n === props.currSizePerPage) ? 'active' : null;
+                    return (
+                        <button key={idx} type='button' className={`btn btn-info ${isActive}`} onClick={() => props.changeSizePerPage(n)}>{n}</button>
+                    );
+                })
+            }
+        </div>
     );
 }
 
 export const renderPaginationPanel = (props) => {
     return (
         <div className="pageList-style">
-            { props.components.pageList }
+            {props.components.pageList}
         </div>
     );
 }
@@ -128,29 +128,29 @@ export const renderPaginationPanel = (props) => {
 export const renderSetTablePaginationPanel = (props) => {
     return (
         <div className="setTablePageList-style">
-            { props.components.pageList }
+            {props.components.pageList}
         </div>
     );
 }
 
 export const createCustomButtonGroup = (props) => {
     return (
-      <ButtonGroup className='button-group-custom-class' sizeClass='btn-group-md'>
+        <ButtonGroup className='button-group-custom-class' sizeClass='btn-group-md'>
             <div className='left-button-view'>
-                { props.insertBtn }
+                {props.insertBtn}
             </div>
             <div className='right-button-view'>
-                { props.exportCSVBtn }
-                { props.deleteBtn }
+                {props.exportCSVBtn}
+                {props.deleteBtn}
             </div>
-      </ButtonGroup>
+        </ButtonGroup>
     );
 }
 
 export const createCustomToolBar = (props) => {
     return (
-        <div style={ { margin: '15px' } }>
-            { props.components.btnGroup }
+        <div style={{ margin: '15px' }}>
+            {props.components.btnGroup}
         </div>
     );
 }
@@ -159,7 +159,7 @@ export const productCellFormatter = (cell, row) => {
     return (
         <div className="product-data-cell">
             <div className="productImage">
-                <img style={{width:70}} src={cell.image} alt="thumb"/>
+                <img style={{ width: 70 }} src={cell.image} alt="thumb" />
             </div>
             <div className="product-custom-title">
                 <span className="productName">{cell.title}</span>
@@ -174,7 +174,7 @@ export const productDetailFormatter = (cell, row) => {
     return (
         <div className="product-data-cell">
             <div className="productImage">
-                <img style={{width:70}} src={row.image} alt="thumb"/>
+                <img style={{ width: 70 }} src={row.image} alt="thumb" />
             </div>
             <div className="product-custom-title">
                 <span className="productName">{row.title}</span>
@@ -209,7 +209,7 @@ export const cogsValueFormatter = (cell, row) => {
 export const cellUnitFormatter = (cell, row) => {
     return (
         <div className="stock-on-hand-cell">
-            { cell}
+            {cell}
         </div>
     )
 }
@@ -217,7 +217,7 @@ export const cellUnitFormatter = (cell, row) => {
 export const cellValueFormatter = (cell, row) => {
     return (
         <div className="stock-on-hand-cell">
-            {cell.currency}{ numberFormatter(Math.round(cell.value * 100) / 100) }
+            {cell.currency}{numberFormatter(Math.round(cell.value * 100) / 100)}
         </div>
     )
 }

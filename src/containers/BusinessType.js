@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
-import {connect} from 'react-redux';
-import {Grid, Row, Col, Button, Label, Image} from 'react-bootstrap';
+import { connect } from 'react-redux';
+import { Grid, Row, Col, Button, Label, Image } from 'react-bootstrap';
 import '../styles/App.css';
 import businessType1 from '../assets/businessType1.svg'
 import businessType2 from '../assets/businessType2.svg'
@@ -22,17 +22,17 @@ class BusinessType extends Component {
     }
 
     componentDidMount() {
-        
-    }   
+
+    }
 
     componentWillMount() {
-        
+
     }
 
     goLanding() {
         this.props.history.push('/');
     }
-    
+
     onTypeOneSelected() {
         this.setState({
             option: 'one'
@@ -44,7 +44,7 @@ class BusinessType extends Component {
             option: 'two'
         })
     }
-            
+
     onTypeThreeSelected() {
         this.setState({
             option: 'three'
@@ -58,14 +58,14 @@ class BusinessType extends Component {
     }
 
     onConnect() {
-        let {option} = this.state;
-        if(option.length > 0) {
+        let { option } = this.state;
+        if (option.length > 0) {
             this.props.history.push('/set-cogs');
         }
     }
 
     render() {
-        let {option} = this.state;
+        let { option } = this.state;
         return (
             <div>
                 <Grid className="login-layout">
@@ -77,7 +77,7 @@ class BusinessType extends Component {
                                 </Label>
                             </Col>
                             <Col md={6} className="text-right padding-t-20">
-                                <Button className="logout-button" onClick={this.goLanding}/>
+                                <Button className="logout-button" onClick={this.goLanding} />
                             </Col>
                         </Col>
                     </Row>
@@ -97,7 +97,7 @@ class BusinessType extends Component {
                         </span>
                     </div>
                     <div className="flex-center margin-t-40">
-                        <div className={option==="one"? "flex-center active-border" : "style-container flex-center"} onClick={this.onTypeOneSelected}>
+                        <div className={option === "one" ? "flex-center active-border" : "style-container flex-center"} onClick={this.onTypeOneSelected}>
                             <div className="style-icon-view">
                                 <Image src={businessType1} className="business-icon" />
                             </div>
@@ -115,7 +115,7 @@ class BusinessType extends Component {
                         </div>
                     </div>
                     <div className="flex-center margin-t-10">
-                        <div className={option==="two"? "flex-center active-border" : "style-container flex-center"} onClick={this.onTypeTwoSelected}>
+                        <div className={option === "two" ? "flex-center active-border" : "style-container flex-center"} onClick={this.onTypeTwoSelected}>
                             <div className="style-icon-view">
                                 <Image src={businessType2} className="business-icon" />
                             </div>
@@ -133,7 +133,7 @@ class BusinessType extends Component {
                         </div>
                     </div>
                     <div className="flex-center margin-t-10">
-                        <div className={option==="three"? "flex-center active-border" : "style-container flex-center"} onClick={this.onTypeThreeSelected}>
+                        <div className={option === "three" ? "flex-center active-border" : "style-container flex-center"} onClick={this.onTypeThreeSelected}>
                             <div className="style-icon-view">
                                 <Image src={businessType3} className="business-icon" />
                             </div>
@@ -151,7 +151,7 @@ class BusinessType extends Component {
                         </div>
                     </div>
                     <div className="flex-center margin-t-10">
-                        <div className={option==="four"? "flex-center active-border" : "style-container flex-center"} onClick={this.onTypeFourSelected}>
+                        <div className={option === "four" ? "flex-center active-border" : "style-container flex-center"} onClick={this.onTypeFourSelected}>
                             <div className="style-icon-view">
                                 <Image src={businessType4} className="business-icon" />
                             </div>

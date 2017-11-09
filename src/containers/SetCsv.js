@@ -1,10 +1,10 @@
 import React, { Component } from 'react';
-import {connect} from 'react-redux';
-import {Grid, Row, Col, Button, Label, Image} from 'react-bootstrap';
+import { connect } from 'react-redux';
+import { Grid, Row, Col, Button, Label, Image } from 'react-bootstrap';
 import Dropzone from 'react-dropzone';
 import SweetAlert from 'sweetalert-react';
 import Papa from 'papaparse';
-import {getProductValue, exportCSVFile, headers, getCogsValue} from '../constants';
+import { getProductValue, exportCSVFile, headers, getCogsValue } from '../constants';
 import { invokeApig } from '../libs/awsLib';
 import '../styles/App.css';
 import cogs2 from '../assets/cogs2.svg'
@@ -27,33 +27,33 @@ class SetCsv extends Component {
         this.csvButtonClicked = this.csvButtonClicked.bind(this);
         this.onConfirm = this.onConfirm.bind(this);
         this.onCogsConfirm = this.onCogsConfirm.bind(this);
-        
+
     }
 
     componentDidMount() {
-        if(localStorage.getItem('productInfo') === null ) {
+        if (localStorage.getItem('productInfo') === null) {
             this.products().then((results) => {
                 var products = getProductValue(results);
                 this.setState({ data: products });
                 console.log(products);
                 localStorage.setItem('productInfo', JSON.stringify(products));
             })
-            .catch(error => {
-                console.log("get inventory error", error);
-            });;
-        }else {
+                .catch(error => {
+                    console.log("get inventory error", error);
+                });;
+        } else {
             var existingProducts = JSON.parse(localStorage.getItem('productInfo'));
             this.setState({ data: existingProducts });
             console.log(existingProducts);
         }
-    }   
+    }
 
     componentWillMount() {
-        
+
     }
 
     products() {
-		return invokeApig({ path: "/inventory" });
+        return invokeApig({ path: "/inventory" });
     }
 
     goLanding() {
@@ -61,10 +61,10 @@ class SetCsv extends Component {
     }
 
     csvButtonClicked() {
-        let {data} = this.state;
+        let { data } = this.state;
         exportCSVFile(headers, data, "inventory");
     }
-    
+
     onDrop(files) {
         this.setState({
             importedCSV: files[0]
@@ -72,26 +72,26 @@ class SetCsv extends Component {
     }
 
     onSkip() {
-        this.setState({alertShow: true});
+        this.setState({ alertShow: true });
     }
 
     onConfirm() {
-        this.setState({alertShow: false});
+        this.setState({ alertShow: false });
         this.props.history.push('/inventory');
     }
 
     onCogsConfirm() {
-        this.setState({cogsValueShow: false});
+        this.setState({ cogsValueShow: false });
         this.props.history.push('/set-table');
     }
 
     onConnect() {
         let $this = this;
-        let {importedCSV} = this.state;
+        let { importedCSV } = this.state;
         if (importedCSV !== null) {
             // this.props.history.push('/set-table');
             Papa.parse(importedCSV, {
-                complete: function(results) {
+                complete: function (results) {
                     let parsedData = results.data;
                     let updatedProducts = []
                     for (var i = 1; i < parsedData.length; i++) {
@@ -119,7 +119,7 @@ class SetCsv extends Component {
     }
 
     render() {
-        let {totalProductCount, selectedCogsValue} = this.state;
+        let { totalProductCount, selectedCogsValue } = this.state;
         let restProduct = totalProductCount - selectedCogsValue
         return (
             <div>
@@ -132,7 +132,7 @@ class SetCsv extends Component {
                                 </Label>
                             </Col>
                             <Col md={6} className="text-right padding-t-20">
-                                <Button className="logout-button" onClick={this.goLanding}/>
+                                <Button className="logout-button" onClick={this.goLanding} />
                             </Col>
                         </Col>
                     </Row>
@@ -163,7 +163,7 @@ class SetCsv extends Component {
                                     <div>
                                         <div className="step-one-view">
                                             <span className="step-title">
-                                                STEP 1: 
+                                                STEP 1:
                                             </span>
                                             <span className="step-content">
                                                 &nbsp;Download CSV
@@ -176,7 +176,7 @@ class SetCsv extends Component {
                                         </div>
                                         <div className="step-one-view margin-t-30">
                                             <span className="step-title">
-                                                STEP 2: 
+                                                STEP 2:
                                             </span>
                                             <span className="step-content">
                                                 &nbsp;Fill COGS values
@@ -184,7 +184,7 @@ class SetCsv extends Component {
                                         </div>
                                         <div className="step-one-view margin-t-30">
                                             <span className="step-title">
-                                                STEP 3: 
+                                                STEP 3:
                                             </span>
                                             <span className="step-content">
                                                 &nbsp;Upload the finished CSV file
@@ -194,12 +194,12 @@ class SetCsv extends Component {
                                 </Col>
                                 <Col md={5} className="flex-right no-padding">
                                     <div className="style-icon-view">
-                                        <Image src={cogs2} className="business-icon cursor-pointer" onClick={this.csvButtonClicked}/>
+                                        <Image src={cogs2} className="business-icon cursor-pointer" onClick={this.csvButtonClicked} />
                                     </div>
                                 </Col>
                             </div>
                             <div className="margin-t-20">
-                                <Dropzone 
+                                <Dropzone
                                     accept="text/csv"
                                     onDrop={this.onDrop.bind(this)}
                                     className="drag-view"
@@ -215,14 +215,14 @@ class SetCsv extends Component {
                                 </span>
                             </div>
                             <div className="flex-center margin-t-20">
-                                <Dropzone 
+                                <Dropzone
                                     accept="text/csv"
                                     onDrop={this.onDrop.bind(this)}
                                     className="upload-csv-button"
                                 >
                                     UPLOAD CSV
                                 </Dropzone>
-                                
+
                             </div>
                             <div className="content-center margin-t-40">
                                 <Col md={6} className="text-left no-padding">
@@ -269,7 +269,7 @@ class SetCsv extends Component {
                         type="success"
                         title="Confirm"
                         // text={"COGS set for ``99/110 products. 11 products are still missing COGS"}
-                        text={"COGS set for" + selectedCogsValue + "/" + totalProductCount + " products." + restProduct + " products are still missing COGS" }
+                        text={"COGS set for" + selectedCogsValue + "/" + totalProductCount + " products." + restProduct + " products are still missing COGS"}
                         onConfirm={this.onCogsConfirm}
                         onCancel={() => {
                             this.setState({ cogsValueShow: false });

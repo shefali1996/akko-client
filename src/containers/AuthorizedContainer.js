@@ -8,32 +8,32 @@ import user from '../auth/user';
 
 class AuthorizedContainer extends Component {
     componentWillMount() {
-        if(user.isAuthenticated === null) {
+        if (user.isAuthenticated === null) {
             this.props.history.push(`/`);
             return
-        }else {
+        } else {
             this.props.history.push(`/inventory`);
             return
         }
     }
 
-    componentWillReceiveProps (nextProps) {
-        
+    componentWillReceiveProps(nextProps) {
+
     }
 
-    render () {
+    render() {
         return (
             <Switch>
-                <Route exact path="/channels" component={Channels}/>
-                <Route exact path="/inventory" component={Inventory}/>
-                <Route exact path="/orders" component={Orders}/>
+                <Route exact path="/channels" component={Channels} />
+                <Route exact path="/inventory" component={Inventory} />
+                <Route exact path="/orders" component={Orders} />
             </Switch>
         )
     }
 };
 
 const mapStateToProps = (state) => ({
-    
+
 })
 
 export default connect(mapStateToProps)(AuthorizedContainer);

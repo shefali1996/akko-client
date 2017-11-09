@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
-import {connect} from 'react-redux';
-import {Grid, Row, Col, Button, Label, Tabs, Tab, FormControl} from 'react-bootstrap';
+import { connect } from 'react-redux';
+import { Grid, Row, Col, Button, Label, Tabs, Tab, FormControl } from 'react-bootstrap';
 import Select from 'react-select';
 import SweetAlert from 'sweetalert-react';
 // import { validateEmail } from '../constants';
@@ -8,17 +8,17 @@ import '../styles/App.css';
 import 'react-select/dist/react-select.css';
 import 'sweetalert/dist/sweetalert.css';
 import {
-  AuthenticationDetails,
-  CognitoUserPool
+    AuthenticationDetails,
+    CognitoUserPool
 } from "amazon-cognito-identity-js";
 import config from "../config";
 import { invokeApig } from "../libs/awsLib";
 
 const options = [
-  { value: 'CEO/Founder', label: 'CEO/Founder' },
-  { value: 'Manager', label: 'Manager' },
-  { value: 'Employee', label: 'Employee' },
-  { value: 'Other', label: 'Other' }
+    { value: 'CEO/Founder', label: 'CEO/Founder' },
+    { value: 'Manager', label: 'Manager' },
+    { value: 'Employee', label: 'Employee' },
+    { value: 'Other', label: 'Other' }
 ];
 
 class SignUp extends Component {
@@ -53,19 +53,19 @@ class SignUp extends Component {
 
     componentDidMount() {
         let isEmailValid = this.props.history.location.query;
-        if(isEmailValid !== undefined){
+        if (isEmailValid !== undefined) {
             this.setState({
                 email: isEmailValid.email
             })
-        }else {
+        } else {
             this.setState({
                 email: ''
             })
         }
-    }   
+    }
 
     componentWillMount() {
-        
+
     }
 
     goLanding() {
@@ -73,9 +73,9 @@ class SignUp extends Component {
     }
 
     handleSelect(key) {
-        if(key === 1){
+        if (key === 1) {
             this.props.history.push('/signin');
-        }else if(key === 2){
+        } else if (key === 2) {
             this.props.history.push('/signup');
         }
     }
@@ -119,7 +119,7 @@ class SignUp extends Component {
             verifyCode: e.target.value
         })
     }
-    
+
     onSignUp() {
         this.setState({
             alertShow: true
@@ -138,10 +138,10 @@ class SignUp extends Component {
     }
 
     onVerify() {
-        let {verifyCode, newUser, email, password} = this.state
-        if(verifyCode.length > 0) {
+        let { verifyCode, newUser, email, password } = this.state
+        if (verifyCode.length > 0) {
             this.confirm(newUser, verifyCode).then((result) => {
-                if(result === "SUCCESS") {
+                if (result === "SUCCESS") {
                     this.authenticate(
                         newUser,
                         email,
@@ -200,7 +200,7 @@ class SignUp extends Component {
 
     confirm(user, confirmationCode) {
         return new Promise((resolve, reject) =>
-            user.confirmRegistration(confirmationCode, true, function(err, result) {
+            user.confirmRegistration(confirmationCode, true, function (err, result) {
                 if (err) {
                     reject(err);
                     return;
@@ -226,11 +226,11 @@ class SignUp extends Component {
     }
 
     logChange(val) {
-        if(val !== null) {
+        if (val !== null) {
             this.setState({
                 yourRole: val.value
             })
-        }else {
+        } else {
             this.setState({
                 yourRole: ''
             })
@@ -238,7 +238,7 @@ class SignUp extends Component {
     }
 
     render() {
-        let {firstName, lastName, companyName, yourRole, email, password, emailSent, verifyCode} = this.state
+        let { firstName, lastName, companyName, yourRole, email, password, emailSent, verifyCode } = this.state
         return (
             <Grid className="login-layout">
                 <Row>
@@ -249,7 +249,7 @@ class SignUp extends Component {
                             </Label>
                         </Col>
                         <Col md={6} className="text-right padding-t-20">
-                            <Button className="close-button" onClick={this.goLanding}/>
+                            <Button className="close-button" onClick={this.goLanding} />
                         </Col>
                     </Col>
                 </Row>
@@ -272,7 +272,7 @@ class SignUp extends Component {
                                                 placeholder="first name"
                                                 className="signup-email-input"
                                                 value={firstName}
-                                                onChange={this.onFirstNameChange}/>
+                                                onChange={this.onFirstNameChange} />
                                         </div>
                                     </Col>
                                     <Col md={6}>
@@ -282,7 +282,7 @@ class SignUp extends Component {
                                                 placeholder="last name"
                                                 className="signup-email-input"
                                                 value={lastName}
-                                                onChange={this.onLastNameChange}/>
+                                                onChange={this.onLastNameChange} />
                                         </div>
                                     </Col>
                                 </Col>
@@ -290,22 +290,22 @@ class SignUp extends Component {
                                     <Col md={6}>
                                         <div className="flex-right padding-t-20">
                                             <FormControl
-                                            type="text"
-                                            placeholder="company name"
-                                            className="signup-email-input"
-                                            value={companyName}
-                                            onChange={this.onCompanyNameChange}/>
+                                                type="text"
+                                                placeholder="company name"
+                                                className="signup-email-input"
+                                                value={companyName}
+                                                onChange={this.onCompanyNameChange} />
                                         </div>
                                     </Col>
                                     <Col md={6}>
                                         <div className="flex-left padding-t-20">
                                             <Select
-                                            name="form-field-name"
-                                            placeholder="your role"
-                                            className="signup-role-input"
-                                            value={yourRole}
-                                            options={options}
-                                            onChange={this.logChange}
+                                                name="form-field-name"
+                                                placeholder="your role"
+                                                className="signup-role-input"
+                                                value={yourRole}
+                                                options={options}
+                                                onChange={this.logChange}
                                             />
                                         </div>
                                     </Col>
@@ -318,8 +318,8 @@ class SignUp extends Component {
                                                 placeholder="email"
                                                 className="signup-email-input"
                                                 value={email}
-                                                disabled={emailSent ? true: false}
-                                                onChange={this.onEmailChange}/>
+                                                disabled={emailSent ? true : false}
+                                                onChange={this.onEmailChange} />
                                         </div>
                                     </Col>
                                     <Col md={6}>
@@ -329,8 +329,8 @@ class SignUp extends Component {
                                                 placeholder="password"
                                                 className="signup-email-input"
                                                 value={password}
-                                                disabled={emailSent ? true: false}
-                                                onChange={this.onPasswordChange}/>
+                                                disabled={emailSent ? true : false}
+                                                onChange={this.onPasswordChange} />
                                         </div>
                                     </Col>
                                 </Col>
@@ -352,7 +352,7 @@ class SignUp extends Component {
                                                 placeholder="verification code"
                                                 className="signup-email-input"
                                                 value={verifyCode}
-                                                onChange={this.onVerifyCodeChange}/>
+                                                onChange={this.onVerifyCodeChange} />
                                         </Col>
                                         <Col md={12} className="padding-t-30">
                                             <Button className="login-button" onClick={this.onVerify}>
@@ -360,7 +360,7 @@ class SignUp extends Component {
                                             </Button>
                                         </Col>
                                     </div>
-                                :
+                                    :
                                     <Col md={12} className="padding-t-30">
                                         <Button className="login-button" onClick={this.onSignUp}>
                                             SIGN UP

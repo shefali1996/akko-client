@@ -13,8 +13,8 @@ const range = len => {
 const newPerson = () => {
   return {
     name: {
-        realName: namor.generate({ words: 4, numbers: 0 }),
-        thumbnail: "https://ugross.gallerycdn.vsassets.io/extensions/ugross/vscode-react-snippets/1.1.0/1504467008438/Microsoft.VisualStudio.Services.Icons.Default",
+      realName: namor.generate({ words: 4, numbers: 0 }),
+      thumbnail: "https://ugross.gallerycdn.vsassets.io/extensions/ugross/vscode-react-snippets/1.1.0/1504467008438/Microsoft.VisualStudio.Services.Icons.Default",
     },
     stock: Math.floor(Math.random() * 700),
     commit: Math.floor(Math.random() * 30),
@@ -32,9 +32,9 @@ export function makeData(len = 5553) {
 }
 
 export const Logo = () =>
-  <div style={{ margin: '1rem auto', display: 'flex', flexWrap: 'wrap', alignItems: 'center', justifyContent: 'center'}}>
+  <div style={{ margin: '1rem auto', display: 'flex', flexWrap: 'wrap', alignItems: 'center', justifyContent: 'center' }}>
     For more examples, visit {''}
-  <br />
+    <br />
     <a href="https://github.com/react-tools/react-table" target="">
       <img
         alt="avatar"

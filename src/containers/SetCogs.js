@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
-import {connect} from 'react-redux';
-import {Grid, Row, Col, Button, Label, Image} from 'react-bootstrap';
+import { connect } from 'react-redux';
+import { Grid, Row, Col, Button, Label, Image } from 'react-bootstrap';
 import SweetAlert from 'sweetalert-react';
-import {convertInventoryJSONToObject} from '../constants';
+import { convertInventoryJSONToObject } from '../constants';
 import { invokeApig } from '../libs/awsLib';
 
 import cogs1 from '../assets/cogs1.svg'
@@ -27,51 +27,51 @@ class SetCogs extends Component {
     }
 
     componentDidMount() {
-        if(localStorage.getItem('inventoryInfo') === null ) {
+        if (localStorage.getItem('inventoryInfo') === null) {
             this.products().then((results) => {
                 console.log("result", results)
                 var products = convertInventoryJSONToObject(results);
                 this.setState({ data: products });
-                localStorage.setItem('inventoryInfo', JSON.stringify(products));    
+                localStorage.setItem('inventoryInfo', JSON.stringify(products));
             })
-            .catch(error => {
-                console.log("login error", error);
-            });;
-        }else {
+                .catch(error => {
+                    console.log("login error", error);
+                });;
+        } else {
             var existingProducts = JSON.parse(localStorage.getItem('inventoryInfo'));
             this.setState({ data: existingProducts });
         }
-	} 
+    }
 
     products() {
-		return invokeApig({ path: "/inventory" });
+        return invokeApig({ path: "/inventory" });
     }
-    
+
     componentWillMount() {
-        
+
     }
 
     goLanding() {
         this.props.history.push('/');
     }
-    
+
     onTypeOneSelected() {
-        this.setState({option: "one"});
+        this.setState({ option: "one" });
         this.props.history.push('/set-table');
     }
 
     onTypeTwoSelected() {
-        this.setState({option: "two"});
+        this.setState({ option: "two" });
         this.props.history.push('/set-csv');
     }
-            
+
     onTypeThreeSelected() {
-        this.setState({option: "three"})
+        this.setState({ option: "three" })
         this.props.history.push('/set-table');
     }
-    
+
     onSkip() {
-        this.setState({alertShow: true});
+        this.setState({ alertShow: true });
         // let {option} = this.state;
         // if(option.length > 0) {
         //     this.props.history.push('/set-csv');
@@ -79,12 +79,12 @@ class SetCogs extends Component {
     }
 
     onConfirm() {
-        this.setState({alertShow: false});
+        this.setState({ alertShow: false });
         this.props.history.push('/inventory');
     }
-    
+
     render() {
-        let {option, data} = this.state;
+        let { option, data } = this.state;
         return (
             <div>
                 <Grid className="login-layout">
@@ -96,7 +96,7 @@ class SetCogs extends Component {
                                 </Label>
                             </Col>
                             <Col md={6} className="text-right padding-t-20">
-                                <Button className="logout-button" onClick={this.goLanding}/>
+                                <Button className="logout-button" onClick={this.goLanding} />
                             </Col>
                         </Col>
                     </Row>
@@ -133,7 +133,7 @@ class SetCogs extends Component {
                                 </span>
                             </div>
                             <div className="flex-center margin-t-40">
-                                <div className={option==="one"? "flex-center active-border" : "style-container flex-center"} onClick={this.onTypeOneSelected}>
+                                <div className={option === "one" ? "flex-center active-border" : "style-container flex-center"} onClick={this.onTypeOneSelected}>
                                     <div className="style-icon-view">
                                         <Image src={cogs1} className="business-icon" />
                                     </div>
@@ -148,7 +148,7 @@ class SetCogs extends Component {
                                 </div>
                             </div>
                             <div className="flex-center margin-t-10">
-                                <div className={option==="two"? "flex-center active-border" : "style-container flex-center"} onClick={this.onTypeTwoSelected}>
+                                <div className={option === "two" ? "flex-center active-border" : "style-container flex-center"} onClick={this.onTypeTwoSelected}>
                                     <div className="style-icon-view">
                                         <Image src={cogs2} className="business-icon" />
                                     </div>
@@ -166,7 +166,7 @@ class SetCogs extends Component {
                                 </div>
                             </div>
                             <div className="flex-center margin-t-10">
-                                <div className={option==="three"? "flex-center active-border" : "style-container flex-center"} onClick={this.onTypeThreeSelected}>
+                                <div className={option === "three" ? "flex-center active-border" : "style-container flex-center"} onClick={this.onTypeThreeSelected}>
                                     <div className="style-icon-view">
                                         <Image src={cogs3} className="business-icon" />
                                     </div>

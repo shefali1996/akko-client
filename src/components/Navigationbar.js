@@ -1,35 +1,35 @@
-import React, {Component} from 'react';
+import React, { Component } from 'react';
 import '../styles/App.css';
-import {connect} from 'react-redux';
+import { connect } from 'react-redux';
 import { Row, Col, Label, Image, DropdownButton } from 'react-bootstrap';
 import user from '../auth/user';
 import profileIcon from '../assets/profileIcon.svg'
 
 class Navigationbar extends Component {
-    constructor(props) {
+	constructor(props) {
 		super(props);
 		this.state = {
-            email: '',
-            password: ''
-        };
-        this.onLogout = this.onLogout.bind(this)
-    }
+			email: '',
+			password: ''
+		};
+		this.onLogout = this.onLogout.bind(this)
+	}
 
-    onLogout() {
-        user.logout();        
-        this.props.history.push('/');
-    }
+	onLogout() {
+		user.logout();
+		this.props.history.push('/');
+	}
 
-  	render() {
+	render() {
 		return (
-			<div className="nav-container">
+			<div className="nav-container">
 				<Row className="no-margin white-bg">
-					<Col md={3} className="flex-left">
+					<Col md={3} className="flex-left">
 						<Label className="app-title">
 							akko
 						</Label>
 					</Col>
-					<Col md={2} mdOffset={7} className="text-right no-padding">
+					<Col md={2} mdOffset={7} className="text-right no-padding">
 						<DropdownButton
 							title={
 								<div>
@@ -39,26 +39,26 @@ class Navigationbar extends Component {
 							id="bg-nested-dropdown"
 							className="user-profile"
 						>
-                            <div>
-                                <div className="custom-dropdown-view">
-                                    <i className="fa fa-cog fa-lg username" aria-hidden="true"></i>
-                                    <Label className="setting cursor-pointer">
-                                        Settings
+							<div>
+								<div className="custom-dropdown-view">
+									<i className="fa fa-cog fa-lg username" aria-hidden="true"></i>
+									<Label className="setting cursor-pointer">
+										Settings
                                     </Label>
-                                </div>
-                                <div className="custom-dropdown-view">
-                                    <i className="fa fa-sign-out fa-lg username" aria-hidden="true"></i>
-                                    <Label className="setting cursor-pointer" onClick={this.onLogout}>
-                                        Logout
+								</div>
+								<div className="custom-dropdown-view">
+									<i className="fa fa-sign-out fa-lg username" aria-hidden="true"></i>
+									<Label className="setting cursor-pointer" onClick={this.onLogout}>
+										Logout
                                     </Label>
-                                </div>
-                            </div>
+								</div>
+							</div>
 						</DropdownButton>
 					</Col>
 				</Row>
 			</div>
 		);
-  	}
+	}
 }
 
 export default connect()(Navigationbar);
