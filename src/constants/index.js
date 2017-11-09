@@ -134,3 +134,13 @@ export const exportCSVFile = (headers, items, fileTitle) => {
         }
     }
 }
+
+export const getCogsValue = (objArray) => {
+    let cogsCount = 0;
+    for (var i = 0; i < objArray.length; i++) {
+        if(objArray[i].cogs.length > 0) {
+            cogsCount++;
+        }
+    }
+    return cogsCount;
+}

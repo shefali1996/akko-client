@@ -4,31 +4,10 @@ import {Grid, Row, Col, Button, Label, Image} from 'react-bootstrap';
 import Dropzone from 'react-dropzone';
 import SweetAlert from 'sweetalert-react';
 import Papa from 'papaparse';
-import {getProductValue, exportCSVFile, headers} from '../constants';
+import {getProductValue, exportCSVFile, headers, getCogsValue} from '../constants';
 import { invokeApig } from '../libs/awsLib';
 import '../styles/App.css';
 import cogs2 from '../assets/cogs2.svg'
-
-const config = {
-	delimiter: "",	// auto-detect
-	newline: "",	// auto-detect
-	quoteChar: '"',
-	header: true,
-	dynamicTyping: false,
-	preview: 0,
-	encoding: "",
-	worker: false,
-	comments: false,
-	step: undefined,
-	complete: undefined,
-	error: undefined,
-	download: false,
-	skipEmptyLines: false,
-	chunk: undefined,
-	fastMode: undefined,
-	beforeFirstChunk: undefined,
-	withCredentials: undefined
-}
 
 class SetCsv extends Component {
     constructor(props) {
@@ -37,13 +16,18 @@ class SetCsv extends Component {
             shopName: '',
             data: [],
             importedCSV: null,
-            alertShow: false
+            alertShow: false,
+            cogsValueShow: false,
+            totalProductCount: 0,
+            selectedCogsValue: 0
         };
         this.goLanding = this.goLanding.bind(this);
         this.onConnect = this.onConnect.bind(this);
         this.onSkip = this.onSkip.bind(this);
         this.csvButtonClicked = this.csvButtonClicked.bind(this);
         this.onConfirm = this.onConfirm.bind(this);
+        this.onCogsConfirm = this.onCogsConfirm.bind(this);
+        
     }
 
     componentDidMount() {
@@ -51,15 +35,13 @@ class SetCsv extends Component {
             this.products().then((results) => {
                 var products = getProductValue(results);
                 this.setState({ data: products });
-                console.log("new parse", products)
-                localStorage.setItem('productInfo', JSON.stringify(products));    
+                localStorage.setItem('productInfo', JSON.stringify(products));
             })
             .catch(error => {
                 console.log("get inventory error", error);
             });;
         }else {
             var existingProducts = JSON.parse(localStorage.getItem('productInfo'));
-            console.log("existing", existingProducts)
             this.setState({ data: existingProducts });
         }
     }   
@@ -96,28 +78,46 @@ class SetCsv extends Component {
         this.props.history.push('/inventory');
     }
 
+    onCogsConfirm() {
+        this.setState({cogsValueShow: false});
+        this.props.history.push('/set-table');
+    }
+
     onConnect() {
+        let $this = this;
         let {importedCSV} = this.state;
-        const columns = ["title", "variant", "sku", "price", "cogs"];
         if (importedCSV !== null) {
             // this.props.history.push('/set-table');
-            // require("csv-to-array")({
-            //     file: importedCSV.preview,
-            //     columns: columns
-            // }, function (err, array) {
-            //     console.log(err || array);
-            // });
-
             Papa.parse(importedCSV, {
                 complete: function(results) {
-                    console.log("Finished:", results.data);
-                    console.log("Finished:", results.meta);
+                    let parsedData = results.data;
+                    let updatedProducts = []
+                    for (var i = 1; i < parsedData.length; i++) {
+                        let oneProduct = {
+                            title: parsedData[i][0],
+                            variant: parsedData[i][1],
+                            sku: parsedData[i][2],
+                            price: parsedData[i][3],
+                            cogs: parsedData[i][4],
+                        }
+                        updatedProducts.push(oneProduct);
+                    }
+                    localStorage.setItem('productInfo', JSON.stringify(updatedProducts));
+                    let cogsCount = getCogsValue(updatedProducts);
+                    $this.setState({
+                        totalProductCount: parsedData.length - 1,
+                        selectedCogsValue: cogsCount,
+                        cogsValueShow: true
+                    });
+
                 }
             });
         }
     }
 
     render() {
+        let {totalProductCount, selectedCogsValue} = this.state;
+        let restProduct = totalProductCount - selectedCogsValue
         return (
             <div>
                 <Grid className="login-layout">
@@ -257,6 +257,19 @@ class SetCsv extends Component {
                         onConfirm={this.onConfirm}
                         onCancel={() => {
                             this.setState({ alertShow: false });
+                        }}
+                    />
+                    <SweetAlert
+                        show={this.state.cogsValueShow}
+                        showConfirmButton
+                        showCancelButton
+                        type="success"
+                        title="Confirm"
+                        // text={"COGS set for ``99/110 products. 11 products are still missing COGS"}
+                        text={"COGS set for" + selectedCogsValue + "/" + totalProductCount + " products." + restProduct + " products are still missing COGS" }
+                        onConfirm={this.onCogsConfirm}
+                        onCancel={() => {
+                            this.setState({ cogsValueShow: false });
                         }}
                     />
                 </Grid>
