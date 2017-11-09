@@ -4,7 +4,6 @@ import {Grid, Row, Col, Button, Label, FormControl} from 'react-bootstrap';
 import SearchInput, {createFilter} from 'react-search-input';
 import { BootstrapTable, TableHeaderColumn } from 'react-bootstrap-table';
 import {
-    getCaret, 
     customMultiSelect, 
     renderSizePerPageDropDown,
     renderSetTablePaginationPanel,
@@ -186,26 +185,14 @@ class SetTable extends Component {
                                     selectRow={ selectRowProp }
                                     pagination
                                     trClassName="custom-table"
-                                    hiddenHeader={true}
                                     tableHeaderClass={"set-table-header"}
                                 >
                                     <TableHeaderColumn
                                         isKey
-                                        dataField='id'
-                                        dataAlign="center"
-                                        dataSort
-                                        className="set-table-header"
-                                        caretRender={ getCaret }
-                                        hidden={true}
-                                    >
-                                        ID
-                                    </TableHeaderColumn>
-                                    <TableHeaderColumn
                                         dataField='data'
                                         dataAlign="center"
                                         dataSort
                                         className="set-table-header"
-                                        caretRender={ getCaret }
                                         dataFormat={ productDetailFormatter }
                                         sortFunc={ sortByTitle }
                                         width='40%'
@@ -215,14 +202,10 @@ class SetTable extends Component {
                                     <TableHeaderColumn
                                         dataField='data'
                                         dataAlign="center"
-                                        dataSort
                                         className="set-table-header"
-                                        caretRender={ getCaret }
                                         dataFormat={ cogsValueFormatter }
-                                        sortFunc={ sortByTitle }
                                         width='20%'
                                     >
-                                        Product
                                     </TableHeaderColumn>
                                 </BootstrapTable>
                             </div>
