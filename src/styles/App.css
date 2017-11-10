@@ -19,6 +19,33 @@
   width: 100%;
   margin-top: 9px;
 }
+.large-title {
+	font-family: Ubuntu;
+	font-size: 32px;
+	font-weight: 700;
+	color: #ffffff;
+	text-align: center;
+	background: none;
+}
+.middle-title {
+	font-family: Ubuntu;
+	font-size: 16px;
+	color: #ffffff;
+	font-weight: 200;
+	text-decoration: none solid rgb(255, 255, 255);
+	text-align: center;
+	background: none;
+}
+.small-title {
+	font-family: Ubuntu;
+	font-size: 16px;
+	font-weight: 100;
+	color: #ffffff;
+	text-decoration: none solid rgb(255, 255, 255);
+	text-align: center;
+	background: none;
+}
+
 .app-title {
   font-family: Ubuntu;
 	font-size: 32px;
@@ -469,33 +496,6 @@
 	box-shadow: 0 1px 2px rgba(0, 0, 0, 0.5);
 	border: none;
 	border-radius: 0;
-}
-.large-title {
-	font-family: Ubuntu;
-	font-size: 32px;
-	font-weight: 700;
-	color: #ffffff;
-	text-decoration: none solid rgb(255, 255, 255);
-	text-align: center;
-	background: none;
-}
-.middle-title {
-	font-family: Ubuntu;
-	font-size: 16px;
-	color: #ffffff;
-	font-weight: 200;
-	text-decoration: none solid rgb(255, 255, 255);
-	text-align: center;
-	background: none;
-}
-.small-title {
-	font-family: Ubuntu;
-	font-size: 16px;
-	font-weight: 100;
-	color: #ffffff;
-	text-decoration: none solid rgb(255, 255, 255);
-	text-align: center;
-	background: none;
 }
 .trial-button {
 	width: 146px;
@@ -1334,3 +1334,11 @@
 .margin-l-20 {
 	margin-left: 20px;
 }
+
+@media screen and (max-width: 480px) {
+	
+}
+
+@media screen and (max-width: 767px) {
+
+}	
