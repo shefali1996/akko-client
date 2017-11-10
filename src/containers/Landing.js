@@ -133,7 +133,7 @@ class Landing extends Component {
                                 </Col>
                             </div>
                             <div>
-                                <img src={landing3} className="landing-image-one" alt="landing"/>
+                                <img src={landing3} className="landing-image-three" alt="landing"/>
                             </div>
                             <div>
                                 <Col md={6} className="flex-center">
