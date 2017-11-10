@@ -86,7 +86,7 @@ class Landing extends Component {
                             </div>
                         </Col>
                         <Col md={6} className="no-padding">
-                            <Col md={6} className="text-center">
+                            <Col md={6} className="flex-center">
                                 <p className="recapture-text">
                                     Recapture customers before they leave you
                                 </p>
@@ -107,7 +107,7 @@ class Landing extends Component {
                         </Col>
                     </Col>
                     <Col md={12} className="margin-t-60 no-padding">
-                        <Col md={3}>
+                        <Col md={3} className="flex-center">
                             <p className="inventory-text">
                                 One dashboard to answer all your questions.
                             </p>
@@ -147,8 +147,8 @@ class Landing extends Component {
                             </div>
                         </Col>
                     </Col>
-                    <Col md={12} className="text-center">
-                        <p className="inventory-text">
+                    <Col md={12} className="flex-center margin-t-60">
+                        <p className="seek-text">
                             What other answers do you seek?
                         </p>
                     </Col>

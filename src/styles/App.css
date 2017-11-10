@@ -1375,11 +1375,18 @@ html, body, #root {
 	text-align: center;
 	margin: 20px;
 }
-
 .email-view {
 	width: 100%;
 	display: flex;
 	justify-content: center;
+}
+.seek-text {
+	font-family: Ubuntu;
+	font-size: 24px;
+	color: #ffffff;
+	font-weight: 300;
+	text-decoration: none solid rgb(255, 255, 255);
+	text-align: center;
 }
 
 @media screen and (max-width: 767px) {
