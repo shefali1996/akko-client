@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { Grid, Row, Col, Label } from 'react-bootstrap';
+import { Grid, Row, Col, FormControl, Button } from 'react-bootstrap';
 import Header from '../components/Header';
 import '../styles/App.css';
 import shopifyicon from '../assets/shopifyicon.svg';
@@ -9,15 +9,21 @@ class Landing extends Component {
     constructor(props) {
         super(props);
         this.state = {
-
+            email: ''
         };
+        this.onEmailChange = this.onEmailChange.bind(this);
     }
 
     componentWillMount() {
 
     }
 
+    onEmailChange(e) {
+        this.setState({email: e.target.value})
+    }
+
     render() {
+        let {email} = this.state;
         return (
             <Grid className="main-layout">
                 <Header history={this.props.history} />
@@ -42,7 +48,7 @@ class Landing extends Component {
                             Works with
                         </span>
                         <span>
-                            <img src={shopifyicon} className="shopify-icon"/>
+                            <img src={shopifyicon} className="shopify-icon" alt="shopify"/>
                         </span>
                         <span className="small-title">
                             . More integrations coming soon.
@@ -55,14 +61,30 @@ class Landing extends Component {
                                     Request an invite to get early access!
                                 </p>
                             </div>
+                            <div className="margin-t-20">
+                                <Col md={7}>
+                                    <FormControl
+                                        ref="email"
+                                        type="text"
+                                        placeholder="email"
+                                        className="email-input"
+                                        value={email}
+                                        data-tip="invalid email address"
+                                        data-for='sadFace'
+                                        onChange={this.onEmailChange}
+                                        onFocus={this.onEmailFocus}
+                                        onBlur={this.onEmailBlur}
+                                    />
+                                </Col>
+                                <Col md={5} className="text-center">
+                                    <Button className="invite-button">
+                                        REQUEST INVITE
+                                    </Button>
+                                </Col>
+                            </div>
                         </Col>
                         <Col md={6}>
-                            <Col md={7}>
-                                
-                            </Col>
-                            <Col md={5}>
-
-                            </Col>
+                            
                         </Col>
                     </Col>
                 </Row>
