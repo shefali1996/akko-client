@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { Button, Row, Col, Label } from 'react-bootstrap';
+import { Row, Col, Label } from 'react-bootstrap';
 import '../styles/App.css';
 
 class Header extends Component {
