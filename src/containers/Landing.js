@@ -4,6 +4,8 @@ import { Grid, Row, Col, FormControl, Button } from 'react-bootstrap';
 import Header from '../components/Header';
 import '../styles/App.css';
 import shopifyicon from '../assets/shopifyicon.svg';
+import landing1 from '../assets/landing_1.png';
+import landing2 from '../assets/landing_2.png';
 
 class Landing extends Component {
     constructor(props) {
@@ -54,9 +56,9 @@ class Landing extends Component {
                             . More integrations coming soon.
                         </span>
                     </Col>
-                    <Col md={12} className="margin-t-20">
+                    <Col md={12} className="margin-t-60">
                         <Col md={6}>
-                            <div className="text-center">
+                            <div className="text-center margin-t-40">
                                 <p className="invite-text">
                                     Request an invite to get early access!
                                 </p>
@@ -84,7 +86,24 @@ class Landing extends Component {
                             </div>
                         </Col>
                         <Col md={6}>
-                            
+                            <Col md={6} className="text-center">
+                                <p className="recapture-text">
+                                    Recapture customers before they leave you
+                                </p>
+                            </Col>
+                            <Col md={6} className="text-center">
+                                <img src={landing1} className="landing-image-one" alt="landing"/>
+                            </Col>
+                        </Col>
+                    </Col>
+                    <Col md={12} className="margin-t-60">
+                        <Col md={9}>
+                            <img src={landing2} className="landing-image-one" alt="landing"/>
+                        </Col>
+                        <Col md={3}>
+                            <p className="inventory-text">
+                                Low inventory forecasts so you never lose another sale
+                            </p>
                         </Col>
                     </Col>
                 </Row>
