@@ -21,6 +21,8 @@ html, body, #root {
 	text-align: center;
 }
 .middle-title {
+	width: 680px !important;
+	height: 36px;
 	font-family: Ubuntu;
 	font-size: 16px;
 	color: #ffffff;
@@ -1388,7 +1390,13 @@ html, body, #root {
 	text-decoration: none solid rgb(255, 255, 255);
 	text-align: center;
 }
-
+.productive-text-view {
+	padding-top: 60px;
+}
+.request-view {
+	text-align: center;
+	margin-top: 40px;
+}
 @media screen and (max-width: 767px) {
 	.company-title {
 		
@@ -1410,5 +1418,40 @@ html, body, #root {
 	}
 	.sale-text {
 		display: none;
+	}
+	.productive-text-view {
+		padding-top: 10px;
+	}
+	.large-title {
+		font-size: 20px;
+	}
+	.middle-title {
+		font-size: 13px;
+	}
+	.email-input {
+		width: 80%;
+	}
+	.email-view {
+		display: flex;
+		flex-direction: column;
+		align-items: center;
+	}
+	.request-view {
+		text-align: center;
+		margin-top: 10px;
+	}
+	.logo-title {
+		font-size: 24px;
+	}
+	.small-title {
+		font-size: 12px;
+	}
+	.invite-text {
+		font-size: 14px;
+	}
+	.invite-button {
+		font-size: 10px;
+		width: 100px;
+		height: 35px;
 	}
 }
