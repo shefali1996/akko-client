@@ -97,17 +97,17 @@ class Landing extends Component {
                             </Col>
                         </Col>
                     </Col>
-                    <Col md={12} className="margin-t-60 no-padding">
-                        <Col md={9} className="no-padding">
-                            <img src={landing2} className="landing-image-one" alt="landing"/>
-                        </Col>
+                    <Col md={12} className="productive-text-view no-padding">
                         <Col md={3} className="flex-center">
                             <p className="inventory-text">
                                 Low inventory forecasts so you never lose another sale
                             </p>
                         </Col>
+                        <Col md={9} className="no-padding">
+                            <img src={landing2} className="landing-image-one" alt="landing"/>
+                        </Col>
                     </Col>
-                    <Col md={12} className="margin-t-60 no-padding">
+                    <Col md={12} className="productive-text-view no-padding">
                         <Col md={3} className="flex-center">
                             <p className="inventory-text">
                                 One dashboard to answer all your questions.
@@ -148,7 +148,7 @@ class Landing extends Component {
                             </div>
                         </Col>
                     </Col>
-                    <Col md={12} className="flex-center margin-t-60">
+                    <Col md={12} className="productive-text-view">
                         <p className="seek-text">
                             What other answers do you seek?
                         </p>
