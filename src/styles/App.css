@@ -37,13 +37,8 @@ html, body, #root {
 .main-layout {
 	min-height: 150vh;
 	width: 100%;
-	background: -moz-linear-gradient(359deg, #1d2fb5 0%, #647ACA 100%); /* ff3.6+ */
-	background: -webkit-gradient(linear, left top, right top, color-stop(0%, #1d2fb5), color-stop(100%, #647ACA)); /* safari4+,chrome */
-	background: -webkit-linear-gradient(359deg, #1d2fb5 0%, #647ACA 100%); /* safari5.1+,chrome10+ */
-	background: -o-linear-gradient(359deg, #1d2fb5 0%, #647ACA 100%); /* opera 11.10+ */
-	background: -ms-linear-gradient(359deg, #1d2fb5 0%, #647ACA 100%); /* ie10+ */
-	background: linear-gradient(91deg, #1d2fb5 0%, #647ACA 100%); /* w3c */
-	filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#1d2fb5', endColorstr='#647ACA',GradientType=1 ); /* ie6-9 */
+	background-image: linear-gradient(135deg, #1d2fb5 2%, rgba(9, 14, 112, 0.25) 100% );
+	background-position: center center;
 }
 .no-margin {
   margin: 0;
