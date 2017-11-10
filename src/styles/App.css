@@ -495,7 +495,7 @@ html, body, #root {
 	outline: none;
 }
 .email-input {
-	width: 50%;
+	width: 40%;
 	height: 43px;
 	padding: 0px 10px;
 	border: 1px solid #c8c8e8;
@@ -1339,7 +1339,7 @@ html, body, #root {
 	font-weight: 300;
 	text-decoration: none solid rgb(255, 255, 255);
 	text-align: center;
-	margin-top: 60px;
+	margin-top: 70px;
 }
 .landing-image-one {
 	width: 100%;
@@ -1362,7 +1362,7 @@ html, body, #root {
 	font-weight: 100;
 	text-decoration: none solid rgb(255, 255, 255);
 	text-align: center;
-	margin-top: 80px;
+	margin-top: 90px;
 }
 .sale-text {
 	width: 190px;

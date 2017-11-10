@@ -58,7 +58,7 @@ class Landing extends Component {
                             . More integrations coming soon.
                         </span>
                     </Col>
-                    <div className="margin-t-60">
+                    <Col md={12} className="margin-t-60 no-padding">
                         <Col md={6} className="no-padding">
                             <div className="text-center margin-t-40">
                                 <p className="invite-text">
@@ -95,7 +95,7 @@ class Landing extends Component {
                                 <img src={landing1} className="landing-image-one" alt="landing"/>
                             </Col>
                         </Col>
-                    </div>
+                    </Col>
                     <Col md={12} className="margin-t-60 no-padding">
                         <Col md={9} className="no-padding">
                             <img src={landing2} className="landing-image-one" alt="landing"/>
