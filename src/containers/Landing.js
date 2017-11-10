@@ -75,68 +75,21 @@ class Landing extends Component {
                 <Row>
                     <Col md={12} className="text-center padding-t-66">
                         <Label className="large-title">
-                            Real-time dashboard for multi-channel eCommerce
+                            Predictive business analytics for eCommerce
                         </Label>
                     </Col>
                     <Col md={12} className="text-center padding-t-20">
                         <Label className="middle-title">
-                            Instantly sync inventory and orders across multiple channels
+                            Prevent customer churn and stockouts before they happen. Track your profits, sales, 
                         </Label>
                     </Col>
                     <Col md={12} className="text-center padding-t-5">
                         <Label className="middle-title">
-                            Track and compare performance in real-time
+                            customer behavior and inventory in realtime, all from a single dashboard.
                         </Label>
                     </Col>
                     <Col md={12} className="padding-t-30">
-                        <Col md={7} className="text-right">
-                            <Col md={6} className="text-center" mdOffset={6}>
-                                <Col md={12} className="text-center">
-                                    <Label className="small-title">
-                                        Sign up now for a 30 day free trial
-                                    </Label>
-                                </Col>
-                                <Col md={12} className="text-center flex-center padding-t-10">
-                                    <FormControl
-                                        ref="email"
-                                        type="text"
-                                        placeholder="email"
-                                        className="email-input"
-                                        value={email}
-                                        data-tip="invalid email address"
-                                        data-for='sadFace'
-                                        onChange={this.onEmailChange}
-                                        onFocus={this.onEmailFocus}
-                                        onBlur={this.onEmailBlur}
-                                    />
-                                </Col>
-                                <Col md={12} className="text-center">
-                                    {isValid ?
-                                        <StyleRoot>
-                                            <div className="bubble-alert-view" style={animationStyle.headShake}>
-                                                <span className="alert-text">
-                                                    Invalid email address
-                                            </span>
-                                                <i className="fa fa-info-circle fa-lg red-mark" aria-hidden="true"></i>
-                                            </div>
-                                        </StyleRoot>
-                                        :
-                                        <StyleRoot>
-                                            <div className="bubble-alert-view">
-                                            </div>
-                                        </StyleRoot>
-                                    }
-                                </Col>
-                            </Col>
-                        </Col>
-                        <Col md={5} className="padding-t-30">
-                            <Button className="trial-button" onClick={this.goSignUp}>
-                                START FREE TRIAL
-                            </Button>
-                        </Col>
-                    </Col>
-                    <Col md={12} className="padding-t-50 text-center">
-                        <Image src={computer} />
+                                                
                     </Col>
                 </Row>
             </Grid>

@@ -40,28 +40,6 @@ class Header extends Component {
                         akko
                     </Label>
                 </Col>
-                <Col md={6} className="padding-t-20">
-                    <Col md={3}>
-                        <Button className="feature-text" onClick={this.goFeature}>
-                            FEATURES
-                        </Button>
-                    </Col>
-                    <Col md={3}>
-                        <Button className="feature-text" onClick={this.goHome}>
-                            PRICING
-                        </Button>
-                    </Col>
-                    <Col md={3}>
-                        <Button className="feature-text" onClick={this.goLogin}>
-                            LOGIN
-                        </Button>
-                    </Col>
-                    <Col md={3}>
-                        <Button className="signup-button-text" onClick={this.goSignUp}>
-                            SIGN UP
-                        </Button>
-                    </Col>
-                </Col>
             </Row>
         );
     }
