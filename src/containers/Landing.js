@@ -2,10 +2,12 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Grid, Row, Col, FormControl, Button } from 'react-bootstrap';
 import Header from '../components/Header';
+import Footer from '../components/Footer';
 import '../styles/App.css';
 import shopifyicon from '../assets/shopifyicon.svg';
 import landing1 from '../assets/landing_1.png';
 import landing2 from '../assets/landing_2.png';
+import landing3 from '../assets/landing_3.png';
 
 class Landing extends Component {
     constructor(props) {
@@ -106,7 +108,57 @@ class Landing extends Component {
                             </p>
                         </Col>
                     </Col>
+                    <Col md={12} className="margin-t-60">
+                        <Col md={3}>
+                            <p className="inventory-text">
+                                One dashboard to answer all your questions.
+                            </p>
+                        </Col>
+                        <Col md={9}>
+                            <div>
+                                <Col md={4}>
+                                    <p className="sale-text">
+                                        How is my sales growing over time?
+                                    </p>
+                                </Col>
+                                <Col md={4}>
+                                    <p className="sale-text">
+                                        How is my sales growing over time?
+                                    </p>
+                                </Col>
+                                <Col md={4}>
+                                    <p className="sale-text">
+                                        How is my sales growing over time?
+                                    </p>
+                                </Col>
+                            </div>
+                            <div>
+                                <img src={landing3} className="landing-image-one" alt="landing"/>
+                            </div>
+                            <div>
+                                <Col md={6} className="flex-center">
+                                    <p className="sale-text">
+                                        How is my gross profit trending over time?
+                                    </p>
+                                </Col>
+                                <Col md={6}>
+                                    <p className="sale-text">
+                                        What is my customer retention rate?
+                                    </p>
+                                </Col>
+                            </div>
+                        </Col>
+                    </Col>
+                    <Col md={12} className="text-center">
+                        <p className="inventory-text">
+                            What other answers do you seek?
+                        </p>
+                    </Col>
+                    <Col md={12} className="margin-t-50 no-padding">
+                        <Footer history={this.props.history} />
+                    </Col>
                 </Row>
+                
             </Grid>
         );
     }

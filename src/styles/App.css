@@ -35,13 +35,15 @@ html, body, #root {
 	width: 100% !important;
 }
 .main-layout {
-	min-height: 200vh;
+	min-height: 150vh;
 	width: 100%;
-	background: #1d2fb5; /* For browsers that do not support gradients */
-	background: -webkit-linear-gradient(#1d2fb5, #ffffff); /* For Safari 5.1 to 6.0 */
-	background: -o-linear-gradient(#1d2fb5, #ffffff); /* For Opera 11.1 to 12.0 */
-	background: -moz-linear-gradient(#1d2fb5, #ffffff); /* For Firefox 3.6 to 15 */
-	background: linear-gradient(#1d2fb5, #ffffff); /* Standard syntax */
+	background: -moz-linear-gradient(359deg, #1d2fb5 0%, #647ACA 100%); /* ff3.6+ */
+	background: -webkit-gradient(linear, left top, right top, color-stop(0%, #1d2fb5), color-stop(100%, #647ACA)); /* safari4+,chrome */
+	background: -webkit-linear-gradient(359deg, #1d2fb5 0%, #647ACA 100%); /* safari5.1+,chrome10+ */
+	background: -o-linear-gradient(359deg, #1d2fb5 0%, #647ACA 100%); /* opera 11.10+ */
+	background: -ms-linear-gradient(359deg, #1d2fb5 0%, #647ACA 100%); /* ie10+ */
+	background: linear-gradient(91deg, #1d2fb5 0%, #647ACA 100%); /* w3c */
+	filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#1d2fb5', endColorstr='#647ACA',GradientType=1 ); /* ie6-9 */
 }
 .no-margin {
   margin: 0;
@@ -53,6 +55,11 @@ html, body, #root {
   background-color: #ffffff;
 }
 .footer-container {
+	/* position: absolute;
+	bottom: 0;
+	top: auto;
+	left: 0;
+	right: 0; */
 	background-color: #fbfbfb;
 }
 .down {
@@ -1358,4 +1365,15 @@ html, body, #root {
 	text-decoration: none solid rgb(255, 255, 255);
 	text-align: center;
 	margin-top: 80px;
+}
+.sale-text {
+	width: 190px;
+	height: 36px;
+	font-family: Ubuntu;
+	font-size: 16px;
+	color: #ffffff;
+	font-weight: 700;
+	text-decoration: none solid rgb(255, 255, 255);
+	text-align: center;
+	margin: 20px;
 }
