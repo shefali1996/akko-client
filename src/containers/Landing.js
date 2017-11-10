@@ -58,8 +58,8 @@ class Landing extends Component {
                             . More integrations coming soon.
                         </span>
                     </Col>
-                    <Col md={12} className="margin-t-60">
-                        <Col md={6}>
+                    <div className="margin-t-60">
+                        <Col md={6} className="no-padding">
                             <div className="text-center margin-t-40">
                                 <p className="invite-text">
                                     Request an invite to get early access!
@@ -85,34 +85,34 @@ class Landing extends Component {
                                 </div>
                             </div>
                         </Col>
-                        <Col md={6}>
+                        <Col md={6} className="no-padding">
                             <Col md={6} className="text-center">
                                 <p className="recapture-text">
                                     Recapture customers before they leave you
                                 </p>
                             </Col>
-                            <Col md={6} className="text-center">
+                            <Col md={6} className="text-center no-padding">
                                 <img src={landing1} className="landing-image-one" alt="landing"/>
                             </Col>
                         </Col>
-                    </Col>
-                    <Col md={12} className="margin-t-60">
-                        <Col md={9}>
+                    </div>
+                    <Col md={12} className="margin-t-60 no-padding">
+                        <Col md={9} className="no-padding">
                             <img src={landing2} className="landing-image-one" alt="landing"/>
                         </Col>
-                        <Col md={3}>
+                        <Col md={3} className="flex-center">
                             <p className="inventory-text">
                                 Low inventory forecasts so you never lose another sale
                             </p>
                         </Col>
                     </Col>
-                    <Col md={12} className="margin-t-60">
+                    <Col md={12} className="margin-t-60 no-padding">
                         <Col md={3}>
                             <p className="inventory-text">
                                 One dashboard to answer all your questions.
                             </p>
                         </Col>
-                        <Col md={9}>
+                        <Col md={9} className="no-padding">
                             <div>
                                 <Col md={4}>
                                     <p className="sale-text">
@@ -121,12 +121,12 @@ class Landing extends Component {
                                 </Col>
                                 <Col md={4}>
                                     <p className="sale-text">
-                                        How is my sales growing over time?
+                                        What is my profit margin?
                                     </p>
                                 </Col>
                                 <Col md={4}>
                                     <p className="sale-text">
-                                        How is my sales growing over time?
+                                        How much are customers spending at my store?
                                     </p>
                                 </Col>
                             </div>
