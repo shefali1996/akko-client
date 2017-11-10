@@ -1402,10 +1402,11 @@ html, body, #root {
 		
 	}
 	.contact-title {
-		display: none;
+		/* display: none; */
 	}
 	.date-view {
-		text-align: left;
+		/* text-align: left; */
+		display: none;
 	}
 	.header-title {
 		display: none;
