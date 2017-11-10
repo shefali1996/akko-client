@@ -1,6 +1,5 @@
 html, body, #root {
 	width: 100%;
-	min-height: 100vh;
 	overflow: auto;
 }
 .direction-row {
@@ -1372,7 +1371,8 @@ html, body, #root {
 	text-align: center;
 	margin: 20px;
 }
-@media screen and (max-width: 480px) {
+
+@media screen and (max-width: 767px) {
 	.company-title {
 		
 	}
@@ -1394,8 +1394,4 @@ html, body, #root {
 	.sale-text {
 		display: none;
 	}
-}
-
-@media screen and (max-width: 767px) {
-	
 }	
