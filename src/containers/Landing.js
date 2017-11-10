@@ -103,8 +103,8 @@ class Landing extends Component {
                                 Low inventory forecasts so you never lose another sale
                             </p>
                         </Col>
-                        <Col md={9} className="no-padding">
-                            <img src={landing2} className="landing-image-one" alt="landing"/>
+                        <Col md={9} className="inventory-image-view">
+                            <img src={landing2} className="landing-image-two" alt="landing"/>
                         </Col>
                     </Col>
                     <Col md={12} className="productive-text-view no-padding">
