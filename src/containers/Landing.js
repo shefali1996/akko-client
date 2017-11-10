@@ -66,7 +66,7 @@ class Landing extends Component {
                                 </p>
                             </div>
                             <div className="margin-t-20">
-                                <Col md={7}>
+                                <div className="email-view">
                                     <FormControl
                                         ref="email"
                                         type="text"
@@ -79,12 +79,10 @@ class Landing extends Component {
                                         onFocus={this.onEmailFocus}
                                         onBlur={this.onEmailBlur}
                                     />
-                                </Col>
-                                <Col md={5} className="text-center">
                                     <Button className="invite-button">
                                         REQUEST INVITE
                                     </Button>
-                                </Col>
+                                </div>
                             </div>
                         </Col>
                         <Col md={6}>

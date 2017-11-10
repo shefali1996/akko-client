@@ -496,7 +496,7 @@ html, body, #root {
 	outline: none;
 }
 .email-input {
-	width: 100%;
+	width: 50%;
 	height: 43px;
 	padding: 0px 10px;
 	border: 1px solid #c8c8e8;
@@ -1329,6 +1329,7 @@ html, body, #root {
 	text-align: center;
 	box-shadow: 0 1px 2px #000000;
 	margin-top: 10px;
+	margin-left: 10px;
 }
 .recapture-text {
 	font-family: Ubuntu;
@@ -1372,6 +1373,12 @@ html, body, #root {
 	margin: 20px;
 }
 
+.email-view {
+	width: 100%;
+	display: flex;
+	justify-content: center;
+}
+
 @media screen and (max-width: 767px) {
 	.company-title {
 		
@@ -1394,4 +1401,4 @@ html, body, #root {
 	.sale-text {
 		display: none;
 	}
-}	
+}
