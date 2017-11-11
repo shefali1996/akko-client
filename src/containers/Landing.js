@@ -124,27 +124,27 @@ class Landing extends Component {
                             </div>
                         </Col>
                         <Col md={6} sm={6} className="no-padding">
-                            <Col md={6} sm={6} className="flex-center">
+                            <Col lg={6} md={5} sm={5} className="flex-center">
                                 <p className="recapture-text">
                                     Recapture customers before they leave you
                                 </p>
                             </Col>
-                            <Col md={6} sm={6} className="landing-one-view">
+                            <Col lg={6} md={7} sm={7} className="landing-one-view">
                                 <img src={landing1} className="landing-image-one" alt="landing"/>
                             </Col>
                         </Col>
                     </Col>
-                    <Col md={12} className="productive-text-view no-padding">
-                        <Col md={3} sm={3} className="flex-center">
+                    <Col md={12} sm={12} className="productive-text-view no-padding">
+                        <Col md={3} sm={4} className="flex-center">
                             <p className="inventory-text">
                                 Low inventory forecasts so you never lose another sale
                             </p>
                         </Col>
-                        <Col md={9} sm={9} className="inventory-image-view">
+                        <Col md={9} sm={8} className="inventory-image-view">
                             <img src={landing2} className="landing-image-two" alt="landing"/>
                         </Col>
                     </Col>
-                    <Col md={12} className="productive-text-view no-padding">
+                    <Col md={12} sm={12} className="productive-text-view no-padding">
                         <Col md={3} className="flex-center">
                             <p className="inventory-text">
                                 One dashboard to answer all your questions.
@@ -152,17 +152,17 @@ class Landing extends Component {
                         </Col>
                         <Col md={9} className="no-padding">
                             <div>
-                                <Col md={4}>
+                                <Col md={4} sm={4} className="flex-center">
                                     <p className="sale-text-one">
                                         How is my sales growing over time?
                                     </p>
                                 </Col>
-                                <Col md={4}>
+                                <Col md={4} sm={4} className="flex-center">
                                     <p className="sale-text-two">
                                         What is my profit margin?
                                     </p>
                                 </Col>
-                                <Col md={4}>
+                                <Col md={4} sm={4} className="flex-center">
                                     <p className="sale-text-three">
                                         How much are customers spending at my store?
                                     </p>
@@ -175,12 +175,12 @@ class Landing extends Component {
                                 <img src={landing3} className="landing-image-three-repeat" alt="landing"/>
                             </div>
                             <div>
-                                <Col md={6} className="flex-center">
+                                <Col md={6} sm={6} className="flex-center">
                                     <p className="sale-text">
                                         How is my gross profit trending over time?
                                     </p>
                                 </Col>
-                                <Col md={6}>
+                                <Col md={6} sm={6} className="flex-center">
                                     <p className="sale-text">
                                         What is my customer retention rate?
                                     </p>
@@ -188,14 +188,12 @@ class Landing extends Component {
                             </div>
                         </Col>
                     </Col>
-                    <Col md={12} className="productive-text-view">
+                    <Col md={12} sm={12} className="productive-text-view">
                         <p className="seek-text">
                             What other answers do you seek?
                         </p>
                     </Col>
-                    <Col md={12} className="productive-text-view">
-                    </Col>
-                    <Col md={12} className="margin-t-50 no-padding">
+                    <Col md={12} sm={12} className="no-padding margin-t-50">
                         <Footer history={this.props.history} />
                     </Col>
                 </Row>

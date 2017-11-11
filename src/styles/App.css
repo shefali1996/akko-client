@@ -35,7 +35,7 @@ html, body, #root {
 	width: 100% !important;
 }
 .main-layout {
-	min-height: 150vh;
+	/* min-height: 150vh; */
 	width: 100%;
 	background-image: linear-gradient(135deg, #1d2fb5 2%, rgba(9, 14, 112, 0.25) 100% );
 	background-position: center center;
@@ -1328,8 +1328,6 @@ html, body, #root {
 	margin-left: 20px;
 }
 .recapture-text {
-	width: 212px;
-	height: 84px;
 	font-family: Ubuntu;
 	font-size: 24px;
 	color: #ffffff;
@@ -1351,8 +1349,6 @@ html, body, #root {
 	height: auto;
 }
 .inventory-text {
-	width: 236px;
-	height: 112px;
 	font-family: Ubuntu;
 	font-size: 24px;
 	color: #ffffff;
@@ -1419,7 +1415,7 @@ html, body, #root {
 	text-align: center;
 }
 .productive-text-view {
-	padding-top: 150px;
+	margin-top: 150px;
 }
 .request-view {
 	text-align: center;
@@ -1462,16 +1458,16 @@ html, body, #root {
 		padding: 0px;
 	}
 	.sale-text-one {
-		display: none;
+		/* display: block; */
 	}
 	.sale-text-two {
-		display: none;
+		/* display: block; */
 	}
 	.sale-text-three {
-		display: none;
+		/* display: block; */
 	}
 	.productive-text-view {
-		padding-top: 10px;
+		margin-top: 10px;
 	}
 	.large-title {
 		font-size: 20px;
@@ -1517,8 +1513,11 @@ html, body, #root {
 	}
 	.seek-text {
 		margin-top: 20px;
-		font-size: 14px;
+		font-size: 16px;
 		height: 50px;
+	}
+	.sale-text {
+		font-size: 14px;
 	}
 	.landing-image-two {
 		width: 200%;
@@ -1563,5 +1562,46 @@ html, body, #root {
 	.landing-one-view {
 		margin-right: 15px;
 		margin-left: 15px;
+	}
+}
+@media screen and (min-width: 768px) and (max-width: 991px) {
+	.invite-text {
+		font-size: 20px;
+	}
+	.recapture-text {
+		margin-top: 15px;
+		font-size: 18px;
+	}
+	.inventory-text {
+		margin-top: 25px;
+		font-size: 18px;
+	}
+	.request-view {
+		margin-top: 10px;
+	}
+	.sale-text-one {
+		/* display: block; */
+	}
+	.sale-text-two {
+		/* display: block; */
+	}
+	.sale-text-three {
+		/* display: block; */
+	}
+	.productive-text-view {
+		margin-top: 50px;
+	}
+}
+@media screen and (min-width: 992px) and (max-width: 1199px) {
+	.recapture-text {
+		margin-top: 30px;
+		font-size: 22px;
+	}
+	.inventory-text {
+		margin-top: 30px;
+		font-size: 22px;
+	}
+	.request-view {
+		margin-top: 30px;
 	}
 }
