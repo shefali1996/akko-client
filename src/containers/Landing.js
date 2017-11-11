@@ -44,11 +44,11 @@ class Landing extends Component {
             email: email
           }
         }).then((result) => {
-            console.log(result)
+            console.log("result", result)
             this.setState({alertShow: true})
         })
         .catch(error => {
-            
+            console.log("error", error)
         });;
       }else{
         this.setState({errorAlert: true})
