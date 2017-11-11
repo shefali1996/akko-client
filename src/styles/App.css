@@ -1400,6 +1400,9 @@ html, body, #root {
 .inventory-image-view {
 	padding: 0px;
 }
+.inventory-image-repeat-view {
+	display: none;
+}
 @media screen and (max-width: 767px) {
 	.main-layout {
 		overflow-x: hidden;
@@ -1479,10 +1482,27 @@ html, body, #root {
 	.landing-image-two {
 		width: 200%;
 		height: auto;
+		right: 0;
+		bottom: 0;
+		position: absolute;
 	}
 	.inventory-image-view {
-		margin-left: 10px;
-		margin-right: 10px;
+		margin-left: 15px;
+		margin-right: 15px;
 		overflow: hidden;
+		position: relative;
+		height: 200px;
+	}
+	.inventory-image-repeat-view {
+		margin-left: 15px;
+		margin-right: 15px;
+		overflow: hidden;
+	}
+	.dashboard-image-view {
+		margin-left: 15px;
+		margin-right: 15px;
+		overflow: hidden;
+		position: relative;
+		height: 50px;
 	}
 }

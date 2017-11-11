@@ -75,7 +75,7 @@ class Landing extends Component {
                             . More integrations coming soon.
                         </span>
                     </Col>
-                    <Col md={12} className="productive-text-view">
+                    <Col md={12} className="productive-text-view no-padding">
                         <Col md={6} className="no-padding">
                             <div className="request-view">
                                 <p className="invite-text">
@@ -147,8 +147,11 @@ class Landing extends Component {
                                     </p>
                                 </Col>
                             </div>
-                            <div>
-                                <img src={landing3} className="landing-image-three" alt="landing"/>
+                            <div className="dashboard-image-view">
+                                <img src={landing3} className="landing-image-two" alt="landing"/>
+                            </div>
+                            <div className="dashboard-image-repeat-view">
+                                <img src={landing3} className="landing-image-two" alt="landing"/>
                             </div>
                             <div>
                                 <Col md={6} className="flex-center">
