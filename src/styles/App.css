@@ -1358,48 +1358,40 @@ html, body, #root {
 	margin-top: 90px;
 }
 .sale-text {
-	width: 190px;
-	height: 36px;
 	font-family: Ubuntu;
 	font-size: 16px;
 	color: #ffffff;
 	font-weight: 400;
 	text-decoration: none solid rgb(255, 255, 255);
 	text-align: center;
-	margin: 20px;
+	margin: 10px;
 }
 .sale-text-one {
-	width: 190px;
-	height: 36px;
 	font-family: Ubuntu;
 	font-size: 16px;
 	color: #ffffff;
 	font-weight: 400;
 	text-decoration: none solid rgb(255, 255, 255);
 	text-align: center;
-	margin: 20px;
+	margin: 10px;
 }
 .sale-text-two {
-	width: 190px;
-	height: 36px;
 	font-family: Ubuntu;
 	font-size: 16px;
 	color: #ffffff;
 	font-weight: 400;
 	text-decoration: none solid rgb(255, 255, 255);
 	text-align: center;
-	margin: 20px;
+	margin: 10px;
 }
 .sale-text-three {
-	width: 190px;
-	height: 36px;
 	font-family: Ubuntu;
 	font-size: 16px;
 	color: #ffffff;
 	font-weight: 400;
 	text-decoration: none solid rgb(255, 255, 255);
 	text-align: center;
-	margin: 20px;
+	margin: 10px;
 }
 .email-view {
 	width: 100%;
@@ -1442,7 +1434,7 @@ html, body, #root {
 		
 	}
 	.contact-title {
-		/* display: none; */
+
 	}
 	.date-view {
 		/* text-align: left; */
@@ -1453,18 +1445,23 @@ html, body, #root {
 	}
 	.padding-header {
 		padding: 20px;
+		display: flex;
+		justify-content: center;
 	}
 	.top-border {
 		padding: 0px;
 	}
 	.sale-text-one {
 		/* display: block; */
+		font-size: 12px;
 	}
 	.sale-text-two {
 		/* display: block; */
+		font-size: 12px;
 	}
 	.sale-text-three {
 		/* display: block; */
+		font-size: 12px;
 	}
 	.productive-text-view {
 		margin-top: 10px;
@@ -1517,7 +1514,7 @@ html, body, #root {
 		height: 50px;
 	}
 	.sale-text {
-		font-size: 14px;
+		font-size: 12px;
 	}
 	.landing-image-two {
 		width: 200%;
