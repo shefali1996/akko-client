@@ -32,13 +32,20 @@ class Landing extends Component {
     async saveEmail(){
       let { email } = this.state;
       if(validateEmail(email)){
-        await invokeApig({
+        invokeApig({
           path: "/leads",
           method: "POST",
           body: {
             email: email
           }
+        }).then((result) => {
+            console.log(result)
         })
+        .catch(error => {
+            
+        });;
+      }else{
+          
       }
     }
 
