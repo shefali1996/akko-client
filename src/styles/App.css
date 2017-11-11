@@ -1400,7 +1400,10 @@ html, body, #root {
 .inventory-image-view {
 	padding: 0px;
 }
-.inventory-image-repeat-view {
+.dashboard-image-view {
+	padding: 0px;
+}
+.dashboard-image-repeat-view {
 	display: none;
 }
 @media screen and (max-width: 767px) {
@@ -1493,16 +1496,29 @@ html, body, #root {
 		position: relative;
 		height: 200px;
 	}
-	.inventory-image-repeat-view {
+	.dashboard-image-view {
 		margin-left: 15px;
 		margin-right: 15px;
 		overflow: hidden;
+		height: 50px;
 	}
-	.dashboard-image-view {
+	.dashboard-image-repeat-view {
 		margin-left: 15px;
 		margin-right: 15px;
 		overflow: hidden;
 		position: relative;
 		height: 50px;
+		display: block;
+	}
+	.landing-image-three {
+		width: 200%;
+		height: auto;
+	}
+	.landing-image-three-repeat {
+		width: 200%;
+		height: auto;
+		right: 0;
+		bottom: 0;
+		position: absolute;
 	}
 }
