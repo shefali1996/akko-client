@@ -4,6 +4,8 @@ import { Grid, Row, Col, FormControl, Button } from 'react-bootstrap';
 import Header from '../components/Header';
 import Footer from '../components/Footer';
 import '../styles/App.css';
+import { invokeApig } from "../libs/awsLib";
+import {validateEmail} from '../constants';
 import shopifyicon from '../assets/shopifyicon.svg';
 import landing1 from '../assets/landing_1.png';
 import landing2 from '../assets/landing_2.png';
@@ -16,6 +18,7 @@ class Landing extends Component {
             email: ''
         };
         this.onEmailChange = this.onEmailChange.bind(this);
+        this.saveEmail = this.saveEmail.bind(this);
     }
 
     componentWillMount() {
@@ -24,6 +27,19 @@ class Landing extends Component {
 
     onEmailChange(e) {
         this.setState({email: e.target.value})
+    }
+
+    async saveEmail(){
+      let { email } = this.state;
+      if(validateEmail(email)){
+        await invokeApig({
+          path: "/leads",
+          method: "POST",
+          body: {
+            email: email
+          }
+        })
+      }
     }
 
     render() {
@@ -45,7 +61,7 @@ class Landing extends Component {
                     </Col>
                     <Col md={12}>
                         <p className="middle-title">
-                            
+
                         </p>
                     </Col>
                     <Col md={12} className="inline-block text-center margin-t-20">
@@ -80,7 +96,7 @@ class Landing extends Component {
                                         onFocus={this.onEmailFocus}
                                         onBlur={this.onEmailBlur}
                                     />
-                                    <Button className="invite-button">
+                                    <Button className="invite-button" onClick={this.saveEmail}>
                                         REQUEST INVITE
                                     </Button>
                                 </div>
@@ -157,7 +173,7 @@ class Landing extends Component {
                         <Footer history={this.props.history} />
                     </Col>
                 </Row>
-                
+
             </Grid>
         );
     }
