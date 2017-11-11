@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Grid, Row, Col, FormControl, Button } from 'react-bootstrap';
+import SweetAlert from 'sweetalert-react';
 import Header from '../components/Header';
 import Footer from '../components/Footer';
 import '../styles/App.css';
@@ -15,10 +16,14 @@ class Landing extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            email: ''
+            email: '',
+            alertShow: false,
+            errorAlert: false
         };
         this.onEmailChange = this.onEmailChange.bind(this);
         this.saveEmail = this.saveEmail.bind(this);
+        this.onConfirm = this.onConfirm.bind(this);
+        this.onError = this.onError.bind(this);
     }
 
     componentWillMount() {
@@ -40,13 +45,22 @@ class Landing extends Component {
           }
         }).then((result) => {
             console.log(result)
+            this.setState({alertShow: true})
         })
         .catch(error => {
             
         });;
       }else{
-          
+        this.setState({errorAlert: true})
       }
+    }
+
+    onConfirm() {
+        this.setState({alertShow: false})
+    }
+
+    onError() {
+        this.setState({errorAlert: false})
     }
 
     render() {
@@ -183,7 +197,22 @@ class Landing extends Component {
                         <Footer history={this.props.history} />
                     </Col>
                 </Row>
-
+                <SweetAlert
+                    show={this.state.alertShow}
+                    showConfirmButton
+                    type="success"
+                    title="Success!"
+                    text="Submit is successful."
+                    onConfirm={this.onConfirm}
+                />
+                <SweetAlert
+                    show={this.state.errorAlert}
+                    showConfirmButton
+                    type="error"
+                    title="Error!"
+                    text="Email is invalid."
+                    onConfirm={this.onError}
+                />
             </Grid>
         );
     }
