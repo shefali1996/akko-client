@@ -50,11 +50,6 @@ html, body, #root {
   background-color: #ffffff;
 }
 .footer-container {
-	/* position: absolute;
-	bottom: 0;
-	top: auto;
-	left: 0;
-	right: 0; */
 	background-color: #fbfbfb;
 }
 .down {
@@ -1392,6 +1387,8 @@ html, body, #root {
 }
 .productive-text-view {
 	padding-top: 60px;
+	display: flex;
+	justify-content: center;
 }
 .request-view {
 	text-align: center;
