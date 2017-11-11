@@ -2,6 +2,7 @@ import { CognitoUserPool } from "amazon-cognito-identity-js";
 import config from "../config";
 import AWS from "aws-sdk";
 import sigV4Client from "./sigV4Client";
+import apigClientFactory from "./apigClient"
 
 function getAwsCredentials(userToken) {
   const authenticator = `cognito-idp.${config.cognito
@@ -82,6 +83,67 @@ export function signOutUser() {
     AWS.config.credentials.clearCachedId();
     AWS.config.credentials = new AWS.CognitoIdentityCredentials({});
   }
+}
+
+export async function invokeApigUnAuth({
+  path,
+  method = "GET",
+  headers = {},
+  queryParams = {},
+  body
+}) {
+
+  console.log("Entered function");
+
+  AWS.config.update({ region: config.cognito.REGION });
+
+  var cognitoidentity = new AWS.CognitoIdentity();
+  var params = {
+    IdentityPoolId: config.cognito.IDENTITY_POOL_ID
+  };
+
+  // Generate a Cognito ID for the 1st time, so IdentityId could be kept for future use
+  cognitoidentity.getId(params, function(err, data) {
+    if (err) console.log(err, err.stack); // an error occurred
+    else console.log(data); // successful response
+
+    var params = {
+      IdentityId: data.IdentityId
+    };
+
+    // Retrieve temp credentials with IdentityId
+    cognitoidentity.getCredentialsForIdentity(params, function(err, data) {
+      if (err) console.log(err, err.stack); // an error occurred
+      else console.log(data); // successful response
+
+      var apigClient = apigClientFactory.newClient({
+        accessKey: data.Credentials.AccessKeyId,
+        secretKey: data.Credentials.SecretKey,
+        sessionToken: data.Credentials.SessionToken,
+        region: config.cognito.REGION
+      });
+
+      var params = {
+        //This is where any header, path, or querystring request params go. The key is the parameter named as defined in the API
+        path: path,
+        method: method,
+        headers: headers,
+        queryParams: queryParams,
+        body: body,
+      };
+
+      apigClient.demoGet(params).then(function(result) {
+        //This is where you would put a success callback
+        console.log(result);
+        alert("Hello foo!");
+      }).catch(function(result) {
+        //This is where you would put an error callback
+        console.log(result);
+        alert("Oops foo!");
+      });
+    })
+
+  });
 }
 
 // Invoke API gateway
