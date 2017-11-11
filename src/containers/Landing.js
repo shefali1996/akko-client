@@ -97,7 +97,7 @@ class Landing extends Component {
                         </span>
                     </Col>
                     <Col md={12} className="productive-text-view no-padding">
-                        <Col md={6} className="no-padding">
+                        <Col md={6} sm={6} className="no-padding">
                             <div className="request-view">
                                 <p className="invite-text">
                                     Request an invite to get early access!
@@ -123,24 +123,24 @@ class Landing extends Component {
                                 </div>
                             </div>
                         </Col>
-                        <Col md={6} className="no-padding">
-                            <Col md={6} className="flex-center">
+                        <Col md={6} sm={6} className="no-padding">
+                            <Col md={6} sm={6} className="flex-center">
                                 <p className="recapture-text">
                                     Recapture customers before they leave you
                                 </p>
                             </Col>
-                            <Col md={6} className="landing-one-view">
+                            <Col md={6} sm={6} className="landing-one-view">
                                 <img src={landing1} className="landing-image-one" alt="landing"/>
                             </Col>
                         </Col>
                     </Col>
                     <Col md={12} className="productive-text-view no-padding">
-                        <Col md={3} className="flex-center">
+                        <Col md={3} sm={3} className="flex-center">
                             <p className="inventory-text">
                                 Low inventory forecasts so you never lose another sale
                             </p>
                         </Col>
-                        <Col md={9} className="inventory-image-view">
+                        <Col md={9} sm={9} className="inventory-image-view">
                             <img src={landing2} className="landing-image-two" alt="landing"/>
                         </Col>
                     </Col>
@@ -153,17 +153,17 @@ class Landing extends Component {
                         <Col md={9} className="no-padding">
                             <div>
                                 <Col md={4}>
-                                    <p className="sale-text">
+                                    <p className="sale-text-one">
                                         How is my sales growing over time?
                                     </p>
                                 </Col>
                                 <Col md={4}>
-                                    <p className="sale-text">
+                                    <p className="sale-text-two">
                                         What is my profit margin?
                                     </p>
                                 </Col>
                                 <Col md={4}>
-                                    <p className="sale-text">
+                                    <p className="sale-text-three">
                                         How much are customers spending at my store?
                                     </p>
                                 </Col>
@@ -192,6 +192,8 @@ class Landing extends Component {
                         <p className="seek-text">
                             What other answers do you seek?
                         </p>
+                    </Col>
+                    <Col md={12} className="productive-text-view">
                     </Col>
                     <Col md={12} className="margin-t-50 no-padding">
                         <Footer history={this.props.history} />
