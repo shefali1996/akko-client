@@ -108,7 +108,7 @@ class Landing extends Component {
                                     Recapture customers before they leave you
                                 </p>
                             </Col>
-                            <Col md={6} className="text-center no-padding">
+                            <Col md={6} className="landing-one-view">
                                 <img src={landing1} className="landing-image-one" alt="landing"/>
                             </Col>
                         </Col>

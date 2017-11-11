@@ -1406,6 +1406,10 @@ html, body, #root {
 .dashboard-image-repeat-view {
 	display: none;
 }
+.landing-one-view {
+	text-align: center;
+	padding: 0px;
+}
 @media screen and (max-width: 767px) {
 	.main-layout {
 		overflow-x: hidden;
@@ -1520,5 +1524,129 @@ html, body, #root {
 		right: 0;
 		bottom: 0;
 		position: absolute;
+	}
+	.landing-one-view {
+		margin-right: 15px;
+		margin-left: 15px;
+	}
+}
+@media screen and (max-width: 768px) {
+	.main-layout {
+		overflow-x: hidden;
+	}
+	.company-title {
+		
+	}
+	.contact-title {
+		/* display: none; */
+	}
+	.date-view {
+		/* text-align: left; */
+		display: none;
+	}
+	.header-title {
+		display: none;
+	}
+	.padding-header {
+		padding: 20px;
+	}
+	.top-border {
+		padding: 0px;
+	}
+	.sale-text {
+		display: none;
+	}
+	.productive-text-view {
+		padding-top: 10px;
+	}
+	.large-title {
+		font-size: 20px;
+	}
+	.middle-title {
+		font-size: 13px;
+	}
+	.email-input {
+		width: 80%;
+	}
+	.email-view {
+		display: flex;
+		flex-direction: column;
+		align-items: center;
+	}
+	.request-view {
+		text-align: center;
+		margin-top: 10px;
+	}
+	.logo-title {
+		font-size: 24px;
+	}
+	.small-title {
+		font-size: 12px;
+	}
+	.invite-text {
+		font-size: 14px;
+	}
+	.invite-button {
+		font-size: 10px;
+		width: 100px;
+		height: 35px;
+	}
+	.recapture-text {
+		margin-top: 20px;
+		font-size: 14px;
+		height: 50px;
+	}
+	.inventory-text {
+		margin-top: 20px;
+		font-size: 14px;
+		height: 50px;
+	}
+	.seek-text {
+		margin-top: 20px;
+		font-size: 14px;
+		height: 50px;
+	}
+	.landing-image-two {
+		width: 200%;
+		height: auto;
+		right: 0;
+		bottom: 0;
+		position: absolute;
+	}
+	.inventory-image-view {
+		margin-left: 15px;
+		margin-right: 15px;
+		overflow: hidden;
+		position: relative;
+		height: 200px;
+	}
+	.dashboard-image-view {
+		margin-left: 15px;
+		margin-right: 15px;
+		overflow: hidden;
+		height: 50px;
+	}
+	.dashboard-image-repeat-view {
+		margin-left: 15px;
+		margin-right: 15px;
+		overflow: hidden;
+		position: relative;
+		height: 50px;
+		display: block;
+	}
+	.landing-image-three {
+		width: 200%;
+		height: auto;
+	}
+	.landing-image-three-repeat {
+		width: 200%;
+		height: auto;
+		right: 0;
+		bottom: 0;
+		position: absolute;
+	}
+	.landing-one-view {
+		margin-right: 15px;
+		margin-left: 15px;
 	}
 }
