@@ -1385,6 +1385,8 @@ html, body, #root {
 	margin: 10px;
 }
 .sale-text-one {
+	width: 100%;
+	height: 58px;
 	font-family: Ubuntu;
 	font-size: 16px;
 	color: #ffffff;
@@ -1394,6 +1396,8 @@ html, body, #root {
 	margin: 10px;
 }
 .sale-text-two {
+	width: 100%;
+	height: 58px;
 	font-family: Ubuntu;
 	font-size: 16px;
 	color: #ffffff;
@@ -1403,13 +1407,7 @@ html, body, #root {
 	margin: 10px;
 }
 .sale-text-three {
-	font-family: Ubuntu;
-	font-size: 16px;
-	color: #ffffff;
-	font-weight: 400;
-	text-decoration: none solid rgb(255, 255, 255);
-	text-align: center;
-	margin: 10px;
+	/* display: none; */
 }
 .email-view {
 	width: 100%;
@@ -1468,15 +1466,22 @@ html, body, #root {
 	}
 	.sale-text-one {
 		/* display: block; */
-		font-size: 12px;
+		font-size: 8px;
+		height: unset;
 	}
 	.sale-text-two {
-		/* display: block; */
-		font-size: 12px;
+		/* display: none; */
 	}
 	.sale-text-three {
-		/* display: block; */
-		font-size: 12px;
+		width: 100%;
+		height: 58px;
+		font-family: Ubuntu;
+		font-size: 16px;
+		color: #ffffff;
+		font-weight: 400;
+		text-decoration: none solid rgb(255, 255, 255);
+		text-align: center;
+		margin: 10px;
 	}
 	.productive-text-view {
 		margin-top: 10px;
@@ -1548,7 +1553,6 @@ html, body, #root {
 		padding-left: 15px;
 		padding-right: 15px;
 		overflow: hidden;
-		/* min-height: 89px; */
 		width: 100%;
 	}
 	.landing-image-three {
@@ -1592,16 +1596,20 @@ html, body, #root {
 		margin-top: 10px;
 	}
 	.sale-text-one {
-		/* display: block; */
+		
 	}
 	.sale-text-two {
-		/* display: block; */
+		
 	}
 	.sale-text-three {
-		/* display: block; */
+		
 	}
 	.productive-text-view {
 		margin-top: 50px;
+	}
+	.dashboard-image-view {
+		padding-right: 15px;
+		padding-left: 15px;
 	}
 }
 @media screen and (min-width: 992px) and (max-width: 1199px) {
@@ -1618,5 +1626,8 @@ html, body, #root {
 	}
 	.productive-text-view {
 		margin-top: 90px;
+	}
+	.sale-text-one {
+		width: 1000px;
 	}
 }

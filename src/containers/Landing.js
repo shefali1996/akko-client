@@ -10,7 +10,6 @@ import {validateEmail} from '../constants';
 import shopifyicon from '../assets/shopifyicon.svg';
 import landing1 from '../assets/landing_1.png';
 import landing2 from '../assets/landing_2.png';
-import landing3 from '../assets/landing_3.png';
 import dashboard_1 from '../assets/dashboard_1.png';
 import dashboard_2 from '../assets/dashboard_2.png';
 
@@ -152,15 +151,17 @@ class Landing extends Component {
                             </p>
                         </Col>
                         <Col md={9} className="no-padding">
-                            <Col md={6} className="no-padding">
+                            <Col md={6} sm={12} xs={12} className="no-padding margin-t-5">
                                 <div>
-                                    <Col md={6} sm={6} xs={6} className="flex-center">
+                                    <Col md={4} sm={4} xs={4} className="flex-center">
                                         <p className="sale-text-one">
                                             How is my sales growing over time?
                                         </p>
                                     </Col>
-                                    <Col md={6} sm={6} xs={6} className="flex-center">
-                                        <p className="sale-text-two">
+                                    <Col md={4} sm={4} xs={4} className="flex-center">
+                                    </Col>
+                                    <Col md={4} sm={4} xs={4} className="flex-center">
+                                        <p className="sale-text-one">
                                             What is my profit margin?
                                         </p>
                                     </Col>
@@ -169,45 +170,52 @@ class Landing extends Component {
                                     <img src={dashboard_1} className="landing-image-three" alt="landing"/>
                                 </div>
                                 <div>
-                                    <Col md={12} sm={12} className="flex-center">
-                                        <p className="sale-text">
+                                    <Col md={4} sm={4} xs={4} className="flex-center">
+                                    </Col>
+                                    <Col md={4} sm={4} xs={4} className="flex-center">
+                                        <p className="sale-text-one">
                                             How is my gross profit trending over time?
                                         </p>
                                     </Col>
+                                    <Col md={4} sm={4} xs={4} className="flex-center">
+                                    </Col>
                                 </div>
                             </Col>
-                            <Col md={6} className="no-padding">
+                            <Col md={6} sm={12} xs={12} className="no-padding margin-t-5">
                                 <div>
-                                    <Col md={6} sm={6} xs={6} className="flex-center">
-                                        <p className="sale-text-two">
-                                            What is my customer retention rate?
-                                        </p>
+                                    <Col md={3} sm={4} xs={4} className="flex-center">
                                     </Col>
-                                    <Col md={6} sm={6} xs={6} className="flex-center">
-                                        <p className="sale-text-three">
+                                    <Col md={6} sm={4} xs={4} className="flex-center">
+                                        <p className="sale-text-one">
                                             How much are customers spending at my store?
                                         </p>
+                                    </Col>
+                                    <Col md={3} sm={4} xs={4} className="flex-center">
                                     </Col>
                                 </div>
                                 <div className="dashboard-image-view">
                                     <img src={dashboard_2} className="landing-image-three" alt="landing"/>
                                 </div>
                                 <div>
-                                    <Col md={12} sm={12} className="flex-center">
-                                        <p className="sale-text">
+                                    <Col md={4} sm={4} xs={4} className="flex-center">
+                                        <p className="sale-text-one">
                                             What is my customer retention rate?
                                         </p>
+                                    </Col>
+                                    <Col md={4} sm={4} xs={4} className="flex-center">
+                                    </Col>
+                                    <Col md={4} sm={4} xs={4} className="flex-center">
                                     </Col>
                                 </div>
                             </Col>
                         </Col>
                     </Col>
-                    <Col md={12} sm={12} className="productive-text-view">
+                    <Col md={12} sm={12} xs={12} className="productive-text-view">
                         <p className="seek-text">
                             What other answers do you seek?
                         </p>
                     </Col>
-                    <Col md={12} sm={12} className="no-padding margin-t-50">
+                    <Col md={12} sm={12} xs={12} className="no-padding margin-t-50">
                         <Footer history={this.props.history} />
                     </Col>
                 </Row>
