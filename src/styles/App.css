@@ -1407,11 +1407,7 @@ html, body, #root {
 	text-align: center;
 }
 .productive-text-view {
-<<<<<<< HEAD
 	margin-top: 30px;
-=======
-	margin-top: 150px;
->>>>>>> gm_landingpage
 }
 .request-view {
 	text-align: center;
@@ -1604,10 +1600,7 @@ html, body, #root {
 	.request-view {
 		margin-top: 30px;
 	}
-<<<<<<< HEAD
 	.productive-text-view {
-		margin-top: 90px;	
+		margin-top: 90px;
 	}
-=======
->>>>>>> gm_landingpage
 }

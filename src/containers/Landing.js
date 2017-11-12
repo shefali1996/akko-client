@@ -5,7 +5,7 @@ import SweetAlert from 'sweetalert-react';
 import Header from '../components/Header';
 import Footer from '../components/Footer';
 import '../styles/App.css';
-import { invokeApig, invokeApigUnAuth } from "../libs/awsLib";
+import { invokeApigUnAuth } from "../libs/awsLib";
 import {validateEmail} from '../constants';
 import shopifyicon from '../assets/shopifyicon.svg';
 import landing1 from '../assets/landing_1.png';
