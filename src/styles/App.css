@@ -1545,11 +1545,11 @@ html, body, #root {
 		display: block;
 	}
 	.landing-image-three {
-		width: 100%;
+		width: 200%;
 		height: auto;
 	}
 	.landing-image-three-repeat {
-		width: 100%;
+		width: 200%;
 		height: auto;
 		right: 0;
 		bottom: 0;
