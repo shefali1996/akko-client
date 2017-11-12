@@ -7,6 +7,6 @@ export default {
     USER_POOL_ID: "us-east-2_cnijwbIs9",
     APP_CLIENT_ID: "2lboppsjmcoe9jsb1ef773afah",
     REGION: "us-east-2",
-    IDENTITY_POOL_ID: "us-east-2:c52ff8b2-6acb-49e6-88cc-b41bff1fc8fa"
+    IDENTITY_POOL_ID: "us-east-2:f33bd5bd-b07f-428a-bfff-59639596bccf"
   }
 };
