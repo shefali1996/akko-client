@@ -1423,7 +1423,7 @@ html, body, #root {
 	text-align: center;
 }
 .productive-text-view {
-	margin-top: 30px;
+	margin-top: 40px;
 }
 .request-view {
 	text-align: center;
@@ -1628,6 +1628,6 @@ html, body, #root {
 		margin-top: 90px;
 	}
 	.sale-text-one {
-		width: 1000px;
+		font-size: 14px;
 	}
 }
