@@ -143,7 +143,7 @@ function getAwsCredentials(userToken) {
 
         apigClient.invokeApi(params, path, method, additionalParams, body)
         .then(function(result){
-          console.log("Success!!");
+          console.log("Success!!", result);
           //This is where you would put a success callback
         }).catch( function(result){
           console.log("Failure!!");

@@ -135,12 +135,12 @@ class Landing extends Component {
                         </Col>
                     </Col>
                     <Col md={12} sm={12} className="productive-text-view no-padding">
-                        <Col md={3} sm={4} className="flex-center">
+                        <Col md={3} sm={12} className="flex-center">
                             <p className="inventory-text">
                                 Low inventory forecasts so you never lose another sale
                             </p>
                         </Col>
-                        <Col md={9} sm={8} className="inventory-image-view">
+                        <Col md={9} sm={12} className="inventory-image-view">
                             <img src={landing2} className="landing-image-two" alt="landing"/>
                         </Col>
                     </Col>
