@@ -1407,7 +1407,7 @@ html, body, #root {
 	text-align: center;
 }
 .productive-text-view {
-	margin-top: 100px;
+	margin-top: 30px;
 }
 .request-view {
 	text-align: center;
@@ -1501,12 +1501,10 @@ html, body, #root {
 	.recapture-text {
 		margin-top: 20px;
 		font-size: 14px;
-		height: 50px;
 	}
 	.inventory-text {
 		margin-top: 20px;
 		font-size: 14px;
-		height: 50px;
 	}
 	.seek-text {
 		margin-top: 20px;
@@ -1528,7 +1526,7 @@ html, body, #root {
 		margin-right: 15px;
 		overflow: hidden;
 		position: relative;
-		height: 200px;
+		min-height: 162px;
 	}
 	.dashboard-image-view {
 		margin-left: 15px;
@@ -1600,5 +1598,8 @@ html, body, #root {
 	}
 	.request-view {
 		margin-top: 30px;
+	}
+	.productive-text-view {
+		margin-top: 90px;	
 	}
 }
