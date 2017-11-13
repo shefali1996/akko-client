@@ -45,6 +45,7 @@ class SetCsv extends Component {
                 });;
         } else {
             var existingProducts = JSON.parse(localStorage.getItem('productInfo'));
+            console.log("existing", existingProducts)
             this.setState({ data: existingProducts });
         }
     }
@@ -63,6 +64,7 @@ class SetCsv extends Component {
 
     csvButtonClicked() {
         let { data } = this.state;
+        console.log(data)
         exportCSVFile(headers, data, "inventory");
     }
 

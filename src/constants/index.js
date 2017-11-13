@@ -109,7 +109,9 @@ export const convertToCSV = (objArray) => {
 
 export const exportCSVFile = (headers, items, fileTitle) => {
     if (headers) {
-        items.unshift(headers);
+        if(items[0].title !== "Title"){
+            items.unshift(headers);
+        }
     }
 
     // Convert Object to JSON
