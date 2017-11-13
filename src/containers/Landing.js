@@ -76,7 +76,7 @@ class Landing extends Component {
                     </Col>
                     <Col md={12} className="flex-center">
                         <p className="middle-title">
-                            Prevent customer churn and stockouts before they happen. Track your profits, sales
+                            Prevent customer churn and stockouts before they happen. Track your profits, sales,
                             customer behavior and inventory in realtime, all from a single dashboard.
                         </p>
                     </Col>
@@ -108,7 +108,7 @@ class Landing extends Component {
                                     <FormControl
                                         ref="email"
                                         type="text"
-                                        placeholder="email"
+                                        placeholder="official email"
                                         className="email-input"
                                         value={email}
                                         data-tip="invalid email address"
