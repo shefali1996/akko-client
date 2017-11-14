@@ -176,11 +176,19 @@ export const productDetailFormatter = (cell, row) => {
                 <img style={{ width: 70 }} src={row.image} alt="thumb" />
             </div>
             <div className="product-custom-title">
-                <span className="productName">{row.title}</span>
-                <span className="variantTitle">{row.variant}</span>
                 <div>
-                    <span className="channelNumberText">SKU : {row.sku}</span>
-                    <span className="variantTitle margin-l-20">Selling for:  <strong>${parseFloat(Math.round(row.price * 100) / 100).toFixed(2)}</strong></span>
+                    <span className="productName">{row.title}</span>
+                </div>
+                <div>
+                    <span className="variantTitle">{row.variant}</span>
+                </div>
+                <div className="sku-view">
+                    <div className="half-width">
+                        <span className="channelNumberText">SKU : {row.sku}</span>
+                    </div>
+                    <div className="half-width">
+                        <span className="variantTitle margin-l-20">Selling for:  <strong>${parseFloat(Math.round(row.price * 100) / 100).toFixed(2)}</strong></span>
+                    </div>
                 </div>
             </div>
         </div>

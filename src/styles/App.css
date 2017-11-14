@@ -1332,3 +1332,10 @@
 .margin-l-20 {
 	margin-left: 20px;
 }
+.sku-view {
+	display: flex;
+	flex-direction: row;
+}
+.half-width {
+	width: 50%;
+}
