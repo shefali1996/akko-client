@@ -93,9 +93,8 @@ export const convertToCSV = (objArray) => {
 
   for (let i = 0; i < array.length; i++) {
     let line = '';
-    for (let index in array[i]) {
+    for (const index in array[i]) {
       if (line !== '') line += ',';
-
       line += array[i][index];
     }
 
