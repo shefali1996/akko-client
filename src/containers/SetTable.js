@@ -12,7 +12,7 @@ import {
   sortByTitle,
 } from '../components/CustomTable';
 import {PriceEditor} from '../components/PriceEditor';
-import { KEYS_TO_FILTERS, getProductValue } from '../constants';
+import { KEYS_TO_FILTERS_PRODUCT, getProductValue } from '../constants';
 import { invokeApig } from '../libs/awsLib';
 import { inventoryGetRequest } from '../actions';
 import '../styles/App.css';
@@ -47,15 +47,19 @@ class SetTable extends Component {
   }
 
   onConnect() {
-    // this.props.history.push('/inventory');
+    this.props.history.push('/inventory');
     const { data } = this.state;
     for (let i = 0; i < data.length; i++) {
       if (data[i].cogs !== undefined) {
-        console.log(data[i].cogs);
+        // Todo: should be implement put all call
       }
     }
   }
 
+  onSetMarkup() {
+    
+  }
+  
   getProduct() {
     if (localStorage.getItem('productInfo') === null) {
       this.products().then((results) => {
@@ -86,13 +90,9 @@ class SetTable extends Component {
     });
   }
 
-  onSetMarkup() {
-
-  }
-
   render() {
     const { data, searchTerm, markup } = this.state;
-    const filteredData = data.filter(createFilter(searchTerm, KEYS_TO_FILTERS));
+    const filteredData = data.filter(createFilter(searchTerm, KEYS_TO_FILTERS_PRODUCT));
     const selectRowProp = {
       mode: 'checkbox',
       customComponent: customMultiSelect
