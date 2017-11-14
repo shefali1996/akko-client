@@ -8,23 +8,23 @@ import Navigationbar from '../components/Navigationbar';
 import Footer from '../components/Footer';
 import { KEYS_TO_FILTERS, convertInventoryJSONToObject } from '../constants';
 import {
-    getCaret,
-    customMultiSelect,
-    createCustomInsertButton,
-    createCustomDeleteButton,
-    createCustomExportCSVButton,
-    renderSizePerPageDropDown,
-    renderPaginationPanel,
-    createCustomButtonGroup,
-    createCustomToolBar,
-    productCellFormatter,
-    cellUnitFormatter,
-    cellValueFormatter,
-    arrowFormatter,
-    sortByTitle,
-    sortByStockValue,
-    sortByCommitValue,
-    sortBySaleValue
+  getCaret,
+  customMultiSelect,
+  createCustomInsertButton,
+  createCustomDeleteButton,
+  createCustomExportCSVButton,
+  renderSizePerPageDropDown,
+  renderPaginationPanel,
+  createCustomButtonGroup,
+  createCustomToolBar,
+  productCellFormatter,
+  cellUnitFormatter,
+  cellValueFormatter,
+  arrowFormatter,
+  sortByTitle,
+  sortByStockValue,
+  sortByCommitValue,
+  sortBySaleValue
 } from '../components/CustomTable';
 import { invokeApig } from '../libs/awsLib';
 
