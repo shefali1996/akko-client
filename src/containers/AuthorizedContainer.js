@@ -7,33 +7,31 @@ import Orders from './Orders';
 import user from '../auth/user';
 
 class AuthorizedContainer extends Component {
-    componentWillMount() {
-        if (user.isAuthenticated === null) {
-            this.props.history.push(`/set-table`);
-            return
-        } else {
-            this.props.history.push(`/inventory`);
-            return
-        }
+  componentWillMount() {
+    if (user.isAuthenticated === null) {
+      this.props.history.push('/set-table');
+      return;
     }
+    this.props.history.push('/inventory');
+  }
 
-    componentWillReceiveProps(nextProps) {
+  componentWillReceiveProps(nextProps) {
 
-    }
+  }
 
-    render() {
-        return (
-            <Switch>
-                <Route exact path="/channels" component={Channels} />
-                <Route exact path="/inventory" component={Inventory} />
-                <Route exact path="/orders" component={Orders} />
-            </Switch>
-        )
-    }
-};
+  render() {
+    return (
+      <Switch>
+        <Route exact path="/channels" component={Channels} />
+        <Route exact path="/inventory" component={Inventory} />
+        <Route exact path="/orders" component={Orders} />
+      </Switch>
+    );
+  }
+}
 
 const mapStateToProps = (state) => ({
 
-})
+});
 
 export default connect(mapStateToProps)(AuthorizedContainer);

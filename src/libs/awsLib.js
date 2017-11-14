@@ -1,7 +1,7 @@
-import { CognitoUserPool } from "amazon-cognito-identity-js";
-import config from "../config";
-import AWS from "aws-sdk";
-import sigV4Client from "./sigV4Client";
+import { CognitoUserPool } from 'amazon-cognito-identity-js';
+import AWS from 'aws-sdk';
+import config from '../config';
+import sigV4Client from './sigV4Client';
 
 function getAwsCredentials(userToken) {
   const authenticator = `cognito-idp.${config.cognito
@@ -32,27 +32,25 @@ export async function authUser() {
     return false;
   }
 
-let userToken = null;
-try{
-  userToken = await getUserToken(currentUser);
-}catch(e)
-{
-  alert(e);
-}
+  let userToken = null;
+  try {
+    userToken = await getUserToken(currentUser);
+  } catch(e)   {
+    alert(e);
+  }
 
-try{
-  await getAwsCredentials(userToken);
-}catch(e)
-{
-  alert(e);
-}
+  try {
+    await getAwsCredentials(userToken);
+  } catch(e)   {
+    alert(e);
+  }
 
   return true;
 }
 
 function getUserToken(currentUser) {
   return new Promise((resolve, reject) => {
-    currentUser.getSession(function(err, session) {
+    currentUser.getSession((err, session) => {
       if (err) {
         reject(err);
         return;
@@ -87,13 +85,13 @@ export function signOutUser() {
 // Invoke API gateway
 export async function invokeApig({
   path,
-  method = "GET",
+  method = 'GET',
   headers = {},
   queryParams = {},
   body
 }) {
   if (!await authUser()) {
-    throw new Error("User is not logged in");
+    throw new Error('User is not logged in');
   }
 
   const signedRequest = sigV4Client

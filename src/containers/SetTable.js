@@ -11,13 +11,10 @@ import {
   cogsValueFormatter,
   sortByTitle,
 } from '../components/CustomTable';
-import {PriceEditor} from '../components/PriceEditor';
 import { KEYS_TO_FILTERS_PRODUCT, getProductValue } from '../constants';
 import { invokeApig } from '../libs/awsLib';
 import { inventoryGetRequest } from '../actions';
 import '../styles/App.css';
-
-const createPriceEditor = (onUpdate, props) => (<PriceEditor onUpdate={onUpdate} {...props} />);
 
 class SetTable extends Component {
   constructor(props) {
@@ -231,7 +228,6 @@ class SetTable extends Component {
                     dataAlign="center"
                     className="set-table-header"
                     dataFormat={cogsValueFormatter}
-                    customEditor={{ getElement: createPriceEditor}}
                     width="20%"
                   />
                 </BootstrapTable>
