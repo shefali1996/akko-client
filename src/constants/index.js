@@ -53,8 +53,8 @@ export const convertInventoryJSONToObject = (inventoryJSON) => {
       title: currProduct.product_details.title,
       variant: currProduct.product_details.variant,
       sku: currProduct.product_details.sku,
-      price: 100,
-      cogs: 200
+      price: currProduct.product_details.price,
+      cogs: ''
     };
     products.push(productEntry);
   }
@@ -66,12 +66,12 @@ export const getProductValue = (inventoryJSON) => {
   for (let i = 0; i < inventoryJSON.length; i++) {
     const currProduct = inventoryJSON[i];
     const productEntry = {
-      title: currProduct.product_details.title,
-      variant: currProduct.product_details.variant,
-      sku: currProduct.product_details.sku,
-      price: 100,
-      cogs: '',
-      image: currProduct.product_details.image,
+      title: currProduct.title,
+      variant: currProduct.variant,
+      sku: currProduct.sku,
+      price: currProduct.price,
+      cogs: currProduct.cogs,
+      image: currProduct.productDetail.image,
     };
     products.push(productEntry);
   }
@@ -138,8 +138,11 @@ export const exportCSVFile = (headers, items, fileTitle) => {
 
 export const getCogsValue = (objArray) => {
   let cogsCount = 0;
+  const existingProducts = JSON.parse(localStorage.getItem('inventoryInfo'));
+  console.log(existingProducts);
   for (let i = 0; i < objArray.length; i++) {
     if (objArray[i].cogs !== undefined) {
+      console.log(objArray[i]);
       if (objArray[i].cogs.toString().length > 0) {
         cogsCount++;
       }

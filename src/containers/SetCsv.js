@@ -5,7 +5,7 @@ import Dropzone from 'react-dropzone';
 import SweetAlert from 'sweetalert-react';
 import { ToastContainer, ToastMessageAnimated } from 'react-toastr';
 import Papa from 'papaparse';
-import { getProductValue, exportCSVFile, headers, getCogsValue } from '../constants';
+import { getProductValue, convertInventoryJSONToObject, exportCSVFile, headers, getCogsValue } from '../constants';
 import { invokeApig } from '../libs/awsLib';
 import '../styles/App.css';
 import cogs2 from '../assets/cogs2.svg';
@@ -73,42 +73,43 @@ class SetCsv extends Component {
       Papa.parse(importedCSV, {
         complete(results) {
           const parsedData = results.data;
+          console.log(parsedData);
           const updatedProducts = [];
-          for (let i = 1; i < parsedData.length; i++) {
-            const oneProduct = {
-              title: parsedData[i][0],
-              variant: parsedData[i][1],
-              sku: parsedData[i][2],
-              price: parsedData[i][3],
-              cogs: parsedData[i][4],
-              image: parsedData[i][5],
-            };
-            updatedProducts.push(oneProduct);
-          }
-          localStorage.setItem('productInfo', JSON.stringify(updatedProducts));
-          const cogsCount = getCogsValue(updatedProducts);
-          $this.setState({
-            totalProductCount: parsedData.length - 1,
-            selectedCogsValue: cogsCount,
-            cogsValueShow: true
-          });
+          // for (let i = 1; i < parsedData.length; i++) {
+          //   const oneProduct = {
+          //     title: parsedData[i][0],
+          //     variant: parsedData[i][1],
+          //     sku: parsedData[i][2],
+          //     price: parsedData[i][3],
+          //     cogs: parsedData[i][4],
+          //     image: parsedData[i][5],
+          //   };
+          //   updatedProducts.push(oneProduct);
+          // }
+          // localStorage.setItem('productInfo', JSON.stringify(updatedProducts));
+          // const cogsCount = getCogsValue(updatedProducts);
+          // $this.setState({
+          //   totalProductCount: parsedData.length - 1,
+          //   selectedCogsValue: cogsCount,
+          //   cogsValueShow: true
+          // });
         }
       });
     }
   }
 
   getProduct() {
-    if (localStorage.getItem('productInfo') === null) {
+    if (localStorage.getItem('inventoryInfo') === null) {
       this.products().then((results) => {
-        const products = getProductValue(results);
+        const products = convertInventoryJSONToObject(results);
         this.setState({ data: products });
-        localStorage.setItem('productInfo', JSON.stringify(products));
+        localStorage.setItem('inventoryInfo', JSON.stringify(products));
       })
         .catch(error => {
           console.log('get product error', error);
         });
     } else {
-      const existingProducts = JSON.parse(localStorage.getItem('productInfo'));
+      const existingProducts = JSON.parse(localStorage.getItem('inventoryInfo'));
       this.setState({ data: existingProducts });
     }
   }
@@ -123,7 +124,7 @@ class SetCsv extends Component {
 
   csvButtonClicked() {
     const { data } = this.state;
-    exportCSVFile(headers, data, 'inventory');
+    exportCSVFile(headers, getProductValue(data), 'inventory');
   }
 
   render() {
