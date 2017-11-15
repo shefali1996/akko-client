@@ -98,7 +98,8 @@ export const convertToCSV = (objArray) => {
       line += array[i][index];
     }
 
-    str += `${line}\r\n`;
+    if (i < array.length - 1) line += '\r\n';
+    str += line;
   }
 
   return str;
@@ -106,16 +107,13 @@ export const convertToCSV = (objArray) => {
 
 export const exportCSVFile = (headers, items, fileTitle) => {
   if (headers) {
-    if (items[0].title !== 'Title') {
-      items.unshift(headers);
-    }
+    items.unshift(headers);
   }
 
   // Convert Object to JSON
   const jsonObject = JSON.stringify(items);
 
   const csv = convertToCSV(jsonObject);
-
   const exportedFilenmae = `${fileTitle}.csv` || 'export.csv';
 
   const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
@@ -138,11 +136,8 @@ export const exportCSVFile = (headers, items, fileTitle) => {
 
 export const getCogsValue = (objArray) => {
   let cogsCount = 0;
-  const existingProducts = JSON.parse(localStorage.getItem('inventoryInfo'));
-  console.log(existingProducts);
   for (let i = 0; i < objArray.length; i++) {
     if (objArray[i].cogs !== undefined) {
-      console.log(objArray[i]);
       if (objArray[i].cogs.toString().length > 0) {
         cogsCount++;
       }
