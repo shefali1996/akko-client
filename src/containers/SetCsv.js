@@ -126,7 +126,6 @@ class SetCsv extends Component {
     exportCSVFile(headers, data, 'inventory');
   }
 
-
   render() {
     const { totalProductCount, selectedCogsValue } = this.state;
     const restProduct = totalProductCount - selectedCogsValue;

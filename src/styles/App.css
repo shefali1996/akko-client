@@ -81,7 +81,6 @@
 }
 .dropdown .dropdown-menu {
 	padding: 0;
-	margin: 20px;
 	width: 100%;
 	border: none;
 }
@@ -1280,8 +1279,8 @@
 	margin: 40px;
 }
 .set-table-header {
-	display: none;
-	height: 0px;
+	/* display: none;
+	height: 0px; */
 }
 .setTablePageList-style {
 	text-align: center;

@@ -200,7 +200,6 @@ class SetTable extends Component {
                   selectRow={selectRowProp}
                   pagination
                   trClassName="custom-table"
-                  tableHeaderClass="set-table-header"
                 >
                   <TableHeaderColumn
                     isKey
