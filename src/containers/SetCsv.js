@@ -67,25 +67,54 @@ class SetCsv extends Component {
 
   onConnect() {
     const $this = this;
+    const {data} = this.state;
     const { importedCSV } = this.state;
     if (importedCSV !== null) {
       // this.props.history.push('/set-table');
       Papa.parse(importedCSV, {
         complete(results) {
           const parsedData = results.data;
-          console.log(parsedData);
           const updatedProducts = [];
-          // for (let i = 1; i < parsedData.length; i++) {
-          //   const oneProduct = {
-          //     title: parsedData[i][0],
-          //     variant: parsedData[i][1],
-          //     sku: parsedData[i][2],
-          //     price: parsedData[i][3],
-          //     cogs: parsedData[i][4],
-          //     image: parsedData[i][5],
-          //   };
-          //   updatedProducts.push(oneProduct);
-          // }
+          let nullCogsCount = 0;
+          // console.log(parsedData);
+          for (let i = 0; i < parsedData.length; i++) {
+            for (let j = 0; j < data.length; j++) {
+              if (parsedData[i][2] === data[j].sku) {
+                if (parsedData[i][4].toString().length === 0) {
+                  nullCogsCount++;
+                }
+                const updatedProductDetail = {
+                  category: data[j].productDetail.category,
+                  currency: data[j].productDetail.currency,
+                  image: data[j].productDetail.image,
+                  price: data[j].productDetail.price,
+                  sku: data[j].productDetail.sku,
+                  tags: data[j].productDetail.tags,
+                  title: data[j].productDetail.title,
+                  variant: data[j].productDetail.title,
+                  cogs: parsedData[i][4],
+                };
+                const oneProduct = {
+                  id: data[j].id,
+                  productDetail: updatedProductDetail,
+                  stockOnHandUnits: data[j].stockOnHandUnits,
+                  stockOnHandValue: data[j].stockOnHandValue,
+                  committedUnits: data[j].committedUnits,
+                  committedValue: data[j].committedValue,
+                  availableForSaleUnits: data[j].availableForSaleUnits,
+                  availableForSaleValue: data[j].availableForSaleValue,
+                  title: data[j].title,
+                  variant: data[j].variant,
+                  sku: data[j].sku,
+                  price: data[j].price,
+                  cogs: parsedData[i][4]
+                };
+                updatedProducts.push(oneProduct);
+              }
+            }
+          }
+          console.log(updatedProducts);
+          console.log(nullCogsCount);
           // localStorage.setItem('productInfo', JSON.stringify(updatedProducts));
           // const cogsCount = getCogsValue(updatedProducts);
           // $this.setState({
