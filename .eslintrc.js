@@ -42,6 +42,8 @@ module.exports = {
       "jsx-a11y/no-noninteractive-element-interactions": ["off"],
       "jsx-a11y/anchor-is-valid": ["off"],
       "import/no-named-as-default": ["off"],
-      "no-else-return": ["off"]
+      "no-else-return": ["off"],
+      "no-restricted-globals": ["off"],
+      "arrow-body-style": ["off"]
     }
 };
