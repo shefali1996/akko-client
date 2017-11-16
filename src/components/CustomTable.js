@@ -196,6 +196,22 @@ export const sortByTitle = (a, b, order) => {
   return order === 'asc' ? ascVal : -ascVal;
 };
 
+export const sortByCogsValue = (a, b, order) => {
+  const aVal = a.productDetail.cogs;
+  const bVal = b.productDetail.cogs;
+  const ax = [];
+  const bx = [];
+  aVal.replace(/(\d+)|(\D+)/g, (_, $1, $2) => { ax.push([$1 || Infinity, $2 || '']); });
+  bVal.replace(/(\d+)|(\D+)/g, (_, $1, $2) => { bx.push([$1 || Infinity, $2 || '']); });
+  while (ax.length && bx.length) {
+    const an = ax.shift();
+    const bn = bx.shift();
+    const nn = (an[0] - bn[0]) || an[1].localeCompare(bn[1]);
+    if (nn) return nn;
+  }
+  return order === 'desc' ? ax.length - bx.length : bx.length - ax.length;
+};
+
 export const sortByStockValue = (a, b, order) => {
   if (order === 'desc') {
     return a.stockOnHandValue.value - b.stockOnHandValue.value;
