@@ -1,5 +1,5 @@
 import React from 'react';
-import { Image, Label, FormControl } from 'react-bootstrap';
+import { Image, Label } from 'react-bootstrap';
 import { ButtonGroup } from 'react-bootstrap-table';
 import Checkbox from '../components/Checkbox';
 import { numberFormatter } from '../constants';
@@ -15,10 +15,6 @@ import '../styles/App.css';
 import '../styles/react-search-input.css';
 import '../styles/react-bootstrap-table.min.css';
 import '../styles/customMultiSelect.css';
-
-function onCogsChange(e) {
-
-}
 
 export const getCaret = (direction) => {
   if (direction === 'asc') {
@@ -156,43 +152,24 @@ export const productCellFormatter = (cell, row) => (
 export const productDetailFormatter = (cell, row) => (
   <div className="product-data-cell">
     <div className="productImage">
-      <img style={{ width: 70 }} src={row.image} alt="thumb" />
+      <img style={{ width: 70 }} src={cell.image} alt="thumb" />
     </div>
     <div className="product-custom-title">
       <div>
-        <span className="productName">{row.title}</span>
+        <span className="productName">{cell.title}</span>
       </div>
       <div>
-        <span className="variantTitle">{row.variant}</span>
+        <span className="variantTitle">{cell.variant}</span>
       </div>
       <div className="sku-view">
         <div className="half-width">
-          <span className="channelNumberText">SKU : {row.sku}</span>
+          <span className="channelNumberText">SKU : {cell.sku}</span>
         </div>
         <div className="half-width">
-          <span className="variantTitle margin-l-20">Selling for:  <strong>${parseFloat(Math.round(row.price * 100) / 100).toFixed(2)}</strong></span>
+          <span className="variantTitle margin-l-20">Selling for:  <strong>${parseFloat(Math.round(cell.price * 100) / 100).toFixed(2)}</strong></span>
         </div>
       </div>
     </div>
-  </div>
-);
-
-export const cogsValueFormatter = (cell, row) => (
-  <div className="flex-center padding-t-20">
-    <div className="currency-view">
-      <span className="product-currency">
-        $
-      </span>
-      <span className="product-currency-text">
-        COGS
-      </span>
-    </div>
-    <FormControl
-      type="text"
-      className="product-input"
-      value={cell}
-      onChange={onCogsChange}
-    />
   </div>
 );
 

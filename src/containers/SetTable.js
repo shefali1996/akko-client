@@ -8,8 +8,7 @@ import {
   renderSizePerPageDropDown,
   renderSetTablePaginationPanel,
   productDetailFormatter,
-  cogsValueFormatter,
-  sortByTitle,
+  sortByTitle
 } from '../components/CustomTable';
 import { KEYS_TO_FILTERS_PRODUCT, getProductValue } from '../constants';
 import { invokeApig } from '../libs/awsLib';
@@ -29,6 +28,7 @@ class SetTable extends Component {
     this.onMarkUpChange = this.onMarkUpChange.bind(this);
     this.searchUpdated = this.searchUpdated.bind(this);
     this.onSetMarkup = this.onSetMarkup.bind(this);
+    this.onCogsChange = this.onCogsChange.bind(this);
   }
 
   componentWillMount() {
@@ -86,6 +86,10 @@ class SetTable extends Component {
     });
   }
 
+  onCogsChange(e) {
+    
+  }
+
   render() {
     const { data, searchTerm, markup } = this.state;
     const filteredData = data.filter(createFilter(searchTerm, KEYS_TO_FILTERS_PRODUCT));
@@ -102,6 +106,28 @@ class SetTable extends Component {
       withFirstAndLast: false,
       sortIndicator: false
     };
+
+    function cogsValueFormatter(cell, row) {
+      console.log(cell);
+      return (
+        <div className="flex-center padding-t-20">
+          <div className="currency-view">
+            <span className="product-currency">
+              $
+            </span>
+            <span className="product-currency-text">
+              COGS
+            </span>
+          </div>
+          <FormControl
+            type="text"
+            className="product-input"
+            defaultValue={cell}
+            onChange={this.onCogsChange}
+          />
+        </div>
+      );
+    }
 
     return (
       <div>
@@ -211,7 +237,7 @@ class SetTable extends Component {
                     ID
                   </TableHeaderColumn>
                   <TableHeaderColumn
-                    dataField="title"
+                    dataField="productDetail"
                     dataAlign="center"
                     dataSort
                     className="set-table-header"

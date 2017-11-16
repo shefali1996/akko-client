@@ -89,7 +89,7 @@ class SetCsv extends Component {
                 sku: data[i - 1].productDetail.sku,
                 tags: data[i - 1].productDetail.tags,
                 title: data[i - 1].productDetail.title,
-                variant: data[i - 1].productDetail.title,
+                variant: data[i - 1].productDetail.variant,
                 cogs: parsedData[i][4],
               };
               const oneProduct = {
