@@ -60,18 +60,17 @@ class SetTable extends Component {
 
   onSetMarkup() {
     const {markup, data, selectedRows} = this.state;
-    const updatedData = [];
+    console.log(selectedRows);
     if (isNumeric(markup)) {
       for (let i = 0; i < selectedRows.length; i++) {
-        let index = data.findIndex(function(element) {
+        const index = data.findIndex((element) => {
           return element.id === selectedRows[i];
         });
         if (index > -1) {
           data[index].cogs = markup;
         }
       }
-      this.setState({ data: data });
-      console.log(this.state.data);
+      this.setState({ data });
     }
   }
 
@@ -117,10 +116,17 @@ class SetTable extends Component {
   }
 
   onRowSelect(row, isSelected) {
-    console.log(row);
-    // for (const prop in row) {
-    //   console.log(prop);
-    // }
+    const {selectedRows} = this.state;
+    if (isSelected) {
+      selectedRows.push(row.id);
+      this.setState({selectedRows});
+    } else {
+      const i = selectedRows.indexOf(row.id);
+      if (i !== -1) {
+        selectedRows.splice(i, 1);
+      }
+      this.setState({selectedRows});
+    }
   }
 
   onSelectAll(isSelected, rows) {
@@ -142,7 +148,7 @@ class SetTable extends Component {
     const selectRowProp = {
       mode: 'checkbox',
       customComponent: customMultiSelect,
-      onSelect: this.onRowSelect,
+      onSelect: this.onRowSelect.bind(this),
       onSelectAll: this.onSelectAll.bind(this)
     };
     const options = {
