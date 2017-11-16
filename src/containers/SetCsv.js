@@ -61,13 +61,8 @@ class SetCsv extends Component {
   }
 
   onCogsConfirm() {
-    const {totalProductCount, selectedCogsValue} = this.state;
     this.setState({ cogsValueShow: false });
-    if (totalProductCount !== selectedCogsValue) {
-      this.props.history.push('/set-table');
-    } else {
-      this.props.history.push('/inventory');
-    }
+    this.props.history.push('/set-table');
   }
 
   onConnect() {
