@@ -23,7 +23,8 @@ class SetTable extends Component {
     this.state = {
       markup: '',
       data: [],
-      searchTerm: ''
+      searchTerm: '',
+      selectedOption: 'option1',
     };
     this.goLanding = this.goLanding.bind(this);
     this.onConnect = this.onConnect.bind(this);
@@ -31,6 +32,7 @@ class SetTable extends Component {
     this.searchUpdated = this.searchUpdated.bind(this);
     this.onSetMarkup = this.onSetMarkup.bind(this);
     this.onCogsChange = this.onCogsChange.bind(this);
+    this.handleOptionChange = this.handleOptionChange.bind(this);
   }
 
   componentWillMount() {
@@ -73,6 +75,12 @@ class SetTable extends Component {
       existingProducts.sort((a, b) => a.cogs - b.cogs);
       this.setState({ data: existingProducts });
     }
+  }
+
+  handleOptionChange(e) {
+    this.setState({
+      selectedOption: e.target.value
+    });
   }
 
   products() {
@@ -202,13 +210,13 @@ class SetTable extends Component {
                 <Col md={4} className="text-left left-padding">
                   <div className="radio">
                     <label className="select-style-comment-small">
-                      <input type="radio" value="option1" />
+                      <input type="radio" value="option1" checked={this.state.selectedOption === 'option1'} onChange={this.handleOptionChange} />
                             Percentage
                     </label>
                   </div>
                   <div className="radio">
                     <label className="select-style-comment-small">
-                      <input type="radio" value="option2" />
+                      <input type="radio" value="option2" checked={this.state.selectedOption === 'option2'} onChange={this.handleOptionChange} />
                         Fixed Markup
                     </label>
                   </div>
