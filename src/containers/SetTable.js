@@ -54,21 +54,20 @@ class SetTable extends Component {
   }
 
   onSetMarkup() {
-    
   }
-  
+
   getProduct() {
-    if (localStorage.getItem('productInfo') === null) {
+    if (localStorage.getItem('inventoryInfo') === null) {
       this.products().then((results) => {
         const products = getProductValue(results);
         this.setState({ data: products });
-        localStorage.setItem('productInfo', JSON.stringify(products));
+        localStorage.setItem('inventoryInfo', JSON.stringify(products));
       })
         .catch(error => {
           console.log('get product error', error);
         });
     } else {
-      const existingProducts = JSON.parse(localStorage.getItem('productInfo'));
+      const existingProducts = JSON.parse(localStorage.getItem('inventoryInfo'));
       this.setState({ data: existingProducts });
     }
   }
