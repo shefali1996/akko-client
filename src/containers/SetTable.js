@@ -32,7 +32,6 @@ class SetTable extends Component {
     this.onMarkUpChange = this.onMarkUpChange.bind(this);
     this.searchUpdated = this.searchUpdated.bind(this);
     this.onSetMarkup = this.onSetMarkup.bind(this);
-    this.onCogsChange = this.onCogsChange.bind(this);
     this.handleOptionChange = this.handleOptionChange.bind(this);
   }
 
@@ -114,10 +113,6 @@ class SetTable extends Component {
     });
   }
 
-  onCogsChange(e) {
-
-  }
-
   onRowSelect(row, isSelected) {
     const {selectedRows} = this.state;
     if (isSelected) {
@@ -145,6 +140,40 @@ class SetTable extends Component {
     return true;
   }
 
+  onCogsChange(e, row) {
+    const {data} = this.state;
+    const index = data.findIndex((element) => {
+      return element.id === row.id;
+    });
+    if (index > -1) {
+      data[index].cogs = e.target.value;
+    }
+    this.setState({data});
+  }
+
+  cogsValueFormatter(cell, row) {
+    return (
+      <div className="flex-center padding-t-20">
+        <div className="currency-view">
+          <span className="product-currency">
+            $
+          </span>
+          <span className="product-currency-text">
+            COGS
+          </span>
+        </div>
+        <FormControl
+          type="number"
+          className="product-input"
+          value={cell}
+          onChange={(e) => { 
+            this.onCogsChange(e, row);
+          }}
+        />
+      </div>
+    );
+  }
+
   render() {
     const { data, searchTerm, markup } = this.state;
     const filteredData = data.filter(createFilter(searchTerm, KEYS_TO_FILTERS_PRODUCT));
@@ -161,30 +190,8 @@ class SetTable extends Component {
       prePage: '«   Previous',
       nextPage: 'Next   »',
       withFirstAndLast: false,
-      sortIndicator: false,
-      // showOnlySelected: true
+      sortIndicator: false
     };
-
-    function cogsValueFormatter(cell, row) {
-      return (
-        <div className="flex-center padding-t-20">
-          <div className="currency-view">
-            <span className="product-currency">
-              $
-            </span>
-            <span className="product-currency-text">
-              COGS
-            </span>
-          </div>
-          <FormControl
-            type="text"
-            className="product-input"
-            value={cell}
-            onChange={this.onCogsChange}
-          />
-        </div>
-      );
-    }
 
     return (
       <div>
@@ -310,7 +317,7 @@ class SetTable extends Component {
                     dataField="cogs"
                     dataAlign="center"
                     className="set-table-header"
-                    dataFormat={cogsValueFormatter}
+                    dataFormat={this.cogsValueFormatter.bind(this)}
                     dataSort
                     caretRender={getCaret}
                     sortFunc={sortByCogsValue}
