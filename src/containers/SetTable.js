@@ -12,7 +12,7 @@ import {
   getCaret,
   sortByCogsValue,
 } from '../components/CustomTable';
-import { KEYS_TO_FILTERS_PRODUCT, convertInventoryJSONToObject } from '../constants';
+import { KEYS_TO_FILTERS_PRODUCT, convertInventoryJSONToObject, isNumeric } from '../constants';
 import { invokeApig } from '../libs/awsLib';
 import { inventoryGetRequest } from '../actions';
 import '../styles/App.css';
@@ -25,6 +25,7 @@ class SetTable extends Component {
       data: [],
       searchTerm: '',
       selectedOption: 'option1',
+      selectedRows: []
     };
     this.goLanding = this.goLanding.bind(this);
     this.onConnect = this.onConnect.bind(this);
@@ -58,8 +59,20 @@ class SetTable extends Component {
   }
 
   onSetMarkup() {
-    const {markup} = this.state;
-    console.log(typeof (markup));
+    const {markup, data, selectedRows} = this.state;
+    const updatedData = [];
+    if (isNumeric(markup)) {
+      for (let i = 0; i < selectedRows.length; i++) {
+        let index = data.findIndex(function(element) {
+          return element.id === selectedRows[i];
+        });
+        if (index > -1) {
+          data[index].cogs = markup;
+        }
+      }
+      this.setState({ data: data });
+      console.log(this.state.data);
+    }
   }
 
   getProduct() {
@@ -100,7 +113,27 @@ class SetTable extends Component {
   }
 
   onCogsChange(e) {
-    
+
+  }
+
+  onRowSelect(row, isSelected) {
+    console.log(row);
+    // for (const prop in row) {
+    //   console.log(prop);
+    // }
+  }
+
+  onSelectAll(isSelected, rows) {
+    const idArray = [];
+    if (isSelected) {
+      for (let i = 0; i < rows.length; i++) {
+        idArray.push(rows[i].id);
+      }
+      this.setState({selectedRows: idArray});
+    } else {
+      this.setState({selectedRows: []});
+    }
+    return true;
   }
 
   render() {
@@ -108,7 +141,9 @@ class SetTable extends Component {
     const filteredData = data.filter(createFilter(searchTerm, KEYS_TO_FILTERS_PRODUCT));
     const selectRowProp = {
       mode: 'checkbox',
-      customComponent: customMultiSelect
+      customComponent: customMultiSelect,
+      onSelect: this.onRowSelect,
+      onSelectAll: this.onSelectAll.bind(this)
     };
     const options = {
       sizePerPageDropDown: renderSizePerPageDropDown,
@@ -117,7 +152,8 @@ class SetTable extends Component {
       prePage: '«   Previous',
       nextPage: 'Next   »',
       withFirstAndLast: false,
-      sortIndicator: false
+      sortIndicator: false,
+      // showOnlySelected: true
     };
 
     function cogsValueFormatter(cell, row) {
@@ -134,7 +170,7 @@ class SetTable extends Component {
           <FormControl
             type="text"
             className="product-input"
-            defaultValue={cell}
+            value={cell}
             onChange={this.onCogsChange}
           />
         </div>
@@ -186,7 +222,7 @@ class SetTable extends Component {
                   (or)
                 </span>
                 <span className="select-style-comment-small margin-t-10">
-                  select products and set the markup you charge and we will back-calculate their original price.
+                  select products and set the markup you charge and we will back-calculate their original price.
                 </span>
               </div>
               <div className="table-center margin-t-10">
@@ -231,6 +267,7 @@ class SetTable extends Component {
               </div>
               <div className="markup-center margin-t-30">
                 <BootstrapTable
+                  ref={(table) => { this.table = table; }}
                   data={filteredData}
                   options={options}
                   bordered={false}

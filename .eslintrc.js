@@ -19,8 +19,8 @@ module.exports = {
       "comma-dangle": ["off"],
       "import/extensions": 0,
       "jsx-a11y/label-has-for": 0,
-      "guard-for-in": ["warn"],
-      "no-restricted-syntax": ["warn"],
+      "guard-for-in": ["off"],
+      "no-restricted-syntax": ["off"],
       "object-curly-spacing": ["off"],
       "object-curly-newline": ["off"],
       "padded-blocks": ["off"],
@@ -33,14 +33,15 @@ module.exports = {
       "react/no-multi-comp": 0,
       "no-plusplus": 0,
       "no-shadow": 0,
-      "react/sort-comp": ["warn"],
-      "class-methods-use-this": ["warn"],
+      "react/sort-comp": ["off"],
+      "class-methods-use-this": ["off"],
       "linebreak-style": 0,
       "function-paren-newline": ["off"],
       "jsx-a11y/click-events-have-key-events": ["off"],
       "jsx-a11y/no-static-element-interactions": ["off"],
       "jsx-a11y/no-noninteractive-element-interactions": ["off"],
       "jsx-a11y/anchor-is-valid": ["off"],
-      "import/no-named-as-default": ["off"]
+      "import/no-named-as-default": ["off"],
+      "no-else-return": ["off"]
     }
 };
