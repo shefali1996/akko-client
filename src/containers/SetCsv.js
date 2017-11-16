@@ -82,8 +82,8 @@ class SetCsv extends Component {
           const updatedProducts = [];
           let nullCogsCount = 0;
           for (let i = 1; i < parsedData.length; i++) {
-            if (parsedData[i][2] === data[i - 1].sku) {
-              if (parsedData[i][4].toString().length === 0) {
+            if (parsedData[i][0] === data[i - 1].id) {
+              if (parsedData[i][5].toString().length === 0 || parsedData[i][5].toString() === 'null') {
                 nullCogsCount++;
               }
               const updatedProductDetail = {
@@ -95,7 +95,7 @@ class SetCsv extends Component {
                 tags: data[i - 1].productDetail.tags,
                 title: data[i - 1].productDetail.title,
                 variant: data[i - 1].productDetail.variant,
-                cogs: parsedData[i][4],
+                cogs: parsedData[i][5],
               };
               const oneProduct = {
                 id: data[i - 1].id,
@@ -110,7 +110,7 @@ class SetCsv extends Component {
                 variant: data[i - 1].variant,
                 sku: data[i - 1].sku,
                 price: data[i - 1].price,
-                cogs: parsedData[i][4]
+                cogs: parsedData[i][5]
               };
               updatedProducts.push(oneProduct);
             }

@@ -12,7 +12,7 @@ import {
   getCaret,
   sortByCogsValue,
 } from '../components/CustomTable';
-import { KEYS_TO_FILTERS_PRODUCT, getProductValue } from '../constants';
+import { KEYS_TO_FILTERS_PRODUCT, convertInventoryJSONToObject } from '../constants';
 import { invokeApig } from '../libs/awsLib';
 import { inventoryGetRequest } from '../actions';
 import '../styles/App.css';
@@ -58,12 +58,14 @@ class SetTable extends Component {
   }
 
   onSetMarkup() {
+    const {markup} = this.state;
+    console.log(typeof (markup));
   }
 
   getProduct() {
     if (localStorage.getItem('inventoryInfo') === null) {
       this.products().then((results) => {
-        const products = getProductValue(results);
+        const products = convertInventoryJSONToObject(results);
         this.setState({ data: products });
         localStorage.setItem('inventoryInfo', JSON.stringify(products));
       })

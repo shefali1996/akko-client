@@ -54,7 +54,7 @@ export const convertInventoryJSONToObject = (inventoryJSON) => {
       variant: currProduct.product_details.variant,
       sku: currProduct.product_details.sku,
       price: currProduct.product_details.price,
-      cogs: ''
+      cogs: currProduct.product_details.cogs !== 'null' ? currProduct.product_details.cogs : ''
     };
     products.push(productEntry);
   }
@@ -66,12 +66,12 @@ export const getProductValue = (inventoryJSON) => {
   for (let i = 0; i < inventoryJSON.length; i++) {
     const currProduct = inventoryJSON[i];
     const productEntry = {
+      id: currProduct.id,
       title: currProduct.title,
       variant: currProduct.variant,
       sku: currProduct.sku,
       price: currProduct.price,
-      cogs: currProduct.cogs,
-      image: currProduct.productDetail.image,
+      cogs: currProduct.cogs
     };
     products.push(productEntry);
   }
@@ -79,12 +79,12 @@ export const getProductValue = (inventoryJSON) => {
 };
 
 export const headers = {
+  id: 'ID',
   title: 'Title',
   variant: 'Variant',
   sku: 'SKU',
   price: 'Price',
-  cogs: 'COGS',
-  image: 'Url'
+  cogs: 'COGS'
 };
 
 export const convertToCSV = (objArray) => {
