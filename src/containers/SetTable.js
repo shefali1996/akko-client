@@ -8,7 +8,9 @@ import {
   renderSizePerPageDropDown,
   renderSetTablePaginationPanel,
   productDetailFormatter,
-  sortByTitle
+  sortByTitle,
+  getCaret,
+  sortByCogsValue
 } from '../components/CustomTable';
 import { KEYS_TO_FILTERS_PRODUCT, getProductValue } from '../constants';
 import { invokeApig } from '../libs/awsLib';
@@ -68,6 +70,8 @@ class SetTable extends Component {
         });
     } else {
       const existingProducts = JSON.parse(localStorage.getItem('inventoryInfo'));
+      console.log(existingProducts);
+      existingProducts.sort((a, b) => a.cogs - b.cogs);
       this.setState({ data: existingProducts });
     }
   }
@@ -242,6 +246,7 @@ class SetTable extends Component {
                     className="set-table-header"
                     dataFormat={productDetailFormatter}
                     sortFunc={sortByTitle}
+                    caretRender={getCaret}
                     width="40%"
                   >
                     Product
@@ -251,6 +256,9 @@ class SetTable extends Component {
                     dataAlign="center"
                     className="set-table-header"
                     dataFormat={cogsValueFormatter}
+                    dataSort
+                    caretRender={getCaret}
+                    sortFunc={sortByCogsValue}
                     width="20%"
                   >
                     Cogs
