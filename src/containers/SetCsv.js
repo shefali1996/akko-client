@@ -20,6 +20,8 @@ class SetCsv extends Component {
       importedCSV: null,
       alertShow: false,
       cogsValueShow: false,
+      fetchError: false,
+      errorText: "",
       totalProductCount: 0,
       selectedCogsValue: 0
     };
@@ -127,19 +129,18 @@ class SetCsv extends Component {
   }
 
   getProduct() {
-    if (localStorage.getItem('inventoryInfo') === null) {
-      this.products().then((results) => {
-        const products = convertInventoryJSONToObject(results);
-        this.setState({ data: products });
-        localStorage.setItem('inventoryInfo', JSON.stringify(products));
-      })
-        .catch(error => {
-          console.log('get product error', error);
+    this.products().then((results) => {
+      console.log(results);
+      const products = convertInventoryJSONToObject(results);
+      this.setState({ data: products });
+      localStorage.setItem('inventoryInfo', JSON.stringify(products));
+    })
+      .catch(error => {
+        this.setState({
+          errorText: error,
+          fetchError: true
         });
-    } else {
-      const existingProducts = JSON.parse(localStorage.getItem('inventoryInfo'));
-      this.setState({ data: existingProducts });
-    }
+      });
   }
 
   products() {
@@ -315,6 +316,16 @@ class SetCsv extends Component {
             ref={(toast) => { this.container = toast; }}
             toastMessageFactory={ToastMessageFactory}
             className="toast-top-right"
+          />
+          <SweetAlert
+            show={this.state.fetchError}
+            showConfirmButton
+            type="error"
+            title="Error"
+            text={this.state.errorText.toString()}
+            onConfirm={() => {
+                  this.setState({ fetchError: false });
+              }}
           />
         </Grid>
       </div>

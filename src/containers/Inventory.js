@@ -50,7 +50,6 @@ class Inventory extends Component {
   }
 
   onFocus() {
-    
   }
 
   getInventory() {
