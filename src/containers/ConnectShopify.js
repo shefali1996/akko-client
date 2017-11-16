@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Grid, Row, Col, Button, Label, FormControl, Image } from 'react-bootstrap';
 import SweetAlert from 'sweetalert-react';
+import { testMode } from '../constants';
 import { invokeApig } from '../libs/awsLib';
 import '../styles/App.css';
 import shopifyIcon from '../assets/shopify.svg';
@@ -40,19 +41,22 @@ class ConnectShopify extends Component {
   }
 
   onConnect() {
-    // this.setState({
-    //   alertShow: true
-    // });
-    // this.props.history.push('/business-type');
-    invokeApig({
-      path: '/connect-shopify',
-      method: 'POST',
-      body: {
-        shopId: this.state.shopName
-      }
-    }).then((result) => {
-      window.location = result.uri;
-    });
+    if (testMode) {
+      this.setState({
+        alertShow: true
+      });
+      this.props.history.push('/business-type');
+    } else {
+      invokeApig({
+        path: '/connect-shopify',
+        method: 'POST',
+        body: {
+          shopId: this.state.shopName
+        }
+      }).then((result) => {
+        window.location = result.uri;
+      });
+    }
   }
 
   onConfirm() {
