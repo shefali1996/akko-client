@@ -40,7 +40,7 @@ class SetTable extends Component {
   }
 
   onMarkUpChange(e) {
-    console.log(e, this);
+    this.setState({ markup: e.target.value });
   }
 
   onConnect() {
@@ -108,7 +108,6 @@ class SetTable extends Component {
     };
 
     function cogsValueFormatter(cell, row) {
-      console.log(cell);
       return (
         <div className="flex-center padding-t-20">
           <div className="currency-view">
@@ -253,7 +252,9 @@ class SetTable extends Component {
                     className="set-table-header"
                     dataFormat={cogsValueFormatter}
                     width="20%"
-                  />
+                  >
+                    Cogs
+                  </TableHeaderColumn>
                 </BootstrapTable>
               </div>
               <div className="content-center margin-40">
