@@ -7,10 +7,9 @@ import {
   AuthenticationDetails,
   CognitoUserPool
 } from 'amazon-cognito-identity-js';
-// import { validateEmail } from '../constants';
 import 'react-select/dist/react-select.css';
 import 'sweetalert/dist/sweetalert.css';
-
+import { validateEmail, testMode } from '../constants';
 import config from '../config';
 import { invokeApig } from '../libs/awsLib';
 import '../styles/App.css';
@@ -56,6 +55,10 @@ class SignUp extends Component {
   }
 
   componentDidMount() {
+    this.validMailCheck();
+  }
+
+  validMailCheck() {
     const isEmailValid = this.props.history.location.query;
     if (isEmailValid !== undefined) {
       this.setState({
@@ -121,20 +124,23 @@ class SignUp extends Component {
   }
 
   onSignUp() {
-    this.setState({
-      alertShow: true
-    });
-    // let {firstName, lastName, companyName, yourRole, email, password} = this.state
-    // if(firstName.length > 0 && lastName.length > 0 && companyName.length > 0 && yourRole.length > 0 && validateEmail(email) && password.length > 8 ) {
-    //     this.signup(email, password).then((result) => {
-    //         if(!result.userConfirmed) {
-    //             this.setState({
-    //                 emailSent: true,
-    //                 newUser: result.user
-    //             })
-    //         }
-    //     })
-    // }
+    if (testMode) {
+      this.setState({
+        alertShow: true
+      });
+    } else {
+      const {firstName, lastName, companyName, yourRole, email, password} = this.state;
+      if (firstName.length > 0 && lastName.length > 0 && companyName.length > 0 && yourRole.length > 0 && validateEmail(email) && password.length > 8) {
+        this.signup(email, password).then((result) => {
+          if (!result.userConfirmed) {
+            this.setState({
+              emailSent: true,
+              newUser: result.user
+            });
+          }
+        });
+      }
+    }
   }
 
   onVerify() {
@@ -201,12 +207,12 @@ class SignUp extends Component {
   confirm(user, confirmationCode) {
     return new Promise((resolve, reject) =>
       user.confirmRegistration(confirmationCode, true, (err, result) => {
-                if (err) {
-                    reject(err);
-                    return;
-                }
-                resolve(result);
-            })
+        if (err) {
+          reject(err);
+          return;
+        }
+        resolve(result);
+      })
     );
   }
 
@@ -337,7 +343,7 @@ class SignUp extends Component {
                   <div>
                     <Col md={12} className="padding-t-30">
                       <Label className="signup-title">
-                        We've sent a verification code to {email}
+                        We've sent a verification code to {email}
                       </Label>
                     </Col>
                     <Col md={12}>

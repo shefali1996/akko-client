@@ -40,20 +40,19 @@ class ConnectShopify extends Component {
   }
 
   onConnect() {
-    this.setState({
-      alertShow: true
-    });
+    // this.setState({
+    //   alertShow: true
+    // });
     // this.props.history.push('/business-type');
-    // invokeApig({
-    //     path: "/connect-shopify",
-    //     method: "POST",
-    //     body: {
-    //       shopId: this.state.shopName
-    //     }
-    // }).then((result) => {
-    //     const uri = result.uri;
-    //     window.location = uri;
-    // })
+    invokeApig({
+      path: '/connect-shopify',
+      method: 'POST',
+      body: {
+        shopId: this.state.shopName
+      }
+    }).then((result) => {
+      window.location = result.uri;
+    });
   }
 
   onConfirm() {

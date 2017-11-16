@@ -121,7 +121,7 @@ class SetCogs extends Component {
               </div>
               <div className="text-center margin-t-5">
                 <span className="select-style-comment-small">
-                    ( you can update these anytime from the Settings menu )
+                    ( you can update these anytime from the Settings menu )
                 </span>
               </div>
               <div className="flex-center margin-t-40">
@@ -131,7 +131,7 @@ class SetCogs extends Component {
               </div>
               <div className="flex-center margin-t-5">
                 <span className="select-style-comment">
-                    want to set COGS for all these products?
+                    want to set COGS for all these products?
                 </span>
               </div>
               <div className="flex-center margin-t-40">
@@ -159,7 +159,7 @@ class SetCogs extends Component {
                       UPLOAD CSV
                     </span>
                     <span className="select-text-small">
-                      We will prefill the SKUs in a CSV which you can download, enter
+                      We will prefill the SKUs in a CSV which you can download, enter
                     </span>
                     <span className="select-text-small">
                       COGS and upload.
