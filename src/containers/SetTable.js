@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 import { Grid, Row, Col, Button, Label, FormControl } from 'react-bootstrap';
 import SearchInput, { createFilter } from 'react-search-input';
 import { BootstrapTable, TableHeaderColumn } from 'react-bootstrap-table';
+import SweetAlert from 'sweetalert-react';
 import {
   customMultiSelect,
   renderSizePerPageDropDown,
@@ -25,7 +26,9 @@ class SetTable extends Component {
       data: [],
       searchTerm: '',
       selectedOption: 'option1',
-      selectedRows: []
+      selectedRows: [],
+      fetchError: false,
+      errorText: '',
     };
     this.goLanding = this.goLanding.bind(this);
     this.onConnect = this.onConnect.bind(this);
@@ -77,20 +80,17 @@ class SetTable extends Component {
   }
 
   getProduct() {
-    if (localStorage.getItem('inventoryInfo') === null) {
-      this.products().then((results) => {
-        const products = convertInventoryJSONToObject(results);
-        this.setState({ data: products });
-        localStorage.setItem('inventoryInfo', JSON.stringify(products));
-      })
-        .catch(error => {
-          console.log('get product error', error);
+    this.products().then((results) => {
+      const products = convertInventoryJSONToObject(results);
+      this.setState({ data: products });
+      localStorage.setItem('inventoryInfo', JSON.stringify(products));
+    })
+      .catch(error => {
+        this.setState({
+          errorText: error,
+          fetchError: true
         });
-    } else {
-      const existingProducts = JSON.parse(localStorage.getItem('inventoryInfo'));
-      existingProducts.sort((a, b) => a.cogs - b.cogs);
-      this.setState({ data: existingProducts });
-    }
+      });
   }
 
   handleOptionChange(e) {
@@ -354,6 +354,16 @@ class SetTable extends Component {
             </Col>
           </Row>
         </Grid>
+        <SweetAlert
+          show={this.state.fetchError}
+          showConfirmButton
+          type="error"
+          title="Error"
+          text={this.state.errorText.toString()}
+          onConfirm={() => {
+                this.setState({ fetchError: false });
+            }}
+        />
       </div>
     );
   }

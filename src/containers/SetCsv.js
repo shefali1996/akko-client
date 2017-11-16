@@ -21,7 +21,7 @@ class SetCsv extends Component {
       alertShow: false,
       cogsValueShow: false,
       fetchError: false,
-      errorText: "",
+      errorText: '',
       totalProductCount: 0,
       selectedCogsValue: 0
     };
