@@ -1,37 +1,11 @@
 import React, { Component } from 'react';
-import { Grid, Row, Col, Tabs, Tab } from 'react-bootstrap';
+import { Grid, Row, Tabs, Tab } from 'react-bootstrap';
 import { connect } from 'react-redux';
-import SearchInput, { createFilter } from 'react-search-input';
-import { BootstrapTable, TableHeaderColumn } from 'react-bootstrap-table';
-import _ from 'underscore';
+import FlatButton from 'material-ui/FlatButton';
 import Navigationbar from '../components/Navigationbar';
 import Footer from '../components/Footer';
-import { KEYS_TO_FILTERS, convertInventoryJSONToObject } from '../constants';
-import {
-  getCaret,
-  customMultiSelect,
-  createCustomInsertButton,
-  createCustomDeleteButton,
-  createCustomExportCSVButton,
-  renderSizePerPageDropDown,
-  renderPaginationPanel,
-  createCustomButtonGroup,
-  createCustomToolBar,
-  productCellFormatter,
-  cellUnitFormatter,
-  cellValueFormatter,
-  arrowFormatter,
-  sortByTitle,
-  sortByStockValue,
-  sortByCommitValue,
-  sortBySaleValue
-} from '../components/CustomTable';
-import { invokeApig } from '../libs/awsLib';
 
 import '../styles/App.css';
-import '../styles/react-search-input.css';
-import '../styles/react-bootstrap-table.min.css';
-import '../styles/customMultiSelect.css';
 
 class Dashboard extends Component {
   constructor(props) {
@@ -63,7 +37,9 @@ class Dashboard extends Component {
             <Tabs defaultActiveKey={1} id="uncontrolled-tab-example" className="inventory-tab" onSelect={this.handleSelect}>
               <Tab eventKey={1} title="Dashboard">
                 <div className="padding-left-right-100">
-                  sadfasdf
+                  <FlatButton>
+                    Hello World
+                  </FlatButton>
                 </div>
               </Tab>
               <Tab eventKey={2} title="Inventory" />
