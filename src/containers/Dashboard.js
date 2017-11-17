@@ -2,13 +2,15 @@ import React, { Component } from 'react';
 import { Grid, Row, Tabs, Tab, Col } from 'react-bootstrap';
 import { connect } from 'react-redux';
 import Paper from 'material-ui/Paper';
-import ReactGridLayout from 'react-grid-layout';
+import {Responsive, WidthProvider} from 'react-grid-layout';
 import Navigationbar from '../components/Navigationbar';
 import Footer from '../components/Footer';
 import PercentBox from '../components/PercentBox';
 import PriceBox from '../components/PriceBox';
 import styles from '../constants/styles';
 import '../styles/App.css';
+
+const ResponsiveReactGridLayout = WidthProvider(Responsive);
 
 class Dashboard extends Component {
   constructor(props) {
@@ -32,10 +34,10 @@ class Dashboard extends Component {
   }
 
   render() {
-    const layout = [
-      {i: 'a', x: 0, y: 0, w: 1, h: 2},
-      {i: 'b', x: 1, y: 0, w: 3, h: 2},
-      {i: 'c', x: 4, y: 0, w: 1, h: 2}
+    const layouts = [
+      {i: 'a', x: 0, y: 0, w: 3, h: 5},
+      {i: 'b', x: 1, y: 0, w: 3, h: 5},
+      {i: 'c', x: 4, y: 0, w: 3, h: 5}
     ];
 
     return (
@@ -170,11 +172,15 @@ class Dashboard extends Component {
                     </Col>
                   </Paper>
                   <div>
-                    <ReactGridLayout className="layout" layout={layout} cols={12} rowHeight={30} width={1200}>
-                      <div key="a" className="grid-item">a</div>
-                      <div key="b" className="grid-item">b</div>
-                      <div key="c" className="grid-item">c</div>
-                    </ReactGridLayout>
+                    <ResponsiveReactGridLayout
+                      className="layout"
+                      layouts={layouts}
+                      breakpoints={{lg: 1200, md: 996, sm: 768, xs: 480, xxs: 0}}
+                      cols={{lg: 12, md: 10, sm: 6, xs: 4, xxs: 2}}>
+                      <Paper key="1">1</Paper>
+                      <Paper key="2">2</Paper>
+                      <Paper key="3">3</Paper>
+                    </ResponsiveReactGridLayout>
                   </div>
                 </div>
               </Tab>
