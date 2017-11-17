@@ -1,10 +1,10 @@
 import React, { Component } from 'react';
 import { Grid, Row, Tabs, Tab } from 'react-bootstrap';
 import { connect } from 'react-redux';
-import FlatButton from 'material-ui/FlatButton';
+import Paper from 'material-ui/Paper';
 import Navigationbar from '../components/Navigationbar';
 import Footer from '../components/Footer';
-
+import styles from '../constants/styles';
 import '../styles/App.css';
 
 class Dashboard extends Component {
@@ -29,6 +29,7 @@ class Dashboard extends Component {
   }
 
   render() {
+    console.log(styles);
     return (
       <div>
         <Navigationbar history={this.props.history} />
@@ -37,9 +38,18 @@ class Dashboard extends Component {
             <Tabs defaultActiveKey={1} id="uncontrolled-tab-example" className="inventory-tab" onSelect={this.handleSelect}>
               <Tab eventKey={1} title="Dashboard">
                 <div className="padding-left-right-100">
-                  <FlatButton>
-                    Hello World
-                  </FlatButton>
+                  <Paper className="margin-t-50">
+                    <Paper>
+                      <div style={styles.content}>
+                        aaa
+                      </div>
+                    </Paper>
+                    <Paper>
+                      <div style={styles.content}>
+                        bbb
+                      </div>
+                    </Paper>
+                  </Paper>
                 </div>
               </Tab>
               <Tab eventKey={2} title="Inventory" />

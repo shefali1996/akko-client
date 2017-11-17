@@ -161,7 +161,7 @@ class Orders extends Component {
         <Grid className="inventory-container no-padding">
           <Row className="no-margin min-height custom-shadow">
             <Tabs defaultActiveKey={3} id="uncontrolled-tab-example" className="inventory-tab" onSelect={this.handleSelect}>
-              <Tab eventKey={1} title="Channels" />
+              <Tab eventKey={1} title="Dashboard" />
               <Tab eventKey={2} title="Inventory" />
               <Tab eventKey={3} title="Orders">
                 <div className="padding-left-right-100">
