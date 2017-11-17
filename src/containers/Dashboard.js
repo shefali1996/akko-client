@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { Grid, Row, Tabs, Tab, Col } from 'react-bootstrap';
 import { connect } from 'react-redux';
 import Paper from 'material-ui/Paper';
+import ReactGridLayout from 'react-grid-layout';
 import Navigationbar from '../components/Navigationbar';
 import Footer from '../components/Footer';
 import PercentBox from '../components/PercentBox';
@@ -31,6 +32,12 @@ class Dashboard extends Component {
   }
 
   render() {
+    const layout = [
+      {i: 'a', x: 0, y: 0, w: 1, h: 2},
+      {i: 'b', x: 1, y: 0, w: 3, h: 2},
+      {i: 'c', x: 4, y: 0, w: 1, h: 2}
+    ];
+
     return (
       <div>
         <Navigationbar history={this.props.history} />
@@ -101,6 +108,74 @@ class Dashboard extends Component {
                       />
                     </Col>
                   </Paper>
+                  <Paper className="margin-t-10 white-bg" style={styles.paper}>
+                    <Col md={2}>
+                      <PercentBox
+                        title="Repeat Rate"
+                        percentage="53"
+                        raisePercentage="3"
+                        period="from last month"
+                        raise
+                      />
+                    </Col>
+                    <Col md={2}>
+                      <PriceBox
+                        title="Gross Profit"
+                        currency="$"
+                        value="56.1K"
+                        raisePercentage="0.6"
+                        period="from last month"
+                        raise
+                      />
+                    </Col>
+                    <Col md={2}>
+                      <PercentBox
+                        title="Avg. Margin"
+                        percentage="3"
+                        raisePercentage="43"
+                        period="from last month"
+                        raise
+                      />
+                    </Col>
+                    <Col md={2}>
+                      <PercentBox
+                        title="Retention Rate"
+                        percentage="78"
+                        raisePercentage="13"
+                        period="from last month"
+                        raise={false}
+                      />
+                    </Col>
+                    <Col md={2}>
+                      <PriceBox
+                        title="Avg. Order Value"
+                        currency="$"
+                        value="424"
+                        percentage="10"
+                        raisePercentage="10"
+                        period="from last month"
+                        raise={false}
+                      />
+                    </Col>
+                    <Col md={2}>
+                      <PriceBox
+                        title="Customer Lifetime Value"
+                        currency="$"
+                        value="4.5K"
+                        percentage="18"
+                        raisePercentage="18"
+                        period="from last month"
+                        raise
+                      />
+                    </Col>
+                  </Paper>
+                  <div>
+                    <ReactGridLayout className="layout" layout={layout} cols={12} rowHeight={30} width={1200}>
+                      <div key="a" className="grid-item">a</div>
+                      <div key="b" className="grid-item">b</div>
+                      <div key="c" className="grid-item">c</div>
+                    </ReactGridLayout>
+                  </div>
                 </div>
               </Tab>
               <Tab eventKey={2} title="Inventory" />
