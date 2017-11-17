@@ -656,6 +656,10 @@
 	display: flex;
 	justify-content: center;
 }
+.align-center {
+  display: flex;
+	align-items: center;
+}
 .flex-right {
 	display: flex;
 	justify-content: flex-end;
@@ -1339,4 +1343,61 @@
 }
 .half-width {
 	width: 50%;
+}
+.iconSpan {
+	float: left;
+}
+.first-price {
+	width: 70%;
+	float: left;
+}
+.second-price {
+  width: 30%;
+  float: left;
+  margin-top: 10px;
+}
+.price-title {
+	font-family: Ubuntu;
+	font-size: 16px;
+	color: #666666;
+	font-weight: 700;
+	text-decoration: none solid rgb(102, 102, 102);
+}
+.price-value {
+	font-family: Ubuntu;
+	font-size: 32px;
+	color: #575dde;
+	font-weight: 700;
+	text-decoration: none solid rgb(87, 93, 222);
+}
+.price-percent {
+	font-family: Ubuntu;
+	font-size: 16px;
+	color: #52ab43;
+	font-weight: 700;
+	text-decoration: none solid rgb(82, 171, 67);
+}
+.price-percent-down {
+  font-family: Ubuntu;
+	font-size: 16px;
+	color: #f02a1f;
+	font-weight: 700;
+	text-decoration: none solid rgb(240, 42, 31);
+}
+.price-period {
+	font-family: Ubuntu;
+	font-size: 12px;
+	color: #cbcbcb;
+	font-weight: 700;
+	text-decoration: none solid rgb(203, 203, 203);
+}
+.half-height {
+	height: 40px;
+	text-align: left;
+	display: flex;
+	align-items: center;
+}
+.arrow-icon {
+  width: 15px;
+  height: 15px;
 }
