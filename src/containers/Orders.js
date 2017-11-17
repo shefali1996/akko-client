@@ -71,7 +71,7 @@ class Orders extends Component {
 
   handleSelect(key) {
     if (key === 1) {
-      this.props.history.push('/channels');
+      this.props.history.push('/dashboard');
     } else if (key === 2) {
       this.props.history.push('/inventory');
     } else {

@@ -33,7 +33,7 @@ import '../styles/react-search-input.css';
 import '../styles/react-bootstrap-table.min.css';
 import '../styles/customMultiSelect.css';
 
-class Channels extends Component {
+class Dashboard extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -71,7 +71,7 @@ class Channels extends Component {
 
   handleSelect(key) {
     if (key === 1) {
-      this.props.history.push('/channels');
+      this.props.history.push('/dashboard');
     } else if (key === 2) {
       this.props.history.push('/inventory');
     } else {
@@ -315,4 +315,4 @@ class Channels extends Component {
 const mapStateToProps = state => ({
 });
 
-export default connect(mapStateToProps)(Channels);
+export default connect(mapStateToProps)(Dashboard);
