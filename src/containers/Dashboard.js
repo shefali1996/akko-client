@@ -34,12 +34,6 @@ class Dashboard extends Component {
   }
 
   render() {
-    const layouts = [
-      {i: 'a', x: 0, y: 0, w: 3, h: 5},
-      {i: 'b', x: 1, y: 0, w: 3, h: 5},
-      {i: 'c', x: 4, y: 0, w: 3, h: 5}
-    ];
-
     return (
       <div>
         <Navigationbar history={this.props.history} />
@@ -174,12 +168,22 @@ class Dashboard extends Component {
                   <div>
                     <ResponsiveReactGridLayout
                       className="layout"
-                      layouts={layouts}
                       breakpoints={{lg: 1200, md: 996, sm: 768, xs: 480, xxs: 0}}
                       cols={{lg: 12, md: 10, sm: 6, xs: 4, xxs: 2}}>
-                      <Paper key="1">1</Paper>
-                      <Paper key="2">2</Paper>
-                      <Paper key="3">3</Paper>
+                      <Paper key="1" data-grid={{x: 0, y: 0, w: 3, h: 3}}>
+                        <span className="text">1</span>
+                      </Paper>
+                      <Paper key="2" data-grid={{x: 3, y: 0, w: 3, h: 3}}>
+                        <span className="text">2 - Static</span>
+                      </Paper>
+                      <Paper key="3" data-grid={{x: 6, y: 0, w: 3, h: 3}}>
+                        <span className="text">3</span>
+                      </Paper>
+                      <Paper key="4" data-grid={{x: 9, y: 0, w: 3, h: 3, draggableHandle: '.react-grid-dragHandleExample'}}>
+                        <span className="text">4 - Draggable with Handle
+                          <span className="react-grid-dragHandleExample">[DRAG HERE]</span>
+                        </span>
+                      </Paper>
                     </ResponsiveReactGridLayout>
                   </div>
                 </div>
