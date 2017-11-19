@@ -92,6 +92,87 @@ const dashboardJSON = {
       trendValue: '10%',
       trendPeriod: 'last month'
     },
+    {
+      title: 'Sales',
+      description: 'What is the total sales volume this month?',
+      prefix: '$',
+      value: 57923,
+      trend: '+',
+      trendValue: '3%',
+      trendPeriod: 'last month'
+    },
+    {
+      title: 'Churning Customers',
+      description: 'Which customers are at risk of leaving?',
+      prefix: '',
+      value: 3,
+      trend: '+',
+      trendValue: '3%',
+      trendPeriod: 'last month'
+    },
+    {
+      title: 'Sales',
+      description: 'What is the total sales volume this month?',
+      prefix: '$',
+      value: 57923,
+      trend: '+',
+      trendValue: '3%',
+      trendPeriod: 'last month'
+    },
+    {
+      title: 'Avg. Order Value',
+      description: 'On average, how much do customers spend in your store?',
+      prefix: '$',
+      value: 424,
+      trend: '-',
+      trendValue: '10%',
+      trendPeriod: 'last month'
+    },
+    {
+      title: 'Churning Customers',
+      description: 'Which customers are at risk of leaving?',
+      prefix: '',
+      value: 3,
+      trend: '+',
+      trendValue: '3%',
+      trendPeriod: 'last month'
+    },
+    {
+      title: 'Avg. Order Value',
+      description: 'On average, how much do customers spend in your store?',
+      prefix: '$',
+      value: 424,
+      trend: '-',
+      trendValue: '10%',
+      trendPeriod: 'last month'
+    },
+    {
+      title: 'Sales',
+      description: 'What is the total sales volume this month?',
+      prefix: '$',
+      value: 57923,
+      trend: '+',
+      trendValue: '3%',
+      trendPeriod: 'last month'
+    },
+    {
+      title: 'Churning Customers',
+      description: 'Which customers are at risk of leaving?',
+      prefix: '',
+      value: 3,
+      trend: '+',
+      trendValue: '3%',
+      trendPeriod: 'last month'
+    },
+    {
+      title: 'Avg. Order Value',
+      description: 'On average, how much do customers spend in your store?',
+      prefix: '$',
+      value: 424,
+      trend: '-',
+      trendValue: '10%',
+      trendPeriod: 'last month'
+    },
   ]
 };
 
