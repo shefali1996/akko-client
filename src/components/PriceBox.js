@@ -1,36 +1,40 @@
 import React from 'react';
+import { numberFormatter } from '../constants';
 import upArrow from '../assets/upArrow.svg';
 import downArrow from '../assets/downArrow.svg';
 
 class PriceBox extends React.Component {
   render() {
-    const {title, currency, value, raisePercentage, period, raise} = this.props;
+    const {title, description, prefix, value, trendValue, trendPeriod, trend} = this.props.value;
     return (
-      <div>
+      <div className="price-view">
         <div className="first-price">
           <div className="half-height">
             <span className="price-title">{title}</span>
           </div>
-          <div className="half-height">
-            <span className="price-value">{currency}{value}</span>
+          <div className="half-height margin-t-10">
+            <span className="price-description">{description}</span>
           </div>
         </div>
         <div className="second-price">
+          <span className="price-value">{prefix}{numberFormatter(Math.round(value * 100) / 100)}</span>
+        </div>
+        <div className="third-price">
           <div>
-            {raise ?
+            {trend === '+' ?
               <div className="align-center">
                 <img src={upArrow} className="arrow-icon" alt="icon" />
-                <span className="price-percent">{raisePercentage}%</span>
+                <span className="price-percent">{trendValue}</span>
               </div>
               :
               <div className="align-center">
                 <img src={downArrow} className="arrow-icon" alt="icon" />
-                <span className="price-percent-down">{raisePercentage}%</span>
+                <span className="price-percent-down">{trendValue}</span>
               </div>
             }
           </div>
           <div>
-            <span className="price-period">{period}</span>
+            <span className="price-period">{trendPeriod}</span>
           </div>
         </div>
       </div>

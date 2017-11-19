@@ -1,16 +1,99 @@
 import React, { Component } from 'react';
 import { Grid, Row, Tabs, Tab, Col } from 'react-bootstrap';
 import { connect } from 'react-redux';
-import Paper from 'material-ui/Paper';
 import {Responsive, WidthProvider} from 'react-grid-layout';
 import Navigationbar from '../components/Navigationbar';
+import PriceCard from '../components/PriceCard';
 import Footer from '../components/Footer';
-import PercentBox from '../components/PercentBox';
-import PriceBox from '../components/PriceBox';
-import styles from '../constants/styles';
 import '../styles/App.css';
 
 const ResponsiveReactGridLayout = WidthProvider(Responsive);
+
+const dashboardJSON = {
+  dummyData: [
+    {
+      title: 'Sales',
+      description: 'What is the total sales volume this month?',
+      prefix: '$',
+      value: 57923,
+      trend: '+',
+      trendValue: '3%',
+      trendPeriod: 'last month'
+    },
+    {
+      title: 'Churning Customers',
+      description: 'Which customers are at risk of leaving?',
+      prefix: '',
+      value: 3,
+      trend: '+',
+      trendValue: '3%',
+      trendPeriod: 'last month'
+    },
+    {
+      title: 'Avg. Order Value',
+      description: 'On average, how much do customers spend in your store?',
+      prefix: '$',
+      value: 424,
+      trend: '-',
+      trendValue: '10%',
+      trendPeriod: 'last month'
+    },
+    {
+      title: 'Sales',
+      description: 'What is the total sales volume this month?',
+      prefix: '$',
+      value: 57923,
+      trend: '+',
+      trendValue: '3%',
+      trendPeriod: 'last month'
+    },
+    {
+      title: 'Churning Customers',
+      description: 'Which customers are at risk of leaving?',
+      prefix: '',
+      value: 3,
+      trend: '+',
+      trendValue: '3%',
+      trendPeriod: 'last month'
+    },
+    {
+      title: 'Avg. Order Value',
+      description: 'On average, how much do customers spend in your store?',
+      prefix: '$',
+      value: 424,
+      trend: '-',
+      trendValue: '10%',
+      trendPeriod: 'last month'
+    },
+    {
+      title: 'Sales',
+      description: 'What is the total sales volume this month?',
+      prefix: '$',
+      value: 57923,
+      trend: '+',
+      trendValue: '3%',
+      trendPeriod: 'last month'
+    },
+    {
+      title: 'Churning Customers',
+      description: 'Which customers are at risk of leaving?',
+      prefix: '',
+      value: 3,
+      trend: '+',
+      trendValue: '3%',
+      trendPeriod: 'last month'
+    },
+    {
+      title: 'Avg. Order Value',
+      description: 'On average, how much do customers spend in your store?',
+      prefix: '$',
+      value: 424,
+      trend: '-',
+      trendValue: '10%',
+      trendPeriod: 'last month'
+    },
+  ]
+};
 
 class Dashboard extends Component {
   constructor(props) {
@@ -33,6 +116,19 @@ class Dashboard extends Component {
     }
   }
 
+  renderCards() {
+    const dummyDataValue = dashboardJSON.dummyData;
+    return (
+      dummyDataValue.map((value, index) => {
+        return (
+          <Col md={3} key={index}>
+            <PriceCard value={value} />
+          </Col>
+        );
+      })
+    );
+  }
+
   render() {
     return (
       <div>
@@ -42,150 +138,7 @@ class Dashboard extends Component {
             <Tabs defaultActiveKey={1} id="uncontrolled-tab-example" className="inventory-tab" onSelect={this.handleSelect}>
               <Tab eventKey={1} title="Dashboard">
                 <div className="padding-left-right-100">
-                  <Paper className="margin-t-50 white-bg" style={styles.paper}>
-                    <Col md={2}>
-                      <PriceBox
-                        title="Sales"
-                        currency="$"
-                        value="57.9K"
-                        raisePercentage="1.8"
-                        period="from last month"
-                        raise
-                      />
-                    </Col>
-                    <Col md={2}>
-                      <PriceBox
-                        title="Gross Profit"
-                        currency="$"
-                        value="56.1K"
-                        raisePercentage="0.6"
-                        period="from last month"
-                        raise
-                      />
-                    </Col>
-                    <Col md={2}>
-                      <PercentBox
-                        title="Avg. Margin"
-                        percentage="3"
-                        raisePercentage="43"
-                        period="from last month"
-                        raise
-                      />
-                    </Col>
-                    <Col md={2}>
-                      <PercentBox
-                        title="Retention Rate"
-                        percentage="78"
-                        raisePercentage="13"
-                        period="from last month"
-                        raise={false}
-                      />
-                    </Col>
-                    <Col md={2}>
-                      <PriceBox
-                        title="Avg. Order Value"
-                        currency="$"
-                        value="424"
-                        percentage="10"
-                        raisePercentage="10"
-                        period="from last month"
-                        raise={false}
-                      />
-                    </Col>
-                    <Col md={2}>
-                      <PriceBox
-                        title="Customer Lifetime Value"
-                        currency="$"
-                        value="4.5K"
-                        percentage="18"
-                        raisePercentage="18"
-                        period="from last month"
-                        raise
-                      />
-                    </Col>
-                  </Paper>
-                  <Paper className="margin-t-10 white-bg" style={styles.paper}>
-                    <Col md={2}>
-                      <PercentBox
-                        title="Repeat Rate"
-                        percentage="53"
-                        raisePercentage="3"
-                        period="from last month"
-                        raise
-                      />
-                    </Col>
-                    <Col md={2}>
-                      <PriceBox
-                        title="Gross Profit"
-                        currency="$"
-                        value="56.1K"
-                        raisePercentage="0.6"
-                        period="from last month"
-                        raise
-                      />
-                    </Col>
-                    <Col md={2}>
-                      <PercentBox
-                        title="Avg. Margin"
-                        percentage="3"
-                        raisePercentage="43"
-                        period="from last month"
-                        raise
-                      />
-                    </Col>
-                    <Col md={2}>
-                      <PercentBox
-                        title="Retention Rate"
-                        percentage="78"
-                        raisePercentage="13"
-                        period="from last month"
-                        raise={false}
-                      />
-                    </Col>
-                    <Col md={2}>
-                      <PriceBox
-                        title="Avg. Order Value"
-                        currency="$"
-                        value="424"
-                        percentage="10"
-                        raisePercentage="10"
-                        period="from last month"
-                        raise={false}
-                      />
-                    </Col>
-                    <Col md={2}>
-                      <PriceBox
-                        title="Customer Lifetime Value"
-                        currency="$"
-                        value="4.5K"
-                        percentage="18"
-                        raisePercentage="18"
-                        period="from last month"
-                        raise
-                      />
-                    </Col>
-                  </Paper>
-                  <div>
-                    <ResponsiveReactGridLayout
-                      className="layout"
-                      breakpoints={{lg: 1200, md: 996, sm: 768, xs: 480, xxs: 0}}
-                      cols={{lg: 12, md: 10, sm: 6, xs: 4, xxs: 2}}>
-                      <Paper key="1" data-grid={{x: 0, y: 0, w: 3, h: 3}}>
-                        <span className="text">1</span>
-                      </Paper>
-                      <Paper key="2" data-grid={{x: 3, y: 0, w: 3, h: 3}}>
-                        <span className="text">2 - Static</span>
-                      </Paper>
-                      <Paper key="3" data-grid={{x: 6, y: 0, w: 3, h: 3}}>
-                        <span className="text">3</span>
-                      </Paper>
-                      <Paper key="4" data-grid={{x: 9, y: 0, w: 3, h: 3, draggableHandle: '.react-grid-dragHandleExample'}}>
-                        <span className="text">4 - Draggable with Handle
-                          <span className="react-grid-dragHandleExample">[DRAG HERE]</span>
-                        </span>
-                      </Paper>
-                    </ResponsiveReactGridLayout>
-                  </div>
+                  {this.renderCards()}
                 </div>
               </Tab>
               <Tab eventKey={2} title="Inventory" />
