@@ -1359,7 +1359,6 @@
 .third-price {
   width: 20%;
   float: left;
-  margin-top: 10px;
 }
 .price-title {
 	font-family: Ubuntu;
@@ -1410,6 +1409,19 @@
 }
 .price-card-style {
 	margin-top: 10px;
+	padding: 6px 10px;
+	border: 1px solid #c8c8e8;
+	border-radius: 2px;
+	background-color: #ffffff;
+	box-shadow: 0 1px 2px #000000;
+}
+.price-card-style-border {
+	margin-top: 10px;
+	padding: 6px 10px;
+	border: 2px solid #f02a1f;
+	border-radius: 2px;
+	background-color: #ffffff;
+	box-shadow: 0 1px 2px #000000;
 }
 .card-header-style {
 	padding: 0px !important;
@@ -1420,6 +1432,7 @@
 	bottom: 0px !important;
 	right: 4px !important;
 	top: 100px !important;
+	color: #c8c8e8 !important;
 }
 .statistics-icon {
 	width: 100%;

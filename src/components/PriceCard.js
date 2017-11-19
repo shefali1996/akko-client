@@ -28,19 +28,20 @@ class PriceCard extends React.Component {
   };
   
   render() {
+    const {value} = this.props;
     return (
       <div>
         <Card 
           expanded={this.state.expanded} 
           onExpandChange={this.handleExpandChange}
-          className="price-card-style"
+          className={value.trend === '+' ? "price-card-style" : "price-card-style-border"}
         >
           <CardHeader
             actAsExpander={true}
             showExpandableButton={true}
             className="card-header-style"
           >
-            <PriceBox value={this.props.value} />
+            <PriceBox value={value} />
           </CardHeader>
           <CardText expandable>
             <img src={statistics} className="statistics-icon" alt="statistics"/>
