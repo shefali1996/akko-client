@@ -1,7 +1,7 @@
 import React from 'react';
 import {Card, CardHeader, CardText} from 'material-ui/Card';
 import PriceBox from '../components/PriceBox';
-import statistics from '../assets/statistics.png';
+import statistics from '../assets/images/statistics.png';
 
 class PriceCard extends React.Component {
   constructor(props) {

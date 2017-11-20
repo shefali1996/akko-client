@@ -8,7 +8,7 @@ import Papa from 'papaparse';
 import { getProductValue, convertInventoryJSONToObject, exportCSVFile, headers } from '../constants';
 import { invokeApig } from '../libs/awsLib';
 import '../styles/App.css';
-import cogs2 from '../assets/cogs2.svg';
+import cogs2 from '../assets/images/cogs2.svg';
 
 const ToastMessageFactory = React.createFactory(ToastMessageAnimated);
 

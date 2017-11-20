@@ -4,12 +4,12 @@ import { ButtonGroup } from 'react-bootstrap-table';
 import Checkbox from '../components/Checkbox';
 import { numberFormatter } from '../constants';
 
-import sort from '../assets/sort.svg';
-import inversesort from '../assets/inversesort.svg';
-import plus from '../assets/plus.svg';
-import merge from '../assets/merge.svg';
-import deleteIcon from '../assets/delete.svg';
-import rightArrow from '../assets/rightArrow.svg';
+import sort from '../assets/images/sort.svg';
+import inversesort from '../assets/images/inversesort.svg';
+import plus from '../assets/images/plus.svg';
+import merge from '../assets/images/merge.svg';
+import deleteIcon from '../assets/images/delete.svg';
+import rightArrow from '../assets/images/rightArrow.svg';
 
 import '../styles/App.css';
 import '../styles/react-search-input.css';
