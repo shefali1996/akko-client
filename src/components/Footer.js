@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { Row, Col, Label, Image } from 'react-bootstrap';
 import '../styles/App.css';
-import headerIcon from '../assets/headerIcon.svg';
+import headerIcon from '../assets/images/headerIcon.svg';
 
 class Footer extends Component {
   render() {

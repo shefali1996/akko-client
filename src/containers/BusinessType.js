@@ -2,10 +2,10 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Grid, Row, Col, Button, Label, Image } from 'react-bootstrap';
 import '../styles/App.css';
-import businessType1 from '../assets/businessType1.svg';
-import businessType2 from '../assets/businessType2.svg';
-import businessType3 from '../assets/businessType3.svg';
-import businessType4 from '../assets/businessType4.svg';
+import businessType1 from '../assets/images/businessType1.svg';
+import businessType2 from '../assets/images/businessType2.svg';
+import businessType3 from '../assets/images/businessType3.svg';
+import businessType4 from '../assets/images/businessType4.svg';
 
 class BusinessType extends Component {
   constructor(props) {

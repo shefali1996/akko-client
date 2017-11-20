@@ -5,7 +5,7 @@ import SweetAlert from 'sweetalert-react';
 import { testMode } from '../constants';
 import { invokeApig } from '../libs/awsLib';
 import '../styles/App.css';
-import shopifyIcon from '../assets/shopify.svg';
+import shopifyIcon from '../assets/images/shopify.svg';
 
 const queryString = require('query-string');
 

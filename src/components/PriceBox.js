@@ -1,7 +1,7 @@
 import React from 'react';
 import { numberFormatter } from '../constants';
-import upArrow from '../assets/upArrow.svg';
-import downArrow from '../assets/downArrow.svg';
+import upArrow from '../assets/images/upArrow.svg';
+import downArrow from '../assets/images/downArrow.svg';
 
 class PriceBox extends React.Component {
   render() {

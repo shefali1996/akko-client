@@ -5,7 +5,7 @@
 }
 
 .search-input::before {
-  content: url('../assets/explore.svg');
+  content: url('../assets/images/explore.svg');
   display: block;
   position: absolute;
   width: 30px;

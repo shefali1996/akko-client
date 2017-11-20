@@ -559,7 +559,7 @@
 	width: 43px;
 	height: 43px;
 	fill: #c8c8e8;
-	background-image: url("../assets/close.svg");
+	background-image: url("../assets/images/close.svg");
 	background-repeat: no-repeat;
 	background-color: transparent;
 	border: none;
@@ -572,7 +572,7 @@
 	width: 43px;
 	height: 43px;
 	fill: #c8c8e8;
-	background-image: url("../assets/close.svg");
+	background-image: url("../assets/images/close.svg");
 	background-repeat: no-repeat;
 	background-color: transparent;
 	border: none;
@@ -583,7 +583,7 @@
 	width: 43px;
 	height: 43px;
 	fill: #c8c8e8;
-	background-image: url("../assets/logout.svg");
+	background-image: url("../assets/images/logout.svg");
 	background-repeat: no-repeat;
 	background-color: transparent;
 	border: none;
@@ -596,7 +596,7 @@
 	width: 43px;
 	height: 43px;
 	fill: #c8c8e8;
-	background-image: url("../assets/logout.svg");
+	background-image: url("../assets/images/logout.svg");
 	background-repeat: no-repeat;
 	background-color: transparent;
 	border: none;
