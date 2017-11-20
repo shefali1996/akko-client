@@ -9,42 +9,31 @@ class PriceCard extends React.Component {
     this.state = {
       expanded: false
     };
+    this.handleExpandChange = this.handleExpandChange.bind(this);
   }
 
-  handleExpandChange = (expanded) => {
-    this.setState({expanded: expanded});
-  };
+  handleExpandChange(expanded) {
+    this.setState({expanded});
+  }
 
-  handleToggle = (event, toggle) => {
-    this.setState({expanded: toggle});
-  };
-
-  handleExpand = () => {
-    this.setState({expanded: true});
-  };
-
-  handleReduce = () => {
-    this.setState({expanded: false});
-  };
-  
   render() {
     const {value} = this.props;
     return (
       <div>
-        <Card 
-          expanded={this.state.expanded} 
+        <Card
+          expanded={this.state.expanded}
           onExpandChange={this.handleExpandChange}
-          className={value.trend === '+' ? "price-card-style" : "price-card-style-border"}
+          className={value.trend === '+' ? 'price-card-style' : 'price-card-style-border'}
         >
           <CardHeader
-            actAsExpander={true}
-            showExpandableButton={true}
+            actAsExpander
+            showExpandableButton
             className="card-header-style"
           >
             <PriceBox value={value} />
           </CardHeader>
           <CardText expandable>
-            <img src={statistics} className="statistics-icon" alt="statistics"/>
+            <img src={statistics} className="statistics-icon" alt="statistics" />
           </CardText>
         </Card>
       </div>
