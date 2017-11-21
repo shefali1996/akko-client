@@ -98,7 +98,7 @@ class Landing extends Component {
                 </Col>
                 <Col md={12} className="text-center flex-center padding-t-10">
                   <FormControl
-                    ref="email"
+                    ref={(ref) => { this.emailRef = ref; }}
                     type="text"
                     placeholder="email"
                     className="email-input"
