@@ -1,18 +1,19 @@
 import React, { Component } from 'react';
 import { Grid, Row, Tabs, Tab, Col } from 'react-bootstrap';
 import { connect } from 'react-redux';
-import RGL, { WidthProvider } from 'react-grid-layout';
+// import RGL, { WidthProvider } from 'react-grid-layout';
 import _ from 'lodash';
 import SearchInput, { createFilter } from 'react-search-input';
+// import {InfiniteScroll} from 'react-simple-infinite-scroll';
 import 'react-grid-layout/css/styles.css';
 import 'react-resizable/css/styles.css';
-import { KEYS_TO_METRICES, convertInventoryJSONToObject } from '../constants';
+import { KEYS_TO_METRICES } from '../constants';
 import Navigationbar from '../components/Navigationbar';
 import PriceCard from '../components/PriceCard';
 import Footer from '../components/Footer';
 import '../styles/App.css';
 
-const ReactGridLayout = WidthProvider(RGL);
+// const ReactGridLayout = WidthProvider(RGL);
 
 const dashboardJSON = {
   dummyData: [
@@ -214,13 +215,14 @@ class Dashboard extends Component {
   renderCards() {
     const { data, searchTerm } = this.state;
     const filteredData = data.filter(createFilter(searchTerm, KEYS_TO_METRICES));
-    const p = this.props;
+    // const p = this.props;
     return (
       filteredData.map((value, index) => {
         // const w = _.result(p, 'w') || Math.ceil(Math.random() * 4);
-        const y = _.result(p, 'y') || Math.ceil(Math.random() * 4) + 2;
+        // const y = _.result(p, 'y') || Math.ceil(Math.random() * 4) + 2;
         return (
-          <div key={index} data-grid={{i: index.toString(), x: (index * 4) % 12, y: Math.floor(index / 4) * y, w: 3.3, h: 1 }} >
+          // <div key={index} data-grid={{i: index.toString(), x: (index * 4) % 12, y: Math.floor(index / 4) * y, w: 3.3, h: 1 }} >
+          <div key={index} className="item">
             <PriceCard value={value} />
           </div>
         );
@@ -248,12 +250,9 @@ class Dashboard extends Component {
                     </Col>
                   </Row>
                   <Row>
-                    <ReactGridLayout
-                      className="padding-left-right-50 margin-t-30"
-                      {...this.props}
-                    >
+                    <div className="padding-left-right-50 margin-t-30 masonry">
                       {this.renderCards()}
-                    </ReactGridLayout>
+                    </div>
                   </Row>
                 </div>
               </Tab>

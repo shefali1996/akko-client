@@ -2,7 +2,8 @@ import React from 'react';
 import {Card, CardHeader, CardText} from 'material-ui/Card';
 import PriceBox from '../components/PriceBox';
 import statistics from '../assets/images/statistics.png';
-import open from '../assets/images/openIcon.svg';
+import openUp from '../assets/images/openUpIcon.svg';
+import openDown from '../assets/images/openDownIcon.svg';
 
 class PriceCard extends React.Component {
   constructor(props) {
@@ -29,7 +30,8 @@ class PriceCard extends React.Component {
           <CardHeader
             actAsExpander
             showExpandableButton
-            openIcon={open}
+            openIcon={<img src={openUp} alt="up" />}
+            closeIcon={<img src={openDown} alt="down" />}
             className="card-header-style"
           >
             <PriceBox value={value} />

@@ -1455,6 +1455,20 @@
 .expand-content {
 	z-index: 999 !important;
 }
+.masonry {
+	column-count: 3;
+	-webkit-column-count: 3;
+	-moz-column-count: 3;
+	column-gap: 1em;
+	-webkit-column-gap: 1em;
+	-moz-column-gap: 1em;
+}
+
+.item {
+	display: inline-block;
+	margin: 0 0 1em;
+	width: 100%;
+}
 @media screen and (max-width: 767px) {
 	.padding-left-right-100 {
 		padding-left: 0px;
