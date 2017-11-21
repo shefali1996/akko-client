@@ -1449,6 +1449,9 @@
 .price-view {
 	background: white;
 }
+.grid-card-style {
+	/* display: inline-block; */
+}
 
 @media screen and (max-width: 767px) {
 	.padding-left-right-100 {

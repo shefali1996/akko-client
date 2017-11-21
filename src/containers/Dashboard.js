@@ -1,13 +1,16 @@
 import React, { Component } from 'react';
 import { Grid, Row, Tabs, Tab, Col } from 'react-bootstrap';
 import { connect } from 'react-redux';
-import {Responsive, WidthProvider} from 'react-grid-layout';
+import RGL, { WidthProvider } from 'react-grid-layout';
+import _ from 'lodash';
+import 'react-grid-layout/css/styles.css';
+import 'react-resizable/css/styles.css';
 import Navigationbar from '../components/Navigationbar';
 import PriceCard from '../components/PriceCard';
 import Footer from '../components/Footer';
 import '../styles/App.css';
 
-const ResponsiveReactGridLayout = WidthProvider(Responsive);
+const ReactGridLayout = WidthProvider(RGL);
 
 const dashboardJSON = {
   dummyData: [
@@ -201,8 +204,10 @@ class Dashboard extends Component {
     const dummyDataValue = dashboardJSON.dummyData;
     return (
       dummyDataValue.map((value, index) => {
+        // const w = _.result(p, 'w') || Math.ceil(Math.random() * 4);
+        // const y = _.result(p, 'y') || Math.ceil(Math.random() * 4) + 1;
         return (
-          <Col md={4} key={index}>
+          <Col md={4} key={index} data-grid={{x: index, y: 4, h: 1, w: 3}} >
             <PriceCard value={value} />
           </Col>
         );
@@ -218,9 +223,9 @@ class Dashboard extends Component {
           <Row className="no-margin min-height custom-shadow">
             <Tabs defaultActiveKey={1} id="uncontrolled-tab-example" className="inventory-tab" onSelect={this.handleSelect}>
               <Tab eventKey={1} title="Dashboard">
-                <div className="padding-left-right-100">
+                <ReactGridLayout className="padding-left-right-100">
                   {this.renderCards()}
-                </div>
+                </ReactGridLayout>
               </Tab>
               <Tab eventKey={2} title="Inventory" />
               <Tab eventKey={3} title="Orders" />
