@@ -1,10 +1,8 @@
 import React, { Component } from 'react';
 import { Grid, Row, Tabs, Tab, Col } from 'react-bootstrap';
 import { connect } from 'react-redux';
-// import RGL, { WidthProvider } from 'react-grid-layout';
 import _ from 'lodash';
 import SearchInput, { createFilter } from 'react-search-input';
-// import {InfiniteScroll} from 'react-simple-infinite-scroll';
 import 'react-grid-layout/css/styles.css';
 import 'react-resizable/css/styles.css';
 import { KEYS_TO_METRICES } from '../constants';
@@ -12,8 +10,6 @@ import Navigationbar from '../components/Navigationbar';
 import PriceCard from '../components/PriceCard';
 import Footer from '../components/Footer';
 import '../styles/App.css';
-
-// const ReactGridLayout = WidthProvider(RGL);
 
 const dashboardJSON = {
   dummyData: [
@@ -218,10 +214,7 @@ class Dashboard extends Component {
     // const p = this.props;
     return (
       filteredData.map((value, index) => {
-        // const w = _.result(p, 'w') || Math.ceil(Math.random() * 4);
-        // const y = _.result(p, 'y') || Math.ceil(Math.random() * 4) + 2;
         return (
-          // <div key={index} data-grid={{i: index.toString(), x: (index * 4) % 12, y: Math.floor(index / 4) * y, w: 3.3, h: 1 }} >
           <div key={index} className="item">
             <PriceCard value={value} />
           </div>
