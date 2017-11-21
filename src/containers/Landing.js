@@ -7,11 +7,11 @@ import Footer from '../components/Footer';
 import '../styles/App.css';
 import { invokeApigUnAuth } from "../libs/awsLib";
 import {validateEmail} from '../constants';
-import shopifyicon from '../assets/shopifyicon.svg';
-import landing1 from '../assets/landing_1.png';
-import landing2 from '../assets/landing_2.png';
-import dashboard_1 from '../assets/dashboard_1.png';
-import dashboard_2 from '../assets/dashboard_2.png';
+import shopifyicon from '../assets/images/shopifyicon.svg';
+import landing1 from '../assets/images/landing_1.png';
+import landing2 from '../assets/images/landing_2.png';
+import dashboard_1 from '../assets/images/dashboard_1.png';
+import dashboard_2 from '../assets/images/dashboard_2.png';
 
 class Landing extends Component {
     constructor(props) {
