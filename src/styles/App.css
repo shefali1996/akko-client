@@ -336,48 +336,6 @@ html, body, #root {
 .select-page-button {
   /* display: none; */
 }
-.pageList-style {
-	margin-top: 0px;
-}
-.pageList-style .pagination .page-item .page-link {
-  font-family: Lato;
-  font-size: 14px;
-  font-weight: 400;
-  color: #000000;
-  text-decoration: none solid rgb(0, 0, 0);
-  text-align: center;
-  border: none;
-}
-.pageList-style .pagination .active.page-item .page-link {
-  font-family: Lato;
-  font-size: 14px;
-  font-weight: 400;
-  color: #fff;
-  text-decoration: none solid rgb(0, 0, 0);
-  text-align: center;
-  border: none;
-  border-radius: 0px;
-  background: #2199e8;
-}
-.sort-icon {
-  width: 20px;
-  height: 20px;
-  margin-left: 5px;
-}
-.button-group-custom-class {
-  width: 100%;
-  display: inline-block;
-}
-.left-button-view {
-  width: 50%;
-  display: inline-block;
-  text-align: left;
-}
-.right-button-view {
-  width: 50%;
-  display: inline-block;
-  text-align: right;
-}
 .logo-title {
 	font-family: Ubuntu;
 	font-size: 32px;
