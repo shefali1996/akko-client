@@ -27,7 +27,7 @@ const dashboardJSON = {
       title: 'Churning Customers',
       description: 'Which customers are at risk of leaving?',
       prefix: '',
-      value: 3,
+      value: 78,
       trend: '+',
       trendValue: '3%',
       trendPeriod: 'last month'
@@ -38,7 +38,88 @@ const dashboardJSON = {
       prefix: '$',
       value: 57923,
       trend: '+',
-      trendValue: '3%',
+      trendValue: '23%',
+      trendPeriod: 'last month'
+    },
+    {
+      title: 'Avg. Order Value',
+      description: 'On average, how much do customers spend in your store?',
+      prefix: '$',
+      value: 424,
+      trend: '-',
+      trendValue: '45%',
+      trendPeriod: 'last month'
+    },
+    {
+      title: 'Churning Customers',
+      description: 'Which customers are at risk of leaving?',
+      prefix: '',
+      value: 74,
+      trend: '+',
+      trendValue: '63%',
+      trendPeriod: 'last month'
+    },
+    {
+      title: 'Avg. Order Value',
+      description: 'On average, how much do customers spend in your store?',
+      prefix: '$',
+      value: 562,
+      trend: '-',
+      trendValue: '21%',
+      trendPeriod: 'last month'
+    },
+    {
+      title: 'Sales',
+      description: 'What is the total sales volume this month?',
+      prefix: '$',
+      value: 57923,
+      trend: '+',
+      trendValue: '43%',
+      trendPeriod: 'last month'
+    },
+    {
+      title: 'Churning Customers',
+      description: 'Which customers are at risk of leaving?',
+      prefix: '',
+      value: 54,
+      trend: '+',
+      trendValue: '13%',
+      trendPeriod: 'last month'
+    },
+    {
+      title: 'Avg. Order Value',
+      description: 'On average, how much do customers spend in your store?',
+      prefix: '$',
+      value: 896,
+      trend: '-',
+      trendValue: '32%',
+      trendPeriod: 'last month'
+    },
+    {
+      title: 'Sales',
+      description: 'What is the total sales volume this month?',
+      prefix: '$',
+      value: 57923,
+      trend: '+',
+      trendValue: '63%',
+      trendPeriod: 'last month'
+    },
+    {
+      title: 'Churning Customers',
+      description: 'Which customers are at risk of leaving?',
+      prefix: '',
+      value: 893,
+      trend: '+',
+      trendValue: '63%',
+      trendPeriod: 'last month'
+    },
+    {
+      title: 'Sales',
+      description: 'What is the total sales volume this month?',
+      prefix: '$',
+      value: 57923,
+      trend: '+',
+      trendValue: '73%',
       trendPeriod: 'last month'
     },
     {
@@ -54,18 +135,18 @@ const dashboardJSON = {
       title: 'Churning Customers',
       description: 'Which customers are at risk of leaving?',
       prefix: '',
-      value: 3,
+      value: 58,
       trend: '+',
-      trendValue: '3%',
+      trendValue: '41%',
       trendPeriod: 'last month'
     },
     {
       title: 'Avg. Order Value',
       description: 'On average, how much do customers spend in your store?',
       prefix: '$',
-      value: 424,
+      value: 569,
       trend: '-',
-      trendValue: '10%',
+      trendValue: '41%',
       trendPeriod: 'last month'
     },
     {
@@ -74,97 +155,16 @@ const dashboardJSON = {
       prefix: '$',
       value: 57923,
       trend: '+',
-      trendValue: '3%',
+      trendValue: '63%',
       trendPeriod: 'last month'
     },
     {
       title: 'Churning Customers',
       description: 'Which customers are at risk of leaving?',
       prefix: '',
-      value: 3,
+      value: 98,
       trend: '+',
-      trendValue: '3%',
-      trendPeriod: 'last month'
-    },
-    {
-      title: 'Avg. Order Value',
-      description: 'On average, how much do customers spend in your store?',
-      prefix: '$',
-      value: 424,
-      trend: '-',
-      trendValue: '10%',
-      trendPeriod: 'last month'
-    },
-    {
-      title: 'Sales',
-      description: 'What is the total sales volume this month?',
-      prefix: '$',
-      value: 57923,
-      trend: '+',
-      trendValue: '3%',
-      trendPeriod: 'last month'
-    },
-    {
-      title: 'Churning Customers',
-      description: 'Which customers are at risk of leaving?',
-      prefix: '',
-      value: 3,
-      trend: '+',
-      trendValue: '3%',
-      trendPeriod: 'last month'
-    },
-    {
-      title: 'Sales',
-      description: 'What is the total sales volume this month?',
-      prefix: '$',
-      value: 57923,
-      trend: '+',
-      trendValue: '3%',
-      trendPeriod: 'last month'
-    },
-    {
-      title: 'Avg. Order Value',
-      description: 'On average, how much do customers spend in your store?',
-      prefix: '$',
-      value: 424,
-      trend: '-',
-      trendValue: '10%',
-      trendPeriod: 'last month'
-    },
-    {
-      title: 'Churning Customers',
-      description: 'Which customers are at risk of leaving?',
-      prefix: '',
-      value: 3,
-      trend: '+',
-      trendValue: '3%',
-      trendPeriod: 'last month'
-    },
-    {
-      title: 'Avg. Order Value',
-      description: 'On average, how much do customers spend in your store?',
-      prefix: '$',
-      value: 424,
-      trend: '-',
-      trendValue: '10%',
-      trendPeriod: 'last month'
-    },
-    {
-      title: 'Sales',
-      description: 'What is the total sales volume this month?',
-      prefix: '$',
-      value: 57923,
-      trend: '+',
-      trendValue: '3%',
-      trendPeriod: 'last month'
-    },
-    {
-      title: 'Churning Customers',
-      description: 'Which customers are at risk of leaving?',
-      prefix: '',
-      value: 3,
-      trend: '+',
-      trendValue: '3%',
+      trendValue: '43%',
       trendPeriod: 'last month'
     },
     {
@@ -202,14 +202,16 @@ class Dashboard extends Component {
 
   renderCards() {
     const dummyDataValue = dashboardJSON.dummyData;
+    const p = this.props;
     return (
       dummyDataValue.map((value, index) => {
-        // const w = _.result(p, 'w') || Math.ceil(Math.random() * 4);
-        // const y = _.result(p, 'y') || Math.ceil(Math.random() * 4) + 1;
+        const w = _.result(p, 'w') || Math.ceil(Math.random() * 4);
+        const y = _.result(p, 'y') || Math.ceil(Math.random() * 4) + 1;
+        console.log('index', index.toString(), 'x', (index * 4) % 12, 'y', Math.floor(index / 6) * y, 'w', 4, 'h', 1);
         return (
-          <Col md={4} key={index} data-grid={{x: index, y: 4, h: 1, w: 3}} >
+          <div key={index} data-grid={{i: index.toString(), x: (index * 4) % 12, y: Math.floor(index / 6) * y, w: 3.3, h: 1 }} >
             <PriceCard value={value} />
-          </Col>
+          </div>
         );
       })
     );
@@ -223,7 +225,9 @@ class Dashboard extends Component {
           <Row className="no-margin min-height custom-shadow">
             <Tabs defaultActiveKey={1} id="uncontrolled-tab-example" className="inventory-tab" onSelect={this.handleSelect}>
               <Tab eventKey={1} title="Dashboard">
-                <ReactGridLayout className="padding-left-right-100">
+                <ReactGridLayout
+                  {...this.props}
+                >
                   {this.renderCards()}
                 </ReactGridLayout>
               </Tab>
@@ -241,4 +245,12 @@ class Dashboard extends Component {
 const mapStateToProps = state => ({
 });
 
+Dashboard.defaultProps = {
+  className: 'padding-left-right-50',
+  cols: 12,
+  // rowHeight: 100,
+  onLayoutChange() {},
+  verticalCompact: true,
+  preventCollision: true
+};
 export default connect(mapStateToProps)(Dashboard);
