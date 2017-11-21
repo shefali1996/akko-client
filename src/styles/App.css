@@ -520,54 +520,6 @@ html, body, #root {
   background: none;
   padding-top: 20px;
 }
-.close-button {
-	width: 43px;
-	height: 43px;
-	fill: #c8c8e8;
-	background-image: url("../assets/close.svg");
-	background-repeat: no-repeat;
-	background-color: transparent;
-	border: none;
-	background-size: contain;
-}
-.close-button:active,
-.close-button:hover,
-.close-button:focus,
-.close-button:active:focus {
-	width: 43px;
-	height: 43px;
-	fill: #c8c8e8;
-	background-image: url("../assets/close.svg");
-	background-repeat: no-repeat;
-	background-color: transparent;
-	border: none;
-	background-size: contain;
-	outline: none;
-}
-.logout-button {
-	width: 43px;
-	height: 43px;
-	fill: #c8c8e8;
-	background-image: url("../assets/logout.svg");
-	background-repeat: no-repeat;
-	background-color: transparent;
-	border: none;
-	background-size: contain;
-}
-.logout-button:active,
-.logout-button:hover,
-.logout-button:focus,
-.logout-button:active:focus {
-	width: 43px;
-	height: 43px;
-	fill: #c8c8e8;
-	background-image: url("../assets/logout.svg");
-	background-repeat: no-repeat;
-	background-color: transparent;
-	border: none;
-	background-size: contain;
-	outline: none;
-}
 .login-tab {
 	text-align: center;
 	padding-top: 10px;
