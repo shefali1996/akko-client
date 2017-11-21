@@ -20,7 +20,7 @@ export const numberFormatter = (number) => {
   } else if (number > 999999999) {
     return `${(number / 1000000000).toFixed(1)} M`;
   }
-  return number;
+  return parseFloat(Math.round(number * 100) / 100).toFixed(2);
 };
 
 export const animationStyle = {

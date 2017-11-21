@@ -13,7 +13,7 @@ import {
   getCaret,
   sortByCogsValue,
 } from '../components/CustomTable';
-import { KEYS_TO_FILTERS_PRODUCT, convertInventoryJSONToObject, isNumeric } from '../constants';
+import { KEYS_TO_FILTERS_PRODUCT, convertInventoryJSONToObject, isNumeric, numberFormatter } from '../constants';
 import { invokeApig } from '../libs/awsLib';
 import { inventoryGetRequest } from '../actions';
 import '../styles/App.css';
@@ -69,7 +69,7 @@ class SetTable extends Component {
         });
         if (index > -1) {
           if (selectedOption === 'option1') {
-            data[index].cogs = data[index].price - (data[index].cogs * (markup / 100));
+            data[index].cogs = data[index].price / (1 + (markup / 100));
           } else {
             data[index].cogs = markup;
           }
@@ -165,7 +165,7 @@ class SetTable extends Component {
         <FormControl
           type="number"
           className="product-input"
-          value={cell}
+          value={numberFormatter(cell)}
           onChange={(e) => { 
             this.onCogsChange(e, row);
           }}

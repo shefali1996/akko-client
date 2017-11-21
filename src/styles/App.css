@@ -1452,7 +1452,9 @@
 .grid-card-style {
 	/* display: inline-block; */
 }
-
+.expand-content {
+	z-index: 999 !important;
+}
 @media screen and (max-width: 767px) {
 	.padding-left-right-100 {
 		padding-left: 0px;

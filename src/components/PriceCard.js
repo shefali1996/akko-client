@@ -32,7 +32,7 @@ class PriceCard extends React.Component {
           >
             <PriceBox value={value} />
           </CardHeader>
-          <CardText expandable>
+          <CardText expandable className="expand-content">
             <img src={statistics} className="statistics-icon" alt="statistics" />
           </CardText>
         </Card>
