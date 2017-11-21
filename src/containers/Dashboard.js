@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Grid, Row, Tabs, Tab, Col } from 'react-bootstrap';
+import { Grid, Row, Tabs, Tab } from 'react-bootstrap';
 import { connect } from 'react-redux';
 import RGL, { WidthProvider } from 'react-grid-layout';
 import _ from 'lodash';
@@ -183,8 +183,10 @@ class Dashboard extends Component {
   constructor(props) {
     super(props);
     this.state = {
+      data: dashboardJSON.dummyData,
     };
     this.handleSelect = this.handleSelect.bind(this);
+    // this.itemSelected = this.itemSelected.bind(this);
   }
 
   componentDidMount() {
@@ -201,15 +203,14 @@ class Dashboard extends Component {
   }
 
   renderCards() {
-    const dummyDataValue = dashboardJSON.dummyData;
+    const {data} = this.state;
     const p = this.props;
     return (
-      dummyDataValue.map((value, index) => {
-        const w = _.result(p, 'w') || Math.ceil(Math.random() * 4);
+      data.map((value, index) => {
+        // const w = _.result(p, 'w') || Math.ceil(Math.random() * 4);
         const y = _.result(p, 'y') || Math.ceil(Math.random() * 4) + 1;
-        console.log('index', index.toString(), 'x', (index * 4) % 12, 'y', Math.floor(index / 6) * y, 'w', 4, 'h', 1);
         return (
-          <div key={index} data-grid={{i: index.toString(), x: (index * 4) % 12, y: Math.floor(index / 6) * y, w: 3.3, h: 1 }} >
+          <div key={index} data-grid={{i: index.toString(), x: (index * 4) % 12, y: Math.floor(index / 4) * y, w: 3.3, h: 1 }} >
             <PriceCard value={value} />
           </div>
         );
@@ -248,9 +249,10 @@ const mapStateToProps = state => ({
 Dashboard.defaultProps = {
   className: 'padding-left-right-50',
   cols: 12,
-  // rowHeight: 100,
   onLayoutChange() {},
   verticalCompact: true,
-  preventCollision: true
+  preventCollision: true,
+  isResizable: false,
+  isDraggable: false,
 };
 export default connect(mapStateToProps)(Dashboard);
