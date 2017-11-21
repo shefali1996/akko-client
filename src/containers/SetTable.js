@@ -29,6 +29,7 @@ class SetTable extends Component {
       selectedRows: [],
       fetchError: false,
       errorText: '',
+      valueError: false
     };
     this.goLanding = this.goLanding.bind(this);
     this.onConnect = this.onConnect.bind(this);
@@ -71,7 +72,11 @@ class SetTable extends Component {
           if (selectedOption === 'option1') {
             data[index].cogs = data[index].price / (1 + (markup / 100));
           } else {
-            data[index].cogs = markup;
+            if (parseInt(data[index].price, 10) > markup) {
+              data[index].cogs = markup;
+            } else {
+              this.setState({valueError: true});
+            }
           }
         }
       }
@@ -166,7 +171,7 @@ class SetTable extends Component {
           type="number"
           className="product-input"
           value={numberFormatter(cell)}
-          onChange={(e) => { 
+          onChange={(e) => {
             this.onCogsChange(e, row);
           }}
         />
@@ -362,6 +367,16 @@ class SetTable extends Component {
           text={this.state.errorText.toString()}
           onConfirm={() => {
                 this.setState({ fetchError: false });
+            }}
+        />
+        <SweetAlert
+          show={this.state.valueError}
+          showConfirmButton
+          type="error"
+          title="Error"
+          text="Markup value can't be larger than original price."
+          onConfirm={() => {
+                this.setState({ valueError: false });
             }}
         />
       </div>

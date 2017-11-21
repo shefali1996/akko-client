@@ -44,6 +44,7 @@ module.exports = {
       "import/no-named-as-default": ["off"],
       "no-else-return": ["off"],
       "no-restricted-globals": ["off"],
-      "arrow-body-style": ["off"]
+      "arrow-body-style": ["off"],
+      "no-lonely-if": ["off"]
     }
 };
