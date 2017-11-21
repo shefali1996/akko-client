@@ -4,7 +4,6 @@ import { Grid, Row, Col, FormControl, Button } from 'react-bootstrap';
 import SweetAlert from 'sweetalert-react';
 import Header from '../components/Header';
 import Footer from '../components/Footer';
-import '../styles/App.css';
 import { invokeApigUnAuth } from "../libs/awsLib";
 import {validateEmail} from '../constants';
 import shopifyicon from '../assets/images/shopifyicon.svg';
