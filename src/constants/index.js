@@ -4,7 +4,8 @@ import { headShake } from 'react-animations';
 export const testMode = true;
 
 export const KEYS_TO_FILTERS = ['productDetail.title', 'stockOnHandUnits', 'stockOnHandValue.value', 'committedUnits', 'committedValue.value', 'availableForSaleUnits', 'availableForSaleValue.value'];
-export const KEYS_TO_FILTERS_PRODUCT = ['productDetail.title', 'stockOnHandUnits', 'stockOnHandValue.value', 'committedUnits', 'committedValue.value', 'availableForSaleUnits', 'availableForSaleValue.value'];
+
+export const KEYS_TO_METRICES = ['title', 'description', 'prefix', 'value', 'trend', 'trendValue', 'trendPeriod'];
 
 export const validateEmail = (email) => {
   // eslint-disable-next-line max-len, no-useless-escape

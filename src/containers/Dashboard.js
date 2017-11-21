@@ -1,10 +1,12 @@
 import React, { Component } from 'react';
-import { Grid, Row, Tabs, Tab } from 'react-bootstrap';
+import { Grid, Row, Tabs, Tab, Col } from 'react-bootstrap';
 import { connect } from 'react-redux';
 import RGL, { WidthProvider } from 'react-grid-layout';
 import _ from 'lodash';
+import SearchInput, { createFilter } from 'react-search-input';
 import 'react-grid-layout/css/styles.css';
 import 'react-resizable/css/styles.css';
+import { KEYS_TO_METRICES, convertInventoryJSONToObject } from '../constants';
 import Navigationbar from '../components/Navigationbar';
 import PriceCard from '../components/PriceCard';
 import Footer from '../components/Footer';
@@ -184,9 +186,10 @@ class Dashboard extends Component {
     super(props);
     this.state = {
       data: dashboardJSON.dummyData,
+      searchTerm: '',
     };
     this.handleSelect = this.handleSelect.bind(this);
-    // this.itemSelected = this.itemSelected.bind(this);
+    this.searchUpdated = this.searchUpdated.bind(this);
   }
 
   componentDidMount() {
@@ -202,13 +205,20 @@ class Dashboard extends Component {
     }
   }
 
+  searchUpdated(term) {
+    this.setState({
+      searchTerm: term
+    });
+  }
+
   renderCards() {
-    const {data} = this.state;
+    const { data, searchTerm } = this.state;
+    const filteredData = data.filter(createFilter(searchTerm, KEYS_TO_METRICES));
     const p = this.props;
     return (
-      data.map((value, index) => {
+      filteredData.map((value, index) => {
         // const w = _.result(p, 'w') || Math.ceil(Math.random() * 4);
-        const y = _.result(p, 'y') || Math.ceil(Math.random() * 4) + 1;
+        const y = _.result(p, 'y') || Math.ceil(Math.random() * 4) + 2;
         return (
           <div key={index} data-grid={{i: index.toString(), x: (index * 4) % 12, y: Math.floor(index / 4) * y, w: 3.3, h: 1 }} >
             <PriceCard value={value} />
@@ -226,11 +236,26 @@ class Dashboard extends Component {
           <Row className="no-margin min-height custom-shadow">
             <Tabs defaultActiveKey={1} id="uncontrolled-tab-example" className="inventory-tab" onSelect={this.handleSelect}>
               <Tab eventKey={1} title="Dashboard">
-                <ReactGridLayout
-                  {...this.props}
-                >
-                  {this.renderCards()}
-                </ReactGridLayout>
+                <div>
+                  <Row>
+                    <Col md={4} mdOffset={4} className="margin-t-20">
+                      <SearchInput
+                        className="search-input"
+                        placeholder="Search through all your metrics"
+                        onChange={this.searchUpdated}
+                        onFocus={this.onFocus}
+                        />
+                    </Col>
+                  </Row>
+                  <Row>
+                    <ReactGridLayout
+                      className="padding-left-right-50 margin-t-30"
+                      {...this.props}
+                    >
+                      {this.renderCards()}
+                    </ReactGridLayout>
+                  </Row>
+                </div>
               </Tab>
               <Tab eventKey={2} title="Inventory" />
               <Tab eventKey={3} title="Orders" />
@@ -247,7 +272,6 @@ const mapStateToProps = state => ({
 });
 
 Dashboard.defaultProps = {
-  className: 'padding-left-right-50',
   cols: 12,
   onLayoutChange() {},
   verticalCompact: true,

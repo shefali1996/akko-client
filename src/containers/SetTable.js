@@ -13,7 +13,7 @@ import {
   getCaret,
   sortByCogsValue,
 } from '../components/CustomTable';
-import { KEYS_TO_FILTERS_PRODUCT, convertInventoryJSONToObject, isNumeric, numberFormatter } from '../constants';
+import { KEYS_TO_FILTERS, convertInventoryJSONToObject, isNumeric, numberFormatter } from '../constants';
 import { invokeApig } from '../libs/awsLib';
 import { inventoryGetRequest } from '../actions';
 import '../styles/App.css';
@@ -181,7 +181,7 @@ class SetTable extends Component {
 
   render() {
     const { data, searchTerm, markup } = this.state;
-    const filteredData = data.filter(createFilter(searchTerm, KEYS_TO_FILTERS_PRODUCT));
+    const filteredData = data.filter(createFilter(searchTerm, KEYS_TO_FILTERS));
     const selectRowProp = {
       mode: 'checkbox',
       customComponent: customMultiSelect,
