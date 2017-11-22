@@ -80,17 +80,21 @@ class SetTable extends Component {
   }
 
   getProduct() {
-    this.products().then((results) => {
-      const products = convertInventoryJSONToObject(results);
-      this.setState({ data: products });
-      localStorage.setItem('inventoryInfo', JSON.stringify(products));
-    })
+    if( localStorage.getItem('inventoryInfo') ){
+      this.setState({ data: JSON.parse( localStorage.getItem('inventoryInfo') ) });
+    }else{
+      this.products().then((results) => {
+        const products = convertInventoryJSONToObject(results);
+        this.setState({ data: products });
+        localStorage.setItem('inventoryInfo', JSON.stringify(products));
+      })
       .catch(error => {
         this.setState({
           errorText: error,
           fetchError: true
         });
       });
+    }
   }
 
   handleOptionChange(e) {
@@ -152,6 +156,12 @@ class SetTable extends Component {
   }
 
   cogsValueFormatter(cell, row) {
+    let warningMessage = null;
+    if(row.cogsValidateStatus===true){
+    }else{
+      warningMessage = <div title={row.cogsValidateStatus}>X</div>
+    }
+
     return (
       <div className="flex-center padding-t-20">
         <div className="currency-view">
@@ -169,7 +179,8 @@ class SetTable extends Component {
           onChange={(e) => { 
             this.onCogsChange(e, row);
           }}
-        />
+        />        
+        {warningMessage}
       </div>
     );
   }

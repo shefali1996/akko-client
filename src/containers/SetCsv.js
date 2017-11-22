@@ -9,6 +9,10 @@ import { getProductValue, convertInventoryJSONToObject, exportCSVFile, headers }
 import { invokeApig } from '../libs/awsLib';
 import '../styles/App.css';
 import cogs2 from '../assets/images/cogs2.svg';
+import { 
+  beautiyUploadedCsvData ,
+  validateCogsValue
+} from "../helpers/Csv"
 
 const ToastMessageFactory = React.createFactory(ToastMessageAnimated);
 
@@ -80,44 +84,30 @@ class SetCsv extends Component {
       // this.props.history.push('/set-table');
       Papa.parse(importedCSV, {
         complete(results) {
-          const parsedData = results.data;
+          // start
           const updatedProducts = [];
           let nullCogsCount = 0;
-          for (let i = 1; i < parsedData.length; i++) {
-            if (parsedData[i][0] === data[i - 1].id) {
-              if (parsedData[i][5].toString().length === 0 || parsedData[i][5].toString() === 'null') {
-                nullCogsCount++;
+          let beautyData = beautiyUploadedCsvData(results.data);
+          data.forEach((product)=>{
+            beautyData.csvData.forEach((csvProduct)=>{
+              if( product.id ===  csvProduct.id ){                                
+                product.cogs = csvProduct.cogs;
+                product.productDetail.cogs = csvProduct.cogs;
               }
-              const updatedProductDetail = {
-                category: data[i - 1].productDetail.category,
-                currency: data[i - 1].productDetail.currency,
-                image: data[i - 1].productDetail.image,
-                price: data[i - 1].productDetail.price,
-                sku: data[i - 1].productDetail.sku,
-                tags: data[i - 1].productDetail.tags,
-                title: data[i - 1].productDetail.title,
-                variant: data[i - 1].productDetail.variant,
-                cogs: parsedData[i][5],
-              };
-              const oneProduct = {
-                id: data[i - 1].id,
-                productDetail: updatedProductDetail,
-                stockOnHandUnits: data[i - 1].stockOnHandUnits,
-                stockOnHandValue: data[i - 1].stockOnHandValue,
-                committedUnits: data[i - 1].committedUnits,
-                committedValue: data[i - 1].committedValue,
-                availableForSaleUnits: data[i - 1].availableForSaleUnits,
-                availableForSaleValue: data[i - 1].availableForSaleValue,
-                title: data[i - 1].title,
-                variant: data[i - 1].variant,
-                sku: data[i - 1].sku,
-                price: data[i - 1].price,
-                cogs: parsedData[i][5]
-              };
-              updatedProducts.push(oneProduct);
+            })
+            let cogsValidateStatus = validateCogsValue( product.productDetail.cogs , product.productDetail.price );
+            if(cogsValidateStatus === true || cogsValidateStatus === 'true' ){
+
+            }else{
+              nullCogsCount++;
+              product.cogs = "";
+              product.productDetail.cogs = "";
             }
-          }
+            product.cogsValidateStatus = cogsValidateStatus;
+            updatedProducts.push(product);
+          })
           localStorage.setItem('inventoryInfo', JSON.stringify(updatedProducts));
+          // end 
           $this.setState({
             totalProductCount: updatedProducts.length,
             selectedCogsValue: updatedProducts.length - nullCogsCount,
