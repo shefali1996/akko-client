@@ -1,3 +1,20 @@
+@font-face {
+  font-family: 'Ubuntu-Regular';
+  src: local('Ubuntu-Regular'), url(../assets/fonts/Ubuntu-Regular.ttf) format('ttf');
+}
+@font-face {
+  font-family: 'Ubuntu-Bold';
+  src: local('Ubuntu-Bold'), url(../assets/fonts/Ubuntu-Bold.ttf) format('ttf');
+}
+@font-face {
+  font-family: 'Ubuntu-Light';
+  src: local('Ubuntu-Light'), url(../assets/fonts/Ubuntu-Light.ttf) format('ttf');
+}
+@font-face {
+  font-family: 'Ubuntu-Medium';
+  src: local('Ubuntu-Medium'), url(../assets/fonts/Ubuntu-Medium.ttf) format('ttf');
+}
+
 html, body, #root {
 	width: 100%;
 	overflow: auto;
