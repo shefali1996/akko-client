@@ -1,29 +1,11 @@
-@font-face {
-  font-family: 'Ubuntu-Regular';
-  src: url(../assets/fonts/Ubuntu-Regular.ttf);
-}
-@font-face {
-	font-family: 'Ubuntu-Bold';
-  src: url(../assets/fonts/Ubuntu-Bold.ttf);
-}
-@font-face {
-  font-family: 'Ubuntu-Light';
-  src: url(../assets/fonts/Ubuntu-Light.ttf);
-}
-@font-face {
-  font-family: 'Ubuntu-Medium';
-  src: url(../assets/fonts/Ubuntu-Medium.ttf);
-}
-html, body, #root {
-	width: 100%;
-	overflow: auto;
-}
+
 .App {
   text-align: center;
 }
 .white-bg {
   background: #fff;
 }
+
 .large-title {
 	font-family: 'Ubuntu-Bold';
 	font-size: 32px;

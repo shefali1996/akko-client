@@ -11,7 +11,6 @@ import landing1 from '../assets/images/landing_1.png';
 import landing2 from '../assets/images/landing_2.png';
 import dashboard_1 from '../assets/images/dashboard_1.png';
 import dashboard_2 from '../assets/images/dashboard_2.png';
-import '../styles/App.css';
 
 class Landing extends Component {
     constructor(props) {
