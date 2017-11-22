@@ -4,9 +4,8 @@ import createHistory from 'history/createBrowserHistory';
 import { Router, Route, Switch } from 'react-router';
 import Main from './Main';
 import Landing from './Landing';
-import createHistory from 'history/createBrowserHistory'
-import store from '../store'
-import NotFound from "./NotFound";
+import store from '../store';
+import NotFound from './NotFound';
 import '../styles/App.css';
 
 const history = createHistory();
