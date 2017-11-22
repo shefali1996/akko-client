@@ -45,7 +45,6 @@ html, body, #root {
 	width: 100% !important;
 }
 .main-layout {
-	/* min-height: 150vh; */
 	width: 100%;
 	background-image: linear-gradient(135deg, #1d2fb5 2%, rgba(9, 14, 112, 0.25) 100% );
 	background-position: center center;
