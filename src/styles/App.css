@@ -1,27 +1,23 @@
 @font-face {
   font-family: 'Ubuntu-Regular';
-  src: local('Ubuntu-Regular'), url(../assets/fonts/Ubuntu-Regular.ttf) format('ttf');
+  src: url(../assets/fonts/Ubuntu-Regular.ttf);
 }
 @font-face {
-  font-family: 'Ubuntu-Bold';
-  src: local('Ubuntu-Bold'), url(../assets/fonts/Ubuntu-Bold.ttf) format('ttf');
+	font-family: 'Ubuntu-Bold';
+	font-weight: 700;
+  src: url(../assets/fonts/Ubuntu-Bold.ttf);
 }
 @font-face {
   font-family: 'Ubuntu-Light';
-  src: local('Ubuntu-Light'), url(../assets/fonts/Ubuntu-Light.ttf) format('ttf');
+  src: url(../assets/fonts/Ubuntu-Light.ttf);
 }
 @font-face {
   font-family: 'Ubuntu-Medium';
-  src: local('Ubuntu-Medium'), url(../assets/fonts/Ubuntu-Medium.ttf) format('ttf');
+  src: url(../assets/fonts/Ubuntu-Medium.ttf);
 }
-
 html, body, #root {
 	width: 100%;
 	overflow: auto;
-}
-.direction-row {
-	display: flex;
-	flex-direction: row;
 }
 .App {
   text-align: center;
@@ -30,10 +26,9 @@ html, body, #root {
   background: #fff;
 }
 .large-title {
-	font-family: Ubuntu;
+	font-family: 'Ubuntu-Bold';
 	font-size: 32px;
 	color: #ffffff;
-	font-weight: 700;
 	text-decoration: none solid rgb(255, 255, 255);
 	text-align: center;
 }
