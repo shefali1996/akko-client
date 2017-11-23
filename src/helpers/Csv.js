@@ -46,7 +46,26 @@ function validateCogsValue( cogs, price ){
   return ret;
 }
 
+function checkAndUpdateProductCogsValue( cogs, product, products ){
+  let updatedProducts = [];
+  let cogsValidateStatus = validateCogsValue( cogs , product.productDetail.price );
+  products.forEach((p)=>{
+    if( product.id ===  p.id ){
+      p.cogs = "";
+      p.productDetail.cogs = "";
+      if(cogsValidateStatus===true){
+        p.cogs = cogs;
+        p.productDetail.cogs = cogs;
+      }
+      p.cogsValidateStatus = cogsValidateStatus;
+    }
+    updatedProducts.push(p);
+  })
+  return updatedProducts
+}
+
 export{
   beautiyUploadedCsvData,
-  validateCogsValue
+  validateCogsValue,
+  checkAndUpdateProductCogsValue
 }

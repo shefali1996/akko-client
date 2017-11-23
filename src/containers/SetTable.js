@@ -17,6 +17,9 @@ import { KEYS_TO_FILTERS_PRODUCT, convertInventoryJSONToObject, isNumeric } from
 import { invokeApig } from '../libs/awsLib';
 import { inventoryGetRequest } from '../actions';
 import '../styles/App.css';
+import { 
+  checkAndUpdateProductCogsValue
+} from "../helpers/Csv"
 
 class SetTable extends Component {
   constructor(props) {
@@ -155,6 +158,12 @@ class SetTable extends Component {
     this.setState({data});
   }
 
+  onCogsBlur(e, row) {
+    const {data} = this.state;
+    let newData = checkAndUpdateProductCogsValue( e.target.value, row, data )
+    this.setState({data:newData});
+  }
+
   cogsValueFormatter(cell, row) {
     let warningMessage = null;
     if(row.cogsValidateStatus===true){
@@ -179,6 +188,9 @@ class SetTable extends Component {
           onChange={(e) => { 
             this.onCogsChange(e, row);
           }}
+          onBlur={(e) => { 
+            this.onCogsBlur(e, row);
+          }}
         />        
         {warningMessage}
       </div>
@@ -192,7 +204,6 @@ class SetTable extends Component {
     data = data.filter((item) => {
       return item.cogsValidateStatus !== true;
     });
-
     const filteredData = data.filter(createFilter(searchTerm, KEYS_TO_FILTERS_PRODUCT));
     const selectRowProp = {
       mode: 'checkbox',
