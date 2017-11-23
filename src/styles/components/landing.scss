@@ -1,15 +1,9 @@
-html, body, #root {
-	width: 100%;
-	overflow: auto;
-}
 .App {
   text-align: center;
 }
-
 .white-bg {
-  background: #fff;
+  background: $white-color;
 }
-
 .large-title {
 	font-family: 'Ubuntu-Bold';
 	font-size: 32px;
@@ -26,9 +20,6 @@ html, body, #root {
 	text-decoration: none solid rgb(255, 255, 255);
 	text-align: center;
 	width: 100%;
-}
-.main-container {
-	width: 100% !important;
 }
 .main-layout {
 	width: 100%;
