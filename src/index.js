@@ -4,8 +4,8 @@ import { render } from 'react-dom';
 import { AppContainer } from 'react-hot-loader';
 import 'sweetalert/dist/sweetalert.css';
 import App from './containers/App';
-import './styles/app.scss';
-// import './styles/App.css';
+// import './styles/app.scss';
+import './styles/App.css';
 
 render(
   <AppContainer warnings={false}>

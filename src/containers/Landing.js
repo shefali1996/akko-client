@@ -1,18 +1,11 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { Grid, Row, Col, FormControl, Button } from 'react-bootstrap';
-import SweetAlert from 'sweetalert-react';
+import { Grid, Row, Col, Button, Label, Image, FormControl } from 'react-bootstrap';
+import { StyleRoot } from 'radium';
 import Header from '../components/Header';
 import { validateEmail, animationStyle } from '../constants';
 import '../styles/App.css';
 import computer from '../assets/images/computer.png';
-import Footer from '../components/Footer';
-import { invokeApigUnAuth } from '../libs/awsLib';
-import shopifyicon from '../assets/images/shopifyicon.svg';
-import landing1 from '../assets/images/landing_1.png';
-import landing2 from '../assets/images/landing_2.png';
-import dashboard1 from '../assets/images/dashboard_1.png';
-import dashboard2 from '../assets/images/dashboard_2.png';
 
 class Landing extends Component {
   constructor(props) {
