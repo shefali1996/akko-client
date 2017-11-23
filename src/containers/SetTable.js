@@ -93,10 +93,6 @@ class SetTable extends Component {
         });
       });
     }
-
-    
-
-    
   }
 
   onSetMarkup() {
