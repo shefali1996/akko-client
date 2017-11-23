@@ -1,5 +1,5 @@
 import React from 'react';
-import 'font-awesome/css/font-awesome.min.css';
+import 'font-awesome/scss/font-awesome.scss';
 import { render } from 'react-dom';
 import { AppContainer } from 'react-hot-loader';
 import 'react-select/scss/default.scss';

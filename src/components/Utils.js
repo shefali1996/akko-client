@@ -1,6 +1,5 @@
 import React from 'react';
 import namor from 'namor';
-import '../styles/index.css';
 
 const range = len => {
   const arr = [];
