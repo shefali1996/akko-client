@@ -1409,7 +1409,6 @@
 }
 .price-card-style {
 	margin-top: 10px;
-	padding: 6px 10px;
 	border: 1px solid #c8c8e8;
 	border-radius: 2px;
 	background-color: #ffffff;
@@ -1417,7 +1416,6 @@
 }
 .price-card-style-border {
 	margin-top: 10px;
-	padding: 6px 10px;
 	border: 2px solid #f02a1f;
 	border-radius: 2px;
 	background-color: #ffffff;
@@ -1425,13 +1423,13 @@
 }
 .card-header-style {
 	padding: 0px !important;
-	height: 120px;
+	height: 110px;
 }
 .card-header-style button {
 	position: absolute !important;
 	bottom: 0px !important;
-	right: -20px !important;
-	top: 110px !important;
+	right: -10px !important;
+	top: 90px !important;
 	color: #c8c8e8 !important;
 }
 .statistics-icon {
@@ -1467,7 +1465,7 @@
 .item {
 	display: inline-block;
 	margin: 0 0 1em;
-	width: 100%;
+	width: 90%;
 }
 @media screen and (max-width: 767px) {
 	.padding-left-right-100 {

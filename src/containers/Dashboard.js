@@ -243,7 +243,7 @@ class Dashboard extends Component {
                     </Col>
                   </Row>
                   <Row>
-                    <div className="padding-left-right-50 margin-t-30 masonry">
+                    <div className="padding-left-right-100 margin-t-30 masonry">
                       {this.renderCards()}
                     </div>
                   </Row>
