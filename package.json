@@ -97,7 +97,7 @@
   "scripts": {
     "analyze": "source-map-explorer build/static/js/main.*",
     "start": "npm run serve:dev",
-    "serve:dev": "webpack-dev-server --open --env dev  --host 0.0.0.0",
+    "serve:dev": "webpack-dev-server --open --env dev",
     "serve:dist": "webpack-dev-server NODE_ENV=production --open --env dist -p --progress",
     "build": "npm run clean && NODE_ENV=production webpack --progress --bail --env dist -p",
     "clean": "rimraf dist/*",
