@@ -62,7 +62,6 @@ function getAwsCredentials(userToken) {
     });
   }
 
-<<<<<<< HEAD
   let userToken = null;
   try {
     userToken = await getUserToken(currentUser);
@@ -87,17 +86,10 @@ function getUserToken(currentUser) {
         return;
       }
       resolve(session.getIdToken().getJwtToken());
-=======
-  function getCurrentUser() {
-    const userPool = new CognitoUserPool({
-      UserPoolId: config.cognito.USER_POOL_ID,
-      ClientId: config.cognito.APP_CLIENT_ID
->>>>>>> landingpage
     });
     return userPool.getCurrentUser();
   }
 
-<<<<<<< HEAD
   if (AWS.config.credentials) {
     AWS.config.credentials.clearCachedId();
     AWS.config.credentials = new AWS.CognitoIdentityCredentials({});
@@ -114,20 +106,6 @@ export async function invokeApig({
 }) {
   if (!await authUser()) {
     throw new Error('User is not logged in');
-=======
-  // Sign out a user
-  export function signOutUser() {
-    const currentUser = getCurrentUser();
-
-    if (currentUser !== null) {
-      currentUser.signOut();
-    }
-
-    if (AWS.config.credentials) {
-      AWS.config.credentials.clearCachedId();
-      AWS.config.credentials = new AWS.CognitoIdentityCredentials({});
-    }
->>>>>>> landingpage
   }
 
   export async function invokeApigUnAuth({

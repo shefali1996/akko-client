@@ -1,11 +1,5 @@
 import React, { Component } from 'react';
-<<<<<<< HEAD
 import { Button, Row, Col, Label } from 'react-bootstrap';
-import '../styles/App.css';
-=======
-import { connect } from 'react-redux';
-import { Row, Col, Label } from 'react-bootstrap';
->>>>>>> landingpage
 
 class Header extends Component {
   constructor(props) {
@@ -36,7 +30,6 @@ class Header extends Component {
     this.props.history.push('/signup');
   }
 
-<<<<<<< HEAD
   render() {
     return (
       <Row>
@@ -70,19 +63,6 @@ class Header extends Component {
       </Row>
     );
   }
-=======
-    render() {
-        return (
-            <Row>
-                <Col md={6}>
-                    <Label className="logo-title">
-                        akko
-                    </Label>
-                </Col>
-            </Row>
-        );
-    }
->>>>>>> landingpage
 }
 
 export default Header;
