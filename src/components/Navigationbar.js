@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Row, Col, Label, Image, DropdownButton } from 'react-bootstrap';
-import '../styles/App.css';
 import user from '../auth/user';
 import profileIcon from '../assets/images/profileIcon.svg';
 

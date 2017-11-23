@@ -8,7 +8,6 @@ import {
   CognitoUser
 } from 'amazon-cognito-identity-js';
 import { validateEmail, animationStyle } from '../constants';
-import '../styles/App.css';
 import config from '../config';
 
 class SignIn extends Component {

@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import ReactDOM from 'react-dom';
-import '../styles/App.css';
 
 class Checkbox extends Component {
   componentDidMount() { this.update(this.props.checked); }

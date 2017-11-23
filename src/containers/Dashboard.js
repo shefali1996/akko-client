@@ -9,7 +9,6 @@ import { KEYS_TO_METRICES } from '../constants';
 import Navigationbar from '../components/Navigationbar';
 import PriceCard from '../components/PriceCard';
 import Footer from '../components/Footer';
-import '../styles/App.css';
 
 const dashboardJSON = {
   dummyData: [

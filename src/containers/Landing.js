@@ -4,7 +4,6 @@ import { Grid, Row, Col, Button, Label, Image, FormControl } from 'react-bootstr
 import { StyleRoot } from 'radium';
 import Header from '../components/Header';
 import { validateEmail, animationStyle } from '../constants';
-import '../styles/App.css';
 import computer from '../assets/images/computer.png';
 
 class Landing extends Component {

@@ -12,7 +12,6 @@ import 'sweetalert/dist/sweetalert.css';
 import { validateEmail, testMode } from '../constants';
 import config from '../config';
 import { invokeApig } from '../libs/awsLib';
-import '../styles/App.css';
 
 const options = [
   { value: 'CEO/Founder', label: 'CEO/Founder' },

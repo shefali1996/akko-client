@@ -15,7 +15,6 @@ import SetTable from './SetTable';
 import AuthorizedContainer from './AuthorizedContainer';
 import store from '../store';
 import NotFound from './NotFound';
-import '../styles/App.css';
 
 const history = createHistory();
 
