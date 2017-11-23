@@ -22,6 +22,8 @@ import {
   updateLocalInventoryInfo,
   beautifyDataForCogsApiCall
 } from "../helpers/Csv"
+import TipBox from '../components/TipBox';
+import { Switch, Progress } from 'antd';
 
 class SetTable extends Component {
   constructor(props) {
@@ -34,6 +36,7 @@ class SetTable extends Component {
       selectedRows: [],
       fetchError: false,
       errorText: '',
+      hideCompleted: true
     };
     this.goLanding = this.goLanding.bind(this);
     this.onFinish = this.onFinish.bind(this);
@@ -42,6 +45,8 @@ class SetTable extends Component {
     this.onSetMarkup = this.onSetMarkup.bind(this);
     this.handleOptionChange = this.handleOptionChange.bind(this);
     this.onSkip = this.onSkip.bind(this);
+    this.doToggleRows = this.doToggleRows.bind(this);
+    this._renderProgressBar = this._renderProgressBar.bind(this);
   }
 
   componentWillMount() {
@@ -241,13 +246,57 @@ class SetTable extends Component {
     );
   }
 
+  doToggleRows(checked) {
+    this.setState({
+      hideCompleted: checked
+    })
+  }
+
+  _renderProgressBar(total, completed, pending ){
+    let per = ( completed / total ) * 100;
+    return(
+      <div>
+        <div className="markup-center margin-0 padding-0 select-style-comment-small">
+          <Col md={4} className="flex-left height-center">
+            {completed} / {total}
+            <br/>
+            Completed
+          </Col>
+          <Col md={4} className="text-center left-padding ">
+            Hide completed
+            <br/>
+            <Switch defaultChecked={true} onChange={this.doToggleRows} />
+          </Col>
+          <Col md={4} className="flex-right height-center">
+            {pending}
+            <br/>
+            Pending
+          </Col>
+        </div>
+        <div className="markup-center margin-0 padding-0">
+          <Col md={12} className="flex-right height-center">
+            <Progress percent={per} showInfo={false} />
+          </Col>
+        </div>
+      </div>
+    )
+  }
+
   render() {
     const { searchTerm, markup } = this.state;
     let { data } = this.state;
     // hide valid COGS products, i.e where cogsValidateStatus is true
-    data = data.filter((item) => {
+    let countTotal = data.length;
+    let pendingProducts = data.filter((item) => {
       return item.cogsValidateStatus !== true;
     });
+    let countPending = pendingProducts.length;
+    let countCompleted = countTotal - countPending;
+    if( this.state.hideCompleted ){
+      data = data.filter((item) => {
+        return item.cogsValidateStatus !== true;
+      });  
+    }    
     const filteredData = data.filter(createFilter(searchTerm, KEYS_TO_FILTERS_PRODUCT));
     const selectRowProp = {
       mode: 'checkbox',
@@ -321,6 +370,7 @@ class SetTable extends Component {
                   onFocus={this.onFocus}
                 />
               </div>
+
               <div className="markup-center margin-t-30">
                 <Col md={4} className="flex-right height-center">
                   <span className="select-style-comment-small">
@@ -353,6 +403,11 @@ class SetTable extends Component {
                   </Button>
                 </Col>
               </div>
+
+              <div className="markup-center margin-t-20 padding-0">
+                {this._renderProgressBar(countTotal, countCompleted, countPending)}
+              </div>
+
               <div className="markup-center margin-t-30">
                 <BootstrapTable
                   ref={(table) => { this.table = table; }}
@@ -413,16 +468,7 @@ class SetTable extends Component {
               </div>
             </Col>
             <Col md={3} className="center-view">
-              <div className="description-view margin-t-40 text-center">
-                <span className="select-style-comment">
-                  COGS is the cost of buying one unit of the product from your vendor.
-                </span>
-              </div>
-              <div className="description-view margin-t-10 text-center">
-                <span className="select-style-comment">
-                  Do not include costs incurred when selling the product, like Shipping, Tax or Discounts.
-                </span>
-              </div>
+              <TipBox/>
             </Col>
           </Row>
         </Grid>

@@ -16,6 +16,7 @@ import AuthorizedContainer from './AuthorizedContainer';
 import store from '../store';
 import NotFound from './NotFound';
 import '../styles/App.css';
+import 'antd/dist/antd.css';
 
 const history = createHistory();
 
