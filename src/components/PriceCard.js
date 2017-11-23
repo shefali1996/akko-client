@@ -39,8 +39,6 @@ class PriceCard extends React.Component {
           <CardText
             expandable
             className="expand-content"
-            openIcon={<img src={openUp} alt="up" className="open-icon" />}
-            closeIcon={<img src={openDown} alt="down" className="open-icon" />}
           >
             <img src={statistics} className="statistics-icon" alt="statistics" />
             <button className="analyze-button">
