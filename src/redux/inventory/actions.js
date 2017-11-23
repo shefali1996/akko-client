@@ -1,9 +1,33 @@
-import { createApiAction } from 'redux/redux-actions';
-import restApis from 'redux/restApis';
-import { LIST_PROJECTS, CREATE_PROJECT, READ_PROJECT } from 'redux/constants';
+import {
+  INVENTORY_GET_STARTED,
+  INVENTORY_GET_SUCCESS,
+  INVENTORY_GET_FAILURE
+} from './types';
+import { invokeApig } from '../../libs/awsLib';
+// import {convertInventoryJSONToObject} from '../constants';
 
-const projectApi = restApis('projects');
+export const inventoryGetStarted = (dataset) => ({
+  type: INVENTORY_GET_STARTED,
+  dataset
+});
 
-export const listProjects = createApiAction(LIST_PROJECTS, projectApi.list);
-export const createProject = createApiAction(CREATE_PROJECT, projectApi.create, { title: 'Success', detail: 'Project is created successfully' });
-export const readProject = createApiAction(READ_PROJECT, projectApi.read);
+export const inventoryGetSuccess = (res) => ({
+  type: INVENTORY_GET_SUCCESS,
+  data: res
+});
+
+export const inventoryGetFailure = (error) => ({
+  type: INVENTORY_GET_FAILURE,
+  error
+});
+
+export const inventoryGetRequest = (dataset, history) => (dispatch) => {
+  invokeApig({ path: '/inventory' }).then((results) => {
+    // todo: inventory should defined to redux store
+    // dispatch(inventoryGetSuccess(results));
+
+  })
+    .catch(error => {
+      console.log('get inventory error', error);
+    });
+};

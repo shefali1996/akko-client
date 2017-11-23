@@ -2,7 +2,7 @@ import { createStore, compose, applyMiddleware } from 'redux';
 import { createLogger } from 'redux-logger';
 import immutableCheckMiddleWare from 'redux-immutable-state-invariant';
 import thunk from 'redux-thunk';
-import reducers from '../reducers';
+import reducers from './reducer';
 
 
 const middleWare = [];

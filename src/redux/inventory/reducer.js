@@ -1,14 +1,32 @@
-import generateHandleActions from 'redux/state-handler';
-import { LIST_PROJECTS, CREATE_PROJECT, READ_PROJECT } from 'redux/constants';
+import {
+  INVENTORY_GET_STARTED,
+  INVENTORY_GET_SUCCESS,
+  INVENTORY_GET_FAILURE
+} from './types';
 
-const apiStates = [
-  { type: LIST_PROJECTS, name: 'projects', apiField: 'data' },
-  { type: CREATE_PROJECT, name: 'createProject', append: 'projects', apiField: 'data' },
-  { type: READ_PROJECT, name: 'project', apiField: 'data', clear: true },
-];
+const INITIAL_STATE = {
+  inventoryData: [],
+};
 
-const instantStates = [];
-
-const listValues = ['projects'];
-
-export default generateHandleActions({ apiStates, instantStates, listValues });
+export default function inventory(state = INITIAL_STATE, action) {
+  switch (action.type) {
+    case INVENTORY_GET_STARTED:
+      return {
+        ...state,
+      };
+    case INVENTORY_GET_SUCCESS:
+      return {
+        ...state,
+        inventoryData: action.data
+      };
+    case INVENTORY_GET_FAILURE:
+      return {
+        loading: false,
+        loaded: false,
+        error: action.error,
+        inventoryData: []
+      };
+    default:
+      return state;
+  }
+}
