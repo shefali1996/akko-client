@@ -11,10 +11,6 @@ import merge from '../assets/images/merge.svg';
 import deleteIcon from '../assets/images/delete.svg';
 import rightArrow from '../assets/images/rightArrow.svg';
 
-import '../styles/react-search-input.css';
-import '../styles/react-bootstrap-table.min.css';
-import '../styles/customMultiSelect.css';
-
 export const getCaret = (direction) => {
   if (direction === 'asc') {
     return <Image src={sort} className="sort-icon" />;

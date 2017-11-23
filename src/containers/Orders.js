@@ -28,10 +28,6 @@ import {
 } from '../components/CustomTable';
 import { invokeApig } from '../libs/awsLib';
 
-import '../styles/react-search-input.css';
-import '../styles/react-bootstrap-table.min.css';
-import '../styles/customMultiSelect.css';
-
 class Orders extends Component {
   constructor(props) {
     super(props);
