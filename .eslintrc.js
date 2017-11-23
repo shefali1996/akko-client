@@ -1,4 +1,10 @@
 module.exports = {
+    "parser": "babel-eslint",
+    "env": {
+      "browser": true,
+      "node": true,
+      "mocha": true
+    },
     "extends": "airbnb",
     "rules": {
       "arrow-parens": ["off"],

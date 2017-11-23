@@ -1,0 +1,499 @@
+.App {
+  text-align: center;
+}
+.white-bg {
+  background: $white-color;
+}
+.large-title {
+	font-family: 'Ubuntu-Bold';
+	font-size: 32px;
+	color: #ffffff;
+	text-decoration: none solid rgb(255, 255, 255);
+	text-align: center;
+}
+.middle-title {
+	width: 680px !important;
+	height: 36px;
+	font-family: 'Ubuntu-Regular';
+	font-size: 16px;
+	color: #ffffff;
+	text-decoration: none solid rgb(255, 255, 255);
+	text-align: center;
+	width: 100%;
+}
+.main-layout {
+	width: 100%;
+	background-image: linear-gradient(135deg, #1d2fb5 2%, rgba(9, 14, 112, 0.25) 100% );
+	background-position: center center;
+}
+.no-margin {
+  margin: 0;
+}
+.no-padding {
+  padding: 0;
+}
+.nav-container {
+  background-color: #ffffff;
+}
+.footer-container {
+	background-color: #fbfbfb;
+}
+.top-border {
+	padding-top: 20px;
+}
+.padding-header {
+	padding-left: 70px;
+	padding-right: 70px;
+	padding-bottom: 20px;
+}
+.padding-t-5 {
+	padding-top: 5px;
+}
+.padding-t-10 {
+	padding-top: 10px;
+}
+.padding-t-20 {
+	padding-top: 20px;
+}
+.padding-t-30 {
+	padding-top: 30px;
+}
+.padding-t-40 {
+	padding-top: 40px;
+}
+.padding-t-50 {
+	padding-top: 50px;
+}
+.padding-t-66 {
+	padding-top: 66px;
+}
+.padding-t-70 {
+	padding-top: 70px;
+}
+.padding-t-80 {
+	padding-top: 80px;
+}
+.company-title {
+	font-family: 'Ubuntu-Light';
+	font-size: 16px;
+	color: #575dde;
+	text-decoration: none solid rgb(29, 47, 181);
+	background: none;
+}
+.contact-title {
+	font-family: 'Ubuntu-Light';
+	font-size: 16px;
+	color: #575dde;
+	text-decoration: none solid rgb(29, 47, 181);
+	background: none;
+	padding: 0;
+}
+.header-title {
+	font-family: 'Ubuntu-Bold';
+	font-size: 32px;
+	color: #575dde;
+	text-decoration: none solid rgb(29, 47, 181);
+	background: none;
+	padding: 0;
+}
+.headerIcon {
+	width: 23px;
+	height: 23px;
+}
+.custom-shadow {
+	transform: translateZ(0);
+}
+.margin-t-5 {
+  margin-top: 5px;
+}
+.margin-t-10 {
+  margin-top: 10px;
+}
+.margin-t-20 {
+  margin-top: 20px;
+}
+.margin-t-30 {
+  margin-top: 30px;
+}
+.margin-t-40 {
+  margin-top: 40px;
+}
+.margin-t-50 {
+  margin-top: 50px;
+}
+.margin-t-60 {
+  margin-top: 60px;
+}
+.padding-50 {
+  padding: 50px;
+}
+.logo-title {
+	font-family: 'Ubuntu-Bold';
+	font-size: 32px;
+	color: #ffffff;
+	text-decoration: none solid rgb(29, 47, 181);
+	background: none;
+	padding-top: 20px;
+	display: block;
+	text-align: left;
+	padding-left: 5px;
+}
+.header-layout {
+	background: #1d2fb5; /* For browsers that do not support gradients */
+	background: -webkit-linear-gradient(#1d2fb5, #1d2fb5); /* For Safari 5.1 to 6.0 */
+	background: -o-linear-gradient(#1d2fb5, #1d2fb5); /* For Opera 11.1 to 12.0 */
+	background: -moz-linear-gradient(#1d2fb5, #1d2fb5); /* For Firefox 3.6 to 15 */
+	background: linear-gradient(#1d2fb5, #1d2fb5); /* Standard syntax */
+}
+.email-input {
+	width: 40%;
+	height: 43px;
+	padding: 0px 10px;
+	border: 1px solid #c8c8e8;
+	border-radius: 5px;
+	background-color: #ffffff;
+	font-family: 'Ubuntu-Regular';
+	font-size: 14px;
+	color: #C8C8E8;
+	text-decoration: none solid rgb(29, 47, 181);
+	line-height: 14px;
+	margin-top: 10px;
+}
+.flex-center {
+	display: flex;
+	justify-content: center;
+}
+.flex-right {
+	display: flex;
+	justify-content: flex-end;
+}
+.flex-left {
+	display: flex;
+	justify-content: flex-start;
+}
+.form-control::-webkit-input-placeholder {
+	color: #c8c8e8;
+}
+.form-control:-moz-placeholder { /* Firefox 18- */
+	color: #c8c8e8;
+}
+	 
+.form-control::-moz-placeholder { /* Firefox 19+ */
+	color: #c8c8e8;
+}
+	 
+.form-control:-ms-input-placeholder {
+	color: #c8c8e8;
+}
+.shopify-icon {
+	width: 81px;
+	height: 23px;
+	margin-right: 5px;
+	margin-left: 10px;
+}
+.small-title {
+	font-family: 'Ubuntu-Light';
+	font-size: 16px;
+	color: #ffffff;
+	text-decoration: none solid rgb(255, 255, 255);
+	text-align: center;
+	vertical-align: bottom;
+}
+.invite-text {
+	font-family: 'Ubuntu-Light';
+	font-size: 24px;
+	color: #ffffff;
+	text-decoration: none solid rgb(255, 255, 255);
+	text-align: center;
+}
+.invite-button {
+	width: 146px;
+	height: 43px;
+	padding: 6px 10px;
+	border-radius: 5px;
+	background-color: #e8e8e8;
+	font-family: 'Ubuntu-Regular';
+	font-size: 14px;
+	color: #1d2fb5;
+	text-decoration: none solid rgb(29, 47, 181);
+	text-align: center;
+	box-shadow: 0 1px 2px #000000;
+	margin-top: 10px;
+	margin-left: 20px;
+}
+.recapture-text {
+	font-family: 'Ubuntu-Light';
+	font-size: 24px;
+	color: #ffffff;
+	text-decoration: none solid rgb(255, 255, 255);
+	text-align: center;
+	margin-top: 70px;
+}
+.landing-image-one {
+	width: 100%;
+	height: auto;
+}
+.landing-image-two {
+	width: 100%;
+	height: auto;
+}
+.landing-image-three {
+	width: 100%;
+	height: auto;
+}
+.inventory-text {
+	font-family: 'Ubuntu-Light';
+	font-size: 24px;
+	color: #ffffff;
+	text-decoration: none solid rgb(255, 255, 255);
+	text-align: center;
+	margin-top: 90px;
+}
+.sale-text {
+	font-family: 'Ubuntu-Regular';
+	font-size: 16px;
+	color: #ffffff;
+	text-decoration: none solid rgb(255, 255, 255);
+	text-align: center;
+	margin: 10px;
+}
+.sale-text-first {
+	font-family: 'Ubuntu-Regular';
+	font-size: 16px;
+	color: #ffffff;
+	text-decoration: none solid rgb(255, 255, 255);
+	text-align: center;
+	margin: 10px;
+}
+.sale-text-second {
+	font-family: 'Ubuntu-Regular';
+	font-size: 16px;
+	color: #ffffff;
+	text-decoration: none solid rgb(255, 255, 255);
+	text-align: center;
+	margin: 10px;
+}
+.sale-text-one {
+	width: 100%;
+	height: 58px;
+	font-family: 'Ubuntu-Regular';
+	font-size: 16px;
+	color: #ffffff;
+	text-decoration: none solid rgb(255, 255, 255);
+	text-align: center;
+	margin: 10px;
+}
+.sale-text-three {
+	/* display: none; */
+}
+.email-view {
+	width: 100%;
+	display: flex;
+	justify-content: center;
+}
+.seek-text {
+	font-family: 'Ubuntu-Light';
+	font-size: 24px;
+	color: #ffffff;
+	text-decoration: none solid rgb(255, 255, 255);
+	text-align: center;
+}
+.productive-text-view {
+	margin-top: 40px;
+}
+.request-view {
+	text-align: center;
+	margin-top: 40px;
+}
+.inventory-image-view {
+	padding: 0px;
+}
+.dashboard-image-view {
+	padding: 0px;
+}
+.landing-one-view {
+	text-align: center;
+	padding: 0px;
+}
+@media screen and (max-width: 767px) {
+	.main-layout {
+		overflow-x: hidden;
+	}
+	.company-title {
+		
+	}
+	.contact-title {
+
+	}
+	.date-view {
+		display: none;
+	}
+	.header-title {
+		display: none;
+	}
+	.padding-header {
+		padding: 20px;
+		display: flex;
+		justify-content: center;
+	}
+	.top-border {
+		padding: 0px;
+	}
+	.sale-text-one {
+		font-size: 8px;
+		height: unset;
+	}
+	.sale-text-three {
+		width: 100%;
+		height: 58px;
+		font-family: 'Ubuntu-Regular';
+		font-size: 16px;
+		color: #ffffff;
+		text-decoration: none solid rgb(255, 255, 255);
+		text-align: center;
+		margin: 10px;
+	}
+	.productive-text-view {
+		margin-top: 10px;
+	}
+	.large-title {
+		font-size: 20px;
+	}
+	.middle-title {
+		font-size: 13px;
+	}
+	.email-input {
+		width: 80%;
+	}
+	.email-view {
+		display: flex;
+		flex-direction: column;
+		align-items: center;
+	}
+	.request-view {
+		text-align: center;
+		margin-top: 10px;
+	}
+	.logo-title {
+		font-size: 26px;
+	}
+	.small-title {
+		font-size: 12px;
+	}
+	.invite-text {
+		font-size: 14px;
+	}
+	.invite-button {
+		font-size: 10px;
+		width: 100px;
+		height: 35px;
+		margin-left: 0px;
+	}
+	.recapture-text {
+		margin-top: 20px;
+		font-size: 14px;
+	}
+	.inventory-text {
+		margin-top: 20px;
+		font-size: 14px;
+	}
+	.seek-text {
+		margin-top: 20px;
+		font-size: 16px;
+		height: 50px;
+	}
+	.sale-text {
+		font-size: 12px;
+	}
+	.landing-image-two {
+		width: 100%;
+	}
+	.inventory-image-view {
+		margin-left: 15px;
+		margin-right: 15px;
+		overflow: hidden;
+		position: relative;
+	}
+	.dashboard-image-view {
+		padding-left: 15px;
+		padding-right: 15px;
+		overflow: hidden;
+		width: 100%;
+	}
+	.landing-image-three {
+		height: auto;
+	}
+	.landing-image-three-repeat {
+		width: 200%;
+		height: auto;
+		right: 0;
+		bottom: 0;
+		position: absolute;
+	}
+	.landing-one-view {
+		margin-right: 15px;
+		margin-left: 15px;
+	}
+	.landing-image-one {
+		width: 70%;
+		height: auto;
+	}
+	.sale-text-first {
+		display: none;
+	}
+	.sale-text-second {
+		display: none;
+	}
+}
+@media screen and (min-width: 768px) and (max-width: 991px) {
+	.invite-text {
+		font-size: 20px;
+	}
+	.recapture-text {
+		margin-top: 15px;
+		font-size: 18px;
+	}
+	.inventory-text {
+		margin-top: 25px;
+		font-size: 18px;
+	}
+	.request-view {
+		margin-top: 10px;
+	}
+	.sale-text-one {
+		
+	}
+	.sale-text-three {
+		
+	}
+	.productive-text-view {
+		margin-top: 50px;
+	}
+	.dashboard-image-view {
+		padding-right: 15px;
+		padding-left: 15px;
+	}
+	.inventory-image-view {
+		padding-left: 15px;
+		padding-right: 15px;
+	}
+}
+@media screen and (min-width: 992px) and (max-width: 1199px) {
+	.recapture-text {
+		margin-top: 30px;
+		font-size: 22px;
+	}
+	.inventory-text {
+		margin-top: 30px;
+		font-size: 22px;
+	}
+	.request-view {
+		margin-top: 30px;
+	}
+	.productive-text-view {
+		margin-top: 90px;
+	}
+	.sale-text-one {
+		font-size: 12px;
+	}
+}
