@@ -1,4 +1,4 @@
-function beautiyUploadedCsvData(data){
+function beautifyUploadedCsvData(data){
   let emptyCogsData = [];
   let nonEmptyCogsData = [];
   let finalCsvData = []
@@ -32,15 +32,17 @@ function validateCogsValue( cogs, price ){
   if(cogs.toString().length === 0 || cogs.toString() === 'null'){
     ret = "Empty COGS"; 
   }else{
-    if( cogs*1 > 0 ){
-      if( cogs*1 <= price*1 ){
+    cogs = Number(cogs);
+    price = Number(price);
+    if( cogs > 0 ){
+      if( cogs <= price ){
         ret = true;  
       }
-      if( cogs*1 > price*1 ){
+      if( cogs > price ){
         ret = cogs + " - COGS > Price and this will lead to loss on sales";
-      }    
+      }
     }else{
-      ret = "Invalid entry"
+      ret = "Invalid entry";
     }
   }
   return ret;
@@ -65,7 +67,7 @@ function checkAndUpdateProductCogsValue( cogs, product, products ){
 }
 
 export{
-  beautiyUploadedCsvData,
+  beautifyUploadedCsvData,
   validateCogsValue,
   checkAndUpdateProductCogsValue
 }

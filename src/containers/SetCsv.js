@@ -10,7 +10,7 @@ import { invokeApig } from '../libs/awsLib';
 import '../styles/App.css';
 import cogs2 from '../assets/images/cogs2.svg';
 import { 
-  beautiyUploadedCsvData ,
+  beautifyUploadedCsvData ,
   validateCogsValue
 } from "../helpers/Csv"
 
@@ -87,7 +87,7 @@ class SetCsv extends Component {
           // start
           const updatedProducts = [];
           let nullCogsCount = 0;
-          let beautyData = beautiyUploadedCsvData(results.data);
+          let beautyData = beautifyUploadedCsvData(results.data);
           data.forEach((product)=>{
             beautyData.csvData.forEach((csvProduct)=>{
               if( product.id ===  csvProduct.id ){                                
@@ -96,7 +96,7 @@ class SetCsv extends Component {
               }
             })
             let cogsValidateStatus = validateCogsValue( product.productDetail.cogs , product.productDetail.price );
-            if(cogsValidateStatus === true || cogsValidateStatus === 'true' ){
+            if(cogsValidateStatus === true){
 
             }else{
               nullCogsCount++;
