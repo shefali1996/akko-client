@@ -15,7 +15,6 @@ import {
 } from '../components/CustomTable';
 import { KEYS_TO_FILTERS, convertInventoryJSONToObject, isNumeric, numberFormatter } from '../constants';
 import { invokeApig } from '../libs/awsLib';
-import { inventoryGetRequest } from '../actions';
 
 class SetTable extends Component {
   constructor(props) {
@@ -388,4 +387,4 @@ const mapStateToProps = state => ({
   // profile: state.user
 });
 
-export default connect(mapStateToProps, { inventoryGetRequest })(SetTable);
+export default connect(mapStateToProps)(SetTable);
