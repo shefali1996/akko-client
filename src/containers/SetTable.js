@@ -65,21 +65,33 @@ class SetTable extends Component {
 
   onSetMarkup() {
     const {markup, data, selectedRows, selectedOption} = this.state;
-    if (isNumeric(markup)) {
-      for (let i = 0; i < selectedRows.length; i++) {
-        const index = data.findIndex((element) => {
-          return element.id === selectedRows[i];
-        });
-        if (index > -1) {
+    if (isNumeric(markup) && selectedRows.length > 0) {
+      selectedRows.forEach((id) => {
+        let product = data.find((p)=>{
+          return id === p.id;
+        })
+        if(product){
+          let productPrice = product.productDetail.price;
+          let cogs = "";
           if (selectedOption === 'option1') {
-            data[index].cogs = data[index].price - (data[index].cogs * (markup / 100));
+            // if percentage is opted
+            cogs = productPrice / ( 1 + (markup/100));
+            cogs = cogs.toFixed(2);
           } else {
-            data[index].cogs = markup;
+            // if fixed markup is opted
+            cogs = productPrice - markup;
           }
+          let newData = checkAndUpdateProductCogsValue( cogs, product, data )
+          this.setState({
+            data:newData            
+          });
         }
-      }
-      this.setState({ data });
+      })
     }
+    this.setState({
+      markup:"",
+      selectedRows:[]
+    });
   }
 
   getProduct() {
