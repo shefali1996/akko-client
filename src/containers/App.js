@@ -6,7 +6,7 @@ import Main from './Main';
 import Landing from './Landing';
 import store from '../store';
 import NotFound from './NotFound';
-import '../styles/App.css';
+// import '../styles/App.css';
 
 const history = createHistory();
 
