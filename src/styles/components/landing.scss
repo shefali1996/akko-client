@@ -20,9 +20,8 @@
   margin-top: 9px;
 }
 .app-title {
-  font-family: Ubuntu;
+  font-family: 'Ubuntu-Bold';
 	font-size: 32px;
-	font-weight: 600;
   color: #575dde;
   text-decoration: none solid rgb(29, 47, 181);
   background: none;
@@ -48,9 +47,8 @@
   display: inline-block;
 }
 .username {
-  font-family: Ubuntu;
+  font-family: 'Ubuntu-Light';
   font-size: 16px;
-  font-weight: 200;
   color: #ffffff;
   text-decoration: none solid rgb(255, 255, 255);
   background: none;
@@ -59,9 +57,8 @@
   margin-top: 2px;
 }
 .setting {
-  font-family: Ubuntu;
+  font-family: 'Ubuntu-Light';
   font-size: 16px;
-  font-weight: 200;
   color: #ffffff;
   text-decoration: none solid rgb(255, 255, 255);
   background: none;
@@ -163,26 +160,23 @@
 	padding-top: 80px;
 }
 .company-title {
-	font-family: Ubuntu;
+	font-family: 'Ubuntu-Light';
 	font-size: 16px;
-	font-weight: 100;
 	color: #575dde;
 	text-decoration: none solid rgb(29, 47, 181);
 	background: none;
 }
 .contact-title {
-	font-family: Ubuntu;
+	font-family: 'Ubuntu-Light';
 	font-size: 16px;
-	font-weight: 100;
 	color: #575dde;
 	text-decoration: none solid rgb(29, 47, 181);
 	background: none;
 	padding: 0;
 }
 .header-title {
-	font-family: Ubuntu;
+	font-family: 'Ubuntu-Bold';
 	font-size: 32px;
-	font-weight: 700;
 	color: #575dde;
 	text-decoration: none solid rgb(29, 47, 181);
 	background: none;
@@ -211,8 +205,7 @@
   border-bottom: 2px solid #575dde;
   padding: 15px 20px 0px 20px;
   outline: 0px;
-  font-family: 'Ubuntu';
-  font-weight: 200;
+  font-family: 'Ubuntu-Light';
   font-size: 20px;
   color: #575dde;
   text-decoration: none solid rgb(29, 47, 181);
@@ -225,8 +218,7 @@
   margin: 0;
   padding: 15px 20px 0px 20px;
   outline: 0px;
-  font-family: 'Ubuntu';
-  font-weight: 200;
+  font-family: 'Ubuntu-Light';
   font-size: 20px;
   color: #575dde;
   text-decoration: none solid rgb(29, 47, 181);
@@ -271,9 +263,8 @@
 .custom-table {
 	height: 103px;
 	background: white;
-  font-family: Ubuntu;
+  font-family: 'Ubuntu-Regular';
   font-size: 16px;
-  font-weight: 400;
   color: #1d2fb5;
   text-decoration: none solid rgb(29, 47, 181);
   
@@ -287,9 +278,8 @@
 	background: white;
 }
 .custom-table-header {
-  font-family: Ubuntu;
+  font-family: 'Ubuntu-Regular';
   font-size: 16px;
-  font-weight: 400;
 	color: #575dde;
 }
 .custom-table-header .sort-column {
@@ -326,9 +316,8 @@
 	box-shadow: 0 1px 2px #000000;
 }
 .button-text {
-  font-family: Ubuntu;
+  font-family: 'Ubuntu-Light';
   font-size: 14px;
-  font-weight: 100;
   color: #ffffff;
   text-decoration: none solid rgb(255, 255, 255);
   text-align: center;
@@ -397,7 +386,7 @@
 	background: linear-gradient(#1d2fb5, #1d2fb5); /* Standard syntax */
 }
 .logo-title {
-	font-family: Ubuntu;
+	font-family: 'Ubuntu-Bold';
 	font-size: 32px;
 	color: #ffffff;
 	text-decoration: none solid rgb(29, 47, 181);
@@ -408,10 +397,9 @@
 	padding-left: 5px;
 }
 .feature-text {
-	font-family: Ubuntu;
+	font-family: 'Ubuntu-Regular';
 	font-size: 16px;
 	color: #ffffff;
-	font-weight: 400;
 	text-decoration: none solid rgb(255, 255, 255);
 	background: none;
 	border: none;
@@ -439,10 +427,9 @@
 	height: 36px;
 	background-color: #5bc0de;
 	background-repeat: no-repeat;
-	font-family: Ubuntu;
+	font-family: 'Ubuntu-Regular';
 	font-size: 14px;
 	color: #ffffff;
-	font-weight: 400;
 	text-decoration: none solid rgba(255, 255, 255, 0.84);
 	text-align: center;
 	box-shadow: 0 1px 2px rgba(0, 0, 0, 0.5);
@@ -457,10 +444,9 @@
 	height: 36px;
 	background-color: #5bc0de;
 	background-repeat: no-repeat;
-	font-family: Ubuntu;
+	font-family: 'Ubuntu-Regular';
 	font-size: 14px;
 	color: #ffffff;
-	font-weight: 400;
 	text-decoration: none solid rgba(255, 255, 255, 0.84);
 	text-align: center;
 	outline: none;
@@ -469,27 +455,24 @@
 	border-radius: 0;
 }
 .large-title {
-	font-family: Ubuntu;
+	font-family: 'Ubuntu-Bold';
 	font-size: 32px;
-	font-weight: 700;
 	color: #ffffff;
 	text-decoration: none solid rgb(255, 255, 255);
 	text-align: center;
 	background: none;
 }
 .middle-title {
-	font-family: Ubuntu;
+	font-family: 'Ubuntu-Light';
 	font-size: 24px;
-	font-weight: 200;
 	color: #ffffff;
 	text-decoration: none solid rgb(255, 255, 255);
 	text-align: center;
 	background: none;
 }
 .small-title {
-	font-family: Ubuntu;
+	font-family: 'Ubuntu-Light';
 	font-size: 16px;
-	font-weight: 100;
 	color: #ffffff;
 	text-decoration: none solid rgb(255, 255, 255);
 	text-align: center;
@@ -501,10 +484,9 @@
 	padding: 6px 10px;
 	border-radius: 5px;
 	background-color: #e8e8e8;
-	font-family: Ubuntu;
+	font-family: 'Ubuntu-Light';
 	font-size: 14px;
 	color: #1d2fb5;
-	font-weight: 200;
 	text-decoration: none solid rgb(29, 47, 181);
 	text-align: center;
 	box-shadow: 0 1px 2px rgba(0, 0, 0, 0.5);
@@ -519,10 +501,9 @@
 	padding: 6px 10px;
 	border-radius: 5px;
 	background-color: #e8e8e8;
-	font-family: Ubuntu;
+	font-family: 'Ubuntu-Light';
 	font-size: 14px;
 	color: #1d2fb5;
-	font-weight: 200;
 	text-decoration: none solid rgb(29, 47, 181);
 	text-align: center;
 	box-shadow: 0 1px 2px rgba(0, 0, 0, 0.5);
@@ -535,10 +516,9 @@
 	border: 1px solid #c8c8e8;
 	border-radius: 5px;
 	background-color: #ffffff;
-	font-family: Ubuntu;
+	font-family: 'Ubuntu-Regular';
 	font-size: 14px;
 	color: #C8C8E8;
-	font-weight: 400;
 	text-decoration: none solid rgb(29, 47, 181);
 	line-height: 14px;
 }
@@ -549,7 +529,7 @@
 	background: #ebebeb;
 }
 .login-title {
-  font-family: Ubuntu;
+  font-family: 'Ubuntu-Bold';
   font-size: 32px;
   color: #575dde;
   text-decoration: none solid rgb(29, 47, 181);
@@ -623,8 +603,7 @@
   border-bottom: 2px solid #1d2fb5;
   padding: 15px 20px 0px 20px;
   outline: 0px;
-  font-family: 'Ubuntu';
-  font-weight: 200;
+  font-family: 'Ubuntu-Light';
   font-size: 20px;
   color: #1d2fb5;
   text-decoration: none solid rgb(29, 47, 181);
@@ -637,8 +616,7 @@
   margin: 0;
   padding: 15px 20px 0px 20px;
   outline: 0px;
-  font-family: 'Ubuntu';
-  font-weight: 200;
+  font-family: 'Ubuntu-Light';
   font-size: 20px;
   color: #1d2fb5;
   text-decoration: none solid rgb(29, 47, 181);
@@ -704,10 +682,9 @@
 	color: #c8c8e8 !important;
 }
 .forgot-text {
-	font-family: Ubuntu;
+	font-family: 'Ubuntu-Regular';
 	font-size: 16px;
 	color: #1d2fb5;
-	font-weight: 400;
 	text-decoration: none solid rgb(29, 47, 181);
 	background: none;
 	border: none;
@@ -716,10 +693,9 @@
 .forgot-text:hover,
 .forgot-text:focus,
 .forgot-text:active:focus {
-	font-family: Ubuntu;
+	font-family: 'Ubuntu-Regular';
 	font-size: 16px;
 	color: #1d2fb5;
-	font-weight: 400;
 	text-decoration: none solid rgb(29, 47, 181);
 	background: none;
 	border: none;
@@ -730,10 +706,9 @@
 	height: 34px;
 	padding: 6px 10px;
 	background-color: #ffffff;
-	font-family: Ubuntu;
+	font-family: 'Ubuntu-Regular';
 	font-size: 14px;
 	color: #1d2fb5;
-	font-weight: 400;
 	text-decoration: none solid rgb(29, 47, 181);
 	text-align: center;
 	box-shadow: 0 1px 2px rgba(0, 0, 0, 0.5);
@@ -748,10 +723,9 @@
 	height: 34px;
 	padding: 6px 10px;
 	background-color: #ffffff;
-	font-family: Ubuntu;
+	font-family: 'Ubuntu-Regular';
 	font-size: 14px;
 	color: #1d2fb5;
-	font-weight: 400;
 	text-decoration: none solid rgb(29, 47, 181);
 	text-align: center;
 	box-shadow: 0 1px 2px rgba(0, 0, 0, 0.5);
@@ -766,20 +740,18 @@
 	border: 1px solid #c8c8e8;
 	border-radius: 5px;
 	background-color: #ffffff;
-	font-family: Ubuntu;
+	font-family: 'Ubuntu-Regular';
 	font-size: 14px;
 	color: #c8c8e8;
-	font-weight: 400;
 	text-decoration: none solid rgb(29, 47, 181);
 	line-height: 14px;	
 }
 .signup-role-input {
 	width: 200px;
 	padding-top: 0px;
-	font-family: Ubuntu;
+	font-family: 'Ubuntu-Regular';
 	font-size: 14px;
 	color: #c8c8e8;
-	font-weight: 400;
 	text-decoration: none solid rgb(29, 47, 181);
 	line-height: 14px;	
 	text-align: left;
@@ -797,9 +769,8 @@
 	line-height: 43px !important;
 }
 .signup-title {
-  font-family: Ubuntu;
+  font-family: 'Ubuntu-Light';
   font-size: 16px;
-  font-weight: 200;
   color: #1d2fb5;
   text-decoration: none solid rgb(29, 47, 181);
   background: none;
@@ -819,10 +790,9 @@
 	flex-direction: row;
 }
 .productName {
-	font-family: Ubuntu;
+	font-family: 'Ubuntu-Regular';
 	font-size: 16px;
 	color: #1d2fb5;
-	font-weight: 400;
 	text-decoration: none solid rgb(29, 47, 181);
 	white-space: nowrap;
 	text-overflow: ellipsis;    
@@ -838,19 +808,17 @@
 	padding-left: 10px;
 }
 .variantTitle {
-	font-family: Ubuntu;
+	font-family: 'Ubuntu-Regular';
 	font-size: 12px;
 	color: #000000;
-	font-weight: 400;
 	text-decoration: none solid rgb(0, 0, 0);
 	text-align: left;
 	padding-top: 1px;
 }
 .channelNumberText {
-	font-family: Ubuntu;
+	font-family: 'Ubuntu-Regular';
 	font-size: 12px;
 	color: #c8c8c8;
-	font-weight: 400;
 	text-decoration: none solid rgb(200, 200, 200);
 	padding-top: 3px;
 }
@@ -922,10 +890,9 @@
 	border-bottom: 1px solid #c8c8e8;
 }
 .shopify-comment {
-	font-family: Ubuntu;
+	font-family: 'Ubuntu-Regular';
 	font-size: 20px;
 	color: #575dde;
-	font-weight: 400;
 	text-decoration: none solid rgb(87, 93, 222);
 	text-align: center;
 }
@@ -942,19 +909,17 @@
 	margin-right: 10px;
 }
 .shopify-url-text {
-	font-family: Ubuntu;
+	font-family: 'Ubuntu-Regular';
 	font-size: 20px;
 	color: #575dde;
-	font-weight: 400;
 	text-decoration: none solid rgb(87, 93, 222);
 	text-align: center;
 	margin-left: 5px;
 }
 .shopify-instruction-text {
-	font-family: Ubuntu;
+	font-family: 'Ubuntu-Regular';
 	font-size: 16px;
 	color: #575dde;
-	font-weight: 400;
 	text-decoration: none solid rgb(87, 93, 222);
 	text-align: center;
 }
@@ -968,9 +933,8 @@
 }
 .alert-text {
 	color: #822510;
-	font-family: Ubuntu;
+	font-family: 'Ubuntu-Regular';
 	font-size: 14px;
-	font-weight: 400;
 	text-decoration: none solid rgb(87, 93, 222);
 	text-align: center;
 	margin-left: 15px;
@@ -988,34 +952,30 @@
 	border-bottom: 1px solid #c8c8e8;	
 }
 .account-comment {
-	font-family: Ubuntu;
+	font-family: 'Ubuntu-Bold';
 	font-size: 24px;
 	color: #575dde;
-	font-weight: 700;
 	text-decoration: none solid rgb(87, 93, 222);
 	text-align: center;
 }
 .select-style-text {
-	font-family: Ubuntu;
+	font-family: 'Ubuntu-Regular';
 	font-size: 24px;
 	color: #575dde;
-	font-weight: 400;
 	text-decoration: none solid rgb(87, 93, 222);
 	text-align: center;
 }
 .select-style-comment {
-	font-family: Ubuntu;
+	font-family: 'Ubuntu-Regular';
 	font-size: 16px;
 	color: #575dde;
-	font-weight: 400;
 	text-decoration: none solid rgb(87, 93, 222);
 	text-align: center;
 }
 .select-style-comment-small {
-	font-family: Ubuntu;
+	font-family: 'Ubuntu-Regular';
 	font-size: 14px;
 	color: #575dde;
-	font-weight: 400;
 	text-decoration: none solid rgb(87, 93, 222);
 	text-align: center;
 }
@@ -1027,23 +987,23 @@
 	background-color: #ebebeb;
 	display: flex;
 	flex-direction: row;
-    align-items: center;
-    cursor: pointer;
+	align-items: center;
+	cursor: pointer;
 }
 .style-container:hover {
-    border: 2px solid #c8c8e8;
-    cursor: pointer;
+	border: 2px solid #c8c8e8;
+	cursor: pointer;
 }
 .active-border {
-    width: 500px;
+	width: 500px;
 	height: 82px;
 	border-radius: 5px;
 	background-color: #ebebeb;
 	display: flex;
 	flex-direction: row;
 	align-items: center;
-    border: 2px solid #aaaaaa;
-    cursor: pointer;
+	border: 2px solid #aaaaaa;
+	cursor: pointer;
 }
 .style-icon-view {
 	width: 60px;
@@ -1061,10 +1021,9 @@
 }
 .style-text-view {
 	width: 408px;
-	font-family: Ubuntu;
+	font-family: 'Ubuntu-Regular';
 	font-size: 14px;
 	color: #575dde;
-	font-weight: 400;
 	text-decoration: none solid rgb(87, 93, 222);
 	text-align: center;
 	display: flex;
@@ -1073,18 +1032,16 @@
 	align-items: center;
 }
 .select-text-large {
-	font-family: Ubuntu;
+	font-family: 'Ubuntu-Regular';
 	font-size: 16px;
 	color: #575dde;
-	font-weight: 400;
 	text-decoration: none solid rgb(87, 93, 222);
 	text-align: center;
 }
 .select-text-small {
-	font-family: Ubuntu;
+	font-family: 'Ubuntu-Regular';
 	font-size: 14px;
 	color: #575dde;
-	font-weight: 400;
 	text-decoration: none solid rgb(87, 93, 222);
 	text-align: center;
 	font-weight: lighter;
@@ -1094,10 +1051,9 @@
 	height: 29px;
 	padding: 6px 10px;
 	background-color: #ffffff;
-	font-family: Ubuntu;
+	font-family: 'Ubuntu-Regular';
 	font-size: 14px;
 	color: #c8c8e8;
-	font-weight: 400;
 	text-decoration: none solid rgb(29, 47, 181);
 	text-align: center;
 	box-shadow: 0 1px 2px rgba(0, 0, 0, 0.5);
@@ -1112,10 +1068,9 @@
 	height: 29px;
 	padding: 6px 10px;
 	background-color: #ffffff;
-	font-family: Ubuntu;
+	font-family: 'Ubuntu-Regular';
 	font-size: 14px;
 	color: #c8c8e8;
-	font-weight: 400;
 	text-decoration: none solid rgb(29, 47, 181);
 	text-align: center;
 	box-shadow: 0 1px 2px rgba(0, 0, 0, 0.5);
@@ -1140,17 +1095,15 @@
 	flex-direction: row;
 }
 .step-title {
-	font-family: Ubuntu;
+	font-family: 'Ubuntu-Bold';
 	font-size: 14px;
 	color: #575dde;
-	font-weight: 700;
 	text-decoration: none solid rgb(87, 93, 222);
 }
 .step-content {
-	font-family: Ubuntu;
+	font-family: 'Ubuntu-Regular';
 	font-size: 14px;
 	color: #575dde;
-	font-weight: 400;
 	text-decoration: none solid rgb(87, 93, 222);
 }
 .content-center {
@@ -1168,10 +1121,9 @@
 	cursor: pointer;
 }
 .drag-text {
-	font-family: Ubuntu;
+	font-family: 'Ubuntu-Regular';
 	font-size: 20px;
 	color: #c8c8e8;
-	font-weight: 400;
 	text-decoration: none solid rgb(200, 200, 232);
 	text-align: center;
 }
@@ -1222,42 +1174,37 @@
 	flex-direction: column;
 }
 .product-title {
-	font-family: Ubuntu;
+	font-family: 'Ubuntu-Regular';
 	font-size: 16px;
 	color: #1d2fb5;
-	font-weight: 400;
 	text-decoration: none solid rgb(29, 47, 181);
 }
 .product-type {
-	font-family: Ubuntu;
+	font-family: 'Ubuntu-Regular';
 	font-size: 12px;
 	color: #000000;
-	font-weight: 400;
 	text-decoration: none solid rgb(0, 0, 0);
 }
 .product-price-front {
-	font-family: Ubuntu;
+	font-family: 'Ubuntu-Regular';
 	font-size: 12px;
 	color: #000000;
-	font-weight: 400;
 	text-decoration: none solid rgb(0, 0, 0);
 	margin-left: 40px;
 }
 .product-price-back {
 	width: 61px;
 	height: 18px;
-	font-family: Ubuntu;
+	font-family: 'Ubuntu-Regular';
 	font-size: 16px;
 	color: #000000;
-	font-weight: 400;
 	text-decoration: none solid rgb(0, 0, 0);
 	margin-left: 5px;
 }
 .product-currency {
-	font-family: Ubuntu;
+	font-family: 'Ubuntu-Regular';
 	font-size: 24px;
 	color: #575dde;
-	font-weight: 400;
 	text-decoration: none solid rgb(87, 93, 222);
 	text-align: center;
 }
@@ -1267,10 +1214,9 @@
 	flex-direction: column;
 }
 .product-currency-text {
-	font-family: Ubuntu;
+	font-family: 'Ubuntu-Regular';
 	font-size: 12px;
 	color: #c8c8c8;
-	font-weight: 400;
 	text-decoration: none solid rgb(200, 200, 200);
 }
 .product-input {
@@ -1324,10 +1270,9 @@
 	height: 34px;
 	padding: 6px 10px;
 	background-color: #ffffff;
-	font-family: Ubuntu;
+	font-family: 'Ubuntu-Regular';
 	font-size: 14px;
 	color: #1d2fb5;
-	font-weight: 400;
 	text-decoration: none solid rgb(29, 47, 181);
 	text-align: center;
 	box-shadow: 0 1px 2px rgba(0, 0, 0, 0.5);
@@ -1362,38 +1307,33 @@
   float: left;
 }
 .price-title {
-	font-family: Ubuntu;
+	font-family: 'Ubuntu-Bold';
 	font-size: 16px;
 	color: #666666;
-	font-weight: 700;
 	text-decoration: none solid rgb(102, 102, 102);
 }
 .price-value {
-	font-family: Ubuntu;
+	font-family: 'Ubuntu-Bold';
 	font-size: 36px;
 	color: #575dde;
-	font-weight: 700;
 	text-decoration: none solid rgb(87, 93, 222);
 }
 .price-percent {
-	font-family: Ubuntu;
+	font-family: 'Ubuntu-Bold';
 	font-size: 16px;
 	color: #52ab43;
-	font-weight: 700;
 	text-decoration: none solid rgb(82, 171, 67);
 }
 .price-percent-down {
-  font-family: Ubuntu;
+  font-family: 'Ubuntu-Bold';
 	font-size: 16px;
 	color: #f02a1f;
-	font-weight: 700;
 	text-decoration: none solid rgb(240, 42, 31);
 }
 .price-period {
-	font-family: Ubuntu;
+	font-family: 'Ubuntu-Bold';
 	font-size: 12px;
 	color: #cbcbcb;
-	font-weight: 700;
 	text-decoration: none solid rgb(203, 203, 203);
 }
 .half-height {
@@ -1437,10 +1377,9 @@
 	width: 100%;
 }
 .price-description {
-	font-family: Ubuntu;
+	font-family: 'Ubuntu-Bold';
 	font-size: 11px;
 	color: #bbbbbb;
-	font-weight: 700;
 	text-decoration: none solid rgb(187, 187, 187);
 	white-space: normal;
 }
@@ -1476,10 +1415,9 @@
 	border: 1px solid #c8c8e8;
 	border-radius: 2px;
 	background-color: #575dde;
-	font-family: Ubuntu;
+	font-family: 'Ubuntu-Bold';
 	font-size: 14px;
 	color: #ffffff;
-	font-weight: 700;
 	text-decoration: none solid rgb(255, 255, 255);
 }
 @media screen and (max-width: 767px) {
