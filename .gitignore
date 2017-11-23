@@ -31,6 +31,7 @@ bower_components
 
 # Compiled binary addons (http://nodejs.org/api/addons.html)
 build
+dist
 
 # Dependency directories
 node_modules/
@@ -47,6 +48,9 @@ typings/
 
 # Optional Sass cache
 .sass-cache
+
+# Optional Sass output
+linters
 
 # Optional REPL history
 .node_repl_history

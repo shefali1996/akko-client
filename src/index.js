@@ -1,11 +1,14 @@
 import React from 'react';
-import ReactDOM from 'react-dom';
+import { render } from 'react-dom';
+import { AppContainer } from 'react-hot-loader';
 import 'font-awesome/css/font-awesome.min.css';
 import 'sweetalert/dist/sweetalert.css';
 import App from './containers/App';
-import registerServiceWorker from './registerServiceWorker';
-import './styles/App.css';
-// import './styles/app.scss';
+import './styles/app.scss';
 
-ReactDOM.render(<App />, document.getElementById('root'));
-registerServiceWorker();
+render(
+  <AppContainer warnings={false}>
+    <App />
+  </AppContainer>,
+  document.getElementById('root'),
+);
