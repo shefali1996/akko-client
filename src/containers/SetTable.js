@@ -186,7 +186,13 @@ class SetTable extends Component {
   }
 
   render() {
-    const { data, searchTerm, markup } = this.state;
+    const { searchTerm, markup } = this.state;
+    let { data } = this.state;
+    // hide valid COGS products, i.e where cogsValidateStatus is true
+    data = data.filter((item) => {
+      return item.cogsValidateStatus !== true;
+    });
+
     const filteredData = data.filter(createFilter(searchTerm, KEYS_TO_FILTERS_PRODUCT));
     const selectRowProp = {
       mode: 'checkbox',
