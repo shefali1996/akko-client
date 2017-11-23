@@ -107,7 +107,7 @@ class WebpackBaseConfig {
             ],
           },
           {
-            test: /\.css$/,
+            test: /^.((?!cssmodule).)*\.css$/,
             loaders: [
               { loader: 'style-loader' },
               {
