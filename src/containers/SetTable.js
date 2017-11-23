@@ -18,7 +18,9 @@ import { invokeApig } from '../libs/awsLib';
 import { inventoryGetRequest } from '../actions';
 import '../styles/App.css';
 import { 
-  checkAndUpdateProductCogsValue
+  checkAndUpdateProductCogsValue,
+  updateLocalInventoryInfo,
+  beautifyDataForCogsApiCall
 } from "../helpers/Csv"
 
 class SetTable extends Component {
@@ -34,11 +36,12 @@ class SetTable extends Component {
       errorText: '',
     };
     this.goLanding = this.goLanding.bind(this);
-    this.onConnect = this.onConnect.bind(this);
+    this.onFinish = this.onFinish.bind(this);
     this.onMarkUpChange = this.onMarkUpChange.bind(this);
     this.searchUpdated = this.searchUpdated.bind(this);
     this.onSetMarkup = this.onSetMarkup.bind(this);
     this.handleOptionChange = this.handleOptionChange.bind(this);
+    this.onSkip = this.onSkip.bind(this);
   }
 
   componentWillMount() {
@@ -53,14 +56,47 @@ class SetTable extends Component {
     this.setState({ markup: e.target.value });
   }
 
-  onConnect() {
-    this.props.history.push('/inventory');
+  onSkip() {
+    updateLocalInventoryInfo( this.state.data )
+    this.props.history.push('/dashboard');
+  }
+
+  fireSetCogsAPI (params){
+    return invokeApig({ 
+      path: '/inventory',
+      method: 'PUT',
+      body: params
+    });
+  }
+
+  onFinish() {
     const { data } = this.state;
-    for (let i = 0; i < data.length; i++) {
-      if (data[i].cogs !== undefined) {
-        // Todo: should be implement put all call
-      }
+    let pendingCogs = false;
+    let pendingCogsProducts = data.filter((item) => {
+      return item.cogsValidateStatus !== true;
+    });
+    pendingCogsProducts = [];
+    if(pendingCogsProducts.length > 0){
+      this.setState({
+        errorText: "Please set COGS for all products or to skip click SKIP FOR NOW button",
+        fetchError: true
+      });  
+    }else{
+      updateLocalInventoryInfo( data );
+      let cogsFinal = beautifyDataForCogsApiCall( data );
+      this.fireSetCogsAPI(cogsFinal).then((results) => {
+        this.props.history.push('/dashboard');
+      }).catch(error => {
+        this.setState({
+          errorText: error,
+          fetchError: true
+        });
+      });
     }
+
+    
+
+    
   }
 
   onSetMarkup() {
@@ -369,12 +405,12 @@ class SetTable extends Component {
               </div>
               <div className="content-center margin-40">
                 <Col md={6} className="text-left no-padding">
-                  <Button className="skip-button" onClick={this.onConnect}>
+                  <Button className="skip-button" onClick={this.onSkip}>
                     SKIP FOR NOW
                   </Button>
                 </Col>
                 <Col md={6} className="text-right no-padding">
-                  <Button className="login-button" onClick={this.onConnect}>
+                  <Button className="login-button" onClick={this.onFinish}>
                     FINISH
                   </Button>
                 </Col>

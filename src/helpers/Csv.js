@@ -66,8 +66,28 @@ function checkAndUpdateProductCogsValue( cogs, product, products ){
   return updatedProducts
 }
 
+function updateLocalInventoryInfo( products ){
+  localStorage.setItem('inventoryInfo', JSON.stringify(products));
+}
+
+function beautifyDataForCogsApiCall( data ){
+  let variants = [];
+  data.forEach((row, index) => {
+    let newRow = {
+      variantId : row.id,
+      cogs: row.cogs
+    }
+    variants.push( newRow );
+  })
+  return {
+    variants: variants
+  };
+}
+
 export{
   beautifyUploadedCsvData,
   validateCogsValue,
-  checkAndUpdateProductCogsValue
+  checkAndUpdateProductCogsValue,
+  updateLocalInventoryInfo,
+  beautifyDataForCogsApiCall
 }
