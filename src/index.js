@@ -8,8 +8,6 @@ import App from './containers/App';
 import './styles/app.scss';
 
 render(
-  <AppContainer warnings={false}>
-    <App />
-  </AppContainer>,
+  <App />,
   document.getElementById('root'),
 );

@@ -13,7 +13,7 @@ import SetCogs from './SetCogs';
 import SetCsv from './SetCsv';
 import SetTable from './SetTable';
 import AuthorizedContainer from './AuthorizedContainer';
-import store from '../store';
+import store from '../redux/store';
 import NotFound from './NotFound';
 
 const history = createHistory();
