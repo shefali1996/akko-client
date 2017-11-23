@@ -108,17 +108,26 @@
     "url-loader": "^0.6.2"
   },
   "scripts": {
-    "analyze": "source-map-explorer build/static/js/main.*",
     "start": "npm run serve:dev",
     "serve:dev": "webpack-dev-server --open --env dev",
     "serve:dist": "webpack-dev-server NODE_ENV=production --open --env dist -p --progress",
     "build": "npm run clean && NODE_ENV=production webpack --progress --bail --env dist -p",
     "clean": "rimraf dist/*",
-    "test": "react-scripts test --env=jsdom",
+    "test": "cross-env NODE_PATH=src NODE_ENV=test ava --concurrency 18",
+    "test:watch": "npm run test -- --watch",
+    "test:debug": "cross-env NODE_PATH=src NODE_ENV=test inspect node_modules/ava/profile.js",
+    "test:clean": "rimraf ./coverage ./.nyc_output",
+    "test:coverage": "nyc npm run test",
+    "test:coverage:verify": "nyc check-coverage",
+    "test:coverage:html": "nyc report --reporter=html",
+    "test:coverage:xml": "nyc report --reporter=cobertura",
+    "test:coverage:html:open": "opn coverage/index.html",
+    "test:coverage:report": "run-s test:coverage:html test:coverage:html:open",
     "eject": "react-scripts eject",
-    "sass": "sass --watch src/styles/app.scss",
-    "lint-sass": "sass-lint -c .sass-lint.yml 'src/styles/**/*.scss' -v -q",
     "reinstall": "rimraf node_modules && yarn",
-    "review": "run-s lint lint-sass test:clean test:coverage test:coverage:verify test:coverage:report"
+    "review": "run-s lint lint-sass test:clean test:coverage test:coverage:verify test:coverage:report",
+    "lint": "eslint .",
+    "lint-fix": "eslint . --fix",
+    "lint-sass": "sass-lint -c .sass-lint.yml 'src/styles/**/*.scss' -v -q"
   }
 }
