@@ -30,14 +30,17 @@ class PriceCard extends React.Component {
           <CardHeader
             actAsExpander
             showExpandableButton
-            openIcon={<img src={openUp} alt="up" />}
-            closeIcon={<img src={openDown} alt="down" />}
+            openIcon={<img src={openUp} alt="up" className="open-icon" />}
+            closeIcon={<img src={openDown} alt="down" className="open-icon" />}
             className="card-header-style"
           >
             <PriceBox value={value} />
           </CardHeader>
           <CardText expandable className="expand-content">
             <img src={statistics} className="statistics-icon" alt="statistics" />
+            <button className="analyze-button">
+              ANALYZE
+            </button>
           </CardText>
         </Card>
       </div>

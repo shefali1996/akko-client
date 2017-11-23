@@ -1369,7 +1369,7 @@
 }
 .price-value {
 	font-family: Ubuntu;
-	font-size: 32px;
+	font-size: 36px;
 	color: #575dde;
 	font-weight: 700;
 	text-decoration: none solid rgb(87, 93, 222);
@@ -1428,8 +1428,8 @@
 .card-header-style button {
 	position: absolute !important;
 	bottom: 0px !important;
-	right: -10px !important;
-	top: 90px !important;
+	right: -5px !important;
+	top: 75px !important;
 	color: #c8c8e8 !important;
 }
 .statistics-icon {
@@ -1437,12 +1437,11 @@
 }
 .price-description {
 	font-family: Ubuntu;
-	font-size: 10px;
+	font-size: 11px;
 	color: #bbbbbb;
 	font-weight: 700;
 	text-decoration: none solid rgb(187, 187, 187);
 	white-space: normal;
-	margin-top: 10px;
 }
 .price-view {
 	background: white;
@@ -1461,15 +1460,43 @@
 	-webkit-column-gap: 1em;
 	-moz-column-gap: 1em;
 }
-
 .item {
 	display: inline-block;
 	margin: 0 0 1em;
 	width: 90%;
 }
+.open-icon {
+	width: 32px;
+	height: 32px;
+}
+.analyze-button {
+	margin-top: 10px;
+	padding: 6px 10px;
+	border: 1px solid #c8c8e8;
+	border-radius: 2px;
+	background-color: #575dde;
+	font-family: Ubuntu;
+	font-size: 14px;
+	color: #ffffff;
+	font-weight: 700;
+	text-decoration: none solid rgb(255, 255, 255);
+}
 @media screen and (max-width: 767px) {
 	.padding-left-right-100 {
 		padding-left: 0px;
 		padding-right: 0px;
-	}	
+	}
+	.masonry {
+		column-count: 1;
+		-webkit-column-count: 1;
+		-moz-column-count: 1;
+		column-gap: 1em;
+		-webkit-column-gap: 1em;
+		-moz-column-gap: 1em;
+	}
+	.item {
+		display: inline-block;
+		margin: 0 0 1em;
+		width: 90%;
+	}
 }
