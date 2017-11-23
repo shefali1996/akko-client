@@ -3,8 +3,6 @@ import { Grid, Row, Tabs, Tab, Col } from 'react-bootstrap';
 import { connect } from 'react-redux';
 import _ from 'lodash';
 import SearchInput, { createFilter } from 'react-search-input';
-import 'react-grid-layout/css/styles.css';
-import 'react-resizable/css/styles.css';
 import { KEYS_TO_METRICES } from '../constants';
 import Navigationbar from '../components/Navigationbar';
 import PriceCard from '../components/PriceCard';
