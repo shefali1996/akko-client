@@ -65,6 +65,7 @@
     "eject": "react-scripts eject",
     "sass": "sass --watch src/styles/app.scss",
     "lint-sass": "sass-lint -c .sass-lint.yml 'src/styles/**/*.scss' -v -q",
-    "reinstall": "rimraf node_modules && yarn"
+    "reinstall": "rimraf node_modules && yarn",
+    "review": "run-s lint lint-sass test:clean test:coverage test:coverage:verify test:coverage:report"
   }
 }

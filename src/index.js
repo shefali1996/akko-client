@@ -6,7 +6,6 @@ import 'sweetalert/dist/sweetalert.css';
 import App from './containers/App';
 import './styles/app.scss';
 
-console.log('aaa');
 render(
   <AppContainer warnings={false}>
     <App />
