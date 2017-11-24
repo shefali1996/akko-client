@@ -1123,10 +1123,12 @@
 	border-radius: 0;
 }
 .description-view {
+	font-size: 14px;
+	width: 253px;
 	border: 1px solid #c8c8e8;
 	border-radius: 5px;
 	background-color: #ebebeb;
-	padding: 10px;
+	padding: 3px;
 }
 .center-view {
 	display: flex;
@@ -1495,6 +1497,10 @@
 }
 
 .tip-icon{
-	margin-top: 5px;
-	height: 25px;
+	margin-top: 40px;
+	height: 24px;
+}
+
+.tipbox-text{
+	font-size: 14px;
 }

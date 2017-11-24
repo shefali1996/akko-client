@@ -265,7 +265,7 @@ class SetCsv extends Component {
                 </Col>
               </div>
             </Col>
-            <Col md={3} className="center-view">
+            <Col md={3}>
               <TipBox/>
             </Col>
           </Row>
