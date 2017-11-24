@@ -1123,7 +1123,6 @@
 	border-radius: 0;
 }
 .description-view {
-	width: 217px;
 	border: 1px solid #c8c8e8;
 	border-radius: 5px;
 	background-color: #ebebeb;
@@ -1493,4 +1492,9 @@
 	position: absolute;
 	margin-left: 25px;
 	margin-top:5px;
+}
+
+.tip-icon{
+	margin-top: 5px;
+	height: 25px;
 }
