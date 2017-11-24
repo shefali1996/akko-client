@@ -41,13 +41,13 @@ class Navigationbar extends Component {
                 <div className="custom-dropdown-view">
                   <i className="fa fa-cog fa-lg username" aria-hidden="true" />
                   <Label className="setting cursor-pointer">
-                  Settings
+                    Settings
                   </Label>
                 </div>
                 <div className="custom-dropdown-view">
                   <i className="fa fa-sign-out fa-lg username" aria-hidden="true" />
                   <Label className="setting cursor-pointer" onClick={this.onLogout}>
-                    Logout
+                    Sign Out
                   </Label>
                 </div>
               </div>

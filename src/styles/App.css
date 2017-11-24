@@ -83,6 +83,7 @@
 	padding: 0;
 	width: 100%;
 	border: none;
+	margin-top: 45px;
 }
 .dropdown .btn-default:hover,
 .dropdown.open .btn-default:hover,
@@ -807,7 +808,6 @@
 	cursor: pointer;
 }
 .custom-dropdown-view {
-	background: #1d2fb5;
 	padding: 10px;
 }
 .Select-placeholder, .Select--single > .Select-control .Select-value {
@@ -1517,4 +1517,18 @@
 .margin-0{
   margin-right:0;
   margin-left:0;
+}
+
+.custom-dropdown-view .username{
+	color: #c8c8e9;
+	font-size: 40px;
+}
+
+.custom-dropdown-view .setting{
+	color: #c8c8e9;
+	font-size: 22px;
+}
+
+.dropdown{
+	width: 200px;
 }
