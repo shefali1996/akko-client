@@ -39,7 +39,7 @@ class Header extends Component {
           </Label>
         </Col>
         <Col md={6} className="padding-t-20">
-          <Col md={3}>
+          {/* <Col md={3}>
             <Button className="feature-text" onClick={this.goFeature}>
               FEATURES
             </Button>
@@ -48,8 +48,8 @@ class Header extends Component {
             <Button className="feature-text" onClick={this.goHome}>
               PRICING
             </Button>
-          </Col>
-          <Col md={3}>
+          </Col> */}
+          <Col md={3} mdOffset={6}>
             <Button className="feature-text" onClick={this.goLogin}>
               LOGIN
             </Button>
