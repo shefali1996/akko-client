@@ -42,9 +42,13 @@ class Inventory extends Component {
 
   componentDidMount() {
     this.getInventory();
-    setInterval(() => {
+    this.loadInterval = setInterval(() => {
       this.getInventory();
     }, pollingInterval);
+  }
+
+  componentWillUnmount() {
+    clearInterval(this.loadInterval);
   }
 
   onFocus() {
