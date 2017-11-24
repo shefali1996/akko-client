@@ -2,7 +2,7 @@
 .inventory-container {
   overflow: hidden;
 	width: 100%;
-	background-color: #ebebeb;
+	background-color: $main-background-color;
 }
 .custom-shadow {
 	transform: translateZ(0);
@@ -19,27 +19,27 @@
 }
 .inventory-tab .nav.nav-tabs >li.active>a, .nav-tabs>li.active>a:focus, .nav-tabs>li.active>a:hover {
   cursor: default;
-  background-color: #fff;
-  border-bottom: 2px solid #575dde;
+  background-color: $white-color;
+  border-bottom: 2px solid $main-blue-color;
   padding: 15px 20px 0px 20px;
   outline: 0px;
   font-family: 'Ubuntu-Light';
   font-size: 20px;
-  color: #575dde;
-  text-decoration: none solid rgb(29, 47, 181);
+  color: $main-blue-color;
+  text-decoration: none solid $main-decoration-color;
   width: 120px;
 }
 .inventory-tab .nav.nav-tabs >li>a, .nav-tabs>li>a:focus, .nav-tabs>li>a:hover {
   cursor: default;
-  background-color: #fff;
+  background-color: $white-color;
   border: none;
   margin: 0;
   padding: 15px 20px 0px 20px;
   outline: 0px;
   font-family: 'Ubuntu-Light';
   font-size: 20px;
-  color: #575dde;
-  text-decoration: none solid rgb(29, 47, 181);
+  color: $main-blue-color;
+  text-decoration: none solid $main-decoration-color;
   width: 120px;
   cursor: pointer;
 }
@@ -55,7 +55,7 @@
   height: 178px;
 }
 .Select-arrow {
-	border-color: #c8c8e8 transparent transparent !important;
+	border-color: $light-gray-color transparent transparent !important;
 	border-style: solid;
 	border-width: 5px 5px 2.5px;
 	display: inline-block;
@@ -64,7 +64,7 @@
 	position: relative;
 }
 .Select-placeholder, .Select--single > .Select-control .Select-value {
-	color: #c8c8e8 !important;
+	color: $light-gray-color !important;
 }
 .table>tbody>tr>td, .table>tbody>tr>th, .table>tfoot>tr>td, .table>tfoot>tr>th, .table>thead>tr>td, .table>thead>tr>th {
 	border-top: 0px;
@@ -119,7 +119,7 @@
 .price-value {
 	font-family: 'Ubuntu-Bold';
 	font-size: 36px;
-	color: #575dde;
+	color: $main-blue-color;
 	text-decoration: none solid rgb(87, 93, 222);
 }
 .price-percent {
@@ -131,7 +131,7 @@
 .price-percent-down {
   font-family: 'Ubuntu-Bold';
 	font-size: 16px;
-	color: #f02a1f;
+	color: $main-red-color;
 	text-decoration: none solid rgb(240, 42, 31);
 }
 .price-period {
@@ -154,17 +154,17 @@
 }
 .price-card-style {
 	margin-top: 10px;
-	border: 1px solid #c8c8e8;
+	border: 1px solid $light-gray-color;
 	border-radius: 2px;
 	background-color: $white-color;
-	box-shadow: 0 1px 2px #000000;
+	box-shadow: 0 1px 2px $black-color;
 }
 .price-card-style-border {
 	margin-top: 10px;
-	border: 2px solid #f02a1f;
+	border: 2px solid $main-red-color;
 	border-radius: 2px;
 	background-color: $white-color;
-	box-shadow: 0 1px 2px #000000;
+	box-shadow: 0 1px 2px $black-color;
 }
 .card-header-style {
 	padding: 0px !important;
@@ -175,7 +175,7 @@
 	bottom: 0px !important;
 	right: -5px !important;
 	top: 75px !important;
-	color: #c8c8e8 !important;
+	color: $light-gray-color !important;
 }
 .statistics-icon {
 	width: 100%;
@@ -191,9 +191,6 @@
 }
 .price-view {
 	background: white;
-}
-.grid-card-style {
-	/* display: inline-block; */
 }
 .expand-content {
 	padding: 0px !important;
@@ -225,13 +222,13 @@
 .analyze-button {
 	margin-top: 10px;
 	padding: 6px 10px;
-	border: 1px solid #c8c8e8;
+	border: 1px solid $light-gray-color;
 	border-radius: 2px;
-	background-color: #575dde;
+	background-color: $main-blue-color;
 	font-family: 'Ubuntu-Bold';
 	font-size: 14px;
 	color: $white-color;
-	text-decoration: none solid rgb(255, 255, 255);
+	text-decoration: none solid $white-color;
 }
 @media screen and (max-width: 767px) {
 	.padding-left-right-100 {

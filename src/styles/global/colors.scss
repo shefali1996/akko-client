@@ -2,14 +2,14 @@
   background: $white-color;
 }
 .form-control::-webkit-input-placeholder {
-	color: #c8c8e8;
+	color: $light-gray-color;
 }
 .form-control:-moz-placeholder { /* Firefox 18- */
-	color: #c8c8e8;
+	color: $light-gray-color;
 }
 .form-control::-moz-placeholder { /* Firefox 19+ */
-	color: #c8c8e8;
+	color: $light-gray-color;
 }
 .form-control:-ms-input-placeholder {
-	color: #c8c8e8;
+	color: $light-gray-color;
 }

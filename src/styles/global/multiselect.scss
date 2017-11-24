@@ -17,7 +17,7 @@ td .checkbox-personalized {
   margin: 0;
   width: 20px;
   height: 20px;
-  border: 2px solid #575dde;
+  border: 2px solid $main-blue-color;
   border-radius: 0px;
   text-align: center;
   position: relative;
@@ -26,30 +26,30 @@ td .checkbox-personalized {
   transition: all 0.2s ease-in;
 }
 .checkbox-personalized input[type=checkbox]:checked + label .check {
-  background: #575dde;
+  background: $main-blue-color;
   transition: all 0.2s ease-in;
-  border: 1px solid #575dde;
+  border: 1px solid $main-blue-color;
 }
 .checkbox-personalized input[type=checkbox]:checked + label .check:after {
     content: '';
     display: block;
     width: 5px;
     height: 11px;
-    border: solid #FFF;
+    border: solid $white-color;
     margin: 2px 7px;
     border-width: 0 2px 2px 0;
     transform: rotate(45deg);
 }
 .checkbox-personalized input[type=checkbox]:indeterminate + label .check {
-  background: #575dde;
+  background: $main-blue-color;
   transition: all 0.2s ease-in;
-  border: 1px solid #575dde;
+  border: 1px solid $main-blue-color;
 }
 .checkbox-personalized input[type=checkbox]:indeterminate + label .check:after {
   content: '';
   display: block;
   height: 11px;
-  border: solid #FFF;
+  border: solid $white-color;
   margin: 2px 7px;
   border-width: 0 2px 0 0;
   transform: rotate(90deg);

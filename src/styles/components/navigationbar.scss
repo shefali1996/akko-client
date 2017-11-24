@@ -1,8 +1,8 @@
 .app-title {
   font-family: 'Ubuntu-Bold';
 	font-size: 32px;
-  color: #575dde;
-  text-decoration: none solid rgb(29, 47, 181);
+  color: $main-blue-color;
+  text-decoration: none solid $main-decoration-color;
   background: none;
   padding-top: 20px;
 	display: block;
@@ -24,7 +24,7 @@
   font-family: 'Ubuntu-Light';
   font-size: 16px;
   color: $white-color;
-  text-decoration: none solid rgb(255, 255, 255);
+  text-decoration: none solid $white-color;
   background: none;
   display: inline-block;
   vertical-align: middle;
@@ -34,7 +34,7 @@
   font-family: 'Ubuntu-Light';
   font-size: 16px;
   color: $white-color;
-  text-decoration: none solid rgb(255, 255, 255);
+  text-decoration: none solid $white-color;
   background: none;
   display: inline-block;
   vertical-align: middle;
@@ -58,11 +58,11 @@
 .dropdown.open .btn-default:focus {
   box-shadow: none;
   outline: none;
-  background-color: #fff;
+  background-color: $white-color;
 }
 .btn-default.active, .btn-default:active,
 .open>.dropdown-toggle.btn-default {
-  background-color: #fff;
+  background-color: $white-color;
 }
 .dropdown .btn-default .caret {
   display: none;
@@ -83,5 +83,5 @@
 .profileIcon {
 	width: 34px;
 	height: 34px;
-	fill: #575dde;
+	fill: $main-blue-color;
 }

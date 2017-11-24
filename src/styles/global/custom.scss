@@ -7,12 +7,12 @@
   font-family: 'Ubuntu-Regular';
   font-size: 16px;
   color: #1d2fb5;
-  text-decoration: none solid rgb(29, 47, 181);
+  text-decoration: none solid $main-decoration-color;
 }
 .custom-table td {
   text-align: center;
 	outline: none;
-	border-bottom: 1px solid #C8C8E8;
+	border-bottom: 1px solid $light-gray-color;
 }
 .react-bs-container-footer, .react-bs-container-header {
 	background: white;
@@ -20,7 +20,7 @@
 .custom-table-header {
   font-family: 'Ubuntu-Regular';
   font-size: 16px;
-	color: #575dde;
+	color: $main-blue-color;
 }
 .custom-table-header .sort-column {
 	padding-top: 10px !important;

@@ -20,13 +20,13 @@
 
 .search-input > input {
   width: 100%;
-  border: 1px solid #c8c8e8;
+  border: 1px solid $light-gray-color;
   border-radius: 5px;
   line-height: 22px;
   padding: 5px 10px 5px 50px;
   height: 69px;
   position: relative;
-  color: #c8c8e8;
+  color: $light-gray-color;
   font-family: 'Ubuntu-Regular';
   font-size: 20px;
 }
@@ -36,19 +36,19 @@
 }
 
 ::-webkit-input-placeholder { /* WebKit, Blink, Edge */
-  color:#c8c8e8;
+  color:$light-gray-color;
 }
 :-moz-placeholder { /* Mozilla Firefox 4 to 18 */
-  color:#c8c8e8;
+  color:$light-gray-color;
   opacity:  1;
 }
 ::-moz-placeholder { /* Mozilla Firefox 19+ */
-  color:#c8c8e8;
+  color:$light-gray-color;
   opacity:  1;
 }
 :-ms-input-placeholder { /* Internet Explorer 10-11 */
-  color:#c8c8e8;
+  color:$light-gray-color;
 }
 ::-ms-input-placeholder { /* Microsoft Edge */
-  color:#c8c8e8;
+  color:$light-gray-color;
 }

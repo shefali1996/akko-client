@@ -2,8 +2,8 @@
 .large-title {
 	font-family: 'Ubuntu-Bold';
 	font-size: 32px;
-	color: #ffffff;
-	text-decoration: none solid rgb(255, 255, 255);
+	color: $white-color;
+	text-decoration: none solid $white-color;
 	text-align: center;
 }
 .middle-title {
@@ -11,8 +11,8 @@
 	height: 36px;
 	font-family: 'Ubuntu-Regular';
 	font-size: 16px;
-	color: #ffffff;
-	text-decoration: none solid rgb(255, 255, 255);
+	color: $white-color;
+	text-decoration: none solid $white-color;
 	text-align: center;
 	width: 100%;
 }
@@ -32,23 +32,23 @@
 .company-title {
 	font-family: 'Ubuntu-Light';
 	font-size: 16px;
-	color: #575dde;
-	text-decoration: none solid rgb(29, 47, 181);
+	color: $main-blue-color;
+	text-decoration: none solid $main-decoration-color;
 	background: none;
 }
 .contact-title {
 	font-family: 'Ubuntu-Light';
 	font-size: 16px;
-	color: #575dde;
-	text-decoration: none solid rgb(29, 47, 181);
+	color: $main-blue-color;
+	text-decoration: none solid $main-decoration-color;
 	background: none;
 	padding: 0;
 }
 .header-title {
 	font-family: 'Ubuntu-Bold';
 	font-size: 32px;
-	color: #575dde;
-	text-decoration: none solid rgb(29, 47, 181);
+	color: $main-blue-color;
+	text-decoration: none solid $main-decoration-color;
 	background: none;
 	padding: 0;
 }
@@ -59,8 +59,8 @@
 .logo-title {
 	font-family: 'Ubuntu-Bold';
 	font-size: 32px;
-	color: #ffffff;
-	text-decoration: none solid rgb(29, 47, 181);
+	color: $white-color;
+	text-decoration: none solid $main-decoration-color;
 	background: none;
 	padding-top: 20px;
 	display: block;
@@ -71,13 +71,13 @@
 	width: 40%;
 	height: 43px;
 	padding: 0px 10px;
-	border: 1px solid #c8c8e8;
+	border: 1px solid $light-gray-color;
 	border-radius: 5px;
-	background-color: #ffffff;
+	background-color: $white-color;
 	font-family: 'Ubuntu-Regular';
 	font-size: 14px;
-	color: #C8C8E8;
-	text-decoration: none solid rgb(29, 47, 181);
+	color: $light-gray-color;
+	text-decoration: none solid $main-decoration-color;
 	line-height: 14px;
 	margin-top: 10px;
 }
@@ -90,16 +90,16 @@
 .small-title {
 	font-family: 'Ubuntu-Light';
 	font-size: 16px;
-	color: #ffffff;
-	text-decoration: none solid rgb(255, 255, 255);
+	color: $white-color;
+	text-decoration: none solid $white-color;
 	text-align: center;
 	vertical-align: bottom;
 }
 .invite-text {
 	font-family: 'Ubuntu-Light';
 	font-size: 24px;
-	color: #ffffff;
-	text-decoration: none solid rgb(255, 255, 255);
+	color: $white-color;
+	text-decoration: none solid $white-color;
 	text-align: center;
 }
 .invite-button {
@@ -111,17 +111,17 @@
 	font-family: 'Ubuntu-Regular';
 	font-size: 14px;
 	color: #1d2fb5;
-	text-decoration: none solid rgb(29, 47, 181);
+	text-decoration: none solid $main-decoration-color;
 	text-align: center;
-	box-shadow: 0 1px 2px #000000;
+	box-shadow: 0 1px 2px $black-color;
 	margin-top: 10px;
 	margin-left: 20px;
 }
 .recapture-text {
 	font-family: 'Ubuntu-Light';
 	font-size: 24px;
-	color: #ffffff;
-	text-decoration: none solid rgb(255, 255, 255);
+	color: $white-color;
+	text-decoration: none solid $white-color;
 	text-align: center;
 	margin-top: 70px;
 }
@@ -140,8 +140,8 @@
 .inventory-text {
 	font-family: 'Ubuntu-Light';
 	font-size: 24px;
-	color: #ffffff;
-	text-decoration: none solid rgb(255, 255, 255);
+	color: $white-color;
+	text-decoration: none solid $white-color;
 	text-align: center;
 	margin-top: 90px;
 }
@@ -150,8 +150,8 @@
 	height: 58px;
 	font-family: 'Ubuntu-Regular';
 	font-size: 16px;
-	color: #ffffff;
-	text-decoration: none solid rgb(255, 255, 255);
+	color: $white-color;
+	text-decoration: none solid $white-color;
 	text-align: center;
 	margin: 10px;
 }
@@ -163,8 +163,8 @@
 .seek-text {
 	font-family: 'Ubuntu-Light';
 	font-size: 24px;
-	color: #ffffff;
-	text-decoration: none solid rgb(255, 255, 255);
+	color: $white-color;
+	text-decoration: none solid $white-color;
 	text-align: center;
 }
 .productive-text-view {

@@ -1,7 +1,7 @@
 .shopify-comment {
 	font-family: 'Ubuntu-Regular';
 	font-size: 20px;
-	color: #575dde;
+	color: $main-blue-color;
 	text-decoration: none solid rgb(87, 93, 222);
 	text-align: center;
 }
@@ -20,7 +20,7 @@
 .shopify-url-text {
 	font-family: 'Ubuntu-Regular';
 	font-size: 20px;
-	color: #575dde;
+	color: $main-blue-color;
 	text-decoration: none solid rgb(87, 93, 222);
 	text-align: center;
 	margin-left: 5px;
@@ -28,7 +28,7 @@
 .shopify-instruction-text {
 	font-family: 'Ubuntu-Regular';
 	font-size: 16px;
-	color: #575dde;
+	color: $main-blue-color;
 	text-decoration: none solid rgb(87, 93, 222);
 	text-align: center;
 }
@@ -58,56 +58,56 @@
 	margin-left: 40px;
 	margin-right: 40px;
 	padding-bottom: 10px;
-	border-bottom: 1px solid #c8c8e8;	
+	border-bottom: 1px solid $light-gray-color;	
 }
 .account-comment {
 	font-family: 'Ubuntu-Bold';
 	font-size: 24px;
-	color: #575dde;
+	color: $main-blue-color;
 	text-decoration: none solid rgb(87, 93, 222);
 	text-align: center;
 }
 .select-style-text {
 	font-family: 'Ubuntu-Regular';
 	font-size: 24px;
-	color: #575dde;
+	color: $main-blue-color;
 	text-decoration: none solid rgb(87, 93, 222);
 	text-align: center;
 }
 .select-style-comment {
 	font-family: 'Ubuntu-Regular';
 	font-size: 16px;
-	color: #575dde;
+	color: $main-blue-color;
 	text-decoration: none solid rgb(87, 93, 222);
 	text-align: center;
 }
 .select-style-comment-small {
 	font-family: 'Ubuntu-Regular';
 	font-size: 14px;
-	color: #575dde;
+	color: $main-blue-color;
 	text-decoration: none solid rgb(87, 93, 222);
 	text-align: center;
 }
 .style-container {
 	width: 500px;
 	height: 82px;
-	border: 1px solid #c8c8e8;
+	border: 1px solid $light-gray-color;
 	border-radius: 5px;
-	background-color: #ebebeb;
+	background-color: $main-background-color;
 	display: flex;
 	flex-direction: row;
 	align-items: center;
 	cursor: pointer;
 }
 .style-container:hover {
-	border: 2px solid #c8c8e8;
+	border: 2px solid $light-gray-color;
 	cursor: pointer;
 }
 .active-border {
 	width: 500px;
 	height: 82px;
 	border-radius: 5px;
-	background-color: #ebebeb;
+	background-color: $main-background-color;
 	display: flex;
 	flex-direction: row;
 	align-items: center;
@@ -117,9 +117,9 @@
 .style-icon-view {
 	width: 60px;
 	height: 60px;
-	border: 1px solid #c8c8e8;
+	border: 1px solid $light-gray-color;
 	border-radius: 5px;
-	background-color: #ebebeb;
+	background-color: $main-background-color;
 	display: flex;
 	justify-content: center;
 	align-items: center;
@@ -132,7 +132,7 @@
 	width: 408px;
 	font-family: 'Ubuntu-Regular';
 	font-size: 14px;
-	color: #575dde;
+	color: $main-blue-color;
 	text-decoration: none solid rgb(87, 93, 222);
 	text-align: center;
 	display: flex;
@@ -143,14 +143,14 @@
 .select-text-large {
 	font-family: 'Ubuntu-Regular';
 	font-size: 16px;
-	color: #575dde;
+	color: $main-blue-color;
 	text-decoration: none solid rgb(87, 93, 222);
 	text-align: center;
 }
 .select-text-small {
 	font-family: 'Ubuntu-Regular';
 	font-size: 14px;
-	color: #575dde;
+	color: $main-blue-color;
 	text-decoration: none solid rgb(87, 93, 222);
 	text-align: center;
 	font-weight: lighter;
@@ -162,8 +162,8 @@
 	background-color: $white-color;
 	font-family: 'Ubuntu-Regular';
 	font-size: 14px;
-	color: #c8c8e8;
-	text-decoration: none solid rgb(29, 47, 181);
+	color: $light-gray-color;
+	text-decoration: none solid $main-decoration-color;
 	text-align: center;
 	box-shadow: 0 1px 2px rgba(0, 0, 0, 0.5);
 	border: none;
@@ -179,8 +179,8 @@
 	background-color: $white-color;
 	font-family: 'Ubuntu-Regular';
 	font-size: 14px;
-	color: #c8c8e8;
-	text-decoration: none solid rgb(29, 47, 181);
+	color: $light-gray-color;
+	text-decoration: none solid $main-decoration-color;
 	text-align: center;
 	box-shadow: 0 1px 2px rgba(0, 0, 0, 0.5);
 	outline: 0;
@@ -189,9 +189,9 @@
 }
 .description-view {
 	width: 217px;
-	border: 1px solid #c8c8e8;
+	border: 1px solid $light-gray-color;
 	border-radius: 5px;
-	background-color: #ebebeb;
+	background-color: $main-background-color;
 	padding: 10px;
 }
 .center-view {
@@ -206,13 +206,13 @@
 .step-title {
 	font-family: 'Ubuntu-Bold';
 	font-size: 14px;
-	color: #575dde;
+	color: $main-blue-color;
 	text-decoration: none solid rgb(87, 93, 222);
 }
 .step-content {
 	font-family: 'Ubuntu-Regular';
 	font-size: 14px;
-	color: #575dde;
+	color: $main-blue-color;
 	text-decoration: none solid rgb(87, 93, 222);
 }
 .content-center {
@@ -221,7 +221,7 @@
 .drag-view {
 	width: 508px;
 	height: 201px;
-	border: 1px solid #c8c8e8;
+	border: 1px solid $light-gray-color;
 	border-radius: 5px;
 	background-color: #fbfbfb;
 	display: flex;
@@ -232,7 +232,7 @@
 .drag-text {
 	font-family: 'Ubuntu-Regular';
 	font-size: 20px;
-	color: #c8c8e8;
+	color: $light-gray-color;
 	text-decoration: none solid rgb(200, 200, 232);
 	text-align: center;
 }
@@ -250,7 +250,7 @@
 .markup-input {
 	width: 68px;
 	height: 28px;
-	border: 1px solid #c8c8e8;
+	border: 1px solid $light-gray-color;
 	border-radius: 5px;
 	background-color: $white-color;
 	margin-left: 10px;
@@ -286,18 +286,18 @@
 	font-family: 'Ubuntu-Regular';
 	font-size: 16px;
 	color: #1d2fb5;
-	text-decoration: none solid rgb(29, 47, 181);
+	text-decoration: none solid $main-decoration-color;
 }
 .product-type {
 	font-family: 'Ubuntu-Regular';
 	font-size: 12px;
-	color: #000000;
+	color: $black-color;
 	text-decoration: none solid rgb(0, 0, 0);
 }
 .product-price-front {
 	font-family: 'Ubuntu-Regular';
 	font-size: 12px;
-	color: #000000;
+	color: $black-color;
 	text-decoration: none solid rgb(0, 0, 0);
 	margin-left: 40px;
 }
@@ -306,14 +306,14 @@
 	height: 18px;
 	font-family: 'Ubuntu-Regular';
 	font-size: 16px;
-	color: #000000;
+	color: $black-color;
 	text-decoration: none solid rgb(0, 0, 0);
 	margin-left: 5px;
 }
 .product-currency {
 	font-family: 'Ubuntu-Regular';
 	font-size: 24px;
-	color: #575dde;
+	color: $main-blue-color;
 	text-decoration: none solid rgb(87, 93, 222);
 	text-align: center;
 }
@@ -331,9 +331,9 @@
 .product-input {
 	width: 123px;
 	height: 56px;
-	border: 1px solid #c8c8e8;
+	border: 1px solid $light-gray-color;
 	border-radius: 5px;
-	background-color: #ebebeb;
+	background-color: $main-background-color;
 	margin-left: 5px;
 }
 .set-table-header {
@@ -343,7 +343,7 @@
 	height: unset !important;
 }
 .no-border {
-	border: 0px solid #c8c8e8;
+	border: 0px solid $light-gray-color;
 }
 .upload-csv-button {
 	width: 120px;
@@ -353,7 +353,7 @@
 	font-family: 'Ubuntu-Regular';
 	font-size: 14px;
 	color: #1d2fb5;
-	text-decoration: none solid rgb(29, 47, 181);
+	text-decoration: none solid $main-decoration-color;
 	text-align: center;
 	box-shadow: 0 1px 2px rgba(0, 0, 0, 0.5);
 	border: none;

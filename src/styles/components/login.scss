@@ -13,19 +13,19 @@
 }
 .login-tab .nav.nav-tabs >li.active>a, .nav-tabs>li.active>a:focus, .nav-tabs>li.active>a:hover {
   cursor: default;
-  background-color: #ebebeb;;
+  background-color: $main-background-color;;
   border-bottom: 2px solid #1d2fb5;
   padding: 15px 20px 0px 20px;
   outline: 0px;
   font-family: 'Ubuntu-Light';
   font-size: 20px;
   color: #1d2fb5;
-  text-decoration: none solid rgb(29, 47, 181);
+  text-decoration: none solid $main-decoration-color;
   width: 120px;
 }
 .login-tab .nav.nav-tabs >li>a, .nav-tabs>li>a:focus, .nav-tabs>li>a:hover {
   cursor: default;
-  background-color: #ebebeb;
+  background-color: $main-background-color;
   border: none;
   margin: 0;
   padding: 15px 20px 0px 20px;
@@ -33,7 +33,7 @@
   font-family: 'Ubuntu-Light';
   font-size: 20px;
   color: #1d2fb5;
-  text-decoration: none solid rgb(29, 47, 181);
+  text-decoration: none solid $main-decoration-color;
   width: 120px;
   cursor: pointer;
 }
@@ -41,14 +41,14 @@
   border-top-width: 0px;
   border-left-width: 0px;
   border-right-width: 0px;
-  border-bottom: 1px solid #c8c8e8;
-  background-color: #ebebeb;
+  border-bottom: 1px solid $light-gray-color;
+  background-color: $main-background-color;
   text-align: left;
 }
 .logout-button {
 	width: 43px;
 	height: 43px;
-	fill: #c8c8e8;
+	fill: $light-gray-color;
 	background-image: url("../assets/images/logout.svg");
 	background-repeat: no-repeat;
 	background-color: transparent;
@@ -61,7 +61,7 @@
 .logout-button:active:focus {
 	width: 43px;
 	height: 43px;
-	fill: #c8c8e8;
+	fill: $light-gray-color;
 	background-image: url("../assets/images/logout.svg");
 	background-repeat: no-repeat;
 	background-color: transparent;
@@ -72,7 +72,7 @@
 .close-button {
 	width: 43px;
 	height: 43px;
-	fill: #c8c8e8;
+	fill: $light-gray-color;
 	background-image: url("../assets/images/close.svg");
 	background-repeat: no-repeat;
 	background-color: transparent;
@@ -85,7 +85,7 @@
 .close-button:active:focus {
 	width: 43px;
 	height: 43px;
-	fill: #c8c8e8;
+	fill: $light-gray-color;
 	background-image: url("../assets/images/close.svg");
 	background-repeat: no-repeat;
 	background-color: transparent;
@@ -96,8 +96,8 @@
 .login-title {
   font-family: 'Ubuntu-Bold';
   font-size: 32px;
-  color: #575dde;
-  text-decoration: none solid rgb(29, 47, 181);
+  color: $main-blue-color;
+  text-decoration: none solid $main-decoration-color;
   background: none;
   padding-top: 20px;
 }
@@ -105,26 +105,26 @@
 	min-height: 100vh;
 	margin: 0;
 	width: 100%;
-	background: #ebebeb;
+	background: $main-background-color;
 }
 .email-input {
 	width: 339px;
 	height: 43px;
 	padding: 0px 10px;
-	border: 1px solid #c8c8e8;
+	border: 1px solid $light-gray-color;
 	border-radius: 5px;
 	background-color: $white-color;
 	font-family: 'Ubuntu-Regular';
 	font-size: 14px;
-	color: #C8C8E8;
-	text-decoration: none solid rgb(29, 47, 181);
+	color: $light-gray-color;
+	text-decoration: none solid $main-decoration-color;
 	line-height: 14px;
 }
 .forgot-text {
 	font-family: 'Ubuntu-Regular';
 	font-size: 16px;
 	color: #1d2fb5;
-	text-decoration: none solid rgb(29, 47, 181);
+	text-decoration: none solid $main-decoration-color;
 	background: none;
 	border: none;
 }
@@ -135,7 +135,7 @@
 	font-family: 'Ubuntu-Regular';
 	font-size: 16px;
 	color: #1d2fb5;
-	text-decoration: none solid rgb(29, 47, 181);
+	text-decoration: none solid $main-decoration-color;
 	background: none;
 	border: none;
 	outline: none;
@@ -148,7 +148,7 @@
 	font-family: 'Ubuntu-Regular';
 	font-size: 14px;
 	color: #1d2fb5;
-	text-decoration: none solid rgb(29, 47, 181);
+	text-decoration: none solid $main-decoration-color;
 	text-align: center;
 	box-shadow: 0 1px 2px rgba(0, 0, 0, 0.5);
 	border: none;
@@ -165,7 +165,7 @@
 	font-family: 'Ubuntu-Regular';
 	font-size: 14px;
 	color: #1d2fb5;
-	text-decoration: none solid rgb(29, 47, 181);
+	text-decoration: none solid $main-decoration-color;
 	text-align: center;
 	box-shadow: 0 1px 2px rgba(0, 0, 0, 0.5);
 	outline: 0;
@@ -176,13 +176,13 @@
 	width: 200px;
 	height: 43px;
 	padding: 0px 10px;
-	border: 1px solid #c8c8e8;
+	border: 1px solid $light-gray-color;
 	border-radius: 5px;
 	background-color: $white-color;
 	font-family: 'Ubuntu-Regular';
 	font-size: 14px;
-	color: #c8c8e8;
-	text-decoration: none solid rgb(29, 47, 181);
+	color: $light-gray-color;
+	text-decoration: none solid $main-decoration-color;
 	line-height: 14px;	
 }
 .signup-role-input {
@@ -190,8 +190,8 @@
 	padding-top: 0px;
 	font-family: 'Ubuntu-Regular';
 	font-size: 14px;
-	color: #c8c8e8;
-	text-decoration: none solid rgb(29, 47, 181);
+	color: $light-gray-color;
+	text-decoration: none solid $main-decoration-color;
 	line-height: 14px;	
 	text-align: left;
 }
@@ -199,27 +199,27 @@
   font-family: 'Ubuntu-Light';
   font-size: 16px;
   color: #1d2fb5;
-  text-decoration: none solid rgb(29, 47, 181);
+  text-decoration: none solid $main-decoration-color;
   background: none;
 }
 .is-open .Select-arrow .Select-arrow-zone:hover > .Select-arrow{
-	border-top-color: #c8c8e8 !important;
+	border-top-color: $light-gray-color !important;
 }
 .is-open > .Select-arrow .Select-arrow{
 	top: -2px;
-	border-color: #c8c8e8 transparent transparent !important;
+	border-color: $light-gray-color transparent transparent !important;
 	border-width: 0 5px 5px;
 }
 .Select-clear-zone {
-	color: #c8c8e8 !important;
+	color: $light-gray-color !important;
 }
 .Select-control {
 	height: 43px !important;
-	border: 1px solid #c8c8e8 !important;
+	border: 1px solid $light-gray-color !important;
 	border-radius: 5px;
 }
 .has-value.Select--single > .Select-control .Select-value .Select-value-label, .has-value.is-pseudo-focused.Select--single > .Select-control .Select-value .Select-value-label {
-	color: #c8c8e8 !important;
+	color: $light-gray-color !important;
 	padding-top: 5px !important;
 }
 .Select-placeholder, .Select--single > .Select-control .Select-value {
@@ -231,5 +231,5 @@
 	margin-left: 40px;
 	margin-right: 40px;
 	padding-bottom: 10px;
-	border-bottom: 1px solid #c8c8e8;
+	border-bottom: 1px solid $light-gray-color;
 }
