@@ -75,3 +75,22 @@
   border-radius: 0px;
   background: #2199e8;
 }
+.left-button-view {
+  width: 50%;
+  display: inline-block;
+  text-align: left;
+}
+.right-button-view {
+  width: 50%;
+  display: inline-block;
+  text-align: right;
+}
+.button-group-custom-class {
+  width: 100%;
+  display: inline-block;
+}
+.sort-icon {
+  width: 20px;
+  height: 20px;
+  margin-left: 5px;
+}

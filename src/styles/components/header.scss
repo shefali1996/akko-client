@@ -1,0 +1,58 @@
+.feature-text {
+	font-family: 'Ubuntu-Regular';
+	font-size: 16px;
+	color: $white-color;
+	text-decoration: none solid rgb(255, 255, 255);
+	background: none;
+	border: none;
+  background-image: none;
+  border-radius: 0px;
+  border-width: 0px;
+	box-shadow: none !important;
+	outline: none;
+}
+.feature-text:active,
+.feature-text:hover,
+.feature-text:focus,
+.feature-text:active:focus {
+	color: $white-color;
+	background: none;
+	border: none;
+  background-image: none;
+  border-radius: 0px;
+  border-width: 0px;
+	box-shadow: none !important;
+	outline: none;
+}
+.signup-button-text {
+	width: 90px;
+	height: 36px;
+	background-color: #5bc0de;
+	background-repeat: no-repeat;
+	font-family: 'Ubuntu-Regular';
+	font-size: 14px;
+	color: $white-color;
+	text-decoration: none solid rgba(255, 255, 255, 0.84);
+	text-align: center;
+	box-shadow: 0 1px 2px rgba(0, 0, 0, 0.5);
+	border: none;
+	border-radius: 0;
+}
+.signup-button-text:active,
+.signup-button-text:hover,
+.signup-button-text:focus,
+.signup-button-text:active:focus {
+	width: 90px;
+	height: 36px;
+	background-color: #5bc0de;
+	background-repeat: no-repeat;
+	font-family: 'Ubuntu-Regular';
+	font-size: 14px;
+	color: $white-color;
+	text-decoration: none solid rgba(255, 255, 255, 0.84);
+	text-align: center;
+	outline: none;
+	box-shadow: 0 1px 2px rgba(0, 0, 0, 0.5);
+	border: none;
+	border-radius: 0;
+}
