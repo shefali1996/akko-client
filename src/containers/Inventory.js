@@ -48,7 +48,6 @@ class Inventory extends Component {
   }
 
   componentWillUnmount() {
-    console.log('inventory id', this.loadInterval);
     clearInterval(this.loadInterval);
     this.setState({data: []});
   }
@@ -58,9 +57,11 @@ class Inventory extends Component {
 
   getInventory() {
     invokeApig({ path: '/inventory' }).then((results) => {
+      const updateTime = results.lastUpdated;
       const products = convertInventoryJSONToObject(results.variants);
       this.setState({ data: products });
       localStorage.setItem('inventoryInfo', JSON.stringify(products));
+      localStorage.setItem('lastUpdated', updateTime);
     })
       .catch(error => {
         console.log('get product error', error);
@@ -72,8 +73,6 @@ class Inventory extends Component {
       this.props.history.push('/dashboard');
     } else if (key === 2) {
       this.props.history.push('/inventory');
-    } else {
-      this.props.history.push('/orders');
     }
   }
 
@@ -301,7 +300,6 @@ class Inventory extends Component {
                   </Row>
                 </div>
               </Tab>
-              <Tab eventKey={3} title="Orders" />
             </Tabs>
           </Row>
         </Grid>

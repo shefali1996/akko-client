@@ -3,7 +3,6 @@ import { connect } from 'react-redux';
 import { Switch, Route } from 'react-router';
 import Dashboard from './Dashboard';
 import Inventory from './Inventory';
-import Orders from './Orders';
 import user from '../auth/user';
 
 class AuthorizedContainer extends Component {
@@ -24,7 +23,6 @@ class AuthorizedContainer extends Component {
       <Switch>
         <Route exact path="/dashboard" component={Dashboard} />
         <Route exact path="/inventory" component={Inventory} />
-        <Route exact path="/orders" component={Orders} />
       </Switch>
     );
   }

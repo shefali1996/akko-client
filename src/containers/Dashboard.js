@@ -194,8 +194,6 @@ class Dashboard extends Component {
       this.props.history.push('/dashboard');
     } else if (key === 2) {
       this.props.history.push('/inventory');
-    } else {
-      this.props.history.push('/orders');
     }
   }
 
@@ -247,7 +245,6 @@ class Dashboard extends Component {
                 </div>
               </Tab>
               <Tab eventKey={2} title="Inventory" />
-              <Tab eventKey={3} title="Orders" />
             </Tabs>
           </Row>
         </Grid>
