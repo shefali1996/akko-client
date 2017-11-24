@@ -43,7 +43,7 @@ class Inventory extends Component {
   componentDidMount() {
     this.getInventory();
     this.loadInterval = setInterval(() => {
-      this.getInventory();
+      this.getInventoryWithParam();
     }, pollingInterval);
   }
 
@@ -62,6 +62,29 @@ class Inventory extends Component {
       this.setState({ data: products });
       localStorage.setItem('inventoryInfo', JSON.stringify(products));
       localStorage.setItem('lastUpdated', updateTime);
+    })
+      .catch(error => {
+        console.log('get product error', error);
+      });
+  }
+
+  getInventoryWithParam() {
+    const latestTimeStamp = localStorage.getItem('lastUpdated');
+    invokeApig({
+      path: '/inventory',
+      queryParams: {
+        lastUpdated: latestTimeStamp
+      }
+    }).then((results) => {
+      const updateTime = results.lastUpdated;
+      if (latestTimeStamp.toString() !== updateTime.toString()) {
+        const products = convertInventoryJSONToObject(results.variants);
+        this.setState({ data: products });
+        localStorage.setItem('inventoryInfo', JSON.stringify(products));
+        localStorage.setItem('lastUpdated', updateTime);
+      } else {
+        console.log('nothing has changed');
+      }
     })
       .catch(error => {
         console.log('get product error', error);
