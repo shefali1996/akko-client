@@ -173,19 +173,7 @@
 .skip-button:hover,
 .skip-button:focus,
 .skip-button:active:focus {
-	width: 119px;
-	height: 29px;
-	padding: 6px 10px;
-	background-color: $white-color;
-	font-family: $ubuntu-regular;
-	font-size: $size-14;
-	color: $light-gray-color;
-	text-decoration: none solid $main-decoration-color;
-	text-align: center;
-	box-shadow: 0 1px 2px rgba(0, 0, 0, 0.5);
 	outline: 0;
-	border: none;
-	border-radius: 0;
 }
 .description-view {
 	width: 217px;

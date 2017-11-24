@@ -108,7 +108,7 @@ class BusinessType extends Component {
                   You forward orders to your vendors for fulfillment.
                 </span>
                 <span className="select-text-small">
-                  You do not stock inventory nor do your own fulfillment.
+                  You do not stock inventory nor do your own fulfillment.
                 </span>
               </div>
             </div>

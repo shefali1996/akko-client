@@ -59,14 +59,6 @@
 .logout-button:hover,
 .logout-button:focus,
 .logout-button:active:focus {
-	width: 43px;
-	height: 43px;
-	fill: $light-gray-color;
-	background-image: url("../assets/images/logout.svg");
-	background-repeat: no-repeat;
-	background-color: transparent;
-	border: none;
-	background-size: contain;
 	outline: none;
 }
 .close-button {
@@ -83,14 +75,6 @@
 .close-button:hover,
 .close-button:focus,
 .close-button:active:focus {
-	width: 43px;
-	height: 43px;
-	fill: $light-gray-color;
-	background-image: url("../assets/images/close.svg");
-	background-repeat: no-repeat;
-	background-color: transparent;
-	border: none;
-	background-size: contain;
 	outline: none;
 }
 .login-title {
@@ -132,12 +116,6 @@
 .forgot-text:hover,
 .forgot-text:focus,
 .forgot-text:active:focus {
-	font-family: $ubuntu-regular;
-	font-size: $size-16;
-	color: #1d2fb5;
-	text-decoration: none solid $main-decoration-color;
-	background: none;
-	border: none;
 	outline: none;
 }
 .login-button {
@@ -158,19 +136,7 @@
 .login-button:hover,
 .login-button:focus,
 .login-button:active:focus {
-	width: 100px;
-	height: 34px;
-	padding: 6px 10px;
-	background-color: $white-color;
-	font-family: $ubuntu-regular;
-	font-size: $size-14;
-	color: #1d2fb5;
-	text-decoration: none solid $main-decoration-color;
-	text-align: center;
-	box-shadow: 0 1px 2px rgba(0, 0, 0, 0.5);
 	outline: 0;
-	border: none;
-	border-radius: 0;
 }
 .signup-email-input {
 	width: 200px;
