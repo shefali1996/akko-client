@@ -1371,6 +1371,8 @@
 }
 .statistics-icon {
 	width: 100%;
+	padding-left: 10px;
+	padding-right: 10px;
 }
 .price-description {
 	font-family: 'Ubuntu-Regular';
@@ -1386,7 +1388,7 @@
 	/* display: inline-block; */
 }
 .expand-content {
-	z-index: 999 !important;
+	padding: 0px !important;
 }
 .masonry {
 	column-count: 3;

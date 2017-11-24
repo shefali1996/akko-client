@@ -13,10 +13,15 @@ class PriceCard extends React.Component {
       expanded: false
     };
     this.handleExpandChange = this.handleExpandChange.bind(this);
+    this.onCloseCard = this.onCloseCard.bind(this);
   }
 
   handleExpandChange(expanded) {
     this.setState({expanded});
+  }
+
+  onCloseCard() {
+    this.setState({expanded: false});
   }
 
   render() {
@@ -49,9 +54,9 @@ class PriceCard extends React.Component {
                 </button>
               </div>
               <div className="flex-right">
-                <div className="expand-close-icon">
-                  <img src={openDown} alt="down" className="close-icon" />
-                </div>
+                <IconButton className="expand-close-icon" onClick={this.onCloseCard}>
+                  <img src={openUp} alt="down" className="close-icon" />
+                </IconButton>
               </div>
             </div>
           </CardText>
