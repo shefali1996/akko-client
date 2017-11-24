@@ -1466,3 +1466,31 @@
 		padding-right: 0px;
 	}	
 }
+
+.cogs-pending {
+	width: 43px;
+	height: 43px;
+	fill: #c8c8e8;
+	background-image: url("../assets/images/cogs_pending.svg");
+	background-repeat: no-repeat;
+	background-color: transparent;
+	border: none;
+	background-size: contain;
+	position: absolute;
+	margin-left: 25px;
+	margin-top:5px;
+}
+
+.cogs-completed {
+	width: 43px;
+	height: 43px;
+	fill: #c8c8e8;
+	background-image: url("../assets/images/cogs_completed.svg");
+	background-repeat: no-repeat;
+	background-color: transparent;
+	border: none;
+	background-size: contain;
+	position: absolute;
+	margin-left: 25px;
+	margin-top:5px;
+}

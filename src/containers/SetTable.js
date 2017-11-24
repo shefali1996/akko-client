@@ -219,8 +219,13 @@ class SetTable extends Component {
   cogsValueFormatter(cell, row) {
     let warningMessage = null;
     if(row.cogsValidateStatus===true){
+      warningMessage = <div>
+        <span className="cogs-completed"/>
+      </div>
     }else{
-      warningMessage = <div title={row.cogsValidateStatus}>X</div>
+      warningMessage = <div title={row.cogsValidateStatus}>
+        <span className="cogs-pending"/>
+      </div>
     }
 
     return (
