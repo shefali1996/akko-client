@@ -282,8 +282,8 @@ class SetTable extends Component {
           </Col>
         </div>
         <div className="markup-center margin-0 padding-0">
-          <Col md={12} className="flex-right height-center">
-            <Progress percent={per} showInfo={false} />
+          <Col md={12} className="flex-right height-center margin-0 padding-0">
+            <Progress strokeWidth="5" percent={per} showInfo={false}/>
           </Col>
         </div>
       </div>
@@ -417,7 +417,7 @@ class SetTable extends Component {
                 {this._renderProgressBar(countTotal, countCompleted, countPending)}
               </div>
 
-              <div className="markup-center margin-t-30">
+              <div className="markup-center margin-t-10">
                 <BootstrapTable
                   ref={(table) => { this.table = table; }}
                   data={filteredData}
