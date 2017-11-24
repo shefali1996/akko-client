@@ -20,7 +20,8 @@ import '../styles/App.css';
 import { 
   checkAndUpdateProductCogsValue,
   updateLocalInventoryInfo,
-  beautifyDataForCogsApiCall
+  beautifyDataForCogsApiCall,
+  moveAcceptedToBottom
 } from "../helpers/Csv"
 import TipBox from '../components/TipBox';
 import { Switch, Progress } from 'antd';
@@ -36,7 +37,7 @@ class SetTable extends Component {
       selectedRows: [],
       fetchError: false,
       errorText: '',
-      hideCompleted: true
+      hideCompleted: false
     };
     this.goLanding = this.goLanding.bind(this);
     this.onFinish = this.onFinish.bind(this);
@@ -120,7 +121,7 @@ class SetTable extends Component {
           }
           let newData = checkAndUpdateProductCogsValue( cogs, product, data )
           this.setState({
-            data:newData            
+            data: moveAcceptedToBottom( newData )            
           });
         }
       })
@@ -133,11 +134,11 @@ class SetTable extends Component {
 
   getProduct() {
     if( localStorage.getItem('inventoryInfo') ){
-      this.setState({ data: JSON.parse( localStorage.getItem('inventoryInfo') ) });
+      this.setState({ data: moveAcceptedToBottom( JSON.parse( localStorage.getItem('inventoryInfo') )) } );
     }else{
       this.products().then((results) => {
         const products = convertInventoryJSONToObject(results);
-        this.setState({ data: products });
+        this.setState({ data: moveAcceptedToBottom( products ) });
         localStorage.setItem('inventoryInfo', JSON.stringify(products));
       })
       .catch(error => {
@@ -210,7 +211,7 @@ class SetTable extends Component {
   onCogsBlur(e, row) {
     const {data} = this.state;
     let newData = checkAndUpdateProductCogsValue( e.target.value, row, data )
-    this.setState({data:newData});
+    this.setState({data:moveAcceptedToBottom( newData )});
   }
 
   cogsValueFormatter(cell, row) {
@@ -265,7 +266,7 @@ class SetTable extends Component {
           <Col md={4} className="text-center left-padding ">
             Hide completed
             <br/>
-            <Switch defaultChecked={true} onChange={this.doToggleRows} />
+            <Switch defaultChecked={this.state.hideCompleted} onChange={this.doToggleRows} />
           </Col>
           <Col md={4} className="flex-right height-center">
             {pending}

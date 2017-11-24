@@ -84,10 +84,23 @@ function beautifyDataForCogsApiCall( data ){
   };
 }
 
+function moveAcceptedToBottom( data ){
+  return data.sort((itemA, itemB)=>{
+    if(itemA.cogsValidateStatus === true ){
+      return 1
+    }
+    if(itemB.cogsValidateStatus === true ){
+      return -1
+    }
+    return 0
+  })
+}
+
 export{
   beautifyUploadedCsvData,
   validateCogsValue,
   checkAndUpdateProductCogsValue,
   updateLocalInventoryInfo,
-  beautifyDataForCogsApiCall
+  beautifyDataForCogsApiCall,
+  moveAcceptedToBottom
 }
