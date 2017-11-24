@@ -6,7 +6,7 @@ import { BootstrapTable, TableHeaderColumn } from 'react-bootstrap-table';
 import _ from 'underscore';
 import Navigationbar from '../components/Navigationbar';
 import Footer from '../components/Footer';
-import { KEYS_TO_FILTERS, convertInventoryJSONToObject } from '../constants';
+import { KEYS_TO_FILTERS, convertInventoryJSONToObject, pollingInterval } from '../constants';
 import {
   getCaret,
   customMultiSelect,
@@ -42,26 +42,24 @@ class Inventory extends Component {
 
   componentDidMount() {
     this.getInventory();
+    setInterval(() => {
+      this.getInventory();
+    }, pollingInterval);
   }
 
   onFocus() {
   }
 
   getInventory() {
-    if (localStorage.getItem('inventoryInfo') === null) {
-      invokeApig({ path: '/inventory' }).then((results) => {
-        const products = convertInventoryJSONToObject(results.variants);
-        console.log('results', results);
-        this.setState({ data: products });
-        localStorage.setItem('inventoryInfo', JSON.stringify(products));
-      })
-        .catch(error => {
-          console.log('get product error', error);
-        });
-    } else {
-      const existingProducts = JSON.parse(localStorage.getItem('inventoryInfo'));
-      this.setState({ data: existingProducts });
-    }
+    invokeApig({ path: '/inventory' }).then((results) => {
+      const products = convertInventoryJSONToObject(results.variants);
+      console.log('results', results);
+      this.setState({ data: products });
+      localStorage.setItem('inventoryInfo', JSON.stringify(products));
+    })
+      .catch(error => {
+        console.log('get product error', error);
+      });
   }
 
   handleSelect(key) {
