@@ -311,7 +311,8 @@ class SetTable extends Component {
       prePage: '«   Previous',
       nextPage: 'Next   »',
       withFirstAndLast: false,
-      sortIndicator: false
+      sortIndicator: false,
+      sizePerPage: 100
     };
 
     return (
