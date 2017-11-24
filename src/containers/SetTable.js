@@ -139,7 +139,7 @@ class SetTable extends Component {
       this.setState({ data: moveAcceptedToBottom( JSON.parse( localStorage.getItem('inventoryInfo') )) } );
     }else{
       this.products().then((results) => {
-        const products = convertInventoryJSONToObject(results);
+        const products = convertInventoryJSONToObject(results['variants']);
         this.setState({ data: moveAcceptedToBottom( products ) });
         localStorage.setItem('inventoryInfo', JSON.stringify(products));
       })

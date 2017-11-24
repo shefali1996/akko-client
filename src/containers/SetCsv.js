@@ -122,7 +122,7 @@ class SetCsv extends Component {
   getProduct() {
     this.products().then((results) => {
       console.log(results);
-      const products = convertInventoryJSONToObject(results);
+      const products = convertInventoryJSONToObject(results['variants']);
       this.setState({ data: products });
       localStorage.setItem('inventoryInfo', JSON.stringify(products));
     })

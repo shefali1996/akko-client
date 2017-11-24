@@ -65,7 +65,7 @@ class SetCogs extends Component {
   getProduct() {
     if (localStorage.getItem('inventoryInfo') === null) {
       this.products().then((results) => {
-        const products = convertInventoryJSONToObject(results);
+        const products = convertInventoryJSONToObject(results['variants']);
         this.setState({ data: products });
         localStorage.setItem('inventoryInfo', JSON.stringify(products));
       })
