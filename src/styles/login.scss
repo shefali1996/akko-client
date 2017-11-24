@@ -1,0 +1,109 @@
+.login-tab {
+	text-align: center;
+	padding-top: 10px;
+  padding-left: 40px;
+  padding-right: 40px;
+}
+.login-tab ul.nav.nav-tabs > li, ul.nav.nav-pills > li {
+  float:none;
+  display:inline-block;
+}
+.login-tab ul.nav.nav-tabs {
+  text-align:center;
+}
+.login-tab .nav.nav-tabs >li.active>a, .nav-tabs>li.active>a:focus, .nav-tabs>li.active>a:hover {
+  cursor: default;
+  background-color: #ebebeb;;
+  border-bottom: 2px solid #1d2fb5;
+  padding: 15px 20px 0px 20px;
+  outline: 0px;
+  font-family: 'Ubuntu-Light';
+  font-size: 20px;
+  color: #1d2fb5;
+  text-decoration: none solid rgb(29, 47, 181);
+  width: 120px;
+}
+.login-tab .nav.nav-tabs >li>a, .nav-tabs>li>a:focus, .nav-tabs>li>a:hover {
+  cursor: default;
+  background-color: #ebebeb;
+  border: none;
+  margin: 0;
+  padding: 15px 20px 0px 20px;
+  outline: 0px;
+  font-family: 'Ubuntu-Light';
+  font-size: 20px;
+  color: #1d2fb5;
+  text-decoration: none solid rgb(29, 47, 181);
+  width: 120px;
+  cursor: pointer;
+}
+.login-tab .nav.nav-tabs {
+  border-top-width: 0px;
+  border-left-width: 0px;
+  border-right-width: 0px;
+  border-bottom: 1px solid #c8c8e8;
+  background-color: #ebebeb;
+  text-align: left;
+}
+.logout-button {
+	width: 43px;
+	height: 43px;
+	fill: #c8c8e8;
+	background-image: url("../assets/images/logout.svg");
+	background-repeat: no-repeat;
+	background-color: transparent;
+	border: none;
+	background-size: contain;
+}
+.logout-button:active,
+.logout-button:hover,
+.logout-button:focus,
+.logout-button:active:focus {
+	width: 43px;
+	height: 43px;
+	fill: #c8c8e8;
+	background-image: url("../assets/images/logout.svg");
+	background-repeat: no-repeat;
+	background-color: transparent;
+	border: none;
+	background-size: contain;
+	outline: none;
+}
+.close-button {
+	width: 43px;
+	height: 43px;
+	fill: #c8c8e8;
+	background-image: url("../assets/images/close.svg");
+	background-repeat: no-repeat;
+	background-color: transparent;
+	border: none;
+	background-size: contain;
+}
+.close-button:active,
+.close-button:hover,
+.close-button:focus,
+.close-button:active:focus {
+	width: 43px;
+	height: 43px;
+	fill: #c8c8e8;
+	background-image: url("../assets/images/close.svg");
+	background-repeat: no-repeat;
+	background-color: transparent;
+	border: none;
+	background-size: contain;
+	outline: none;
+}
+.login-title {
+  font-family: 'Ubuntu-Bold';
+  font-size: 32px;
+  color: #575dde;
+  text-decoration: none solid rgb(29, 47, 181);
+  background: none;
+  padding-top: 20px;
+}
+.login-layout {
+	min-height: 100vh;
+	margin: 0;
+	width: 100%;
+	background: #ebebeb;
+}

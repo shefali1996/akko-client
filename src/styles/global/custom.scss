@@ -1,0 +1,28 @@
+.btn-group.open .dropdown-toggle {
+  box-shadow: none;
+}
+.custom-table {
+	height: 103px;
+	background: white;
+  font-family: 'Ubuntu-Regular';
+  font-size: 16px;
+  color: #1d2fb5;
+  text-decoration: none solid rgb(29, 47, 181);
+}
+.custom-table td {
+  text-align: center;
+	outline: none;
+	border-bottom: 1px solid #C8C8E8;
+}
+.react-bs-container-footer, .react-bs-container-header {
+	background: white;
+}
+.custom-table-header {
+  font-family: 'Ubuntu-Regular';
+  font-size: 16px;
+	color: #575dde;
+}
+.custom-table-header .sort-column {
+	padding-top: 10px !important;
+	padding-bottom: 10px !important;
+}
