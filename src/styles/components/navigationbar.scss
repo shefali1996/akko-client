@@ -1,3 +1,9 @@
+.nav-container {
+  background-color: $white-color;
+  >.row {
+    margin: $size-0;
+  }
+}
 .app-title {
   font-family: $ubuntu-bold;
 	font-size: $size-32;
@@ -73,9 +79,6 @@
   margin-top: 10px;
   border-radius: 0px;
 }
-.nav-container {
-  background-color: $white-color;
-}
 .custom-dropdown-view {
 	background: #1d2fb5;
 	padding: 10px;
@@ -84,4 +87,14 @@
 	width: 34px;
 	height: 34px;
 	fill: $main-blue-color;
+}
+@media screen and (max-width: 767px) {
+  .app-title {
+    padding-top: 20px;
+    position: unset;
+  }
+  .user-profile {
+    top: 10px;
+    right: 10px;
+  }
 }

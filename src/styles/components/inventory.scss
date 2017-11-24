@@ -3,11 +3,53 @@
 	width: $full-width;
 	background-color: $main-background-color;
 	padding: $size-0;
-	> .row {
+	>.row {
 		margin: 0;
 		transform: translateZ(0);
 		min-height: calc(100vh - 60px);
 	}
+}
+.inventory-tab {
+	text-align: center;
+}
+.inventory-tab ul.nav.nav-tabs > li, ul.nav.nav-pills > li {
+	float:none;
+	display:inline-block;
+}
+.inventory-tab ul.nav.nav-tabs {
+	text-align:center;
+}
+.inventory-tab .nav.nav-tabs >li.active>a, .nav-tabs>li.active>a:focus, .nav-tabs>li.active>a:hover {
+	cursor: default;
+	background-color: $white-color;
+	border-bottom: 2px solid $main-blue-color;
+	padding: 15px 20px 0px 20px;
+	outline: 0px;
+	font-family: $ubuntu-light;
+	font-size: $size-20;
+	color: $main-blue-color;
+	text-decoration: none solid $main-decoration-color;
+	width: 120px;
+}
+.inventory-tab .nav.nav-tabs >li>a, .nav-tabs>li>a:focus, .nav-tabs>li>a:hover {
+	cursor: default;
+	background-color: $white-color;
+	border: none;
+	margin: 0;
+	padding: 15px 20px 0px 20px;
+	outline: 0px;
+	font-family: $ubuntu-light;
+	font-size: $size-20;
+	color: $main-blue-color;
+	text-decoration: none solid $main-decoration-color;
+	width: 120px;
+	cursor: pointer;
+}
+.inventory-tab .nav.nav-tabs {
+	border: none;
+	background-color: white;
+	text-align: left;
+	box-shadow: 0 1px 2px rgba(0, 0, 0, 0.5);
 }
 .inventory-layout {
 	padding-right: 100px;
@@ -18,48 +60,6 @@
 }
 .custom-shadow {
 	transform: translateZ(0);
-}
-.inventory-tab {
-	text-align: center;
-}
-.inventory-tab ul.nav.nav-tabs > li, ul.nav.nav-pills > li {
-  float:none;
-  display:inline-block;
-}
-.inventory-tab ul.nav.nav-tabs {
-  text-align:center;
-}
-.inventory-tab .nav.nav-tabs >li.active>a, .nav-tabs>li.active>a:focus, .nav-tabs>li.active>a:hover {
-  cursor: default;
-  background-color: $white-color;
-  border-bottom: 2px solid $main-blue-color;
-  padding: 15px 20px 0px 20px;
-  outline: 0px;
-  font-family: $ubuntu-light;
-  font-size: $size-20;
-  color: $main-blue-color;
-  text-decoration: none solid $main-decoration-color;
-  width: 120px;
-}
-.inventory-tab .nav.nav-tabs >li>a, .nav-tabs>li>a:focus, .nav-tabs>li>a:hover {
-  cursor: default;
-  background-color: $white-color;
-  border: none;
-  margin: 0;
-  padding: 15px 20px 0px 20px;
-  outline: 0px;
-  font-family: $ubuntu-light;
-  font-size: $size-20;
-  color: $main-blue-color;
-  text-decoration: none solid $main-decoration-color;
-  width: 120px;
-  cursor: pointer;
-}
-.inventory-tab .nav.nav-tabs {
-  border: none;
-	background-color: white;
-	text-align: left;
-	box-shadow: 0 1px 2px rgba(0, 0, 0, 0.5);
 }
 .white-view {
   background-color: $white-color;
@@ -258,7 +258,7 @@
 	.item {
 		display: inline-block;
 		margin: 0 0 1em;
-		width: 90%;
+		width: 88%;
 	}
 	.inventory-layout {
 		padding-right: 0px;
@@ -272,5 +272,11 @@
 		height: 150px;
 		margin-left: $size-20;
 		margin-right: $size-20;
+	}
+	.inventory-tab {
+		padding-top: $size-0;
+	}
+	.inventory-tab ul.nav.nav-tabs {
+		padding-top: $size-30;
 	}
 }
