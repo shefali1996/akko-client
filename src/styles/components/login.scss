@@ -1,0 +1,235 @@
+.login-tab {
+	text-align: center;
+	padding-top: 10px;
+  padding-left: 40px;
+  padding-right: 40px;
+}
+.login-tab ul.nav.nav-tabs > li, ul.nav.nav-pills > li {
+  float:none;
+  display:inline-block;
+}
+.login-tab ul.nav.nav-tabs {
+  text-align:center;
+}
+.login-tab .nav.nav-tabs >li.active>a, .nav-tabs>li.active>a:focus, .nav-tabs>li.active>a:hover {
+  cursor: default;
+  background-color: #ebebeb;;
+  border-bottom: 2px solid #1d2fb5;
+  padding: 15px 20px 0px 20px;
+  outline: 0px;
+  font-family: 'Ubuntu-Light';
+  font-size: 20px;
+  color: #1d2fb5;
+  text-decoration: none solid rgb(29, 47, 181);
+  width: 120px;
+}
+.login-tab .nav.nav-tabs >li>a, .nav-tabs>li>a:focus, .nav-tabs>li>a:hover {
+  cursor: default;
+  background-color: #ebebeb;
+  border: none;
+  margin: 0;
+  padding: 15px 20px 0px 20px;
+  outline: 0px;
+  font-family: 'Ubuntu-Light';
+  font-size: 20px;
+  color: #1d2fb5;
+  text-decoration: none solid rgb(29, 47, 181);
+  width: 120px;
+  cursor: pointer;
+}
+.login-tab .nav.nav-tabs {
+  border-top-width: 0px;
+  border-left-width: 0px;
+  border-right-width: 0px;
+  border-bottom: 1px solid #c8c8e8;
+  background-color: #ebebeb;
+  text-align: left;
+}
+.logout-button {
+	width: 43px;
+	height: 43px;
+	fill: #c8c8e8;
+	background-image: url("../assets/images/logout.svg");
+	background-repeat: no-repeat;
+	background-color: transparent;
+	border: none;
+	background-size: contain;
+}
+.logout-button:active,
+.logout-button:hover,
+.logout-button:focus,
+.logout-button:active:focus {
+	width: 43px;
+	height: 43px;
+	fill: #c8c8e8;
+	background-image: url("../assets/images/logout.svg");
+	background-repeat: no-repeat;
+	background-color: transparent;
+	border: none;
+	background-size: contain;
+	outline: none;
+}
+.close-button {
+	width: 43px;
+	height: 43px;
+	fill: #c8c8e8;
+	background-image: url("../assets/images/close.svg");
+	background-repeat: no-repeat;
+	background-color: transparent;
+	border: none;
+	background-size: contain;
+}
+.close-button:active,
+.close-button:hover,
+.close-button:focus,
+.close-button:active:focus {
+	width: 43px;
+	height: 43px;
+	fill: #c8c8e8;
+	background-image: url("../assets/images/close.svg");
+	background-repeat: no-repeat;
+	background-color: transparent;
+	border: none;
+	background-size: contain;
+	outline: none;
+}
+.login-title {
+  font-family: 'Ubuntu-Bold';
+  font-size: 32px;
+  color: #575dde;
+  text-decoration: none solid rgb(29, 47, 181);
+  background: none;
+  padding-top: 20px;
+}
+.login-layout {
+	min-height: 100vh;
+	margin: 0;
+	width: 100%;
+	background: #ebebeb;
+}
+.email-input {
+	width: 339px;
+	height: 43px;
+	padding: 0px 10px;
+	border: 1px solid #c8c8e8;
+	border-radius: 5px;
+	background-color: $white-color;
+	font-family: 'Ubuntu-Regular';
+	font-size: 14px;
+	color: #C8C8E8;
+	text-decoration: none solid rgb(29, 47, 181);
+	line-height: 14px;
+}
+.forgot-text {
+	font-family: 'Ubuntu-Regular';
+	font-size: 16px;
+	color: #1d2fb5;
+	text-decoration: none solid rgb(29, 47, 181);
+	background: none;
+	border: none;
+}
+.forgot-text:active,
+.forgot-text:hover,
+.forgot-text:focus,
+.forgot-text:active:focus {
+	font-family: 'Ubuntu-Regular';
+	font-size: 16px;
+	color: #1d2fb5;
+	text-decoration: none solid rgb(29, 47, 181);
+	background: none;
+	border: none;
+	outline: none;
+}
+.login-button {
+	width: 100px;
+	height: 34px;
+	padding: 6px 10px;
+	background-color: $white-color;
+	font-family: 'Ubuntu-Regular';
+	font-size: 14px;
+	color: #1d2fb5;
+	text-decoration: none solid rgb(29, 47, 181);
+	text-align: center;
+	box-shadow: 0 1px 2px rgba(0, 0, 0, 0.5);
+	border: none;
+	border-radius: 0;
+}
+.login-button:active,
+.login-button:hover,
+.login-button:focus,
+.login-button:active:focus {
+	width: 100px;
+	height: 34px;
+	padding: 6px 10px;
+	background-color: $white-color;
+	font-family: 'Ubuntu-Regular';
+	font-size: 14px;
+	color: #1d2fb5;
+	text-decoration: none solid rgb(29, 47, 181);
+	text-align: center;
+	box-shadow: 0 1px 2px rgba(0, 0, 0, 0.5);
+	outline: 0;
+	border: none;
+	border-radius: 0;
+}
+.signup-email-input {
+	width: 200px;
+	height: 43px;
+	padding: 0px 10px;
+	border: 1px solid #c8c8e8;
+	border-radius: 5px;
+	background-color: $white-color;
+	font-family: 'Ubuntu-Regular';
+	font-size: 14px;
+	color: #c8c8e8;
+	text-decoration: none solid rgb(29, 47, 181);
+	line-height: 14px;	
+}
+.signup-role-input {
+	width: 200px;
+	padding-top: 0px;
+	font-family: 'Ubuntu-Regular';
+	font-size: 14px;
+	color: #c8c8e8;
+	text-decoration: none solid rgb(29, 47, 181);
+	line-height: 14px;	
+	text-align: left;
+}
+.signup-title {
+  font-family: 'Ubuntu-Light';
+  font-size: 16px;
+  color: #1d2fb5;
+  text-decoration: none solid rgb(29, 47, 181);
+  background: none;
+}
+.is-open .Select-arrow .Select-arrow-zone:hover > .Select-arrow{
+	border-top-color: #c8c8e8 !important;
+}
+.is-open > .Select-arrow .Select-arrow{
+	top: -2px;
+	border-color: #c8c8e8 transparent transparent !important;
+	border-width: 0 5px 5px;
+}
+.Select-clear-zone {
+	color: #c8c8e8 !important;
+}
+.Select-control {
+	height: 43px !important;
+	border: 1px solid #c8c8e8 !important;
+	border-radius: 5px;
+}
+.has-value.Select--single > .Select-control .Select-value .Select-value-label, .has-value.is-pseudo-focused.Select--single > .Select-control .Select-value .Select-value-label {
+	color: #c8c8e8 !important;
+	padding-top: 5px !important;
+}
+.Select-placeholder, .Select--single > .Select-control .Select-value {
+	line-height: 43px !important;
+}
+.border-view {
+	text-align: center;
+	margin-top: 20px;
+	margin-left: 40px;
+	margin-right: 40px;
+	padding-bottom: 10px;
+	border-bottom: 1px solid #c8c8e8;
+}
