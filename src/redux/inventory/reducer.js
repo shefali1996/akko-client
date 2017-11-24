@@ -8,7 +8,7 @@ const INITIAL_STATE = {
   inventoryData: [],
 };
 
-export default function inventory(state = INITIAL_STATE, action) {
+export default (state = INITIAL_STATE, action) => {
   switch (action.type) {
     case INVENTORY_GET_STARTED:
       return {
@@ -29,4 +29,4 @@ export default function inventory(state = INITIAL_STATE, action) {
     default:
       return state;
   }
-}
+};

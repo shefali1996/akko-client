@@ -4,7 +4,6 @@ import immutableCheckMiddleWare from 'redux-immutable-state-invariant';
 import thunk from 'redux-thunk';
 import reducers from './reducer';
 
-
 const middleWare = [];
 
 middleWare.push(thunk);
