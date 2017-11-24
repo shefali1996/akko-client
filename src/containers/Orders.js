@@ -48,7 +48,9 @@ class Orders extends Component {
   }
 
   componentWillUnmount() {
+    console.log('order id', this.loadInterval);
     clearInterval(this.loadInterval);
+    this.setState({data: []});
   }
 
   onFocus() {
@@ -154,7 +156,7 @@ class Orders extends Component {
     return (
       <div>
         <Navigationbar history={this.props.history} />
-        <Grid className="inventory-container no-padding">
+        <Grid className="orders-container">
           <Row className="no-margin min-height custom-shadow">
             <Tabs defaultActiveKey={3} id="uncontrolled-tab-example" className="inventory-tab" onSelect={this.handleSelect}>
               <Tab eventKey={1} title="Dashboard" />

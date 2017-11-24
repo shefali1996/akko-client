@@ -224,8 +224,8 @@ class Dashboard extends Component {
     return (
       <div>
         <Navigationbar history={this.props.history} />
-        <Grid className="inventory-container no-padding">
-          <Row className="no-margin min-height custom-shadow">
+        <Grid className="dashboard-container">
+          <Row>
             <Tabs defaultActiveKey={1} id="uncontrolled-tab-example" className="inventory-tab" onSelect={this.handleSelect}>
               <Tab eventKey={1} title="Dashboard">
                 <div>

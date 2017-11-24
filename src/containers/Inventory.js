@@ -48,7 +48,9 @@ class Inventory extends Component {
   }
 
   componentWillUnmount() {
+    console.log('inventory id', this.loadInterval);
     clearInterval(this.loadInterval);
+    this.setState({data: []});
   }
 
   onFocus() {
@@ -154,27 +156,27 @@ class Inventory extends Component {
     return (
       <div>
         <Navigationbar history={this.props.history} />
-        <Grid className="inventory-container no-padding">
-          <Row className="no-margin min-height custom-shadow">
+        <Grid className="inventory-container">
+          <Row>
             <Tabs defaultActiveKey={2} id="uncontrolled-tab-example" className="inventory-tab" onSelect={this.handleSelect}>
               <Tab eventKey={1} title="Dashboard" />
               <Tab eventKey={2} title="Inventory">
-                <div className="padding-left-right-100">
-                  <Row className="padding-50">
-                    <Col md={3} className="no-left-padding">
+                <div className="inventory-layout">
+                  <Row className="image-group">
+                    <Col md={3}>
                       <div className="white-view" />
                     </Col>
-                    <Col md={3} className="no-left-padding">
+                    <Col md={3}>
                       <div className="white-view" />
                     </Col>
-                    <Col md={3} className="no-left-padding">
+                    <Col md={3}>
                       <div className="white-view" />
                     </Col>
-                    <Col md={3} className="no-right-padding no-left-padding">
+                    <Col md={3}>
                       <div className="white-view" />
                     </Col>
                   </Row>
-                  <Row className="padding-left-right-50">
+                  <Row className="image-group">
                     <Col md={6} mdOffset={3}>
                       <SearchInput
                         className="search-input"
@@ -186,6 +188,7 @@ class Inventory extends Component {
                   </Row>
                   <Row className="padding-50">
                     <BootstrapTable
+                      className="table-responsive"
                       data={filteredData}
                       options={options}
                       insertRow
