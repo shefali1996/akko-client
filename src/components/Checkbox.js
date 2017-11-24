@@ -3,8 +3,14 @@ import { connect } from 'react-redux';
 import ReactDOM from 'react-dom';
 
 class Checkbox extends Component {
-  componentDidMount() { this.update(this.props.checked); }
-  componentWillReceiveProps(props) { this.update(props.checked); }
+  componentDidMount() {
+    this.update(this.props.checked);
+  }
+
+  componentWillReceiveProps(props) {
+    this.update(props.checked);
+  }
+
   update(checked) {
     ReactDOM.findDOMNode(this).indeterminate = checked === 'indeterminate';
   }

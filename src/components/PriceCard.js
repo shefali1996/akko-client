@@ -2,7 +2,7 @@ import React from 'react';
 import {Card, CardHeader, CardText} from 'material-ui/Card';
 import IconButton from 'material-ui/IconButton';
 import PriceBox from '../components/PriceBox';
-import statistics from '../assets/images/statistics.png';
+import SalesChart from '../components/SalesChart';
 import openUp from '../assets/images/openUpIcon.svg';
 import openDown from '../assets/images/openDownIcon.svg';
 
@@ -48,7 +48,7 @@ class PriceCard extends React.Component {
           >
             <div>
               <div>
-                <img src={statistics} className="statistics-icon" alt="statistics" />
+                <SalesChart />
                 <button className="analyze-button">
                   ANALYZE
                 </button>
