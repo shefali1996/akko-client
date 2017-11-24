@@ -2,7 +2,7 @@
   text-align: center;
 }
 .App-header {
-  background-color: #ffffff;
+  background-color: $white-color;
   height: 100px;
   color: white;
   display: flex;
@@ -49,7 +49,7 @@
 .username {
   font-family: 'Ubuntu-Light';
   font-size: 16px;
-  color: #ffffff;
+  color: $white-color;
   text-decoration: none solid rgb(255, 255, 255);
   background: none;
   display: inline-block;
@@ -59,7 +59,7 @@
 .setting {
   font-family: 'Ubuntu-Light';
   font-size: 16px;
-  color: #ffffff;
+  color: $white-color;
   text-decoration: none solid rgb(255, 255, 255);
   background: none;
   display: inline-block;
@@ -111,7 +111,7 @@
   padding: 0;
 }
 .nav-container {
-  background-color: #ffffff;
+  background-color: $white-color;
 }
 .footer-container {
 	background-color: #fbfbfb;
@@ -232,7 +232,7 @@
 	box-shadow: 0 1px 2px rgba(0, 0, 0, 0.5);
 }
 .white-view {
-  background-color: #ffffff;
+  background-color: $white-color;
   width: 100%;
   height: 178px;
 }
@@ -318,7 +318,7 @@
 .button-text {
   font-family: 'Ubuntu-Light';
   font-size: 14px;
-  color: #ffffff;
+  color: $white-color;
   text-decoration: none solid rgb(255, 255, 255);
   text-align: center;
   background: none;
@@ -371,10 +371,10 @@
 	margin: 0;
 	width: 100%;
 	background: #1d2fb5; /* For browsers that do not support gradients */
-	background: -webkit-linear-gradient(#1d2fb5, #ffffff); /* For Safari 5.1 to 6.0 */
-	background: -o-linear-gradient(#1d2fb5, #ffffff); /* For Opera 11.1 to 12.0 */
-	background: -moz-linear-gradient(#1d2fb5, #ffffff); /* For Firefox 3.6 to 15 */
-	background: linear-gradient(#1d2fb5, #ffffff); /* Standard syntax */
+	background: -webkit-linear-gradient(#1d2fb5, $white-color); /* For Safari 5.1 to 6.0 */
+	background: -o-linear-gradient(#1d2fb5, $white-color); /* For Opera 11.1 to 12.0 */
+	background: -moz-linear-gradient(#1d2fb5, $white-color); /* For Firefox 3.6 to 15 */
+	background: linear-gradient(#1d2fb5, $white-color); /* Standard syntax */
 }
 .header-layout {
 	background: #1d2fb5; /* For browsers that do not support gradients */
@@ -386,7 +386,7 @@
 .logo-title {
 	font-family: 'Ubuntu-Bold';
 	font-size: 32px;
-	color: #ffffff;
+	color: $white-color;
 	text-decoration: none solid rgb(29, 47, 181);
 	background: none;
 	padding-top: 20px;
@@ -397,7 +397,7 @@
 .feature-text {
 	font-family: 'Ubuntu-Regular';
 	font-size: 16px;
-	color: #ffffff;
+	color: $white-color;
 	text-decoration: none solid rgb(255, 255, 255);
 	background: none;
 	border: none;
@@ -411,7 +411,7 @@
 .feature-text:hover,
 .feature-text:focus,
 .feature-text:active:focus {
-	color: #ffffff;
+	color: $white-color;
 	background: none;
 	border: none;
   background-image: none;
@@ -427,7 +427,7 @@
 	background-repeat: no-repeat;
 	font-family: 'Ubuntu-Regular';
 	font-size: 14px;
-	color: #ffffff;
+	color: $white-color;
 	text-decoration: none solid rgba(255, 255, 255, 0.84);
 	text-align: center;
 	box-shadow: 0 1px 2px rgba(0, 0, 0, 0.5);
@@ -444,7 +444,7 @@
 	background-repeat: no-repeat;
 	font-family: 'Ubuntu-Regular';
 	font-size: 14px;
-	color: #ffffff;
+	color: $white-color;
 	text-decoration: none solid rgba(255, 255, 255, 0.84);
 	text-align: center;
 	outline: none;
@@ -455,7 +455,7 @@
 .large-title {
 	font-family: 'Ubuntu-Bold';
 	font-size: 32px;
-	color: #ffffff;
+	color: $white-color;
 	text-decoration: none solid rgb(255, 255, 255);
 	text-align: center;
 	background: none;
@@ -463,7 +463,7 @@
 .middle-title {
 	font-family: 'Ubuntu-Light';
 	font-size: 24px;
-	color: #ffffff;
+	color: $white-color;
 	text-decoration: none solid rgb(255, 255, 255);
 	text-align: center;
 	background: none;
@@ -471,7 +471,7 @@
 .small-title {
 	font-family: 'Ubuntu-Light';
 	font-size: 16px;
-	color: #ffffff;
+	color: $white-color;
 	text-decoration: none solid rgb(255, 255, 255);
 	text-align: center;
 	background: none;
@@ -513,7 +513,7 @@
 	padding: 0px 10px;
 	border: 1px solid #c8c8e8;
 	border-radius: 5px;
-	background-color: #ffffff;
+	background-color: $white-color;
 	font-family: 'Ubuntu-Regular';
 	font-size: 14px;
 	color: #C8C8E8;
@@ -703,7 +703,7 @@
 	width: 100px;
 	height: 34px;
 	padding: 6px 10px;
-	background-color: #ffffff;
+	background-color: $white-color;
 	font-family: 'Ubuntu-Regular';
 	font-size: 14px;
 	color: #1d2fb5;
@@ -720,7 +720,7 @@
 	width: 100px;
 	height: 34px;
 	padding: 6px 10px;
-	background-color: #ffffff;
+	background-color: $white-color;
 	font-family: 'Ubuntu-Regular';
 	font-size: 14px;
 	color: #1d2fb5;
@@ -737,7 +737,7 @@
 	padding: 0px 10px;
 	border: 1px solid #c8c8e8;
 	border-radius: 5px;
-	background-color: #ffffff;
+	background-color: $white-color;
 	font-family: 'Ubuntu-Regular';
 	font-size: 14px;
 	color: #c8c8e8;
@@ -1048,7 +1048,7 @@
 	width: 119px;
 	height: 29px;
 	padding: 6px 10px;
-	background-color: #ffffff;
+	background-color: $white-color;
 	font-family: 'Ubuntu-Regular';
 	font-size: 14px;
 	color: #c8c8e8;
@@ -1065,7 +1065,7 @@
 	width: 119px;
 	height: 29px;
 	padding: 6px 10px;
-	background-color: #ffffff;
+	background-color: $white-color;
 	font-family: 'Ubuntu-Regular';
 	font-size: 14px;
 	color: #c8c8e8;
@@ -1141,7 +1141,7 @@
 	height: 28px;
 	border: 1px solid #c8c8e8;
 	border-radius: 5px;
-	background-color: #ffffff;
+	background-color: $white-color;
 	margin-left: 10px;
 }
 .height-center {
@@ -1265,7 +1265,7 @@
 	width: 120px;
 	height: 34px;
 	padding: 6px 10px;
-	background-color: #ffffff;
+	background-color: $white-color;
 	font-family: 'Ubuntu-Regular';
 	font-size: 14px;
 	color: #1d2fb5;
@@ -1348,14 +1348,14 @@
 	margin-top: 10px;
 	border: 1px solid #c8c8e8;
 	border-radius: 2px;
-	background-color: #ffffff;
+	background-color: $white-color;
 	box-shadow: 0 1px 2px #000000;
 }
 .price-card-style-border {
 	margin-top: 10px;
 	border: 2px solid #f02a1f;
 	border-radius: 2px;
-	background-color: #ffffff;
+	background-color: $white-color;
 	box-shadow: 0 1px 2px #000000;
 }
 .card-header-style {
@@ -1374,7 +1374,7 @@
 }
 .price-description {
 	font-family: 'Ubuntu-Bold';
-	font-size: 11px;
+	font-size: 12px;
 	color: #bbbbbb;
 	text-decoration: none solid rgb(187, 187, 187);
 	white-space: normal;
@@ -1413,7 +1413,7 @@
 	background-color: #575dde;
 	font-family: 'Ubuntu-Bold';
 	font-size: 14px;
-	color: #ffffff;
+	color: $white-color;
 	text-decoration: none solid rgb(255, 255, 255);
 }
 @media screen and (max-width: 767px) {
