@@ -1,5 +1,6 @@
 import React from 'react';
 import {Card, CardHeader, CardText} from 'material-ui/Card';
+import IconButton from 'material-ui/IconButton';
 import PriceBox from '../components/PriceBox';
 import statistics from '../assets/images/statistics.png';
 import openUp from '../assets/images/openUpIcon.svg';
@@ -31,7 +32,7 @@ class PriceCard extends React.Component {
             actAsExpander
             showExpandableButton
             openIcon={<img src={openUp} alt="up" className="open-icon" />}
-            closeIcon={<img src={openDown} alt="down" className="open-icon" />}
+            closeIcon={<img src={openDown} alt="down" className="close-icon" />}
             className="card-header-style"
           >
             <PriceBox value={value} />
@@ -40,10 +41,19 @@ class PriceCard extends React.Component {
             expandable
             className="expand-content"
           >
-            <img src={statistics} className="statistics-icon" alt="statistics" />
-            <button className="analyze-button">
-              ANALYZE
-            </button>
+            <div>
+              <div>
+                <img src={statistics} className="statistics-icon" alt="statistics" />
+                <button className="analyze-button">
+                  ANALYZE
+                </button>
+              </div>
+              <div className="flex-right">
+                <div className="expand-close-icon">
+                  <img src={openDown} alt="down" className="close-icon" />
+                </div>
+              </div>
+            </div>
           </CardText>
         </Card>
       </div>
