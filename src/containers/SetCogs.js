@@ -9,6 +9,7 @@ import cogs1 from '../assets/images/cogs1.svg';
 import cogs2 from '../assets/images/cogs2.svg';
 import cogs3 from '../assets/images/cogs3.svg';
 import '../styles/App.css';
+import TipBox from '../components/TipBox';
 
 class SetCogs extends Component {
   constructor(props) {
@@ -187,16 +188,7 @@ class SetCogs extends Component {
               </div>
             </Col>
             <Col md={3} className="center-view">
-              <div className="description-view margin-t-40 text-center">
-                <span className="select-style-comment">
-                    COGS is the cost of buying one unit of the product from your vendor.
-                </span>
-              </div>
-              <div className="description-view margin-t-10 text-center">
-                <span className="select-style-comment">
-                    Do not include costs incurred when selling the product, like Shipping, Tax or Discounts.
-                </span>
-              </div>
+              <TipBox/>
             </Col>
           </Row>
           <div className="text-center margin-t-50">

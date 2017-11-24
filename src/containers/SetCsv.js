@@ -13,6 +13,7 @@ import {
   beautifyUploadedCsvData ,
   validateCogsValue
 } from "../helpers/Csv"
+import TipBox from '../components/TipBox';
 
 const ToastMessageFactory = React.createFactory(ToastMessageAnimated);
 
@@ -265,16 +266,7 @@ class SetCsv extends Component {
               </div>
             </Col>
             <Col md={3} className="center-view">
-              <div className="description-view margin-t-40 text-center">
-                <span className="select-style-comment">
-                    COGS is the cost of buying one unit of the product from your vendor.
-                </span>
-              </div>
-              <div className="description-view margin-t-10 text-center">
-                <span className="select-style-comment">
-                  Do not include costs incurred when selling the product, like Shipping, Tax or Discounts.
-                </span>
-              </div>
+              <TipBox/>
             </Col>
           </Row>
           <SweetAlert
