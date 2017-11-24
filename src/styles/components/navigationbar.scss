@@ -1,6 +1,6 @@
 .app-title {
-  font-family: 'Ubuntu-Bold';
-	font-size: 32px;
+  font-family: $ubuntu-bold;
+	font-size: $size-32;
   color: $main-blue-color;
   text-decoration: none solid $main-decoration-color;
   background: none;
@@ -21,8 +21,8 @@
 	text-align: right;
 }
 .username {
-  font-family: 'Ubuntu-Light';
-  font-size: 16px;
+  font-family: $ubuntu-light;
+  font-size: $size-16;
   color: $white-color;
   text-decoration: none solid $white-color;
   background: none;
@@ -31,8 +31,8 @@
   margin-top: 2px;
 }
 .setting {
-  font-family: 'Ubuntu-Light';
-  font-size: 16px;
+  font-family: $ubuntu-light;
+  font-size: $size-16;
   color: $white-color;
   text-decoration: none solid $white-color;
   background: none;

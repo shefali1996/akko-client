@@ -1,7 +1,7 @@
 
 .large-title {
-	font-family: 'Ubuntu-Bold';
-	font-size: 32px;
+	font-family: $ubuntu-bold;
+	font-size: $size-32;
 	color: $white-color;
 	text-decoration: none solid $white-color;
 	text-align: center;
@@ -9,8 +9,8 @@
 .middle-title {
 	width: 680px !important;
 	height: 36px;
-	font-family: 'Ubuntu-Regular';
-	font-size: 16px;
+	font-family: $ubuntu-regular;
+	font-size: $size-16;
 	color: $white-color;
 	text-decoration: none solid $white-color;
 	text-align: center;
@@ -30,23 +30,23 @@
 	padding-bottom: 20px;
 }
 .company-title {
-	font-family: 'Ubuntu-Light';
-	font-size: 16px;
+	font-family: $ubuntu-light;
+	font-size: $size-16;
 	color: $main-blue-color;
 	text-decoration: none solid $main-decoration-color;
 	background: none;
 }
 .contact-title {
-	font-family: 'Ubuntu-Light';
-	font-size: 16px;
+	font-family: $ubuntu-light;
+	font-size: $size-16;
 	color: $main-blue-color;
 	text-decoration: none solid $main-decoration-color;
 	background: none;
 	padding: 0;
 }
 .header-title {
-	font-family: 'Ubuntu-Bold';
-	font-size: 32px;
+	font-family: $ubuntu-bold;
+	font-size: $size-32;
 	color: $main-blue-color;
 	text-decoration: none solid $main-decoration-color;
 	background: none;
@@ -57,8 +57,8 @@
 	height: 23px;
 }
 .logo-title {
-	font-family: 'Ubuntu-Bold';
-	font-size: 32px;
+	font-family: $ubuntu-bold;
+	font-size: $size-32;
 	color: $white-color;
 	text-decoration: none solid $main-decoration-color;
 	background: none;
@@ -74,8 +74,8 @@
 	border: 1px solid $light-gray-color;
 	border-radius: 5px;
 	background-color: $white-color;
-	font-family: 'Ubuntu-Regular';
-	font-size: 14px;
+	font-family: $ubuntu-regular;
+	font-size: $size-14;
 	color: $light-gray-color;
 	text-decoration: none solid $main-decoration-color;
 	line-height: 14px;
@@ -88,16 +88,16 @@
 	margin-left: 10px;
 }
 .small-title {
-	font-family: 'Ubuntu-Light';
-	font-size: 16px;
+	font-family: $ubuntu-light;
+	font-size: $size-16;
 	color: $white-color;
 	text-decoration: none solid $white-color;
 	text-align: center;
 	vertical-align: bottom;
 }
 .invite-text {
-	font-family: 'Ubuntu-Light';
-	font-size: 24px;
+	font-family: $ubuntu-light;
+	font-size: $size-24;
 	color: $white-color;
 	text-decoration: none solid $white-color;
 	text-align: center;
@@ -108,8 +108,8 @@
 	padding: 6px 10px;
 	border-radius: 5px;
 	background-color: #e8e8e8;
-	font-family: 'Ubuntu-Regular';
-	font-size: 14px;
+	font-family: $ubuntu-regular;
+	font-size: $size-14;
 	color: #1d2fb5;
 	text-decoration: none solid $main-decoration-color;
 	text-align: center;
@@ -118,8 +118,8 @@
 	margin-left: 20px;
 }
 .recapture-text {
-	font-family: 'Ubuntu-Light';
-	font-size: 24px;
+	font-family: $ubuntu-light;
+	font-size: $size-24;
 	color: $white-color;
 	text-decoration: none solid $white-color;
 	text-align: center;
@@ -138,8 +138,8 @@
 	height: auto;
 }
 .inventory-text {
-	font-family: 'Ubuntu-Light';
-	font-size: 24px;
+	font-family: $ubuntu-light;
+	font-size: $size-24;
 	color: $white-color;
 	text-decoration: none solid $white-color;
 	text-align: center;
@@ -148,8 +148,8 @@
 .sale-text-one {
 	width: 100%;
 	height: 58px;
-	font-family: 'Ubuntu-Regular';
-	font-size: 16px;
+	font-family: $ubuntu-regular;
+	font-size: $size-16;
 	color: $white-color;
 	text-decoration: none solid $white-color;
 	text-align: center;
@@ -161,8 +161,8 @@
 	justify-content: center;
 }
 .seek-text {
-	font-family: 'Ubuntu-Light';
-	font-size: 24px;
+	font-family: $ubuntu-light;
+	font-size: $size-24;
 	color: $white-color;
 	text-decoration: none solid $white-color;
 	text-align: center;
@@ -207,7 +207,7 @@
 		margin-top: 10px;
 	}
 	.large-title {
-		font-size: 20px;
+		font-size: $size-20;
 	}
 	.middle-title {
 		font-size: 13px;
@@ -228,10 +228,10 @@
 		font-size: 26px;
 	}
 	.small-title {
-		font-size: 12px;
+		font-size: $size-12;
 	}
 	.invite-text {
-		font-size: 14px;
+		font-size: $size-14;
 	}
 	.invite-button {
 		font-size: 10px;
@@ -241,15 +241,15 @@
 	}
 	.recapture-text {
 		margin-top: 20px;
-		font-size: 14px;
+		font-size: $size-14;
 	}
 	.inventory-text {
 		margin-top: 20px;
-		font-size: 14px;
+		font-size: $size-14;
 	}
 	.seek-text {
 		margin-top: 20px;
-		font-size: 16px;
+		font-size: $size-16;
 		height: 50px;
 	}
 	.landing-image-two {
@@ -288,15 +288,15 @@
 }
 @media screen and (min-width: 768px) and (max-width: 991px) {
 	.invite-text {
-		font-size: 20px;
+		font-size: $size-20;
 	}
 	.recapture-text {
 		margin-top: 15px;
-		font-size: 18px;
+		font-size: $size-18;
 	}
 	.inventory-text {
 		margin-top: 25px;
-		font-size: 18px;
+		font-size: $size-18;
 	}
 	.request-view {
 		margin-top: 10px;
@@ -316,11 +316,11 @@
 @media screen and (min-width: 992px) and (max-width: 1199px) {
 	.recapture-text {
 		margin-top: 30px;
-		font-size: 22px;
+		font-size: $size-22;
 	}
 	.inventory-text {
 		margin-top: 30px;
-		font-size: 22px;
+		font-size: $size-22;
 	}
 	.request-view {
 		margin-top: 30px;
@@ -329,6 +329,6 @@
 		margin-top: 90px;
 	}
 	.sale-text-one {
-		font-size: 12px;
+		font-size: $size-12;
 	}
 }

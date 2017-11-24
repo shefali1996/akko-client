@@ -17,8 +17,8 @@
   border-bottom: 2px solid #1d2fb5;
   padding: 15px 20px 0px 20px;
   outline: 0px;
-  font-family: 'Ubuntu-Light';
-  font-size: 20px;
+  font-family: $ubuntu-light;
+  font-size: $size-20;
   color: #1d2fb5;
   text-decoration: none solid $main-decoration-color;
   width: 120px;
@@ -30,8 +30,8 @@
   margin: 0;
   padding: 15px 20px 0px 20px;
   outline: 0px;
-  font-family: 'Ubuntu-Light';
-  font-size: 20px;
+  font-family: $ubuntu-light;
+  font-size: $size-20;
   color: #1d2fb5;
   text-decoration: none solid $main-decoration-color;
   width: 120px;
@@ -94,8 +94,8 @@
 	outline: none;
 }
 .login-title {
-  font-family: 'Ubuntu-Bold';
-  font-size: 32px;
+  font-family: $ubuntu-bold;
+  font-size: $size-32;
   color: $main-blue-color;
   text-decoration: none solid $main-decoration-color;
   background: none;
@@ -114,15 +114,15 @@
 	border: 1px solid $light-gray-color;
 	border-radius: 5px;
 	background-color: $white-color;
-	font-family: 'Ubuntu-Regular';
-	font-size: 14px;
+	font-family: $ubuntu-regular;
+	font-size: $size-14;
 	color: $light-gray-color;
 	text-decoration: none solid $main-decoration-color;
 	line-height: 14px;
 }
 .forgot-text {
-	font-family: 'Ubuntu-Regular';
-	font-size: 16px;
+	font-family: $ubuntu-regular;
+	font-size: $size-16;
 	color: #1d2fb5;
 	text-decoration: none solid $main-decoration-color;
 	background: none;
@@ -132,8 +132,8 @@
 .forgot-text:hover,
 .forgot-text:focus,
 .forgot-text:active:focus {
-	font-family: 'Ubuntu-Regular';
-	font-size: 16px;
+	font-family: $ubuntu-regular;
+	font-size: $size-16;
 	color: #1d2fb5;
 	text-decoration: none solid $main-decoration-color;
 	background: none;
@@ -145,8 +145,8 @@
 	height: 34px;
 	padding: 6px 10px;
 	background-color: $white-color;
-	font-family: 'Ubuntu-Regular';
-	font-size: 14px;
+	font-family: $ubuntu-regular;
+	font-size: $size-14;
 	color: #1d2fb5;
 	text-decoration: none solid $main-decoration-color;
 	text-align: center;
@@ -162,8 +162,8 @@
 	height: 34px;
 	padding: 6px 10px;
 	background-color: $white-color;
-	font-family: 'Ubuntu-Regular';
-	font-size: 14px;
+	font-family: $ubuntu-regular;
+	font-size: $size-14;
 	color: #1d2fb5;
 	text-decoration: none solid $main-decoration-color;
 	text-align: center;
@@ -179,8 +179,8 @@
 	border: 1px solid $light-gray-color;
 	border-radius: 5px;
 	background-color: $white-color;
-	font-family: 'Ubuntu-Regular';
-	font-size: 14px;
+	font-family: $ubuntu-regular;
+	font-size: $size-14;
 	color: $light-gray-color;
 	text-decoration: none solid $main-decoration-color;
 	line-height: 14px;	
@@ -188,16 +188,16 @@
 .signup-role-input {
 	width: 200px;
 	padding-top: 0px;
-	font-family: 'Ubuntu-Regular';
-	font-size: 14px;
+	font-family: $ubuntu-regular;
+	font-size: $size-14;
 	color: $light-gray-color;
 	text-decoration: none solid $main-decoration-color;
 	line-height: 14px;	
 	text-align: left;
 }
 .signup-title {
-  font-family: 'Ubuntu-Light';
-  font-size: 16px;
+  font-family: $ubuntu-light;
+  font-size: $size-16;
   color: #1d2fb5;
   text-decoration: none solid $main-decoration-color;
   background: none;

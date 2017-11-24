@@ -1,6 +1,6 @@
 .shopify-comment {
-	font-family: 'Ubuntu-Regular';
-	font-size: 20px;
+	font-family: $ubuntu-regular;
+	font-size: $size-20;
 	color: $main-blue-color;
 	text-decoration: none solid rgb(87, 93, 222);
 	text-align: center;
@@ -18,16 +18,16 @@
 	margin-right: 10px;
 }
 .shopify-url-text {
-	font-family: 'Ubuntu-Regular';
-	font-size: 20px;
+	font-family: $ubuntu-regular;
+	font-size: $size-20;
 	color: $main-blue-color;
 	text-decoration: none solid rgb(87, 93, 222);
 	text-align: center;
 	margin-left: 5px;
 }
 .shopify-instruction-text {
-	font-family: 'Ubuntu-Regular';
-	font-size: 16px;
+	font-family: $ubuntu-regular;
+	font-size: $size-16;
 	color: $main-blue-color;
 	text-decoration: none solid rgb(87, 93, 222);
 	text-align: center;
@@ -42,8 +42,8 @@
 }
 .alert-text {
 	color: #822510;
-	font-family: 'Ubuntu-Regular';
-	font-size: 14px;
+	font-family: $ubuntu-regular;
+	font-size: $size-14;
 	text-decoration: none solid rgb(87, 93, 222);
 	text-align: center;
 	margin-left: 15px;
@@ -61,29 +61,29 @@
 	border-bottom: 1px solid $light-gray-color;	
 }
 .account-comment {
-	font-family: 'Ubuntu-Bold';
-	font-size: 24px;
+	font-family: $ubuntu-bold;
+	font-size: $size-24;
 	color: $main-blue-color;
 	text-decoration: none solid rgb(87, 93, 222);
 	text-align: center;
 }
 .select-style-text {
-	font-family: 'Ubuntu-Regular';
-	font-size: 24px;
+	font-family: $ubuntu-regular;
+	font-size: $size-24;
 	color: $main-blue-color;
 	text-decoration: none solid rgb(87, 93, 222);
 	text-align: center;
 }
 .select-style-comment {
-	font-family: 'Ubuntu-Regular';
-	font-size: 16px;
+	font-family: $ubuntu-regular;
+	font-size: $size-16;
 	color: $main-blue-color;
 	text-decoration: none solid rgb(87, 93, 222);
 	text-align: center;
 }
 .select-style-comment-small {
-	font-family: 'Ubuntu-Regular';
-	font-size: 14px;
+	font-family: $ubuntu-regular;
+	font-size: $size-14;
 	color: $main-blue-color;
 	text-decoration: none solid rgb(87, 93, 222);
 	text-align: center;
@@ -130,8 +130,8 @@
 }
 .style-text-view {
 	width: 408px;
-	font-family: 'Ubuntu-Regular';
-	font-size: 14px;
+	font-family: $ubuntu-regular;
+	font-size: $size-14;
 	color: $main-blue-color;
 	text-decoration: none solid rgb(87, 93, 222);
 	text-align: center;
@@ -141,15 +141,15 @@
 	align-items: center;
 }
 .select-text-large {
-	font-family: 'Ubuntu-Regular';
-	font-size: 16px;
+	font-family: $ubuntu-regular;
+	font-size: $size-16;
 	color: $main-blue-color;
 	text-decoration: none solid rgb(87, 93, 222);
 	text-align: center;
 }
 .select-text-small {
-	font-family: 'Ubuntu-Regular';
-	font-size: 14px;
+	font-family: $ubuntu-regular;
+	font-size: $size-14;
 	color: $main-blue-color;
 	text-decoration: none solid rgb(87, 93, 222);
 	text-align: center;
@@ -160,8 +160,8 @@
 	height: 29px;
 	padding: 6px 10px;
 	background-color: $white-color;
-	font-family: 'Ubuntu-Regular';
-	font-size: 14px;
+	font-family: $ubuntu-regular;
+	font-size: $size-14;
 	color: $light-gray-color;
 	text-decoration: none solid $main-decoration-color;
 	text-align: center;
@@ -177,8 +177,8 @@
 	height: 29px;
 	padding: 6px 10px;
 	background-color: $white-color;
-	font-family: 'Ubuntu-Regular';
-	font-size: 14px;
+	font-family: $ubuntu-regular;
+	font-size: $size-14;
 	color: $light-gray-color;
 	text-decoration: none solid $main-decoration-color;
 	text-align: center;
@@ -204,14 +204,14 @@
 	flex-direction: row;
 }
 .step-title {
-	font-family: 'Ubuntu-Bold';
-	font-size: 14px;
+	font-family: $ubuntu-bold;
+	font-size: $size-14;
 	color: $main-blue-color;
 	text-decoration: none solid rgb(87, 93, 222);
 }
 .step-content {
-	font-family: 'Ubuntu-Regular';
-	font-size: 14px;
+	font-family: $ubuntu-regular;
+	font-size: $size-14;
 	color: $main-blue-color;
 	text-decoration: none solid rgb(87, 93, 222);
 }
@@ -230,8 +230,8 @@
 	cursor: pointer;
 }
 .drag-text {
-	font-family: 'Ubuntu-Regular';
-	font-size: 20px;
+	font-family: $ubuntu-regular;
+	font-size: $size-20;
 	color: $light-gray-color;
 	text-decoration: none solid rgb(200, 200, 232);
 	text-align: center;
@@ -283,20 +283,20 @@
 	flex-direction: column;
 }
 .product-title {
-	font-family: 'Ubuntu-Regular';
-	font-size: 16px;
+	font-family: $ubuntu-regular;
+	font-size: $size-16;
 	color: #1d2fb5;
 	text-decoration: none solid $main-decoration-color;
 }
 .product-type {
-	font-family: 'Ubuntu-Regular';
-	font-size: 12px;
+	font-family: $ubuntu-regular;
+	font-size: $size-12;
 	color: $black-color;
 	text-decoration: none solid rgb(0, 0, 0);
 }
 .product-price-front {
-	font-family: 'Ubuntu-Regular';
-	font-size: 12px;
+	font-family: $ubuntu-regular;
+	font-size: $size-12;
 	color: $black-color;
 	text-decoration: none solid rgb(0, 0, 0);
 	margin-left: 40px;
@@ -304,15 +304,15 @@
 .product-price-back {
 	width: 61px;
 	height: 18px;
-	font-family: 'Ubuntu-Regular';
-	font-size: 16px;
+	font-family: $ubuntu-regular;
+	font-size: $size-16;
 	color: $black-color;
 	text-decoration: none solid rgb(0, 0, 0);
 	margin-left: 5px;
 }
 .product-currency {
-	font-family: 'Ubuntu-Regular';
-	font-size: 24px;
+	font-family: $ubuntu-regular;
+	font-size: $size-24;
 	color: $main-blue-color;
 	text-decoration: none solid rgb(87, 93, 222);
 	text-align: center;
@@ -323,8 +323,8 @@
 	flex-direction: column;
 }
 .product-currency-text {
-	font-family: 'Ubuntu-Regular';
-	font-size: 12px;
+	font-family: $ubuntu-regular;
+	font-size: $size-12;
 	color: #c8c8c8;
 	text-decoration: none solid rgb(200, 200, 200);
 }
@@ -350,8 +350,8 @@
 	height: 34px;
 	padding: 6px 10px;
 	background-color: $white-color;
-	font-family: 'Ubuntu-Regular';
-	font-size: 14px;
+	font-family: $ubuntu-regular;
+	font-size: $size-14;
 	color: #1d2fb5;
 	text-decoration: none solid $main-decoration-color;
 	text-align: center;

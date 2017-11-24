@@ -1,6 +1,6 @@
 .feature-text {
-	font-family: 'Ubuntu-Regular';
-	font-size: 16px;
+	font-family: $ubuntu-regular;
+	font-size: $size-16;
 	color: $white-color;
 	text-decoration: none solid $white-color;
 	background: none;
@@ -29,8 +29,8 @@
 	height: 36px;
 	background-color: #5bc0de;
 	background-repeat: no-repeat;
-	font-family: 'Ubuntu-Regular';
-	font-size: 14px;
+	font-family: $ubuntu-regular;
+	font-size: $size-14;
 	color: $white-color;
 	text-decoration: none solid rgba(255, 255, 255, 0.84);
 	text-align: center;
@@ -46,8 +46,8 @@
 	height: 36px;
 	background-color: #5bc0de;
 	background-repeat: no-repeat;
-	font-family: 'Ubuntu-Regular';
-	font-size: 14px;
+	font-family: $ubuntu-regular;
+	font-size: $size-14;
 	color: $white-color;
 	text-decoration: none solid rgba(255, 255, 255, 0.84);
 	text-align: center;

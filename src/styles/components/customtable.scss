@@ -25,8 +25,8 @@
 	box-shadow: 0 1px 2px $black-color;
 }
 .button-text {
-  font-family: 'Ubuntu-Light';
-  font-size: 14px;
+  font-family: $ubuntu-light;
+  font-size: $size-14;
   color: $white-color;
   text-decoration: none solid $white-color;
   text-align: center;
@@ -37,7 +37,7 @@
 }
 .pageList-style .pagination .page-item .page-link {
   font-family: 'Lato-Regular';
-  font-size: 14px;
+  font-size: $size-14;
   color: $black-color;
   text-decoration: none solid rgb(0, 0, 0);
   text-align: center;
@@ -45,7 +45,7 @@
 }
 .pageList-style .pagination .active.page-item .page-link {
   font-family: 'Lato-Regular';
-  font-size: 14px;
+  font-size: $size-14;
   color: $white-color;
   text-decoration: none solid rgb(0, 0, 0);
   text-align: center;
@@ -59,7 +59,7 @@
 }
 .setTablePageList-style .pagination .page-item .page-link {
   font-family: 'Lato-Regular';
-  font-size: 14px;
+  font-size: $size-14;
   color: $black-color;
   text-decoration: none solid rgb(0, 0, 0);
   text-align: center;
@@ -67,7 +67,7 @@
 }
 .setTablePageList-style .pagination .active.page-item .page-link {
   font-family: 'Lato-Regular';
-  font-size: 14px;
+  font-size: $size-14;
   color: $white-color;
   text-decoration: none solid rgb(0, 0, 0);
   text-align: center;
@@ -99,8 +99,8 @@
 	flex-direction: row;
 }
 .productName {
-	font-family: 'Ubuntu-Regular';
-	font-size: 16px;
+	font-family: $ubuntu-regular;
+	font-size: $size-16;
 	color: #1d2fb5;
 	text-decoration: none solid $main-decoration-color;
 	white-space: nowrap;
@@ -117,16 +117,16 @@
 	padding-left: 10px;
 }
 .variantTitle {
-	font-family: 'Ubuntu-Regular';
-	font-size: 12px;
+	font-family: $ubuntu-regular;
+	font-size: $size-12;
 	color: $black-color;
 	text-decoration: none solid rgb(0, 0, 0);
 	text-align: left;
 	padding-top: 1px;
 }
 .channelNumberText {
-	font-family: 'Ubuntu-Regular';
-	font-size: 12px;
+	font-family: $ubuntu-regular;
+	font-size: $size-12;
 	color: #c8c8c8;
 	text-decoration: none solid rgb(200, 200, 200);
 	padding-top: 3px;
