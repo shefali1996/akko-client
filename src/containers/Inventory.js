@@ -53,7 +53,6 @@ class Inventory extends Component {
   getInventory() {
     invokeApig({ path: '/inventory' }).then((results) => {
       const products = convertInventoryJSONToObject(results.variants);
-      console.log('results', results);
       this.setState({ data: products });
       localStorage.setItem('inventoryInfo', JSON.stringify(products));
     })
