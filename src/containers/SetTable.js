@@ -12,6 +12,8 @@ import {
   sortByTitle,
   getCaret,
   sortByCogsValue,
+  productPriceFormatter,
+  sortByProductPrice
 } from '../components/CustomTable';
 import { KEYS_TO_FILTERS_PRODUCT, convertInventoryJSONToObject, isNumeric } from '../constants';
 import { invokeApig } from '../libs/awsLib';
@@ -441,6 +443,18 @@ class SetTable extends Component {
                     width="40%"
                   >
                     Product
+                  </TableHeaderColumn>
+                  <TableHeaderColumn
+                    dataField="productDetail"
+                    dataAlign="center"
+                    className="set-table-header"
+                    dataFormat={productPriceFormatter}
+                    dataSort
+                    caretRender={getCaret}
+                    sortFunc={sortByProductPrice}
+                    width="20%"
+                  >
+                    Listed Price
                   </TableHeaderColumn>
                   <TableHeaderColumn
                     dataField="cogs"

@@ -165,13 +165,20 @@ export const productDetailFormatter = (cell, row) => (
         <div className="half-width">
           <span className="channelNumberText">SKU : {cell.sku}</span>
         </div>
-        <div className="half-width">
-          <span className="variantTitle margin-l-20">Selling for:  <strong>${parseFloat(Math.round(cell.price * 100) / 100).toFixed(2)}</strong></span>
-        </div>
       </div>
     </div>
   </div>
 );
+
+export const productPriceFormatter = (cell, row) => (  
+  <div className="flex-center padding-t-20">
+    <div className="currency-view">
+      <span className="product-listed-price">
+        ${row.productDetail.price}
+      </span>
+    </div>
+  </div>
+)
 
 export const cellUnitFormatter = (cell, row) => (
   <div className="stock-on-hand-cell">
@@ -233,5 +240,14 @@ export const sortBySaleValue = (a, b, order) => {
     return a.availableForSaleValue.value - b.availableForSaleValue.value;
   }
   return b.availableForSaleValue.value - a.availableForSaleValue.value;
+
+};
+
+
+export const sortByProductPrice = (a, b, order) => {
+  if (order === 'desc') {
+    return a.productDetail.price - b.productDetail.price;
+  }
+  return b.productDetail.price - a.productDetail.price;
 
 };

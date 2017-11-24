@@ -1260,6 +1260,14 @@
 	text-decoration: none solid rgb(87, 93, 222);
 	text-align: center;
 }
+.product-listed-price{
+	font-family: Ubuntu;
+	font-size: 20px;
+	color: #575dde;
+	font-weight: 400;
+	text-decoration: none solid rgb(87, 93, 222);
+	text-align: center;
+}
 .currency-view {
 	margin-left: 10px;
 	display: flex;
@@ -1273,7 +1281,7 @@
 	text-decoration: none solid rgb(200, 200, 200);
 }
 .product-input {
-	width: 123px;
+	width: 90px;
 	height: 56px;
 	border: 1px solid #c8c8e8;
 	border-radius: 5px;
@@ -1287,6 +1295,8 @@
 	/* display: none;
 	height: 0px; */
 	color: #1d2fb5;
+	font-size: 18px;
+	font-weight: normal;
 }
 .setTablePageList-style {
 	text-align: center;
