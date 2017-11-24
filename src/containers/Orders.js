@@ -157,27 +157,27 @@ class Orders extends Component {
       <div>
         <Navigationbar history={this.props.history} />
         <Grid className="orders-container">
-          <Row className="no-margin min-height custom-shadow">
+          <Row>
             <Tabs defaultActiveKey={3} id="uncontrolled-tab-example" className="inventory-tab" onSelect={this.handleSelect}>
               <Tab eventKey={1} title="Dashboard" />
               <Tab eventKey={2} title="Inventory" />
               <Tab eventKey={3} title="Orders">
-                <div className="padding-left-right-100">
-                  <Row className="padding-50">
-                    <Col md={3} className="no-left-padding">
+                <div className="inventory-layout">
+                  <Row className="image-group">
+                    <Col md={3}>
                       <div className="white-view" />
                     </Col>
-                    <Col md={3} className="no-left-padding">
+                    <Col md={3}>
                       <div className="white-view" />
                     </Col>
-                    <Col md={3} className="no-left-padding">
+                    <Col md={3}>
                       <div className="white-view" />
                     </Col>
-                    <Col md={3} className="no-right-padding no-left-padding">
+                    <Col md={3}>
                       <div className="white-view" />
                     </Col>
                   </Row>
-                  <Row className="padding-left-right-50">
+                  <Row className="image-group">
                     <Col md={6} mdOffset={3}>
                       <SearchInput
                         className="search-input"
