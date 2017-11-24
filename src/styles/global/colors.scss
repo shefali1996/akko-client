@@ -1,3 +1,15 @@
 .white-bg {
   background: $white-color;
 }
+.form-control::-webkit-input-placeholder {
+	color: #c8c8e8;
+}
+.form-control:-moz-placeholder { /* Firefox 18- */
+	color: #c8c8e8;
+}
+.form-control::-moz-placeholder { /* Firefox 19+ */
+	color: #c8c8e8;
+}
+.form-control:-ms-input-placeholder {
+	color: #c8c8e8;
+}

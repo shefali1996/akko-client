@@ -89,48 +89,13 @@
 .footer-container {
 	background-color: #fbfbfb;
 }
-.top-border {
-	padding-top: 20px;
-}
 .inventory-container {
   overflow: hidden;
 	width: 100%;
 	background-color: #ebebeb;
 }
-.padding-header {
-	padding-left: 70px;
-	padding-right: 70px;
-	padding-bottom: 20px;
-}
 .min-height {
   min-height: calc(100vh - 60px);
-}
-.company-title {
-	font-family: 'Ubuntu-Light';
-	font-size: 16px;
-	color: #575dde;
-	text-decoration: none solid rgb(29, 47, 181);
-	background: none;
-}
-.contact-title {
-	font-family: 'Ubuntu-Light';
-	font-size: 16px;
-	color: #575dde;
-	text-decoration: none solid rgb(29, 47, 181);
-	background: none;
-	padding: 0;
-}
-.header-title {
-	font-family: 'Ubuntu-Bold';
-	font-size: 32px;
-	color: #575dde;
-	text-decoration: none solid rgb(29, 47, 181);
-	background: none;
-	padding: 0;
-}
-.headerIcon {
-	width: 23px;
-	height: 23px;
 }
 .custom-shadow {
 	transform: translateZ(0);
@@ -181,27 +146,6 @@
   background-color: $white-color;
   width: 100%;
   height: 178px;
-}
-.margin-t-5 {
-  margin-top: 5px;
-}
-.margin-t-10 {
-  margin-top: 10px;
-}
-.margin-t-20 {
-  margin-top: 20px;
-}
-.margin-t-30 {
-  margin-top: 30px;
-}
-.margin-t-40 {
-  margin-top: 40px;
-}
-.margin-t-50 {
-  margin-top: 50px;
-}
-.margin-t-60 {
-  margin-top: 60px;
 }
 .btn-group.open .dropdown-toggle {
   box-shadow: none;
@@ -311,13 +255,6 @@
   width: 50%;
   display: inline-block;
   text-align: right;
-}
-.header-layout {
-	background: #1d2fb5; /* For browsers that do not support gradients */
-	background: -webkit-linear-gradient(#1d2fb5, #1d2fb5); /* For Safari 5.1 to 6.0 */
-	background: -o-linear-gradient(#1d2fb5, #1d2fb5); /* For Opera 11.1 to 12.0 */
-	background: -moz-linear-gradient(#1d2fb5, #1d2fb5); /* For Firefox 3.6 to 15 */
-	background: linear-gradient(#1d2fb5, #1d2fb5); /* Standard syntax */
 }
 .feature-text {
 	font-family: 'Ubuntu-Regular';
@@ -498,22 +435,6 @@
   border-bottom: 1px solid #c8c8e8;
   background-color: #ebebeb;
   text-align: left;
-}
-.flex-center {
-	display: flex;
-	justify-content: center;
-}
-.align-center {
-  display: flex;
-	align-items: center;
-}
-.flex-right {
-	display: flex;
-	justify-content: flex-end;
-}
-.flex-left {
-	display: flex;
-	justify-content: flex-start;
 }
 .form-control::-webkit-input-placeholder {
 	color: #c8c8e8;

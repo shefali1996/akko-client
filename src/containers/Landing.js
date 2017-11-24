@@ -105,7 +105,7 @@ class Landing extends Component {
                   <FormControl
                     type="text"
                     placeholder="official email"
-                    className="email-input"
+                    className="landing-email-input"
                     value={email}
                     data-tip="invalid email address"
                     data-for="sadFace"
