@@ -12,7 +12,7 @@ class AuthorizedContainer extends Component {
       this.props.history.push('/');
       return;
     }
-    this.props.history.push('/inventory');
+    this.props.history.push('/dashboard');
   }
 
   componentWillReceiveProps(nextProps) {
