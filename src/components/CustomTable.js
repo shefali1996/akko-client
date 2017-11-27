@@ -10,6 +10,7 @@ import plus from '../assets/images/plus.svg';
 import merge from '../assets/images/merge.svg';
 import deleteIcon from '../assets/images/delete.svg';
 import rightArrow from '../assets/images/rightArrow.svg';
+import blankImage from '../assets/images/blankImage.svg';
 
 import '../styles/App.css';
 import '../styles/react-search-input.css';
@@ -149,27 +150,32 @@ export const productCellFormatter = (cell, row) => (
   </div>
 );
 
-export const productDetailFormatter = (cell, row) => (
-  <div className="product-data-cell">
-    <div className="productImage">
-      <img style={{ width: 70 }} src={cell.image} alt="thumb" />
-    </div>
-    <div className="product-custom-title">
-      <div>
-        <span className="productName">{cell.title}</span>
+export const productDetailFormatter = (cell, row) => {
+  let productImage = cell.image;
+  if(productImage === null || productImage === 'null'){
+    productImage = blankImage;
+  }
+  return (
+    <div className="product-data-cell">
+      <div className="productImage">
+        <img style={{ width: 70 }} src={productImage} alt="thumb" />
       </div>
-      <div>
-        <span className="variantTitle">{cell.variant}</span>
-      </div>
-      <div className="sku-view">
-        <div className="half-width">
-          <span className="channelNumberText">SKU : {cell.sku}</span>
+      <div className="product-custom-title">
+        <div>
+          <span className="productName">{cell.title}</span>
+        </div>
+        <div>
+          <span className="variantTitle">{cell.variant}</span>
+        </div>
+        <div className="sku-view">
+          <div className="half-width">
+            <span className="channelNumberText">SKU : {cell.sku}</span>
+          </div>
         </div>
       </div>
     </div>
-  </div>
-);
-
+  );
+}
 export const productPriceFormatter = (cell, row) => (  
   <div className="flex-center padding-t-20">
     <div className="currency-view">
