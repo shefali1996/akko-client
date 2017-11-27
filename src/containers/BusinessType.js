@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Grid, Row, Col, Button, Label, Image } from 'react-bootstrap';
-import '../styles/App.css';
 import businessType1 from '../assets/images/businessType1.svg';
 import businessType2 from '../assets/images/businessType2.svg';
 import businessType3 from '../assets/images/businessType3.svg';
@@ -109,7 +108,7 @@ class BusinessType extends Component {
                   You forward orders to your vendors for fulfillment.
                 </span>
                 <span className="select-text-small">
-                  You do not stock inventory nor do your own fulfillment.
+                  You do not stock inventory nor do your own fulfillment.
                 </span>
               </div>
             </div>

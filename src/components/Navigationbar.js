@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Row, Col, Label, Image, DropdownButton } from 'react-bootstrap';
-import '../styles/App.css';
 import user from '../auth/user';
 import profileIcon from '../assets/images/profileIcon.svg';
 
@@ -26,13 +25,13 @@ class Navigationbar extends Component {
   render() {
     return (
       <div className="nav-container">
-        <Row className="no-margin white-bg">
-          <Col md={3} className="flex-left">
+        <Row>
+          <Col md={3} sm={6} xs={6} className="flex-left">
             <Label className="app-title">
               akko
             </Label>
           </Col>
-          <Col md={2} mdOffset={7} className="text-right no-padding">
+          <Col md={2} mdOffset={7} sm={6} xs={6} className="text-right no-padding">
             <DropdownButton
               title={
                 <div>

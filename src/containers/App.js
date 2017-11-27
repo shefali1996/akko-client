@@ -1,8 +1,9 @@
 import React, { Component } from 'react';
 import { Provider } from 'react-redux';
-import { Router, Route, Switch } from 'react-router';
 import createHistory from 'history/createBrowserHistory';
+import { Router, Route, Switch } from 'react-router';
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
+import 'antd/dist/antd.css';
 import Main from './Main';
 import Landing from './Landing';
 import SignIn from './SignIn';
@@ -14,10 +15,9 @@ import SetCsv from './SetCsv';
 import SetTable from './SetTable';
 import Setting from './Setting';
 import AuthorizedContainer from './AuthorizedContainer';
-import store from '../store';
+import store from '../redux/store';
 import NotFound from './NotFound';
-import '../styles/App.css';
-import 'antd/dist/antd.css';
+// import '../styles/App.css';
 
 const history = createHistory();
 

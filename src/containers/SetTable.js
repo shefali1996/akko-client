@@ -15,16 +15,16 @@ import {
   productPriceFormatter,
   sortByProductPrice
 } from '../components/CustomTable';
-import { KEYS_TO_FILTERS_PRODUCT, convertInventoryJSONToObject, isNumeric } from '../constants';
+import { KEYS_TO_FILTERS, convertInventoryJSONToObject, isNumeric, numberFormatter } from '../constants';
 import { invokeApig } from '../libs/awsLib';
-import { inventoryGetRequest } from '../actions';
-import '../styles/App.css';
-import { 
+// import { inventoryGetRequest } from '../actions';
+// import '../styles/App.css';
+import {
   checkAndUpdateProductCogsValue,
   updateLocalInventoryInfo,
   beautifyDataForCogsApiCall,
   moveAcceptedToBottom
-} from "../helpers/Csv"
+} from '../helpers/Csv';
 import TipBox from '../components/TipBox';
 import { Switch, Progress } from 'antd';
 
@@ -39,7 +39,8 @@ class SetTable extends Component {
       selectedRows: [],
       fetchError: false,
       errorText: '',
-      hideCompleted: false
+      hideCompleted: false,
+      valueError: false
     };
     this.goLanding = this.goLanding.bind(this);
     this.onFinish = this.onFinish.bind(this);
@@ -65,12 +66,12 @@ class SetTable extends Component {
   }
 
   onSkip() {
-    updateLocalInventoryInfo( this.state.data )
+    updateLocalInventoryInfo(this.state.data);
     this.props.history.push('/dashboard');
   }
 
-  fireSetCogsAPI (params){
-    return invokeApig({ 
+  fireSetCogsAPI(params) {
+    return invokeApig({
       path: '/inventory',
       method: 'PUT',
       body: params
@@ -79,19 +80,19 @@ class SetTable extends Component {
 
   onFinish() {
     const { data } = this.state;
-    let pendingCogs = false;
+    const pendingCogs = false;
     let pendingCogsProducts = data.filter((item) => {
       return item.cogsValidateStatus !== true;
     });
     pendingCogsProducts = [];
-    if(pendingCogsProducts.length > 0){
+    if (pendingCogsProducts.length > 0) {
       this.setState({
-        errorText: "Please set COGS for all products or to skip click SKIP FOR NOW button",
+        errorText: 'Please set COGS for all products or to skip click SKIP FOR NOW button',
         fetchError: true
-      });  
-    }else{
-      updateLocalInventoryInfo( data );
-      let cogsFinal = beautifyDataForCogsApiCall( data );
+      });
+    } else {
+      updateLocalInventoryInfo(data);
+      const cogsFinal = beautifyDataForCogsApiCall(data);
       this.fireSetCogsAPI(cogsFinal).then((results) => {
         this.props.history.push('/dashboard');
       }).catch(error => {
@@ -107,48 +108,48 @@ class SetTable extends Component {
     const {markup, data, selectedRows, selectedOption} = this.state;
     if (isNumeric(markup) && selectedRows.length > 0) {
       selectedRows.forEach((id) => {
-        let product = data.find((p)=>{
+        const product = data.find((p) => {
           return id === p.id;
-        })
-        if(product){
-          let productPrice = product.productDetail.price;
-          let cogs = "";
+        });
+        if (product) {
+          const productPrice = product.productDetail.price;
+          let cogs = '';
           if (selectedOption === 'option1') {
             // if percentage is opted
-            cogs = productPrice / ( 1 + (markup/100));
+            cogs = productPrice / (1 + (markup / 100));
             cogs = cogs.toFixed(2);
           } else {
             // if fixed markup is opted
             cogs = productPrice - markup;
           }
-          let newData = checkAndUpdateProductCogsValue( cogs, product, data )
+          const newData = checkAndUpdateProductCogsValue(cogs, product, data);
           this.setState({
-            data: moveAcceptedToBottom( newData )            
+            data: moveAcceptedToBottom(newData)
           });
         }
-      })
+      });
     }
     this.setState({
-      markup:"",
-      selectedRows:[]
+      markup: '',
+      selectedRows: []
     });
   }
 
   getProduct() {
-    if( localStorage.getItem('inventoryInfo') ){
-      this.setState({ data: moveAcceptedToBottom( JSON.parse( localStorage.getItem('inventoryInfo') )) } );
-    }else{
+    if (localStorage.getItem('inventoryInfo')) {
+      this.setState({ data: moveAcceptedToBottom(JSON.parse(localStorage.getItem('inventoryInfo'))) });
+    } else {
       this.products().then((results) => {
-        const products = convertInventoryJSONToObject(results['variants']);
-        this.setState({ data: moveAcceptedToBottom( products ) });
+        const products = convertInventoryJSONToObject(results.variants);
+        this.setState({ data: moveAcceptedToBottom(products) });
         localStorage.setItem('inventoryInfo', JSON.stringify(products));
       })
-      .catch(error => {
-        this.setState({
-          errorText: error,
-          fetchError: true
+        .catch(error => {
+          this.setState({
+            errorText: error,
+            fetchError: true
+          });
         });
-      });
     }
   }
 
@@ -212,20 +213,20 @@ class SetTable extends Component {
 
   onCogsBlur(e, row) {
     const {data} = this.state;
-    let newData = checkAndUpdateProductCogsValue( e.target.value, row, data )
-    this.setState({data:moveAcceptedToBottom( newData )});
+    const newData = checkAndUpdateProductCogsValue(e.target.value, row, data);
+    this.setState({data: moveAcceptedToBottom(newData)});
   }
 
   cogsValueFormatter(cell, row) {
     let warningMessage = null;
-    if(row.cogsValidateStatus===true){
-      warningMessage = <div>
-        <span className="cogs-completed"/>
-      </div>
-    }else{
-      warningMessage = <div title={row.cogsValidateStatus}>
-        <span className="cogs-pending"/>
-      </div>
+    if (row.cogsValidateStatus === true) {
+      warningMessage = (<div>
+        <span className="cogs-completed" />
+                        </div>);
+    } else {
+      warningMessage = (<div title={row.cogsValidateStatus}>
+        <span className="cogs-pending" />
+                        </div>);
     }
 
     return (
@@ -241,14 +242,14 @@ class SetTable extends Component {
         <FormControl
           type="number"
           className="product-input"
-          value={cell}
-          onChange={(e) => { 
+          value={numberFormatter(cell)}
+          onChange={(e) => {
             this.onCogsChange(e, row);
           }}
-          onBlur={(e) => { 
+          onBlur={(e) => {
             this.onCogsBlur(e, row);
           }}
-        />        
+        />
         {warningMessage}
       </div>
     );
@@ -257,55 +258,55 @@ class SetTable extends Component {
   doToggleRows(checked) {
     this.setState({
       hideCompleted: checked
-    })
+    });
   }
 
-  _renderProgressBar(total, completed, pending ){
-    let per = ( completed / total ) * 100;
-    return(
+  _renderProgressBar(total, completed, pending) {
+    const per = (completed / total) * 100;
+    return (
       <div>
         <div className="markup-center margin-0 padding-0 select-style-comment-small">
           <Col md={4} className="flex-left height-center">
             {completed} / {total}
-            <br/>
+            <br />
             Completed
           </Col>
           <Col md={4} className="text-center left-padding ">
             Hide completed
-            <br/>
+            <br />
             <Switch defaultChecked={this.state.hideCompleted} onChange={this.doToggleRows} />
           </Col>
           <Col md={4} className="flex-right height-center">
             {pending}
-            <br/>
+            <br />
             Pending
           </Col>
         </div>
         <div className="markup-center margin-0 padding-0">
           <Col md={12} className="flex-right height-center margin-0 padding-0">
-            <Progress strokeWidth="5" percent={per} showInfo={false}/>
+            <Progress strokeWidth="5" percent={per} showInfo={false} />
           </Col>
         </div>
       </div>
-    )
+    );
   }
 
   render() {
     const { searchTerm, markup } = this.state;
     let { data } = this.state;
     // hide valid COGS products, i.e where cogsValidateStatus is true
-    let countTotal = data.length;
-    let pendingProducts = data.filter((item) => {
+    const countTotal = data.length;
+    const pendingProducts = data.filter((item) => {
       return item.cogsValidateStatus !== true;
     });
-    let countPending = pendingProducts.length;
-    let countCompleted = countTotal - countPending;
-    if( this.state.hideCompleted ){
+    const countPending = pendingProducts.length;
+    const countCompleted = countTotal - countPending;
+    if (this.state.hideCompleted) {
       data = data.filter((item) => {
         return item.cogsValidateStatus !== true;
-      });  
-    }    
-    const filteredData = data.filter(createFilter(searchTerm, KEYS_TO_FILTERS_PRODUCT));
+      });
+    }
+    const filteredData = data.filter(createFilter(searchTerm, KEYS_TO_FILTERS));
     const selectRowProp = {
       mode: 'checkbox',
       customComponent: customMultiSelect,
@@ -489,7 +490,7 @@ class SetTable extends Component {
               </div>
             </Col>
             <Col md={3}>
-              <TipBox/>
+              <TipBox />
             </Col>
           </Row>
         </Grid>
@@ -503,6 +504,16 @@ class SetTable extends Component {
                 this.setState({ fetchError: false });
             }}
         />
+        <SweetAlert
+          show={this.state.valueError}
+          showConfirmButton
+          type="error"
+          title="Error"
+          text="Markup value can't be larger than original price."
+          onConfirm={() => {
+                this.setState({ valueError: false });
+            }}
+        />
       </div>
     );
   }
@@ -513,4 +524,4 @@ const mapStateToProps = state => ({
   // profile: state.user
 });
 
-export default connect(mapStateToProps, { inventoryGetRequest })(SetTable);
+export default connect(mapStateToProps)(SetTable);

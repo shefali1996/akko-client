@@ -8,7 +8,7 @@ import { invokeApig } from '../libs/awsLib';
 import cogs1 from '../assets/images/cogs1.svg';
 import cogs2 from '../assets/images/cogs2.svg';
 import cogs3 from '../assets/images/cogs3.svg';
-import '../styles/App.css';
+// import '../styles/App.css';
 import TipBox from '../components/TipBox';
 
 class SetCogs extends Component {
@@ -65,7 +65,7 @@ class SetCogs extends Component {
   getProduct() {
     if (localStorage.getItem('inventoryInfo') === null) {
       this.products().then((results) => {
-        const products = convertInventoryJSONToObject(results['variants']);
+        const products = convertInventoryJSONToObject(results.variants);
         this.setState({ data: products });
         localStorage.setItem('inventoryInfo', JSON.stringify(products));
       })
@@ -188,7 +188,7 @@ class SetCogs extends Component {
               </div>
             </Col>
             <Col md={3}>
-              <TipBox/>
+              <TipBox />
             </Col>
           </Row>
           <div className="text-center margin-t-50">

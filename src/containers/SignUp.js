@@ -7,12 +7,9 @@ import {
   AuthenticationDetails,
   CognitoUserPool
 } from 'amazon-cognito-identity-js';
-import 'react-select/dist/react-select.css';
-import 'sweetalert/dist/sweetalert.css';
 import { validateEmail, testMode } from '../constants';
 import config from '../config';
 import { invokeApig } from '../libs/awsLib';
-import '../styles/App.css';
 
 const options = [
   { value: 'CEO/Founder', label: 'CEO/Founder' },
@@ -323,7 +320,7 @@ class SignUp extends Component {
                         placeholder="email"
                         className="signup-email-input"
                         value={email}
-                        disabled={!!emailSent}
+                        disabled={emailSent}
                         onChange={this.onEmailChange} />
                     </div>
                   </Col>
@@ -334,7 +331,7 @@ class SignUp extends Component {
                         placeholder="password"
                         className="signup-email-input"
                         value={password}
-                        disabled={!!emailSent}
+                        disabled={emailSent}
                         onChange={this.onPasswordChange} />
                     </div>
                   </Col>

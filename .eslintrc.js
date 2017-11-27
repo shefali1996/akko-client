@@ -1,4 +1,10 @@
 module.exports = {
+    "parser": "babel-eslint",
+    "env": {
+      "browser": true,
+      "node": true,
+      "mocha": true
+    },
     "extends": "airbnb",
     "rules": {
       "arrow-parens": ["off"],
@@ -44,6 +50,7 @@ module.exports = {
       "import/no-named-as-default": ["off"],
       "no-else-return": ["off"],
       "no-restricted-globals": ["off"],
-      "arrow-body-style": ["off"]
+      "arrow-body-style": ["off"],
+      "no-lonely-if": ["off"]
     }
 };

@@ -1,15 +1,13 @@
-import React from "react";
-import ReactDOM from "react-dom";
-import './styles/index.css';
+import React from 'react';
+import 'font-awesome/scss/font-awesome.scss';
+import { render } from 'react-dom';
+import { AppContainer } from 'react-hot-loader';
+import 'react-select/scss/default.scss';
+import 'sweetalert/dev/sweetalert.scss';
 import App from './containers/App';
-import 'font-awesome/css/font-awesome.min.css';
-import { BrowserRouter as Router } from "react-router-dom"; // \todo: required?
-import registerServiceWorker from "./registerServiceWorker";
+import './styles/app.scss';
 
-ReactDOM.render(
-  <Router>
-    <App />
-  </Router>,
-  document.getElementById("root")
+render(
+  <App />,
+  document.getElementById('root'),
 );
-registerServiceWorker();

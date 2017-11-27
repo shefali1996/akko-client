@@ -7,7 +7,6 @@ import { ToastContainer, ToastMessageAnimated } from 'react-toastr';
 import Papa from 'papaparse';
 import { getProductValue, convertInventoryJSONToObject, exportCSVFile, headers } from '../constants';
 import { invokeApig } from '../libs/awsLib';
-import '../styles/App.css';
 import cogs2 from '../assets/images/cogs2.svg';
 import { 
   beautifyUploadedCsvData ,

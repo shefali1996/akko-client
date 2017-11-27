@@ -6,7 +6,7 @@ import { BootstrapTable, TableHeaderColumn } from 'react-bootstrap-table';
 import _ from 'underscore';
 import Navigationbar from '../components/Navigationbar';
 import Footer from '../components/Footer';
-import { KEYS_TO_FILTERS, convertInventoryJSONToObject } from '../constants';
+import { KEYS_TO_FILTERS, convertInventoryJSONToObject, pollingInterval } from '../constants';
 import {
   getCaret,
   customMultiSelect,
@@ -28,11 +28,6 @@ import {
 } from '../components/CustomTable';
 import { invokeApig } from '../libs/awsLib';
 
-import '../styles/App.css';
-import '../styles/react-search-input.css';
-import '../styles/react-bootstrap-table.min.css';
-import '../styles/customMultiSelect.css';
-
 class Inventory extends Component {
   constructor(props) {
     super(props);
@@ -47,25 +42,53 @@ class Inventory extends Component {
 
   componentDidMount() {
     this.getInventory();
+    this.loadInterval = setInterval(() => {
+      this.getInventoryWithParam();
+    }, pollingInterval);
+  }
+
+  componentWillUnmount() {
+    clearInterval(this.loadInterval);
+    this.setState({data: []});
   }
 
   onFocus() {
   }
 
   getInventory() {
-    if (localStorage.getItem('inventoryInfo') === null) {
-      invokeApig({ path: '/inventory' }).then((results) => {
-        const products = convertInventoryJSONToObject(results["variants"]);
+    invokeApig({ path: '/inventory' }).then((results) => {
+      const updateTime = results.lastUpdated;
+      const products = convertInventoryJSONToObject(results.variants);
+      this.setState({ data: products });
+      localStorage.setItem('inventoryInfo', JSON.stringify(products));
+      localStorage.setItem('lastUpdated', updateTime);
+    })
+      .catch(error => {
+        console.log('get product error', error);
+      });
+  }
+
+  getInventoryWithParam() {
+    const latestTimeStamp = localStorage.getItem('lastUpdated');
+    invokeApig({
+      path: '/inventory',
+      queryParams: {
+        lastUpdated: latestTimeStamp
+      }
+    }).then((results) => {
+      const updateTime = results.lastUpdated;
+      if (latestTimeStamp.toString() !== updateTime.toString()) {
+        const products = convertInventoryJSONToObject(results.variants);
         this.setState({ data: products });
         localStorage.setItem('inventoryInfo', JSON.stringify(products));
-      })
-        .catch(error => {
-          console.log('get product error', error);
-        });
-    } else {
-      const existingProducts = JSON.parse(localStorage.getItem('inventoryInfo'));
-      this.setState({ data: existingProducts });
-    }
+        localStorage.setItem('lastUpdated', updateTime);
+      } else {
+        console.log('nothing has changed');
+      }
+    })
+      .catch(error => {
+        console.log('get product error', error);
+      });
   }
 
   handleSelect(key) {
@@ -73,8 +96,6 @@ class Inventory extends Component {
       this.props.history.push('/dashboard');
     } else if (key === 2) {
       this.props.history.push('/inventory');
-    } else {
-      this.props.history.push('/orders');
     }
   }
 
@@ -157,27 +178,27 @@ class Inventory extends Component {
     return (
       <div>
         <Navigationbar history={this.props.history} />
-        <Grid className="inventory-container no-padding">
-          <Row className="no-margin min-height custom-shadow">
+        <Grid className="inventory-container">
+          <Row>
             <Tabs defaultActiveKey={2} id="uncontrolled-tab-example" className="inventory-tab" onSelect={this.handleSelect}>
               <Tab eventKey={1} title="Dashboard" />
               <Tab eventKey={2} title="Inventory">
-                <div className="padding-left-right-100">
-                  <Row className="padding-50">
-                    <Col md={3} className="no-left-padding">
+                <div className="inventory-layout">
+                  <Row className="image-group">
+                    <Col md={3}>
                       <div className="white-view" />
                     </Col>
-                    <Col md={3} className="no-left-padding">
+                    <Col md={3}>
                       <div className="white-view" />
                     </Col>
-                    <Col md={3} className="no-left-padding">
+                    <Col md={3}>
                       <div className="white-view" />
                     </Col>
-                    <Col md={3} className="no-right-padding no-left-padding">
+                    <Col md={3}>
                       <div className="white-view" />
                     </Col>
                   </Row>
-                  <Row className="padding-left-right-50">
+                  <Row className="image-group">
                     <Col md={6} mdOffset={3}>
                       <SearchInput
                         className="search-input"
@@ -189,6 +210,7 @@ class Inventory extends Component {
                   </Row>
                   <Row className="padding-50">
                     <BootstrapTable
+                      className="table-responsive"
                       data={filteredData}
                       options={options}
                       insertRow
@@ -301,7 +323,6 @@ class Inventory extends Component {
                   </Row>
                 </div>
               </Tab>
-              <Tab eventKey={3} title="Orders" />
             </Tabs>
           </Row>
         </Grid>

@@ -30,7 +30,8 @@ bower_components
 .lock-wscript
 
 # Compiled binary addons (http://nodejs.org/api/addons.html)
-build/Release
+build
+dist
 
 # Dependency directories
 node_modules/
@@ -45,6 +46,12 @@ typings/
 # Optional eslint cache
 .eslintcache
 
+# Optional Sass cache
+.sass-cache
+
+# Optional Sass output
+linters
+
 # Optional REPL history
 .node_repl_history
 
@@ -57,3 +64,4 @@ typings/
 # dotenv environment variables file
 .env
 
+*.lock
