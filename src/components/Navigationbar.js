@@ -11,11 +11,16 @@ class Navigationbar extends Component {
     this.state = {
     };
     this.onLogout = this.onLogout.bind(this);
+    this.goToSetting = this.goToSetting.bind(this);
   }
 
   onLogout() {
     user.logout();
     this.props.history.push('/');
+  }
+
+  goToSetting() {
+    this.props.history.push('/setting');
   }
 
   render() {
@@ -40,7 +45,7 @@ class Navigationbar extends Component {
               <div>
                 <div className="custom-dropdown-view">
                   <i className="fa fa-cog fa-lg username" aria-hidden="true" />
-                  <Label className="setting cursor-pointer">
+                  <Label className="setting cursor-pointer" onClick={this.goToSetting}>
                     Settings
                   </Label>
                 </div>

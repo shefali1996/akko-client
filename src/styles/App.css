@@ -276,7 +276,7 @@
   font-weight: 400;
   color: #1d2fb5;
   text-decoration: none solid rgb(29, 47, 181);
-  
+
 }
 .custom-table td {
   text-align: center;
@@ -675,11 +675,11 @@
 .form-control:-moz-placeholder { /* Firefox 18- */
 	color: #c8c8e8;
 }
-	 
+
 .form-control::-moz-placeholder { /* Firefox 19+ */
 	color: #c8c8e8;
 }
-	 
+
 .form-control:-ms-input-placeholder {
 	color: #c8c8e8;
 }
@@ -771,7 +771,7 @@
 	color: #c8c8e8;
 	font-weight: 400;
 	text-decoration: none solid rgb(29, 47, 181);
-	line-height: 14px;	
+	line-height: 14px;
 }
 .signup-role-input {
 	width: 200px;
@@ -781,7 +781,7 @@
 	color: #c8c8e8;
 	font-weight: 400;
 	text-decoration: none solid rgb(29, 47, 181);
-	line-height: 14px;	
+	line-height: 14px;
 	text-align: left;
 }
 .Select-control {
@@ -824,7 +824,7 @@
 	font-weight: 400;
 	text-decoration: none solid rgb(29, 47, 181);
 	white-space: nowrap;
-	text-overflow: ellipsis;    
+	text-overflow: ellipsis;
 	max-width: 400px;
 	overflow: hidden;
 }
@@ -984,7 +984,7 @@
 	margin-left: 40px;
 	margin-right: 40px;
 	padding-bottom: 10px;
-	border-bottom: 1px solid #c8c8e8;	
+	border-bottom: 1px solid #c8c8e8;
 }
 .account-comment {
 	font-family: Ubuntu;
@@ -1465,7 +1465,7 @@
 	.padding-left-right-100 {
 		padding-left: 0px;
 		padding-right: 0px;
-	}	
+	}
 }
 
 .cogs-pending {
@@ -1531,4 +1531,24 @@
 
 .dropdown{
 	width: 200px;
+}
+
+
+.update-style-title{
+  font-family: Ubuntu;
+  font-size: 18px;
+  color: #575dde;
+  font-weight: 500;
+  text-decoration: none solid rgb(87, 93, 222);
+  text-align: center;
+}
+
+.update-style-text{
+  font-family: Ubuntu;
+  display: block;
+  font-size: 18px;
+  color: #575dde;
+  font-weight: 400;
+  text-decoration: none solid rgb(87, 93, 222);
+  text-align: center;
 }

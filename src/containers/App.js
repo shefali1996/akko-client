@@ -12,6 +12,7 @@ import BusinessType from './BusinessType';
 import SetCogs from './SetCogs';
 import SetCsv from './SetCsv';
 import SetTable from './SetTable';
+import Setting from './Setting';
 import AuthorizedContainer from './AuthorizedContainer';
 import store from '../store';
 import NotFound from './NotFound';
@@ -36,6 +37,7 @@ class App extends Component {
                 <Route exact path="/set-cogs" component={SetCogs} />
                 <Route exact path="/set-csv" component={SetCsv} />
                 <Route exact path="/set-table" component={SetTable} />
+                <Route exact path="/setting" component={Setting} />
                 <Route path="/" name="Authorized Sections" component={AuthorizedContainer} />
               </Main>
               <Route path="*" component={NotFound} />
