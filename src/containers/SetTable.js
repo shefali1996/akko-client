@@ -15,6 +15,7 @@ import {
   productPriceFormatter,
   sortByProductPrice
 } from '../components/CustomTable';
+import { Switch, Progress } from 'antd';
 import { KEYS_TO_FILTERS, convertInventoryJSONToObject, isNumeric, numberFormatter } from '../constants';
 import { invokeApig } from '../libs/awsLib';
 // import { inventoryGetRequest } from '../actions';
@@ -26,7 +27,6 @@ import {
   moveAcceptedToBottom
 } from '../helpers/Csv';
 import TipBox from '../components/TipBox';
-import { Switch, Progress } from 'antd';
 
 class SetTable extends Component {
   constructor(props) {
