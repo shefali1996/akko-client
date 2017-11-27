@@ -284,7 +284,7 @@ class SetTable extends Component {
         </div>
         <div className="markup-center margin-0 padding-0">
           <Col md={12} className="flex-right height-center margin-0 padding-0">
-            <Progress strokeWidth="5" percent={per} showInfo={false} />
+            <Progress strokeWidth={5} percent={per} showInfo={false} />
           </Col>
         </div>
       </div>
@@ -467,12 +467,9 @@ class SetTable extends Component {
                     dataAlign="center"
                     className="set-table-header"
                     dataFormat={this.cogsValueFormatter.bind(this)}
-                    dataSort
-                    caretRender={getCaret}
-                    sortFunc={sortByCogsValue}
                     width="20%"
                   >
-                    Cogs
+                    COGS
                   </TableHeaderColumn>
                 </BootstrapTable>
               </div>
