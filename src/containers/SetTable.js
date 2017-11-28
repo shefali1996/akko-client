@@ -18,13 +18,12 @@ import {
 import { Switch, Progress } from 'antd';
 import { KEYS_TO_FILTERS, convertInventoryJSONToObject, isNumeric, numberFormatter } from '../constants';
 import { invokeApig } from '../libs/awsLib';
-// import { inventoryGetRequest } from '../actions';
-// import '../styles/App.css';
 import {
   checkAndUpdateProductCogsValue,
   updateLocalInventoryInfo,
   beautifyDataForCogsApiCall,
-  moveAcceptedToBottom
+  moveAcceptedToBottom,
+  sortByCogs
 } from '../helpers/Csv';
 import TipBox from '../components/TipBox';
 
@@ -39,6 +38,8 @@ class SetTable extends Component {
       selectedRows: [],
       fetchError: false,
       errorText: '',
+      fetchSuccess: false,
+      successMsg: '',
       hideCompleted: false,
       valueError: false
     };
@@ -50,7 +51,7 @@ class SetTable extends Component {
     this.handleOptionChange = this.handleOptionChange.bind(this);
     this.onSkip = this.onSkip.bind(this);
     this.doToggleRows = this.doToggleRows.bind(this);
-    this._renderProgressBar = this._renderProgressBar.bind(this);
+    this.renderProgressBar = this.renderProgressBar.bind(this);
   }
 
   componentWillMount() {
@@ -94,7 +95,10 @@ class SetTable extends Component {
       updateLocalInventoryInfo(data);
       const cogsFinal = beautifyDataForCogsApiCall(data);
       this.fireSetCogsAPI(cogsFinal).then((results) => {
-        this.props.history.push('/dashboard');
+        this.setState({
+          successMsg: `COGS successfully set for ${cogsFinal.variants.length} products`,
+          fetchSuccess: true
+        });
       }).catch(error => {
         this.setState({
           errorText: error,
@@ -124,7 +128,7 @@ class SetTable extends Component {
           }
           const newData = checkAndUpdateProductCogsValue(cogs, product, data);
           this.setState({
-            data: moveAcceptedToBottom(newData)
+            data: moveAcceptedToBottom(newData, product)
           });
         }
       });
@@ -137,11 +141,11 @@ class SetTable extends Component {
 
   getProduct() {
     if (localStorage.getItem('inventoryInfo')) {
-      this.setState({ data: moveAcceptedToBottom(JSON.parse(localStorage.getItem('inventoryInfo'))) });
+      this.setState({ data: sortByCogs(JSON.parse(localStorage.getItem('inventoryInfo'))) });
     } else {
       this.products().then((results) => {
         const products = convertInventoryJSONToObject(results.variants);
-        this.setState({ data: moveAcceptedToBottom(products) });
+        this.setState({ data: sortByCogs(products) });
         localStorage.setItem('inventoryInfo', JSON.stringify(products));
       })
         .catch(error => {
@@ -214,7 +218,7 @@ class SetTable extends Component {
   onCogsBlur(e, row) {
     const {data} = this.state;
     const newData = checkAndUpdateProductCogsValue(e.target.value, row, data);
-    this.setState({data: moveAcceptedToBottom(newData)});
+    this.setState({data: moveAcceptedToBottom(newData, row)});
   }
 
   cogsValueFormatter(cell, row) {
@@ -261,7 +265,7 @@ class SetTable extends Component {
     });
   }
 
-  _renderProgressBar(total, completed, pending) {
+  renderProgressBar(total, completed, pending) {
     const per = (completed / total) * 100;
     return (
       <div>
@@ -415,7 +419,7 @@ class SetTable extends Component {
               </div>
 
               <div className="markup-center margin-t-20 padding-0">
-                {this._renderProgressBar(countTotal, countCompleted, countPending)}
+                {this.renderProgressBar(countTotal, countCompleted, countPending)}
               </div>
 
               <div className="markup-center margin-t-10">
@@ -491,6 +495,18 @@ class SetTable extends Component {
             </Col>
           </Row>
         </Grid>
+        <SweetAlert
+          show={this.state.fetchSuccess}
+          showConfirmButton
+          type="success"
+          title="Success"
+          text={this.state.successMsg.toString()}
+          onConfirm={() => {
+            this.setState({ fetchSuccess: false }, () => {
+              this.props.history.push('/dashboard');
+            });
+          }}
+        />
         <SweetAlert
           show={this.state.fetchError}
           showConfirmButton

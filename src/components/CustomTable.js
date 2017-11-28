@@ -10,7 +10,7 @@ import plus from '../assets/images/plus.svg';
 import merge from '../assets/images/merge.svg';
 import deleteIcon from '../assets/images/delete.svg';
 import rightArrow from '../assets/images/rightArrow.svg';
-import blankImage from '../assets/images/blankImage.svg';
+import productImgPlaceholder from '../assets/images/productImgPlaceholder.svg';
 
 export const getCaret = (direction) => {
   if (direction === 'asc') {
@@ -147,13 +147,13 @@ export const productCellFormatter = (cell, row) => (
 
 export const productDetailFormatter = (cell, row) => {
   let productImage = cell.image;
-  if(productImage === null || productImage === 'null'){
-    productImage = blankImage;
+  if (productImage === null || productImage === 'null') {
+    productImage = productImgPlaceholder;
   }
   return (
     <div className="product-data-cell">
       <div className="productImage">
-        <img style={{ width: 70 }} src={productImage} alt="thumb" />
+        <img style={{ width: 70 }} src={productImage} alt="Product Image" />
       </div>
       <div className="product-custom-title">
         <div>
@@ -170,8 +170,8 @@ export const productDetailFormatter = (cell, row) => {
       </div>
     </div>
   );
-}
-export const productPriceFormatter = (cell, row) => (  
+};
+export const productPriceFormatter = (cell, row) => (
   <div className="flex-center padding-t-20">
     <div className="currency-view">
       <span className="product-listed-price">
@@ -179,7 +179,7 @@ export const productPriceFormatter = (cell, row) => (
       </span>
     </div>
   </div>
-)
+);
 
 export const cellUnitFormatter = (cell, row) => (
   <div className="stock-on-hand-cell">

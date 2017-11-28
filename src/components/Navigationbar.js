@@ -19,7 +19,7 @@ class Navigationbar extends Component {
   }
 
   goToSetting() {
-    this.props.history.push('/setting');
+    this.props.history.push('/settings');
   }
 
   render() {
