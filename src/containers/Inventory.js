@@ -4,6 +4,8 @@ import { connect } from 'react-redux';
 import SearchInput, { createFilter } from 'react-search-input';
 import { BootstrapTable, TableHeaderColumn } from 'react-bootstrap-table';
 import _ from 'underscore';
+import ReactPlaceholder from 'react-placeholder';
+import 'react-placeholder/lib/reactPlaceholder.css';
 import Navigationbar from '../components/Navigationbar';
 import Footer from '../components/Footer';
 import { KEYS_TO_FILTERS, convertInventoryJSONToObject, pollingInterval } from '../constants';
@@ -24,7 +26,7 @@ import {
   sortByTitle,
   sortByStockValue,
   sortByCommitValue,
-  sortBySaleValue
+  sortBySaleValue,
 } from '../components/CustomTable';
 import { invokeApig } from '../libs/awsLib';
 
@@ -173,7 +175,8 @@ class Inventory extends Component {
       prePage: '«   Previous',
       nextPage: 'Next   »',
       withFirstAndLast: false,
-      sortIndicator: false
+      sortIndicator: false,
+      noDataText: <ReactPlaceholder type="media" rows={10} ready={false} >There are no data to display</ReactPlaceholder>
     };
     return (
       <div>
