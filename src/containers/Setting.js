@@ -15,8 +15,8 @@ class Setting extends Component {
     this.getProductCount = this.getProductCount.bind(this);
     this.getProductCountWithCogs = this.getProductCountWithCogs.bind(this);
     this.getProductCountWithoutCogs = this.getProductCountWithoutCogs.bind(this);
-    this.getVariant = this.getVariant.bind(this);
     this.saveData = this.saveData.bind(this);
+    this.goDashboard = this.goDashboard.bind(this);
   }
 
   componentWillMount() {
@@ -25,7 +25,9 @@ class Setting extends Component {
       product
     });
   }
-
+  goDashboard() {
+    this.props.history.push('/dashboard');
+  }
   getProductCount() {
     const {product} = this.state;
     return product ? product.length : 0;
@@ -47,14 +49,6 @@ class Setting extends Component {
     return 0;
   }
 
-  getVariant() {
-    const {product} = this.state;
-    if (product) {
-      return _.filter(product, (o) => { return !_.isEmpty(o.variant); }).length;
-    }
-    return 0;
-  }
-
   saveData() {
 
   }
@@ -71,7 +65,7 @@ class Setting extends Component {
                 </Label>
               </Col>
               <Col md={6} className="text-right padding-t-20">
-                <Button className="logout-button" onClick={this.goLanding} />
+                <Button className="close-button" onClick={this.goDashboard} />
               </Col>
             </Col>
           </Row>
@@ -87,7 +81,7 @@ class Setting extends Component {
           </div>
           <div className="text-center margin-t-40">
             <span className="update-style-text margin-t-20">
-              You have <strong>{this.getProductCount()}</strong> products in <strong>{this.getVariant()}</strong> variants.
+              You have <strong>{this.getProductCount()}</strong> products/variants.
             </span>
             <span className="update-style-text margin-t-20">
               <strong>{this.getProductCountWithCogs()}</strong> products have COGS set.
@@ -97,7 +91,7 @@ class Setting extends Component {
             </span>
           </div>
           <div className="text-center margin-t-50">
-            <Button className="login-button" onClick={this.onConnect}>
+            <Button className="login-button" onClick={() => { this.props.history.push('/set-cogs'); }}>
                 SET COGS
             </Button>
           </div>
@@ -122,7 +116,7 @@ class Setting extends Component {
               <Select defaultValue="days" style={{ width: 120 }} onChange={(value) => this.setState({unit: value})}>
                 <Option value="days">Days</Option>
                 <Option value="months">Months</Option>
-                <Option value="weeks" disabled>Weeks</Option>
+                <Option value="weeks">Weeks</Option>
               </Select>
             </span>
           </div>
@@ -131,17 +125,17 @@ class Setting extends Component {
               How do you want to receive alerts?
             </span>
             <span className="inventory-alert-text inventory-alert-checkbox">
-              In App
-              <Checkbox onChange={(e) => this.setState({checked: e.target.checked})}>Email</Checkbox>
+              <span><Checkbox className="margin-l-5 margin-r-10" onChange={(e) => this.setState({inAppChecked: e.target.checked})} checked disabled />In App</span>
+              <span><Checkbox className="margin-r-10" onChange={(e) => this.setState({emailChecked: e.target.checked})} />Email</span>
             </span>
           </div>
           <div className="text-center margin-t-60">
             <span className="inventory-btn-wrapper">
-              <Button className="inventory-button pull-left" >
-                  CANCEL
+              <Button className="inventory-button btn-savenclose" onClick={this.goDashboard}>
+                SAVE AND CLOSE
               </Button>
-              <Button className="inventory-button pull-right" onClick={this.saveData}>
-                  SAVE AND CLOSE
+              <Button className="inventory-button btn-cancel" onClick={this.goDashboard}>
+                  CANCEL
               </Button>
             </span>
           </div>
