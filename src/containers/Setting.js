@@ -1,71 +1,65 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Grid, Row, Col, Button, Label, Image } from 'react-bootstrap';
-// import '../styles/App.css';
-import businessType1 from '../assets/images/businessType1.svg';
-import businessType2 from '../assets/images/businessType2.svg';
-import businessType3 from '../assets/images/businessType3.svg';
-import businessType4 from '../assets/images/businessType4.svg';
+import { Input, Select, Checkbox } from 'antd';
+import {getProduct} from '../helpers/Csv';
+
+const Option = Select.Option;
 
 class Setting extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      option: ''
+      product: false
     };
-    this.goLanding = this.goLanding.bind(this);
-    this.onConnect = this.onConnect.bind(this);
-    this.onTypeOneSelected = this.onTypeOneSelected.bind(this);
-    this.onTypeTwoSelected = this.onTypeTwoSelected.bind(this);
-    this.onTypeThreeSelected = this.onTypeThreeSelected.bind(this);
-    this.onTypeFourSelected = this.onTypeFourSelected.bind(this);
-  }
-
-  componentDidMount() {
-
+    this.getProductCount = this.getProductCount.bind(this);
+    this.getProductCountWithCogs = this.getProductCountWithCogs.bind(this);
+    this.getProductCountWithoutCogs = this.getProductCountWithoutCogs.bind(this);
+    this.getVariant = this.getVariant.bind(this);
+    this.saveData = this.saveData.bind(this);
   }
 
   componentWillMount() {
-
-  }
-
-  goLanding() {
-    this.props.history.push('/');
-  }
-
-  onTypeOneSelected() {
+    const product = getProduct();
     this.setState({
-      option: 'one'
+      product
     });
   }
 
-  onTypeTwoSelected() {
-    this.setState({
-      option: 'two'
-    });
+  getProductCount() {
+    const {product} = this.state;
+    return product ? product.length : 0;
   }
 
-  onTypeThreeSelected() {
-    this.setState({
-      option: 'three'
-    });
-  }
-
-  onTypeFourSelected() {
-    this.setState({
-      option: 'four'
-    });
-  }
-
-  onConnect() {
-    const { option } = this.state;
-    if (option.length > 0) {
-      this.props.history.push('/set-cogs');
+  getProductCountWithCogs() {
+    const {product} = this.state;
+    if (product) {
+      return _.filter(product, (o) => { return !_.isEmpty(o.cogs); }).length;
     }
+    return 0;
+  }
+
+  getProductCountWithoutCogs() {
+    const {product} = this.state;
+    if (product) {
+      return _.filter(product, (o) => { return _.isEmpty(o.cogs); }).length;
+    }
+    return 0;
+  }
+
+  getVariant() {
+    const {product} = this.state;
+    if (product) {
+      return _.filter(product, (o) => { return !_.isEmpty(o.variant); }).length;
+    }
+    return 0;
+  }
+
+  saveData() {
+
   }
 
   render() {
-    const { option } = this.state;
     return (
       <div>
         <Grid className="login-layout">
@@ -93,13 +87,13 @@ class Setting extends Component {
           </div>
           <div className="text-center margin-t-40">
             <span className="update-style-text margin-t-20">
-              You have <strong>114</strong> products in <strong>342</strong> variants.
+              You have <strong>{this.getProductCount()}</strong> products in <strong>{this.getVariant()}</strong> variants.
             </span>
             <span className="update-style-text margin-t-20">
-              <strong>73</strong> products have COGS set.
+              <strong>{this.getProductCountWithCogs()}</strong> products have COGS set.
             </span>
             <span className="update-style-text margin-t-20">
-              <strong>41</strong> products need COGS.
+              <strong>{this.getProductCountWithoutCogs()}</strong> products need COGS.
             </span>
           </div>
           <div className="text-center margin-t-50">
@@ -107,7 +101,51 @@ class Setting extends Component {
                 SET COGS
             </Button>
           </div>
-
+          <div className="text-center margin-t-60">
+            <span className="update-style-title">
+              INVENTORY ALERTS
+            </span>
+          </div>
+          <div className="text-center margin-t-20">
+            <span className="inventory-alert-text margin-t-20">
+              Alerts are triggered when you don't have enough inventory in stock to serve your rate of sales.
+            </span>
+          </div>
+          <div className="inventory-form text-center margin-t-40">
+            <span className="inventory-alert-text">
+              Trigger alert when I don't have enough stock for
+            </span>
+            <span className="inventory-alert-text input-field">
+              <Input placeholder="20" onChange={(e) => this.setState({timePeriod: e.target.value})} />
+            </span>
+            <span className="inventory-alert-text">
+              <Select defaultValue="days" style={{ width: 120 }} onChange={(value) => this.setState({unit: value})}>
+                <Option value="days">Days</Option>
+                <Option value="months">Months</Option>
+                <Option value="weeks" disabled>Weeks</Option>
+              </Select>
+            </span>
+          </div>
+          <div className="text-center margin-t-20">
+            <span className="inventory-alert-text margin-t-20">
+              How do you want to receive alerts?
+            </span>
+            <span className="inventory-alert-text inventory-alert-checkbox">
+              In App
+              <Checkbox onChange={(e) => this.setState({checked: e.target.checked})}>Email</Checkbox>
+            </span>
+          </div>
+          <div className="text-center margin-t-60">
+            <span className="inventory-btn-wrapper">
+              <Button className="inventory-button pull-left" >
+                  CANCEL
+              </Button>
+              <Button className="inventory-button pull-right" onClick={this.saveData}>
+                  SAVE AND CLOSE
+              </Button>
+            </span>
+          </div>
+          <div className="text-center margin-t-60" />
         </Grid>
       </div>
     );
