@@ -1,4 +1,4 @@
-import {remove, isEmpty} from 'lodash';
+import {remove, isEmpty, indexOf} from 'lodash';
 
 function beautifyUploadedCsvData(data) {
   const emptyCogsData = [];
@@ -87,20 +87,11 @@ function beautifyDataForCogsApiCall(data) {
 }
 
 function moveAcceptedToBottom(data, row) {
+  const updatedRow = data.splice(indexOf(data, row), 1)[0];
   if (row && !isEmpty(row.cogs)) {
-    const updatedRow = data.find((p) => {
-      return row.id === p.id;
-    });
-    remove(data, (n) => { return n.id === updatedRow.id; });
     data.push(updatedRow);
-    return data;
   } else if (row && isEmpty(row.cogs)) {
-    const updatedRow = data.find((p) => {
-      return row.id === p.id;
-    });
-    remove(data, (n) => { return n.id === updatedRow.id; });
     data.unshift(updatedRow);
-    return data;
   }
   return data;
 }

@@ -217,8 +217,10 @@ class SetTable extends Component {
 
   onCogsBlur(e, row) {
     const {data} = this.state;
-    const newData = checkAndUpdateProductCogsValue(e.target.value, row, data);
-    this.setState({data: moveAcceptedToBottom(newData, row)});
+    if (e.target.value !== row.cogs) {
+      const newData = checkAndUpdateProductCogsValue(e.target.value, row, data);
+      this.setState({data: moveAcceptedToBottom(newData, row)});
+    }
   }
 
   cogsValueFormatter(cell, row) {
