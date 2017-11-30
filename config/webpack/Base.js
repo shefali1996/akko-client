@@ -75,7 +75,7 @@ class WebpackBaseConfig {
         disableHostCheck: true,
         hot: true,
         inline: true,
-        port: 3006,
+        port: 3000,
       },
       entry: './index.js',
       node: {
