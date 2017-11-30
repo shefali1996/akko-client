@@ -177,7 +177,7 @@ class SignUp extends Component {
 
   createNewUser(userData) {
     return invokeApig({
-      path: '/signup',
+      path: '/user',
       method: 'POST',
       body: userData
     });

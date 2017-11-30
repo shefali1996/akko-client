@@ -1,4 +1,4 @@
-import signOutUser from "../libs/awsLib.js"
+import {signOutUser} from "../libs/awsLib.js"
 
 export default {
   get isAuthenticated() {
