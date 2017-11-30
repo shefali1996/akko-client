@@ -187,7 +187,7 @@ class SetCogs extends Component {
               </div>
             </Col>
             <Col md={3}>
-              <TipBox message={tipBoxMsg.default} />
+              <TipBox message={tipBoxMsg.cogsValue} />
             </Col>
           </Row>
           <div className="text-center margin-t-50">

@@ -262,7 +262,7 @@ class SetCsv extends Component {
               </div>
             </Col>
             <Col md={3}>
-              <TipBox message={tipBoxMsg.default} />
+              <TipBox message={tipBoxMsg.cogsValue} />
             </Col>
           </Row>
           <SweetAlert

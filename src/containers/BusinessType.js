@@ -59,7 +59,7 @@ class BusinessType extends Component {
   onTypeFourSelected() {
     this.setState({
       option: 'four',
-      tipMsg: ''
+      tipMsg: tipBoxMsg.default
     });
   }
 

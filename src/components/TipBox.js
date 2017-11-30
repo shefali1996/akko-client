@@ -28,5 +28,6 @@ export const tipBoxMsg = {
   dropshipper: 'COGS is the cost of buying one unit of the product from your vendor.',
   reseller: 'COGS is the cost of buying one unit of the product from your vendor.',
   manufacture: 'COGS is the cost of raw materials + cost of manufacturing and warehousing one unit of the product',
-  default: 'COGS is the cost of buying one unit of the product from your vendor'
+  cogsValue: 'COGS is the cost of buying one unit of the product from your vendor',
+  default: ''
 };
