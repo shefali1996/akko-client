@@ -1,3 +1,5 @@
+import {remove, isEmpty, indexOf} from 'lodash';
+
 function beautifyUploadedCsvData(data) {
   const emptyCogsData = [];
   const nonEmptyCogsData = [];
@@ -39,7 +41,7 @@ function validateCogsValue(cogs, price) {
         ret = true;
       }
       if (cogs > price) {
-        ret = `${cogs} - COGS > Price and this will lead to loss on sales`;
+        ret = 'COGS > Price and this will lead to loss on sales';
       }
     } else {
       ret = 'Invalid entry';
@@ -84,7 +86,17 @@ function beautifyDataForCogsApiCall(data) {
   };
 }
 
-function moveAcceptedToBottom(data) {
+function moveAcceptedToBottom(data, row) {
+  const updatedRow = data.splice(indexOf(data, row), 1)[0];
+  if (row && !isEmpty(row.cogs)) {
+    data.push(updatedRow);
+  } else if (row && isEmpty(row.cogs)) {
+    data.unshift(updatedRow);
+  }
+  return data;
+}
+
+function sortByCogs(data) {
   return data.sort((itemA, itemB) => {
     if (itemA.cogsValidateStatus === true) {
       return 1;
@@ -110,5 +122,6 @@ export {
   updateLocalInventoryInfo,
   beautifyDataForCogsApiCall,
   moveAcceptedToBottom,
-  getProduct
+  getProduct,
+  sortByCogs
 };

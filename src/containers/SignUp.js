@@ -9,7 +9,7 @@ import {
 } from 'amazon-cognito-identity-js';
 import { validateEmail, testMode } from '../constants';
 import config from '../config';
-import { invokeApig } from '../libs/awsLib';
+import { invokeApig, signOutUser } from '../libs/awsLib';
 
 const options = [
   { value: 'CEO/Founder', label: 'CEO/Founder' },
@@ -151,10 +151,10 @@ class SignUp extends Component {
             password
           ).then((result) => {
             this.createNewUser({
-              firstName: this.state.firstName,
-              lastName: this.state.lastName,
-              companyName: this.state.companyName,
-              yourRole: this.state.yourRole,
+              fname: this.state.firstName,
+              lname: this.state.lastName,
+              company: this.state.companyName,
+              role: this.state.yourRole,
               email: this.state.email,
               location: 'Earth'
             }).then((result) => {
@@ -177,13 +177,17 @@ class SignUp extends Component {
 
   createNewUser(userData) {
     return invokeApig({
-      path: '/signup',
+      path: '/user',
       method: 'POST',
       body: userData
     });
   }
 
   signup(email, password) {
+
+    // for safety sake, sign out any logged in users first
+    signOutUser();
+
     const userPool = new CognitoUserPool({
       UserPoolId: config.cognito.USER_POOL_ID,
       ClientId: config.cognito.APP_CLIENT_ID

@@ -1,11 +1,9 @@
 import Radium from 'radium';
 import { headShake } from 'react-animations';
-import { 
-  validateCogsValue
-} from "../helpers/Csv"
+import { validateCogsValue } from '../helpers/Csv';
 
 // static constants
-export const testMode = true;
+export const testMode = false;
 export const pollingInterval = 30 * 1000; // seconds 30s
 export const KEYS_TO_FILTERS = ['productDetail.title', 'stockOnHandUnits', 'stockOnHandValue.value', 'committedUnits', 'committedValue.value', 'availableForSaleUnits', 'availableForSaleValue.value'];
 export const KEYS_TO_METRICES = ['title', 'description', 'prefix', 'value', 'trend', 'trendValue', 'trendPeriod'];
@@ -62,7 +60,7 @@ export const convertInventoryJSONToObject = (inventoryJSON) => {
       sku: currProduct.product_details.sku,
       price: currProduct.product_details.price,
       cogs: currProduct.product_details.cogs !== 'null' ? currProduct.product_details.cogs : '',
-      cogsValidateStatus: validateCogsValue( currProduct.product_details.cogs , currProduct.product_details.price )
+      cogsValidateStatus: validateCogsValue(currProduct.product_details.cogs, currProduct.product_details.price)
     };
     products.push(productEntry);
   }

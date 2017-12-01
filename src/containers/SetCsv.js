@@ -8,10 +8,7 @@ import Papa from 'papaparse';
 import { getProductValue, convertInventoryJSONToObject, exportCSVFile, headers } from '../constants';
 import { invokeApig } from '../libs/awsLib';
 import cogs2 from '../assets/images/cogs2.svg';
-import { 
-  beautifyUploadedCsvData ,
-  validateCogsValue
-} from "../helpers/Csv"
+import { beautifyUploadedCsvData, validateCogsValue } from '../helpers/Csv';
 import TipBox from '../components/TipBox';
 
 const ToastMessageFactory = React.createFactory(ToastMessageAnimated);
@@ -87,27 +84,27 @@ class SetCsv extends Component {
           // start
           const updatedProducts = [];
           let nullCogsCount = 0;
-          let beautyData = beautifyUploadedCsvData(results.data);
-          data.forEach((product)=>{
-            beautyData.csvData.forEach((csvProduct)=>{
-              if( product.id ===  csvProduct.id ){                                
+          const beautyData = beautifyUploadedCsvData(results.data);
+          data.forEach((product) => {
+            beautyData.csvData.forEach((csvProduct) => {
+              if (product.id === csvProduct.id) {
                 product.cogs = csvProduct.cogs;
                 product.productDetail.cogs = csvProduct.cogs;
               }
-            })
-            let cogsValidateStatus = validateCogsValue( product.productDetail.cogs , product.productDetail.price );
-            if(cogsValidateStatus === true){
+            });
+            const cogsValidateStatus = validateCogsValue(product.productDetail.cogs, product.productDetail.price);
+            if (cogsValidateStatus === true) {
 
-            }else{
+            } else {
               nullCogsCount++;
-              product.cogs = "";
-              product.productDetail.cogs = "";
+              product.cogs = '';
+              product.productDetail.cogs = '';
             }
             product.cogsValidateStatus = cogsValidateStatus;
             updatedProducts.push(product);
-          })
+          });
           localStorage.setItem('inventoryInfo', JSON.stringify(updatedProducts));
-          // end 
+          // end
           $this.setState({
             totalProductCount: updatedProducts.length,
             selectedCogsValue: updatedProducts.length - nullCogsCount,
@@ -121,7 +118,7 @@ class SetCsv extends Component {
   getProduct() {
     this.products().then((results) => {
       console.log(results);
-      const products = convertInventoryJSONToObject(results['variants']);
+      const products = convertInventoryJSONToObject(results.variants);
       this.setState({ data: products });
       localStorage.setItem('inventoryInfo', JSON.stringify(products));
     })
@@ -265,7 +262,7 @@ class SetCsv extends Component {
               </div>
             </Col>
             <Col md={3}>
-              <TipBox/>
+              <TipBox />
             </Col>
           </Row>
           <SweetAlert

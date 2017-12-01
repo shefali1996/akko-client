@@ -1,10 +1,12 @@
+import {signOutUser} from "../libs/awsLib.js"
+
 export default {
   get isAuthenticated() {
     return window.localStorage.getItem('isAuthenticated');
   },
   logout() {
-    window.localStorage.removeItem('isAuthenticated');
-    window.localStorage.removeItem('inventoryInfo');
+    signOutUser();
+    window.localStorage.clear();
   },
   setUser(user) {
     window.localStorage.setItem('authUser', JSON.stringify(user));
