@@ -12,9 +12,20 @@ import {
   sortByTitle,
   getCaret,
   sortByCogsValue,
+  productPriceFormatter,
+  sortByProductPrice
 } from '../components/CustomTable';
+import { Switch, Progress } from 'antd';
 import { KEYS_TO_FILTERS, convertInventoryJSONToObject, isNumeric, numberFormatter } from '../constants';
 import { invokeApig } from '../libs/awsLib';
+import {
+  checkAndUpdateProductCogsValue,
+  updateLocalInventoryInfo,
+  beautifyDataForCogsApiCall,
+  moveAcceptedToBottom,
+  sortByCogs
+} from '../helpers/Csv';
+import TipBox from '../components/TipBox';
 
 class SetTable extends Component {
   constructor(props) {
@@ -27,14 +38,20 @@ class SetTable extends Component {
       selectedRows: [],
       fetchError: false,
       errorText: '',
+      fetchSuccess: false,
+      successMsg: '',
+      hideCompleted: false,
       valueError: false
     };
     this.goLanding = this.goLanding.bind(this);
-    this.onConnect = this.onConnect.bind(this);
+    this.onFinish = this.onFinish.bind(this);
     this.onMarkUpChange = this.onMarkUpChange.bind(this);
     this.searchUpdated = this.searchUpdated.bind(this);
     this.onSetMarkup = this.onSetMarkup.bind(this);
     this.handleOptionChange = this.handleOptionChange.bind(this);
+    this.onSkip = this.onSkip.bind(this);
+    this.doToggleRows = this.doToggleRows.bind(this);
+    this.renderProgressBar = this.renderProgressBar.bind(this);
   }
 
   componentWillMount() {
@@ -49,51 +66,95 @@ class SetTable extends Component {
     this.setState({ markup: e.target.value });
   }
 
-  onConnect() {
-    this.props.history.push('/inventory');
+  onSkip() {
+    updateLocalInventoryInfo(this.state.data);
+    this.props.history.push('/dashboard');
+  }
+
+  fireSetCogsAPI(params) {
+    return invokeApig({
+      path: '/inventory',
+      method: 'PUT',
+      body: params
+    });
+  }
+
+  onFinish() {
     const { data } = this.state;
-    for (let i = 0; i < data.length; i++) {
-      if (data[i].cogs !== undefined) {
-        // Todo: should be implement put all call
-      }
-    }
-  }
-
-  onSetMarkup() {
-    const {markup, data, selectedRows, selectedOption} = this.state;
-    if (isNumeric(markup)) {
-      for (let i = 0; i < selectedRows.length; i++) {
-        const index = data.findIndex((element) => {
-          return element.id === selectedRows[i];
+    const pendingCogs = false;
+    let pendingCogsProducts = data.filter((item) => {
+      return item.cogsValidateStatus !== true;
+    });
+    pendingCogsProducts = [];
+    if (pendingCogsProducts.length > 0) {
+      this.setState({
+        errorText: 'Please set COGS for all products or to skip click SKIP FOR NOW button',
+        fetchError: true
+      });
+    } else {
+      updateLocalInventoryInfo(data);
+      const cogsFinal = beautifyDataForCogsApiCall(data);
+      this.fireSetCogsAPI(cogsFinal).then((results) => {
+        this.setState({
+          successMsg: `COGS successfully set for ${cogsFinal.variants.length} products`,
+          fetchSuccess: true
         });
-        if (index > -1) {
-          if (selectedOption === 'option1') {
-            data[index].cogs = data[index].price / (1 + (markup / 100));
-          } else {
-            if (parseInt(data[index].price, 10) > markup) {
-              data[index].cogs = markup;
-            } else {
-              this.setState({valueError: true});
-            }
-          }
-        }
-      }
-      this.setState({ data });
-    }
-  }
-
-  getProduct() {
-    this.products().then((results) => {
-      const products = convertInventoryJSONToObject(results);
-      this.setState({ data: products });
-      localStorage.setItem('inventoryInfo', JSON.stringify(products));
-    })
-      .catch(error => {
+      }).catch(error => {
         this.setState({
           errorText: error,
           fetchError: true
         });
       });
+    }
+  }
+
+  onSetMarkup() {
+    const {markup, data, selectedRows, selectedOption} = this.state;
+    if (isNumeric(markup) && selectedRows.length > 0) {
+      selectedRows.forEach((id) => {
+        const product = data.find((p) => {
+          return id === p.id;
+        });
+        if (product) {
+          const productPrice = product.productDetail.price;
+          let cogs = '';
+          if (selectedOption === 'option1') {
+            // if percentage is opted
+            cogs = productPrice / (1 + (markup / 100));
+            cogs = cogs.toFixed(2);
+          } else {
+            // if fixed markup is opted
+            cogs = productPrice - markup;
+          }
+          const newData = checkAndUpdateProductCogsValue(cogs, product, data);
+          this.setState({
+            data: moveAcceptedToBottom(newData, product)
+          });
+        }
+      });
+    }
+    this.setState({
+      markup: '',
+      selectedRows: []
+    });
+  }
+
+  getProduct() {
+    if (localStorage.getItem('inventoryInfo')) {
+      this.setState({ data: sortByCogs(JSON.parse(localStorage.getItem('inventoryInfo'))) });
+    } else {
+      this.products().then((results) => {
+        const products = convertInventoryJSONToObject(results.variants);
+        this.setState({ data: sortByCogs(products) });
+        localStorage.setItem('inventoryInfo', JSON.stringify(products));
+      })
+        .catch(error => {
+          this.setState({
+            errorText: error,
+            fetchError: true
+          });
+        });
+    }
   }
 
   handleOptionChange(e) {
@@ -154,7 +215,26 @@ class SetTable extends Component {
     this.setState({data});
   }
 
+  onCogsBlur(e, row) {
+    const {data} = this.state;
+    if (e.target.value !== row.cogs) {
+      const newData = checkAndUpdateProductCogsValue(e.target.value, row, data);
+      this.setState({data: moveAcceptedToBottom(newData, row)});
+    }
+  }
+
   cogsValueFormatter(cell, row) {
+    let warningMessage = null;
+    if (row.cogsValidateStatus === true) {
+      warningMessage = (<div>
+        <span className="cogs-completed" />
+                        </div>);
+    } else {
+      warningMessage = (<div title={row.cogsValidateStatus}>
+        <span className="cogs-pending" />
+                        </div>);
+    }
+
     return (
       <div className="flex-center padding-t-20">
         <div className="currency-view">
@@ -172,13 +252,66 @@ class SetTable extends Component {
           onChange={(e) => {
             this.onCogsChange(e, row);
           }}
+          onBlur={(e) => {
+            this.onCogsBlur(e, row);
+          }}
         />
+        {warningMessage}
+      </div>
+    );
+  }
+
+  doToggleRows(checked) {
+    this.setState({
+      hideCompleted: checked
+    });
+  }
+
+  renderProgressBar(total, completed, pending) {
+    const per = (completed / total) * 100;
+    return (
+      <div>
+        <div className="markup-center margin-0 padding-0 select-style-comment-small">
+          <Col md={4} className="flex-left height-center">
+            {completed} / {total}
+            <br />
+            Completed
+          </Col>
+          <Col md={4} className="text-center left-padding ">
+            Hide completed
+            <br />
+            <Switch defaultChecked={this.state.hideCompleted} onChange={this.doToggleRows} />
+          </Col>
+          <Col md={4} className="flex-right height-center">
+            {pending}
+            <br />
+            Pending
+          </Col>
+        </div>
+        <div className="markup-center margin-0 padding-0">
+          <Col md={12} className="flex-right height-center margin-0 padding-0">
+            <Progress strokeWidth={5} percent={per} showInfo={false} />
+          </Col>
+        </div>
       </div>
     );
   }
 
   render() {
-    const { data, searchTerm, markup } = this.state;
+    const { searchTerm, markup } = this.state;
+    let { data } = this.state;
+    // hide valid COGS products, i.e where cogsValidateStatus is true
+    const countTotal = data.length;
+    const pendingProducts = data.filter((item) => {
+      return item.cogsValidateStatus !== true;
+    });
+    const countPending = pendingProducts.length;
+    const countCompleted = countTotal - countPending;
+    if (this.state.hideCompleted) {
+      data = data.filter((item) => {
+        return item.cogsValidateStatus !== true;
+      });
+    }
     const filteredData = data.filter(createFilter(searchTerm, KEYS_TO_FILTERS));
     const selectRowProp = {
       mode: 'checkbox',
@@ -193,7 +326,8 @@ class SetTable extends Component {
       prePage: '«   Previous',
       nextPage: 'Next   »',
       withFirstAndLast: false,
-      sortIndicator: false
+      sortIndicator: false,
+      sizePerPage: 100
     };
 
     return (
@@ -252,6 +386,7 @@ class SetTable extends Component {
                   onFocus={this.onFocus}
                 />
               </div>
+
               <div className="markup-center margin-t-30">
                 <Col md={4} className="flex-right height-center">
                   <span className="select-style-comment-small">
@@ -284,7 +419,12 @@ class SetTable extends Component {
                   </Button>
                 </Col>
               </div>
-              <div className="markup-center margin-t-30">
+
+              <div className="markup-center margin-t-20 padding-0">
+                {this.renderProgressBar(countTotal, countCompleted, countPending)}
+              </div>
+
+              <div className="markup-center margin-t-10">
                 <BootstrapTable
                   ref={(table) => { this.table = table; }}
                   data={filteredData}
@@ -317,46 +457,58 @@ class SetTable extends Component {
                     Product
                   </TableHeaderColumn>
                   <TableHeaderColumn
+                    dataField="productDetail"
+                    dataAlign="center"
+                    className="set-table-header"
+                    dataFormat={productPriceFormatter}
+                    dataSort
+                    caretRender={getCaret}
+                    sortFunc={sortByProductPrice}
+                    width="20%"
+                  >
+                    Listed Price
+                  </TableHeaderColumn>
+                  <TableHeaderColumn
                     dataField="cogs"
                     dataAlign="center"
                     className="set-table-header"
                     dataFormat={this.cogsValueFormatter.bind(this)}
-                    dataSort
-                    caretRender={getCaret}
-                    sortFunc={sortByCogsValue}
                     width="20%"
                   >
-                    Cogs
+                    COGS
                   </TableHeaderColumn>
                 </BootstrapTable>
               </div>
               <div className="content-center margin-40">
                 <Col md={6} className="text-left no-padding">
-                  <Button className="skip-button" onClick={this.onConnect}>
+                  <Button className="skip-button" onClick={this.onSkip}>
                     SKIP FOR NOW
                   </Button>
                 </Col>
                 <Col md={6} className="text-right no-padding">
-                  <Button className="login-button" onClick={this.onConnect}>
+                  <Button className="login-button" onClick={this.onFinish}>
                     FINISH
                   </Button>
                 </Col>
               </div>
             </Col>
-            <Col md={3} className="center-view">
-              <div className="description-view margin-t-40 text-center">
-                <span className="select-style-comment">
-                  COGS is the cost of buying one unit of the product from your vendor.
-                </span>
-              </div>
-              <div className="description-view margin-t-10 text-center">
-                <span className="select-style-comment">
-                  Do not include costs incurred when selling the product, like Shipping, Tax or Discounts.
-                </span>
-              </div>
+            <Col md={3}>
+              <TipBox />
             </Col>
           </Row>
         </Grid>
+        <SweetAlert
+          show={this.state.fetchSuccess}
+          showConfirmButton
+          type="success"
+          title="Success"
+          text={this.state.successMsg.toString()}
+          onConfirm={() => {
+            this.setState({ fetchSuccess: false }, () => {
+              this.props.history.push('/dashboard');
+            });
+          }}
+        />
         <SweetAlert
           show={this.state.fetchError}
           showConfirmButton

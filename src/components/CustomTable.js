@@ -10,6 +10,7 @@ import plus from '../assets/images/plus.svg';
 import merge from '../assets/images/merge.svg';
 import deleteIcon from '../assets/images/delete.svg';
 import rightArrow from '../assets/images/rightArrow.svg';
+import productImgPlaceholder from '../assets/images/productImgPlaceholder.svg';
 
 export const getCaret = (direction) => {
   if (direction === 'asc') {
@@ -144,26 +145,38 @@ export const productCellFormatter = (cell, row) => (
   </div>
 );
 
-export const productDetailFormatter = (cell, row) => (
-  <div className="product-data-cell">
-    <div className="productImage">
-      <img style={{ width: 70 }} src={cell.image} alt="thumb" />
+export const productDetailFormatter = (cell, row) => {
+  let productImage = cell.image;
+  if (productImage === null || productImage === 'null') {
+    productImage = productImgPlaceholder;
+  }
+  return (
+    <div className="product-data-cell">
+      <div className="productImage">
+        <img style={{ width: 70 }} src={productImage} alt="Product Image" />
+      </div>
+      <div className="product-custom-title">
+        <div>
+          <span className="productName">{cell.title}</span>
+        </div>
+        <div>
+          <span className="variantTitle">{cell.variant}</span>
+        </div>
+        <div className="sku-view">
+          <div className="half-width">
+            <span className="channelNumberText">SKU : {cell.sku}</span>
+          </div>
+        </div>
+      </div>
     </div>
-    <div className="product-custom-title">
-      <div>
-        <span className="productName">{cell.title}</span>
-      </div>
-      <div>
-        <span className="variantTitle">{cell.variant}</span>
-      </div>
-      <div className="sku-view">
-        <div className="half-width">
-          <span className="channelNumberText">SKU : {cell.sku}</span>
-        </div>
-        <div className="half-width">
-          <span className="variantTitle margin-l-20">Selling for:  <strong>${parseFloat(Math.round(cell.price * 100) / 100).toFixed(2)}</strong></span>
-        </div>
-      </div>
+  );
+};
+export const productPriceFormatter = (cell, row) => (
+  <div className="flex-center padding-t-20">
+    <div className="currency-view">
+      <span className="product-listed-price">
+        ${row.productDetail.price}
+      </span>
     </div>
   </div>
 );
@@ -228,5 +241,14 @@ export const sortBySaleValue = (a, b, order) => {
     return a.availableForSaleValue.value - b.availableForSaleValue.value;
   }
   return b.availableForSaleValue.value - a.availableForSaleValue.value;
+
+};
+
+
+export const sortByProductPrice = (a, b, order) => {
+  if (order === 'desc') {
+    return a.productDetail.price - b.productDetail.price;
+  }
+  return b.productDetail.price - a.productDetail.price;
 
 };

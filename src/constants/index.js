@@ -1,5 +1,6 @@
 import Radium from 'radium';
 import { headShake } from 'react-animations';
+import { validateCogsValue } from '../helpers/Csv';
 
 // static constants
 export const testMode = false;
@@ -58,7 +59,8 @@ export const convertInventoryJSONToObject = (inventoryJSON) => {
       variant: currProduct.product_details.variant,
       sku: currProduct.product_details.sku,
       price: currProduct.product_details.price,
-      cogs: currProduct.product_details.cogs !== 'null' ? currProduct.product_details.cogs : ''
+      cogs: currProduct.product_details.cogs !== 'null' ? currProduct.product_details.cogs : '',
+      cogsValidateStatus: validateCogsValue(currProduct.product_details.cogs, currProduct.product_details.price)
     };
     products.push(productEntry);
   }

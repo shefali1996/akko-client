@@ -8,6 +8,8 @@ import Papa from 'papaparse';
 import { getProductValue, convertInventoryJSONToObject, exportCSVFile, headers } from '../constants';
 import { invokeApig } from '../libs/awsLib';
 import cogs2 from '../assets/images/cogs2.svg';
+import { beautifyUploadedCsvData, validateCogsValue } from '../helpers/Csv';
+import TipBox from '../components/TipBox';
 
 const ToastMessageFactory = React.createFactory(ToastMessageAnimated);
 
@@ -79,44 +81,30 @@ class SetCsv extends Component {
       // this.props.history.push('/set-table');
       Papa.parse(importedCSV, {
         complete(results) {
-          const parsedData = results.data;
+          // start
           const updatedProducts = [];
           let nullCogsCount = 0;
-          for (let i = 1; i < parsedData.length; i++) {
-            if (parsedData[i][0] === data[i - 1].id) {
-              if (parsedData[i][5].toString().length === 0 || parsedData[i][5].toString() === 'null') {
-                nullCogsCount++;
+          const beautyData = beautifyUploadedCsvData(results.data);
+          data.forEach((product) => {
+            beautyData.csvData.forEach((csvProduct) => {
+              if (product.id === csvProduct.id) {
+                product.cogs = csvProduct.cogs;
+                product.productDetail.cogs = csvProduct.cogs;
               }
-              const updatedProductDetail = {
-                category: data[i - 1].productDetail.category,
-                currency: data[i - 1].productDetail.currency,
-                image: data[i - 1].productDetail.image,
-                price: data[i - 1].productDetail.price,
-                sku: data[i - 1].productDetail.sku,
-                tags: data[i - 1].productDetail.tags,
-                title: data[i - 1].productDetail.title,
-                variant: data[i - 1].productDetail.variant,
-                cogs: parsedData[i][5],
-              };
-              const oneProduct = {
-                id: data[i - 1].id,
-                productDetail: updatedProductDetail,
-                stockOnHandUnits: data[i - 1].stockOnHandUnits,
-                stockOnHandValue: data[i - 1].stockOnHandValue,
-                committedUnits: data[i - 1].committedUnits,
-                committedValue: data[i - 1].committedValue,
-                availableForSaleUnits: data[i - 1].availableForSaleUnits,
-                availableForSaleValue: data[i - 1].availableForSaleValue,
-                title: data[i - 1].title,
-                variant: data[i - 1].variant,
-                sku: data[i - 1].sku,
-                price: data[i - 1].price,
-                cogs: parsedData[i][5]
-              };
-              updatedProducts.push(oneProduct);
+            });
+            const cogsValidateStatus = validateCogsValue(product.productDetail.cogs, product.productDetail.price);
+            if (cogsValidateStatus === true) {
+
+            } else {
+              nullCogsCount++;
+              product.cogs = '';
+              product.productDetail.cogs = '';
             }
-          }
+            product.cogsValidateStatus = cogsValidateStatus;
+            updatedProducts.push(product);
+          });
           localStorage.setItem('inventoryInfo', JSON.stringify(updatedProducts));
+          // end
           $this.setState({
             totalProductCount: updatedProducts.length,
             selectedCogsValue: updatedProducts.length - nullCogsCount,
@@ -130,7 +118,7 @@ class SetCsv extends Component {
   getProduct() {
     this.products().then((results) => {
       console.log(results);
-      const products = convertInventoryJSONToObject(results);
+      const products = convertInventoryJSONToObject(results.variants);
       this.setState({ data: products });
       localStorage.setItem('inventoryInfo', JSON.stringify(products));
     })
@@ -273,17 +261,8 @@ class SetCsv extends Component {
                 </Col>
               </div>
             </Col>
-            <Col md={3} className="center-view">
-              <div className="description-view margin-t-40 text-center">
-                <span className="select-style-comment">
-                    COGS is the cost of buying one unit of the product from your vendor.
-                </span>
-              </div>
-              <div className="description-view margin-t-10 text-center">
-                <span className="select-style-comment">
-                  Do not include costs incurred when selling the product, like Shipping, Tax or Discounts.
-                </span>
-              </div>
+            <Col md={3}>
+              <TipBox />
             </Col>
           </Row>
           <SweetAlert

@@ -4,6 +4,7 @@ import { connect } from 'react-redux';
 import SearchInput, { createFilter } from 'react-search-input';
 import { BootstrapTable, TableHeaderColumn } from 'react-bootstrap-table';
 import _ from 'underscore';
+import ReactPlaceholder from 'react-placeholder';
 import Navigationbar from '../components/Navigationbar';
 import Footer from '../components/Footer';
 import { KEYS_TO_FILTERS, convertInventoryJSONToObject, pollingInterval } from '../constants';
@@ -24,7 +25,7 @@ import {
   sortByTitle,
   sortByStockValue,
   sortByCommitValue,
-  sortBySaleValue
+  sortBySaleValue,
 } from '../components/CustomTable';
 import { invokeApig } from '../libs/awsLib';
 
@@ -152,6 +153,13 @@ class Inventory extends Component {
       </div>
     );
   }
+  getLoader() {
+    const loader = [];
+    for (let i = 0; i < 10; i++) {
+      loader.push(<div><ReactPlaceholder type="media" showLoadingAnimation className="loading-placeholder-rect-media" rows={2} ready={false} >There are no data to display</ReactPlaceholder><br /></div>);
+    }
+    return loader;
+  }
 
   render() {
     const { data, searchTerm } = this.state;
@@ -173,7 +181,8 @@ class Inventory extends Component {
       prePage: '«   Previous',
       nextPage: 'Next   »',
       withFirstAndLast: false,
-      sortIndicator: false
+      sortIndicator: false,
+      noDataText: this.getLoader()
     };
     return (
       <div>

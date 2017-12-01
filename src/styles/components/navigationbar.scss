@@ -55,6 +55,7 @@
 	padding: 0;
 	width: 100%;
 	border: none;
+  margin-top: 45px;
 }
 .dropdown .btn-default:hover,
 .dropdown.open .btn-default:hover,
@@ -80,9 +81,21 @@
   border-radius: 0px;
 }
 .custom-dropdown-view {
-	background: #1d2fb5;
 	padding: 10px;
 }
+
+.custom-dropdown-view .username{
+  color: #c8c8e9;
+}
+
+.custom-dropdown-view .setting{
+  color: #c8c8e9;
+}
+
+.dropdown{
+  width: 200px;
+}
+
 .profileIcon {
 	width: 34px;
 	height: 34px;

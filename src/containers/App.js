@@ -12,6 +12,7 @@ import BusinessType from './BusinessType';
 import SetCogs from './SetCogs';
 import SetCsv from './SetCsv';
 import SetTable from './SetTable';
+import Settings from './Settings';
 import AuthorizedContainer from './AuthorizedContainer';
 import store from '../redux/store';
 import NotFound from './NotFound';
@@ -34,6 +35,7 @@ class App extends Component {
                 <Route exact path="/set-cogs" component={SetCogs} />
                 <Route exact path="/set-csv" component={SetCsv} />
                 <Route exact path="/set-table" component={SetTable} />
+                <Route exact path="/settings" component={Settings} />
                 <Route path="/" name="Authorized Sections" component={AuthorizedContainer} />
               </Main>
               <Route path="*" component={NotFound} />

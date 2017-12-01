@@ -58,7 +58,7 @@
 	margin-left: 40px;
 	margin-right: 40px;
 	padding-bottom: 10px;
-	border-bottom: 1px solid $light-gray-color;	
+	border-bottom: 1px solid $light-gray-color;
 }
 .account-comment {
 	font-family: $ubuntu-bold;
@@ -176,11 +176,12 @@
 	outline: 0;
 }
 .description-view {
-	width: 217px;
+	font-size: 14px;
+	width: 253px;
 	border: 1px solid $light-gray-color;
 	border-radius: 5px;
 	background-color: $main-background-color;
-	padding: 10px;
+	padding: 3px;
 }
 .center-view {
 	display: flex;
@@ -317,7 +318,7 @@
 	text-decoration: none solid rgb(200, 200, 200);
 }
 .product-input {
-	width: 123px;
+	width: 90px;
 	height: 56px;
 	border: 1px solid $light-gray-color;
 	border-radius: 5px;
@@ -326,6 +327,8 @@
 }
 .set-table-header {
 	color: #1d2fb5;
+	font-size: 18px;
+	font-weight: normal;
 }
 .react-bs-table {
 	height: unset !important;
@@ -347,4 +350,64 @@
 	border: none;
 	border-radius: 0;
 	cursor: pointer;
+}
+
+.tip-icon{
+	margin-top: 40px;
+	height: 24px;
+}
+
+.product-listed-price{
+	font-family: Ubuntu;
+	font-size: 20px;
+	color: #575dde;
+	font-weight: 400;
+	text-decoration: none solid rgb(87, 93, 222);
+	text-align: center;
+}
+
+.cogs-pending {
+	width: 43px;
+	height: 43px;
+	fill: #c8c8e8;
+	background-image: url("../assets/images/cogs_pending.svg");
+	background-repeat: no-repeat;
+	background-color: transparent;
+	border: none;
+	background-size: contain;
+	position: absolute;
+	margin-left: 25px;
+	margin-top:5px;
+}
+
+.cogs-completed {
+	width: 43px;
+	height: 43px;
+	fill: #c8c8e8;
+	background-image: url("../assets/images/cogs_completed.svg");
+	background-repeat: no-repeat;
+	background-color: transparent;
+	border: none;
+	background-size: contain;
+	position: absolute;
+	margin-left: 25px;
+	margin-top:5px;
+}
+
+.ant-progress-bg{
+	border-radius: 0px !important;
+}
+
+.padding-0{
+  padding-right:0;
+  padding-left:0;
+}
+
+.margin-0{
+  margin-right:0;
+  margin-left:0;
+}
+
+.tipbox-text{
+	 font-size: 14px;
 }

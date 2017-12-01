@@ -8,6 +8,7 @@ import { invokeApig } from '../libs/awsLib';
 import cogs1 from '../assets/images/cogs1.svg';
 import cogs2 from '../assets/images/cogs2.svg';
 import cogs3 from '../assets/images/cogs3.svg';
+import TipBox from '../components/TipBox';
 
 class SetCogs extends Component {
   constructor(props) {
@@ -63,7 +64,7 @@ class SetCogs extends Component {
   getProduct() {
     if (localStorage.getItem('inventoryInfo') === null) {
       this.products().then((results) => {
-        const products = convertInventoryJSONToObject(results);
+        const products = convertInventoryJSONToObject(results.variants);
         this.setState({ data: products });
         localStorage.setItem('inventoryInfo', JSON.stringify(products));
       })
@@ -185,17 +186,8 @@ class SetCogs extends Component {
                 </div>
               </div>
             </Col>
-            <Col md={3} className="center-view">
-              <div className="description-view margin-t-40 text-center">
-                <span className="select-style-comment">
-                    COGS is the cost of buying one unit of the product from your vendor.
-                </span>
-              </div>
-              <div className="description-view margin-t-10 text-center">
-                <span className="select-style-comment">
-                    Do not include costs incurred when selling the product, like Shipping, Tax or Discounts.
-                </span>
-              </div>
+            <Col md={3}>
+              <TipBox />
             </Col>
           </Row>
           <div className="text-center margin-t-50">
