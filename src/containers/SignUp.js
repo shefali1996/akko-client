@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 import { Grid, Row, Col, Button, Label, Tabs, Tab, FormControl } from 'react-bootstrap';
 import Select from 'react-select';
 import SweetAlert from 'sweetalert-react';
+import swal from 'sweetalert';
 import {
   AuthenticationDetails,
   CognitoUserPool
@@ -167,7 +168,6 @@ class SignUp extends Component {
       });
     }
   }
-
   onConfirm() {
     this.setState({
       alertShow: false

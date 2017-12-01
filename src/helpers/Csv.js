@@ -108,6 +108,10 @@ function sortByCogs(data) {
   });
 }
 
+const hasClass = function (elem, className) {
+  return new RegExp(` ${className} `).test(` ${elem.className} `);
+};
+
 export {
   beautifyUploadedCsvData,
   validateCogsValue,
@@ -115,5 +119,6 @@ export {
   updateLocalInventoryInfo,
   beautifyDataForCogsApiCall,
   moveAcceptedToBottom,
-  sortByCogs
+  sortByCogs,
+  hasClass
 };

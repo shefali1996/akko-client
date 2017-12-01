@@ -170,13 +170,8 @@ class Inventory extends Component {
       clickToSelect: true
     };
     const options = {
-      insertBtn: createCustomInsertButton,
-      deleteBtn: createCustomDeleteButton,
-      exportCSVBtn: createCustomExportCSVButton,
       sizePerPageDropDown: renderSizePerPageDropDown,
       paginationPanel: renderPaginationPanel,
-      btnGroup: createCustomButtonGroup,
-      toolBar: createCustomToolBar,
       paginationSize: 7,
       prePage: '«   Previous',
       nextPage: 'Next   »',
@@ -219,12 +214,8 @@ class Inventory extends Component {
                   </Row>
                   <Row className="padding-50">
                     <BootstrapTable
-                      className="table-responsive"
                       data={filteredData}
                       options={options}
-                      insertRow
-                      deleteRow
-                      exportCSV
                       bordered={false}
                       selectRow={selectRowProp}
                       pagination
@@ -322,12 +313,6 @@ class Inventory extends Component {
                         {this.renderSaleValueHeader()}
                           $
                       </TableHeaderColumn>
-                      <TableHeaderColumn
-                        dataAlign="center"
-                        className="custom-table-header"
-                        dataFormat={arrowFormatter}
-                        width="5%"
-                      />
                     </BootstrapTable>
                   </Row>
                 </div>
