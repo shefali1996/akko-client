@@ -108,6 +108,13 @@ function sortByCogs(data) {
   });
 }
 
+function getProduct() {
+  if (localStorage.getItem('inventoryInfo')) {
+    return JSON.parse(localStorage.getItem('inventoryInfo'));
+  }
+  return false;
+}
+
 export {
   beautifyUploadedCsvData,
   validateCogsValue,
@@ -115,5 +122,6 @@ export {
   updateLocalInventoryInfo,
   beautifyDataForCogsApiCall,
   moveAcceptedToBottom,
+  getProduct,
   sortByCogs
 };
