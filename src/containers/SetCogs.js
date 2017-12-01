@@ -9,7 +9,7 @@ import cogs1 from '../assets/images/cogs1.svg';
 import cogs2 from '../assets/images/cogs2.svg';
 import cogs3 from '../assets/images/cogs3.svg';
 import TipBox from '../components/TipBox';
-import Header2 from '../components/Header2';
+import HeaderWithCloseAndAlert from '../components/HeaderWithCloseAndAlert';
 
 class SetCogs extends Component {
   constructor(props) {
@@ -86,7 +86,7 @@ class SetCogs extends Component {
     return (
       <div>
         <Grid className="login-layout">
-          <Header2 pageTitle="Account Setup" {...this.props} />
+          <HeaderWithCloseAndAlert pageTitle="Account Setup" {...this.props} />
           <Row>
             <Col md={6} mdOffset={3}>
               <div className="text-center margin-t-40">

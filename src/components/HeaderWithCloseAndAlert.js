@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { Button, Row, Col, Label } from 'react-bootstrap';
 import SweetAlert from 'sweetalert-react';
 
-class Header2 extends Component {
+class HeaderWithCloseAndAlert extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -56,4 +56,4 @@ class Header2 extends Component {
   }
 }
 
-export default Header2;
+export default HeaderWithCloseAndAlert;

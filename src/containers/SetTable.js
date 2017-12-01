@@ -16,7 +16,7 @@ import {
   productPriceFormatter,
   sortByProductPrice
 } from '../components/CustomTable';
-import Header2 from '../components/Header2';
+import HeaderWithCloseAndAlert from '../components/HeaderWithCloseAndAlert';
 import { KEYS_TO_FILTERS, convertInventoryJSONToObject, isNumeric, numberFormatter } from '../constants';
 import { invokeApig } from '../libs/awsLib';
 import {
@@ -329,7 +329,7 @@ class SetTable extends Component {
     return (
       <div>
         <Grid className="login-layout">
-          <Header2 pageTitle="Account Setup" {...this.props} />
+          <HeaderWithCloseAndAlert pageTitle="Account Setup" {...this.props} />
           <Row>
             <Col md={6} mdOffset={3} className="center-view">
               <div className="text-center margin-t-40">

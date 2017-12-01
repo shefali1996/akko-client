@@ -10,7 +10,7 @@ import { invokeApig } from '../libs/awsLib';
 import cogs2 from '../assets/images/cogs2.svg';
 import { beautifyUploadedCsvData, validateCogsValue } from '../helpers/Csv';
 import TipBox from '../components/TipBox';
-import Header2 from '../components/Header2';
+import HeaderWithCloseAndAlert from '../components/HeaderWithCloseAndAlert';
 
 const ToastMessageFactory = React.createFactory(ToastMessageAnimated);
 
@@ -145,7 +145,7 @@ class SetCsv extends Component {
     return (
       <div>
         <Grid className="login-layout">
-          <Header2 pageTitle="Account Setup" {...this.props} />
+          <HeaderWithCloseAndAlert pageTitle="Account Setup" {...this.props} />
           <Row>
             <Col md={6} mdOffset={3} className="center-view">
               <div className="text-center margin-t-40">
