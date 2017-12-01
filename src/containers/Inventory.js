@@ -42,7 +42,13 @@ class Inventory extends Component {
   }
 
   componentDidMount() {
-    this.getInventory();
+    const inventoryInfo = localStorage.getItem('inventoryInfo');
+    const lastUpdated = localStorage.getItem('lastUpdated');
+    if (inventoryInfo && lastUpdated) {
+      this.setState({ data: JSON.parse(inventoryInfo) });
+    } else {
+      this.getInventory();
+    }
     this.loadInterval = setInterval(() => {
       this.getInventoryWithParam();
     }, pollingInterval);
@@ -156,9 +162,9 @@ class Inventory extends Component {
   getLoader() {
     const loader = [];
     for (let i = 0; i < 10; i++) {
-      loader.push(<div><ReactPlaceholder type="media" showLoadingAnimation className="loading-placeholder-rect-media" rows={2} ready={false} >There are no data to display</ReactPlaceholder><br /></div>);
+      loader.push(<div key={i}><ReactPlaceholder type="media" showLoadingAnimation className="loading-placeholder-rect-media" rows={2} ready={false} >There are no data to display</ReactPlaceholder><br /></div>);
     }
-    return loader;
+    return (<div> {loader} </div>);
   }
 
   render() {
