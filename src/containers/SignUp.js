@@ -262,11 +262,6 @@ class SignUp extends Component {
             <Tab eventKey={2} title="Sign Up">
               <div>
                 <Col md={12} className="padding-t-30">
-                  <Label className="signup-title">
-                    Sign up for a 30 day free trial
-                  </Label>
-                </Col>
-                <Col md={12}>
                   <Col md={6}>
                     <div className="flex-right padding-t-20">
                       <FormControl
