@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { Grid, Row, Col, Button, Label, Tabs, Tab, FormControl } from 'react-bootstrap';
+import { Grid, Row, Col, Button, Label, Tabs, Tab, FormControl, Tooltip, OverlayTrigger } from 'react-bootstrap';
 import Select from 'react-select';
 import SweetAlert from 'sweetalert-react';
 import {
@@ -38,7 +38,7 @@ class SignUp extends Component {
     this.onFirstNameChange = this.onFirstNameChange.bind(this);
     this.onLastNameChange = this.onLastNameChange.bind(this);
     this.onCompanyNameChange = this.onCompanyNameChange.bind(this);
-    this.onYourRoleChange = this.onYourRoleChange.bind(this);
+    this.validateYourRole = this.validateYourRole.bind(this);
     this.logChange = this.logChange.bind(this);
     this.onEmailChange = this.onEmailChange.bind(this);
     this.onPasswordChange = this.onPasswordChange.bind(this);
@@ -46,6 +46,11 @@ class SignUp extends Component {
     this.onVerify = this.onVerify.bind(this);
     this.onVerifyCodeChange = this.onVerifyCodeChange.bind(this);
     this.onConfirm = this.onConfirm.bind(this);
+    this.onEmailBlur = this.onEmailBlur.bind(this);
+    this.onEmailFocus = this.onEmailFocus.bind(this);
+    this.yourRoleFocus = this.yourRoleFocus.bind(this);
+    this.validatePassword = this.validatePassword.bind(this);
+    this.passwordOnFocus = this.passwordOnFocus.bind(this);
   }
 
   componentWillMount() {
@@ -98,8 +103,16 @@ class SignUp extends Component {
     });
   }
 
-  onYourRoleChange(e) {
+  validateYourRole(role) {
+    if (!role) {
+      this.refs.yourRole.show();
+      return false;
+    }
+    return true;
+  }
 
+  yourRoleFocus() {
+    this.refs.yourRole.hide();
   }
 
   onEmailChange(e) {
@@ -108,10 +121,34 @@ class SignUp extends Component {
     });
   }
 
+  onEmailBlur() {
+    const { email } = this.state;
+    if (!validateEmail(email)) {
+      this.refs.email.show();
+      return false;
+    }
+    return true;
+  }
+  onEmailFocus() {
+    this.refs.email.hide();
+  }
+
   onPasswordChange(e) {
     this.setState({
       password: e.target.value
     });
+  }
+
+  validatePassword() {
+    const {password} = this.state;
+    if (password.length < 8) {
+      this.refs.password.show();
+      return false;
+    }
+    return true;
+  }
+  passwordOnFocus() {
+    this.refs.password.hide();
   }
 
   onVerifyCodeChange(e) {
@@ -127,7 +164,10 @@ class SignUp extends Component {
       });
     } else {
       const {firstName, lastName, companyName, yourRole, email, password} = this.state;
-      if (firstName.length > 0 && lastName.length > 0 && companyName.length > 0 && yourRole.length > 0 && validateEmail(email) && password.length > 8) {
+      const roleAuth = this.validateYourRole(yourRole);
+      const emailAuth = this.onEmailBlur();
+      const passAuth = this.validatePassword();
+      if (firstName.length > 0 && lastName.length > 0 && companyName.length > 0 && roleAuth && emailAuth && passAuth) {
         this.signup(email, password).then((result) => {
           if (!result.userConfirmed) {
             this.setState({
@@ -273,12 +313,14 @@ class SignUp extends Component {
                 <Col md={12}>
                   <Col md={6}>
                     <div className="flex-right padding-t-20">
+
                       <FormControl
                         type="text"
                         placeholder="first name"
                         className="signup-email-input"
                         value={firstName}
                         onChange={this.onFirstNameChange} />
+
                     </div>
                   </Col>
                   <Col md={6}>
@@ -305,38 +347,67 @@ class SignUp extends Component {
                   </Col>
                   <Col md={6}>
                     <div className="flex-left padding-t-20">
-                      <Select
-                        name="form-field-name"
-                        placeholder="your role"
-                        className="signup-role-input"
-                        value={yourRole}
-                        options={options}
-                        onChange={this.logChange}
+                      <OverlayTrigger
+                        placement="right"
+                        trigger="manual"
+                        ref="yourRole"
+                        overlay={
+                          <Tooltip id="tooltip" bsStyle="warning"><i className="fa fa-exclamation-circle" aria-hidden="true" /> Choose your role</Tooltip>
+                        }>
+                        <Select
+                          name="form-field-name"
+                          placeholder="your role"
+                          className="signup-role-input"
+                          value={yourRole}
+                          options={options}
+                          onChange={this.logChange}
+                          onFocus={this.yourRoleFocus}
                       />
+                      </OverlayTrigger>
                     </div>
                   </Col>
                 </Col>
                 <Col md={12}>
                   <Col md={6}>
                     <div className="flex-right padding-t-20">
-                      <FormControl
-                        type="text"
-                        placeholder="email"
-                        className="signup-email-input"
-                        value={email}
-                        disabled={emailSent}
-                        onChange={this.onEmailChange} />
+                      <OverlayTrigger
+                        placement="left"
+                        trigger="manual"
+                        ref="email"
+                        overlay={
+                          <Tooltip id="tooltip" bsStyle="warning"><i className="fa fa-exclamation-circle" aria-hidden="true" /> Invalid email address</Tooltip>
+                        }>
+                        <FormControl
+                          type="text"
+                          placeholder="email"
+                          className="signup-email-input"
+                          value={email}
+                          disabled={emailSent}
+                          onBlur={this.onEmailBlur}
+                          onFocus={this.onEmailFocus}
+                          onChange={this.onEmailChange} />
+                      </OverlayTrigger>
                     </div>
                   </Col>
                   <Col md={6}>
                     <div className="flex-left padding-t-20">
-                      <FormControl
-                        type="password"
-                        placeholder="password"
-                        className="signup-email-input"
-                        value={password}
-                        disabled={emailSent}
-                        onChange={this.onPasswordChange} />
+                      <OverlayTrigger
+                        placement="right"
+                        trigger="manual"
+                        ref="password"
+                        overlay={
+                          <Tooltip id="tooltip" bsStyle="warning"><i className="fa fa-exclamation-circle" aria-hidden="true" /> Need at least 8 character</Tooltip>
+                        }>
+                        <FormControl
+                          type="password"
+                          placeholder="password"
+                          className="signup-email-input"
+                          value={password}
+                          disabled={emailSent}
+                          onBlur={this.validatePassword}
+                          onFocus={this.passwordOnFocus}
+                          onChange={this.onPasswordChange} />
+                      </OverlayTrigger>
                     </div>
                   </Col>
                 </Col>
