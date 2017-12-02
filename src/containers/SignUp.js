@@ -10,6 +10,7 @@ import {
 import { validateEmail, testMode } from '../constants';
 import config from '../config';
 import { invokeApig, signOutUser } from '../libs/awsLib';
+import MaterialIcon from '../assets/images/MaterialIcon 3.svg';
 
 const options = [
   { value: 'CEO/Founder', label: 'CEO/Founder' },
@@ -129,6 +130,7 @@ class SignUp extends Component {
     }
     return true;
   }
+
   onEmailFocus() {
     this.refs.email.hide();
   }
@@ -352,7 +354,7 @@ class SignUp extends Component {
                         trigger="manual"
                         ref="yourRole"
                         overlay={
-                          <Tooltip id="tooltip" bsStyle="warning"><i className="fa fa-exclamation-circle" aria-hidden="true" /> Choose your role</Tooltip>
+                          <Tooltip id="tooltip"><img src={MaterialIcon} alt="icon" /> Choose your role</Tooltip>
                         }>
                         <Select
                           name="form-field-name"
@@ -375,7 +377,7 @@ class SignUp extends Component {
                         trigger="manual"
                         ref="email"
                         overlay={
-                          <Tooltip id="tooltip" bsStyle="warning"><i className="fa fa-exclamation-circle" aria-hidden="true" /> Invalid email address</Tooltip>
+                          <Tooltip id="tooltip"><img src={MaterialIcon} alt="icon" /> Invalid email address</Tooltip>
                         }>
                         <FormControl
                           type="text"
@@ -396,7 +398,7 @@ class SignUp extends Component {
                         trigger="manual"
                         ref="password"
                         overlay={
-                          <Tooltip id="tooltip" bsStyle="warning"><i className="fa fa-exclamation-circle" aria-hidden="true" /> Need at least 8 character</Tooltip>
+                          <Tooltip id="tooltip"><img src={MaterialIcon} alt="icon" /> Need at least 8 character</Tooltip>
                         }>
                         <FormControl
                           type="password"

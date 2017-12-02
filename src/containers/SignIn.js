@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { Grid, Row, Col, Button, Label, Tabs, Tab, FormControl } from 'react-bootstrap';
+import { Grid, Row, Col, Button, Label, Tabs, Tab, FormControl, Tooltip, OverlayTrigger } from 'react-bootstrap';
 import { StyleRoot } from 'radium';
 import {
   CognitoUserPool,
@@ -8,6 +8,7 @@ import {
   CognitoUser
 } from 'amazon-cognito-identity-js';
 import { validateEmail, animationStyle } from '../constants';
+import MaterialIcon from '../assets/images/MaterialIcon 3.svg';
 import config from '../config';
 
 class SignIn extends Component {
@@ -15,9 +16,7 @@ class SignIn extends Component {
     super(props);
     this.state = {
       email: '',
-      password: '',
-      isEmailValid: false,
-      isPasswordValid: false
+      password: ''
     };
     this.goLanding = this.goLanding.bind(this);
     this.handleSelect = this.handleSelect.bind(this);
@@ -27,9 +26,9 @@ class SignIn extends Component {
     this.onForgot = this.onForgot.bind(this);
     this.onLogin = this.onLogin.bind(this);
     this.onEmailFocus = this.onEmailFocus.bind(this);
-    this.onEmailBlur = this.onEmailBlur.bind(this);
+    this.emailValidation = this.emailValidation.bind(this);
     this.onPasswordFocus = this.onPasswordFocus.bind(this);
-    this.onPasswordBlur = this.onPasswordBlur.bind(this);
+    this.passValidation = this.passValidation.bind(this);
   }
 
   componentWillMount() {
@@ -55,25 +54,16 @@ class SignIn extends Component {
   }
 
   onEmailFocus() {
-    const { email, isEmailValid } = this.state;
-    if (email.length > 0 && isEmailValid) {
-      this.setState({
-        isEmailValid: false
-      });
-    }
+    this.refs.email.hide();
   }
 
-  onEmailBlur() {
+  emailValidation() {
     const { email } = this.state;
-    if (validateEmail(email)) {
-      this.setState({
-        isEmailValid: false
-      });
-    } else {
-      this.setState({
-        isEmailValid: true
-      });
+    if (!validateEmail(email)) {
+      this.refs.email.show();
+      return false;
     }
+    return true;
   }
 
   onPasswordChange(e) {
@@ -83,25 +73,16 @@ class SignIn extends Component {
   }
 
   onPasswordFocus() {
-    const { password, isPasswordValid } = this.state;
-    if (password.length > 0 && isPasswordValid) {
-      this.setState({
-        isPasswordValid: false
-      });
-    }
+    this.refs.password.hide();
   }
 
-  onPasswordBlur() {
+  passValidation() {
     const { password } = this.state;
-    if (password.length > 7) {
-      this.setState({
-        isPasswordValid: false
-      });
-    } else {
-      this.setState({
-        isPasswordValid: true
-      });
+    if (password.length < 8) {
+      this.refs.password.show();
+      return false;
     }
+    return true;
   }
 
 
@@ -117,11 +98,9 @@ class SignIn extends Component {
 
   onLogin() {
     const { email, password } = this.state;
-    if (password.length > 7 && validateEmail(email)) {
-      this.setState({
-        isEmailValid: false,
-        isPasswordValid: false
-      });
+    const emailAuth = this.emailValidation();
+    const passAuth = this.passValidation();
+    if (emailAuth && passAuth) {
       this.login(email, password).then((result) => {
         localStorage.setItem('isAuthenticated', 'isAuthenticated');
         this.props.history.push('/inventory');
@@ -130,25 +109,6 @@ class SignIn extends Component {
         .catch(error => {
           console.log('login error', error);
         });
-    } else {
-      if (password.length < 7) {
-        this.setState({
-          isPasswordValid: true
-        });
-      } else {
-        this.setState({
-          isPasswordValid: false
-        });
-      }
-      if (!validateEmail(email)) {
-        this.setState({
-          isEmailValid: true
-        });
-      } else {
-        this.setState({
-          isEmailValid: false
-        });
-      }
     }
   }
 
@@ -176,7 +136,7 @@ class SignIn extends Component {
   }
 
   render() {
-    const { email, password, isEmailValid, isPasswordValid } = this.state;
+    const { email, password } = this.state;
     return (
       <Grid className="login-layout">
         <Row>
@@ -196,60 +156,44 @@ class SignIn extends Component {
             <Tab eventKey={1} title="Login">
               <div>
                 <div className="flex-center padding-t-80">
-                  <FormControl
-                    type="text"
-                    placeholder="email"
-                    className="email-input"
-                    value={email}
-                    onChange={this.onEmailChange}
-                    onKeyPress={this._handleKeyPress}
-                    onFocus={this.onEmailFocus}
-                    onBlur={this.onEmailBlur}
+                  <OverlayTrigger
+                    placement="right"
+                    trigger="manual"
+                    ref="email"
+                    overlay={
+                      <Tooltip id="tooltip"><img src={MaterialIcon} alt="icon" /> Invalid email address</Tooltip>
+                    }>
+                    <FormControl
+                      type="text"
+                      placeholder="email"
+                      className="email-input"
+                      value={email}
+                      onChange={this.onEmailChange}
+                      onKeyPress={this._handleKeyPress}
+                      onFocus={this.onEmailFocus}
+                      onBlur={this.emailValidation}
                   />
-                </div>
-                <div className="text-center">
-                  {isEmailValid ?
-                    <StyleRoot>
-                      <div className="bubble-alert-view" style={animationStyle.headShake}>
-                        <span className="alert-text">
-                          Invalid email address
-                        </span>
-                        <i className="fa fa-info-circle fa-lg red-mark" aria-hidden="true" />
-                      </div>
-                    </StyleRoot>
-                    :
-                    <StyleRoot>
-                      <div className="bubble-alert-view" />
-                    </StyleRoot>
-                    }
+                  </OverlayTrigger>
                 </div>
                 <div className="flex-center margin-t-5">
-                  <FormControl
-                    type="password"
-                    placeholder="password"
-                    className="email-input"
-                    value={password}
-                    onChange={this.onPasswordChange}
-                    onKeyPress={this._handleKeyPress}
-                    onFocus={this.onPasswordFocus}
-                    onBlur={this.onPasswordBlur}
+                  <OverlayTrigger
+                    placement="right"
+                    trigger="manual"
+                    ref="password"
+                    overlay={
+                      <Tooltip id="tooltip"><img src={MaterialIcon} alt="icon" /> Need at least 8 character</Tooltip>
+                    }>
+                    <FormControl
+                      type="password"
+                      placeholder="password"
+                      className="email-input"
+                      value={password}
+                      onChange={this.onPasswordChange}
+                      onKeyPress={this._handleKeyPress}
+                      onFocus={this.onPasswordFocus}
+                      onBlur={this.passValidation}
                     />
-                </div>
-                <div className="text-center">
-                  {isPasswordValid ?
-                    <StyleRoot>
-                      <div className="bubble-alert-view" style={animationStyle.headShake}>
-                        <span className="alert-text">
-                          Password should be more than 8 character
-                        </span>
-                        <i className="fa fa-info-circle fa-lg red-mark" aria-hidden="true" />
-                      </div>
-                    </StyleRoot>
-                    :
-                    <StyleRoot>
-                      <div className="bubble-alert-view" />
-                    </StyleRoot>
-                  }
+                  </OverlayTrigger>
                 </div>
                 <div className="flex-center padding-t-10">
                   <Button className="forgot-text" onClick={this.onForgot}>

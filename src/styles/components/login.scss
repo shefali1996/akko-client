@@ -201,11 +201,14 @@
 }
 .tooltip{
 	.tooltip-inner{
+		max-width:400px;
 		background-color: $tooltip-error-color;
 		border-radius: 0px;
-		padding: 8px 10px;
 		font-family: ubuntu;
 		font-size: 14px;
+		img{
+			height: 30px;
+		}
 	}
 }
 .tooltip.left{
