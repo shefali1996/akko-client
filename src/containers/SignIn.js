@@ -181,7 +181,7 @@ class SignIn extends Component {
                     trigger="manual"
                     ref="password"
                     overlay={
-                      <Tooltip id="tooltip"><img src={MaterialIcon} alt="icon" /> Need at least 8 character</Tooltip>
+                      <Tooltip id="tooltip"><img src={MaterialIcon} alt="icon" /> Need at least 8 characters</Tooltip>
                     }>
                     <FormControl
                       type="password"

@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 import { Grid, Row, Col, Button, Label, Tabs, Tab, FormControl, Tooltip, OverlayTrigger } from 'react-bootstrap';
 import Select from 'react-select';
 import SweetAlert from 'sweetalert-react';
+import { isEmpty } from 'lodash';
 import {
   AuthenticationDetails,
   CognitoUserPool
@@ -37,8 +38,14 @@ class SignUp extends Component {
     this.goLanding = this.goLanding.bind(this);
     this.handleSelect = this.handleSelect.bind(this);
     this.onFirstNameChange = this.onFirstNameChange.bind(this);
+    this.validateFirstName = this.validateFirstName.bind(this);
+    this.onFouseFirstName = this.onFouseFirstName.bind(this);
     this.onLastNameChange = this.onLastNameChange.bind(this);
+    this.validateLastName = this.validateLastName.bind(this);
+    this.onFouseLastName = this.onFouseLastName.bind(this);
     this.onCompanyNameChange = this.onCompanyNameChange.bind(this);
+    this.validateCompanyName = this.validateCompanyName.bind(this);
+    this.onFouseCompanyName = this.onFouseCompanyName.bind(this);
     this.validateYourRole = this.validateYourRole.bind(this);
     this.logChange = this.logChange.bind(this);
     this.onEmailChange = this.onEmailChange.bind(this);
@@ -92,16 +99,55 @@ class SignUp extends Component {
     });
   }
 
+  validateFirstName() {
+    const {firstName} = this.state;
+    console.log('firstName', firstName, isEmpty(firstName));
+    if (isEmpty(firstName)) {
+      this.refs.firstName.show();
+      return false;
+    }
+    return true;
+  }
+
+  onFouseFirstName() {
+    this.refs.firstName.hide();
+  }
+
   onLastNameChange(e) {
     this.setState({
       lastName: e.target.value
     });
   }
 
+  validateLastName() {
+    const {lastName} = this.state;
+    if (isEmpty(lastName)) {
+      this.refs.lastName.show();
+      return false;
+    }
+    return true;
+  }
+
+  onFouseLastName() {
+    this.refs.lastName.hide();
+  }
+
   onCompanyNameChange(e) {
     this.setState({
       companyName: e.target.value
     });
+  }
+  validateCompanyName() {
+    const {companyName} = this.state;
+    if (isEmpty(companyName)) {
+      this.refs.companyName.show();
+      return false;
+    }
+    return true;
+  }
+
+  onFouseCompanyName() {
+    this.refs.companyName.hide();
   }
 
   validateYourRole(role) {
@@ -166,10 +212,13 @@ class SignUp extends Component {
       });
     } else {
       const {firstName, lastName, companyName, yourRole, email, password} = this.state;
+      const firstNameAuth = this.validateFirstName();
+      const lastNameAuth = this.validateLastName();
+      const companyNameAuth = this.validateCompanyName();
       const roleAuth = this.validateYourRole(yourRole);
       const emailAuth = this.onEmailBlur();
       const passAuth = this.validatePassword();
-      if (firstName.length > 0 && lastName.length > 0 && companyName.length > 0 && roleAuth && emailAuth && passAuth) {
+      if (firstNameAuth && lastNameAuth && companyNameAuth && roleAuth && emailAuth && passAuth) {
         this.signup(email, password).then((result) => {
           if (!result.userConfirmed) {
             this.setState({
@@ -315,36 +364,67 @@ class SignUp extends Component {
                 <Col md={12}>
                   <Col md={6}>
                     <div className="flex-right padding-t-20">
-
-                      <FormControl
-                        type="text"
-                        placeholder="first name"
-                        className="signup-email-input"
-                        value={firstName}
-                        onChange={this.onFirstNameChange} />
-
+                      <OverlayTrigger
+                        placement="left"
+                        trigger="manual"
+                        ref="firstName"
+                        overlay={
+                          <Tooltip id="tooltip"><img src={MaterialIcon} alt="icon" /> Enter first name</Tooltip>
+                        }>
+                        <FormControl
+                          type="text"
+                          placeholder="first name"
+                          className="signup-email-input"
+                          value={firstName}
+                          onChange={this.onFirstNameChange}
+                          onBlur={this.validateFirstName}
+                          onFocus={this.onFouseFirstName}
+                          />
+                      </OverlayTrigger>
                     </div>
                   </Col>
                   <Col md={6}>
                     <div className="flex-left padding-t-20">
-                      <FormControl
-                        type="text"
-                        placeholder="last name"
-                        className="signup-email-input"
-                        value={lastName}
-                        onChange={this.onLastNameChange} />
+                      <OverlayTrigger
+                        placement="right"
+                        trigger="manual"
+                        ref="lastName"
+                        overlay={
+                          <Tooltip id="tooltip"><img src={MaterialIcon} alt="icon" /> Enter last name</Tooltip>
+                        }>
+                        <FormControl
+                          type="text"
+                          placeholder="last name"
+                          className="signup-email-input"
+                          value={lastName}
+                          onChange={this.onLastNameChange}
+                          onBlur={this.validateLastName}
+                          onFocus={this.onFouseLastName}
+                          />
+                      </OverlayTrigger>
                     </div>
                   </Col>
                 </Col>
                 <Col md={12}>
                   <Col md={6}>
                     <div className="flex-right padding-t-20">
-                      <FormControl
-                        type="text"
-                        placeholder="company name"
-                        className="signup-email-input"
-                        value={companyName}
-                        onChange={this.onCompanyNameChange} />
+                      <OverlayTrigger
+                        placement="left"
+                        trigger="manual"
+                        ref="companyName"
+                        overlay={
+                          <Tooltip id="tooltip"><img src={MaterialIcon} alt="icon" /> Enter company name</Tooltip>
+                        }>
+                        <FormControl
+                          type="text"
+                          placeholder="company name"
+                          className="signup-email-input"
+                          value={companyName}
+                          onChange={this.onCompanyNameChange}
+                          onBlur={this.validateCompanyName}
+                          onFocus={this.onFouseCompanyName}
+                          />
+                      </OverlayTrigger>
                     </div>
                   </Col>
                   <Col md={6}>
@@ -398,7 +478,7 @@ class SignUp extends Component {
                         trigger="manual"
                         ref="password"
                         overlay={
-                          <Tooltip id="tooltip"><img src={MaterialIcon} alt="icon" /> Need at least 8 character</Tooltip>
+                          <Tooltip id="tooltip"><img src={MaterialIcon} alt="icon" /> Need at least 8 characters</Tooltip>
                         }>
                         <FormControl
                           type="password"
