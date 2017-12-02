@@ -149,7 +149,7 @@
 	font-size: $size-14;
 	color: $light-gray-color;
 	text-decoration: none solid $main-decoration-color;
-	line-height: 14px;	
+	line-height: 14px;
 }
 .signup-role-input {
 	width: 200px;
@@ -158,7 +158,7 @@
 	font-size: $size-14;
 	color: $light-gray-color;
 	text-decoration: none solid $main-decoration-color;
-	line-height: 14px;	
+	line-height: 14px;
 	text-align: left;
 }
 .signup-title {
@@ -198,4 +198,36 @@
 	margin-right: 40px;
 	padding-bottom: 10px;
 	border-bottom: 1px solid $light-gray-color;
+}
+.tooltip{
+	.tooltip-inner{
+		max-width:400px;
+		background-color: $tooltip-error-color;
+		border-radius: 0px;
+		font-family: ubuntu;
+		font-size: 14px;
+		img{
+			height: 30px;
+		}
+	}
+}
+.tooltip.left{
+	.tooltip-arrow{
+		border-left-color:$tooltip-error-color !important;
+	}
+}
+.tooltip.right{
+	.tooltip-arrow{
+		border-right-color:$tooltip-error-color !important;
+	}
+}
+.tooltip.top{
+	.tooltip-arrow{
+		border-top-color:$tooltip-error-color !important;
+	}
+}
+.tooltip.bottom{
+	.tooltip-arrow{
+		border-bottom-color:$tooltip-error-color !important;
+	}
 }
