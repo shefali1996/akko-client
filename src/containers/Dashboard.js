@@ -7,6 +7,7 @@ import { KEYS_TO_METRICES } from '../constants';
 import Navigationbar from '../components/Navigationbar';
 import PriceCard from '../components/PriceCard';
 import Footer from '../components/Footer';
+import Analysis from '../components/Analysis';
 
 const dashboardJSON = {
   dummyData: [
@@ -181,6 +182,7 @@ class Dashboard extends Component {
     this.state = {
       data: dashboardJSON.dummyData,
       searchTerm: '',
+      openAnalysis: false
     };
     this.handleSelect = this.handleSelect.bind(this);
     this.searchUpdated = this.searchUpdated.bind(this);
@@ -211,7 +213,7 @@ class Dashboard extends Component {
       filteredData.map((value, index) => {
         return (
           <div key={index} className="item">
-            <PriceCard value={value} />
+            <PriceCard value={value} analyze={() => this.setState({openAnalysis: true})} />
           </div>
         );
       })
@@ -247,6 +249,7 @@ class Dashboard extends Component {
               <Tab eventKey={2} title="Inventory" />
             </Tabs>
           </Row>
+          <Analysis show={this.state.openAnalysis} closeAnalysis={() => this.setState({openAnalysis: false})} />
         </Grid>
         <Footer />
       </div>

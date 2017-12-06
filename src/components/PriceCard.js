@@ -72,7 +72,7 @@ class PriceCard extends React.Component {
             <div>
               <div>
                 <SalesChart data={chartData} type="line" width="40%" />
-                <button className="analyze-button">
+                <button className="analyze-button" onClick={this.props.analyze}>
                   ANALYZE
                 </button>
               </div>
