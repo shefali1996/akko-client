@@ -1,16 +1,9 @@
 import React, { Component } from 'react';
 import { Row, Col, Label, Button, Image } from 'react-bootstrap';
-import {Card, CardHeader, CardText} from 'material-ui/Card';
 import SelectField from 'material-ui/SelectField';
 import MenuItem from 'material-ui/MenuItem';
-import { Select } from 'antd';
-import SalesChart from '../components/SalesChart';
-import PriceBox from '../components/PriceBox';
-import AnalysisRightPanel from '../components/AnalysisRightPanel';
 import FinancialInsights from '../components/FinancialInsights';
 import CustomerInsights from '../components/CustomerInsights';
-
-const {Option} = Select;
 
 const dashboardJSON = {
   financialData: [
@@ -197,15 +190,10 @@ class Analysis extends React.Component {
             <Button className="close-button pull-right" onClick={this.goLanding} />
           </Col>
         </Row>
-        <Row>
-          <Col md={9} className="padding-r-0">
-            {this.state.showingPage === 'financial' ? <FinancialInsights cardsData={this.state.data.financialData} chartDataLine={chartDataLine} chartDataBar={chartDataBar} /> :
-            <CustomerInsights cardsData={this.state.data.customerData} chartDataLine={chartDataLine} chartDataBar={chartDataBar} />}
-          </Col>
-          <Col md={3}>
-            <AnalysisRightPanel />
-          </Col>
-        </Row>
+        {this.state.showingPage === 'financial' ?
+          <FinancialInsights cardsData={this.state.data.financialData} chartDataLine={chartDataLine} chartDataBar={chartDataBar} />
+          :
+          <CustomerInsights cardsData={this.state.data.customerData} chartDataLine={chartDataLine} chartDataBar={chartDataBar} />}
       </div>
     );
   }

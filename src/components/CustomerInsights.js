@@ -6,6 +6,7 @@ import MenuItem from 'material-ui/MenuItem';
 import { Select } from 'antd';
 import SalesChart from '../components/SalesChart';
 import PriceBox from '../components/PriceBox';
+import AnalysisRightPanel from '../components/AnalysisRightPanel';
 
 const {Option} = Select;
 const styles = {
@@ -41,52 +42,59 @@ class CustomerInsights extends Component {
       );
     });
     return (
-      <div className="content-box">
-        <Row className="report-cards">
-          {renderCards}
-        </Row>
-        <Row className="report-cards">
-          <Col md={8} className="">
-            <Card className="charts-card-style">
-              <CardHeader
-                textStyle={styles.chartHeader}
-                title="Historical Trends"
-                titleStyle={styles.chartsHeaderTitle}
-                subtitle={<div style={{marginTop: '10px'}}>
-                  <span className="pull-left" style={{ width: 200 }}>
-                    <Select defaultValue="1" onChange={(event, index, value) => { this.setState({value}); }}>
-                      <Option value="1">Sort By: Total sales</Option>
-                      <Option value="2">Grass Profit</Option>
-                      <Option value="3">Margin</Option>
-                    </Select>
-                  </span>
-                  <span className="pull-right" style={{ width: 200 }}>
-                    <Select defaultValue="1" onChange={(event, index, value) => { this.setState({value}); }}>
-                      <Option value="1">Order: High To Low</Option>
-                      <Option value="2">Low To High</Option>
-                    </Select>
-                  </span>
-                </div>}
+      <Row>
+        <Col md={9}>
+          <div className="content-box">
+            <Row className="report-cards">
+              {renderCards}
+            </Row>
+            <Row className="report-cards">
+              <Col md={8} className="">
+                <Card className="charts-card-style">
+                  <CardHeader
+                    textStyle={styles.chartHeader}
+                    title="Historical Trends"
+                    titleStyle={styles.chartsHeaderTitle}
+                    subtitle={<div style={{marginTop: '10px'}}>
+                      <span className="pull-left" style={{ width: 200 }}>
+                        <Select defaultValue="1" onChange={(event, index, value) => { this.setState({value}); }}>
+                          <Option value="1">Sort By: Total sales</Option>
+                          <Option value="2">Grass Profit</Option>
+                          <Option value="3">Margin</Option>
+                        </Select>
+                      </span>
+                      <span className="pull-right" style={{ width: 200 }}>
+                        <Select defaultValue="1" onChange={(event, index, value) => { this.setState({value}); }}>
+                          <Option value="1">Order: High To Low</Option>
+                          <Option value="2">Low To High</Option>
+                        </Select>
+                      </span>
+                              </div>}
               />
-              <CardText>
-                <SalesChart data={chartDataBar} type="bar" width="40%" />
-              </CardText>
-            </Card>
-          </Col>
-          <Col md={4} className="">
-            <Card className="charts-card-style">
-              <CardHeader
-                textStyle={styles.chartHeader}
-                title="Distribution"
-                titleStyle={styles.chartsHeaderTitle}
+                  <CardText>
+                    <SalesChart data={chartDataBar} type="bar" width="40%" />
+                  </CardText>
+                </Card>
+              </Col>
+              <Col md={4} className="">
+                <Card className="charts-card-style">
+                  <CardHeader
+                    textStyle={styles.chartHeader}
+                    title="Distribution"
+                    titleStyle={styles.chartsHeaderTitle}
               />
-              <CardText className="no-padding" style={{padding: '0px'}}>
-                <SalesChart data={chartDataBar} type="bar" width="40%" />
-              </CardText>
-            </Card>
-          </Col>
-        </Row>
-      </div>
+                  <CardText className="no-padding" style={{padding: '0px'}}>
+                    <SalesChart data={chartDataBar} type="bar" width="40%" />
+                  </CardText>
+                </Card>
+              </Col>
+            </Row>
+          </div>
+        </Col>
+        <Col md={3}>
+          <AnalysisRightPanel />
+        </Col>
+      </Row>
     );
   }
 }

@@ -119,3 +119,20 @@
     }
   }
 }
+
+.filter-dialog{
+  .close-btn{
+  margin-top: -16px;
+  margin-right: -16px;
+  }
+  .search-input{
+    height: 100%;
+  }
+  .selected-text{
+    font-family: Ubuntu;
+    font-size: 14px;
+    color: $main-blue-color;
+    text-decoration: none solid rgb(87, 93, 222);
+    text-align: center
+  }
+}

@@ -45,7 +45,7 @@ class AnalysisRightPanel extends React.Component {
                 <div className="chip-wrapper">
                   <Chip className="chip" labelStyle={styles.chipLabelStyle}>Showing 5 products</Chip>
                 </div>
-                <div className="link"><a href="#">change filter</a></div>
+                <div className="link"><a onClick={() => this.props.openFilter('product')} >change filter</a></div>
               </CardText>
             </Card>
           </Col>
@@ -56,7 +56,7 @@ class AnalysisRightPanel extends React.Component {
                 <div className="chip-wrapper">
                   <Chip className="chip" labelStyle={styles.chipLabelStyle}>Showing all customers</Chip>
                 </div>
-                <div className="link"><a href="#">change filter</a></div>
+                <div className="link"><a onClick={() => this.props.openFilter('customer')}>change filter</a></div>
               </CardText>
             </Card>
           </Col>
@@ -67,7 +67,7 @@ class AnalysisRightPanel extends React.Component {
                 <div className="chip-wrapper">
                   <Chip className="chip" labelStyle={styles.chipLabelStyle}>Showing all Financial metrics</Chip>
                 </div>
-                <div className="link"><a href="#">change filter</a></div>
+                <div className="link"><a onClick={() => this.props.openFilter('metrics')}>change filter</a></div>
               </CardText>
             </Card>
           </Col>
