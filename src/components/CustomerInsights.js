@@ -7,6 +7,7 @@ import { Select } from 'antd';
 import SalesChart from '../components/SalesChart';
 import PriceBox from '../components/PriceBox';
 import AnalysisRightPanel from '../components/AnalysisRightPanel';
+import FilterDialog from '../components/FilterDialog';
 
 const {Option} = Select;
 const styles = {
@@ -26,7 +27,23 @@ class CustomerInsights extends Component {
   constructor(props) {
     super(props);
     this.state = {
+      openFilter: false,
+      filterBy: ''
     };
+    this.openFilter = this.openFilter.bind(this);
+    this.closeFilter = this.closeFilter.bind(this);
+  }
+  openFilter(filterBy) {
+    this.setState({
+      openFilter: true,
+      filterBy
+    });
+  }
+  closeFilter() {
+    this.setState({
+      openFilter: false,
+      filterBy: ''
+    });
   }
   render() {
     const {cardsData, chartDataLine, chartDataBar} = this.props;
@@ -43,12 +60,12 @@ class CustomerInsights extends Component {
     });
     return (
       <Row>
-        <Col md={9}>
+        <Col md={9} className="padding-r-0">
           <div className="content-box">
             <Row className="report-cards">
               {renderCards}
             </Row>
-            <Row className="report-cards">
+            {!this.state.openFilter ? <Row className="report-cards">
               <Col md={8} className="">
                 <Card className="charts-card-style">
                   <CardHeader
@@ -88,11 +105,14 @@ class CustomerInsights extends Component {
                   </CardText>
                 </Card>
               </Col>
-            </Row>
+            </Row> : null}
+            {this.state.openFilter ?
+              <FilterDialog closeFilter={this.closeFilter} filterModal={this.state.filterBy} />
+              : null}
           </div>
         </Col>
         <Col md={3}>
-          <AnalysisRightPanel />
+          <AnalysisRightPanel openFilter={this.openFilter} />
         </Col>
       </Row>
     );

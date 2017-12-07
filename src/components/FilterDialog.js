@@ -16,6 +16,36 @@ import {
 } from '../components/CustomTable';
 import { KEYS_TO_FILTERS } from '../constants';
 
+const Ddata = [{
+  id: 1,
+  productDetail: {
+    image: null,
+    title: 'Samsung Galaxy S',
+    variant: '32GB / Black',
+    sku: 'hanes-blue-small',
+    price: 251
+  }
+},
+{
+  id: 2,
+  productDetail: {
+    image: null,
+    title: 'Samsung Galaxy S',
+    variant: '32GB / red',
+    sku: 'hanes-blue-small',
+    price: 25
+  }
+},
+{
+  id: 3,
+  productDetail: {
+    image: null,
+    title: 'Samsung Galaxy S',
+    variant: '32GB / blue',
+    sku: 'hanes-blue-small',
+    price: 61
+  }
+}];
 const styles = {
   chartsHeaderTitle: {
     fontSize: '16px',
@@ -33,7 +63,7 @@ class FilterDialog extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      data: [],
+      data: Ddata,
       searchTerm: '',
       selectedRows: []
     };
@@ -52,10 +82,10 @@ class FilterDialog extends Component {
   onRowSelect(row, isSelected) {
     const {selectedRows} = this.state;
     if (isSelected) {
-      selectedRows.push(row.id);
+      selectedRows.push(row);
       this.setState({selectedRows});
     } else {
-      const i = selectedRows.indexOf(row.id);
+      const i = selectedRows.indexOf(row);
       if (i !== -1) {
         selectedRows.splice(i, 1);
       }
@@ -67,7 +97,7 @@ class FilterDialog extends Component {
     const idArray = [];
     if (isSelected) {
       for (let i = 0; i < rows.length; i++) {
-        idArray.push(rows[i].id);
+        idArray.push(rows[i]);
       }
       this.setState({selectedRows: idArray});
     } else {
@@ -97,12 +127,16 @@ class FilterDialog extends Component {
     };
 
     let filterTitle = '';
+    let searchPlaceHolder = '';
     if (filterModal === 'product') {
       filterTitle = 'Filter By Product';
+      searchPlaceHolder = 'Search your products by name or SKU';
     } else if (filterModal === 'customer') {
       filterTitle = 'Filter By Customer';
+      searchPlaceHolder = 'Search your customers by name or email';
     } else if (filterModal === 'metrics') {
       filterTitle = 'Filter By Metrics';
+      searchPlaceHolder = 'Search your metrics';
     }
     return (
       <Row className="filter-dialog">
@@ -125,7 +159,7 @@ class FilterDialog extends Component {
                     <Col md={12} className="filterSearch">
                       <SearchInput
                         className="search-input"
-                        placeholder="Search all your inventory"
+                        placeholder={searchPlaceHolder}
                         onChange={this.searchUpdated}
                         onFocus={this.onFocus}
                     />
@@ -139,6 +173,9 @@ class FilterDialog extends Component {
                         selectRow={selectRowProp}
                         pagination
                         trClassName="custom-table"
+                        tableHeaderClass="filter-table-header"
+                        tableBodyClass="filter-table-body"
+                        headerStyle={{ background: '#fbfbfb' }}
                   >
                         <TableHeaderColumn
                           isKey
@@ -179,9 +216,21 @@ class FilterDialog extends Component {
                   </Row>
                 </Col>
                 <Col md={4} className="text-center">
-                  <Col className="selected-text">
-                    Selected Products: {selectedRows.length} / {data.length}
-                  </Col>
+                  <Row>
+                    <Col md={12} className="selected-text">
+                      Selected Products : {selectedRows.length} / {data.length}
+                    </Col>
+                    {selectedRows.length ? selectedRows.map((row, i) => {
+                      return (<Col md={12}>
+                        <div className="selected-row">
+                          {productDetailFormatter(row.productDetail, row)}
+                        </div>
+                      </Col>);
+                    }
+                      )
+                      : null
+                    }
+                  </Row>
                 </Col>
               </Row>
             </CardText>

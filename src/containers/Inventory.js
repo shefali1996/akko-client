@@ -156,7 +156,7 @@ class Inventory extends Component {
   getLoader() {
     const loader = [];
     for (let i = 0; i < 10; i++) {
-      loader.push(<div><ReactPlaceholder type="media" showLoadingAnimation className="loading-placeholder-rect-media" rows={2} ready={false} >There are no data to display</ReactPlaceholder><br /></div>);
+      loader.push(<div key={i}><ReactPlaceholder type="media" showLoadingAnimation className="loading-placeholder-rect-media" rows={2} ready={false} >There are no data to display</ReactPlaceholder><br /></div>);
     }
     return loader;
   }
@@ -182,7 +182,7 @@ class Inventory extends Component {
       nextPage: 'Next   »',
       withFirstAndLast: false,
       sortIndicator: false,
-      noDataText: this.getLoader()
+      noDataText: <div>{this.getLoader()}</div>
     };
     return (
       <div>

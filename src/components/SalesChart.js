@@ -8,6 +8,7 @@ class SalesChart extends Component {
 
   componentDidMount() {
     this.initChart();
+    // Chart.defaults.global.legend.labels.usePointStyle = true;
   }
 
   componentWillUnmount() {
@@ -30,6 +31,7 @@ class SalesChart extends Component {
           display: true,
           position: this.props.type === 'bar' ? 'right' : 'top',
           labels: {
+            usePointStyle: true,
             fontColor: 'rgb(255, 99, 132)'
           }
         }
