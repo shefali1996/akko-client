@@ -57,7 +57,7 @@ class Inventory extends Component {
   }
 
   getInventory() {
-    invokeApig({ path: '/inventory' }).then((results) => {
+    invokeApig({ path: '/product' }).then((results) => {
       const updateTime = results.lastUpdated;
       const products = convertInventoryJSONToObject(results.variants);
       this.setState({ data: products });
@@ -72,7 +72,7 @@ class Inventory extends Component {
   getInventoryWithParam() {
     const latestTimeStamp = localStorage.getItem('lastUpdated');
     invokeApig({
-      path: '/inventory',
+      path: '/product', // '/inventory',
       queryParams: {
         lastUpdated: latestTimeStamp
       }

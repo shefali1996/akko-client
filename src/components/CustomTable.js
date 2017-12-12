@@ -175,7 +175,41 @@ export const productPriceFormatter = (cell, row) => (
   <div className="flex-center padding-t-20">
     <div className="currency-view">
       <span className="product-listed-price">
-        ${row.productDetail.price}
+        ${cell.price}
+      </span>
+    </div>
+  </div>
+);
+
+export const customerFormater = (cell, row) => {
+  return (
+    <div className="product-data-cell">
+      <div className="product-custom-title">
+        <div>
+          <span className="productName">{row.name}</span>
+        </div>
+        <div>
+          <span className="variantTitle">{row.email}</span>
+        </div>
+      </div>
+    </div>
+  );
+};
+
+export const avgOrderValueFormater = (cell, row) => (
+  <div className="flex-center padding-t-20">
+    <div className="currency-view">
+      <span className="product-listed-price">
+        ${cell}
+      </span>
+    </div>
+  </div>
+);
+export const orderEveryFormatter = (cell, row) => (
+  <div className="flex-center padding-t-20">
+    <div className="currency-view">
+      <span className="product-listed-price">
+        {cell}
       </span>
     </div>
   </div>

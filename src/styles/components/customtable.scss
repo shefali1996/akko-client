@@ -111,10 +111,11 @@
 .product-custom-title {
 	display: flex;
 	flex-direction: column;
-	width: 100%;
+	width: 75%;
 	text-align: left;
 	padding-top: 15px;
 	padding-left: 10px;
+  overflow: hidden;
 }
 .variantTitle {
 	font-family: $ubuntu-regular;
