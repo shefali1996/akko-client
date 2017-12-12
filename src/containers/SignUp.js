@@ -1,12 +1,14 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { Grid, Row, Col, Button, Label, Tabs, Tab, FormControl } from 'react-bootstrap';
+import { Grid, Row, Col, Button, Label, Tabs, Tab, FormControl, Tooltip, OverlayTrigger } from 'react-bootstrap';
 import Select from 'react-select';
 import SweetAlert from 'sweetalert-react';
 import { AuthenticationDetails, CognitoUserPool } from 'amazon-cognito-identity-js';
+import { isEmpty } from 'lodash';
 import { validateEmail, testMode } from '../constants';
 import config from '../config';
-import { invokeApig } from '../libs/awsLib';
+import { invokeApig, signOutUser } from '../libs/awsLib';
+import MaterialIcon from '../assets/images/MaterialIcon 3.svg';
 
 const options = [
   { value: 'CEO/Founder', label: 'CEO/Founder' },
@@ -33,9 +35,15 @@ class SignUp extends Component {
     this.goLanding = this.goLanding.bind(this);
     this.handleSelect = this.handleSelect.bind(this);
     this.onFirstNameChange = this.onFirstNameChange.bind(this);
+    this.validateFirstName = this.validateFirstName.bind(this);
+    this.onFouseFirstName = this.onFouseFirstName.bind(this);
     this.onLastNameChange = this.onLastNameChange.bind(this);
+    this.validateLastName = this.validateLastName.bind(this);
+    this.onFouseLastName = this.onFouseLastName.bind(this);
     this.onCompanyNameChange = this.onCompanyNameChange.bind(this);
-    this.onYourRoleChange = this.onYourRoleChange.bind(this);
+    this.validateCompanyName = this.validateCompanyName.bind(this);
+    this.onFouseCompanyName = this.onFouseCompanyName.bind(this);
+    this.validateYourRole = this.validateYourRole.bind(this);
     this.logChange = this.logChange.bind(this);
     this.onEmailChange = this.onEmailChange.bind(this);
     this.onPasswordChange = this.onPasswordChange.bind(this);
@@ -43,6 +51,11 @@ class SignUp extends Component {
     this.onVerify = this.onVerify.bind(this);
     this.onVerifyCodeChange = this.onVerifyCodeChange.bind(this);
     this.onConfirm = this.onConfirm.bind(this);
+    this.onEmailBlur = this.onEmailBlur.bind(this);
+    this.onEmailFocus = this.onEmailFocus.bind(this);
+    this.yourRoleFocus = this.yourRoleFocus.bind(this);
+    this.validatePassword = this.validatePassword.bind(this);
+    this.passwordOnFocus = this.passwordOnFocus.bind(this);
   }
 
   componentWillMount() {
@@ -83,10 +96,36 @@ class SignUp extends Component {
     });
   }
 
+  validateFirstName() {
+    const {firstName} = this.state;
+    if (isEmpty(firstName)) {
+      this.refs.firstName.show();
+      return false;
+    }
+    return true;
+  }
+
+  onFouseFirstName() {
+    this.refs.firstName.hide();
+  }
+
   onLastNameChange(e) {
     this.setState({
       lastName: e.target.value
     });
+  }
+
+  validateLastName() {
+    const {lastName} = this.state;
+    if (isEmpty(lastName)) {
+      this.refs.lastName.show();
+      return false;
+    }
+    return true;
+  }
+
+  onFouseLastName() {
+    this.refs.lastName.hide();
   }
 
   onCompanyNameChange(e) {
@@ -94,9 +133,29 @@ class SignUp extends Component {
       companyName: e.target.value
     });
   }
+  validateCompanyName() {
+    const {companyName} = this.state;
+    if (isEmpty(companyName)) {
+      this.refs.companyName.show();
+      return false;
+    }
+    return true;
+  }
 
-  onYourRoleChange(e) {
+  onFouseCompanyName() {
+    this.refs.companyName.hide();
+  }
 
+  validateYourRole(role) {
+    if (!role) {
+      this.refs.yourRole.show();
+      return false;
+    }
+    return true;
+  }
+
+  yourRoleFocus() {
+    this.refs.yourRole.hide();
   }
 
   onEmailChange(e) {
@@ -105,10 +164,35 @@ class SignUp extends Component {
     });
   }
 
+  onEmailBlur() {
+    const { email } = this.state;
+    if (!validateEmail(email)) {
+      this.refs.email.show();
+      return false;
+    }
+    return true;
+  }
+
+  onEmailFocus() {
+    this.refs.email.hide();
+  }
+
   onPasswordChange(e) {
     this.setState({
       password: e.target.value
     });
+  }
+
+  validatePassword() {
+    const {password} = this.state;
+    if (password.length < 8) {
+      this.refs.password.show();
+      return false;
+    }
+    return true;
+  }
+  passwordOnFocus() {
+    this.refs.password.hide();
   }
 
   onVerifyCodeChange(e) {
@@ -124,7 +208,13 @@ class SignUp extends Component {
       });
     } else {
       const {firstName, lastName, companyName, yourRole, email, password} = this.state;
-      if (firstName.length > 0 && lastName.length > 0 && companyName.length > 0 && yourRole.length > 0 && validateEmail(email) && password.length > 8) {
+      const firstNameAuth = this.validateFirstName();
+      const lastNameAuth = this.validateLastName();
+      const companyNameAuth = this.validateCompanyName();
+      const roleAuth = this.validateYourRole(yourRole);
+      const emailAuth = this.onEmailBlur();
+      const passAuth = this.validatePassword();
+      if (firstNameAuth && lastNameAuth && companyNameAuth && roleAuth && emailAuth && passAuth) {
         this.signup(email, password).then((result) => {
           if (!result.userConfirmed) {
             this.setState({
@@ -148,10 +238,10 @@ class SignUp extends Component {
             password
           ).then((result) => {
             this.createNewUser({
-              firstName: this.state.firstName,
-              lastName: this.state.lastName,
-              companyName: this.state.companyName,
-              yourRole: this.state.yourRole,
+              fname: this.state.firstName,
+              lname: this.state.lastName,
+              company: this.state.companyName,
+              role: this.state.yourRole,
               email: this.state.email,
               location: 'Earth'
             }).then((result) => {
@@ -173,13 +263,17 @@ class SignUp extends Component {
 
   createNewUser(userData) {
     return invokeApig({
-      path: '/signup',
+      path: '/user',
       method: 'POST',
       body: userData
     });
   }
 
   signup(email, password) {
+
+    // for safety sake, sign out any logged in users first
+    signOutUser();
+
     const userPool = new CognitoUserPool({
       UserPoolId: config.cognito.USER_POOL_ID,
       ClientId: config.cognito.APP_CLIENT_ID
@@ -260,70 +354,132 @@ class SignUp extends Component {
                 <Col md={12} className="padding-t-30">
                   <Col md={6}>
                     <div className="flex-right padding-t-20">
-                      <FormControl
-                        type="text"
-                        placeholder="first name"
-                        className="signup-email-input"
-                        value={firstName}
-                        onChange={this.onFirstNameChange} />
+                      <OverlayTrigger
+                        placement="left"
+                        trigger="manual"
+                        ref="firstName"
+                        overlay={
+                          <Tooltip id="tooltip"><img src={MaterialIcon} alt="icon" /> Enter first name</Tooltip>
+                        }>
+                        <FormControl
+                          type="text"
+                          placeholder="first name"
+                          className="signup-email-input"
+                          value={firstName}
+                          onChange={this.onFirstNameChange}
+                          onBlur={this.validateFirstName}
+                          onFocus={this.onFouseFirstName}
+                          />
+                      </OverlayTrigger>
                     </div>
                   </Col>
                   <Col md={6}>
                     <div className="flex-left padding-t-20">
-                      <FormControl
-                        type="text"
-                        placeholder="last name"
-                        className="signup-email-input"
-                        value={lastName}
-                        onChange={this.onLastNameChange} />
+                      <OverlayTrigger
+                        placement="right"
+                        trigger="manual"
+                        ref="lastName"
+                        overlay={
+                          <Tooltip id="tooltip"><img src={MaterialIcon} alt="icon" /> Enter last name</Tooltip>
+                        }>
+                        <FormControl
+                          type="text"
+                          placeholder="last name"
+                          className="signup-email-input"
+                          value={lastName}
+                          onChange={this.onLastNameChange}
+                          onBlur={this.validateLastName}
+                          onFocus={this.onFouseLastName}
+                          />
+                      </OverlayTrigger>
                     </div>
                   </Col>
                 </Col>
                 <Col md={12}>
                   <Col md={6}>
                     <div className="flex-right padding-t-20">
-                      <FormControl
-                        type="text"
-                        placeholder="company name"
-                        className="signup-email-input"
-                        value={companyName}
-                        onChange={this.onCompanyNameChange} />
+                      <OverlayTrigger
+                        placement="left"
+                        trigger="manual"
+                        ref="companyName"
+                        overlay={
+                          <Tooltip id="tooltip"><img src={MaterialIcon} alt="icon" /> Enter company name</Tooltip>
+                        }>
+                        <FormControl
+                          type="text"
+                          placeholder="company name"
+                          className="signup-email-input"
+                          value={companyName}
+                          onChange={this.onCompanyNameChange}
+                          onBlur={this.validateCompanyName}
+                          onFocus={this.onFouseCompanyName}
+                          />
+                      </OverlayTrigger>
                     </div>
                   </Col>
                   <Col md={6}>
                     <div className="flex-left padding-t-20">
-                      <Select
-                        name="form-field-name"
-                        placeholder="your role"
-                        className="signup-role-input"
-                        value={yourRole}
-                        options={options}
-                        onChange={this.logChange}
+                      <OverlayTrigger
+                        placement="right"
+                        trigger="manual"
+                        ref="yourRole"
+                        overlay={
+                          <Tooltip id="tooltip"><img src={MaterialIcon} alt="icon" /> Choose your role</Tooltip>
+                        }>
+                        <Select
+                          name="form-field-name"
+                          placeholder="your role"
+                          className="signup-role-input"
+                          value={yourRole}
+                          options={options}
+                          onChange={this.logChange}
+                          onFocus={this.yourRoleFocus}
                       />
+                      </OverlayTrigger>
                     </div>
                   </Col>
                 </Col>
                 <Col md={12}>
                   <Col md={6}>
                     <div className="flex-right padding-t-20">
-                      <FormControl
-                        type="text"
-                        placeholder="email"
-                        className="signup-email-input"
-                        value={email}
-                        disabled={emailSent}
-                        onChange={this.onEmailChange} />
+                      <OverlayTrigger
+                        placement="left"
+                        trigger="manual"
+                        ref="email"
+                        overlay={
+                          <Tooltip id="tooltip"><img src={MaterialIcon} alt="icon" /> Invalid email address</Tooltip>
+                        }>
+                        <FormControl
+                          type="text"
+                          placeholder="email"
+                          className="signup-email-input"
+                          value={email}
+                          disabled={emailSent}
+                          onBlur={this.onEmailBlur}
+                          onFocus={this.onEmailFocus}
+                          onChange={this.onEmailChange} />
+                      </OverlayTrigger>
                     </div>
                   </Col>
                   <Col md={6}>
                     <div className="flex-left padding-t-20">
-                      <FormControl
-                        type="password"
-                        placeholder="password"
-                        className="signup-email-input"
-                        value={password}
-                        disabled={emailSent}
-                        onChange={this.onPasswordChange} />
+                      <OverlayTrigger
+                        placement="right"
+                        trigger="manual"
+                        ref="password"
+                        overlay={
+                          <Tooltip id="tooltip"><img src={MaterialIcon} alt="icon" /> Need at least 8 characters</Tooltip>
+                        }>
+                        <FormControl
+                          type="password"
+                          placeholder="password"
+                          className="signup-email-input"
+                          value={password}
+                          disabled={emailSent}
+                          onBlur={this.validatePassword}
+                          onFocus={this.passwordOnFocus}
+                          onChange={this.onPasswordChange} />
+                      </OverlayTrigger>
                     </div>
                   </Col>
                 </Col>

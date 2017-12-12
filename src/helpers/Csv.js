@@ -112,6 +112,13 @@ const hasClass = function (elem, className) {
   return new RegExp(` ${className} `).test(` ${elem.className} `);
 };
 
+function getProduct() {
+  if (localStorage.getItem('inventoryInfo')) {
+    return JSON.parse(localStorage.getItem('inventoryInfo'));
+  }
+  return false;
+}
+
 export {
   beautifyUploadedCsvData,
   validateCogsValue,
@@ -120,5 +127,6 @@ export {
   beautifyDataForCogsApiCall,
   moveAcceptedToBottom,
   sortByCogs,
-  hasClass
+  hasClass,
+  getProduct
 };

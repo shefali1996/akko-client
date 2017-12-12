@@ -26,7 +26,7 @@ import {
   moveAcceptedToBottom,
   sortByCogs
 } from '../helpers/Csv';
-import TipBox from '../components/TipBox';
+import TipBox, {tipBoxMsg} from '../components/TipBox';
 
 class SetTable extends Component {
   constructor(props) {
@@ -473,7 +473,7 @@ class SetTable extends Component {
               </div>
             </Col>
             <Col md={3}>
-              <TipBox />
+              <TipBox message={tipBoxMsg.cogsValue} />
             </Col>
           </Row>
         </Grid>

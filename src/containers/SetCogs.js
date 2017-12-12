@@ -8,7 +8,7 @@ import { invokeApig } from '../libs/awsLib';
 import cogs1 from '../assets/images/cogs1.svg';
 import cogs2 from '../assets/images/cogs2.svg';
 import cogs3 from '../assets/images/cogs3.svg';
-import TipBox from '../components/TipBox';
+import TipBox, {tipBoxMsg} from '../components/TipBox';
 import HeaderWithCloseAndAlert from '../components/HeaderWithCloseAndAlert';
 
 class SetCogs extends Component {
@@ -167,7 +167,7 @@ class SetCogs extends Component {
               </div>
             </Col>
             <Col md={3}>
-              <TipBox />
+              <TipBox message={tipBoxMsg.cogsValue} />
             </Col>
           </Row>
           <div className="text-center margin-t-50">

@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { Grid, Row, Col, FormControl, Button } from 'react-bootstrap';
+import { Grid, Row, Col, FormControl, Button, Tooltip, OverlayTrigger } from 'react-bootstrap';
 import SweetAlert from 'sweetalert-react';
 import Header from '../components/Header';
 import Footer from '../components/Footer';
@@ -11,6 +11,7 @@ import landing1 from '../assets/images/landing_1.png';
 import landing2 from '../assets/images/landing_2.png';
 import dashboard1 from '../assets/images/dashboard_1.png';
 import dashboard2 from '../assets/images/dashboard_2.png';
+import MaterialIcon from '../assets/images/MaterialIcon 3.svg';
 
 class Landing extends Component {
   constructor(props) {
@@ -18,12 +19,12 @@ class Landing extends Component {
     this.state = {
       email: '',
       alertShow: false,
-      errorAlert: false
     };
     this.onEmailChange = this.onEmailChange.bind(this);
     this.saveEmail = this.saveEmail.bind(this);
     this.onConfirm = this.onConfirm.bind(this);
-    this.onError = this.onError.bind(this);
+    this.emailValidation = this.emailValidation.bind(this);
+    this.onEmailFocus = this.onEmailFocus.bind(this);
   }
 
   componentWillMount() {
@@ -34,8 +35,22 @@ class Landing extends Component {
     this.setState({email: e.target.value});
   }
 
+  onEmailFocus() {
+    this.refs.email.hide();
+  }
+
+  emailValidation() {
+    const { email } = this.state;
+    if (!validateEmail(email)) {
+      this.refs.email.show();
+      return false;
+    }
+    return true;
+  }
+
   async saveEmail() {
-    if (validateEmail(this.state.email)) {
+    const emailAuth = this.emailValidation();
+    if (emailAuth) {
       invokeApigUnAuth({
         path: '/leads',
         method: 'POST',
@@ -49,17 +64,11 @@ class Landing extends Component {
         .catch(error => {
           console.log('error', error);
         });
-    } else {
-      this.setState({errorAlert: true});
     }
   }
 
   onConfirm() {
     this.setState({alertShow: false});
-  }
-
-  onError() {
-    this.setState({errorAlert: false});
   }
 
   render() {
@@ -102,17 +111,25 @@ class Landing extends Component {
               </div>
               <div className="margin-t-20">
                 <div className="email-view">
-                  <FormControl
-                    type="text"
-                    placeholder="official email"
-                    className="landing-email-input"
-                    value={email}
-                    data-tip="invalid email address"
-                    data-for="sadFace"
-                    onChange={this.onEmailChange}
-                    onFocus={this.onEmailFocus}
-                    onBlur={this.onEmailBlur}
+                  <OverlayTrigger
+                    placement="bottom"
+                    trigger="manual"
+                    ref="email"
+                    overlay={
+                      <Tooltip id="tooltip"><img src={MaterialIcon} alt="icon" /> Invalid email address</Tooltip>
+                    }>
+                    <FormControl
+                      type="text"
+                      placeholder="official email"
+                      className="landing-email-input"
+                      value={email}
+                      data-tip="invalid email address"
+                      data-for="sadFace"
+                      onChange={this.onEmailChange}
+                      onFocus={this.onEmailFocus}
+                      onBlur={this.emailValidation}
                   />
+                  </OverlayTrigger>
                   <Button className="invite-button" onClick={this.saveEmail}>
                     REQUEST INVITE
                   </Button>
@@ -215,14 +232,6 @@ class Landing extends Component {
           title="Success!"
           text="Submit is successful."
           onConfirm={this.onConfirm}
-        />
-        <SweetAlert
-          show={this.state.errorAlert}
-          showConfirmButton
-          type="error"
-          title="Error!"
-          text="Email is invalid."
-          onConfirm={this.onError}
         />
       </Grid>
     );

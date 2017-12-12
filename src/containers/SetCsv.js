@@ -9,7 +9,7 @@ import { getProductValue, convertInventoryJSONToObject, exportCSVFile, headers }
 import { invokeApig } from '../libs/awsLib';
 import cogs2 from '../assets/images/cogs2.svg';
 import { beautifyUploadedCsvData, validateCogsValue } from '../helpers/Csv';
-import TipBox from '../components/TipBox';
+import TipBox, {tipBoxMsg} from '../components/TipBox';
 import HeaderWithCloseAndAlert from '../components/HeaderWithCloseAndAlert';
 
 const ToastMessageFactory = React.createFactory(ToastMessageAnimated);
@@ -242,7 +242,7 @@ class SetCsv extends Component {
               </div>
             </Col>
             <Col md={3}>
-              <TipBox />
+              <TipBox message={tipBoxMsg.cogsValue} />
             </Col>
           </Row>
           <SweetAlert

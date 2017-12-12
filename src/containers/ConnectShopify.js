@@ -78,6 +78,7 @@ class ConnectShopify extends Component {
       this.setState({
         alertShow: true
       });
+      this.props.history.push('/business-type');
     });
   }
 
