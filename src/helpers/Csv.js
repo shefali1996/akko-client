@@ -108,6 +108,10 @@ function sortByCogs(data) {
   });
 }
 
+const hasClass = function (elem, className) {
+  return new RegExp(` ${className} `).test(` ${elem.className} `);
+};
+
 function getProduct() {
   if (localStorage.getItem('inventoryInfo')) {
     return JSON.parse(localStorage.getItem('inventoryInfo'));
@@ -122,6 +126,7 @@ export {
   updateLocalInventoryInfo,
   beautifyDataForCogsApiCall,
   moveAcceptedToBottom,
-  getProduct,
-  sortByCogs
+  sortByCogs,
+  hasClass,
+  getProduct
 };

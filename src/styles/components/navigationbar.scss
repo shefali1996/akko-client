@@ -12,7 +12,7 @@
   background: none;
   padding-top: 20px;
 	display: block;
-	position: absolute;
+	// position: absolute;
 	top: 25px;
 	left: 10px;
 	z-index: 999;
@@ -21,7 +21,7 @@
   width: 165px;
 	height: 40px;
 	position: absolute;
-	top: 30px;
+	// top: 30px;
 	right: 30px;
 	z-index: 999;
 	text-align: right;
@@ -55,7 +55,7 @@
 	padding: 0;
 	width: 100%;
 	border: none;
-  margin-top: 45px;
+  margin-top: 12px;
 }
 .dropdown .btn-default:hover,
 .dropdown.open .btn-default:hover,

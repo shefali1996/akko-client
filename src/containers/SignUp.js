@@ -3,11 +3,8 @@ import { connect } from 'react-redux';
 import { Grid, Row, Col, Button, Label, Tabs, Tab, FormControl, Tooltip, OverlayTrigger } from 'react-bootstrap';
 import Select from 'react-select';
 import SweetAlert from 'sweetalert-react';
+import { AuthenticationDetails, CognitoUserPool } from 'amazon-cognito-identity-js';
 import { isEmpty } from 'lodash';
-import {
-  AuthenticationDetails,
-  CognitoUserPool
-} from 'amazon-cognito-identity-js';
 import { validateEmail, testMode } from '../constants';
 import config from '../config';
 import { invokeApig, signOutUser } from '../libs/awsLib';
@@ -101,7 +98,6 @@ class SignUp extends Component {
 
   validateFirstName() {
     const {firstName} = this.state;
-    console.log('firstName', firstName, isEmpty(firstName));
     if (isEmpty(firstName)) {
       this.refs.firstName.show();
       return false;
@@ -258,7 +254,6 @@ class SignUp extends Component {
       });
     }
   }
-
   onConfirm() {
     this.setState({
       alertShow: false
@@ -357,11 +352,6 @@ class SignUp extends Component {
             <Tab eventKey={2} title="Sign Up">
               <div>
                 <Col md={12} className="padding-t-30">
-                  <Label className="signup-title">
-                    Sign up for a 30 day free trial
-                  </Label>
-                </Col>
-                <Col md={12}>
                   <Col md={6}>
                     <div className="flex-right padding-t-20">
                       <OverlayTrigger

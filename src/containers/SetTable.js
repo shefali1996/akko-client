@@ -4,6 +4,7 @@ import { Grid, Row, Col, Button, Label, FormControl } from 'react-bootstrap';
 import SearchInput, { createFilter } from 'react-search-input';
 import { BootstrapTable, TableHeaderColumn } from 'react-bootstrap-table';
 import SweetAlert from 'sweetalert-react';
+import { Switch, Progress } from 'antd';
 import {
   customMultiSelect,
   renderSizePerPageDropDown,
@@ -15,7 +16,7 @@ import {
   productPriceFormatter,
   sortByProductPrice
 } from '../components/CustomTable';
-import { Switch, Progress } from 'antd';
+import HeaderWithCloseAndAlert from '../components/HeaderWithCloseAndAlert';
 import { KEYS_TO_FILTERS, convertInventoryJSONToObject, isNumeric, numberFormatter } from '../constants';
 import { invokeApig } from '../libs/awsLib';
 import {
@@ -43,7 +44,6 @@ class SetTable extends Component {
       hideCompleted: false,
       valueError: false
     };
-    this.goLanding = this.goLanding.bind(this);
     this.onFinish = this.onFinish.bind(this);
     this.onMarkUpChange = this.onMarkUpChange.bind(this);
     this.searchUpdated = this.searchUpdated.bind(this);
@@ -165,10 +165,6 @@ class SetTable extends Component {
 
   products() {
     return invokeApig({ path: '/inventory' });
-  }
-
-  goLanding() {
-    this.props.history.push('/');
   }
 
   searchUpdated(term) {
@@ -333,23 +329,7 @@ class SetTable extends Component {
     return (
       <div>
         <Grid className="login-layout">
-          <Row>
-            <Col md={12}>
-              <Col md={6} className="text-left padding-t-20">
-                <Label className="login-title">
-                  akko
-                </Label>
-              </Col>
-              <Col md={6} className="text-right padding-t-20">
-                <Button className="logout-button" onClick={this.goLanding} />
-              </Col>
-            </Col>
-          </Row>
-          <Row className="account-setup-header">
-            <span className="account-comment">
-              Account Setup
-            </span>
-          </Row>
+          <HeaderWithCloseAndAlert pageTitle="Account Setup" {...this.props} />
           <Row>
             <Col md={6} mdOffset={3} className="center-view">
               <div className="text-center margin-t-40">

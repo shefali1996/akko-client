@@ -42,7 +42,13 @@ class Inventory extends Component {
   }
 
   componentDidMount() {
-    this.getInventory();
+    const inventoryInfo = localStorage.getItem('inventoryInfo');
+    const lastUpdated = localStorage.getItem('lastUpdated');
+    if (inventoryInfo && lastUpdated) {
+      this.setState({ data: JSON.parse(inventoryInfo) });
+    } else {
+      this.getInventory();
+    }
     this.loadInterval = setInterval(() => {
       this.getInventoryWithParam();
     }, pollingInterval);
@@ -156,9 +162,9 @@ class Inventory extends Component {
   getLoader() {
     const loader = [];
     for (let i = 0; i < 10; i++) {
-      loader.push(<div><ReactPlaceholder type="media" showLoadingAnimation className="loading-placeholder-rect-media" rows={2} ready={false} >There are no data to display</ReactPlaceholder><br /></div>);
+      loader.push(<div key={i}><ReactPlaceholder type="media" showLoadingAnimation className="loading-placeholder-rect-media" rows={2} ready={false} >There are no data to display</ReactPlaceholder><br /></div>);
     }
-    return loader;
+    return (<div> {loader} </div>);
   }
 
   render() {
@@ -170,13 +176,8 @@ class Inventory extends Component {
       clickToSelect: true
     };
     const options = {
-      insertBtn: createCustomInsertButton,
-      deleteBtn: createCustomDeleteButton,
-      exportCSVBtn: createCustomExportCSVButton,
       sizePerPageDropDown: renderSizePerPageDropDown,
       paginationPanel: renderPaginationPanel,
-      btnGroup: createCustomButtonGroup,
-      toolBar: createCustomToolBar,
       paginationSize: 7,
       prePage: '«   Previous',
       nextPage: 'Next   »',
@@ -219,12 +220,8 @@ class Inventory extends Component {
                   </Row>
                   <Row className="padding-50">
                     <BootstrapTable
-                      className="table-responsive"
                       data={filteredData}
                       options={options}
-                      insertRow
-                      deleteRow
-                      exportCSV
                       bordered={false}
                       selectRow={selectRowProp}
                       pagination
@@ -322,12 +319,6 @@ class Inventory extends Component {
                         {this.renderSaleValueHeader()}
                           $
                       </TableHeaderColumn>
-                      <TableHeaderColumn
-                        dataAlign="center"
-                        className="custom-table-header"
-                        dataFormat={arrowFormatter}
-                        width="5%"
-                      />
                     </BootstrapTable>
                   </Row>
                 </div>
