@@ -6,6 +6,7 @@ import businessType1 from '../assets/images/businessType1.svg';
 import businessType2 from '../assets/images/businessType2.svg';
 import businessType3 from '../assets/images/businessType3.svg';
 import businessType4 from '../assets/images/businessType4.svg';
+import HeaderWithCloseAndAlert from '../components/HeaderWithCloseAndAlert';
 import TipBox, {tipBoxMsg} from '../components/TipBox';
 
 class BusinessType extends Component {
@@ -15,7 +16,6 @@ class BusinessType extends Component {
       option: '',
       tipMsg: ''
     };
-    this.goLanding = this.goLanding.bind(this);
     this.onConnect = this.onConnect.bind(this);
     this.onTypeOneSelected = this.onTypeOneSelected.bind(this);
     this.onTypeTwoSelected = this.onTypeTwoSelected.bind(this);
@@ -29,10 +29,6 @@ class BusinessType extends Component {
 
   componentWillMount() {
 
-  }
-
-  goLanding() {
-    this.props.history.push('/');
   }
 
   onTypeOneSelected() {
@@ -75,23 +71,7 @@ class BusinessType extends Component {
     return (
       <div>
         <Grid className="login-layout">
-          <Row>
-            <Col md={12}>
-              <Col md={6} className="text-left padding-t-20">
-                <Label className="login-title">
-                  akko
-                </Label>
-              </Col>
-              <Col md={6} className="text-right padding-t-20">
-                <Button className="logout-button" onClick={this.goLanding} />
-              </Col>
-            </Col>
-          </Row>
-          <Row className="account-setup-header">
-            <span className="account-comment">
-              Account Setup
-            </span>
-          </Row>
+          <HeaderWithCloseAndAlert pageTitle="Account Setup" {...this.props} />
           <Row>
             <Col md={6} mdOffset={3}>
               <div className="text-center margin-t-40">

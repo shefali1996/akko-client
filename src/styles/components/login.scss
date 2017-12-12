@@ -11,31 +11,33 @@
 .login-tab ul.nav.nav-tabs {
   text-align:center;
 }
-.login-tab .nav.nav-tabs >li.active>a, .nav-tabs>li.active>a:focus, .nav-tabs>li.active>a:hover {
-  cursor: default;
-  background-color: $main-background-color;;
-  border-bottom: 2px solid #1d2fb5;
-  padding: 15px 20px 0px 20px;
-  outline: 0px;
-  font-family: $ubuntu-light;
-  font-size: $size-20;
-  color: #1d2fb5;
-  text-decoration: none solid $main-decoration-color;
-  width: 120px;
-}
-.login-tab .nav.nav-tabs >li>a, .nav-tabs>li>a:focus, .nav-tabs>li>a:hover {
-  cursor: default;
-  background-color: $main-background-color;
-  border: none;
-  margin: 0;
-  padding: 15px 20px 0px 20px;
-  outline: 0px;
-  font-family: $ubuntu-light;
-  font-size: $size-20;
-  color: #1d2fb5;
-  text-decoration: none solid $main-decoration-color;
-  width: 120px;
-  cursor: pointer;
+.login-tab {
+	.nav.nav-tabs >li.active>a, .nav-tabs>li.active>a:focus, .nav-tabs>li.active>a:hover {
+	  cursor: default;
+	  background-color: $main-background-color;;
+	  border-bottom: 2px solid $main-blue-color;
+	  padding: 15px 20px 0px 20px;
+	  outline: 0px;
+	  font-family: $ubuntu-light;
+	  font-size: $size-20;
+	  color: $main-blue-color;
+	  text-decoration: none solid $main-decoration-color;
+	  width: 120px;
+	}
+	.nav.nav-tabs >li>a, .nav-tabs>li>a:focus, .nav-tabs>li>a:hover {
+	  cursor: default;
+	  background-color: $main-background-color;
+	  border: none;
+	  margin: 0;
+	  padding: 15px 20px 0px 20px;
+	  outline: 0px;
+	  font-family: $ubuntu-light;
+	  font-size: $size-20;
+	  color: $main-blue-color;
+	  text-decoration: none solid $main-decoration-color;
+	  width: 120px;
+	  cursor: pointer;
+	}
 }
 .login-tab .nav.nav-tabs {
   border-top-width: 0px;
@@ -107,7 +109,7 @@
 .forgot-text {
 	font-family: $ubuntu-regular;
 	font-size: $size-16;
-	color: #1d2fb5;
+	color: $main-blue-color;
 	text-decoration: none solid $main-decoration-color;
 	background: none;
 	border: none;
@@ -125,7 +127,7 @@
 	background-color: $white-color;
 	font-family: $ubuntu-regular;
 	font-size: $size-14;
-	color: #1d2fb5;
+	color: $main-blue-color;
 	text-decoration: none solid $main-decoration-color;
 	text-align: center;
 	box-shadow: 0 1px 2px rgba(0, 0, 0, 0.5);
@@ -164,7 +166,7 @@
 .signup-title {
   font-family: $ubuntu-light;
   font-size: $size-16;
-  color: #1d2fb5;
+  color: $main-blue-color;
   text-decoration: none solid $main-decoration-color;
   background: none;
 }
@@ -199,6 +201,7 @@
 	padding-bottom: 10px;
 	border-bottom: 1px solid $light-gray-color;
 }
+
 .tooltip{
 	.tooltip-inner{
 		max-width:400px;

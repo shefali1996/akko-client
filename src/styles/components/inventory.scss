@@ -19,31 +19,33 @@
 .inventory-tab ul.nav.nav-tabs {
 	text-align:center;
 }
-.inventory-tab .nav.nav-tabs >li.active>a, .nav-tabs>li.active>a:focus, .nav-tabs>li.active>a:hover {
-	cursor: default;
-	background-color: $white-color;
-	border-bottom: 2px solid $main-blue-color;
-	padding: 15px 20px 0px 20px;
-	outline: 0px;
-	font-family: $ubuntu-light;
-	font-size: $size-20;
-	color: $main-blue-color;
-	text-decoration: none solid $main-decoration-color;
-	width: 120px;
-}
-.inventory-tab .nav.nav-tabs >li>a, .nav-tabs>li>a:focus, .nav-tabs>li>a:hover {
-	cursor: default;
-	background-color: $white-color;
-	border: none;
-	margin: 0;
-	padding: 15px 20px 0px 20px;
-	outline: 0px;
-	font-family: $ubuntu-light;
-	font-size: $size-20;
-	color: $main-blue-color;
-	text-decoration: none solid $main-decoration-color;
-	width: 120px;
-	cursor: pointer;
+.inventory-tab{
+  .nav.nav-tabs >li.active>a, .nav-tabs>li.active>a:focus, .nav-tabs>li.active>a:hover {
+  	cursor: default;
+  	background-color: $white-color;
+  	border-bottom: 2px solid $main-blue-color;
+  	padding: 15px 20px 0px 20px;
+  	outline: 0px;
+  	font-family: $ubuntu-light;
+  	font-size: $size-20;
+  	color: $main-blue-color;
+  	text-decoration: none solid $main-decoration-color;
+  	min-width: 120px;
+  }
+  .nav.nav-tabs >li>a, .nav-tabs>li>a:focus, .nav-tabs>li>a:hover {
+  	cursor: default;
+  	background-color: $white-color;
+  	border: none;
+  	margin: 0;
+  	padding: 15px 20px 0px 20px;
+  	outline: 0px;
+  	font-family: $ubuntu-light;
+  	font-size: $size-20;
+  	color: $main-blue-color;
+  	text-decoration: none solid $main-decoration-color;
+  	min-width: 120px;
+  	cursor: pointer;
+  }
 }
 .inventory-tab .nav.nav-tabs {
 	border: none;

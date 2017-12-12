@@ -9,6 +9,7 @@ import cogs1 from '../assets/images/cogs1.svg';
 import cogs2 from '../assets/images/cogs2.svg';
 import cogs3 from '../assets/images/cogs3.svg';
 import TipBox, {tipBoxMsg} from '../components/TipBox';
+import HeaderWithCloseAndAlert from '../components/HeaderWithCloseAndAlert';
 
 class SetCogs extends Component {
   constructor(props) {
@@ -18,7 +19,6 @@ class SetCogs extends Component {
       option: '',
       alertShow: false
     };
-    this.goLanding = this.goLanding.bind(this);
     this.onSkip = this.onSkip.bind(this);
     this.onTypeOneSelected = this.onTypeOneSelected.bind(this);
     this.onTypeTwoSelected = this.onTypeTwoSelected.bind(this);
@@ -81,32 +81,12 @@ class SetCogs extends Component {
     return invokeApig({ path: '/inventory' });
   }
 
-  goLanding() {
-    this.props.history.push('/');
-  }
-
   render() {
     const { option, data } = this.state;
     return (
       <div>
         <Grid className="login-layout">
-          <Row>
-            <Col md={12}>
-              <Col md={6} className="text-left padding-t-20">
-                <Label className="login-title">
-                    akko
-                </Label>
-              </Col>
-              <Col md={6} className="text-right padding-t-20">
-                <Button className="logout-button" onClick={this.goLanding} />
-              </Col>
-            </Col>
-          </Row>
-          <Row className="account-setup-header">
-            <span className="account-comment">
-              Account Setup
-            </span>
-          </Row>
+          <HeaderWithCloseAndAlert pageTitle="Account Setup" {...this.props} />
           <Row>
             <Col md={6} mdOffset={3}>
               <div className="text-center margin-t-40">
