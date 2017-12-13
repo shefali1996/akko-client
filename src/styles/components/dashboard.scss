@@ -9,3 +9,178 @@
 		min-height: calc(100vh - 60px);
 	}
 }
+.page-container {
+  overflow: hidden;
+	width: $full-width;
+	background-color: $main-background-color;
+	padding: $size-0;
+	> .row {
+		margin: 0;
+		transform: translateZ(0);
+		min-height: calc(100vh - 60px);
+	}
+}
+.dialog{
+  height: 100%;
+  width: 100%;
+  background: #ffffff;
+  position: fixed;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  z-index: 1111;
+}
+.analysis{
+  padding: 15px;
+  overflow-y: auto;
+  .page-select-text{
+    font-family: Ubuntu;
+    font-size: 20px;
+    color: #666666;
+    font-weight: bold;
+    text-decoration: none solid rgb(102, 102, 102);
+    top: -12px;
+    position: absolute;
+  }
+  .right-top-description{
+    font-family: Ubuntu;
+    font-size: 11px;
+    color: #bbbbbb;
+    font-weight: bold;
+    text-decoration: none solid rgb(187, 187, 187);
+    width: 80%;
+    padding-top: 20px;
+  }
+  .content-box{
+    background: #f2f2f2;
+    margin-top: 10px;
+    padding: 10px 15px;
+    padding-bottom: 50px;
+  }
+  .charts-card-style{
+    margin-top: 10px;
+    border: 1px solid #c8c8e8;
+    border-radius: 2px;
+    font-family: ubuntu !important;
+    font-size: 16px;
+    text-align: left;
+  }
+  .dd-lable{
+    font-size: 12px;
+  }
+  .expenses-breakdown{
+    .expense-text{
+      font-family: Ubuntu;
+      font-size: 14px;
+      color: #c8c8c8;
+      font-weight: bold;
+      text-decoration: none solid rgb(200, 200, 200);
+      .text-row{
+        padding-top: 5px;
+      }
+      .dash{
+        width: 5px;
+        margin-right: 5px;
+        display: inline-block;
+      }
+      hr{
+        margin-top: 15px;
+        margin-bottom: 15px;
+      }
+      .final-row{
+        color: #575dde;
+      }
+    }
+  }
+  .right-box{
+    .select-container{
+      width: 90%;
+      margin: 0 auto;
+      height: 110px;
+      margin-top: 5px;
+      margin-bottom: 7px;
+      .ant-input{
+        height: auto;
+        font-family: Ubuntu;
+        font-size: 14px;
+        color: #c8c8e8;
+        font-weight: bold;
+        text-decoration: none solid rgb(200, 200, 232);
+        border-radius: 2px;
+        padding-top: 10px;
+        padding-bottom: 8px;
+        text-align: justify;
+      }
+    }
+    .card-content{
+      padding: 7px !important;
+      .card-title{
+        font-family: Ubuntu;
+        font-size: 14px;
+        color: #bbbbbb;
+        font-weight: bold;
+        text-decoration: none solid rgb(187, 187, 187);
+        text-align: center
+      }
+      .chip-wrapper{
+        display: inline-block;
+        margin-top: 10px;
+        .chip{
+          background-color: #bbbbbb !important;
+          font-family: Ubuntu !important;
+          text-align: center;
+        }
+      }
+      .link{
+        font-family: Ubuntu;
+        font-weight: bold;
+        text-align: center;
+        margin-top: 8px;
+        text-decoration: underline;
+        a{
+          font-size: 14px;
+          color: #575dde;
+        }
+      }
+    }
+  }
+}
+
+.filter-dialog{
+  .close-btn{
+  margin-top: -16px;
+  margin-right: -16px;
+  }
+  .search-input{
+    height: 100%;
+  }
+  .selected-text{
+    font-family: Ubuntu;
+    font-size: 14px;
+    color: $main-blue-color;
+    text-decoration: none solid rgb(87, 93, 222);
+    text-align: center;
+    margin-bottom: 15px;
+  }
+  .filter-table-header{
+    thead > tr > th {
+      border: none;
+    }
+  }
+  .filter-table-body{
+    .custom-table{
+      background: #fbfbfb;
+      border-top: 3px solid #FFFFFF;
+      border-bottom: 3px solid #FFFFFF;
+    }
+  }
+  .half-width{
+    width: 100%;
+  }
+  .selected-row{
+    background: #fbfbfb;
+    padding-left: 5px;
+    margin-top: 5px;
+  }
+}

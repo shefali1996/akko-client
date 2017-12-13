@@ -3,6 +3,8 @@ import { connect } from 'react-redux';
 import { Switch, Route } from 'react-router';
 import Dashboard from './Dashboard';
 import Inventory from './Inventory';
+import CustomerInsights from './CustomerInsights';
+import FinancialInsights from './FinancialInsights';
 import user from '../auth/user';
 
 class AuthorizedContainer extends Component {
@@ -11,7 +13,7 @@ class AuthorizedContainer extends Component {
       this.props.history.push('/');
       return;
     }
-    this.props.history.push('/inventory');
+    this.props.history.push('/financial_insights');
   }
 
   componentWillReceiveProps(nextProps) {
@@ -21,8 +23,8 @@ class AuthorizedContainer extends Component {
   render() {
     return (
       <Switch>
-        <Route exact path="/dashboard" component={Dashboard} />
-        <Route exact path="/inventory" component={Inventory} />
+        <Route exact path="/financial_insights" component={FinancialInsights} />
+        <Route exact path="/customer_insights" component={CustomerInsights} />
       </Switch>
     );
   }

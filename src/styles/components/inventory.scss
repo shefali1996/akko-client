@@ -116,13 +116,18 @@
 	float: left;
 	padding-left: 10px;
 }
+.first-price-customer{
+  width:60%;
+}
 .second-price {
 	width: 40%;
 	float: left;
+  text-align: center;
 }
 .third-price {
   width: 20%;
   float: left;
+  white-space: normal;
 }
 .price-title {
 	font-family: $ubuntu-bold;

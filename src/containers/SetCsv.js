@@ -60,7 +60,7 @@ class SetCsv extends Component {
 
   onConfirm() {
     this.setState({ alertShow: false });
-    this.props.history.push('/inventory');
+    this.props.history.push('/financial_insights');
   }
 
   onCogsConfirm() {
@@ -69,7 +69,7 @@ class SetCsv extends Component {
     if (totalProductCount !== selectedCogsValue) {
       this.props.history.push('/set-table');
     } else {
-      this.props.history.push('/inventory');
+      this.props.history.push('/financial_insights');
     }
   }
 

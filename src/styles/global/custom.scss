@@ -3,7 +3,7 @@
 }
 .custom-table {
 	height: 103px;
-	background: white;
+  background: white;
   font-family: $ubuntu-regular;
   font-size: $size-16;
   color: #1d2fb5;
@@ -28,4 +28,45 @@
 }
 .cursor-pointer {
 	cursor: pointer;
+}
+
+.custom-btn{
+  padding: 6px 10px;
+  background-color: #fff;
+  font-family: "Ubuntu-Regular";
+  font-size: 14px;
+  color: #1d2fb5;
+  text-decoration: none solid #1d2fb5;
+  text-align: center;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.5);
+  border: none;
+  border-radius: 0;
+}
+
+.ant-select{
+  width: 100% !important;
+  font-family: Ubuntu;
+  font-size: 14px;
+  color: #c8c8e8;
+  font-weight: bold;
+  text-decoration: none solid rgb(200, 200, 232);
+  .ant-select-selection{
+    border-radius: 0;
+    height: 41px;
+    border: 1px solid #c8c8e8;
+    border-radius: 2px;
+    background-color: #ffffff;
+  }
+  .ant-select-selection-selected-value{
+    padding: 7px 15px;
+  }
+}
+.ant-select-dropdown{
+  z-index: 1111;
+  border-radius: 0;
+  font-family: Ubuntu;
+  font-size: 14px;
+  color: #c8c8e8;
+  font-weight: bold;
+  text-decoration: none solid #c8c8e8;
 }

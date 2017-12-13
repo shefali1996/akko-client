@@ -8,6 +8,7 @@ class SalesChart extends Component {
 
   componentDidMount() {
     this.initChart();
+    // Chart.defaults.global.legend.labels.usePointStyle = true;
   }
 
   componentWillUnmount() {
@@ -24,7 +25,18 @@ class SalesChart extends Component {
   initChart() {
     this.chart = new ChartJS(this.canvas, {
       type: this.props.type,
-      data: this.props.data
+      data: this.props.data,
+      options: {
+        legend: {
+          display: true,
+          position: this.props.type === 'bar' ? 'right' : 'top',
+          onClick: (e, legendItem) => {},
+          labels: {
+            usePointStyle: true,
+            fontColor: 'rgb(255, 99, 132)'
+          }
+        }
+      }
     });
   }
 

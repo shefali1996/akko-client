@@ -19,7 +19,7 @@ class Header extends Component {
   }
 
   goHome() {
-    this.props.history.push('/inventory');
+    this.props.history.push('/financial_insights');
   }
 
   goLogin() {

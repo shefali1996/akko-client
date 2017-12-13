@@ -183,7 +183,7 @@ class Inventory extends Component {
       nextPage: 'Next   »',
       withFirstAndLast: false,
       sortIndicator: false,
-      noDataText: this.getLoader()
+      noDataText: <div>{this.getLoader()}</div>
     };
     return (
       <div>

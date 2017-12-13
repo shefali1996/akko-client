@@ -35,13 +35,13 @@ export async function authUser() {
   let userToken = null;
   try {
     userToken = await getUserToken(currentUser);
-  } catch(e)   {
+  } catch (e) {
     alert(e);
   }
 
   try {
     await getAwsCredentials(userToken);
-  } catch(e)   {
+  } catch (e) {
     alert(e);
   }
 
@@ -112,13 +112,13 @@ export async function invokeApig({
 
   body = body ? JSON.stringify(body) : body;
   headers = signedRequest.headers;
-
+  console.log('signedRequest', signedRequest);
   const results = await fetch(signedRequest.url, {
     method,
     headers,
     body
   });
-
+  console.log('results', results);
   if (results.status !== 200) {
     throw new Error(await results.text());
   }

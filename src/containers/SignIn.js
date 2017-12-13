@@ -103,7 +103,7 @@ class SignIn extends Component {
     if (emailAuth && passAuth) {
       this.login(email, password).then((result) => {
         localStorage.setItem('isAuthenticated', 'isAuthenticated');
-        this.props.history.push('/inventory');
+        this.props.history.push('/financial_insights');
         // this.props.history.push('/connect-shopify');
       })
         .catch(error => {
