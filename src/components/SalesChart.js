@@ -30,6 +30,7 @@ class SalesChart extends Component {
         legend: {
           display: true,
           position: this.props.type === 'bar' ? 'right' : 'top',
+          onClick: (e, legendItem) => {},
           labels: {
             usePointStyle: true,
             fontColor: 'rgb(255, 99, 132)'

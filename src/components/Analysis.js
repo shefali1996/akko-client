@@ -2,8 +2,8 @@ import React, { Component } from 'react';
 import { Row, Col, Label, Button, Image } from 'react-bootstrap';
 import SelectField from 'material-ui/SelectField';
 import MenuItem from 'material-ui/MenuItem';
-import FinancialInsights from '../components/FinancialInsights';
-import CustomerInsights from '../components/CustomerInsights';
+// import FinancialInsights from '../components/FinancialInsights';
+// import CustomerInsights from '../components/CustomerInsights';
 
 const dashboardJSON = {
   financialData: [
@@ -17,7 +17,7 @@ const dashboardJSON = {
       trendPeriod: 'last month'
     },
     {
-      title: 'Grass Profit',
+      title: 'Gross Profit',
       description: 'Which customers are at risk of leaving?',
       prefix: '',
       value: 78,
@@ -190,10 +190,12 @@ class Analysis extends React.Component {
             <Button className="close-button pull-right" onClick={this.goLanding} />
           </Col>
         </Row>
-        {this.state.showingPage === 'financial' ?
-          <FinancialInsights cardsData={this.state.data.financialData} chartDataLine={chartDataLine} chartDataBar={chartDataBar} />
-          :
-          <CustomerInsights cardsData={this.state.data.customerData} chartDataLine={chartDataLine} chartDataBar={chartDataBar} />}
+        {
+          // this.state.showingPage === 'financial' ?
+          // <FinancialInsights cardsData={this.state.data.financialData} chartDataLine={chartDataLine} chartDataBar={chartDataBar} />
+          // :
+          // <CustomerInsights cardsData={this.state.data.customerData} chartDataLine={chartDataLine} chartDataBar={chartDataBar} />
+        }
       </div>
     );
   }

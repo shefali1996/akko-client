@@ -9,6 +9,17 @@
 		min-height: calc(100vh - 60px);
 	}
 }
+.page-container {
+  overflow: hidden;
+	width: $full-width;
+	background-color: $main-background-color;
+	padding: $size-0;
+	> .row {
+		margin: 0;
+		transform: translateZ(0);
+		min-height: calc(100vh - 60px);
+	}
+}
 .dialog{
   height: 100%;
   width: 100%;
@@ -53,6 +64,10 @@
     border-radius: 2px;
     font-family: ubuntu !important;
     font-size: 16px;
+    text-align: left;
+  }
+  .dd-lable{
+    font-size: 12px;
   }
   .expenses-breakdown{
     .expense-text{
@@ -85,6 +100,18 @@
       height: 110px;
       margin-top: 5px;
       margin-bottom: 7px;
+      .ant-input{
+        height: auto;
+        font-family: Ubuntu;
+        font-size: 14px;
+        color: #c8c8e8;
+        font-weight: bold;
+        text-decoration: none solid rgb(200, 200, 232);
+        border-radius: 2px;
+        padding-top: 10px;
+        padding-bottom: 8px;
+        text-align: justify;
+      }
     }
     .card-content{
       padding: 7px !important;
