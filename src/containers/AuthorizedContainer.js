@@ -14,7 +14,6 @@ class AuthorizedContainer extends Component {
       return;
     }
     this.props.history.push('/financial_insights');
-    // this.props.history.push('/inventory');
   }
 
   componentWillReceiveProps(nextProps) {
@@ -22,8 +21,6 @@ class AuthorizedContainer extends Component {
   }
 
   render() {
-    // <Route exact path="/dashboard" component={Dashboard} />
-    // <Route exact path="/inventory" component={Inventory} />
     return (
       <Switch>
         <Route exact path="/financial_insights" component={FinancialInsights} />
