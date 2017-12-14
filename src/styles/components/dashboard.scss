@@ -34,6 +34,7 @@
 .analysis{
   padding: 15px;
   overflow-y: auto;
+}
   .page-select-text{
     font-family: Ubuntu;
     font-size: 20px;
@@ -93,26 +94,14 @@
       }
     }
   }
-  .right-box{
     .select-container{
       width: 90%;
       margin: 0 auto;
       height: 110px;
       margin-top: 5px;
       margin-bottom: 7px;
-      .ant-input{
-        height: auto;
-        font-family: Ubuntu;
-        font-size: 14px;
-        color: #c8c8e8;
-        font-weight: bold;
-        text-decoration: none solid rgb(200, 200, 232);
-        border-radius: 2px;
-        padding-top: 10px;
-        padding-bottom: 8px;
-        text-align: justify;
-      }
     }
+
     .card-content{
       padding: 7px !important;
       .card-title{
@@ -144,8 +133,8 @@
         }
       }
     }
-  }
-}
+
+
 
 .filter-dialog{
   .close-btn{
@@ -182,5 +171,38 @@
     background: #fbfbfb;
     padding-left: 5px;
     margin-top: 5px;
+  }
+}
+// -----------------------NEW dashboardJSON--------------
+.analysis{
+  .dashboard-card-cantainer{
+    min-width: 320px;
+  }
+  .left-box-100{
+    width: 100%;
+    transition: width 1s;
+    float: left;
+  }
+  .left-box-50{
+    width: 50%;
+    transition: width 1s;
+    float: left;
+  }
+  .right-box-50{
+    // display: block;
+    width: 50%;
+    transition: width 1s, display 1s;
+    float: left;
+    margin-top: 40px;
+  }
+  .right-box-0{
+    width: 0px;
+    transition: width 1s, display 1s;
+    // display: none;
+    float: left;
+  }
+  .explore-datepicker{
+    display: block;
+    margin-top: 20px;
   }
 }

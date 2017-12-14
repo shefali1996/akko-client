@@ -5,6 +5,7 @@ import Dashboard from './Dashboard';
 import Inventory from './Inventory';
 import CustomerInsights from './CustomerInsights';
 import FinancialInsights from './FinancialInsights';
+import NewDashboard from './NewDashboard';
 import user from '../auth/user';
 
 class AuthorizedContainer extends Component {
@@ -13,7 +14,8 @@ class AuthorizedContainer extends Component {
       this.props.history.push('/');
       return;
     }
-    this.props.history.push('/financial_insights');
+    // this.props.history.push('/financial_insights');
+    this.props.history.push('/dashboard');
   }
 
   componentWillReceiveProps(nextProps) {
@@ -21,10 +23,11 @@ class AuthorizedContainer extends Component {
   }
 
   render() {
+    // <Route exact path="/financial_insights" component={FinancialInsights} />
+    // <Route exact path="/customer_insights" component={CustomerInsights} />
     return (
       <Switch>
-        <Route exact path="/financial_insights" component={FinancialInsights} />
-        <Route exact path="/customer_insights" component={CustomerInsights} />
+        <Route exact path="/dashboard" component={NewDashboard} />
       </Switch>
     );
   }
