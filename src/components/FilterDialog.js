@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { Row, Col, Label, Button, Image } from 'react-bootstrap';
 import {Card, CardHeader, CardText} from 'material-ui/Card';
+import Dialog from 'material-ui/Dialog';
 import { BootstrapTable, TableHeaderColumn } from 'react-bootstrap-table';
 import SearchInput, { createFilter } from 'react-search-input';
 import {
@@ -89,6 +90,7 @@ class FilterDialog extends Component {
     this.onSelectAll = this.onSelectAll.bind(this);
   }
   componentWillMount() {
+    console.log('componentWillMount');
     const {filterModal} = this.props;
     if (filterModal === product) {
       this.getProductData();
@@ -96,6 +98,19 @@ class FilterDialog extends Component {
       this.getCustomerData();
     } else if (filterModal === metrics) {
       this.getMetricsData();
+    }
+  }
+  componentWillReceiveProps(props) {
+    console.log('componentWillReceiveProps');
+    const {filterModal, openFilter} = props;
+    if (openFilter) {
+      if (filterModal === product) {
+        this.getProductData();
+      } else if (filterModal === customer) {
+        this.getCustomerData();
+      } else if (filterModal === metrics) {
+        this.getMetricsData();
+      }
     }
   }
   getProductData() {
@@ -252,81 +267,93 @@ class FilterDialog extends Component {
       // col3Width = '20%';
 
     }
+    //   <CardHeader
+    //     textStyle={styles.chartHeader}
+    //     title={<div>
+    //       <span>{filterTitle}</span>
+    //       <span className="pull-right close-btn">
+    //         <Button className="close-button pull-right" onClick={this.props.closeFilter} />
+    //       </span>
+    //     </div>}
+    //     titleStyle={styles.chartsHeaderTitle}
+    // />
     return (
-      <Row className="filter-dialog">
-        <Col md={10} mdOffset={1}>
-          <Card className="charts-card-style">
-            <CardHeader
-              textStyle={styles.chartHeader}
-              title={<div>
-                <span>{filterTitle}</span>
-                <span className="pull-right close-btn">
-                  <Button className="close-button pull-right" onClick={this.props.closeFilter} />
-                </span>
-              </div>}
-              titleStyle={styles.chartsHeaderTitle}
-          />
-            <CardText>
-              <Row>
-                <Col md={8}>
-                  <Row>
-                    <Col md={12} className="filterSearch">
-                      <SearchInput
-                        className="search-input"
-                        placeholder={searchPlaceHolder}
-                        onChange={this.searchUpdated}
-                        onFocus={this.onFocus}
+      <Dialog
+        title={<div>
+          <span>{filterTitle}</span>
+          <span className="pull-right close-btn">
+            <Button className="close-button pull-right" onClick={this.props.closeFilter} />
+          </span>
+        </div>}
+        titleStyle={styles.chartsHeaderTitle}
+        modal
+        open={this.props.openFilter}
+        onRequestClose={this.props.closeFilter}
+      >
+        <Row className="filter-dialog">
+          <Col>
+            <Card className="charts-card-style">
+              <CardText>
+                <Row>
+                  <Col md={8}>
+                    <Row>
+                      <Col md={12} className="filterSearch">
+                        <SearchInput
+                          className="search-input"
+                          placeholder={searchPlaceHolder}
+                          onChange={this.searchUpdated}
+                          onFocus={this.onFocus}
                     />
-                    </Col>
-                    <Col md={12}>
-                      <BootstrapTable
-                        ref={(table) => { this.table = table; }}
-                        data={filteredData}
-                        options={options}
-                        bordered={false}
-                        selectRow={selectRowProp}
-                        pagination
-                        trClassName="custom-table"
-                        tableHeaderClass="filter-table-header"
-                        tableBodyClass="filter-table-body"
-                        headerStyle={{ background: '#fbfbfb' }}
+                      </Col>
+                      <Col md={12}>
+                        <BootstrapTable
+                          ref={(table) => { this.table = table; }}
+                          data={filteredData}
+                          options={options}
+                          bordered={false}
+                          selectRow={selectRowProp}
+                          pagination
+                          trClassName="custom-table"
+                          tableHeaderClass="filter-table-header"
+                          tableBodyClass="filter-table-body"
+                          headerStyle={{ background: '#fbfbfb' }}
                   >
-                        <TableHeaderColumn
-                          isKey
-                          dataField="id"
-                          dataAlign="center"
-                          dataSort
-                          className="custom-table-header"
-                          hidden
-                          width="20%"
+                          <TableHeaderColumn
+                            isKey
+                            dataField="id"
+                            dataAlign="center"
+                            dataSort
+                            className="custom-table-header"
+                            hidden
+                            width="20%"
                     >
                       ID
-                        </TableHeaderColumn>
-                        <TableHeaderColumn
-                          dataField={col2DataField}
-                          dataAlign="center"
-                          dataSort
-                          className="set-table-header"
-                          dataFormat={col2DataFormate}
-                          sortFunc={sortByTitle}
-                          caretRender={getCaret}
-                          width={col2Width}
+                          </TableHeaderColumn>
+                          <TableHeaderColumn
+                            dataField={col2DataField}
+                            dataAlign="center"
+                            dataSort
+                            className="set-table-header"
+                            dataFormat={col2DataFormate}
+                            sortFunc={sortByTitle}
+                            caretRender={getCaret}
+                            width={col2Width}
                     >
-                          {col2Header}
-                        </TableHeaderColumn>
-                        <TableHeaderColumn
-                          dataField={col3DataField}
-                          dataAlign="center"
-                          className="set-table-header"
-                          dataFormat={col3DataFormate}
-                          dataSort
-                          caretRender={getCaret}
-                          sortFunc={sortByProductPrice}
-                          width={col3Width}
+                            {col2Header}
+                          </TableHeaderColumn>
+                          <TableHeaderColumn
+                            dataField={col3DataField}
+                            dataAlign="center"
+                            className="set-table-header"
+                            dataFormat={col3DataFormate}
+                            dataSort
+                            caretRender={getCaret}
+                            sortFunc={sortByProductPrice}
+                            width={col3Width}
                     >
-                          {col3Header}
-                        </TableHeaderColumn>
-                        {
+                            {col3Header}
+                          </TableHeaderColumn>
+                          {
                           filterModal === customer ? <TableHeaderColumn
                             dataField={col4DataField}
                             dataAlign="center"
@@ -340,16 +367,16 @@ class FilterDialog extends Component {
                             {col4Header}
                           </TableHeaderColumn> : null
                       }
-                      </BootstrapTable>
-                    </Col>
-                  </Row>
-                </Col>
-                <Col md={4} className="text-center">
-                  <Row>
-                    <Col md={12} className="selected-text">
+                        </BootstrapTable>
+                      </Col>
+                    </Row>
+                  </Col>
+                  <Col md={4} className="text-center">
+                    <Row>
+                      <Col md={12} className="selected-text">
                       Selected Products : {selectedRows.length} / {data.length}
-                    </Col>
-                    {selectedRows.length ? selectedRows.map((row, i) => {
+                      </Col>
+                      {selectedRows.length ? selectedRows.map((row, i) => {
                       let selectedRowList = '';
                       if (filterModal === product) {
                         selectedRowList = productDetailFormatter(row.product_details, row);
@@ -367,13 +394,14 @@ class FilterDialog extends Component {
                       )
                       : null
                     }
-                  </Row>
-                </Col>
-              </Row>
-            </CardText>
-          </Card>
-        </Col>
-      </Row>
+                    </Row>
+                  </Col>
+                </Row>
+              </CardText>
+            </Card>
+          </Col>
+        </Row>
+      </Dialog>
     );
   }
 }

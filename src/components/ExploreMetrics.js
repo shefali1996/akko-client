@@ -2,9 +2,11 @@ import React, { Component } from 'react';
 import { Row, Col, Label, Button, Image } from 'react-bootstrap';
 import {Card, CardHeader, CardText} from 'material-ui/Card';
 import Chip from 'material-ui/Chip';
+import Dialog from 'material-ui/Dialog';
 import { Select, DatePicker } from 'antd';
 import SalesChart from '../components/SalesChart';
 import { chartDataOne} from '../constants/dommyData';
+import FilterDialog from '../components/FilterDialog';
 
 const {Option} = Select;
 const {RangePicker} = DatePicker;
@@ -25,7 +27,23 @@ class ExploreMetrics extends Component {
   constructor(props) {
     super(props);
     this.state = {
+      openFilter: false,
+      filterBy: ''
     };
+    this.openFilter = this.openFilter.bind(this);
+    this.closeFilter = this.closeFilter.bind(this);
+  }
+  openFilter(filterBy) {
+    this.setState({
+      openFilter: true,
+      filterBy
+    });
+  }
+  closeFilter() {
+    this.setState({
+      openFilter: false,
+      filterBy: ''
+    });
   }
 
   render() {
@@ -73,7 +91,7 @@ class ExploreMetrics extends Component {
                           <div className="chip-wrapper">
                             <Chip className="chip" labelStyle={styles.chipLabelStyle}>Showing 5 products</Chip>
                           </div>
-                          <div className="link"><a onClick={() => this.props.openFilter('product')} >change filter</a></div>
+                          <div className="link"><a onClick={() => this.openFilter('product')} >change filter</a></div>
                         </CardText>
                       </Card>
                     </Col>
@@ -84,7 +102,7 @@ class ExploreMetrics extends Component {
                           <div className="chip-wrapper">
                             <Chip className="chip" labelStyle={styles.chipLabelStyle}>Showing all customers</Chip>
                           </div>
-                          <div className="link"><a onClick={() => this.props.openFilter('customer')}>change filter</a></div>
+                          <div className="link"><a onClick={() => this.openFilter('customer')}>change filter</a></div>
                         </CardText>
                       </Card>
                     </Col>
@@ -101,7 +119,9 @@ class ExploreMetrics extends Component {
                     </CardText>
                   </Card>
                 </Col>
-                <Col md={12} className="margin-t-60" />
+                <Col md={12} className="margin-t-60">
+                  <FilterDialog closeFilter={this.closeFilter} openFilter={this.state.openFilter} filterModal={this.state.filterBy} />
+                </Col>
               </Row>
             </CardText>
           </Card>

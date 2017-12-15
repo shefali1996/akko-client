@@ -137,6 +137,11 @@
 
 
 .filter-dialog{
+  .charts-card-style{
+    box-shadow:none !important;
+    margin-top: 0;
+    border: none;
+  }
   .close-btn{
   margin-top: -16px;
   margin-right: -16px;
