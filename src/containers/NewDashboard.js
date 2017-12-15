@@ -4,6 +4,8 @@ import {Card, CardHeader, CardText} from 'material-ui/Card';
 import SelectField from 'material-ui/SelectField';
 import MenuItem from 'material-ui/MenuItem';
 import { Select } from 'antd';
+import $ from 'jquery';
+import {clone} from 'lodash';
 import Navigationbar from '../components/Navigationbar';
 import SalesChart from '../components/SalesChart';
 import PriceBox from '../components/PriceBox';
@@ -34,16 +36,14 @@ class NewDashboard extends Component {
       openFilter: false,
       filterBy: ''
     };
-    this.handleSelect = this.handleSelect.bind(this);
     this.openFilter = this.openFilter.bind(this);
     this.closeFilter = this.closeFilter.bind(this);
+    this.setWidth = this.setWidth.bind(this);
   }
-  handleSelect(key) {
-    if (key === 1) {
-      this.props.history.push('/financial_insights');
-    } else if (key === 2) {
-      this.props.history.push('/customer_insights');
-    }
+  componentDidMount() {
+    $(document).ready(() => {
+      this.setWidth();
+    });
   }
   openFilter(filterBy) {
     this.setState({
@@ -57,15 +57,28 @@ class NewDashboard extends Component {
       filterBy: ''
     });
   }
+  setWidth(flag) {
+    let w = $(window).width();
+    if (flag == 'open') {
+      w /= 2;
+    }
+    const n = Math.floor(w / 320);
+    const r = w % 320;
+    let a = 0;
+    if (r > 0) {
+      a = Math.floor(w / n);
+    }
+    $('.dashboard-card-cantainer').css('width', `${a}px`);
+  }
   render() {
-    // const {cardsData, chartDataLine, chartDataBar} = this.props;
     const cardsData = dashboardJSON.allData;
     const renderCards = [];
     cardsData.map((value, index) => {
-      renderCards.push(<Col key={index} md={3} sm={4} xs={6} className="dashboard-card-cantainer">
+      renderCards.push(<Col key={index} className="dashboard-card-cantainer">
         <Card
           className={value.trend === '+' ? 'price-card-style' : 'price-card-style-border'}
           onClick={() => {
+          this.setWidth(true);
           this.setState({
             explore: true,
             activeMetrics: value
@@ -89,9 +102,9 @@ class NewDashboard extends Component {
         <Grid className="page-container">
           <Row className="analysis">
             <Col>
-              <div className={this.state.explore ? 'left-box-50' : 'left-box-100'}>
-                <Row>
-                  <Col md={12}>
+              <div id="cardSection" className={this.state.explore ? 'left-box-50' : 'left-box-100'}>
+                {!this.state.explore ? <Row>
+                  <Col md={12} className="padding-left-right-7">
                     <span className={this.state.explore ? 'pull-right margin-r-23' : 'pull-right'}>
                       <Select defaultValue="1" onChange={(event, index, value) => { this.setState({value}); }}>
                         <Option value="1">This month to date</Option>
@@ -99,13 +112,20 @@ class NewDashboard extends Component {
                       </Select>
                     </span>
                   </Col>
-                </Row>
+                </Row> : null}
                 <Row className="report-cards">
                   {renderCards}
                 </Row>
               </div>
               <div className={this.state.explore ? 'right-box-50' : 'right-box-0'}>
-                <ExploreMetrics closeFilter={() => this.setState({explore: false})} activeMetrics={this.state.activeMetrics} filterModal="product" open={this.state.explore} />
+                <ExploreMetrics
+                  closeFilter={() => {
+                    this.setWidth();
+                    this.setState({explore: false});
+                  }}
+                  activeMetrics={this.state.activeMetrics}
+                  filterModal="product"
+                  open={this.state.explore} />
               </div>
             </Col>
           </Row>

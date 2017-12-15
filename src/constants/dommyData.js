@@ -150,8 +150,8 @@ export const chartDataOne = {
     type: 'line',
     label: 'Sales',
     data: ['57000', '55000', '56881', '58000'],
-    borderColor: 'rgba(55, 141, 238, 0.1)',
-    backgroundColor: 'rgba(55, 141, 238, 0.5)',
+    borderColor: '#575dde',
+    backgroundColor: '#575dde',
     fill: '1',
     tension: 0,
   }]

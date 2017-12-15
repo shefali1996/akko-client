@@ -177,6 +177,10 @@
 .analysis{
   .dashboard-card-cantainer{
     min-width: 320px;
+    float: left;
+    padding-left: 7px;
+    padding-right: 7px;
+    min-height: 305px;
   }
   .left-box-100{
     width: 100%;
@@ -193,7 +197,7 @@
     width: 50%;
     transition: width 1s, display 1s;
     float: left;
-    margin-top: 40px;
+    // margin-top: 40px;
   }
   .right-box-0{
     width: 0px;

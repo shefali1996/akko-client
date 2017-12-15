@@ -28,12 +28,21 @@ class SalesChart extends Component {
       data: this.props.data,
       options: {
         legend: {
-          display: true,
+          display: false,
           position: this.props.type === 'bar' ? 'right' : 'top',
           onClick: (e, legendItem) => {},
           labels: {
             usePointStyle: true,
             fontColor: 'rgb(255, 99, 132)'
+          }
+        },
+        tooltips: {
+          mode: 'x',
+          intersect: false,
+          callbacks: {
+            label(tooltipItems, data) {
+              return `${data.datasets[tooltipItems.datasetIndex].label}: $${tooltipItems.yLabel}`;
+            }
           }
         }
       }
