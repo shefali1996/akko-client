@@ -85,7 +85,7 @@ class NewDashboard extends Component {
     });
     return (
       <div>
-        <Navigationbar history={this.props.history} />
+        <Navigationbar history={this.props.history} companyName="Test Company" />
         <Grid className="page-container">
           <Row className="analysis">
             <Col>

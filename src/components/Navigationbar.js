@@ -23,13 +23,17 @@ class Navigationbar extends Component {
   }
 
   render() {
+    const {companyName} = this.props;
     return (
       <div className="nav-container">
         <Row>
-          <Col md={3} sm={6} xs={6} className="flex-left">
+          <Col md={3} sm={6} xs={6} className="flex-left app-title-container">
             <Label className="app-title">
               akko
             </Label>
+            {companyName ? <span className="company-name-label">
+              <span>{companyName}</span>
+            </span> : null}
           </Col>
           <Col md={2} mdOffset={7} sm={6} xs={6} className="text-right no-padding">
             <DropdownButton
