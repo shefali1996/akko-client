@@ -20,6 +20,14 @@ const styles = {
   chartHeader: {
     width: '100%',
     padding: '0px'
+  },
+  chipLabelStyle: {
+    fontSize: '12px',
+    color: '#ffffff',
+    fontWeight: 'bold',
+    textDecoration: 'none solid white',
+    paddingLeft: '30px',
+    paddingRight: '30px'
   }
 };
 
@@ -28,10 +36,14 @@ class ExploreMetrics extends Component {
     super(props);
     this.state = {
       openFilter: false,
-      filterBy: ''
+      filterBy: '',
+      products: {},
+      customers: {}
     };
     this.openFilter = this.openFilter.bind(this);
     this.closeFilter = this.closeFilter.bind(this);
+    this.onRowSelect = this.onRowSelect.bind(this);
+    this.returnData = this.returnData.bind(this);
   }
   openFilter(filterBy) {
     this.setState({
@@ -45,7 +57,23 @@ class ExploreMetrics extends Component {
       filterBy: ''
     });
   }
+  onRowSelect(filterData) {
+    const {filterBy} = this.state;
+    if (filterBy === 'product') {
+      this.setState({products: filterData});
+    } else if (filterBy === 'customer') {
+      this.setState({customers: filterData});
+    }
+  }
+  returnData() {
+    const {filterBy, products, customers} = this.state;
+    if (filterBy === 'product') {
+      return products;
+    } else if (filterBy === 'customer') {
+      return customers;
+    }
 
+  }
   render() {
     const {activeMetrics} = this.props;
     return (
@@ -89,7 +117,7 @@ class ExploreMetrics extends Component {
                         <CardText className="card-content text-center">
                           <div className="card-title">Filter By Product</div>
                           <div className="chip-wrapper">
-                            <Chip className="chip" labelStyle={styles.chipLabelStyle}>Showing 5 products</Chip>
+                            <Chip className="chip" labelStyle={styles.chipLabelStyle}>Showing {this.state.products.rowsSelected ? this.state.products.rowsSelected : '0'} products</Chip>
                           </div>
                           <div className="link"><a onClick={() => this.openFilter('product')} >change filter</a></div>
                         </CardText>
@@ -100,7 +128,7 @@ class ExploreMetrics extends Component {
                         <CardText className="card-content text-center">
                           <div className="card-title">Filter By customers</div>
                           <div className="chip-wrapper">
-                            <Chip className="chip" labelStyle={styles.chipLabelStyle}>Showing all customers</Chip>
+                            <Chip className="chip" labelStyle={styles.chipLabelStyle}>Showing {this.state.customers.rowsSelected ? this.state.customers.rowsSelected : '0'} customers</Chip>
                           </div>
                           <div className="link"><a onClick={() => this.openFilter('customer')}>change filter</a></div>
                         </CardText>
@@ -120,7 +148,13 @@ class ExploreMetrics extends Component {
                   </Card>
                 </Col>
                 <Col md={12} className="margin-t-60">
-                  <FilterDialog closeFilter={this.closeFilter} openFilter={this.state.openFilter} filterModal={this.state.filterBy} />
+                  <FilterDialog
+                    openFilter={this.state.openFilter}
+                    closeFilter={this.closeFilter}
+                    filterModal={this.state.filterBy}
+                    onRowSelect={this.onRowSelect}
+                    savedData={() => this.returnData()}
+                  />
                 </Col>
               </Row>
             </CardText>

@@ -216,3 +216,43 @@ export const chartDataBar = {
     tension: 0,
   }]
 };
+
+
+export const productData = [{
+  id: '136650063902:1766258671646',
+  currency: '$',
+  product_details: {
+    variant: 'Black / L',
+    title: 'MK 2017 Slim Drawstring Elastic Waist Sweatpants Trousers Men Harem Pants Men\'S Big Pockets Man Cargo Joggers',
+    sku: '3656230-black-l',
+    image: 'https://cdn.shopify.com/s/files/1/2374/4003/products/product-image-204525014.jpg?v=1506929542',
+    category: 'null',
+    tags: 'null',
+    price: '17.62',
+    currency: '$',
+    cogs: '3'
+  },
+  active: true,
+},
+{
+  id: '136650063902:1766258704414',
+  currency: '$',
+  product_details: {
+    variant: 'Black / XL',
+    title: 'MK 2017 Slim Drawstring Elastic Waist Sweatpants Trousers Men Harem Pants Men\'S Big Pockets Man Cargo Joggers',
+    sku: '3656230-black-xl',
+    image: 'https://cdn.shopify.com/s/files/1/2374/4003/products/product-image-204525014.jpg?v=1506929542',
+    category: 'null',
+    tags: 'null',
+    price: '17.62',
+    currency: '$',
+    cogs: '1'
+  },
+  active: true,
+}
+];
+export const customerData = [
+  { id: '1', name: 'Guest User', email: 'anudeep@example.com', avgOrderValue: 22.34, every: 5 },
+  { id: '2', name: 'Guest User', email: 'anudeep@example.com', avgOrderValue: 22.34, every: 5 },
+  { id: '3', name: 'Guest User', email: 'anudeep@example.com', avgOrderValue: 22.34, every: 5 },
+];

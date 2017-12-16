@@ -4,6 +4,9 @@ import {Card, CardHeader, CardText} from 'material-ui/Card';
 import Dialog from 'material-ui/Dialog';
 import { BootstrapTable, TableHeaderColumn } from 'react-bootstrap-table';
 import SearchInput, { createFilter } from 'react-search-input';
+import { KEYS_TO_FILTERS, convertInventoryJSONToObject } from '../constants';
+import { invokeApig } from '../libs/awsLib';
+import {productData, customerData} from '../constants/dommyData';
 import {
   customMultiSelect,
   renderSizePerPageDropDown,
@@ -18,47 +21,6 @@ import {
   avgOrderValueFormater,
   orderEveryFormatter
 } from '../components/CustomTable';
-import { KEYS_TO_FILTERS } from '../constants';
-
-const productData = [{
-  id: '136650063902:1766258671646',
-  currency: '$',
-  product_details: {
-    variant: 'Black / L',
-    title: 'MK 2017 Slim Drawstring Elastic Waist Sweatpants Trousers Men Harem Pants Men\'S Big Pockets Man Cargo Joggers',
-    sku: '3656230-black-l',
-    image: 'https://cdn.shopify.com/s/files/1/2374/4003/products/product-image-204525014.jpg?v=1506929542',
-    category: 'null',
-    tags: 'null',
-    price: '17.62',
-    currency: '$',
-    cogs: '3'
-  },
-  active: true,
-},
-{
-  id: '136650063902:1766258704414',
-  currency: '$',
-  product_details: {
-    variant: 'Black / XL',
-    title: 'MK 2017 Slim Drawstring Elastic Waist Sweatpants Trousers Men Harem Pants Men\'S Big Pockets Man Cargo Joggers',
-    sku: '3656230-black-xl',
-    image: 'https://cdn.shopify.com/s/files/1/2374/4003/products/product-image-204525014.jpg?v=1506929542',
-    category: 'null',
-    tags: 'null',
-    price: '17.62',
-    currency: '$',
-    cogs: '1'
-  },
-  active: true,
-}
-];
-const customerData = [
-  { id: '1', name: 'Guest User', email: 'anudeep@example.com', avgOrderValue: 22.34, every: 5 },
-  { id: '2', name: 'Guest User', email: 'anudeep@example.com', avgOrderValue: 22.34, every: 5 },
-  { id: '3', name: 'Guest User', email: 'anudeep@example.com', avgOrderValue: 22.34, every: 5 },
-];
-const metricsData = [];
 
 const styles = {
   chartsHeaderTitle: {
@@ -72,15 +34,14 @@ const styles = {
     padding: '0px'
   }
 };
-
 const product = 'product';
 const customer = 'customer';
-const metrics = 'metrics';
 
 class FilterDialog extends Component {
   constructor(props) {
     super(props);
     this.state = {
+      currentFilterModal: '',
       data: [],
       searchTerm: '',
       selectedRows: []
@@ -88,64 +49,69 @@ class FilterDialog extends Component {
     this.searchUpdated = this.searchUpdated.bind(this);
     this.onRowSelect = this.onRowSelect.bind(this);
     this.onSelectAll = this.onSelectAll.bind(this);
+    this.setSelectedText = this.setSelectedText.bind(this);
+    this.getProductData = this.getProductData.bind(this);
+    this.getCustomerData = this.getCustomerData.bind(this);
   }
   componentWillMount() {
-    console.log('componentWillMount');
-    const {filterModal} = this.props;
+    // const {filterModal} = this.props;
+    this.setData(this.props);
+    // if (filterModal === product) {
+    //   this.getProductData();
+    // } else if (filterModal === customer) {
+    //   this.getCustomerData();
+    // }
+  }
+  componentWillReceiveProps(props) {
+    const {filterModal, openFilter} = props;
+    if (openFilter && this.state.currentFilterModal !== filterModal) {
+      this.setData(props);
+    }
+    // if (openFilter) {
+    //   if (filterModal === product) {
+    //     this.getProductData();
+    //   } else if (filterModal === customer) {
+    //     this.getCustomerData();
+    //   }
+    // }
+  }
+  setData(props) {
+    const {filterModal } = props;
     if (filterModal === product) {
       this.getProductData();
     } else if (filterModal === customer) {
       this.getCustomerData();
-    } else if (filterModal === metrics) {
-      this.getMetricsData();
     }
-  }
-  componentWillReceiveProps(props) {
-    console.log('componentWillReceiveProps');
-    const {filterModal, openFilter} = props;
-    if (openFilter) {
-      if (filterModal === product) {
-        this.getProductData();
-      } else if (filterModal === customer) {
-        this.getCustomerData();
-      } else if (filterModal === metrics) {
-        this.getMetricsData();
-      }
-    }
+    this.setState({
+      currentFilterModal: filterModal,
+      searchTerm: '',
+    });
   }
   getProductData() {
     // invokeApig({ path: '/products' }).then((results) => {
-    //   this.setState({ data: results });
-    // })
-    //   .catch(error => {
-    //     console.log('get products error', error);
-    //   });
+    //   const updateTime = results.lastUpdated;
+    //   const products = convertInventoryJSONToObject(results.variants);
+    //   this.setState({ data: products });
+    // }).catch(error => {
+    //   console.log('get products error', error);
+    // });
     this.setState({
-      data: productData
+      data: productData,
+      selectedRows: this.props.savedData.selectedRows ? this.props.savedData.selectedRows : []
     });
   }
   getCustomerData() {
     // invokeApig({ path: '/customers' }).then((results) => {
-    //   this.setState({ data: results });;
-    // })
-    //   .catch(error => {
-    //     console.log('get customers error', error);
-    //   });
+    //   const updateTime = results.lastUpdated;
+    //   const customers = convertInventoryJSONToObject(results.variants);
+    //   this.setState({ data: customers });
+    // }).catch(error => {
+    //   console.log('get customers error', error);
+    // });
     this.setState({
-      data: customerData
+      data: customerData,
+      selectedRows: this.props.savedData.selectedRows ? this.props.savedData.selectedRows : []
     });
-  }
-  getMetricsData() {
-    // invokeApig({ path: '/product' }).then((results) => {
-    //   this.setState({ data: results });
-    // })
-    //   .catch(error => {
-    //     console.log('get metrics error', error);
-    //   });
-    this.setState({
-      data: metricsData
-    });
-
   }
   searchUpdated(term) {
     this.setState({
@@ -155,8 +121,11 @@ class FilterDialog extends Component {
   onFocus() {
 
   }
+  setSelectedText(selectedText) {
+    this.props.onRowSelect(selectedText);
+  }
   onRowSelect(row, isSelected) {
-    const {selectedRows} = this.state;
+    const {selectedRows, data} = this.state;
     if (isSelected) {
       selectedRows.push(row);
       this.setState({selectedRows});
@@ -167,6 +136,11 @@ class FilterDialog extends Component {
       }
       this.setState({selectedRows});
     }
+    let rowsSelected = selectedRows.length;
+    if (selectedRows.length === data.length) {
+      rowsSelected = 'all';
+    }
+    this.setSelectedText({data, selectedRows, rowsSelected});
   }
 
   onSelectAll(isSelected, rows) {
@@ -179,7 +153,11 @@ class FilterDialog extends Component {
     } else {
       this.setState({selectedRows: []});
     }
-    return true;
+    let rowsSelected = idArray.length;
+    if (idArray.length === this.state.data.length) {
+      rowsSelected = 'all';
+    }
+    this.setSelectedText({data: this.state.data, selectedRows: idArray, rowsSelected});
   }
   render() {
     const {filterModal} = this.props;
@@ -252,31 +230,7 @@ class FilterDialog extends Component {
       col4DataFormate = orderEveryFormatter;
       col4Width = '20%';
 
-    } else if (filterModal === metrics) {
-      filterTitle = 'Filter By Metrics';
-      searchPlaceHolder = 'Search your metrics';
-
-      // col2DataField = 'product_details';
-      // col2Header = 'Mertics';
-      // col2DataFormate = productDetailFormatter;
-      // col2Width = '40%';
-      //
-      // col3DataField = 'product_details';
-      // col3Header = 'Mertics';
-      // col3DataFormate = productPriceFormatter;
-      // col3Width = '20%';
-
     }
-    //   <CardHeader
-    //     textStyle={styles.chartHeader}
-    //     title={<div>
-    //       <span>{filterTitle}</span>
-    //       <span className="pull-right close-btn">
-    //         <Button className="close-button pull-right" onClick={this.props.closeFilter} />
-    //       </span>
-    //     </div>}
-    //     titleStyle={styles.chartsHeaderTitle}
-    // />
     return (
       <Dialog
         title={<div>
@@ -382,16 +336,13 @@ class FilterDialog extends Component {
                         selectedRowList = productDetailFormatter(row.product_details, row);
                       } else if (filterModal === customer) {
                         selectedRowList = customerFormater(row.name, row);
-                      } else if (filterModal === metrics) {
-
                       }
                       return (<Col key={i} md={12}>
                         <div className="selected-row">
                           {selectedRowList}
                         </div>
                       </Col>);
-                    }
-                      )
+                    })
                       : null
                     }
                     </Row>
