@@ -88,30 +88,36 @@ class FilterDialog extends Component {
     });
   }
   getProductData() {
-    // invokeApig({ path: '/products' }).then((results) => {
-    //   const updateTime = results.lastUpdated;
-    //   const products = convertInventoryJSONToObject(results.variants);
-    //   this.setState({ data: products });
-    // }).catch(error => {
-    //   console.log('get products error', error);
-    // });
-    this.setState({
-      data: productData,
-      selectedRows: this.props.savedData.selectedRows ? this.props.savedData.selectedRows : []
+    invokeApig({ path: '/products' }).then((results) => {
+      const updateTime = results.lastUpdated;
+      const products = convertInventoryJSONToObject(results.variants);
+      this.setState({
+        data: products,
+        selectedRows: this.props.savedData.selectedRows ? this.props.savedData.selectedRows : []
+      });
+    }).catch(error => {
+      console.log('get products error', error);
     });
+    // this.setState({
+    //   data: productData,
+    //   selectedRows: this.props.savedData.selectedRows ? this.props.savedData.selectedRows : []
+    // });
   }
   getCustomerData() {
-    // invokeApig({ path: '/customers' }).then((results) => {
-    //   const updateTime = results.lastUpdated;
-    //   const customers = convertInventoryJSONToObject(results.variants);
-    //   this.setState({ data: customers });
-    // }).catch(error => {
-    //   console.log('get customers error', error);
-    // });
-    this.setState({
-      data: customerData,
-      selectedRows: this.props.savedData.selectedRows ? this.props.savedData.selectedRows : []
+    invokeApig({ path: '/customers' }).then((results) => {
+      const updateTime = results.lastUpdated;
+      const customers = convertInventoryJSONToObject(results.variants);
+      this.setState({
+        data: customers,
+        selectedRows: this.props.savedData.selectedRows ? this.props.savedData.selectedRows : []
+      });
+    }).catch(error => {
+      console.log('get customers error', error);
     });
+    // this.setState({
+    //   data: customerData,
+    //   selectedRows: this.props.savedData.selectedRows ? this.props.savedData.selectedRows : []
+    // });
   }
   searchUpdated(term) {
     this.setState({
