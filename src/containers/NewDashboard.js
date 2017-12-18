@@ -14,6 +14,7 @@ import ExploreMetrics from '../components/ExploreMetrics';
 import {dashboardJSON, chartDataLine, chartDataBar, chartDataOne} from '../constants/dommyData';
 import Footer from '../components/Footer';
 
+const elementResizeEvent = require('element-resize-event');
 
 const {Option} = Select;
 const styles = {
@@ -33,16 +34,18 @@ class NewDashboard extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      openFilter: false,
-      filterBy: ''
+      width: '25%'
     };
     this.openFilter = this.openFilter.bind(this);
     this.closeFilter = this.closeFilter.bind(this);
     this.setWidth = this.setWidth.bind(this);
+    this.handleClickMetrics = this.handleClickMetrics.bind(this);
+    this.column = 4;
   }
   componentDidMount() {
-    $(document).ready(() => {
-      this.setWidth();
+    const element = document.getElementById('cardSection');
+    elementResizeEvent(element, () => {
+      this.setWidth(element.clientWidth);
     });
   }
   openFilter(filterBy) {
@@ -57,33 +60,41 @@ class NewDashboard extends Component {
       filterBy: ''
     });
   }
-  setWidth(flag) {
-    let w = $(window).width();
-    if (flag == 'open') {
-      w /= 2;
-    }
-    const n = Math.floor(w / 320);
+  setWidth(w) {
+    const x = 100;
+    let n = Math.floor(w / 320);
     const r = w % 320;
     let a = 0;
-    if (r > 0) {
-      a = Math.floor(w / n);
+    n = n > 4 ? 4 : n;
+    if (n !== this.column) {
+      this.column = n;
+      a = x / n;
+      this.setState({
+        width: `${a}%`,
+      });
     }
-    $('.dashboard-card-cantainer').css('width', `${a}px`);
+  }
+  handleClickMetrics(e, value) {
+    // const element = $(e.target);
+    // console.log('e, value', e.target, value, element.offset());
+    // e.target.scrollIntoView({behavior: 'smooth', block: 'center', inline: 'center'});
+    // $('html, body').animate({
+    //   scrollTop: element.offset().top + 100
+    // }, 1000);
+    // element.scrollTop(0);
+    this.setState({
+      explore: true,
+      activeMetrics: value
+    });
   }
   render() {
     const cardsData = dashboardJSON.allData;
     const renderCards = [];
     cardsData.map((value, index) => {
-      renderCards.push(<Col key={index} className="dashboard-card-cantainer">
+      renderCards.push(<Col key={index} style={{width: this.state.width}} className="dashboard-card-cantainer">
         <Card
           className={value.trend === '+' ? 'price-card-style' : 'price-card-style-border'}
-          onClick={() => {
-          this.setWidth(true);
-          this.setState({
-            explore: true,
-            activeMetrics: value
-          });
-        }}>
+          onClick={(e) => this.handleClickMetrics(e, value)}>
           <CardHeader className="card-header-style" >
             <PriceBox value={value} analyze />
           </CardHeader>
@@ -102,7 +113,7 @@ class NewDashboard extends Component {
         <Grid className="page-container">
           <Row className="analysis">
             <Col>
-              <div id="cardSection" className={this.state.explore ? 'left-box-50' : 'left-box-100'}>
+              <div className={this.state.explore ? 'left-box-50 padding-left-right-7' : 'left-box-100'}>
                 {!this.state.explore ? <Row>
                   <Col md={12} className="padding-left-right-7">
                     <span className={this.state.explore ? 'pull-right margin-r-23' : 'pull-right'}>
@@ -113,14 +124,13 @@ class NewDashboard extends Component {
                     </span>
                   </Col>
                 </Row> : null}
-                <Row className="report-cards">
+                <Row id="cardSection" className="report-cards">
                   {renderCards}
                 </Row>
               </div>
               <div className={this.state.explore ? 'right-box-50' : 'right-box-0'}>
                 <ExploreMetrics
                   closeFilter={() => {
-                    this.setWidth();
                     this.setState({explore: false});
                   }}
                   activeMetrics={this.state.activeMetrics}

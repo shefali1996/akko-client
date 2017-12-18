@@ -79,7 +79,7 @@ class ExploreMetrics extends Component {
     return (
       <Row>
         <Col md={12}>
-          <Card className={this.props.open ? 'charts-card-style show' : 'hide'}>
+          <Card className={this.props.open ? 'charts-card-style margin-l-r-10' : ''}>
             <CardHeader
               textStyle={styles.chartHeader}
               title={<div>

@@ -33,7 +33,7 @@
 }
 .analysis{
   padding: 15px;
-  overflow-y: auto;
+  overflow: hidden;
 }
   .page-select-text{
     font-family: Ubuntu;
@@ -198,17 +198,21 @@
     float: left;
   }
   .right-box-50{
-    // display: block;
+    overflow: hidden;
     width: 50%;
-    transition: width 1s, display 1s;
+    transition: width 1s, right 1s;
     float: left;
-    // margin-top: 40px;
+    position: absolute;
+    right: 0px;
   }
   .right-box-0{
-    width: 0px;
-    transition: width 1s, display 1s;
-    // display: none;
+    width: 50%;
+    transition: width 1s, right 1s;
+    display: block;
+    overflow: hidden;
     float: left;
+    position: absolute;
+    right: -1000px;
   }
   .explore-datepicker{
     display: block;
