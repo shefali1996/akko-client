@@ -11,7 +11,6 @@ class Navigationbar extends Component {
     };
     this.onLogout = this.onLogout.bind(this);
     this.goToSetting = this.goToSetting.bind(this);
-    this.getUser = this.getUser.bind(this);
   }
 
   onLogout() {
@@ -21,19 +20,6 @@ class Navigationbar extends Component {
 
   goToSetting() {
     this.props.history.push('/settings');
-  }
-
-  getUser() {
-    invokeApig({ path: '/user' }).then((results) => {
-      const updateTime = results.lastUpdated;
-      const products = convertInventoryJSONToObject(results.variants);
-      this.setState({ data: products });
-      localStorage.setItem('inventoryInfo', JSON.stringify(products));
-      localStorage.setItem('lastUpdated', updateTime);
-    })
-      .catch(error => {
-        console.log('get product error', error);
-      });
   }
 
   render() {

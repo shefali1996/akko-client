@@ -69,7 +69,7 @@ class NewDashboard extends Component {
     const element = $(`#${id}`);
     $('html, body').animate({
       scrollTop: element.offset().top - 80
-    }, 1000);
+    }, 100);
     this.activeMetricsId = id;
     this.setState({
       explore: true,
