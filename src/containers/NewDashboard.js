@@ -80,9 +80,13 @@ class NewDashboard extends Component {
     const cardsData = dashboardJSON.allData;
     const renderCards = [];
     cardsData.map((value, index) => {
+      let active = '';
+      if (`card_${index}` === this.activeMetricsId) {
+        active = 'active-metrics';
+      }
       renderCards.push(<Col key={index} id={`card_${index}`} style={{width: this.state.width}} className="dashboard-card-cantainer">
         <Card
-          className={value.trend === '+' ? 'price-card-style' : 'price-card-style-border'}
+          className={value.trend === '+' ? `price-card-style ${active}` : `price-card-style-border ${active}`}
           onClick={(e) => this.handleClickMetrics(`card_${index}`, value)}>
           <CardHeader className="card-header-style" >
             <PriceBox value={value} analyze />
@@ -95,6 +99,7 @@ class NewDashboard extends Component {
         </Card>
       </Col>
       );
+
     });
     return (
       <div>

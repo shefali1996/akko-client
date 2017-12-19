@@ -2,7 +2,8 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Row, Col, Label, Image, DropdownButton } from 'react-bootstrap';
 import user from '../auth/user';
-import profileIcon from '../assets/images/profileIcon.svg';
+import profileIcon from '../assets/images/profileIconWhite.svg';
+import downArrowWhite from '../assets/images/downArrowWhite.svg';
 
 class Navigationbar extends Component {
   constructor(props) {
@@ -40,6 +41,7 @@ class Navigationbar extends Component {
               title={
                 <div>
                   <Image src={profileIcon} className="profileIcon" />
+                  <Image src={downArrowWhite} className="dd-icon" />
                 </div>
               }
               id="bg-nested-dropdown"

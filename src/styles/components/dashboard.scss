@@ -186,6 +186,9 @@
     // max-height: 150vh;
     // overflow-y: auto;
   }
+  .active-metrics{
+    box-shadow: rgba(87, 93, 222, 0.60) 0px 1px 6px, rgba(87, 93, 222, 0.60) 0px 1px 4px !important;
+  }
   .dashboard-card-cantainer{
     min-width: 320px;
     float: left;
