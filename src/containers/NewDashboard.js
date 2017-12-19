@@ -11,8 +11,9 @@ import SalesChart from '../components/SalesChart';
 import PriceBox from '../components/PriceBox';
 import AnalysisRightPanel from '../components/AnalysisRightPanel';
 import ExploreMetrics from '../components/ExploreMetrics';
-import {dashboardJSON, chartDataLine, chartDataBar, chartDataOne} from '../constants/dommyData';
+import {chartDataOne} from '../constants/dommyData';
 import Footer from '../components/Footer';
+import { invokeApig } from '../libs/awsLib';
 
 const elementResizeEvent = require('element-resize-event');
 
@@ -34,19 +35,35 @@ class NewDashboard extends Component {
   constructor(props) {
     super(props);
     this.state = {
+      metricsData: [],
       width: '25%'
     };
     this.setWidth = this.setWidth.bind(this);
     this.handleClickMetrics = this.handleClickMetrics.bind(this);
+    this.getMetrics = this.getMetrics.bind(this);
     this.column = 4;
     this.top = 0;
     this.activeMetricsId = 'card_0';
+  }
+
+  componentWillMount() {
+    this.getMetrics();
   }
   componentDidMount() {
     const element = document.getElementById('cardSection');
     elementResizeEvent(element, () => {
       this.setWidth(element.clientWidth);
     });
+  }
+  getMetrics() {
+    invokeApig({ path: '/metrics' }).then((results) => {
+      this.setState({
+        metricsData: results.metrics
+      });
+    })
+      .catch(error => {
+        console.log('get metrics error', error);
+      });
   }
   setWidth(w) {
     const x = 100;
@@ -77,9 +94,9 @@ class NewDashboard extends Component {
     });
   }
   render() {
-    const cardsData = dashboardJSON.allData;
+    const {metricsData} = this.state;
     const renderCards = [];
-    cardsData.map((value, index) => {
+    metricsData.map((value, index) => {
       let active = '';
       if (`card_${index}` === this.activeMetricsId) {
         active = 'active-metrics';
