@@ -40,26 +40,13 @@ class NewDashboard extends Component {
     this.handleClickMetrics = this.handleClickMetrics.bind(this);
     this.column = 4;
     this.top = 0;
+    this.activeMetricsId = 'card_0';
   }
   componentDidMount() {
     const element = document.getElementById('cardSection');
     elementResizeEvent(element, () => {
       this.setWidth(element.clientWidth);
     });
-    // $(window).scroll((evn) => {
-    //   const e = $('.right-box-50');
-    //   const scroll = $(document).scrollTop();
-    //   const obj = e.offset();
-    //   console.log(obj, scroll, evn);
-    //   if (scroll === obj.top) {
-    //     console.log('wwwwwwwwwwwwwww');
-    //     this.top = obj.top;
-    //     e.css({position: 'fixed', top: 0});
-    //   }
-    //   if (this.top === scroll) {
-    //     console.log('oooooooooooooooooo', this.top, scroll);
-    //   }
-    // });
   }
   setWidth(w) {
     const x = 100;
@@ -73,18 +60,17 @@ class NewDashboard extends Component {
       this.setState({
         width: `${a}%`,
       });
+      if (this.state.explore) {
+        this.handleClickMetrics(this.activeMetricsId, this.state.activeMetrics);
+      }
     }
   }
   handleClickMetrics(id, value) {
     const element = $(`#${id}`);
-    // const element = document.getElementById(id);
-    console.log('id', id);
-    // console.log('e, value', e.target, value, element.offset());
-    // element.scrollIntoView({behavior: 'instant', block: 'center', inline: 'center'});
-    // $('html, body').animate({
-    //   scrollTop: element.offset().top // + 100
-    // }, 1000);
-    // element.scrollTop(0);
+    $('html, body').animate({
+      scrollTop: element.offset().top - 80
+    }, 1000);
+    this.activeMetricsId = id;
     this.setState({
       explore: true,
       activeMetrics: value

@@ -14,7 +14,7 @@
 	width: $full-width;
 	background-color: $main-background-color;
 	padding: $size-0;
-  top: 60px;
+  margin-top: 60px;
   position: relative;
 	> .row {
 		margin: 0;
@@ -228,4 +228,9 @@
     display: block;
     margin-top: 20px;
   }
+}
+
+.scroll-matrics{
+  max-height: 83vh;
+  overflow-y: auto;
 }

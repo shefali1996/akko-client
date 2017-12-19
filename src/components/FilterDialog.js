@@ -90,7 +90,7 @@ class FilterDialog extends Component {
   getProductData() {
     invokeApig({ path: '/products' }).then((results) => {
       const updateTime = results.lastUpdated;
-      const products = convertInventoryJSONToObject(results.variants);
+      const products = results.variants;
       this.setState({
         data: products,
         selectedRows: this.props.savedData.selectedRows ? this.props.savedData.selectedRows : []
@@ -106,7 +106,7 @@ class FilterDialog extends Component {
   getCustomerData() {
     invokeApig({ path: '/customers' }).then((results) => {
       const updateTime = results.lastUpdated;
-      const customers = convertInventoryJSONToObject(results.variants);
+      const customers = results.customers;
       this.setState({
         data: customers,
         selectedRows: this.props.savedData.selectedRows ? this.props.savedData.selectedRows : []
