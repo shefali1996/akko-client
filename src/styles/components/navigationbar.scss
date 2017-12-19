@@ -1,5 +1,11 @@
 .nav-container {
   background-color: $white-color;
+  position: fixed;
+  top: 0;
+  right: 0;
+  left: 0;
+  border-bottom: 1px solid #ccc;
+  z-index: 1;
   >.row {
     margin: $size-0;
   }

@@ -14,9 +14,11 @@
 	width: $full-width;
 	background-color: $main-background-color;
 	padding: $size-0;
+  top: 60px;
+  position: relative;
 	> .row {
 		margin: 0;
-		transform: translateZ(0);
+		// transform: translateZ(0);
 		min-height: calc(100vh - 60px);
 	}
 }
@@ -32,7 +34,7 @@
   z-index: 1111;
 }
 .analysis{
-  padding: 15px;
+  padding: 5px 15px;
   overflow: hidden;
 }
   .page-select-text{
@@ -180,6 +182,10 @@
 }
 // -----------------------NEW dashboardJSON--------------
 .analysis{
+  .scroll-section{
+    // max-height: 150vh;
+    // overflow-y: auto;
+  }
   .dashboard-card-cantainer{
     min-width: 320px;
     float: left;
@@ -202,8 +208,12 @@
     width: 50%;
     transition: width 1s, right 1s;
     float: left;
-    position: absolute;
+    // position: absolute;
     right: 0px;
+    position: fixed;
+    // top: 77;
+    // overflow-y: auto;
+    // max-height: 100vh;
   }
   .right-box-0{
     width: 50%;

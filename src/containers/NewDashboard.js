@@ -36,29 +36,30 @@ class NewDashboard extends Component {
     this.state = {
       width: '25%'
     };
-    this.openFilter = this.openFilter.bind(this);
-    this.closeFilter = this.closeFilter.bind(this);
     this.setWidth = this.setWidth.bind(this);
     this.handleClickMetrics = this.handleClickMetrics.bind(this);
     this.column = 4;
+    this.top = 0;
   }
   componentDidMount() {
     const element = document.getElementById('cardSection');
     elementResizeEvent(element, () => {
       this.setWidth(element.clientWidth);
     });
-  }
-  openFilter(filterBy) {
-    this.setState({
-      openFilter: true,
-      filterBy
-    });
-  }
-  closeFilter() {
-    this.setState({
-      openFilter: false,
-      filterBy: ''
-    });
+    // $(window).scroll((evn) => {
+    //   const e = $('.right-box-50');
+    //   const scroll = $(document).scrollTop();
+    //   const obj = e.offset();
+    //   console.log(obj, scroll, evn);
+    //   if (scroll === obj.top) {
+    //     console.log('wwwwwwwwwwwwwww');
+    //     this.top = obj.top;
+    //     e.css({position: 'fixed', top: 0});
+    //   }
+    //   if (this.top === scroll) {
+    //     console.log('oooooooooooooooooo', this.top, scroll);
+    //   }
+    // });
   }
   setWidth(w) {
     const x = 100;
@@ -74,12 +75,14 @@ class NewDashboard extends Component {
       });
     }
   }
-  handleClickMetrics(e, value) {
-    // const element = $(e.target);
+  handleClickMetrics(id, value) {
+    const element = $(`#${id}`);
+    // const element = document.getElementById(id);
+    console.log('id', id);
     // console.log('e, value', e.target, value, element.offset());
-    // e.target.scrollIntoView({behavior: 'smooth', block: 'center', inline: 'center'});
+    // element.scrollIntoView({behavior: 'instant', block: 'center', inline: 'center'});
     // $('html, body').animate({
-    //   scrollTop: element.offset().top + 100
+    //   scrollTop: element.offset().top // + 100
     // }, 1000);
     // element.scrollTop(0);
     this.setState({
@@ -91,10 +94,10 @@ class NewDashboard extends Component {
     const cardsData = dashboardJSON.allData;
     const renderCards = [];
     cardsData.map((value, index) => {
-      renderCards.push(<Col key={index} style={{width: this.state.width}} className="dashboard-card-cantainer">
+      renderCards.push(<Col key={index} id={`card_${index}`} style={{width: this.state.width}} className="dashboard-card-cantainer">
         <Card
           className={value.trend === '+' ? 'price-card-style' : 'price-card-style-border'}
-          onClick={(e) => this.handleClickMetrics(e, value)}>
+          onClick={(e) => this.handleClickMetrics(`card_${index}`, value)}>
           <CardHeader className="card-header-style" >
             <PriceBox value={value} analyze />
           </CardHeader>
@@ -113,7 +116,7 @@ class NewDashboard extends Component {
         <Grid className="page-container">
           <Row className="analysis">
             <Col>
-              <div className={this.state.explore ? 'left-box-50 padding-left-right-7' : 'left-box-100'}>
+              <div className={this.state.explore ? 'left-box-50 padding-left-right-7' : 'left-box-100 margin-t-5'}>
                 {!this.state.explore ? <Row>
                   <Col md={12} className="padding-left-right-7">
                     <span className={this.state.explore ? 'pull-right margin-r-23' : 'pull-right'}>
@@ -124,7 +127,7 @@ class NewDashboard extends Component {
                     </span>
                   </Col>
                 </Row> : null}
-                <Row id="cardSection" className="report-cards">
+                <Row id="cardSection" className={this.state.explore ? 'report-cards scroll-section' : 'report-cards'}>
                   {renderCards}
                 </Row>
               </div>
