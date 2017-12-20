@@ -28,7 +28,7 @@ class Navigationbar extends Component {
     return (
       <div className="nav-container">
         <Row>
-          <Col md={3} sm={6} xs={6} className="flex-left app-title-container">
+          <Col md={3} sm={6} xs={6} className="flex-left app-title-container padding-left-right-7">
             <Label className="app-title">
               akko
             </Label>
@@ -36,7 +36,7 @@ class Navigationbar extends Component {
               <span>{companyName}</span>
             </span> : null}
           </Col>
-          <Col md={2} mdOffset={7} sm={6} xs={6} className="text-right no-padding">
+          <Col md={2} sm={6} xs={6} className="pull-right padding-left-right-7">
             <DropdownButton
               title={
                 <div>

@@ -6,7 +6,7 @@ import { BootstrapTable, TableHeaderColumn } from 'react-bootstrap-table';
 import SearchInput, { createFilter } from 'react-search-input';
 import { KEYS_TO_FILTERS, convertInventoryJSONToObject } from '../constants';
 import { invokeApig } from '../libs/awsLib';
-import {productData, customerData} from '../constants/dommyData';
+import styles from '../constants/styles';
 import {
   customMultiSelect,
   renderSizePerPageDropDown,
@@ -22,18 +22,18 @@ import {
   orderEveryFormatter
 } from '../components/CustomTable';
 
-const styles = {
-  chartsHeaderTitle: {
-    fontSize: '16px',
-    color: '#666666',
-    fontWeight: 'bold',
-    textDecoration: 'none solid rgb(102, 102, 102)',
-  },
-  chartHeader: {
-    width: '100%',
-    padding: '0px'
-  }
-};
+// const styles = {
+//   chartsHeaderTitle: {
+//     fontSize: '16px',
+//     color: '#666666',
+//     fontWeight: 'bold',
+//     textDecoration: 'none solid rgb(102, 102, 102)',
+//   },
+//   chartHeader: {
+//     width: '100%',
+//     padding: '0px'
+//   }
+// };
 const product = 'product';
 const customer = 'customer';
 
@@ -54,26 +54,13 @@ class FilterDialog extends Component {
     this.getCustomerData = this.getCustomerData.bind(this);
   }
   componentWillMount() {
-    // const {filterModal} = this.props;
     this.setData(this.props);
-    // if (filterModal === product) {
-    //   this.getProductData();
-    // } else if (filterModal === customer) {
-    //   this.getCustomerData();
-    // }
   }
   componentWillReceiveProps(props) {
     const {filterModal, openFilter} = props;
     if (openFilter && this.state.currentFilterModal !== filterModal) {
       this.setData(props);
     }
-    // if (openFilter) {
-    //   if (filterModal === product) {
-    //     this.getProductData();
-    //   } else if (filterModal === customer) {
-    //     this.getCustomerData();
-    //   }
-    // }
   }
   setData(props) {
     const {filterModal } = props;
@@ -98,10 +85,6 @@ class FilterDialog extends Component {
     }).catch(error => {
       console.log('get products error', error);
     });
-    // this.setState({
-    //   data: productData,
-    //   selectedRows: this.props.savedData.selectedRows ? this.props.savedData.selectedRows : []
-    // });
   }
   getCustomerData() {
     invokeApig({ path: '/customers' }).then((results) => {
@@ -114,10 +97,6 @@ class FilterDialog extends Component {
     }).catch(error => {
       console.log('get customers error', error);
     });
-    // this.setState({
-    //   data: customerData,
-    //   selectedRows: this.props.savedData.selectedRows ? this.props.savedData.selectedRows : []
-    // });
   }
   searchUpdated(term) {
     this.setState({
@@ -276,7 +255,7 @@ class FilterDialog extends Component {
                           trClassName="custom-table"
                           tableHeaderClass="filter-table-header"
                           tableBodyClass="filter-table-body"
-                          headerStyle={{ background: '#fbfbfb' }}
+                          headerStyle={styles.bsTableHeaderStyle}
                   >
                           <TableHeaderColumn
                             isKey
