@@ -2,7 +2,8 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Row, Col, Label, Image, DropdownButton } from 'react-bootstrap';
 import user from '../auth/user';
-import profileIcon from '../assets/images/profileIcon.svg';
+import profileIcon from '../assets/images/profileIconWhite.svg';
+import downArrowWhite from '../assets/images/downArrowWhite.svg';
 
 class Navigationbar extends Component {
   constructor(props) {
@@ -23,19 +24,24 @@ class Navigationbar extends Component {
   }
 
   render() {
+    const {companyName} = this.props;
     return (
       <div className="nav-container">
         <Row>
-          <Col md={3} sm={6} xs={6} className="flex-left">
+          <Col md={3} sm={6} xs={6} className="flex-left app-title-container padding-left-right-7">
             <Label className="app-title">
               akko
             </Label>
+            {companyName ? <span className="company-name-label">
+              <span>{companyName}</span>
+            </span> : null}
           </Col>
-          <Col md={2} mdOffset={7} sm={6} xs={6} className="text-right no-padding">
+          <Col md={2} sm={6} xs={6} className="pull-right padding-left-right-7">
             <DropdownButton
               title={
                 <div>
                   <Image src={profileIcon} className="profileIcon" />
+                  <Image src={downArrowWhite} className="dd-icon" />
                 </div>
               }
               id="bg-nested-dropdown"

@@ -2,13 +2,12 @@ import React, {Component} from 'react';
 import {PropTypes} from 'prop-types';
 import {Chart as ChartJS} from 'chart.js/src/chart';
 
-class SalesChart extends Component {
+class Chart extends Component {
   chart = null;
   updates = false;
 
   componentDidMount() {
     this.initChart();
-    // Chart.defaults.global.legend.labels.usePointStyle = true;
   }
 
   componentWillUnmount() {
@@ -28,12 +27,21 @@ class SalesChart extends Component {
       data: this.props.data,
       options: {
         legend: {
-          display: true,
+          display: false,
           position: this.props.type === 'bar' ? 'right' : 'top',
           onClick: (e, legendItem) => {},
           labels: {
             usePointStyle: true,
             fontColor: 'rgb(255, 99, 132)'
+          }
+        },
+        tooltips: {
+          mode: 'x',
+          intersect: false,
+          callbacks: {
+            label(tooltipItems, data) {
+              return `$${tooltipItems.yLabel}`;
+            }
           }
         }
       }
@@ -65,4 +73,4 @@ Chart.propTypes = {
   })
 };
 
-export default SalesChart;
+export default Chart;

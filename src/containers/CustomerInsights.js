@@ -5,7 +5,7 @@ import SelectField from 'material-ui/SelectField';
 import MenuItem from 'material-ui/MenuItem';
 import { Select } from 'antd';
 import Navigationbar from '../components/Navigationbar';
-import SalesChart from '../components/SalesChart';
+import Chart from '../components/Chart';
 import PriceBox from '../components/PriceBox';
 import AnalysisRightPanel from '../components/AnalysisRightPanel';
 import FilterDialog from '../components/FilterDialog';
@@ -114,7 +114,7 @@ class CustomerInsights extends Component {
                                         </div>}
     />
                             <CardText>
-                              <SalesChart data={chartDataBar} type="bar" width="40%" />
+                              <Chart data={chartDataBar} type="bar" width="40%" />
                             </CardText>
                           </Card>
                         </Col>
@@ -126,7 +126,7 @@ class CustomerInsights extends Component {
                               titleStyle={styles.chartsHeaderTitle}
     />
                             <CardText className="no-padding" style={{padding: '0px'}}>
-                              <SalesChart data={chartDataBar} type="bar" width="40%" />
+                              <Chart data={chartDataBar} type="bar" width="40%" />
                             </CardText>
                           </Card>
                         </Col>

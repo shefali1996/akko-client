@@ -59,7 +59,21 @@
   padding: 50px;
 }
 .padding-r-0{
-padding-right: 0
+  padding-right: 0px;
+}
+.margin-l-10{
+  margin-left: 10px;
+}
+.margin-l-r-10{
+  margin-left: 10px;
+  margin-right: 10px;
+}
+.padding-r-7{
+  padding-right: 7px;
+}
+.padding-left-right-7 {
+	padding-left: 7px;
+	padding-right: 7px;
 }
 .padding-left-right-100 {
 	padding-left: 100px;
@@ -71,4 +85,14 @@ padding-right: 0
 }
 .margin-40 {
 	margin: 40px;
+}
+.margin-r-23{
+  margin-right: 23px;
+}
+.margin-r-0{
+  margin-right: 0px;
+}
+.margin-left-right-7 {
+	margin-left: -7px;
+	margin-right: -7px;
 }

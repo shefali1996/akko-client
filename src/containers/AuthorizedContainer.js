@@ -1,10 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Switch, Route } from 'react-router';
-import Dashboard from './Dashboard';
-import Inventory from './Inventory';
-import CustomerInsights from './CustomerInsights';
-import FinancialInsights from './FinancialInsights';
+import Dashboard from './NewDashboard';
 import user from '../auth/user';
 
 class AuthorizedContainer extends Component {
@@ -13,7 +10,7 @@ class AuthorizedContainer extends Component {
       this.props.history.push('/');
       return;
     }
-    this.props.history.push('/financial_insights');
+    this.props.history.push('/dashboard');
   }
 
   componentWillReceiveProps(nextProps) {
@@ -23,8 +20,7 @@ class AuthorizedContainer extends Component {
   render() {
     return (
       <Switch>
-        <Route exact path="/financial_insights" component={FinancialInsights} />
-        <Route exact path="/customer_insights" component={CustomerInsights} />
+        <Route exact path="/dashboard" component={Dashboard} />
       </Switch>
     );
   }

@@ -1,5 +1,11 @@
 .nav-container {
-  background-color: $white-color;
+  background-color: $main-blue-color;
+  position: fixed;
+  top: 0;
+  right: 0;
+  left: 0;
+  border-bottom: 1px solid #ccc;
+  z-index: 1;
   >.row {
     margin: $size-0;
   }
@@ -7,22 +13,39 @@
 .app-title {
   font-family: $ubuntu-bold;
 	font-size: $size-32;
-  color: $main-blue-color;
+  color: $white-color;
   text-decoration: none solid $main-decoration-color;
   background: none;
   padding-top: 20px;
+  padding-left: 0px;
 	display: block;
 	// position: absolute;
 	top: 25px;
 	left: 10px;
 	z-index: 999;
 }
+.company-name-label{
+  font-family: Ubuntu;
+  font-size: 20px;
+  color: $white-color;
+  font-weight: bold;
+  text-decoration: none solid rgb(255, 255, 255);
+  text-align: center;
+  // padding: 0px;
+  display: block;
+  background: none;
+  margin-top: 17px;
+  margin-bottom: 8px;
+  padding-top: 7px;
+  padding-left: 12px;
+  border-left: 2px solid #ccc;
+}
 .user-profile {
   width: 165px;
 	height: 40px;
 	position: absolute;
-	// top: 30px;
-	right: 30px;
+  background: $main-blue-color;
+	float: right !important;
 	z-index: 999;
 	text-align: right;
 }
@@ -65,7 +88,7 @@
 .dropdown.open .btn-default:focus {
   box-shadow: none;
   outline: none;
-  background-color: $white-color;
+  background-color: $main-blue-color;
 }
 .btn-default.active, .btn-default:active,
 .open>.dropdown-toggle.btn-default {
@@ -100,6 +123,11 @@
 	width: 34px;
 	height: 34px;
 	fill: $main-blue-color;
+}
+.dd-icon {
+  width: 20px;
+  height: 20px;
+  margin-left: 10px;
 }
 @media screen and (max-width: 767px) {
   .app-title {

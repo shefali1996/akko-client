@@ -58,7 +58,7 @@ class SetCogs extends Component {
 
   onConfirm() {
     this.setState({ alertShow: false });
-    this.props.history.push('/financial_insights');
+    this.props.history.push('/dashboard');
   }
 
   getProduct() {

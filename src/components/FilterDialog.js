@@ -1,8 +1,12 @@
 import React, { Component } from 'react';
 import { Row, Col, Label, Button, Image } from 'react-bootstrap';
 import {Card, CardHeader, CardText} from 'material-ui/Card';
+import Dialog from 'material-ui/Dialog';
 import { BootstrapTable, TableHeaderColumn } from 'react-bootstrap-table';
 import SearchInput, { createFilter } from 'react-search-input';
+import { KEYS_TO_FILTERS, convertInventoryJSONToObject } from '../constants';
+import { invokeApig } from '../libs/awsLib';
+import styles from '../constants/styles';
 import {
   customMultiSelect,
   renderSizePerPageDropDown,
@@ -17,69 +21,27 @@ import {
   avgOrderValueFormater,
   orderEveryFormatter
 } from '../components/CustomTable';
-import { KEYS_TO_FILTERS } from '../constants';
 
-const productData = [{
-  id: '136650063902:1766258671646',
-  currency: '$',
-  product_details: {
-    variant: 'Black / L',
-    title: 'MK 2017 Slim Drawstring Elastic Waist Sweatpants Trousers Men Harem Pants Men\'S Big Pockets Man Cargo Joggers',
-    sku: '3656230-black-l',
-    image: 'https://cdn.shopify.com/s/files/1/2374/4003/products/product-image-204525014.jpg?v=1506929542',
-    category: 'null',
-    tags: 'null',
-    price: '17.62',
-    currency: '$',
-    cogs: '3'
-  },
-  active: true,
-},
-{
-  id: '136650063902:1766258704414',
-  currency: '$',
-  product_details: {
-    variant: 'Black / XL',
-    title: 'MK 2017 Slim Drawstring Elastic Waist Sweatpants Trousers Men Harem Pants Men\'S Big Pockets Man Cargo Joggers',
-    sku: '3656230-black-xl',
-    image: 'https://cdn.shopify.com/s/files/1/2374/4003/products/product-image-204525014.jpg?v=1506929542',
-    category: 'null',
-    tags: 'null',
-    price: '17.62',
-    currency: '$',
-    cogs: '1'
-  },
-  active: true,
-}
-];
-const customerData = [
-  { id: '1', name: 'Guest User', email: 'anudeep@example.com', avgOrderValue: 22.34, every: 5 },
-  { id: '2', name: 'Guest User', email: 'anudeep@example.com', avgOrderValue: 22.34, every: 5 },
-  { id: '3', name: 'Guest User', email: 'anudeep@example.com', avgOrderValue: 22.34, every: 5 },
-];
-const metricsData = [];
-
-const styles = {
-  chartsHeaderTitle: {
-    fontSize: '16px',
-    color: '#666666',
-    fontWeight: 'bold',
-    textDecoration: 'none solid rgb(102, 102, 102)',
-  },
-  chartHeader: {
-    width: '100%',
-    padding: '0px'
-  }
-};
-
+// const styles = {
+//   chartsHeaderTitle: {
+//     fontSize: '16px',
+//     color: '#666666',
+//     fontWeight: 'bold',
+//     textDecoration: 'none solid rgb(102, 102, 102)',
+//   },
+//   chartHeader: {
+//     width: '100%',
+//     padding: '0px'
+//   }
+// };
 const product = 'product';
 const customer = 'customer';
-const metrics = 'metrics';
 
 class FilterDialog extends Component {
   constructor(props) {
     super(props);
     this.state = {
+      currentFilterModal: '',
       data: [],
       searchTerm: '',
       selectedRows: []
@@ -87,50 +49,54 @@ class FilterDialog extends Component {
     this.searchUpdated = this.searchUpdated.bind(this);
     this.onRowSelect = this.onRowSelect.bind(this);
     this.onSelectAll = this.onSelectAll.bind(this);
+    this.setSelectedText = this.setSelectedText.bind(this);
+    this.getProductData = this.getProductData.bind(this);
+    this.getCustomerData = this.getCustomerData.bind(this);
   }
   componentWillMount() {
-    const {filterModal} = this.props;
+    this.setData(this.props);
+  }
+  componentWillReceiveProps(props) {
+    const {filterModal, openFilter} = props;
+    if (openFilter && this.state.currentFilterModal !== filterModal) {
+      this.setData(props);
+    }
+  }
+  setData(props) {
+    const {filterModal } = props;
     if (filterModal === product) {
       this.getProductData();
     } else if (filterModal === customer) {
       this.getCustomerData();
-    } else if (filterModal === metrics) {
-      this.getMetricsData();
     }
+    this.setState({
+      currentFilterModal: filterModal,
+      searchTerm: '',
+    });
   }
   getProductData() {
-    // invokeApig({ path: '/products' }).then((results) => {
-    //   this.setState({ data: results });
-    // })
-    //   .catch(error => {
-    //     console.log('get products error', error);
-    //   });
-    this.setState({
-      data: productData
+    invokeApig({ path: '/products' }).then((results) => {
+      const updateTime = results.lastUpdated;
+      const products = results.variants;
+      this.setState({
+        data: products,
+        selectedRows: this.props.savedData.selectedRows ? this.props.savedData.selectedRows : []
+      });
+    }).catch(error => {
+      console.log('get products error', error);
     });
   }
   getCustomerData() {
-    // invokeApig({ path: '/customers' }).then((results) => {
-    //   this.setState({ data: results });;
-    // })
-    //   .catch(error => {
-    //     console.log('get customers error', error);
-    //   });
-    this.setState({
-      data: customerData
+    invokeApig({ path: '/customers' }).then((results) => {
+      const updateTime = results.lastUpdated;
+      const customers = results.customers;
+      this.setState({
+        data: customers,
+        selectedRows: this.props.savedData.selectedRows ? this.props.savedData.selectedRows : []
+      });
+    }).catch(error => {
+      console.log('get customers error', error);
     });
-  }
-  getMetricsData() {
-    // invokeApig({ path: '/product' }).then((results) => {
-    //   this.setState({ data: results });
-    // })
-    //   .catch(error => {
-    //     console.log('get metrics error', error);
-    //   });
-    this.setState({
-      data: metricsData
-    });
-
   }
   searchUpdated(term) {
     this.setState({
@@ -140,8 +106,11 @@ class FilterDialog extends Component {
   onFocus() {
 
   }
+  setSelectedText(selectedText) {
+    this.props.onRowSelect(selectedText);
+  }
   onRowSelect(row, isSelected) {
-    const {selectedRows} = this.state;
+    const {selectedRows, data} = this.state;
     if (isSelected) {
       selectedRows.push(row);
       this.setState({selectedRows});
@@ -152,6 +121,11 @@ class FilterDialog extends Component {
       }
       this.setState({selectedRows});
     }
+    let rowsSelected = selectedRows.length;
+    if (selectedRows.length === data.length) {
+      rowsSelected = 'all';
+    }
+    this.setSelectedText({data, selectedRows, rowsSelected});
   }
 
   onSelectAll(isSelected, rows) {
@@ -164,7 +138,11 @@ class FilterDialog extends Component {
     } else {
       this.setState({selectedRows: []});
     }
-    return true;
+    let rowsSelected = idArray.length;
+    if (idArray.length === this.state.data.length) {
+      rowsSelected = 'all';
+    }
+    this.setSelectedText({data: this.state.data, selectedRows: idArray, rowsSelected});
   }
   render() {
     const {filterModal} = this.props;
@@ -237,96 +215,84 @@ class FilterDialog extends Component {
       col4DataFormate = orderEveryFormatter;
       col4Width = '20%';
 
-    } else if (filterModal === metrics) {
-      filterTitle = 'Filter By Metrics';
-      searchPlaceHolder = 'Search your metrics';
-
-      // col2DataField = 'product_details';
-      // col2Header = 'Mertics';
-      // col2DataFormate = productDetailFormatter;
-      // col2Width = '40%';
-      //
-      // col3DataField = 'product_details';
-      // col3Header = 'Mertics';
-      // col3DataFormate = productPriceFormatter;
-      // col3Width = '20%';
-
     }
     return (
-      <Row className="filter-dialog">
-        <Col md={10} mdOffset={1}>
-          <Card className="charts-card-style">
-            <CardHeader
-              textStyle={styles.chartHeader}
-              title={<div>
-                <span>{filterTitle}</span>
-                <span className="pull-right close-btn">
-                  <Button className="close-button pull-right" onClick={this.props.closeFilter} />
-                </span>
-              </div>}
-              titleStyle={styles.chartsHeaderTitle}
-          />
-            <CardText>
-              <Row>
-                <Col md={8}>
-                  <Row>
-                    <Col md={12} className="filterSearch">
-                      <SearchInput
-                        className="search-input"
-                        placeholder={searchPlaceHolder}
-                        onChange={this.searchUpdated}
-                        onFocus={this.onFocus}
+      <Dialog
+        title={<div>
+          <span>{filterTitle}</span>
+          <span className="pull-right close-btn">
+            <Button className="close-button pull-right" onClick={this.props.closeFilter} />
+          </span>
+        </div>}
+        titleStyle={styles.chartsHeaderTitle}
+        modal
+        open={this.props.openFilter}
+        onRequestClose={this.props.closeFilter}
+      >
+        <Row className="filter-dialog">
+          <Col>
+            <Card className="charts-card-style">
+              <CardText>
+                <Row>
+                  <Col md={8}>
+                    <Row>
+                      <Col md={12} className="filterSearch">
+                        <SearchInput
+                          className="search-input"
+                          placeholder={searchPlaceHolder}
+                          onChange={this.searchUpdated}
+                          onFocus={this.onFocus}
                     />
-                    </Col>
-                    <Col md={12}>
-                      <BootstrapTable
-                        ref={(table) => { this.table = table; }}
-                        data={filteredData}
-                        options={options}
-                        bordered={false}
-                        selectRow={selectRowProp}
-                        pagination
-                        trClassName="custom-table"
-                        tableHeaderClass="filter-table-header"
-                        tableBodyClass="filter-table-body"
-                        headerStyle={{ background: '#fbfbfb' }}
+                      </Col>
+                      <Col md={12}>
+                        <BootstrapTable
+                          ref={(table) => { this.table = table; }}
+                          data={filteredData}
+                          options={options}
+                          bordered={false}
+                          selectRow={selectRowProp}
+                          pagination
+                          trClassName="custom-table"
+                          tableHeaderClass="filter-table-header"
+                          tableBodyClass="filter-table-body"
+                          headerStyle={styles.bsTableHeaderStyle}
                   >
-                        <TableHeaderColumn
-                          isKey
-                          dataField="id"
-                          dataAlign="center"
-                          dataSort
-                          className="custom-table-header"
-                          hidden
-                          width="20%"
+                          <TableHeaderColumn
+                            isKey
+                            dataField="id"
+                            dataAlign="center"
+                            dataSort
+                            className="custom-table-header"
+                            hidden
+                            width="20%"
                     >
                       ID
-                        </TableHeaderColumn>
-                        <TableHeaderColumn
-                          dataField={col2DataField}
-                          dataAlign="center"
-                          dataSort
-                          className="set-table-header"
-                          dataFormat={col2DataFormate}
-                          sortFunc={sortByTitle}
-                          caretRender={getCaret}
-                          width={col2Width}
+                          </TableHeaderColumn>
+                          <TableHeaderColumn
+                            dataField={col2DataField}
+                            dataAlign="center"
+                            dataSort
+                            className="set-table-header"
+                            dataFormat={col2DataFormate}
+                            sortFunc={sortByTitle}
+                            caretRender={getCaret}
+                            width={col2Width}
                     >
-                          {col2Header}
-                        </TableHeaderColumn>
-                        <TableHeaderColumn
-                          dataField={col3DataField}
-                          dataAlign="center"
-                          className="set-table-header"
-                          dataFormat={col3DataFormate}
-                          dataSort
-                          caretRender={getCaret}
-                          sortFunc={sortByProductPrice}
-                          width={col3Width}
+                            {col2Header}
+                          </TableHeaderColumn>
+                          <TableHeaderColumn
+                            dataField={col3DataField}
+                            dataAlign="center"
+                            className="set-table-header"
+                            dataFormat={col3DataFormate}
+                            dataSort
+                            caretRender={getCaret}
+                            sortFunc={sortByProductPrice}
+                            width={col3Width}
                     >
-                          {col3Header}
-                        </TableHeaderColumn>
-                        {
+                            {col3Header}
+                          </TableHeaderColumn>
+                          {
                           filterModal === customer ? <TableHeaderColumn
                             dataField={col4DataField}
                             dataAlign="center"
@@ -340,40 +306,38 @@ class FilterDialog extends Component {
                             {col4Header}
                           </TableHeaderColumn> : null
                       }
-                      </BootstrapTable>
-                    </Col>
-                  </Row>
-                </Col>
-                <Col md={4} className="text-center">
-                  <Row>
-                    <Col md={12} className="selected-text">
+                        </BootstrapTable>
+                      </Col>
+                    </Row>
+                  </Col>
+                  <Col md={4} className="text-center">
+                    <Row>
+                      <Col md={12} className="selected-text">
                       Selected Products : {selectedRows.length} / {data.length}
-                    </Col>
-                    {selectedRows.length ? selectedRows.map((row, i) => {
+                      </Col>
+                      {selectedRows.length ? selectedRows.map((row, i) => {
                       let selectedRowList = '';
                       if (filterModal === product) {
                         selectedRowList = productDetailFormatter(row.product_details, row);
                       } else if (filterModal === customer) {
                         selectedRowList = customerFormater(row.name, row);
-                      } else if (filterModal === metrics) {
-
                       }
                       return (<Col key={i} md={12}>
                         <div className="selected-row">
                           {selectedRowList}
                         </div>
                       </Col>);
-                    }
-                      )
+                    })
                       : null
                     }
-                  </Row>
-                </Col>
-              </Row>
-            </CardText>
-          </Card>
-        </Col>
-      </Row>
+                    </Row>
+                  </Col>
+                </Row>
+              </CardText>
+            </Card>
+          </Col>
+        </Row>
+      </Dialog>
     );
   }
 }
