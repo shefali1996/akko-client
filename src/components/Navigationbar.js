@@ -4,14 +4,21 @@ import { Row, Col, Label, Image, DropdownButton } from 'react-bootstrap';
 import user from '../auth/user';
 import profileIcon from '../assets/images/profileIconWhite.svg';
 import downArrowWhite from '../assets/images/downArrowWhite.svg';
+import { invokeApig } from '../libs/awsLib';
 
 class Navigationbar extends Component {
   constructor(props) {
     super(props);
     this.state = {
+      userDetails: user.getUser || {}
     };
     this.onLogout = this.onLogout.bind(this);
     this.goToSetting = this.goToSetting.bind(this);
+    this.getUser = this.getUser.bind(this);
+  }
+
+  componentWillMount() {
+    this.getUser();
   }
 
   onLogout() {
@@ -23,8 +30,20 @@ class Navigationbar extends Component {
     this.props.history.push('/settings');
   }
 
+  getUser() {
+    invokeApig({ path: '/user' }).then((results) => {
+      this.setState({
+        userDetails: results
+      });
+      user.setUser(results);
+    })
+      .catch(error => {
+        console.log('get user error', error);
+      });
+  }
+
   render() {
-    const {companyName} = this.props;
+    const companyName = this.state.userDetails.company;
     return (
       <div className="nav-container">
         <Row>
