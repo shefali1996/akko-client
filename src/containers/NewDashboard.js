@@ -7,40 +7,29 @@ import { Select } from 'antd';
 import $ from 'jquery';
 import {clone} from 'lodash';
 import Navigationbar from '../components/Navigationbar';
-import SalesChart from '../components/SalesChart';
+import Chart from '../components/Chart';
 import PriceBox from '../components/PriceBox';
 import AnalysisRightPanel from '../components/AnalysisRightPanel';
 import ExploreMetrics from '../components/ExploreMetrics';
 import {dashboardJSON, chartDataLine, chartDataBar, chartDataOne} from '../constants/dommyData';
 import Footer from '../components/Footer';
+import styles from '../constants/styles';
 
 const elementResizeEvent = require('element-resize-event');
 
 const {Option} = Select;
-const styles = {
-  chartsHeaderTitle: {
-    fontSize: '16px',
-    color: '#666666',
-    fontWeight: 'bold',
-    textDecoration: 'none solid rgb(102, 102, 102)',
-  },
-  chartHeader: {
-    width: '100%',
-    padding: '0px'
-  }
-};
 
 class NewDashboard extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      width: '25%'
+      width: '25%',
+      activeMetricsId: 'none'
     };
     this.setWidth = this.setWidth.bind(this);
     this.handleClickMetrics = this.handleClickMetrics.bind(this);
     this.column = 4;
     this.top = 0;
-    this.activeMetricsId = 'card_0';
   }
   componentDidMount() {
     const element = document.getElementById('cardSection');
@@ -61,7 +50,7 @@ class NewDashboard extends Component {
         width: `${a}%`,
       });
       if (this.state.explore) {
-        this.handleClickMetrics(this.activeMetricsId, this.state.activeMetrics);
+        this.handleClickMetrics(this.state.activeMetricsId, this.state.activeMetrics);
       }
     }
   }
@@ -70,10 +59,10 @@ class NewDashboard extends Component {
     $('html, body').animate({
       scrollTop: element.offset().top - 80
     }, 100);
-    this.activeMetricsId = id;
     this.setState({
       explore: true,
-      activeMetrics: value
+      activeMetrics: value,
+      activeMetricsId: id
     });
   }
   render() {
@@ -81,19 +70,23 @@ class NewDashboard extends Component {
     const renderCards = [];
     cardsData.map((value, index) => {
       let active = '';
-      if (`card_${index}` === this.activeMetricsId) {
+      let borderRed = '';
+      if (`card_${index}` === this.state.activeMetricsId) {
         active = 'active-metrics';
       }
-      renderCards.push(<Col key={index} id={`card_${index}`} style={{width: this.state.width}} className="dashboard-card-cantainer">
+      if (value.trend !== '+') {
+        borderRed = 'border-red';
+      }
+      renderCards.push(<Col key={index} id={`card_${index}`} style={{width: this.state.width}} className="dashboard-card-cantainer" title={`Click to explore ${value.title} in detail`}>
         <Card
-          className={value.trend === '+' ? `price-card-style ${active}` : `price-card-style-border ${active}`}
+          className={`price-card-style ${active} ${borderRed}`}
           onClick={(e) => this.handleClickMetrics(`card_${index}`, value)}>
           <CardHeader className="card-header-style" >
             <PriceBox value={value} analyze />
           </CardHeader>
           <CardText>
             <div>
-              <SalesChart data={chartDataOne} type="line" width="40%" />
+              <Chart data={chartDataOne} type="line" width="40%" />
             </div>
           </CardText>
         </Card>
@@ -107,7 +100,7 @@ class NewDashboard extends Component {
         <Grid className="page-container">
           <Row className="analysis">
             <Col>
-              <div className={this.state.explore ? 'left-box-50 padding-left-right-7' : 'left-box-100 margin-t-5'}>
+              <div className={this.state.explore ? 'left-box-50 padding-r-7' : 'left-box-100 margin-t-5'}>
                 {!this.state.explore ? <Row>
                   <Col md={12} className="padding-left-right-7">
                     <span className={this.state.explore ? 'pull-right margin-r-23' : 'pull-right'}>
@@ -125,7 +118,10 @@ class NewDashboard extends Component {
               <div className={this.state.explore ? 'right-box-50' : 'right-box-0'}>
                 <ExploreMetrics
                   closeFilter={() => {
-                    this.setState({explore: false});
+                    this.setState({
+                      explore: false,
+                      activeMetricsId: 'none'
+                    });
                   }}
                   activeMetrics={this.state.activeMetrics}
                   filterModal="product"

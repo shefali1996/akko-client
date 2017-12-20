@@ -73,7 +73,7 @@ class SetTable extends Component {
 
   fireSetCogsAPI(params) {
     return invokeApig({
-      path: '/inventory',
+      path: '/products',
       method: 'PUT',
       body: params
     });
@@ -164,7 +164,7 @@ class SetTable extends Component {
   }
 
   products() {
-    return invokeApig({ path: '/inventory' });
+    return invokeApig({ path: '/products' });
   }
 
   searchUpdated(term) {

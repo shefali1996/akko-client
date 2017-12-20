@@ -131,7 +131,7 @@ class SetCsv extends Component {
   }
 
   products() {
-    return invokeApig({ path: '/inventory' });
+    return invokeApig({ path: '/products' });
   }
 
   csvButtonClicked() {

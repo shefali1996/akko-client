@@ -64,12 +64,13 @@ class SetCogs extends Component {
   getProduct() {
     if (localStorage.getItem('inventoryInfo') === null) {
       this.products().then((results) => {
+        console.log('results----------', results);
         const products = convertInventoryJSONToObject(results.variants);
         this.setState({ data: products });
         localStorage.setItem('inventoryInfo', JSON.stringify(products));
       })
         .catch(error => {
-          console.log(error);
+          console.log('get products error', error);
         });
     } else {
       const existingProducts = JSON.parse(localStorage.getItem('inventoryInfo'));
@@ -78,7 +79,7 @@ class SetCogs extends Component {
   }
 
   products() {
-    return invokeApig({ path: '/inventory' });
+    return invokeApig({ path: '/products' });
   }
 
   render() {
