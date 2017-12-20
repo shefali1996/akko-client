@@ -100,7 +100,7 @@ class NewDashboard extends Component {
         <Grid className="page-container">
           <Row className="analysis">
             <Col>
-              <div className={this.state.explore ? 'left-box-50 padding-left-right-7' : 'left-box-100 margin-t-5'}>
+              <div className={this.state.explore ? 'left-box-50 padding-r-7' : 'left-box-100 margin-t-5'}>
                 {!this.state.explore ? <Row>
                   <Col md={12} className="padding-left-right-7">
                     <span className={this.state.explore ? 'pull-right margin-r-23' : 'pull-right'}>
