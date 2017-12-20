@@ -2,13 +2,12 @@ import React, {Component} from 'react';
 import {PropTypes} from 'prop-types';
 import {Chart as ChartJS} from 'chart.js/src/chart';
 
-class SalesChart extends Component {
+class Chart extends Component {
   chart = null;
   updates = false;
 
   componentDidMount() {
     this.initChart();
-    // Chart.defaults.global.legend.labels.usePointStyle = true;
   }
 
   componentWillUnmount() {
@@ -41,7 +40,10 @@ class SalesChart extends Component {
           intersect: false,
           callbacks: {
             label(tooltipItems, data) {
-              return `${data.datasets[tooltipItems.datasetIndex].label}: $${tooltipItems.yLabel}`;
+              const dataset = data.datasets[tooltipItems.datasetIndex];
+              const prefix = dataset.prefix ? dataset.prefix : '';
+              const postfix = dataset.postfix ? dataset.postfix : '';
+              return ` ${prefix}${tooltipItems.yLabel}${postfix}`;
             }
           }
         }
@@ -74,4 +76,4 @@ Chart.propTypes = {
   })
 };
 
-export default SalesChart;
+export default Chart;

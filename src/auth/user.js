@@ -1,4 +1,4 @@
-import {signOutUser} from "../libs/awsLib.js"
+import {signOutUser} from '../libs/awsLib.js';
 
 export default {
   get isAuthenticated() {
@@ -10,5 +10,8 @@ export default {
   },
   setUser(user) {
     window.localStorage.setItem('authUser', JSON.stringify(user));
+  },
+  getUser() {
+    return JSON.parse(window.localStorage.getItem(authUser));
   }
 };

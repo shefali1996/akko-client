@@ -7,43 +7,32 @@ import { Select } from 'antd';
 import $ from 'jquery';
 import {clone} from 'lodash';
 import Navigationbar from '../components/Navigationbar';
-import SalesChart from '../components/SalesChart';
+import Chart from '../components/Chart';
 import PriceBox from '../components/PriceBox';
 import AnalysisRightPanel from '../components/AnalysisRightPanel';
 import ExploreMetrics from '../components/ExploreMetrics';
-import {chartDataOne} from '../constants/dommyData';
 import Footer from '../components/Footer';
 import { invokeApig } from '../libs/awsLib';
+import styles from '../constants/styles';
 
 const elementResizeEvent = require('element-resize-event');
 
 const {Option} = Select;
-const styles = {
-  chartsHeaderTitle: {
-    fontSize: '16px',
-    color: '#666666',
-    fontWeight: 'bold',
-    textDecoration: 'none solid rgb(102, 102, 102)',
-  },
-  chartHeader: {
-    width: '100%',
-    padding: '0px'
-  }
-};
 
 class NewDashboard extends Component {
   constructor(props) {
     super(props);
     this.state = {
       metricsData: [],
-      width: '25%'
+      width: '25%',
+      activeMetricsId: 'none',
+      activeChartData: {}
     };
     this.setWidth = this.setWidth.bind(this);
     this.handleClickMetrics = this.handleClickMetrics.bind(this);
     this.getMetrics = this.getMetrics.bind(this);
     this.column = 4;
     this.top = 0;
-    this.activeMetricsId = 'card_0';
   }
 
   componentWillMount() {
@@ -78,19 +67,21 @@ class NewDashboard extends Component {
         width: `${a}%`,
       });
       if (this.state.explore) {
-        this.handleClickMetrics(this.activeMetricsId, this.state.activeMetrics);
+        const {activeMetricsId, activeMetrics, activeChartData} = this.state;
+        this.handleClickMetrics(activeMetricsId, activeMetrics, activeChartData);
       }
     }
   }
-  handleClickMetrics(id, value) {
+  handleClickMetrics(id, value, chartData) {
     const element = $(`#${id}`);
     $('html, body').animate({
       scrollTop: element.offset().top - 80
     }, 100);
-    this.activeMetricsId = id;
     this.setState({
       explore: true,
-      activeMetrics: value
+      activeMetrics: value,
+      activeMetricsId: id,
+      activeChartData: chartData
     });
   }
   render() {
@@ -98,25 +89,91 @@ class NewDashboard extends Component {
     const renderCards = [];
     metricsData.map((value, index) => {
       let active = '';
-      if (`card_${index}` === this.activeMetricsId) {
+      let borderRed = '';
+      if (`card_${index}` === this.state.activeMetricsId) {
         active = 'active-metrics';
       }
-      renderCards.push(<Col key={index} id={`card_${index}`} style={{width: this.state.width}} className="dashboard-card-cantainer">
-        <Card
-          className={value.trend === '+' ? `price-card-style ${active}` : `price-card-style-border ${active}`}
-          onClick={(e) => this.handleClickMetrics(`card_${index}`, value)}>
-          <CardHeader className="card-header-style" >
-            <PriceBox value={value} analyze />
-          </CardHeader>
-          <CardText>
-            <div>
-              <SalesChart data={chartDataOne} type="line" width="40%" />
-            </div>
-          </CardText>
-        </Card>
-      </Col>
-      );
-
+      if (value.trend !== '+') {
+        borderRed = 'border-red';
+      }
+      const chartData = {
+        labels: ['Aug 17', 'Sep 17', 'Oct 17', 'Nov 17'],
+        datasets: [{
+          type: 'line',
+          label: value.title,
+          data: [
+            `${value.value}`,
+            `${value.value_one_month_back}`,
+            `${value.value_two_months_back}`,
+            `${value.value_three_months_back}`
+          ],
+          borderColor: '#575dde',
+          backgroundColor: '#575dde',
+          fill: '1',
+          tension: 0,
+          prefix: value.prefix,
+          postfix: value.postfix
+        }]
+      };
+      if (value.title === 'Expenses') {
+        const expensesData = value.value;
+        renderCards.push(<Col key={index} id={`card_${index}`} style={{width: this.state.width}} className="dashboard-card-cantainer expenses-breakdown" title={`Click to explore ${value.title} in detail`}>
+          <Card className="charts-card-style">
+            <CardHeader
+              title="Expenses Breakdown"
+              titleStyle={styles.chartsHeaderTitle}
+              subtitle={value.trend_period}
+              subtitleStyle={styles.expenseCardSubtitle}
+              />
+            <CardText style={styles.expenseCardText}>
+              <Row>
+                <Col md={12} className="expense-text">
+                  <Row className="padding-t-5">
+                    <Col md={7}>Total Sales</Col>
+                    <Col md={5}><span className="dash" />${expensesData.total_sales}</Col>
+                  </Row>
+                  <Row className="padding-t-5">
+                    <Col md={7}>COGS</Col>
+                    <Col md={5}><span className="dash">-</span>${expensesData.total_cogs}</Col>
+                  </Row>
+                  <Row className="padding-t-5">
+                    <Col md={7}>Discounts</Col>
+                    <Col md={5}><span className="dash">-</span>${expensesData.total_discount}</Col>
+                  </Row>
+                  <Row className="padding-t-5">
+                    <Col md={7}>Shiping</Col>
+                    <Col md={5}><span className="dash">-</span>${expensesData.total_shipping}</Col>
+                  </Row>
+                  <Row className="padding-t-5">
+                    <Col md={7}>Tax</Col>
+                    <Col md={5}><span className="dash">-</span>${expensesData.total_tax}</Col>
+                  </Row>
+                  <hr />
+                  <Row className="final-row">
+                    <Col md={7}>Gross Profit</Col>
+                    <Col md={5}><span className="dash" />${expensesData.lu}</Col>
+                  </Row>
+                </Col>
+              </Row>
+            </CardText>
+          </Card>
+        </Col>);
+      } else {
+        renderCards.push(<Col key={index} id={`card_${index}`} style={{width: this.state.width}} className="dashboard-card-cantainer" title={`Click to explore ${value.title} in detail`}>
+          <Card
+            className={`price-card-style ${active} ${borderRed}`}
+            onClick={(e) => this.handleClickMetrics(`card_${index}`, value, chartData)}>
+            <CardHeader className="card-header-style" >
+              <PriceBox value={value} analyze />
+            </CardHeader>
+            <CardText>
+              <div>
+                <Chart data={chartData} type="line" width="40%" />
+              </div>
+            </CardText>
+          </Card>
+        </Col>);
+      }
     });
     return (
       <div>
@@ -124,7 +181,7 @@ class NewDashboard extends Component {
         <Grid className="page-container">
           <Row className="analysis">
             <Col>
-              <div className={this.state.explore ? 'left-box-50 padding-left-right-7' : 'left-box-100 margin-t-5'}>
+              <div className={this.state.explore ? 'left-box-50 padding-r-7' : 'left-box-100 margin-t-5'}>
                 {!this.state.explore ? <Row>
                   <Col md={12} className="padding-left-right-7">
                     <span className={this.state.explore ? 'pull-right margin-r-23' : 'pull-right'}>
@@ -142,9 +199,13 @@ class NewDashboard extends Component {
               <div className={this.state.explore ? 'right-box-50' : 'right-box-0'}>
                 <ExploreMetrics
                   closeFilter={() => {
-                    this.setState({explore: false});
+                    this.setState({
+                      explore: false,
+                      activeMetricsId: 'none'
+                    });
                   }}
                   activeMetrics={this.state.activeMetrics}
+                  activeChartData={this.state.activeChartData}
                   filterModal="product"
                   open={this.state.explore} />
               </div>
