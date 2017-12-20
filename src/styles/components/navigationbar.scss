@@ -17,6 +17,7 @@
   text-decoration: none solid $main-decoration-color;
   background: none;
   padding-top: 20px;
+  padding-left: 0px;
 	display: block;
 	// position: absolute;
 	top: 25px;
@@ -43,9 +44,8 @@
   width: 165px;
 	height: 40px;
 	position: absolute;
-	// top: 30px;
   background: $main-blue-color;
-	right: 30px;
+	float: right !important;
 	z-index: 999;
 	text-align: right;
 }

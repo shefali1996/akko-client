@@ -4,32 +4,13 @@ import {Card, CardHeader, CardText} from 'material-ui/Card';
 import Chip from 'material-ui/Chip';
 import Dialog from 'material-ui/Dialog';
 import { Select, DatePicker } from 'antd';
-import SalesChart from '../components/SalesChart';
+import Chart from '../components/Chart';
 import { chartDataOne} from '../constants/dommyData';
 import FilterDialog from '../components/FilterDialog';
+import styles from '../constants/styles';
 
 const {Option} = Select;
 const {RangePicker} = DatePicker;
-const styles = {
-  chartsHeaderTitle: {
-    fontSize: '16px',
-    color: '#666666',
-    fontWeight: 'bold',
-    textDecoration: 'none solid rgb(102, 102, 102)',
-  },
-  chartHeader: {
-    width: '100%',
-    padding: '0px'
-  },
-  chipLabelStyle: {
-    fontSize: '12px',
-    color: '#ffffff',
-    fontWeight: 'bold',
-    textDecoration: 'none solid white',
-    paddingLeft: '30px',
-    paddingRight: '30px'
-  }
-};
 
 class ExploreMetrics extends Component {
   constructor(props) {
@@ -143,7 +124,7 @@ class ExploreMetrics extends Component {
                       titleStyle={styles.chartsHeaderTitle}
                     />
                     <CardText>
-                      <SalesChart data={chartDataOne} type="line" width="40%" />
+                      <Chart data={chartDataOne} type="line" width="40%" />
                     </CardText>
                   </Card>
                 </Col>

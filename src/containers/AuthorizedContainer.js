@@ -1,11 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Switch, Route } from 'react-router';
-import Dashboard from './Dashboard';
-import Inventory from './Inventory';
-import CustomerInsights from './CustomerInsights';
-import FinancialInsights from './FinancialInsights';
-import NewDashboard from './NewDashboard';
+import Dashboard from './NewDashboard';
 import user from '../auth/user';
 
 class AuthorizedContainer extends Component {
@@ -23,11 +19,9 @@ class AuthorizedContainer extends Component {
   }
 
   render() {
-    // <Route exact path="/financial_insights" component={FinancialInsights} />
-    // <Route exact path="/customer_insights" component={CustomerInsights} />
     return (
       <Switch>
-        <Route exact path="/dashboard" component={NewDashboard} />
+        <Route exact path="/dashboard" component={Dashboard} />
       </Switch>
     );
   }
