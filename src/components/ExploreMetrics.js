@@ -57,6 +57,7 @@ class ExploreMetrics extends Component {
   }
   render() {
     const {activeMetrics} = this.props;
+    console.log('this.props.activeChartData', this.props.activeChartData);
     return (
       <Row>
         <Col md={12}>

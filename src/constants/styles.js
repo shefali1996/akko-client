@@ -32,6 +32,9 @@ const styles = {
   },
   expenseCardText: {
     paddingTop: '10px'
+  },
+  metricsCardStyle: {
+    height: '310px'
   }
 };
 
