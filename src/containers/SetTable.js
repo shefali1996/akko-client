@@ -32,6 +32,7 @@ class SetTable extends Component {
   constructor(props) {
     super(props);
     this.state = {
+      productInfo: [],
       markup: '',
       data: [],
       searchTerm: '',
@@ -140,13 +141,22 @@ class SetTable extends Component {
   }
 
   getProduct() {
-    if (localStorage.getItem('inventoryInfo')) {
-      this.setState({ data: sortByCogs(JSON.parse(localStorage.getItem('inventoryInfo'))) });
+    if (localStorage.getItem('productInfo')) {
+      const productInfo = JSON.parse(localStorage.getItem('productInfo'));
+      this.setState({
+        productInfo,
+        // data: sortByCogs(JSON.parse(localStorage.getItem('inventoryInfo')))
+      });
+      this.productDetails(productInfo);
     } else {
       this.products().then((results) => {
-        const products = convertInventoryJSONToObject(results.variants);
-        this.setState({ data: sortByCogs(products) });
-        localStorage.setItem('inventoryInfo', JSON.stringify(products));
+        const {products} = results;
+        this.setState({
+          productInfo: products,
+          // data: sortByCogs(products)
+        });
+        localStorage.setItem('productInfo', JSON.stringify(products));
+        this.productDetails(productInfo);
       })
         .catch(error => {
           this.setState({
@@ -160,6 +170,21 @@ class SetTable extends Component {
   handleOptionChange(e) {
     this.setState({
       selectedOption: e.target.value
+    });
+  }
+
+  productDetails(productInfo) {
+    let variants = [];
+    productInfo.map((product, i) => {
+      invokeApig({ path: `/products/${product.productId}` }).then((results) => {
+        console.log('results', results);
+        variants = variants.concat(results.variants);
+      }).catch(error => {
+        console.log('Error Product Details', error);
+      });
+    });
+    this.setState({
+      data: variants
     });
   }
 

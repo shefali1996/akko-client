@@ -62,18 +62,17 @@ class SetCogs extends Component {
   }
 
   getProduct() {
-    if (localStorage.getItem('inventoryInfo') === null) {
+    if (localStorage.getItem('productInfo') === null) {
       this.products().then((results) => {
-        console.log('results----------', results);
-        const products = convertInventoryJSONToObject(results.variants);
+        const {products} = results;
         this.setState({ data: products });
-        localStorage.setItem('inventoryInfo', JSON.stringify(products));
+        localStorage.setItem('productInfo', JSON.stringify(products));
       })
         .catch(error => {
           console.log('get products error', error);
         });
     } else {
-      const existingProducts = JSON.parse(localStorage.getItem('inventoryInfo'));
+      const existingProducts = JSON.parse(localStorage.getItem('productInfo'));
       this.setState({ data: existingProducts });
     }
   }
@@ -81,7 +80,13 @@ class SetCogs extends Component {
   products() {
     return invokeApig({ path: '/products' });
   }
-
+  getNumOfVariants(productData) {
+    let numOfVariants = 0;
+    productData.map((product, i) => {
+      numOfVariants += product.numVariants;
+    });
+    return numOfVariants;
+  }
   render() {
     const { option, data } = this.state;
     return (
@@ -107,7 +112,7 @@ class SetCogs extends Component {
               </div>
               <div className="flex-center margin-t-40">
                 <span className="select-style-comment">
-                    We found {data.length} product-variants from your shop. How do you
+                    We found {this.getNumOfVariants(data)} product-variants from your shop. How do you
                 </span>
               </div>
               <div className="flex-center margin-t-5">
