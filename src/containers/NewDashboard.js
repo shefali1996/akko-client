@@ -87,6 +87,17 @@ class NewDashboard extends Component {
       activeChartData: chartData
     });
   }
+  invalidCard() {
+    return (<div className="invalid-block text-center">
+      <span className="image-container"><img src={invalidImg} alt="invalid" /></span>
+      <div className="invalid-text">Please set COGS for your products to calculate these values.</div>
+      <div className="flex-center padding-t-20">
+        <Button className="login-button">
+            SET COGS
+        </Button>
+      </div>
+    </div>);
+  }
   render() {
     const {metricsData} = this.state;
     const renderCards = [];
@@ -128,6 +139,9 @@ class NewDashboard extends Component {
       };
       if (value.title === 'Expenses') {
         const expensesData = value.value;
+        if (expensesData.total_sale === 'invalid' || expensesData.total_cogs === 'invalid' || expensesData.total_discount === 'invalid' || expensesData.total_shipping === 'invalid' || expensesData.total_tax === 'invalid') {
+          invalid = true;
+        }
         renderCards.push(<Col key={index} id={`card_${index}`} style={{width: this.state.width}} className="dashboard-card-cantainer expenses-breakdown">
           <Card className="charts-card-style" style={styles.metricsCardStyle}>
             <CardHeader
@@ -137,6 +151,7 @@ class NewDashboard extends Component {
               subtitleStyle={styles.expenseCardSubtitle}
               />
             <CardText style={styles.expenseCardText}>
+              {invalid ? this.invalidCard() :
               <Row>
                 <Col md={12} className="expense-text">
                   <Row className="padding-t-5">
@@ -165,7 +180,7 @@ class NewDashboard extends Component {
                     <Col md={5}><span className="dash" />${expensesData.total_sales - expensesData.total_cogs - expensesData.total_discount - expensesData.total_shipping - expensesData.total_tax}</Col>
                   </Row>
                 </Col>
-              </Row>
+              </Row>}
             </CardText>
           </Card>
         </Col>);
@@ -180,15 +195,7 @@ class NewDashboard extends Component {
               <PriceBox value={value} analyze />
             </CardHeader>
             <CardText>
-              {invalid ? <div className="invalid-block text-center">
-                <span className="image-container"><img src={invalidImg} alt="invalid" /></span>
-                <div className="invalid-text">Please set COGS for your products to calculate these values.</div>
-                <div className="flex-center padding-t-20">
-                  <Button className="login-button" onClick={this.onLogin}>
-                      SET COGS
-                  </Button>
-                </div>
-                         </div> : <div><Chart data={chartData} type="line" width="40%" /></div>}
+              {invalid ? this.invalidCard() : <div><Chart data={chartData} type="line" width="40%" /></div>}
             </CardText>
           </Card>
         </Col>);

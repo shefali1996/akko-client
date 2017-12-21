@@ -31,15 +31,15 @@ class Navigationbar extends Component {
   }
 
   getUser() {
-    // invokeApig({ path: '/user' }).then((results) => {
-    //   this.setState({
-    //     userDetails: results
-    //   });
-    //   user.setUser(results);
-    // })
-    //   .catch(error => {
-    //     console.log('get user error', error);
-    //   });
+    invokeApig({ path: '/user' }).then((results) => {
+      this.setState({
+        userDetails: results
+      });
+      user.setUser(results);
+    })
+      .catch(error => {
+        console.log('get user error', error);
+      });
   }
 
   render() {

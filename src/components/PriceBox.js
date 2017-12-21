@@ -7,12 +7,22 @@ class PriceBox extends React.Component {
   render() {
     const {analyze, customer} = this.props;
     console.log('qqqqqqqqqqqqqqqqqqqq', this.props);
-    const {title, description, prefix, postfix, value, trend_value, trend_period, trend} = this.props.value;
+    let {title, description, prefix, postfix, value, trend_value, trend_period, trend} = this.props.value;
     let infix = '';
     if (prefix === '$') {
       infix = numberFormatter(Math.round(value * 100) / 100);
     } else {
       infix = value;
+    }
+    if (trend_value === 'invalid') {
+      trend_value = '';
+    } else {
+      trend_value = Math.round(value);
+    }
+    if (infix === 'invalid') {
+      prefix = '';
+      infix = '';
+      postfix = '';
     }
     if (customer) {
       return (
