@@ -6,7 +6,6 @@ import downArrow from '../assets/images/downArrow.svg';
 class PriceBox extends React.Component {
   render() {
     const {analyze, customer} = this.props;
-    console.log('qqqqqqqqqqqqqqqqqqqq', this.props);
     let {title, description, prefix, postfix, value, trend_value, trend_period, trend} = this.props.value;
     let infix = '';
     if (prefix === '$') {
@@ -16,8 +15,10 @@ class PriceBox extends React.Component {
     }
     if (trend_value === 'invalid') {
       trend_value = '';
-    } else {
-      trend_value = Math.round(value);
+    } else if (trend_value !== null) {
+      const i = trend_value[trend_value.length - 1];
+      const tmp = trend_value.slice(0, trend_value.length - 1);
+      trend_value = Math.round(parseInt(tmp)) + i;
     }
     if (infix === 'invalid') {
       prefix = '';

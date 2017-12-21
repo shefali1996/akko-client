@@ -56,8 +56,7 @@ class ExploreMetrics extends Component {
 
   }
   render() {
-    const {activeMetrics} = this.props;
-    console.log('this.props.activeChartData', this.props.activeChartData);
+    const {activeMetrics, activeChartData} = this.props;
     return (
       <Row>
         <Col md={12}>
@@ -125,7 +124,7 @@ class ExploreMetrics extends Component {
                       titleStyle={styles.chartsHeaderTitle}
                     />
                     <CardText>
-                      <Chart data={this.props.activeChartData} type="line" width="40%" />
+                      <Chart data={activeChartData} type="line" x="aaa" width="40%" />
                     </CardText>
                   </Card>
                 </Col>

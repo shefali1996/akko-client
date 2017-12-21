@@ -29,7 +29,7 @@ class NewDashboard extends Component {
       metricsData: [],
       width: '25%',
       activeMetricsId: 'none',
-      activeChartData: {}
+      activeChartData: false
     };
     this.setWidth = this.setWidth.bind(this);
     this.handleClickMetrics = this.handleClickMetrics.bind(this);
@@ -87,16 +87,68 @@ class NewDashboard extends Component {
       activeChartData: chartData
     });
   }
-  invalidCard() {
-    return (<div className="invalid-block text-center">
-      <span className="image-container"><img src={invalidImg} alt="invalid" /></span>
-      <div className="invalid-text">Please set COGS for your products to calculate these values.</div>
-      <div className="flex-center padding-t-20">
-        <Button className="login-button">
-            SET COGS
-        </Button>
-      </div>
-    </div>);
+  invalidCard(value) {
+    return (<Card className="charts-card-style" style={styles.metricsCardStyle}>
+      <CardHeader
+        title={value.title}
+        titleStyle={styles.chartsHeaderTitle}
+        subtitleStyle={styles.expenseCardSubtitle}
+        />
+      <CardText style={styles.expenseCardText}>
+        <div className="invalid-block text-center">
+          <span className="image-container"><img src={invalidImg} alt="invalid" /></span>
+          <div className="invalid-text">Please set COGS for your products to calculate these values.</div>
+          <div className="flex-center padding-t-20">
+            <Button className="login-button">
+                SET COGS
+            </Button>
+          </div>
+        </div>
+      </CardText>
+    </Card>
+    );
+  }
+  expenseCard(expensesData) {
+    return (<Card className="charts-card-style" style={styles.metricsCardStyle}>
+      <CardHeader
+        title="Expenses Breakdown"
+        titleStyle={styles.chartsHeaderTitle}
+        subtitle={value.trend_period}
+        subtitleStyle={styles.expenseCardSubtitle}
+        />
+      <CardText style={styles.expenseCardText}>
+        <Row>
+          <Col md={12} className="expense-text">
+            <Row className="padding-t-5">
+              <Col md={7}>Total Sales</Col>
+              <Col md={5}><span className="dash" />${expensesData.total_sales}</Col>
+            </Row>
+            <Row className="padding-t-5">
+              <Col md={7}>COGS</Col>
+              <Col md={5}><span className="dash">-</span>${expensesData.total_cogs}</Col>
+            </Row>
+            <Row className="padding-t-5">
+              <Col md={7}>Discounts</Col>
+              <Col md={5}><span className="dash">-</span>${expensesData.total_discount}</Col>
+            </Row>
+            <Row className="padding-t-5">
+              <Col md={7}>Shipping</Col>
+              <Col md={5}><span className="dash">-</span>${expensesData.total_shipping}</Col>
+            </Row>
+            <Row className="padding-t-5">
+              <Col md={7}>Tax</Col>
+              <Col md={5}><span className="dash">-</span>${expensesData.total_tax}</Col>
+            </Row>
+            <hr />
+            <Row className="final-row">
+              <Col md={7}>Gross Profit</Col>
+              <Col md={5}><span className="dash" />${expensesData.total_sales - expensesData.total_cogs - expensesData.total_discount - expensesData.total_shipping - expensesData.total_tax}</Col>
+            </Row>
+          </Col>
+        </Row>
+      </CardText>
+            </Card>
+    );
   }
   render() {
     const {metricsData} = this.state;
@@ -141,52 +193,14 @@ class NewDashboard extends Component {
         const expensesData = value.value;
         if (expensesData.total_sale === 'invalid' || expensesData.total_cogs === 'invalid' || expensesData.total_discount === 'invalid' || expensesData.total_shipping === 'invalid' || expensesData.total_tax === 'invalid') {
           invalid = true;
+          value.title = 'Expenses Breakdown';
         }
         renderCards.push(<Col key={index} id={`card_${index}`} style={{width: this.state.width}} className="dashboard-card-cantainer expenses-breakdown">
-          <Card className="charts-card-style" style={styles.metricsCardStyle}>
-            <CardHeader
-              title="Expenses Breakdown"
-              titleStyle={styles.chartsHeaderTitle}
-              subtitle={value.trend_period}
-              subtitleStyle={styles.expenseCardSubtitle}
-              />
-            <CardText style={styles.expenseCardText}>
-              {invalid ? this.invalidCard() :
-              <Row>
-                <Col md={12} className="expense-text">
-                  <Row className="padding-t-5">
-                    <Col md={7}>Total Sales</Col>
-                    <Col md={5}><span className="dash" />${expensesData.total_sales}</Col>
-                  </Row>
-                  <Row className="padding-t-5">
-                    <Col md={7}>COGS</Col>
-                    <Col md={5}><span className="dash">-</span>${expensesData.total_cogs}</Col>
-                  </Row>
-                  <Row className="padding-t-5">
-                    <Col md={7}>Discounts</Col>
-                    <Col md={5}><span className="dash">-</span>${expensesData.total_discount}</Col>
-                  </Row>
-                  <Row className="padding-t-5">
-                    <Col md={7}>Shipping</Col>
-                    <Col md={5}><span className="dash">-</span>${expensesData.total_shipping}</Col>
-                  </Row>
-                  <Row className="padding-t-5">
-                    <Col md={7}>Tax</Col>
-                    <Col md={5}><span className="dash">-</span>${expensesData.total_tax}</Col>
-                  </Row>
-                  <hr />
-                  <Row className="final-row">
-                    <Col md={7}>Gross Profit</Col>
-                    <Col md={5}><span className="dash" />${expensesData.total_sales - expensesData.total_cogs - expensesData.total_discount - expensesData.total_shipping - expensesData.total_tax}</Col>
-                  </Row>
-                </Col>
-              </Row>}
-            </CardText>
-          </Card>
+          {invalid ? this.invalidCard(value) : this.expenseCard(expensesData)}
         </Col>);
       } else {
         renderCards.push(<Col key={index} id={`card_${index}`} style={{width: this.state.width}} className="dashboard-card-cantainer" title={`Click to explore ${value.title} in detail`}>
-          <Card
+          {invalid ? this.invalidCard(value) : <Card
             className={`price-card-style ${active} ${borderRed}`}
             onClick={(e) => this.handleClickMetrics(`card_${index}`, value, chartData)}
             style={styles.metricsCardStyle}
@@ -195,9 +209,11 @@ class NewDashboard extends Component {
               <PriceBox value={value} analyze />
             </CardHeader>
             <CardText>
-              {invalid ? this.invalidCard() : <div><Chart data={chartData} type="line" width="40%" /></div>}
+              <div>
+                <Chart data={chartData} type="line" width="40%" />
+              </div>
             </CardText>
-          </Card>
+          </Card>}
         </Col>);
       }
     });
@@ -227,7 +243,8 @@ class NewDashboard extends Component {
                   closeFilter={() => {
                     this.setState({
                       explore: false,
-                      activeMetricsId: 'none'
+                      activeChartData: false,
+                      activeMetricsId: 'none',
                     });
                   }}
                   activeMetrics={this.state.activeMetrics}

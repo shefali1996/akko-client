@@ -22,6 +22,7 @@ class Chart extends Component {
   }
 
   initChart() {
+    console.log('this.props', this.props);
     this.chart = new ChartJS(this.canvas, {
       type: this.props.type,
       data: this.props.data,
