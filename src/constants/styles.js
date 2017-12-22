@@ -34,7 +34,7 @@ const styles = {
     paddingTop: '10px'
   },
   metricsCardStyle: {
-    minHeight: '450px'
+    minHeight: '400px'
   }
 };
 

@@ -99,7 +99,7 @@ class NewDashboard extends Component {
           <span className="image-container"><img src={invalidImg} alt="invalid" /></span>
           <div className="invalid-text">Please set COGS for your products to calculate these values.</div>
           <div className="flex-center padding-t-20">
-            <Button className="login-button">
+            <Button className="login-button" onClick={() => this.props.history.push('/set-cogs')}>
                 SET COGS
             </Button>
           </div>
@@ -176,10 +176,10 @@ class NewDashboard extends Component {
           type: 'line',
           label: value.title,
           data: [
-            `${value.value}`,
-            `${value.value_one_month_back}`,
+            `${value.value_three_months_back}`,
             `${value.value_two_months_back}`,
-            `${value.value_three_months_back}`
+            `${value.value_one_month_back}`,
+            `${value.value}`,
           ],
           borderColor: '#575dde',
           backgroundColor: '#575dde',
@@ -199,7 +199,7 @@ class NewDashboard extends Component {
           {invalid ? this.invalidCard(value) : this.expenseCard(expensesData)}
         </Col>);
       } else {
-        renderCards.push(<Col key={index} id={`card_${index}`} style={{width: this.state.width}} className="dashboard-card-cantainer" title={`Click to explore ${value.title} in detail`}>
+        renderCards.push(<Col key={index} id={`card_${index}`} style={{width: this.state.width}} className="dashboard-card-cantainer" title={!invalid ? `Click to explore ${value.title} in detail` : null}>
           {invalid ? this.invalidCard(value) : <Card
             className={`price-card-style ${active} ${borderRed}`}
             onClick={(e) => this.handleClickMetrics(`card_${index}`, value, chartData)}
