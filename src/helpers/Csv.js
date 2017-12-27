@@ -1,4 +1,5 @@
 import {remove, isEmpty, indexOf} from 'lodash';
+import { invokeApig } from '../libs/awsLib';
 
 function beautifyUploadedCsvData(data) {
   const emptyCogsData = [];
@@ -117,6 +118,25 @@ function getProduct() {
     return JSON.parse(localStorage.getItem('inventoryInfo'));
   }
   return false;
+}
+
+export function getProductDetails(productId) {
+  let variants = [];
+  invokeApig({ path: `/products/${productId}` }).then((results) => {
+    console.log('results', results);
+    variants = results.variants;
+  }).catch(error => {
+    console.log('Error Product Details', error);
+  });
+  return variants;
+}
+export async function productDetails(productInfo) {
+  let variants = [];
+  for (let i = 0; i < productInfo.length; i++) {
+    variants = variants.concat(await getProductDetails(productInfo[i]));
+  }
+  console.log('variants', variants);
+  return variants;
 }
 
 export {

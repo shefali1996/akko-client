@@ -24,7 +24,8 @@ import {
   updateLocalInventoryInfo,
   beautifyDataForCogsApiCall,
   moveAcceptedToBottom,
-  sortByCogs
+  sortByCogs,
+  productDetails
 } from '../helpers/Csv';
 import TipBox, {tipBoxMsg} from '../components/TipBox';
 
@@ -53,6 +54,7 @@ class SetTable extends Component {
     this.onSkip = this.onSkip.bind(this);
     this.doToggleRows = this.doToggleRows.bind(this);
     this.renderProgressBar = this.renderProgressBar.bind(this);
+    this.variants = [];
   }
 
   componentWillMount() {
@@ -147,7 +149,7 @@ class SetTable extends Component {
         productInfo,
         // data: sortByCogs(JSON.parse(localStorage.getItem('inventoryInfo')))
       });
-      this.productDetails(productInfo);
+      this.getVariants(productInfo);
     } else {
       this.products().then((results) => {
         const {products} = results;
@@ -156,7 +158,7 @@ class SetTable extends Component {
           // data: sortByCogs(products)
         });
         localStorage.setItem('productInfo', JSON.stringify(products));
-        this.productDetails(productInfo);
+        this.getVariants(productInfo);
       })
         .catch(error => {
           this.setState({
@@ -172,22 +174,23 @@ class SetTable extends Component {
       selectedOption: e.target.value
     });
   }
-
-  productDetails(productInfo) {
-    let variants = [];
-    productInfo.map((product, i) => {
-      invokeApig({ path: `/products/${product.productId}` }).then((results) => {
-        console.log('results', results);
-        variants = variants.concat(results.variants);
-      }).catch(error => {
-        console.log('Error Product Details', error);
-      });
-    });
-    this.setState({
-      data: variants
+  getVariants(products, i = 0) {
+    let variants = this.variants;
+    const next = i + 1;
+    invokeApig({ path: `/products/${products[i].productId}?cogs=true` }).then((results) => {
+      variants = variants.concat(results.variants);
+      this.variants = variants;
+      if (products.length > next) {
+        this.getVariants(products, next);
+      } else {
+        this.setState({
+          data: variants,
+        });
+      }
+    }).catch(error => {
+      console.log('Error Product Details', error);
     });
   }
-
   products() {
     return invokeApig({ path: '/products' });
   }
@@ -245,6 +248,7 @@ class SetTable extends Component {
   }
 
   cogsValueFormatter(cell, row) {
+    console.log('cell, row', cell, row);
     let warningMessage = null;
     if (row.cogsValidateStatus === true) {
       warningMessage = (<div>
@@ -334,6 +338,7 @@ class SetTable extends Component {
       });
     }
     const filteredData = data.filter(createFilter(searchTerm, KEYS_TO_FILTERS));
+    console.log('filteredData', filteredData);
     const selectRowProp = {
       mode: 'checkbox',
       customComponent: customMultiSelect,
@@ -450,7 +455,7 @@ class SetTable extends Component {
                     ID
                   </TableHeaderColumn>
                   <TableHeaderColumn
-                    dataField="productDetail"
+                    dataField="variant_details"
                     dataAlign="center"
                     dataSort
                     className="set-table-header"
@@ -462,7 +467,7 @@ class SetTable extends Component {
                     Product
                   </TableHeaderColumn>
                   <TableHeaderColumn
-                    dataField="productDetail"
+                    dataField="variant_details"
                     dataAlign="center"
                     className="set-table-header"
                     dataFormat={productPriceFormatter}
