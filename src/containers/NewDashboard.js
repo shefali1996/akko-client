@@ -189,7 +189,7 @@ class NewDashboard extends Component {
           postfix: value.postfix
         }]
       };
-      if (value.title === 'Expenses') {
+      if (value.title === 'Expenses' || value.title === 'Expenses Breakdown') {
         const expensesData = value.value;
         if (expensesData.total_sale === 'invalid' || expensesData.total_cogs === 'invalid' || expensesData.total_discount === 'invalid' || expensesData.total_shipping === 'invalid' || expensesData.total_tax === 'invalid') {
           invalid = true;
