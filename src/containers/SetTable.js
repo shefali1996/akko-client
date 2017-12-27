@@ -177,7 +177,12 @@ class SetTable extends Component {
   getVariants(products, i = 0) {
     let variants = this.variants;
     const next = i + 1;
-    invokeApig({ path: `/products/${products[i].productId}?cogs=true` }).then((results) => {
+    invokeApig({
+      path: `/products/${products[i].productId}`,
+      queryParams: {
+        cogs: true
+      }
+    }).then((results) => {
       variants = variants.concat(results.variants);
       this.variants = variants;
       if (products.length > next) {
@@ -248,7 +253,6 @@ class SetTable extends Component {
   }
 
   cogsValueFormatter(cell, row) {
-    console.log('cell, row', cell, row);
     let warningMessage = null;
     if (row.cogsValidateStatus === true) {
       warningMessage = (<div>
