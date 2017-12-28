@@ -193,7 +193,7 @@
     float: left;
     padding-left: 7px;
     padding-right: 7px;
-    min-height: 305px;
+    min-height: 310px;
   }
   .left-box-100{
     width: 100%;
@@ -235,4 +235,20 @@
 .scroll-matrics{
   max-height: 83vh;
   overflow-y: auto;
+}
+.invalid-block{
+  display: block;
+  margin: 0px auto;
+  .image-container{
+    width: 50%;
+    display: block;
+    margin: 0px auto;
+  }
+  .invalid-text{
+    font-family: Ubuntu;
+    font-size: 12px;
+    color: #bbbbbb;
+    text-decoration: none solid rgb(187, 187, 187);
+    text-align: center
+  }
 }

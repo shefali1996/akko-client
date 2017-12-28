@@ -11,7 +11,7 @@ class Chart extends Component {
   }
 
   componentWillUnmount() {
-    this.destroyChart();
+    // this.destroyChart();
   }
 
   componentDidUpdate() {
@@ -40,7 +40,10 @@ class Chart extends Component {
           intersect: false,
           callbacks: {
             label(tooltipItems, data) {
-              return `$${tooltipItems.yLabel}`;
+              const dataset = data.datasets[tooltipItems.datasetIndex];
+              const prefix = dataset.prefix ? dataset.prefix : '';
+              const postfix = dataset.postfix ? dataset.postfix : '';
+              return ` ${prefix}${tooltipItems.yLabel}${postfix}`;
             }
           }
         }

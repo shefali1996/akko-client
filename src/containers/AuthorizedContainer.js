@@ -8,9 +8,8 @@ class AuthorizedContainer extends Component {
   componentWillMount() {
     if (user.isAuthenticated === null) {
       this.props.history.push('/');
-      return;
     }
-    this.props.history.push('/dashboard');
+    // this.props.history.push('/dashboard');
   }
 
   componentWillReceiveProps(nextProps) {
