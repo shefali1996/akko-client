@@ -60,6 +60,9 @@ class SignIn extends Component {
   emailValidation() {
     const { email } = this.state;
     if (!validateEmail(email)) {
+	  this.setState({
+		  emailError: " Invalid email address"
+	  });
       this.refs.email.show();
       return false;
     }
@@ -79,6 +82,9 @@ class SignIn extends Component {
   passValidation() {
     const { password } = this.state;
     if (password.length < 8) {
+	  this.setState({
+		  passwordError: " Need at least 8 characters"
+	  });
       this.refs.password.show();
       return false;
     }
@@ -108,6 +114,17 @@ class SignIn extends Component {
       })
         .catch(error => {
           console.log('login error', error);
+		  if (error.message === "User does not exist.") {
+			  this.setState({
+				  emailError: " User does not exist"
+			  });
+			  this.refs.email.show();
+		  } else if (error.message === "Incorrect username or password.") {
+			  this.setState({
+				  passwordError: " Incorrect password"
+			  });
+			  this.refs.password.show();
+		  }
         });
     }
   }
@@ -161,7 +178,7 @@ class SignIn extends Component {
                     trigger="manual"
                     ref="email"
                     overlay={
-                      <Tooltip id="tooltip"><img src={MaterialIcon} alt="icon" /> Invalid email address</Tooltip>
+                      <Tooltip id="tooltip"><img src={MaterialIcon} alt="icon" />{this.state.emailError}</Tooltip>
                     }>
                     <FormControl
                       type="text"
@@ -181,7 +198,7 @@ class SignIn extends Component {
                     trigger="manual"
                     ref="password"
                     overlay={
-                      <Tooltip id="tooltip"><img src={MaterialIcon} alt="icon" /> Need at least 8 characters</Tooltip>
+                      <Tooltip id="tooltip"><img src={MaterialIcon} alt="icon" />{this.state.passwordError}</Tooltip>
                     }>
                     <FormControl
                       type="password"
