@@ -10,6 +10,7 @@ import {
 import { validateEmail, animationStyle } from '../constants';
 import MaterialIcon from '../assets/images/MaterialIcon 3.svg';
 import config from '../config';
+import { invokeApig } from '../libs/awsLib';
 
 class SignIn extends Component {
   constructor(props) {
@@ -109,8 +110,25 @@ class SignIn extends Component {
     if (emailAuth && passAuth) {
       this.login(email, password).then((result) => {
         localStorage.setItem('isAuthenticated', 'isAuthenticated');
-        this.props.history.push('/dashboard');
-        // this.props.history.push('/connect-shopify');
+		return invokeApig({path: '/user'});
+	  }).then((result) => {
+		  console.log("userResult", result);
+		  switch(result.accountSetupStatus) {
+			  case 0:
+				this.props.history.push('/connect-shopify');
+				break;
+			  case 1:
+				this.props.history.push('/business-type');
+				break;
+			  case 2:
+				this.props.history.push('/set-cogs');
+				break;
+			  case 3:
+				this.props.history.push('/dashboard');
+				break;
+			  default:
+				this.props.history.push('/dashboard');
+		  }
       })
         .catch(error => {
           console.log('login error', error);
@@ -212,11 +230,13 @@ class SignIn extends Component {
                     />
                   </OverlayTrigger>
                 </div>
+				{/*
                 <div className="flex-center padding-t-10">
                   <Button className="forgot-text" onClick={this.onForgot}>
                     Forgot Password ?
                   </Button>
                 </div>
+				*/}
                 <div className="flex-center padding-t-20">
                   <Button className="login-button" onClick={this.onLogin}>
                     LOGIN
