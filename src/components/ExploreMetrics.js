@@ -1,13 +1,16 @@
 import React, { Component } from 'react';
-import { Row, Col, Label, Button, Image } from 'react-bootstrap';
+import { Row, Col, Label, Button, Image, DropdownButton } from 'react-bootstrap';
 import {Card, CardHeader, CardText} from 'material-ui/Card';
 import Chip from 'material-ui/Chip';
 import Dialog from 'material-ui/Dialog';
-import { Select, DatePicker } from 'antd';
+import { Select, DatePicker, Input } from 'antd';
 import Chart from '../components/Chart';
 import { chartDataOne} from '../constants/dommyData';
 import FilterDialog from '../components/FilterDialog';
 import styles from '../constants/styles';
+import profileIcon from '../assets/images/profileIconWhite.svg';
+import downArrowWhite from '../assets/images/downArrowWhite.svg';
+import { Calendar } from 'react-date-range';
 
 const {Option} = Select;
 const {RangePicker} = DatePicker;
@@ -19,12 +22,16 @@ class ExploreMetrics extends Component {
       openFilter: false,
       filterBy: '',
       products: {},
-      customers: {}
+      customers: {},
+      rangepicker: 'none',
+      open: false,
+      date: new Date(),
     };
     this.openFilter = this.openFilter.bind(this);
     this.closeFilter = this.closeFilter.bind(this);
     this.onRowSelect = this.onRowSelect.bind(this);
     this.returnData = this.returnData.bind(this);
+    this.handleToggle = this.handleToggle.bind(this);
   }
   openFilter(filterBy) {
     this.setState({
@@ -55,8 +62,17 @@ class ExploreMetrics extends Component {
     }
 
   }
+  handleToggle() {
+    this.setState({
+      open: !this.state.open
+    });
+  }
+  handleSelect(date) {
+    console.log(date); // Momentjs object
+  }
   render() {
     const {activeMetrics} = this.props;
+    // <RangePicker onChange={(date, dateString) => { console.log('date, dateString', date, dateString); }} />
     return (
       <Row>
         <Col md={12}>
@@ -84,7 +100,61 @@ class ExploreMetrics extends Component {
                 <span className="pull-right" style={{ width: 200 }}>
                   <span className="dd-lable" />
                   <span className="explore-datepicker">
-                    <RangePicker onChange={(date, dateString) => { console.log('date, dateString', date, dateString); }} />
+                    <DropdownButton
+                      title={
+                        <div className="calender-btn" onClick={this.handleToggle}>
+                          <i className="fa fa-calendar" aria-hidden="true" />
+                        </div>
+                      }
+                      id="bg-nested-dropdown"
+                      className="calender-dd-btn"
+                      style={{float: 'right'}}
+                      open={this.state.open}
+                    >
+                      <div>
+                        <div className="custom-dropdown-view">
+                          <span className="dd-lable">Date Range:</span>
+                          <span>
+                            <Select defaultValue="1" onChange={(event, index, value) => { this.setState({value}); }}>
+                              <Option value="1">Today</Option>
+                              <Option value="2">This Month</Option>
+                              <Option value="3">This Year</Option>
+                            </Select>
+                          </span>
+                        </div>
+                        <div className="custom-dropdown-view">
+                          <div style={{width: '50%'}} className="pull-left padding-r-7">
+                            <span className="dd-lable">Starting:</span>
+                            <span>
+                              <Input placeholder="Basic usage" />
+                            </span>
+                            <span className="calender-container">
+                              <Calendar
+                                onInit={this.handleSelect}
+                                onChange={this.handleSelect}
+                              />
+                            </span>
+                          </div>
+                          <div style={{width: '50%'}} className="pull-left padding-l-7">
+                            <span className="dd-lable">Ending:</span>
+                            <span>
+                              <Input placeholder="Basic usage" />
+                            </span>
+                            <span className="calender-container">
+                              <Calendar
+                                onInit={this.handleSelect}
+                                onChange={this.handleSelect}
+                              />
+                            </span>
+                          </div>
+                        </div>
+                        <div className="custom-dropdown-view rangepicker-footer">
+                          <hr />
+                          <Button className="login-button pull-left" onClick={this.handleToggle}>CANCLE</Button>
+                          <Button className="login-button pull-right" onClick={this.handleToggle}>SAVE</Button>
+                        </div>
+                      </div>
+                    </DropdownButton>
                   </span>
                 </span>
               </div>}
