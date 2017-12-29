@@ -121,10 +121,12 @@ class SignIn extends Component {
 				this.props.history.push('/business-type');
 				break;
 			  case 2:
-				this.props.history.push('/set-cogs');
-				break;
-			  case 3:
-				this.props.history.push('/dashboard');
+				// business-type is set, check if cogs is set or not
+				if (result.cogsStatus === 0) {
+					this.props.history.push('/set-cogs');
+				} else {
+					this.props.history.push('/dashboard');
+				}
 				break;
 			  default:
 				this.props.history.push('/dashboard');
