@@ -11,6 +11,14 @@
       border: 1px solid #cecece;
     }
   }
+  .dropdown .btn-default:hover,
+  .dropdown.open .btn-default:hover,
+  .dropdown .btn-default:active,
+  .dropdown.open .btn-default:active,
+  .dropdown .btn-default:focus,
+  .dropdown.open .btn-default:focus{
+    background: #cecece;
+  }
 }
 .calender-container{
   min-width: 300px;

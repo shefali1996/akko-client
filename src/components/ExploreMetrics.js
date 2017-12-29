@@ -12,6 +12,8 @@ import profileIcon from '../assets/images/profileIconWhite.svg';
 import downArrowWhite from '../assets/images/downArrowWhite.svg';
 import { Calendar } from 'react-date-range';
 
+const moment = require('moment');
+
 const {Option} = Select;
 const {RangePicker} = DatePicker;
 
@@ -26,6 +28,8 @@ class ExploreMetrics extends Component {
       rangepicker: 'none',
       open: false,
       date: new Date(),
+      startDate: '',
+      endDate: '',
     };
     this.openFilter = this.openFilter.bind(this);
     this.closeFilter = this.closeFilter.bind(this);
@@ -67,12 +71,8 @@ class ExploreMetrics extends Component {
       open: !this.state.open
     });
   }
-  handleSelect(date) {
-    console.log(date); // Momentjs object
-  }
   render() {
     const {activeMetrics} = this.props;
-    // <RangePicker onChange={(date, dateString) => { console.log('date, dateString', date, dateString); }} />
     return (
       <Row>
         <Col md={12}>
@@ -115,7 +115,8 @@ class ExploreMetrics extends Component {
                         <div className="custom-dropdown-view">
                           <span className="dd-lable">Date Range:</span>
                           <span>
-                            <Select defaultValue="1" onChange={(event, index, value) => { this.setState({value}); }}>
+                            <Select defaultValue="0" onChange={(event, index, value) => { this.setState({value}); }}>
+                              <Option value="0">Select</Option>
                               <Option value="1">Today</Option>
                               <Option value="2">This Month</Option>
                               <Option value="3">This Year</Option>
@@ -126,24 +127,24 @@ class ExploreMetrics extends Component {
                           <div style={{width: '50%'}} className="pull-left padding-r-7">
                             <span className="dd-lable">Starting:</span>
                             <span>
-                              <Input placeholder="Basic usage" />
+                              <Input placeholder="YYYY-MM-DD" value={this.state.startDate ? moment(this.state.startDate).format('YYYY-MM-DD') : ''} />
                             </span>
                             <span className="calender-container">
                               <Calendar
-                                onInit={this.handleSelect}
-                                onChange={this.handleSelect}
+                                date={this.state.startDate}
+                                onChange={(date) => this.setState({startDate: date})}
                               />
                             </span>
                           </div>
                           <div style={{width: '50%'}} className="pull-left padding-l-7">
                             <span className="dd-lable">Ending:</span>
                             <span>
-                              <Input placeholder="Basic usage" />
+                              <Input placeholder="YYYY-MM-DD" value={this.state.endDate ? moment(this.state.endDate).format('YYYY-MM-DD') : ''} />
                             </span>
                             <span className="calender-container">
                               <Calendar
-                                onInit={this.handleSelect}
-                                onChange={this.handleSelect}
+                                date={this.state.endDate}
+                                onChange={(date) => this.setState({endDate: date})}
                               />
                             </span>
                           </div>
