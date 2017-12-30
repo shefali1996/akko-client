@@ -77,9 +77,12 @@ class CustomRangePicker extends Component {
     } else if (value === 'Last Year') {
       startDate = moment().year(moment().get('year') - 1).month(0).date(1);
       endDate = moment().month(0).date(0);
+    } else if (value === 'Custom') {
+      startDate = this.state.startDate;
+      endDate = this.state.endDate;
     } else {
-      startDate = '';
-      endDate = '';
+      // startDate = '';
+      // endDate = '';
     }
     this.setState({
       startDate,
@@ -152,7 +155,7 @@ class CustomRangePicker extends Component {
               </span>
               {rangeType === 'Custom' ? <span className="calender-container">
                 <Calendar
-                  date={startDate}
+                  date={this.state.startDate}
                   onChange={(date) => this.setState({
                     startDate: date,
                     startDateInput: moment(date).format('YYYY-MM-DD')
