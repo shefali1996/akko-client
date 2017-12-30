@@ -58,7 +58,7 @@ class CustomRangePicker extends Component {
     if (valid) {
       this.handleToggle();
       this.setState({
-        selectedRange: `${moment(startDate).format('DD-MMM-YYYY')} to ${moment(startDate).format('DD-MMM-YYYY')}`
+        selectedRange: `${moment(startDate).format('DD-MMM-YYYY')} to ${moment(endDate).format('DD-MMM-YYYY')}`
       });
     }
   }
