@@ -18,10 +18,15 @@ class CustomRangePicker extends Component {
       defaultValue: '',
       startDate: '',
       endDate: '',
+      startDateInput: '',
+      endDateInput: ''
     };
     this.handleToggle = this.handleToggle.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
     this.selectRange = this.selectRange.bind(this);
+    this.validateEndDate = this.validateEndDate.bind(this);
+    this.validateStartDate = this.validateStartDate.bind(this);
+    this.a = 0;
   }
   handleToggle() {
     this.setState({
@@ -57,26 +62,58 @@ class CustomRangePicker extends Component {
     if (value === 'This Month') {
       startDate = moment().date(1);
       endDate = moment();
+      this.a = 1;
     } else if (value === 'Last Month') {
       startDate = moment().month(moment().get('month') - 1).date(1);
       endDate = moment().date(0);
+      this.a = 2;
     } else if (value === 'This Year') {
       startDate = moment().month(0).date(1);
       endDate = moment();
+      this.a = 3;
     } else if (value === 'Last Year') {
       startDate = moment().year(moment().get('year') - 1).month(0).date(1);
       endDate = moment().month(0).date(0);
+      this.a = 4;
     } else {
       startDate = '';
       endDate = '';
     }
     this.setState({
       startDate,
-      endDate
+      endDate,
+      startDateInput: startDate ? moment(startDate).format('YYYY-MM-DD') : '',
+      endDateInput: endDate ? moment(endDate).format('YYYY-MM-DD') : '',
     });
   }
+  validateEndDate(e) {
+    const val = e.target.value;
+    if (moment(val, 'YYYY-MM-DD', true).isValid()) {
+      this.setState({
+        endDate: moment(val)
+      });
+    } else {
+      this.setState({
+        endDateInput: '',
+        endDate: ''
+      });
+    }
+  }
+  validateStartDate(e) {
+    const val = e.target.value;
+    if (moment(val, 'YYYY-MM-DD', true).isValid()) {
+      this.setState({
+        startDate: moment(val)
+      });
+    } else {
+      this.setState({
+        startDateInput: '',
+        startDate: ''
+      });
+    }
+  }
   render() {
-    const {startDate, endDate} = this.state;
+    const {startDate, endDate, startDateInput, endDateInput} = this.state;
     return (
       <DropdownButton
         title={
@@ -106,12 +143,15 @@ class CustomRangePicker extends Component {
             <div style={{width: '50%'}} className="pull-left padding-r-7">
               <span className="dd-lable">Starting:</span>
               <span>
-                <Input placeholder="YYYY-MM-DD" value={startDate ? moment(startDate).format('YYYY-MM-DD') : ''} />
+                <Input placeholder="YYYY-MM-DD" value={startDateInput} onChange={(e) => this.setState({startDateInput: e.target.value})} onBlur={this.validateStartDate} />
               </span>
               <span className="calender-container">
                 <Calendar
-                  date={this.state.startDate}
-                  onChange={(date) => this.setState({startDate: date})}
+                  date={startDate}
+                  onChange={(date) => this.setState({
+                    startDate: date,
+                    startDateInput: moment(date).format('YYYY-MM-DD')
+                  })}
                   maxDate={endDate ? moment(endDate) : ''}
                 />
               </span>
@@ -119,13 +159,17 @@ class CustomRangePicker extends Component {
             <div style={{width: '50%'}} className="pull-left padding-l-7">
               <span className="dd-lable">Ending:</span>
               <span>
-                <Input placeholder="YYYY-MM-DD" value={endDate ? moment(endDate).format('YYYY-MM-DD') : ''} />
+                <Input placeholder="YYYY-MM-DD" value={endDateInput} onChange={(e) => this.setState({endDateInput: e.target.value})} onBlur={this.validateEndDate} />
               </span>
               <span className="calender-container">
                 <Calendar
                   date={this.state.endDate}
-                  onChange={(date) => this.setState({endDate: date})}
+                  onChange={(date) => this.setState({
+                    endDate: date,
+                    endDateInput: moment(date).format('YYYY-MM-DD')
+                  })}
                   minDate={startDate ? moment(startDate) : ''}
+                  maxDate={moment()}
                 />
               </span>
             </div>
