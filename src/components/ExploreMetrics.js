@@ -10,13 +10,11 @@ import FilterDialog from '../components/FilterDialog';
 import styles from '../constants/styles';
 import profileIcon from '../assets/images/profileIconWhite.svg';
 import downArrowWhite from '../assets/images/downArrowWhite.svg';
-// import { Calendar } from 'react-date-range';
 import CustomRangePicker from '../components/CustomRangePicker';
 
 const moment = require('moment');
 
 const {Option} = Select;
-const {RangePicker} = DatePicker;
 
 class ExploreMetrics extends Component {
   constructor(props) {
@@ -26,11 +24,7 @@ class ExploreMetrics extends Component {
       filterBy: '',
       products: {},
       customers: {},
-      rangepicker: 'none',
       open: false,
-      date: new Date(),
-      startDate: '',
-      endDate: '',
     };
     this.openFilter = this.openFilter.bind(this);
     this.closeFilter = this.closeFilter.bind(this);

@@ -1,7 +1,8 @@
 .explore-datepicker{
   display: block;
   margin-top: 20px;
-  min-width: 95%;
+  width: 75%;
+  min-width: 630px;
   position: absolute;
   right: 0;
   .dropdown{
@@ -17,7 +18,7 @@
   .dropdown.open .btn-default:active,
   .dropdown .btn-default:focus,
   .dropdown.open .btn-default:focus{
-    background: #cecece;
+    background: #FFF;
   }
 }
 .calender-container{
@@ -35,7 +36,7 @@
   margin-right: 10px;
   margin-top: 0px;
   width: 50%;
-  max-width: 200px;
+  max-width: 240px;
   margin-top: 0px !important;
 }
 .range-picker-container{
@@ -60,6 +61,11 @@
   padding: 4px 7px;
   text-align: left;
   border-radius: 2px;
+  font-family: Ubuntu;
+  font-size: 14px;
+  color: #c8c8e8;
+  font-weight: bold;
+  text-align: justify;
   i{
     font-size: 20px;
     color: black;

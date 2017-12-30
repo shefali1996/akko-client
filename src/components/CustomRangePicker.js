@@ -15,18 +15,18 @@ class CustomRangePicker extends Component {
     super(props);
     this.state = {
       open: false,
-      defaultValue: '',
+      rangeType: '',
       startDate: '',
       endDate: '',
       startDateInput: '',
-      endDateInput: ''
+      endDateInput: '',
+      selectedRange: ''
     };
     this.handleToggle = this.handleToggle.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
     this.selectRange = this.selectRange.bind(this);
     this.validateEndDate = this.validateEndDate.bind(this);
     this.validateStartDate = this.validateStartDate.bind(this);
-    this.a = 0;
   }
   handleToggle() {
     this.setState({
@@ -34,9 +34,12 @@ class CustomRangePicker extends Component {
     }, () => {
       if (!this.state.open) {
         this.setState({
-          defaultValue: '',
-          startDate: '',
-          endDate: ''
+          // rangeType: '',
+          // startDate: '',
+          // endDate: '',
+          // startDateInput: '',
+          // endDateInput: '',
+          // selectedRange: ''
         });
       }
     });
@@ -54,6 +57,9 @@ class CustomRangePicker extends Component {
     }
     if (valid) {
       this.handleToggle();
+      this.setState({
+        selectedRange: `${moment(startDate).format('DD-MMM-YYYY')} to ${moment(startDate).format('DD-MMM-YYYY')}`
+      });
     }
   }
   selectRange(value) {
@@ -62,19 +68,15 @@ class CustomRangePicker extends Component {
     if (value === 'This Month') {
       startDate = moment().date(1);
       endDate = moment();
-      this.a = 1;
     } else if (value === 'Last Month') {
       startDate = moment().month(moment().get('month') - 1).date(1);
       endDate = moment().date(0);
-      this.a = 2;
     } else if (value === 'This Year') {
       startDate = moment().month(0).date(1);
       endDate = moment();
-      this.a = 3;
     } else if (value === 'Last Year') {
       startDate = moment().year(moment().get('year') - 1).month(0).date(1);
       endDate = moment().month(0).date(0);
-      this.a = 4;
     } else {
       startDate = '';
       endDate = '';
@@ -84,6 +86,7 @@ class CustomRangePicker extends Component {
       endDate,
       startDateInput: startDate ? moment(startDate).format('YYYY-MM-DD') : '',
       endDateInput: endDate ? moment(endDate).format('YYYY-MM-DD') : '',
+      rangeType: value
     });
   }
   validateEndDate(e) {
@@ -113,12 +116,13 @@ class CustomRangePicker extends Component {
     }
   }
   render() {
-    const {startDate, endDate, startDateInput, endDateInput} = this.state;
+    const {startDate, endDate, startDateInput, endDateInput, rangeType, selectedRange} = this.state;
     return (
       <DropdownButton
         title={
           <div className="calender-btn" onClick={this.handleToggle}>
             <i className="fa fa-calendar" aria-hidden="true" />
+            <span>{selectedRange || ''}</span>
           </div>
         }
         id="bg-nested-dropdown"
@@ -130,12 +134,13 @@ class CustomRangePicker extends Component {
           <div className="custom-dropdown-view">
             <span className="dd-lable">Date Range:</span>
             <span>
-              <Select defaultValue={this.state.defaultValue} onChange={this.selectRange}>
+              <Select defaultValue={this.state.rangeType} onChange={this.selectRange}>
                 <Option value="">Select</Option>
                 <Option value="This Month">This Month</Option>
                 <Option value="Last Month">Last Month</Option>
                 <Option value="This Year">This Year</Option>
                 <Option value="Last Year">Last Year</Option>
+                <Option value="Custom">Custom</Option>
               </Select>
             </span>
           </div>
@@ -145,7 +150,7 @@ class CustomRangePicker extends Component {
               <span>
                 <Input placeholder="YYYY-MM-DD" value={startDateInput} onChange={(e) => this.setState({startDateInput: e.target.value})} onBlur={this.validateStartDate} />
               </span>
-              <span className="calender-container">
+              {rangeType === 'Custom' ? <span className="calender-container">
                 <Calendar
                   date={startDate}
                   onChange={(date) => this.setState({
@@ -154,14 +159,14 @@ class CustomRangePicker extends Component {
                   })}
                   maxDate={endDate ? moment(endDate) : ''}
                 />
-              </span>
+              </span> : null}
             </div>
             <div style={{width: '50%'}} className="pull-left padding-l-7">
               <span className="dd-lable">Ending:</span>
               <span>
                 <Input placeholder="YYYY-MM-DD" value={endDateInput} onChange={(e) => this.setState({endDateInput: e.target.value})} onBlur={this.validateEndDate} />
               </span>
-              <span className="calender-container">
+              {rangeType === 'Custom' ? <span className="calender-container">
                 <Calendar
                   date={this.state.endDate}
                   onChange={(date) => this.setState({
@@ -171,7 +176,7 @@ class CustomRangePicker extends Component {
                   minDate={startDate ? moment(startDate) : ''}
                   maxDate={moment()}
                 />
-              </span>
+                                        </span> : null}
             </div>
           </div>
           <div className="custom-dropdown-view rangepicker-footer">
