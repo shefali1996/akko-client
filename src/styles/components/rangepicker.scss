@@ -1,0 +1,70 @@
+.explore-datepicker{
+  display: block;
+  margin-top: 20px;
+  width: 75%;
+  min-width: 630px;
+  position: absolute;
+  right: 0;
+  .dropdown{
+    width: 100%;
+    .dropdown-menu{
+      padding-bottom: 15px;
+      border: 1px solid $light-gray-color;
+    }
+  }
+  .dropdown .btn-default:hover,
+  .dropdown.open .btn-default:hover,
+  .dropdown .btn-default:active,
+  .dropdown.open .btn-default:active,
+  .dropdown .btn-default:focus,
+  .dropdown.open .btn-default:focus{
+    background: #FFF;
+  }
+}
+.calender-container{
+  min-width: 300px;
+  width: 100%;
+  float: left;
+  margin-top: 15px;
+  text-align: center;
+}
+.calender-dd-btn{
+  margin-right: 10px;
+  margin-top: 0px;
+  width: 50%;
+  max-width: 240px;
+  margin-top: 0px !important;
+}
+.range-picker-container{
+  min-width: 350px;
+  background: #fff;
+  position: absolute;
+  right: 0;
+  z-index: 1;
+  border: 1px solid $light-gray-color;
+  border-radius: 5px;
+  margin: 2px 10px;
+  padding: 10px;
+  box-shadow: rgba(0, 0, 0, 0.12) 0px 1px 6px, rgba(0, 0, 0, 0.12) 0px 1px 4px;
+}
+.rangepicker-footer{
+  padding: 15px;
+}
+
+.calender-btn{
+  border: 1px solid $light-gray-color;
+  display: block;
+  padding: 4px 7px;
+  text-align: left;
+  border-radius: 2px;
+  font-family: Ubuntu;
+  font-size: 14px;
+  color: $light-gray-color;
+  font-weight: bold;
+  text-align: justify;
+  i{
+    font-size: 20px;
+    color: black;
+    padding: 6px;
+  }
+}

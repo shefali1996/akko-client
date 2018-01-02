@@ -167,6 +167,9 @@ class SignUp extends Component {
   onEmailBlur() {
     const { email } = this.state;
     if (!validateEmail(email)) {
+	  this.setState({
+		  emailError: " Invalid email address"
+	  });
       this.refs.email.show();
       return false;
     }
@@ -222,7 +225,14 @@ class SignUp extends Component {
               newUser: result.user
             });
           }
-        });
+        }).catch((error) => {
+			if (error.message === "An account with the given email already exists.") {
+			  this.setState({
+				  emailError: " An account with the given email already exists"
+			  });
+			  this.refs.email.show();
+			}
+		});
       }
     }
   }
@@ -447,7 +457,7 @@ class SignUp extends Component {
                         trigger="manual"
                         ref="email"
                         overlay={
-                          <Tooltip id="tooltip"><img src={MaterialIcon} alt="icon" /> Invalid email address</Tooltip>
+                          <Tooltip id="tooltip"><img src={MaterialIcon} alt="icon" />{this.state.emailError}</Tooltip>
                         }>
                         <FormControl
                           type="text"

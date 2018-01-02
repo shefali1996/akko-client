@@ -65,3 +65,6 @@ linters
 .env
 
 *.lock
+
+# ignore swap files
+*.swp

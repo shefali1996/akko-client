@@ -6,12 +6,24 @@ import downArrow from '../assets/images/downArrow.svg';
 class PriceBox extends React.Component {
   render() {
     const {analyze, customer} = this.props;
-    const {title, description, prefix, postfix, value, trendValue, trendPeriod, trend} = this.props.value;
+    let {title, description, prefix, postfix, value, trend_value, trend_period, trend} = this.props.value;
     let infix = '';
     if (prefix === '$') {
       infix = numberFormatter(Math.round(value * 100) / 100);
     } else {
       infix = value;
+    }
+    if (trend_value === 'invalid') {
+      trend_value = '';
+    } else if (trend_value !== null) {
+      const i = trend_value[trend_value.length - 1];
+      const tmp = trend_value.slice(0, trend_value.length - 1);
+      trend_value = Math.round(parseInt(tmp)) + i;
+    }
+    if (infix === 'invalid') {
+      prefix = '';
+      infix = '';
+      postfix = '';
     }
     if (customer) {
       return (
@@ -48,17 +60,17 @@ class PriceBox extends React.Component {
             {trend === '+' ?
               <div className="align-center">
                 <img src={upArrow} className="arrow-icon" alt="icon" />
-                <span className="price-percent">{trendValue}</span>
+                <span className="price-percent">{trend_value}</span>
               </div>
               :
               <div className="align-center">
                 <img src={downArrow} className="arrow-icon" alt="icon" />
-                <span className="price-percent-down">{trendValue}</span>
+                <span className="price-percent-down">{trend_value}</span>
               </div>
             }
           </div>
           <div>
-            <span className="price-period">{trendPeriod}</span>
+            <span className="price-period">{trend_period}</span>
           </div>
         </div>
       </div>

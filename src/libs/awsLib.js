@@ -48,7 +48,7 @@ export async function authUser() {
   return true;
 }
 
-function getUserToken(currentUser) {
+async function getUserToken(currentUser) {
   return new Promise((resolve, reject) => {
     currentUser.getSession((err, session) => {
       if (err) {

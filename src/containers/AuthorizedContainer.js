@@ -9,8 +9,6 @@ class AuthorizedContainer extends Component {
     if (user.isAuthenticated === null) {
       this.props.history.push('/');
     }
-    this.props.history.push('/');
-    // this.props.history.push('/financial_insights');
     // this.props.history.push('/dashboard');
   }
 

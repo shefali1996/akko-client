@@ -24,6 +24,17 @@ const styles = {
   },
   bsTableHeaderStyle: {
     background: '#fbfbfb'
+  },
+  expenseCardSubtitle: {
+    color: '#bbbbbb',
+    fontWeight: '600',
+    fontSize: '11px'
+  },
+  expenseCardText: {
+    paddingTop: '10px'
+  },
+  metricsCardStyle: {
+    minHeight: '400px'
   }
 };
 
