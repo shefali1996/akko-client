@@ -68,24 +68,8 @@ class SetCogs extends Component {
     }).catch((error) => {
       console.log('get products error', error);
     });
-    // if (localStorage.getItem('productInfo') === null) {
-    //   this.products().then((results) => {
-    //     const {products} = results;
-    //     this.setState({ data: products });
-    //     localStorage.setItem('productInfo', JSON.stringify(products));
-    //   })
-    //     .catch(error => {
-    //       console.log('get products error', error);
-    //     });
-    // } else {
-    //   const existingProducts = JSON.parse(localStorage.getItem('productInfo'));
-    //   this.setState({ data: existingProducts });
-    // }
   }
 
-  // products() {
-  //   return invokeApig({ path: '/products' });
-  // }
   getNumOfVariants(productData) {
     let numOfVariants = 0;
     productData.map((product, i) => {

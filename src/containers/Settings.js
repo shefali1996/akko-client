@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Grid, Row, Col, Button, Label, Image } from 'react-bootstrap';
-import { Input, Select, Checkbox } from 'antd';
+import { Input, Select, Checkbox, Spin } from 'antd';
 import {getProduct, parsVariants} from '../helpers/Csv';
 import { invokeApig } from '../libs/awsLib';
 
@@ -11,7 +11,8 @@ class Setting extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      variants: false
+      variants: false,
+      loading: false,
     };
     this.getProductCount = this.getProductCount.bind(this);
     this.getProductCountWithCogs = this.getProductCountWithCogs.bind(this);
@@ -21,15 +22,15 @@ class Setting extends Component {
     this.variants = [];
   }
 
-  componentWillMount() {
+  componentDidMount() {
+    console.log('componentDidMount setting');
     const variantsInfo = JSON.parse(localStorage.getItem('variantsInfo'));
     if (variantsInfo) {
       this.setState({
         variants: parsVariants(variantsInfo)
       });
-    } else {
-      this.getProduct();
     }
+    this.getProduct();
   }
   goDashboard() {
     this.props.history.push('/dashboard');
@@ -124,6 +125,7 @@ class Setting extends Component {
             </span>
           </div>
           <div className="text-center margin-t-40">
+            {this.state.loading ? <span className="update-style-text"><Spin /></span> : null}
             <span className="update-style-text margin-t-20">
               You have <strong>{this.getProductCount()}</strong> products/variants.
             </span>

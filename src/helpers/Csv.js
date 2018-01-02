@@ -97,10 +97,10 @@ function moveAcceptedToBottom(data, row) {
 
 function sortByCogs(data) {
   return data.sort((itemA, itemB) => {
-    if (itemA.variant_details.cogs !== null && itemA.variant_details.cogs !== 'null') { // (itemA.cogsValidateStatus === true) {
+    if (itemA.variant_details.cogs !== null && itemA.variant_details.cogs !== 'null') {
       return 1;
     }
-    if (itemB.variant_details.cogs !== null && itemB.variant_details.cogs !== 'null') { // (itemB.cogsValidateStatus === true) {
+    if (itemB.variant_details.cogs !== null && itemB.variant_details.cogs !== 'null') {
       return -1;
     }
     return 0;

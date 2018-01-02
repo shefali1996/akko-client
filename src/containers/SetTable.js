@@ -5,6 +5,7 @@ import SearchInput, { createFilter } from 'react-search-input';
 import { BootstrapTable, TableHeaderColumn } from 'react-bootstrap-table';
 import SweetAlert from 'sweetalert-react';
 import { Switch, Progress, Spin } from 'antd';
+import {isEmpty} from 'lodash';
 import {
   customMultiSelect,
   renderSizePerPageDropDown,
@@ -25,7 +26,6 @@ import {
   moveAcceptedToBottom,
   sortByCogs,
   getProduct,
-  getVariants,
   parsVariants
 } from '../helpers/Csv';
 import TipBox, {tipBoxMsg} from '../components/TipBox';
@@ -63,8 +63,14 @@ class SetTable extends Component {
   }
 
   componentDidMount() {
-    this.getProduct();
-    // this.onVariantUpdate();
+    const variantsInfo = JSON.parse(localStorage.getItem('variantsInfo'));
+    if (variantsInfo) {
+      const variantsList = parsVariants(variantsInfo);
+      this.setState({
+        data: variantsList ? sortByCogs(variantsList) : []
+      });
+    }
+    this.onVariantUpdate();
     this.loadInterval = setInterval(() => {
       this.onVariantUpdate();
     }, pollingInterval);
@@ -77,6 +83,8 @@ class SetTable extends Component {
     const variantsInfo = JSON.parse(localStorage.getItem('variantsInfo'));
     if (variantsInfo) {
       this.updateVariants(variantsInfo);
+    } else {
+      this.getProduct();
     }
   }
   onMarkUpChange(e) {
@@ -110,7 +118,7 @@ class SetTable extends Component {
     } else {
       const cogsFinal = beautifyDataForCogsApiCall(data);
       this.fireSetCogsAPI(cogsFinal).then((results) => {
-        this.onVariantUpdate();
+        // this.onVariantUpdate();
         this.setState({
           successMsg: `COGS successfully set for ${cogsFinal.variants.length} products`,
           fetchSuccess: true
@@ -144,7 +152,7 @@ class SetTable extends Component {
           }
           const newData = checkAndUpdateProductCogsValue(cogs, product, data);
           this.setState({
-            data: sortByCogs(newData)// moveAcceptedToBottom(newData, product)
+            data: sortByCogs(newData)
           });
         }
       });
@@ -274,15 +282,13 @@ class SetTable extends Component {
 
   onCogsBlur(e, row) {
     const {data} = this.state;
-    // if (e.target.value !== '' && e.target.value !== row.cogs || e.target.value !== row.variant_details.cogs) {
     const newData = checkAndUpdateProductCogsValue(e.target.value, row, data);
     this.setState({data: moveAcceptedToBottom(newData, row)});
-    // }
   }
 
   cogsValueFormatter(cell, row) {
     let warningMessage = null;
-    if (row.variant_details.cogs !== '' && row.variant_details.cogs !== null && row.variant_details.cogs !== 'null') { // (row.cogsValidateStatus === true) {
+    if (!isEmpty(row.variant_details.cogs) && row.variant_details.cogs !== null && row.variant_details.cogs !== 'null') {
       warningMessage = (<div>
         <span className="cogs-completed" />
                         </div>);
@@ -291,7 +297,6 @@ class SetTable extends Component {
         <span className="cogs-pending" />
                         </div>);
     }
-    // numberFormatter(cell);
     return (
       <div className="flex-center padding-t-20">
         <div className="currency-view">
@@ -360,7 +365,7 @@ class SetTable extends Component {
     // hide valid COGS products, i.e where cogsValidateStatus is true
     const countTotal = data.length;
     const pendingProducts = data.filter((item) => {
-      return item.cogsValidateStatus !== true;
+      return _.isEmpty(item.variant_details.cogs) || _.isNull(item.variant_details.cogs) || item.variant_details.cogs === 'null';// item.cogsValidateStatus !== true;
     });
     const countPending = pendingProducts.length;
     const countCompleted = countTotal - countPending;
