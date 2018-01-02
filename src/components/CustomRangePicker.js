@@ -31,17 +31,6 @@ class CustomRangePicker extends Component {
   handleToggle() {
     this.setState({
       open: !this.state.open
-    }, () => {
-      if (!this.state.open) {
-        this.setState({
-          // rangeType: '',
-          // startDate: '',
-          // endDate: '',
-          // startDateInput: '',
-          // endDateInput: '',
-          // selectedRange: ''
-        });
-      }
     });
   }
   handleSubmit() {
