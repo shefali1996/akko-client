@@ -4,7 +4,7 @@ import { Grid, Row, Col, Button, Label, FormControl } from 'react-bootstrap';
 import SearchInput, { createFilter } from 'react-search-input';
 import { BootstrapTable, TableHeaderColumn } from 'react-bootstrap-table';
 import SweetAlert from 'sweetalert-react';
-import { Switch, Progress } from 'antd';
+import { Switch, Progress, Spin } from 'antd';
 import {
   customMultiSelect,
   renderSizePerPageDropDown,
@@ -17,15 +17,16 @@ import {
   sortByProductPrice
 } from '../components/CustomTable';
 import HeaderWithCloseAndAlert from '../components/HeaderWithCloseAndAlert';
-import { KEYS_TO_FILTERS, convertInventoryJSONToObject, isNumeric, numberFormatter } from '../constants';
+import { KEYS_TO_FILTERS, convertInventoryJSONToObject, isNumeric, numberFormatter, pollingInterval } from '../constants';
 import { invokeApig } from '../libs/awsLib';
 import {
   checkAndUpdateProductCogsValue,
-  updateLocalInventoryInfo,
   beautifyDataForCogsApiCall,
   moveAcceptedToBottom,
   sortByCogs,
-  productDetails
+  getProduct,
+  getVariants,
+  parsVariants
 } from '../helpers/Csv';
 import TipBox, {tipBoxMsg} from '../components/TipBox';
 
@@ -33,7 +34,6 @@ class SetTable extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      productInfo: [],
       markup: '',
       data: [],
       searchTerm: '',
@@ -44,7 +44,8 @@ class SetTable extends Component {
       fetchSuccess: false,
       successMsg: '',
       hideCompleted: false,
-      valueError: false
+      valueError: false,
+      loading: false
     };
     this.onFinish = this.onFinish.bind(this);
     this.onMarkUpChange = this.onMarkUpChange.bind(this);
@@ -63,14 +64,26 @@ class SetTable extends Component {
 
   componentDidMount() {
     this.getProduct();
+    // this.onVariantUpdate();
+    this.loadInterval = setInterval(() => {
+      this.onVariantUpdate();
+    }, pollingInterval);
   }
-
+  componentWillUnmount() {
+    clearInterval(this.loadInterval);
+    this.setState({data: []});
+  }
+  onVariantUpdate() {
+    const variantsInfo = JSON.parse(localStorage.getItem('variantsInfo'));
+    if (variantsInfo) {
+      this.updateVariants(variantsInfo);
+    }
+  }
   onMarkUpChange(e) {
     this.setState({ markup: e.target.value });
   }
 
   onSkip() {
-    updateLocalInventoryInfo(this.state.data);
     this.props.history.push('/dashboard');
   }
 
@@ -95,9 +108,9 @@ class SetTable extends Component {
         fetchError: true
       });
     } else {
-      updateLocalInventoryInfo(data);
       const cogsFinal = beautifyDataForCogsApiCall(data);
       this.fireSetCogsAPI(cogsFinal).then((results) => {
+        this.onVariantUpdate();
         this.setState({
           successMsg: `COGS successfully set for ${cogsFinal.variants.length} products`,
           fetchSuccess: true
@@ -119,7 +132,7 @@ class SetTable extends Component {
           return id === p.id;
         });
         if (product) {
-          const productPrice = product.productDetail.price;
+          const productPrice = product.variant_details.price;
           let cogs = '';
           if (selectedOption === 'option1') {
             // if percentage is opted
@@ -131,7 +144,7 @@ class SetTable extends Component {
           }
           const newData = checkAndUpdateProductCogsValue(cogs, product, data);
           this.setState({
-            data: moveAcceptedToBottom(newData, product)
+            data: sortByCogs(newData)// moveAcceptedToBottom(newData, product)
           });
         }
       });
@@ -143,39 +156,22 @@ class SetTable extends Component {
   }
 
   getProduct() {
-    if (localStorage.getItem('productInfo')) {
-      const productInfo = JSON.parse(localStorage.getItem('productInfo'));
+    getProduct().then((res) => {
+      this.getVariants(res.products);
+    }).catch((err) => {
       this.setState({
-        productInfo,
-        // data: sortByCogs(JSON.parse(localStorage.getItem('inventoryInfo')))
+        errorText: err,
+        fetchError: true
       });
-      this.getVariants(productInfo);
-    } else {
-      this.products().then((results) => {
-        const {products} = results;
-        this.setState({
-          productInfo: products,
-          // data: sortByCogs(products)
-        });
-        localStorage.setItem('productInfo', JSON.stringify(products));
-        this.getVariants(productInfo);
-      })
-        .catch(error => {
-          this.setState({
-            errorText: error,
-            fetchError: true
-          });
-        });
-    }
+    });
   }
-
   handleOptionChange(e) {
     this.setState({
       selectedOption: e.target.value
     });
   }
   getVariants(products, i = 0) {
-    let variants = this.variants;
+    this.setState({ loading: true });
     const next = i + 1;
     invokeApig({
       path: `/products/${products[i].productId}`,
@@ -183,14 +179,45 @@ class SetTable extends Component {
         cogs: true
       }
     }).then((results) => {
-      variants = variants.concat(results.variants);
-      this.variants = variants;
+      results.productId = products[i].productId;
+      this.variants.push(results);
       if (products.length > next) {
         this.getVariants(products, next);
       } else {
+        localStorage.setItem('variantsInfo', JSON.stringify(this.variants));
+        const variantsList = parsVariants(this.variants);
         this.setState({
-          data: variants,
+          data: variantsList ? sortByCogs(variantsList) : [],
+          loading: false
         });
+        this.variants = [];
+      }
+    }).catch(error => {
+      this.setState({loading: false});
+      console.log('Error Product Details', error);
+    });
+  }
+  updateVariants(variantsInfo, i = 0) {
+    const next = i + 1;
+    invokeApig({
+      path: `/products/${variantsInfo[i].productId}`,
+      queryParams: {
+        cogs: true,
+        lastUpdated: variantsInfo[i].lastUpdated
+      }
+    }).then((results) => {
+      if (results.lastUpdated !== -1 && !isEmpty(results.variants)) {
+        variantsInfo[i].variants = results.variants;
+        variantsInfo[i].lastUpdated = results.lastUpdated;
+      }
+      if (variantsInfo.length > next) {
+        this.updateVariants(variantsInfo, next);
+      } else {
+        const variantsList = parsVariants(variantsInfo);
+        this.setState({
+          data: variantsList ? sortByCogs(variantsList) : [],
+        });
+        localStorage.setItem('variantsInfo', JSON.stringify(variantsInfo));
       }
     }).catch(error => {
       console.log('Error Product Details', error);
@@ -240,21 +267,22 @@ class SetTable extends Component {
     });
     if (index > -1) {
       data[index].cogs = e.target.value;
+      data[index].variant_details.cogs = e.target.value;
     }
     this.setState({data});
   }
 
   onCogsBlur(e, row) {
     const {data} = this.state;
-    if (e.target.value !== row.cogs) {
-      const newData = checkAndUpdateProductCogsValue(e.target.value, row, data);
-      this.setState({data: moveAcceptedToBottom(newData, row)});
-    }
+    // if (e.target.value !== '' && e.target.value !== row.cogs || e.target.value !== row.variant_details.cogs) {
+    const newData = checkAndUpdateProductCogsValue(e.target.value, row, data);
+    this.setState({data: moveAcceptedToBottom(newData, row)});
+    // }
   }
 
   cogsValueFormatter(cell, row) {
     let warningMessage = null;
-    if (row.cogsValidateStatus === true) {
+    if (row.variant_details.cogs !== '' && row.variant_details.cogs !== null && row.variant_details.cogs !== 'null') { // (row.cogsValidateStatus === true) {
       warningMessage = (<div>
         <span className="cogs-completed" />
                         </div>);
@@ -263,7 +291,7 @@ class SetTable extends Component {
         <span className="cogs-pending" />
                         </div>);
     }
-
+    // numberFormatter(cell);
     return (
       <div className="flex-center padding-t-20">
         <div className="currency-view">
@@ -277,7 +305,7 @@ class SetTable extends Component {
         <FormControl
           type="number"
           className="product-input"
-          value={numberFormatter(cell)}
+          value={cell.cogs}
           onChange={(e) => {
             this.onCogsChange(e, row);
           }}
@@ -327,7 +355,7 @@ class SetTable extends Component {
   }
 
   render() {
-    const { searchTerm, markup } = this.state;
+    const { searchTerm, markup, loading } = this.state;
     let { data } = this.state;
     // hide valid COGS products, i.e where cogsValidateStatus is true
     const countTotal = data.length;
@@ -342,7 +370,6 @@ class SetTable extends Component {
       });
     }
     const filteredData = data.filter(createFilter(searchTerm, KEYS_TO_FILTERS));
-    console.log('filteredData', filteredData);
     const selectRowProp = {
       mode: 'checkbox',
       customComponent: customMultiSelect,
@@ -357,7 +384,8 @@ class SetTable extends Component {
       nextPage: 'Next   »',
       withFirstAndLast: false,
       sortIndicator: false,
-      sizePerPage: 100
+      sizePerPage: 100,
+      noDataText: loading ? <Spin /> : 'No data found'
     };
 
     return (
@@ -483,7 +511,7 @@ class SetTable extends Component {
                     Listed Price
                   </TableHeaderColumn>
                   <TableHeaderColumn
-                    dataField="cogs"
+                    dataField="variant_details"
                     dataAlign="center"
                     className="set-table-header"
                     dataFormat={this.cogsValueFormatter.bind(this)}

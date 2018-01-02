@@ -10,6 +10,7 @@ import cogs2 from '../assets/images/cogs2.svg';
 import cogs3 from '../assets/images/cogs3.svg';
 import TipBox, {tipBoxMsg} from '../components/TipBox';
 import HeaderWithCloseAndAlert from '../components/HeaderWithCloseAndAlert';
+import {getProduct} from '../helpers/Csv';
 
 class SetCogs extends Component {
   constructor(props) {
@@ -62,24 +63,29 @@ class SetCogs extends Component {
   }
 
   getProduct() {
-    if (localStorage.getItem('productInfo') === null) {
-      this.products().then((results) => {
-        const {products} = results;
-        this.setState({ data: products });
-        localStorage.setItem('productInfo', JSON.stringify(products));
-      })
-        .catch(error => {
-          console.log('get products error', error);
-        });
-    } else {
-      const existingProducts = JSON.parse(localStorage.getItem('productInfo'));
-      this.setState({ data: existingProducts });
-    }
+    getProduct().then((res) => {
+      this.setState({data: res.products});
+    }).catch((error) => {
+      console.log('get products error', error);
+    });
+    // if (localStorage.getItem('productInfo') === null) {
+    //   this.products().then((results) => {
+    //     const {products} = results;
+    //     this.setState({ data: products });
+    //     localStorage.setItem('productInfo', JSON.stringify(products));
+    //   })
+    //     .catch(error => {
+    //       console.log('get products error', error);
+    //     });
+    // } else {
+    //   const existingProducts = JSON.parse(localStorage.getItem('productInfo'));
+    //   this.setState({ data: existingProducts });
+    // }
   }
 
-  products() {
-    return invokeApig({ path: '/products' });
-  }
+  // products() {
+  //   return invokeApig({ path: '/products' });
+  // }
   getNumOfVariants(productData) {
     let numOfVariants = 0;
     productData.map((product, i) => {

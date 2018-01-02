@@ -2,7 +2,8 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Grid, Row, Col, Button, Label, Image } from 'react-bootstrap';
 import { Input, Select, Checkbox } from 'antd';
-import {getProduct} from '../helpers/Csv';
+import {getProduct, parsVariants} from '../helpers/Csv';
+import { invokeApig } from '../libs/awsLib';
 
 const Option = Select.Option;
 
@@ -10,41 +11,84 @@ class Setting extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      product: false
+      variants: false
     };
     this.getProductCount = this.getProductCount.bind(this);
     this.getProductCountWithCogs = this.getProductCountWithCogs.bind(this);
     this.getProductCountWithoutCogs = this.getProductCountWithoutCogs.bind(this);
     this.saveData = this.saveData.bind(this);
     this.goDashboard = this.goDashboard.bind(this);
+    this.variants = [];
   }
 
   componentWillMount() {
-    const product = getProduct();
-    this.setState({
-      product
-    });
+    const variantsInfo = JSON.parse(localStorage.getItem('variantsInfo'));
+    if (variantsInfo) {
+      this.setState({
+        variants: parsVariants(variantsInfo)
+      });
+    } else {
+      this.getProduct();
+    }
   }
   goDashboard() {
     this.props.history.push('/dashboard');
   }
+  getProduct() {
+    getProduct().then((res) => {
+      this.getVariants(res.products);
+    }).catch((err) => {
+      console.log('Error in getProduct', err);
+    });
+  }
+  getVariants(products, i = 0) {
+    this.setState({ loading: true });
+    const next = i + 1;
+    invokeApig({
+      path: `/products/${products[i].productId}`,
+      queryParams: {
+        cogs: true
+      }
+    }).then((results) => {
+      results.productId = products[i].productId;
+      this.variants.push(results);
+      if (products.length > next) {
+        this.getVariants(products, next);
+      } else {
+        localStorage.setItem('variantsInfo', JSON.stringify(this.variants));
+        const variantsList = parsVariants(this.variants);
+        this.setState({
+          data: variantsList || [],
+          loading: false
+        });
+        this.variants = [];
+      }
+    }).catch(error => {
+      this.setState({loading: false});
+      console.log('Error Product Details', error);
+    });
+  }
   getProductCount() {
-    const {product} = this.state;
-    return product ? product.length : 0;
+    const {variants} = this.state;
+    return variants ? variants.length : 0;
   }
 
   getProductCountWithCogs() {
-    const {product} = this.state;
-    if (product) {
-      return _.filter(product, (o) => { return !_.isEmpty(o.cogs); }).length;
+    const {variants} = this.state;
+    if (variants) {
+      return _.filter(variants, (o) => {
+        return !_.isEmpty(o.variant_details.cogs) && !_.isNull(o.variant_details.cogs) && o.variant_details.cogs !== 'null';
+      }).length;
     }
     return 0;
   }
 
   getProductCountWithoutCogs() {
-    const {product} = this.state;
-    if (product) {
-      return _.filter(product, (o) => { return _.isEmpty(o.cogs); }).length;
+    const {variants} = this.state;
+    if (variants) {
+      return _.filter(variants, (o) => {
+        return _.isEmpty(o.variant_details.cogs) || _.isNull(o.variant_details.cogs) || o.variant_details.cogs === 'null';
+      }).length;
     }
     return 0;
   }
