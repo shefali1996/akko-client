@@ -23,7 +23,6 @@ class Setting extends Component {
   }
 
   componentDidMount() {
-    console.log('componentDidMount setting');
     const variantsInfo = JSON.parse(localStorage.getItem('variantsInfo'));
     if (variantsInfo) {
       this.setState({

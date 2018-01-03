@@ -15,10 +15,10 @@ class Chart extends Component {
   }
 
   componentDidUpdate() {
-    if (this.chart) {
-      this.chart.data.datasets = this.props.data.datasets;
-      // this.chart.update();
-    }
+    // if (this.chart) {
+    //   this.chart.data.datasets = this.props.data.datasets;
+    // this.chart.update();
+    // }
   }
 
   initChart() {
