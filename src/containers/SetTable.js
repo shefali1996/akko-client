@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { Grid, Row, Col, Button, Label, FormControl } from 'react-bootstrap';
+import { Grid, Row, Col, Button, Label, FormControl, Tooltip, OverlayTrigger } from 'react-bootstrap';
 import SearchInput, { createFilter } from 'react-search-input';
 import { BootstrapTable, TableHeaderColumn } from 'react-bootstrap-table';
 import SweetAlert from 'sweetalert-react';
@@ -28,6 +28,7 @@ import {
   getProduct,
   parsVariants
 } from '../helpers/Csv';
+import MaterialIcon from '../assets/images/MaterialIcon 3.svg';
 import TipBox, {tipBoxMsg} from '../components/TipBox';
 
 class SetTable extends Component {
@@ -90,6 +91,9 @@ class SetTable extends Component {
   onMarkUpChange(e) {
     this.setState({ markup: e.target.value });
   }
+  onMarkUpFocus = (e) => {
+    this.refs.markupError.hide();
+  }
 
   onSkip() {
     this.props.history.push('/dashboard');
@@ -134,7 +138,18 @@ class SetTable extends Component {
 
   onSetMarkup() {
     const {markup, data, selectedRows, selectedOption} = this.state;
-    if (isNumeric(markup) && selectedRows.length > 0) {
+    let error = false;
+    if (markup < 0) {
+      error = 'Markup cannot be negative';
+    } else if (!isNumeric(markup)) {
+      error = 'Invalid value for Markup';
+    } else if (selectedRows.length <= 0) {
+      error = 'Select one or more products before setting markup';
+    }
+
+    // if (isNumeric(markup) && selectedRows.length > 0) {
+    if (error === false) {
+      console.log('selectedRows.length > 0 error', error);
       selectedRows.forEach((id) => {
         const product = data.find((p) => {
           return id === p.id;
@@ -156,11 +171,14 @@ class SetTable extends Component {
           });
         }
       });
+      this.setState({
+        markup: '',
+        selectedRows: []
+      });
+    } else {
+      this.setState({markupError: error});
+      this.refs.markupError.show();
     }
-    this.setState({
-      markup: '',
-      selectedRows: []
-    });
   }
 
   getProduct() {
@@ -331,6 +349,7 @@ class SetTable extends Component {
 
   renderProgressBar(total, completed, pending) {
     const per = (completed / total) * 100;
+    console.log('this.state.hideCompleted', this.state.hideCompleted);
     return (
       <div>
         <div className="markup-center margin-0 padding-0 select-style-comment-small">
@@ -340,7 +359,7 @@ class SetTable extends Component {
             Completed
           </Col>
           <Col md={4} className="text-center left-padding ">
-            Hide completed
+            {this.state.hideCompleted ? 'Hiding completed' : 'Showing completed'}
             <br />
             <Switch defaultChecked={this.state.hideCompleted} onChange={this.doToggleRows} />
           </Col>
@@ -370,9 +389,10 @@ class SetTable extends Component {
     const countPending = pendingProducts.length;
     const countCompleted = countTotal - countPending;
     if (this.state.hideCompleted) {
-      data = data.filter((item) => {
-        return item.cogsValidateStatus !== true;
-      });
+      data = pendingProducts;
+      // data = data.filter((item) => {
+      //   return item.cogsValidateStatus !== true;
+      // });
     }
     const filteredData = data.filter(createFilter(searchTerm, KEYS_TO_FILTERS));
     const selectRowProp = {
@@ -439,12 +459,21 @@ class SetTable extends Component {
                   <span className="select-style-comment-small">
                     Markup:
                   </span>
-                  <FormControl
-                    type="text"
-                    className="markup-input"
-                    value={markup}
-                    onChange={this.onMarkUpChange}
+                  <OverlayTrigger
+                    placement="left"
+                    trigger="manual"
+                    ref="markupError"
+                    overlay={
+                      <Tooltip id="tooltip"><img src={MaterialIcon} alt="icon" />{this.state.markupError}</Tooltip>
+                    }>
+                    <FormControl
+                      type="text"
+                      className="markup-input"
+                      value={markup}
+                      onFocus={this.onMarkUpFocus}
+                      onChange={this.onMarkUpChange}
                   />
+                  </OverlayTrigger>
                 </Col>
                 <Col md={4} className="text-left left-padding">
                   <div className="radio">

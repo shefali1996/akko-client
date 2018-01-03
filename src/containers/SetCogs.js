@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Grid, Row, Col, Button, Label, Image } from 'react-bootstrap';
 import SweetAlert from 'sweetalert-react';
+import { Spin } from 'antd';
 import { convertInventoryJSONToObject } from '../constants';
 import { invokeApig } from '../libs/awsLib';
 
@@ -18,7 +19,8 @@ class SetCogs extends Component {
     this.state = {
       data: [],
       option: '',
-      alertShow: false
+      alertShow: false,
+      loading: false
     };
     this.onSkip = this.onSkip.bind(this);
     this.onTypeOneSelected = this.onTypeOneSelected.bind(this);
@@ -63,8 +65,12 @@ class SetCogs extends Component {
   }
 
   getProduct() {
+    this.setState({loading: true});
     getProduct().then((res) => {
-      this.setState({data: res.products});
+      this.setState({
+        data: res.products,
+        loading: false
+      });
     }).catch((error) => {
       console.log('get products error', error);
     });
@@ -78,7 +84,7 @@ class SetCogs extends Component {
     return numOfVariants;
   }
   render() {
-    const { option, data } = this.state;
+    const { option, data, loading } = this.state;
     return (
       <div>
         <Grid className="login-layout">
@@ -102,7 +108,7 @@ class SetCogs extends Component {
               </div>
               <div className="flex-center margin-t-40">
                 <span className="select-style-comment">
-                    We found {this.getNumOfVariants(data)} product-variants from your shop. How do you
+                    We found {loading ? <Spin /> : this.getNumOfVariants(data)} product-variants from your shop. How do you
                 </span>
               </div>
               <div className="flex-center margin-t-5">
