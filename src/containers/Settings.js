@@ -58,7 +58,7 @@ class Setting extends Component {
         localStorage.setItem('variantsInfo', JSON.stringify(this.variants));
         const variantsList = parsVariants(this.variants);
         this.setState({
-          data: variantsList || [],
+          variants: variantsList || [],
           loading: false
         });
         this.variants = [];
