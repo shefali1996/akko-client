@@ -51,6 +51,7 @@ module.exports = {
       "no-else-return": ["off"],
       "no-restricted-globals": ["off"],
       "arrow-body-style": ["off"],
-      "no-lonely-if": ["off"]
+      "no-lonely-if": ["off"],
+      "key-spacing":[2,{'align': 'value'}]
     }
 };
