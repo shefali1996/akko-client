@@ -1,15 +1,11 @@
 import React, { Component } from 'react';
 import { Row, Col, Label, Button, Image, Grid, Tabs, Tab } from 'react-bootstrap';
 import {Card, CardHeader, CardText} from 'material-ui/Card';
-import SelectField from 'material-ui/SelectField';
-import MenuItem from 'material-ui/MenuItem';
 import { Select } from 'antd';
 import $ from 'jquery';
-import {clone} from 'lodash';
 import Navigationbar from '../components/Navigationbar';
 import Chart from '../components/Chart';
 import PriceBox from '../components/PriceBox';
-import AnalysisRightPanel from '../components/AnalysisRightPanel';
 import ExploreMetrics from '../components/ExploreMetrics';
 import Footer from '../components/Footer';
 import { invokeApig } from '../libs/awsLib';
