@@ -73,11 +73,11 @@ export const getProductValue = (inventoryJSON) => {
     const currProduct = inventoryJSON[i];
     const productEntry = {
       id:      currProduct.id,
-      title:   currProduct.title,
-      variant: currProduct.variant,
-      sku:     currProduct.sku,
-      price:   currProduct.price,
-      cogs:    currProduct.cogs
+      title:   currProduct.variant_details.title,
+      variant: currProduct.variant_details.variant,
+      sku:     currProduct.variant_details.sku,
+      price:   currProduct.variant_details.price,
+      cogs:    currProduct.variant_details.cogs
     };
     products.push(productEntry);
   }

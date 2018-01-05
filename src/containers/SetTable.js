@@ -251,9 +251,9 @@ class SetTable extends Component {
       console.log('Error Product Details', error);
     });
   }
-  products() {
-    return invokeApig({ path: '/products' });
-  }
+  // products() {
+  //   return invokeApig({ path: '/products' });
+  // }
 
   searchUpdated(term) {
     this.setState({
@@ -262,6 +262,7 @@ class SetTable extends Component {
   }
 
   onRowSelect(row, isSelected) {
+    console.log('row, isSelected', row, isSelected);
     const {selectedRows} = this.state;
     if (isSelected) {
       selectedRows.push(row.id);
@@ -418,6 +419,7 @@ class SetTable extends Component {
       data = pendingProducts;
     }
     const filteredData = data.filter(createFilter(searchTerm, KEYS_TO_FILTERS_VARIANTS));
+    console.log('filteredData', filteredData, selectedRows);
     const selectRowProp = {
       mode:            'checkbox',
       customComponent: customMultiSelect,
