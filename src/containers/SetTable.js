@@ -18,7 +18,7 @@ import {
   sortByProductPrice
 } from '../components/CustomTable';
 import HeaderWithCloseAndAlert from '../components/HeaderWithCloseAndAlert';
-import { KEYS_TO_FILTERS, convertInventoryJSONToObject, isNumeric, numberFormatter, pollingInterval } from '../constants';
+import { KEYS_TO_FILTERS_VARIANTS, convertInventoryJSONToObject, isNumeric, numberFormatter, pollingInterval } from '../constants';
 import { invokeApig } from '../libs/awsLib';
 import {
   checkAndUpdateProductCogsValue,
@@ -405,19 +405,19 @@ class SetTable extends Component {
   }
 
   render() {
-    const { searchTerm, markup, loading } = this.state;
-    let { data, selectedRows } = this.state;
+    const { searchTerm, markup, loading, selectedRows } = this.state;
+    let { data } = this.state;
     // hide valid COGS products, i.e where cogsValidateStatus is true
     const countTotal = data.length;
     const pendingProducts = data.filter((item) => {
-      return _.isEmpty(item.variant_details.cogs) || _.isNull(item.variant_details.cogs) || item.variant_details.cogs === 'null';// item.cogsValidateStatus !== true;
+      return _.isEmpty(item.variant_details.cogs) || _.isNull(item.variant_details.cogs) || item.variant_details.cogs === 'null';
     });
     const countPending = pendingProducts.length;
     const countCompleted = countTotal - countPending;
     if (this.state.hideCompleted) {
       data = pendingProducts;
     }
-    const filteredData = data.filter(createFilter(searchTerm, KEYS_TO_FILTERS));
+    const filteredData = data.filter(createFilter(searchTerm, KEYS_TO_FILTERS_VARIANTS));
     const selectRowProp = {
       mode:            'checkbox',
       customComponent: customMultiSelect,
