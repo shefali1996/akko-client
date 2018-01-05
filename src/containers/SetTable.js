@@ -35,18 +35,19 @@ class SetTable extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      markup: '',
-      data: [],
-      searchTerm: '',
-      selectedOption: 'option1',
-      selectedRows: [],
-      fetchError: false,
-      errorText: '',
-      fetchSuccess: false,
-      successMsg: '',
-      hideCompleted: false,
-      valueError: false,
-      loading: false
+      markup:            '',
+      data:              [],
+      searchTerm:        '',
+      selectedOption:    'option1',
+      selectedRows:      [],
+      fetchError:        false,
+      errorText:         '',
+      fetchSuccess:      false,
+      successMsg:        '',
+      hideCompleted:     false,
+      valueError:        false,
+      loading:           false,
+      inProgressSetCogs: false
     };
     this.onFinish = this.onFinish.bind(this);
     this.onMarkUpChange = this.onMarkUpChange.bind(this);
@@ -101,9 +102,9 @@ class SetTable extends Component {
 
   fireSetCogsAPI(params) {
     return invokeApig({
-      path: '/products',
+      path:   '/products',
       method: 'PUT',
-      body: params
+      body:   params
     });
   }
 
@@ -116,7 +117,7 @@ class SetTable extends Component {
     pendingCogsProducts = [];
     if (pendingCogsProducts.length > 0) {
       this.setState({
-        errorText: 'Please set COGS for all products or to skip click SKIP FOR NOW button',
+        errorText:  'Please set COGS for all products or to skip click SKIP FOR NOW button',
         fetchError: true
       });
     } else {
@@ -124,13 +125,15 @@ class SetTable extends Component {
       this.fireSetCogsAPI(cogsFinal).then((results) => {
         // this.onVariantUpdate();
         this.setState({
-          successMsg: `COGS successfully set for ${cogsFinal.variants.length} products`,
-          fetchSuccess: true
+          successMsg:        `COGS successfully set for ${cogsFinal.variants.length} products`,
+          fetchSuccess:      true,
+          inProgressSetCogs: false
         });
       }).catch(error => {
         this.setState({
-          errorText: error,
-          fetchError: true
+          errorText:         error,
+          fetchError:        true,
+          inProgressSetCogs: false
         });
       });
     }
@@ -147,9 +150,7 @@ class SetTable extends Component {
       error = 'Select one or more products before setting markup';
     }
 
-    // if (isNumeric(markup) && selectedRows.length > 0) {
     if (error === false) {
-      console.log('selectedRows.length > 0 error', error);
       selectedRows.forEach((id) => {
         const product = data.find((p) => {
           return id === p.id;
@@ -167,12 +168,13 @@ class SetTable extends Component {
           }
           const newData = checkAndUpdateProductCogsValue(cogs, product, data);
           this.setState({
-            data: sortByCogs(newData)
+            data:              sortByCogs(newData),
+            inProgressSetCogs: true
           });
         }
       });
       this.setState({
-        markup: '',
+        markup:       '',
         selectedRows: []
       });
     } else {
@@ -186,7 +188,7 @@ class SetTable extends Component {
       this.getVariants(res.products);
     }).catch((err) => {
       this.setState({
-        errorText: err,
+        errorText:  err,
         fetchError: true
       });
     });
@@ -200,7 +202,7 @@ class SetTable extends Component {
     this.setState({ loading: true });
     const next = i + 1;
     invokeApig({
-      path: `/products/${products[i].productId}`,
+      path:        `/products/${products[i].productId}`,
       queryParams: {
         cogs: true
       }
@@ -213,7 +215,7 @@ class SetTable extends Component {
         localStorage.setItem('variantsInfo', JSON.stringify(this.variants));
         const variantsList = parsVariants(this.variants);
         this.setState({
-          data: variantsList ? sortByCogs(variantsList) : [],
+          data:    variantsList ? sortByCogs(variantsList) : [],
           loading: false
         });
         this.variants = [];
@@ -226,9 +228,9 @@ class SetTable extends Component {
   updateVariants(variantsInfo, i = 0) {
     const next = i + 1;
     invokeApig({
-      path: `/products/${variantsInfo[i].productId}`,
+      path:        `/products/${variantsInfo[i].productId}`,
       queryParams: {
-        cogs: true,
+        cogs:        true,
         lastUpdated: variantsInfo[i].lastUpdated
       }
     }).then((results) => {
@@ -238,7 +240,7 @@ class SetTable extends Component {
       }
       if (variantsInfo.length > next) {
         this.updateVariants(variantsInfo, next);
-      } else {
+      } else if (!this.state.inProgressSetCogs) {
         const variantsList = parsVariants(variantsInfo);
         this.setState({
           data: variantsList ? sortByCogs(variantsList) : [],
@@ -263,13 +265,19 @@ class SetTable extends Component {
     const {selectedRows} = this.state;
     if (isSelected) {
       selectedRows.push(row.id);
-      this.setState({selectedRows});
+      this.setState({
+        selectedRows,
+        inProgressSetCogs: true
+      });
     } else {
       const i = selectedRows.indexOf(row.id);
       if (i !== -1) {
         selectedRows.splice(i, 1);
       }
-      this.setState({selectedRows});
+      this.setState({
+        selectedRows,
+        inProgressSetCogs: !!selectedRows.length
+      });
     }
   }
 
@@ -279,9 +287,15 @@ class SetTable extends Component {
       for (let i = 0; i < rows.length; i++) {
         idArray.push(rows[i].id);
       }
-      this.setState({selectedRows: idArray});
+      this.setState({
+        selectedRows:      idArray,
+        inProgressSetCogs: true
+      });
     } else {
-      this.setState({selectedRows: []});
+      this.setState({
+        selectedRows:      [],
+        inProgressSetCogs: false
+      });
     }
     return true;
   }
@@ -292,21 +306,34 @@ class SetTable extends Component {
       return element.id === row.id;
     });
     if (index > -1) {
-      data[index].cogs = e.target.value;
-      data[index].variant_details.cogs = e.target.value;
+      const cogsValue = data[index].variant_details.cogs;
+      let value = e.target.value;
+      if (isEmpty(value)) {
+        value = 'null';// cogsValue;
+      }
+      data[index].cogs = value;
     }
     this.setState({data});
   }
 
   onCogsBlur(e, row) {
     const {data} = this.state;
-    const newData = checkAndUpdateProductCogsValue(e.target.value, row, data);
-    this.setState({data: moveAcceptedToBottom(newData, row)});
+    if (row.variant_details.cogs !== row.cogs) {
+      const newData = checkAndUpdateProductCogsValue(e.target.value, row, data);
+      this.setState({
+        data:              moveAcceptedToBottom(newData, row),
+        inProgressSetCogs: true
+      });
+    }
   }
 
   cogsValueFormatter(cell, row) {
     let warningMessage = null;
-    if (!isEmpty(row.variant_details.cogs) && row.variant_details.cogs !== null && row.variant_details.cogs !== 'null') {
+    let cogsValue = cell.cogs;
+    if (row.cogs) {
+      cogsValue = row.cogs;
+    }
+    if (!isEmpty(cogsValue) && cogsValue !== null && cogsValue !== 'null') {
       warningMessage = (<div>
         <span className="cogs-completed" />
                         </div>);
@@ -328,7 +355,7 @@ class SetTable extends Component {
         <FormControl
           type="number"
           className="product-input"
-          value={cell.cogs}
+          value={cogsValue}
           onChange={(e) => {
             this.onCogsChange(e, row);
           }}
@@ -349,7 +376,6 @@ class SetTable extends Component {
 
   renderProgressBar(total, completed, pending) {
     const per = (completed / total) * 100;
-    console.log('this.state.hideCompleted', this.state.hideCompleted);
     return (
       <div>
         <div className="markup-center margin-0 padding-0 select-style-comment-small">
@@ -380,7 +406,7 @@ class SetTable extends Component {
 
   render() {
     const { searchTerm, markup, loading } = this.state;
-    let { data } = this.state;
+    let { data, selectedRows } = this.state;
     // hide valid COGS products, i.e where cogsValidateStatus is true
     const countTotal = data.length;
     const pendingProducts = data.filter((item) => {
@@ -390,27 +416,25 @@ class SetTable extends Component {
     const countCompleted = countTotal - countPending;
     if (this.state.hideCompleted) {
       data = pendingProducts;
-      // data = data.filter((item) => {
-      //   return item.cogsValidateStatus !== true;
-      // });
     }
     const filteredData = data.filter(createFilter(searchTerm, KEYS_TO_FILTERS));
     const selectRowProp = {
-      mode: 'checkbox',
+      mode:            'checkbox',
       customComponent: customMultiSelect,
-      onSelect: this.onRowSelect.bind(this),
-      onSelectAll: this.onSelectAll.bind(this)
+      onSelect:        this.onRowSelect.bind(this),
+      onSelectAll:     this.onSelectAll.bind(this),
+      selected:        selectedRows
     };
     const options = {
       sizePerPageDropDown: renderSizePerPageDropDown,
-      paginationPanel: renderSetTablePaginationPanel,
-      paginationSize: 7,
-      prePage: '«   Previous',
-      nextPage: 'Next   »',
-      withFirstAndLast: false,
-      sortIndicator: false,
-      sizePerPage: 100,
-      noDataText: loading ? <Spin /> : 'No data found'
+      paginationPanel:     renderSetTablePaginationPanel,
+      paginationSize:      7,
+      prePage:             '«   Previous',
+      nextPage:            'Next   »',
+      withFirstAndLast:    false,
+      sortIndicator:       false,
+      sizePerPage:         100,
+      noDataText:          loading ? <Spin /> : 'No data found'
     };
 
     return (
