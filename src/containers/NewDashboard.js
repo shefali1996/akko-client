@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { Row, Col, Label, Button, Image, Grid, Tabs, Tab } from 'react-bootstrap';
 import {Card, CardHeader, CardText} from 'material-ui/Card';
-import { Select } from 'antd';
+import { Select, Spin } from 'antd';
 import $ from 'jquery';
 import Navigationbar from '../components/Navigationbar';
 import Chart from '../components/Chart';
@@ -11,6 +11,7 @@ import Footer from '../components/Footer';
 import { invokeApig } from '../libs/awsLib';
 import styles from '../constants/styles';
 import invalidImg from '../assets/images/FontAwesome472.svg';
+import ReactPlaceholder from 'react-placeholder';
 
 const moment = require('moment');
 
@@ -23,6 +24,7 @@ class NewDashboard extends Component {
     super(props);
     this.state = {
       metricsData: [],
+	  metricDataLoaded: false,
       width: '25%',
       activeMetricsId: 'none',
       activeChartData: false
@@ -46,7 +48,8 @@ class NewDashboard extends Component {
   getMetrics() {
     invokeApig({ path: '/metrics' }).then((results) => {
       this.setState({
-        metricsData: results.metrics
+        metricsData: results.metrics,
+        metricDataLoaded: true,
       });
     })
       .catch(error => {
@@ -149,6 +152,29 @@ class NewDashboard extends Component {
   render() {
     const {metricsData} = this.state;
     const renderCards = [];
+    if (!this.state.metricDataLoaded) {
+      // Add dummy loading cards
+      const number_of_dummy_cards = 3;
+      const CustomSpin = (
+        <div style={{width: '100%', textAlign: 'center'}}>
+          <Spin size="large" />
+        </div>
+      );
+      for (let i = 0; i < number_of_dummy_cards; i++) {
+        renderCards.push(<Col style={{width: this.state.width}} className="dashboard-card-container">
+          <Card
+            className="price-card-style"
+            style={styles.metricsCardStyle}
+            >
+            <CardText>
+              <div style={{padding: '40%'}}>
+                <ReactPlaceholder ready={this.state.metricDataLoaded} customPlaceholder={CustomSpin} />
+              </div>
+            </CardText>
+          </Card>
+        </Col>);
+      }
+    }
     metricsData.map((value, index) => {
       let active = '';
       let borderRed = '';
@@ -159,7 +185,7 @@ class NewDashboard extends Component {
       if (`card_${index}` === this.state.activeMetricsId) {
         active = 'active-metrics';
       }
-      if (value.trend !== '+') {
+      if (value.trend === '-') {
         borderRed = 'border-red';
       }
       let invalid = false;
@@ -191,11 +217,11 @@ class NewDashboard extends Component {
           invalid = true;
           value.title = 'Expenses Breakdown';
         }
-        renderCards.push(<Col key={index} id={`card_${index}`} style={{width: this.state.width}} className="dashboard-card-cantainer expenses-breakdown">
+        renderCards.push(<Col key={index} id={`card_${index}`} style={{width: this.state.width}} className="dashboard-card-container expenses-breakdown">
           {invalid ? this.invalidCard(value) : this.expenseCard(expensesData)}
         </Col>);
       } else {
-        renderCards.push(<Col key={index} id={`card_${index}`} style={{width: this.state.width}} className="dashboard-card-cantainer" title={!invalid ? `Click to explore ${value.title} in detail` : null}>
+        renderCards.push(<Col key={index} id={`card_${index}`} style={{width: this.state.width}} className="dashboard-card-container" title={!invalid ? `Click to explore ${value.title} in detail` : null}>
           {invalid ? this.invalidCard(value) : <Card
             className={`price-card-style ${active} ${borderRed}`}
             onClick={(e) => this.handleClickMetrics(`card_${index}`, value, chartData)}

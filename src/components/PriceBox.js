@@ -57,17 +57,26 @@ class PriceBox extends React.Component {
         </div>
         <div className="third-price">
           <div>
-            {trend === '+' ?
-              <div className="align-center">
-                <img src={upArrow} className="arrow-icon" alt="icon" />
-                <span className="price-percent">{trend_value}</span>
-              </div>
-              :
-              <div className="align-center">
-                <img src={downArrow} className="arrow-icon" alt="icon" />
-                <span className="price-percent-down">{trend_value}</span>
-              </div>
-            }
+		    {(() => {
+						if (trend === '+') {
+						return (
+						  <div className="align-center">
+							<img src={upArrow} className="arrow-icon" alt="icon" />
+							<span className="price-percent">{trend_value}</span>
+						  </div>)
+						} else if (trend === '-') {
+						return(
+						  <div className="align-center">
+							<img src={downArrow} className="arrow-icon" alt="icon" />
+							<span className="price-percent-down">{trend_value}</span>
+						  </div>)
+						} else {
+						return (
+						  <div className="align-center">
+							<span className="price-percent-neutral">{trend_value}</span>
+						  </div>)
+						}
+			})()}
           </div>
           <div>
             <span className="price-period">{trend_period}</span>
