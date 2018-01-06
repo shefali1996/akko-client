@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Grid, Row, Col, Button, Label, Tabs, Tab, FormControl, Tooltip, OverlayTrigger } from 'react-bootstrap';
 import { StyleRoot } from 'radium';
+import { Spin } from 'antd';
 import {
   CognitoUserPool,
   AuthenticationDetails,
@@ -17,7 +18,8 @@ class SignIn extends Component {
     super(props);
     this.state = {
       email: '',
-      password: ''
+      password: '',
+	  pendingRequest: false,
     };
     this.goLanding = this.goLanding.bind(this);
     this.handleSelect = this.handleSelect.bind(this);
@@ -108,11 +110,17 @@ class SignIn extends Component {
     const emailAuth = this.emailValidation();
     const passAuth = this.passValidation();
     if (emailAuth && passAuth) {
+	  this.setState({
+		  pendingRequest: true,
+	  });
       this.login(email, password).then((result) => {
         localStorage.setItem('isAuthenticated', 'isAuthenticated');
 		return invokeApig({path: '/user'});
 	  }).then((result) => {
 		  console.log("userResult", result);
+		  this.setState({
+			  pendingRequest: false,
+		  });
 		  switch(result.accountSetupStatus) {
 			  case 0:
 				this.props.history.push('/connect-shopify');
@@ -134,6 +142,9 @@ class SignIn extends Component {
       })
         .catch(error => {
           console.log('login error', error);
+		  this.setState({
+			  pendingRequest: false,
+		  });
 		  if (error.message === "User does not exist.") {
 			  this.setState({
 				  emailError: " User does not exist"
@@ -242,6 +253,9 @@ class SignIn extends Component {
                 <div className="flex-center padding-t-20">
                   <Button className="login-button" onClick={this.onLogin}>
                     LOGIN
+					<div style={{marginLeft: 10, display: this.state.pendingRequest ? 'inline-block' : 'none'}}>
+						<Spin size="small"/>
+					</div>
                   </Button>
                 </div>
               </div>
