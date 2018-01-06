@@ -123,7 +123,6 @@ class SetTable extends Component {
     } else {
       const cogsFinal = beautifyDataForCogsApiCall(data);
       this.fireSetCogsAPI(cogsFinal).then((results) => {
-        // this.onVariantUpdate();
         this.setState({
           successMsg:        `COGS successfully set for ${cogsFinal.variants.length} products`,
           fetchSuccess:      true,
@@ -164,7 +163,7 @@ class SetTable extends Component {
             cogs = cogs.toFixed(2);
           } else {
             // if fixed markup is opted
-            cogs = productPrice - markup;
+            cogs = (productPrice - markup).toFixed(2);
           }
           const newData = checkAndUpdateProductCogsValue(cogs, product, data);
           this.setState({
@@ -235,7 +234,20 @@ class SetTable extends Component {
       }
     }).then((results) => {
       if (results.lastUpdated !== -1 && !isEmpty(results.variants)) {
-        variantsInfo[i].variants = results.variants;
+        const updatedVariants = [];
+        variantsInfo[i].variants.map((preVariant, i) => {
+          let isUpdated = false;
+          results.variants.map((newVariant, k) => {
+            if (preVariant.id === newVariant.id) {
+              updatedVariants.push(newVariant);
+              isUpdated = true;
+            }
+          });
+          if (!isUpdated) {
+            updatedVariants.push(preVariant);
+          }
+        });
+        variantsInfo[i].variants = updatedVariants;
         variantsInfo[i].lastUpdated = results.lastUpdated;
       }
       if (variantsInfo.length > next) {
@@ -251,9 +263,6 @@ class SetTable extends Component {
       console.log('Error Product Details', error);
     });
   }
-  // products() {
-  //   return invokeApig({ path: '/products' });
-  // }
 
   searchUpdated(term) {
     this.setState({
@@ -334,6 +343,7 @@ class SetTable extends Component {
     if (row.cogs) {
       cogsValue = row.cogs;
     }
+    console.log('cell, row', cogsValue, !isEmpty(cogsValue) && cogsValue !== null && cogsValue !== 'null', row);
     if (!isEmpty(cogsValue) && cogsValue !== null && cogsValue !== 'null') {
       warningMessage = (<div>
         <span className="cogs-completed" />
@@ -408,7 +418,6 @@ class SetTable extends Component {
   render() {
     const { searchTerm, markup, loading, selectedRows } = this.state;
     let { data } = this.state;
-    // hide valid COGS products, i.e where cogsValidateStatus is true
     const countTotal = data.length;
     const pendingProducts = data.filter((item) => {
       return _.isEmpty(item.variant_details.cogs) || _.isNull(item.variant_details.cogs) || item.variant_details.cogs === 'null';
@@ -419,7 +428,7 @@ class SetTable extends Component {
       data = pendingProducts;
     }
     const filteredData = data.filter(createFilter(searchTerm, KEYS_TO_FILTERS_VARIANTS));
-    console.log('filteredData', filteredData, selectedRows);
+    console.log('filteredData', filteredData);
     const selectRowProp = {
       mode:            'checkbox',
       customComponent: customMultiSelect,
@@ -435,7 +444,7 @@ class SetTable extends Component {
       nextPage:            'Next   »',
       withFirstAndLast:    false,
       sortIndicator:       false,
-      sizePerPage:         100,
+      sizePerPage:         50,
       noDataText:          loading ? <Spin /> : 'No data found'
     };
 
