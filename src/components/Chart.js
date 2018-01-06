@@ -10,17 +10,6 @@ class Chart extends Component {
     this.initChart();
   }
 
-  componentWillUnmount() {
-    // this.destroyChart();
-  }
-
-  componentDidUpdate() {
-    // if (this.chart) {
-    //   this.chart.data.datasets = this.props.data.datasets;
-    // this.chart.update();
-    // }
-  }
-
   initChart() {
     this.chart = new ChartJS(this.canvas, {
       type: this.props.type,

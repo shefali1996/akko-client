@@ -9,7 +9,7 @@ import { Spin } from 'antd';
 import { getProductValue, convertInventoryJSONToObject, exportCSVFile, headers } from '../constants';
 import { invokeApig } from '../libs/awsLib';
 import cogs2 from '../assets/images/cogs2.svg';
-import { beautifyUploadedCsvData, validateCogsValue, getProduct, sortByCogs, parsVariants, beautifyDataForCogsApiCall } from '../helpers/Csv';
+import { beautifyUploadedCsvData, validateCogsValue, getProduct, sortByCogs, parseVariants, beautifyDataForCogsApiCall } from '../helpers/Csv';
 import TipBox, {tipBoxMsg} from '../components/TipBox';
 import HeaderWithCloseAndAlert from '../components/HeaderWithCloseAndAlert';
 
@@ -156,7 +156,7 @@ class SetCsv extends Component {
         this.getVariants(products, next);
       } else {
         localStorage.setItem('variantsInfo', JSON.stringify(this.variants));
-        const variantsList = parsVariants(this.variants);
+        const variantsList = parseVariants(this.variants);
         this.setState({
           data:    variantsList ? sortByCogs(variantsList) : [],
           loading: false

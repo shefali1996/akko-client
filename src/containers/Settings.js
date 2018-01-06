@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Grid, Row, Col, Button, Label, Image } from 'react-bootstrap';
 import { Input, Select, Checkbox, Spin } from 'antd';
-import {getProduct, parsVariants} from '../helpers/Csv';
+import {getProduct, parseVariants} from '../helpers/Csv';
 import { invokeApig } from '../libs/awsLib';
 
 const Option = Select.Option;
@@ -26,7 +26,7 @@ class Setting extends Component {
     const variantsInfo = JSON.parse(localStorage.getItem('variantsInfo'));
     if (variantsInfo) {
       this.setState({
-        variants: parsVariants(variantsInfo)
+        variants: parseVariants(variantsInfo)
       });
     }
     this.getProduct();
@@ -56,7 +56,7 @@ class Setting extends Component {
         this.getVariants(products, next);
       } else {
         localStorage.setItem('variantsInfo', JSON.stringify(this.variants));
-        const variantsList = parsVariants(this.variants);
+        const variantsList = parseVariants(this.variants);
         this.setState({
           variants: variantsList || [],
           loading: false

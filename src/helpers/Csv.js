@@ -125,7 +125,7 @@ function getProduct(update) {
     }
   });
 }
-function parsVariants(variants) {
+function parseVariants(variants) {
   let list = [];
   variants.map((val, i) => {
     list = list.concat(val.variants);
@@ -142,5 +142,5 @@ export {
   sortByCogs,
   hasClass,
   getProduct,
-  parsVariants
+  parseVariants
 };

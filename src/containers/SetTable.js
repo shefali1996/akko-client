@@ -26,7 +26,7 @@ import {
   moveAcceptedToBottom,
   sortByCogs,
   getProduct,
-  parsVariants
+  parseVariants
 } from '../helpers/Csv';
 import MaterialIcon from '../assets/images/MaterialIcon 3.svg';
 import TipBox, {tipBoxMsg} from '../components/TipBox';
@@ -67,7 +67,7 @@ class SetTable extends Component {
   componentDidMount() {
     const variantsInfo = JSON.parse(localStorage.getItem('variantsInfo'));
     if (variantsInfo) {
-      const variantsList = parsVariants(variantsInfo);
+      const variantsList = parseVariants(variantsInfo);
       this.setState({
         data: variantsList ? sortByCogs(variantsList) : []
       });
@@ -212,7 +212,7 @@ class SetTable extends Component {
         this.getVariants(products, next);
       } else {
         localStorage.setItem('variantsInfo', JSON.stringify(this.variants));
-        const variantsList = parsVariants(this.variants);
+        const variantsList = parseVariants(this.variants);
         this.setState({
           data:    variantsList ? sortByCogs(variantsList) : [],
           loading: false
@@ -253,7 +253,7 @@ class SetTable extends Component {
       if (variantsInfo.length > next) {
         this.updateVariants(variantsInfo, next);
       } else if (!this.state.inProgressSetCogs) {
-        const variantsList = parsVariants(variantsInfo);
+        const variantsList = parseVariants(variantsInfo);
         this.setState({
           data: variantsList ? sortByCogs(variantsList) : [],
         });
