@@ -35,18 +35,18 @@ class SetTable extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      markup: '',
-      data: [],
-      searchTerm: '',
-      selectedOption: 'option1',
-      selectedRows: [],
-      fetchError: false,
-      errorText: '',
-      fetchSuccess: false,
-      successMsg: '',
-      hideCompleted: false,
-      valueError: false,
-      loading: false,
+      markup:            '',
+      data:              [],
+      searchTerm:        '',
+      selectedOption:    'option1',
+      selectedRows:      [],
+      fetchError:        false,
+      errorText:         '',
+      fetchSuccess:      false,
+      successMsg:        '',
+      hideCompleted:     false,
+      valueError:        false,
+      loading:           false,
       inProgressSetCogs: false
     };
     this.onFinish = this.onFinish.bind(this);
@@ -102,9 +102,9 @@ class SetTable extends Component {
 
   fireSetCogsAPI(params) {
     return invokeApig({
-      path: '/products',
+      path:   '/products',
       method: 'PUT',
-      body: params
+      body:   params
     });
   }
 
@@ -117,21 +117,21 @@ class SetTable extends Component {
     pendingCogsProducts = [];
     if (pendingCogsProducts.length > 0) {
       this.setState({
-        errorText: 'Please set COGS for all products or to skip click SKIP FOR NOW button',
+        errorText:  'Please set COGS for all products or to skip click SKIP FOR NOW button',
         fetchError: true
       });
     } else {
       const cogsFinal = beautifyDataForCogsApiCall(data);
       this.fireSetCogsAPI(cogsFinal).then((results) => {
         this.setState({
-          successMsg: `COGS successfully set for ${cogsFinal.variants.length} products`,
-          fetchSuccess: true,
+          successMsg:        `COGS successfully set for ${cogsFinal.variants.length} products`,
+          fetchSuccess:      true,
           inProgressSetCogs: false
         });
       }).catch(error => {
         this.setState({
-          errorText: error,
-          fetchError: true,
+          errorText:         error,
+          fetchError:        true,
           inProgressSetCogs: false
         });
       });
@@ -167,13 +167,13 @@ class SetTable extends Component {
           }
           const newData = checkAndUpdateProductCogsValue(cogs, product, data);
           this.setState({
-            data: sortByCogs(newData),
+            data:              sortByCogs(newData),
             inProgressSetCogs: true
           });
         }
       });
       this.setState({
-        markup: '',
+        markup:       '',
         selectedRows: []
       });
     } else {
@@ -187,7 +187,7 @@ class SetTable extends Component {
       this.getVariants(res.products);
     }).catch((err) => {
       this.setState({
-        errorText: err,
+        errorText:  err,
         fetchError: true
       });
     });
@@ -201,7 +201,7 @@ class SetTable extends Component {
     this.setState({ loading: true });
     const next = i + 1;
     invokeApig({
-      path: `/products/${products[i].productId}`,
+      path:        `/products/${products[i].productId}`,
       queryParams: {
         cogs: true
       }
@@ -214,7 +214,7 @@ class SetTable extends Component {
         localStorage.setItem('variantsInfo', JSON.stringify(this.variants));
         const variantsList = parseVariants(this.variants);
         this.setState({
-          data: variantsList ? sortByCogs(variantsList) : [],
+          data:    variantsList ? sortByCogs(variantsList) : [],
           loading: false
         });
         this.variants = [];
@@ -227,9 +227,9 @@ class SetTable extends Component {
   updateVariants(variantsInfo, i = 0) {
     const next = i + 1;
     invokeApig({
-      path: `/products/${variantsInfo[i].productId}`,
+      path:        `/products/${variantsInfo[i].productId}`,
       queryParams: {
-        cogs: true,
+        cogs:        true,
         lastUpdated: variantsInfo[i].lastUpdated
       }
     }).then((results) => {
@@ -298,12 +298,12 @@ class SetTable extends Component {
         idArray.push(rows[i].id);
       }
       this.setState({
-        selectedRows: idArray,
+        selectedRows:      idArray,
         inProgressSetCogs: true
       });
     } else {
       this.setState({
-        selectedRows: [],
+        selectedRows:      [],
         inProgressSetCogs: false
       });
     }
@@ -331,7 +331,7 @@ class SetTable extends Component {
     if (row.variant_details.cogs !== row.cogs) {
       const newData = checkAndUpdateProductCogsValue(e.target.value, row, data);
       this.setState({
-        data: moveAcceptedToBottom(newData, row),
+        data:              moveAcceptedToBottom(newData, row),
         inProgressSetCogs: true
       });
     }
@@ -427,24 +427,23 @@ class SetTable extends Component {
       data = pendingProducts;
     }
     const filteredData = data.filter(createFilter(searchTerm, KEYS_TO_FILTERS_VARIANTS));
-    console.log('filteredData', filteredData);
     const selectRowProp = {
-      mode: 'checkbox',
+      mode:            'checkbox',
       customComponent: customMultiSelect,
-      onSelect: this.onRowSelect.bind(this),
-      onSelectAll: this.onSelectAll.bind(this),
-      selected: selectedRows
+      onSelect:        this.onRowSelect.bind(this),
+      onSelectAll:     this.onSelectAll.bind(this),
+      selected:        selectedRows
     };
     const options = {
       sizePerPageDropDown: renderSizePerPageDropDown,
-      paginationPanel: renderSetTablePaginationPanel,
-      paginationSize: 7,
-      prePage: '«   Previous',
-      nextPage: 'Next   »',
-      withFirstAndLast: false,
-      sortIndicator: false,
-      sizePerPage: 50,
-      noDataText: loading ? <Spin /> : 'No data found'
+      paginationPanel:     renderSetTablePaginationPanel,
+      paginationSize:      7,
+      prePage:             '«   Previous',
+      nextPage:            'Next   »',
+      withFirstAndLast:    false,
+      sortIndicator:       false,
+      sizePerPage:         50,
+      noDataText:          loading ? <Spin /> : 'No data found'
     };
 
     return (

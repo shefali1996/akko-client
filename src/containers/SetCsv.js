@@ -19,15 +19,15 @@ class SetCsv extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      data: [],
-      importedCSV: null,
-      alertShow: false,
-      cogsValueShow: false,
-      fetchError: false,
-      errorText: '',
+      data:              [],
+      importedCSV:       null,
+      alertShow:         false,
+      cogsValueShow:     false,
+      fetchError:        false,
+      errorText:         '',
       totalProductCount: 0,
       selectedCogsValue: 0,
-      loading: false,
+      loading:           false,
     };
     this.onConnect = this.onConnect.bind(this);
     this.onSkip = this.onSkip.bind(this);
@@ -52,7 +52,7 @@ class SetCsv extends Component {
     this.container.success(
       '',
       'Upload CSV file is success. Click Submit button for next step', {
-        timeOut: 2000,
+        timeOut:         2000,
         extendedTimeOut: 2000
       });
   }
@@ -77,9 +77,9 @@ class SetCsv extends Component {
   }
   fireSetCogsAPI(params) {
     return invokeApig({
-      path: '/products',
+      path:   '/products',
       method: 'PUT',
-      body: params
+      body:   params
     });
   }
   onConnect() {
@@ -121,13 +121,13 @@ class SetCsv extends Component {
             $this.setState({
               totalProductCount: updatedProducts.length,
               selectedCogsValue: updatedProducts.length - nullCogsCount,
-              cogsValueShow: true,
-              submitInProgress: false
+              cogsValueShow:     true,
+              submitInProgress:  false
             });
           }).catch(error => {
             this.setState({
-              errorText: error,
-              fetchError: true,
+              errorText:        error,
+              fetchError:       true,
               submitInProgress: false
             });
           });
@@ -140,7 +140,7 @@ class SetCsv extends Component {
       this.getVariants(res.products);
     }).catch((err) => {
       this.setState({
-        errorText: err,
+        errorText:  err,
         fetchError: true
       });
     });
@@ -150,7 +150,7 @@ class SetCsv extends Component {
     this.setState({ loading: true });
     const next = i + 1;
     invokeApig({
-      path: `/products/${products[i].productId}`,
+      path:        `/products/${products[i].productId}`,
       queryParams: {
         cogs: true
       }
@@ -163,7 +163,7 @@ class SetCsv extends Component {
         localStorage.setItem('variantsInfo', JSON.stringify(this.variants));
         const variantsList = parseVariants(this.variants);
         this.setState({
-          data: variantsList ? sortByCogs(variantsList) : [],
+          data:    variantsList ? sortByCogs(variantsList) : [],
           loading: false
         });
         this.variants = [];
@@ -275,11 +275,12 @@ class SetCsv extends Component {
                   </Button>
                 </Col>
                 <Col md={6} className="text-right no-padding">
-                  {this.state.submitInProgress ? <Spin /> :
                   <Button className="login-button" onClick={this.onConnect}>
                       SUBMIT
+                    <div style={{marginLeft: 10, display: this.state.submitInProgress ? 'inline-block' : 'none'}}>
+                      <Spin size="small" />
+                    </div>
                   </Button>
-                  }
                 </Col>
               </div>
             </Col>
