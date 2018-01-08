@@ -24,7 +24,8 @@ const store = createStore(
   reducers,
   {},
   compose(
-    applyMiddleware(...middleWare)
+    applyMiddleware(...middleWare),
+    window.devToolsExtension ? window.devToolsExtension() : f => f
   )
 );
 

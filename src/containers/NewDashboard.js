@@ -1,6 +1,10 @@
 import React, { Component } from 'react';
+import {bindActionCreators} from 'redux';
+import {connect} from 'react-redux';
+import {withRouter} from 'react-router';
 import { Row, Col, Label, Button, Image, Grid, Tabs, Tab } from 'react-bootstrap';
 import {Card, CardHeader, CardText} from 'material-ui/Card';
+import ReactPlaceholder from 'react-placeholder';
 import { Select, Spin } from 'antd';
 import $ from 'jquery';
 import Navigationbar from '../components/Navigationbar';
@@ -11,10 +15,9 @@ import Footer from '../components/Footer';
 import { invokeApig } from '../libs/awsLib';
 import styles from '../constants/styles';
 import invalidImg from '../assets/images/FontAwesome472.svg';
-import ReactPlaceholder from 'react-placeholder';
+import * as dashboardActions from '../redux/dashboard/actions';
 
 const moment = require('moment');
-
 const elementResizeEvent = require('element-resize-event');
 
 const {Option} = Select;
@@ -23,21 +26,20 @@ class NewDashboard extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      metricsData: [],
-	  metricDataLoaded: false,
-      width: '25%',
-      activeMetricsId: 'none',
-      activeChartData: false
+      metricsData:      [],
+      width:            '25%',
+      metricDataLoaded: false,
+      activeMetricsId:  'none',
+      activeChartData:  false
     };
     this.setWidth = this.setWidth.bind(this);
     this.handleClickMetrics = this.handleClickMetrics.bind(this);
-    this.getMetrics = this.getMetrics.bind(this);
     this.column = 4;
     this.top = 0;
   }
 
   componentWillMount() {
-    this.getMetrics();
+    this.props.getMetrics();
   }
   componentDidMount() {
     const element = document.getElementById('cardSection');
@@ -45,16 +47,11 @@ class NewDashboard extends Component {
       this.setWidth(element.clientWidth);
     });
   }
-  getMetrics() {
-    invokeApig({ path: '/metrics' }).then((results) => {
-      this.setState({
-        metricsData: results.metrics,
-        metricDataLoaded: true,
-      });
-    })
-      .catch(error => {
-        console.log('get metrics error', error);
-      });
+  componentWillReceiveProps(props) {
+    this.setState({
+      metricsData:      props.metricsData.data.metrics || [],
+      metricDataLoaded: !props.metricsData.isLoading,
+    });
   }
   setWidth(w) {
     const x = 100;
@@ -80,8 +77,8 @@ class NewDashboard extends Component {
       scrollTop: element.offset().top - 80
     }, 100);
     this.setState({
-      explore: true,
-      activeMetrics: value,
+      explore:         true,
+      activeMetrics:   value,
       activeMetricsId: id,
       activeChartData: chartData
     });
@@ -193,22 +190,22 @@ class NewDashboard extends Component {
         invalid = true;
       }
       const chartData = {
-        labels: [label4, label3, label2, label1],
+        labels:   [label4, label3, label2, label1],
         datasets: [{
-          type: 'line',
+          type:  'line',
           label: value.title,
-          data: [
+          data:  [
             `${value.value_three_months_back}`,
             `${value.value_two_months_back}`,
             `${value.value_one_month_back}`,
             `${value.value}`,
           ],
-          borderColor: '#575dde',
+          borderColor:     '#575dde',
           backgroundColor: '#575dde',
-          fill: '1',
-          tension: 0,
-          prefix: value.prefix,
-          postfix: value.postfix
+          fill:            '1',
+          tension:         0,
+          prefix:          value.prefix,
+          postfix:         value.postfix
         }]
       };
       if (value.title === 'Expenses' || value.title === 'Expenses Breakdown') {
@@ -264,14 +261,13 @@ class NewDashboard extends Component {
                 <ExploreMetrics
                   closeFilter={() => {
                     this.setState({
-                      explore: false,
+                      explore:         false,
                       activeChartData: false,
                       activeMetricsId: 'none',
                     });
                   }}
                   activeMetrics={this.state.activeMetrics}
                   activeChartData={this.state.activeChartData}
-                  filterModal="product"
                   open={this.state.explore} />
               </div>
             </Col>
@@ -283,4 +279,19 @@ class NewDashboard extends Component {
   }
 }
 
-export default NewDashboard;
+
+const mapStateToProps = state => {
+  return {
+    metricsData: state.dashboard.metricsData,
+  };
+};
+
+const mapDispatchToProps = (dispatch) => {
+  return {
+    getMetrics: () => {
+      return dispatch(dashboardActions.getMetrics());
+    }
+  };
+};
+
+export default withRouter(connect(mapStateToProps, mapDispatchToProps)(NewDashboard));
