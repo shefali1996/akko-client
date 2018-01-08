@@ -5,10 +5,11 @@ import Dropzone from 'react-dropzone';
 import SweetAlert from 'sweetalert-react';
 import { ToastContainer, ToastMessageAnimated } from 'react-toastr';
 import Papa from 'papaparse';
+import { Spin } from 'antd';
 import { getProductValue, convertInventoryJSONToObject, exportCSVFile, headers } from '../constants';
 import { invokeApig } from '../libs/awsLib';
 import cogs2 from '../assets/images/cogs2.svg';
-import { beautifyUploadedCsvData, validateCogsValue } from '../helpers/Csv';
+import { beautifyUploadedCsvData, validateCogsValue, getProduct, sortByCogs, parseVariants, beautifyDataForCogsApiCall } from '../helpers/Csv';
 import TipBox, {tipBoxMsg} from '../components/TipBox';
 import HeaderWithCloseAndAlert from '../components/HeaderWithCloseAndAlert';
 
@@ -25,13 +26,15 @@ class SetCsv extends Component {
       fetchError: false,
       errorText: '',
       totalProductCount: 0,
-      selectedCogsValue: 0
+      selectedCogsValue: 0,
+      loading: false,
     };
     this.onConnect = this.onConnect.bind(this);
     this.onSkip = this.onSkip.bind(this);
     this.csvButtonClicked = this.csvButtonClicked.bind(this);
     this.onConfirm = this.onConfirm.bind(this);
     this.onCogsConfirm = this.onCogsConfirm.bind(this);
+    this.variants = [];
   }
 
   componentWillMount() {
@@ -72,12 +75,21 @@ class SetCsv extends Component {
       this.props.history.push('/dashboard');
     }
   }
-
+  fireSetCogsAPI(params) {
+    return invokeApig({
+      path: '/products',
+      method: 'PUT',
+      body: params
+    });
+  }
   onConnect() {
     const $this = this;
     const { data } = this.state;
     const { importedCSV } = this.state;
     if (importedCSV !== null) {
+      this.setState({
+        submitInProgress: true
+      });
       // this.props.history.push('/set-table');
       Papa.parse(importedCSV, {
         complete(results) {
@@ -89,54 +101,82 @@ class SetCsv extends Component {
             beautyData.csvData.forEach((csvProduct) => {
               if (product.id === csvProduct.id) {
                 product.cogs = csvProduct.cogs;
-                product.productDetail.cogs = csvProduct.cogs;
+                product.variant_details.cogs = csvProduct.cogs;
               }
             });
-            const cogsValidateStatus = validateCogsValue(product.productDetail.cogs, product.productDetail.price);
+            const cogsValidateStatus = validateCogsValue(product.variant_details.cogs, product.variant_details.price);
             if (cogsValidateStatus === true) {
 
             } else {
               nullCogsCount++;
               product.cogs = '';
-              product.productDetail.cogs = '';
+              product.variant_details.cogs = '';
             }
             product.cogsValidateStatus = cogsValidateStatus;
             updatedProducts.push(product);
           });
-          localStorage.setItem('inventoryInfo', JSON.stringify(updatedProducts));
           // end
-          $this.setState({
-            totalProductCount: updatedProducts.length,
-            selectedCogsValue: updatedProducts.length - nullCogsCount,
-            cogsValueShow: true
+          const cogsFinal = beautifyDataForCogsApiCall(data);
+          $this.fireSetCogsAPI(cogsFinal).then((results) => {
+            $this.setState({
+              totalProductCount: updatedProducts.length,
+              selectedCogsValue: updatedProducts.length - nullCogsCount,
+              cogsValueShow: true,
+              submitInProgress: false
+            });
+          }).catch(error => {
+            this.setState({
+              errorText: error,
+              fetchError: true,
+              submitInProgress: false
+            });
           });
         }
       });
     }
   }
-
   getProduct() {
-    this.products().then((results) => {
-      console.log(results);
-      const products = convertInventoryJSONToObject(results.variants);
-      this.setState({ data: products });
-      localStorage.setItem('inventoryInfo', JSON.stringify(products));
-    })
-      .catch(error => {
-        this.setState({
-          errorText: error,
-          fetchError: true
-        });
+    getProduct().then((res) => {
+      this.getVariants(res.products);
+    }).catch((err) => {
+      this.setState({
+        errorText: err,
+        fetchError: true
       });
+    });
   }
 
-  products() {
-    return invokeApig({ path: '/inventory' });
+  getVariants(products, i = 0) {
+    this.setState({ loading: true });
+    const next = i + 1;
+    invokeApig({
+      path: `/products/${products[i].productId}`,
+      queryParams: {
+        cogs: true
+      }
+    }).then((results) => {
+      results.productId = products[i].productId;
+      this.variants.push(results);
+      if (products.length > next) {
+        this.getVariants(products, next);
+      } else {
+        localStorage.setItem('variantsInfo', JSON.stringify(this.variants));
+        const variantsList = parseVariants(this.variants);
+        this.setState({
+          data: variantsList ? sortByCogs(variantsList) : [],
+          loading: false
+        });
+        this.variants = [];
+      }
+    }).catch(error => {
+      this.setState({loading: false});
+      console.log('Error Product Details', error);
+    });
   }
 
   csvButtonClicked() {
     const { data } = this.state;
-    exportCSVFile(headers, getProductValue(data), 'inventory');
+    exportCSVFile(headers, getProductValue(data), 'variants');
   }
 
   render() {
@@ -199,7 +239,7 @@ class SetCsv extends Component {
                 </Col>
                 <Col md={5} className="flex-right no-padding">
                   <div className="style-icon-view">
-                    <Image src={cogs2} className="business-icon cursor-pointer" onClick={this.csvButtonClicked} />
+                    {this.state.loading ? <Spin /> : <Image src={cogs2} className="business-icon cursor-pointer" onClick={this.csvButtonClicked} />}
                   </div>
                 </Col>
               </div>
@@ -235,9 +275,11 @@ class SetCsv extends Component {
                   </Button>
                 </Col>
                 <Col md={6} className="text-right no-padding">
+                  {this.state.submitInProgress ? <Spin /> :
                   <Button className="login-button" onClick={this.onConnect}>
                       SUBMIT
                   </Button>
+                  }
                 </Col>
               </div>
             </Col>

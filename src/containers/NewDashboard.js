@@ -1,15 +1,11 @@
 import React, { Component } from 'react';
 import { Row, Col, Label, Button, Image, Grid, Tabs, Tab } from 'react-bootstrap';
 import {Card, CardHeader, CardText} from 'material-ui/Card';
-import SelectField from 'material-ui/SelectField';
-import MenuItem from 'material-ui/MenuItem';
 import { Select, Spin } from 'antd';
 import $ from 'jquery';
-import {clone} from 'lodash';
 import Navigationbar from '../components/Navigationbar';
 import Chart from '../components/Chart';
 import PriceBox from '../components/PriceBox';
-import AnalysisRightPanel from '../components/AnalysisRightPanel';
 import ExploreMetrics from '../components/ExploreMetrics';
 import Footer from '../components/Footer';
 import { invokeApig } from '../libs/awsLib';
@@ -53,7 +49,7 @@ class NewDashboard extends Component {
     invokeApig({ path: '/metrics' }).then((results) => {
       this.setState({
         metricsData: results.metrics,
-		metricDataLoaded: true,
+        metricDataLoaded: true,
       });
     })
       .catch(error => {
@@ -156,29 +152,29 @@ class NewDashboard extends Component {
   render() {
     const {metricsData} = this.state;
     const renderCards = [];
-	if (!this.state.metricDataLoaded) {
-		// Add dummy loading cards
-		const number_of_dummy_cards = 3;
-		const CustomSpin = (
-			<div style={{width:"100%", textAlign: "center"}}>
-				<Spin size='large'/>
-			</div>
-		);
-		for (let i=0; i<number_of_dummy_cards; i++) {
-			renderCards.push(<Col style={{width: this.state.width}} className="dashboard-card-container">
+    if (!this.state.metricDataLoaded) {
+      // Add dummy loading cards
+      const number_of_dummy_cards = 3;
+      const CustomSpin = (
+        <div style={{width: '100%', textAlign: 'center'}}>
+          <Spin size="large" />
+        </div>
+      );
+      for (let i = 0; i < number_of_dummy_cards; i++) {
+        renderCards.push(<Col style={{width: this.state.width}} className="dashboard-card-container">
           <Card
-            className={`price-card-style`}
+            className="price-card-style"
             style={styles.metricsCardStyle}
             >
             <CardText>
-			<div style={{padding: "40%"}}>
-				<ReactPlaceholder ready={this.state.metricDataLoaded} customPlaceholder={CustomSpin}></ReactPlaceholder>
-			</div>
+              <div style={{padding: '40%'}}>
+                <ReactPlaceholder ready={this.state.metricDataLoaded} customPlaceholder={CustomSpin} />
+              </div>
             </CardText>
           </Card>
-					</Col>);
-		}
-	}
+        </Col>);
+      }
+    }
     metricsData.map((value, index) => {
       let active = '';
       let borderRed = '';

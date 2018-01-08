@@ -42,9 +42,9 @@ class FilterDialog extends Component {
     super(props);
     this.state = {
       currentFilterModal: '',
-      data: [],
-      searchTerm: '',
-      selectedRows: []
+      data:               [],
+      searchTerm:         '',
+      selectedRows:       []
     };
     this.searchUpdated = this.searchUpdated.bind(this);
     this.onRowSelect = this.onRowSelect.bind(this);
@@ -71,7 +71,7 @@ class FilterDialog extends Component {
     }
     this.setState({
       currentFilterModal: filterModal,
-      searchTerm: '',
+      searchTerm:         '',
     });
   }
   getProductData() {
@@ -79,7 +79,7 @@ class FilterDialog extends Component {
       const updateTime = results.lastUpdated;
       const products = results.variants;
       this.setState({
-        data: products,
+        data:         products,
         selectedRows: this.props.savedData.selectedRows ? this.props.savedData.selectedRows : []
       });
     }).catch(error => {
@@ -91,7 +91,7 @@ class FilterDialog extends Component {
       const updateTime = results.lastUpdated;
       const customers = results.customers;
       this.setState({
-        data: customers,
+        data:         customers,
         selectedRows: this.props.savedData.selectedRows ? this.props.savedData.selectedRows : []
       });
     }).catch(error => {
@@ -149,20 +149,20 @@ class FilterDialog extends Component {
     const {searchTerm, data, selectedRows} = this.state;
     const filteredData = data.filter(createFilter(searchTerm, KEYS_TO_FILTERS));
     const selectRowProp = {
-      mode: 'checkbox',
+      mode:            'checkbox',
       customComponent: customMultiSelect,
-      onSelect: this.onRowSelect.bind(this),
-      onSelectAll: this.onSelectAll.bind(this)
+      onSelect:        this.onRowSelect.bind(this),
+      onSelectAll:     this.onSelectAll.bind(this)
     };
     const options = {
       sizePerPageDropDown: renderSizePerPageDropDown,
-      paginationPanel: renderSetTablePaginationPanel,
-      paginationSize: 7,
-      prePage: '«   Previous',
-      nextPage: 'Next   »',
-      withFirstAndLast: false,
-      sortIndicator: false,
-      sizePerPage: 100
+      paginationPanel:     renderSetTablePaginationPanel,
+      paginationSize:      7,
+      prePage:             '«   Previous',
+      nextPage:            'Next   »',
+      withFirstAndLast:    false,
+      sortIndicator:       false,
+      sizePerPage:         100
     };
 
     let filterTitle = '';
