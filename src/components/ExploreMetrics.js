@@ -21,10 +21,10 @@ class ExploreMetrics extends Component {
     super(props);
     this.state = {
       openFilter: false,
-      filterBy: '',
-      products: {},
-      customers: {},
-      open: false,
+      filterBy:   '',
+      products:   {},
+      customers:  {},
+      open:       false,
     };
     this.openFilter = this.openFilter.bind(this);
     this.closeFilter = this.closeFilter.bind(this);
@@ -41,7 +41,7 @@ class ExploreMetrics extends Component {
   closeFilter() {
     this.setState({
       openFilter: false,
-      filterBy: ''
+      filterBy:   ''
     });
   }
   onRowSelect(filterData) {
@@ -102,7 +102,7 @@ class ExploreMetrics extends Component {
           />
             <CardText>
               <Row>
-                <Col md={12}>
+                <Col md={12} className="hide">
                   <Row>
                     <Col md={5} className="text-center padding-r-0">
                       <Card className="charts-card-style">
