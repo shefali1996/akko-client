@@ -9,6 +9,7 @@ import { validateEmail, testMode } from '../constants';
 import config from '../config';
 import { invokeApig, signOutUser } from '../libs/awsLib';
 import MaterialIcon from '../assets/images/MaterialIcon 3.svg';
+import { Spin } from 'antd';
 
 const options = [
   { value: 'CEO/Founder', label: 'CEO/Founder' },
@@ -30,7 +31,8 @@ class SignUp extends Component {
       newUser: null,
       emailSent: false,
       verifyCode: '',
-      alertShow: false
+      alertShow: false,
+	  pendingRequest: false,
     };
     this.goLanding = this.goLanding.bind(this);
     this.handleSelect = this.handleSelect.bind(this);
@@ -218,14 +220,21 @@ class SignUp extends Component {
       const emailAuth = this.onEmailBlur();
       const passAuth = this.validatePassword();
       if (firstNameAuth && lastNameAuth && companyNameAuth && roleAuth && emailAuth && passAuth) {
+	  this.setState({
+		  pendingRequest: true,
+	  });
         this.signup(email, password).then((result) => {
           if (!result.userConfirmed) {
             this.setState({
               emailSent: true,
+			  pendingRequest: false,
               newUser: result.user
             });
           }
         }).catch((error) => {
+		  this.setState({
+			  pendingRequest: false,
+		  });
 			if (error.message === "An account with the given email already exists.") {
 			  this.setState({
 				  emailError: " An account with the given email already exists"
@@ -523,6 +532,9 @@ class SignUp extends Component {
                   <Col md={12} className="padding-t-30">
                     <Button className="login-button" onClick={this.onSignUp}>
                         SIGN UP
+					<div style={{marginLeft: 10, display: this.state.pendingRequest ? 'inline-block' : 'none'}}>
+						<Spin size="small"/>
+					</div>
                     </Button>
                   </Col>
                 }

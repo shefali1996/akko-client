@@ -1,4 +1,5 @@
 import {remove, isEmpty, indexOf} from 'lodash';
+import { invokeApig } from '../libs/awsLib';
 
 function beautifyUploadedCsvData(data) {
   const emptyCogsData = [];
@@ -52,14 +53,14 @@ function validateCogsValue(cogs, price) {
 
 function checkAndUpdateProductCogsValue(cogs, product, products) {
   const updatedProducts = [];
-  const cogsValidateStatus = validateCogsValue(cogs, product.productDetail.price);
+  const cogsValidateStatus = validateCogsValue(cogs, product.variant_details.price);
   products.forEach((p) => {
     if (product.id === p.id) {
       p.cogs = '';
-      p.productDetail.cogs = '';
+      p.variant_details.cogs = '';
       if (cogsValidateStatus === true) {
         p.cogs = cogs;
-        p.productDetail.cogs = cogs;
+        p.variant_details.cogs = cogs;
       }
       p.cogsValidateStatus = cogsValidateStatus;
     }
@@ -68,18 +69,16 @@ function checkAndUpdateProductCogsValue(cogs, product, products) {
   return updatedProducts;
 }
 
-function updateLocalInventoryInfo(products) {
-  localStorage.setItem('inventoryInfo', JSON.stringify(products));
-}
-
 function beautifyDataForCogsApiCall(data) {
   const variants = [];
   data.forEach((row, index) => {
-    const newRow = {
-      variantId: row.id,
-      cogs: row.cogs
-    };
-    variants.push(newRow);
+    if (row.cogsValidateStatus === true) {
+      const newRow = {
+        variantId: row.id,
+        cogs: row.cogs
+      };
+      variants.push(newRow);
+    }
   });
   return {
     variants
@@ -88,9 +87,9 @@ function beautifyDataForCogsApiCall(data) {
 
 function moveAcceptedToBottom(data, row) {
   const updatedRow = data.splice(indexOf(data, row), 1)[0];
-  if (row && !isEmpty(row.cogs)) {
+  if (row && !isEmpty(row.variant_details.cogs)) {
     data.push(updatedRow);
-  } else if (row && isEmpty(row.cogs)) {
+  } else if (row && isEmpty(row.variant_details.cogs)) {
     data.unshift(updatedRow);
   }
   return data;
@@ -98,10 +97,10 @@ function moveAcceptedToBottom(data, row) {
 
 function sortByCogs(data) {
   return data.sort((itemA, itemB) => {
-    if (itemA.cogsValidateStatus === true) {
+    if (itemA.variant_details.cogs !== null && itemA.variant_details.cogs !== 'null') {
       return 1;
     }
-    if (itemB.cogsValidateStatus === true) {
+    if (itemB.variant_details.cogs !== null && itemB.variant_details.cogs !== 'null') {
       return -1;
     }
     return 0;
@@ -112,21 +111,36 @@ const hasClass = function (elem, className) {
   return new RegExp(` ${className} `).test(` ${elem.className} `);
 };
 
-function getProduct() {
-  if (localStorage.getItem('inventoryInfo')) {
-    return JSON.parse(localStorage.getItem('inventoryInfo'));
-  }
-  return false;
+function getProduct(update) {
+  return new Promise((resolve, reject) => {
+    if (localStorage.getItem('productInfo')) {
+      resolve(JSON.parse(localStorage.getItem('productInfo')));
+    } else {
+      invokeApig({ path: '/products' }).then((results) => {
+        localStorage.setItem('productInfo', JSON.stringify(results));
+        resolve(results);
+      }).catch(error => {
+        reject(error);
+      });
+    }
+  });
+}
+function parseVariants(variants) {
+  let list = [];
+  variants.map((val, i) => {
+    list = list.concat(val.variants);
+  });
+  return list;
 }
 
 export {
   beautifyUploadedCsvData,
   validateCogsValue,
   checkAndUpdateProductCogsValue,
-  updateLocalInventoryInfo,
   beautifyDataForCogsApiCall,
   moveAcceptedToBottom,
   sortByCogs,
   hasClass,
-  getProduct
+  getProduct,
+  parseVariants
 };

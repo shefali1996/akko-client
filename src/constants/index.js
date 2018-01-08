@@ -7,7 +7,7 @@ export const testMode = true;
 export const pollingInterval = 30 * 1000; // seconds 30s
 export const KEYS_TO_FILTERS = ['productDetail.title', 'stockOnHandUnits', 'stockOnHandValue.value', 'committedUnits', 'committedValue.value', 'availableForSaleUnits', 'availableForSaleValue.value'];
 export const KEYS_TO_METRICES = ['title', 'description', 'prefix', 'value', 'trend', 'trendValue', 'trendPeriod'];
-
+export const KEYS_TO_FILTERS_VARIANTS = ['variant_details.title', 'variant_details.variant', 'variant_details.sku'];
 // static functions
 export const validateEmail = (email) => {
   // eslint-disable-next-line max-len, no-useless-escape
@@ -73,11 +73,11 @@ export const getProductValue = (inventoryJSON) => {
     const currProduct = inventoryJSON[i];
     const productEntry = {
       id: currProduct.id,
-      title: currProduct.title,
-      variant: currProduct.variant,
-      sku: currProduct.sku,
-      price: currProduct.price,
-      cogs: currProduct.cogs
+      title: currProduct.variant_details.title,
+      variant: currProduct.variant_details.variant,
+      sku: currProduct.variant_details.sku,
+      price: currProduct.variant_details.price,
+      cogs: currProduct.variant_details.cogs
     };
     products.push(productEntry);
   }

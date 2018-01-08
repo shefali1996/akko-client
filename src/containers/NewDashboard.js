@@ -4,15 +4,12 @@ import {connect} from 'react-redux';
 import {withRouter} from 'react-router';
 import { Row, Col, Label, Button, Image, Grid, Tabs, Tab } from 'react-bootstrap';
 import {Card, CardHeader, CardText} from 'material-ui/Card';
-// import SelectField from 'material-ui/SelectField';
-// import MenuItem from 'material-ui/MenuItem';
-import { Select } from 'antd';
+import ReactPlaceholder from 'react-placeholder';
+import { Select, Spin } from 'antd';
 import $ from 'jquery';
-// import {clone} from 'lodash';
 import Navigationbar from '../components/Navigationbar';
 import Chart from '../components/Chart';
 import PriceBox from '../components/PriceBox';
-// import AnalysisRightPanel from '../components/AnalysisRightPanel';
 import ExploreMetrics from '../components/ExploreMetrics';
 import Footer from '../components/Footer';
 import { invokeApig } from '../libs/awsLib';
@@ -29,10 +26,11 @@ class NewDashboard extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      metricsData:     [],
-      width:           '25%',
-      activeMetricsId: 'none',
-      activeChartData: false
+      metricsData:      [],
+      width:            '25%',
+      metricDataLoaded: false,
+      activeMetricsId:  'none',
+      activeChartData:  false
     };
     this.setWidth = this.setWidth.bind(this);
     this.handleClickMetrics = this.handleClickMetrics.bind(this);
@@ -50,9 +48,9 @@ class NewDashboard extends Component {
     });
   }
   componentWillReceiveProps(props) {
-    console.log('props.metrics', props.metricsData);
     this.setState({
-      metricsData: props.metricsData.data.metrics || []
+      metricsData:      props.metricsData.data.metrics || [],
+      metricDataLoaded: !props.metricsData.isLoading,
     });
   }
   setWidth(w) {
@@ -151,6 +149,29 @@ class NewDashboard extends Component {
   render() {
     const {metricsData} = this.state;
     const renderCards = [];
+    if (!this.state.metricDataLoaded) {
+      // Add dummy loading cards
+      const number_of_dummy_cards = 3;
+      const CustomSpin = (
+        <div style={{width: '100%', textAlign: 'center'}}>
+          <Spin size="large" />
+        </div>
+      );
+      for (let i = 0; i < number_of_dummy_cards; i++) {
+        renderCards.push(<Col style={{width: this.state.width}} className="dashboard-card-container">
+          <Card
+            className="price-card-style"
+            style={styles.metricsCardStyle}
+            >
+            <CardText>
+              <div style={{padding: '40%'}}>
+                <ReactPlaceholder ready={this.state.metricDataLoaded} customPlaceholder={CustomSpin} />
+              </div>
+            </CardText>
+          </Card>
+        </Col>);
+      }
+    }
     metricsData.map((value, index) => {
       let active = '';
       let borderRed = '';
@@ -161,7 +182,7 @@ class NewDashboard extends Component {
       if (`card_${index}` === this.state.activeMetricsId) {
         active = 'active-metrics';
       }
-      if (value.trend !== '+') {
+      if (value.trend === '-') {
         borderRed = 'border-red';
       }
       let invalid = false;
@@ -193,11 +214,11 @@ class NewDashboard extends Component {
           invalid = true;
           value.title = 'Expenses Breakdown';
         }
-        renderCards.push(<Col key={index} id={`card_${index}`} style={{width: this.state.width}} className="dashboard-card-cantainer expenses-breakdown">
+        renderCards.push(<Col key={index} id={`card_${index}`} style={{width: this.state.width}} className="dashboard-card-container expenses-breakdown">
           {invalid ? this.invalidCard(value) : this.expenseCard(expensesData)}
         </Col>);
       } else {
-        renderCards.push(<Col key={index} id={`card_${index}`} style={{width: this.state.width}} className="dashboard-card-cantainer" title={!invalid ? `Click to explore ${value.title} in detail` : null}>
+        renderCards.push(<Col key={index} id={`card_${index}`} style={{width: this.state.width}} className="dashboard-card-container" title={!invalid ? `Click to explore ${value.title} in detail` : null}>
           {invalid ? this.invalidCard(value) : <Card
             className={`price-card-style ${active} ${borderRed}`}
             onClick={(e) => this.handleClickMetrics(`card_${index}`, value, chartData)}

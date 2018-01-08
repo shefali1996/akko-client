@@ -22,7 +22,7 @@ export const inventoryGetFailure = (error) => ({
 });
 
 export const inventoryGetRequest = (dataset, history) => (dispatch) => {
-  invokeApig({ path: '/inventory' }).then((results) => {
+  invokeApig({ path: '/products' }).then((results) => {
     // todo: inventory should defined to redux store
     // dispatch(inventoryGetSuccess(results));
 
