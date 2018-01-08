@@ -22,7 +22,7 @@ const elementResizeEvent = require('element-resize-event');
 
 const {Option} = Select;
 
-class NewDashboard extends Component {
+class Dashboard extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -294,4 +294,4 @@ const mapDispatchToProps = (dispatch) => {
   };
 };
 
-export default withRouter(connect(mapStateToProps, mapDispatchToProps)(NewDashboard));
+export default withRouter(connect(mapStateToProps, mapDispatchToProps)(Dashboard));
