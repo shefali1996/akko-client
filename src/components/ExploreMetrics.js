@@ -5,7 +5,6 @@ import Chip from 'material-ui/Chip';
 import Dialog from 'material-ui/Dialog';
 import { Select, DatePicker, Input } from 'antd';
 import Chart from '../components/Chart';
-import { chartDataOne} from '../constants/dommyData';
 import FilterDialog from '../components/FilterDialog';
 import styles from '../constants/styles';
 import profileIcon from '../assets/images/profileIconWhite.svg';
