@@ -11,8 +11,8 @@ export const getMetrics = () => {
         dispatch(actions.getMetricsSuccess(results));
       })
       .catch(error => {
-        dispatch(actions.getMetricsSuccess('get metrics error'));
         console.log('get metrics error', error);
+        dispatch(actions.getMetricsSuccess('get metrics error'));
       });
   };
 };

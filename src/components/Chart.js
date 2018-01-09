@@ -10,11 +10,52 @@ class Chart extends Component {
     this.initChart();
   }
 
+  componentWillUnmount() {
+    // this.destroyChart();
+  }
+
+  componentDidUpdate() {
+    if (this.chart) {
+	  this.chart.type = this.props.type,
+      this.chart.data = this.props.data;
+
+	var prefix = '', postfix = '';
+	var data = this.props.data;
+	if (data && data.datasets && data.datasets.length && data.datasets[0].prefix) {
+		prefix = data.datasets[0].prefix;
+	}
+	if (data && data.datasets && data.datasets.length && data.datasets[0].postfix) {
+		postfix = data.datasets[0].postfix;
+	}
+
+	this.chart.options.scales.yAxes[0].ticks.callback = function(value, index, values) {
+		return prefix + value + postfix;
+	}
+
+      this.chart.update();
+    }
+  }
+
   initChart() {
-    this.chart = new ChartJS(this.canvas, {
-      type: this.props.type,
-      data: this.props.data,
-      options: {
+	var prefix = '', postfix = '';
+	var data = this.props.data;
+	if (data && data.datasets && data.datasets.length && data.datasets[0].prefix) {
+		prefix = data.datasets[0].prefix;
+	}
+	if (data && data.datasets && data.datasets.length && data.datasets[0].postfix) {
+		postfix = data.datasets[0].postfix;
+	}
+
+	var options = {
+        scales: {
+            yAxes: [{
+                ticks: {
+                    callback: function(value, index, values) {
+						return prefix + value + postfix;
+                    }
+                }
+            }]
+        },
         legend: {
           display: false,
           position: this.props.type === 'bar' ? 'right' : 'top',
@@ -36,7 +77,14 @@ class Chart extends Component {
             }
           }
         }
-      }
+      };
+	if (this.props.disableAspectRatio) {
+		options.maintainAspectRatio = false;
+	}
+    this.chart = new ChartJS(this.canvas, {
+      type: this.props.type,
+      data: this.props.data,
+	  options: options,
     });
   }
 
@@ -46,7 +94,7 @@ class Chart extends Component {
 
   render() {
     return (
-      <div>
+      <div style={{height: "100%"}}>
         <canvas ref={(canvas) => this.canvas = canvas} />
       </div>
     );
