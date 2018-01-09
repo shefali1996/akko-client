@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Switch, Route } from 'react-router';
-import Dashboard from './NewDashboard';
+import Dashboard from './Dashboard';
 import user from '../auth/user';
 
 class AuthorizedContainer extends Component {

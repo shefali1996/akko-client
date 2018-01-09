@@ -22,18 +22,6 @@ import {
   orderEveryFormatter
 } from '../components/CustomTable';
 
-// const styles = {
-//   chartsHeaderTitle: {
-//     fontSize: '16px',
-//     color: '#666666',
-//     fontWeight: 'bold',
-//     textDecoration: 'none solid rgb(102, 102, 102)',
-//   },
-//   chartHeader: {
-//     width: '100%',
-//     padding: '0px'
-//   }
-// };
 const product = 'product';
 const customer = 'customer';
 

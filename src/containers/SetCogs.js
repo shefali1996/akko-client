@@ -1,11 +1,8 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { Grid, Row, Col, Button, Label, Image } from 'react-bootstrap';
+import { Grid, Row, Col, Button, Image } from 'react-bootstrap';
 import SweetAlert from 'sweetalert-react';
 import { Spin } from 'antd';
-import { convertInventoryJSONToObject } from '../constants';
-import { invokeApig } from '../libs/awsLib';
-
 import cogs1 from '../assets/images/cogs1.svg';
 import cogs2 from '../assets/images/cogs2.svg';
 import cogs3 from '../assets/images/cogs3.svg';
@@ -17,10 +14,10 @@ class SetCogs extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      data: [],
-      option: '',
+      data:      [],
+      option:    '',
       alertShow: false,
-      loading: false
+      loading:   false
     };
     this.onSkip = this.onSkip.bind(this);
     this.onTypeOneSelected = this.onTypeOneSelected.bind(this);
@@ -53,10 +50,6 @@ class SetCogs extends Component {
 
   onSkip() {
     this.setState({ alertShow: true });
-    // let {option} = this.state;
-    // if(option.length > 0) {
-    //     this.props.history.push('/set-csv');
-    // }
   }
 
   onConfirm() {
@@ -68,7 +61,7 @@ class SetCogs extends Component {
     this.setState({loading: true});
     getProduct().then((res) => {
       this.setState({
-        data: res.products,
+        data:    res.products,
         loading: false
       });
     }).catch((error) => {

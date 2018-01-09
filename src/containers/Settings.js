@@ -12,7 +12,7 @@ class Setting extends Component {
     super(props);
     this.state = {
       variants: false,
-      loading: false,
+      loading:  false,
     };
     this.getProductCount = this.getProductCount.bind(this);
     this.getProductCountWithCogs = this.getProductCountWithCogs.bind(this);
@@ -45,7 +45,7 @@ class Setting extends Component {
     this.setState({ loading: true });
     const next = i + 1;
     invokeApig({
-      path: `/products/${products[i].productId}`,
+      path:        `/products/${products[i].productId}`,
       queryParams: {
         cogs: true
       }
@@ -59,7 +59,7 @@ class Setting extends Component {
         const variantsList = parseVariants(this.variants);
         this.setState({
           variants: variantsList || [],
-          loading: false
+          loading:  false
         });
         this.variants = [];
       }
@@ -140,49 +140,51 @@ class Setting extends Component {
                 SET COGS
             </Button>
           </div>
-          <div className="text-center margin-t-60">
-            <span className="update-style-title">
+          <div className="hide hide-inventory-alert-section">
+            <div className="text-center margin-t-60">
+              <span className="update-style-title">
               INVENTORY ALERTS
-            </span>
-          </div>
-          <div className="text-center margin-t-20">
-            <span className="inventory-alert-text margin-t-20">
+              </span>
+            </div>
+            <div className="text-center margin-t-20">
+              <span className="inventory-alert-text margin-t-20">
               Alerts are triggered when you don't have enough inventory in stock to serve your rate of sales.
-            </span>
-          </div>
-          <div className="inventory-form text-center margin-t-40">
-            <span className="inventory-alert-text">
+              </span>
+            </div>
+            <div className="inventory-form text-center margin-t-40">
+              <span className="inventory-alert-text">
               Trigger alert when I don't have enough stock for
-            </span>
-            <span className="inventory-alert-text input-field">
-              <Input placeholder="20" onChange={(e) => this.setState({timePeriod: e.target.value})} />
-            </span>
-            <span className="inventory-alert-text">
-              <Select defaultValue="days" style={{ width: 120 }} onChange={(value) => this.setState({unit: value})}>
-                <Option value="days">Days</Option>
-                <Option value="months">Months</Option>
-                <Option value="weeks">Weeks</Option>
-              </Select>
-            </span>
-          </div>
-          <div className="text-center margin-t-20">
-            <span className="inventory-alert-text margin-t-20">
+              </span>
+              <span className="inventory-alert-text input-field">
+                <Input placeholder="20" onChange={(e) => this.setState({timePeriod: e.target.value})} />
+              </span>
+              <span className="inventory-alert-text">
+                <Select defaultValue="days" style={{ width: 120 }} onChange={(value) => this.setState({unit: value})}>
+                  <Option value="days">Days</Option>
+                  <Option value="months">Months</Option>
+                  <Option value="weeks">Weeks</Option>
+                </Select>
+              </span>
+            </div>
+            <div className="text-center margin-t-20">
+              <span className="inventory-alert-text margin-t-20">
               How do you want to receive alerts?
-            </span>
-            <span className="inventory-alert-text inventory-alert-checkbox">
-              <span><Checkbox className="margin-l-5 margin-r-10" onChange={(e) => this.setState({inAppChecked: e.target.checked})} checked disabled />In App</span>
-              <span><Checkbox className="margin-r-10" onChange={(e) => this.setState({emailChecked: e.target.checked})} />Email</span>
-            </span>
-          </div>
-          <div className="text-center margin-t-60">
-            <span className="inventory-btn-wrapper">
-              <Button className="inventory-button btn-savenclose" onClick={this.goDashboard}>
+              </span>
+              <span className="inventory-alert-text inventory-alert-checkbox">
+                <span><Checkbox className="margin-l-5 margin-r-10" onChange={(e) => this.setState({inAppChecked: e.target.checked})} checked disabled />In App</span>
+                <span><Checkbox className="margin-r-10" onChange={(e) => this.setState({emailChecked: e.target.checked})} />Email</span>
+              </span>
+            </div>
+            <div className="text-center margin-t-60">
+              <span className="inventory-btn-wrapper">
+                <Button className="inventory-button btn-savenclose" onClick={this.goDashboard}>
                 SAVE AND CLOSE
-              </Button>
-              <Button className="inventory-button btn-cancel" onClick={this.goDashboard}>
+                </Button>
+                <Button className="inventory-button btn-cancel" onClick={this.goDashboard}>
                   CANCEL
-              </Button>
-            </span>
+                </Button>
+              </span>
+            </div>
           </div>
           <div className="text-center margin-t-60" />
         </Grid>
