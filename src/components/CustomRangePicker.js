@@ -22,11 +22,25 @@ class CustomRangePicker extends Component {
       endDateInput: '',
       selectedRange: ''
     };
+	// Preserve initial state
+	this.initialState = this.state;
+
     this.handleToggle = this.handleToggle.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
     this.selectRange = this.selectRange.bind(this);
     this.validateEndDate = this.validateEndDate.bind(this);
     this.validateStartDate = this.validateStartDate.bind(this);
+  }
+  componentWillReceiveProps(nextProps) {
+	  console.log("Inside componentWillReceiveProps CustomRangePicker:", nextProps);
+	  // TODO: This is not the best want to handle this sort of cases. Ideally,
+	  // the state should move up and passed down as props.
+	  if (nextProps.customRangeShouldClear === true) {
+		  this.setState(this.initialState);
+		  if (this.props.afterCustomRangeClear) {
+			this.props.afterCustomRangeClear();
+		  }
+	  }
   }
   handleToggle() {
     this.setState({
@@ -49,6 +63,9 @@ class CustomRangePicker extends Component {
       this.setState({
         selectedRange: `${moment(startDate).format('DD-MMM-YYYY')} to ${moment(endDate).format('DD-MMM-YYYY')}`
       });
+	  if (this.props.onTimeframeChange) {
+		  this.props.onTimeframeChange(startDate, endDate);
+	  }
     }
   }
   selectRange(value) {

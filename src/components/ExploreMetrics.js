@@ -18,8 +18,11 @@ const {Option} = Select;
 
 const ascendingSortOrder = "asc", descendingSortOrder = "desc";
 const WIDTH_PER_LABEL = "50"; // In pixels
+const RESOLUTION_DAY = 'day';
 
 const OPTION_TIME = "Time", OPTION_PRODUCT = "Product", OPTION_CUSTOMER = "Customer";
+
+const DAYS_35 = 35 * 86400000;
 
 class ExploreMetrics extends Component {
   constructor(props) {
@@ -35,9 +38,14 @@ class ExploreMetrics extends Component {
 	  graphError: false,
 	  graphLoadingDone: true,
 	  chartWidth: "100%",
+	  customRangeShouldClear: false,
     };
+
 	this.currentOption = OPTION_TIME;
 	this.currentSortOption = "1";
+	this.customStartTime = '';
+	this.customEndTime = '';
+
     this.openFilter = this.openFilter.bind(this);
     this.closeFilter = this.closeFilter.bind(this);
     this.onRowSelect = this.onRowSelect.bind(this);
@@ -45,19 +53,51 @@ class ExploreMetrics extends Component {
     this.handleToggle = this.handleToggle.bind(this);
 	this.onOptionChange = this.onOptionChange.bind(this);
 	this.onSortOptionChange = this.onSortOptionChange.bind(this);
+	this.onTimeframeChange = this.onTimeframeChange.bind(this);
+	this.getMap = this.getMap.bind(this);
+	this.setMap = this.setMap.bind(this);
+	this.closeExploreMetrics = this.closeExploreMetrics.bind(this);
+	this.afterCustomRangeClear = this.afterCustomRangeClear.bind(this);
 
+	this.defaultDataMap = {};
+	this.customTimeframeDataMap = {};
 	this.timeMetricMap = {};
 	this.productsMetricMap = {};
 	this.customersMetricMap = {};
   }
 
+  getMap(metric, context) {
+	  var map = this.defaultDataMap;
+	  if (this.customStartTime !== ''
+			  && this.customEndTime !== '') {
+		  map = this.customTimeframeDataMap;
+	  }
+	  var key = metric + ":" + context;
+	  if (map.hasOwnProperty(key)) {
+		  return map[key];
+	  }
+	  return null;
+  }
+
+  setMap(metric, context, value) {
+	  var map = this.defaultDataMap;
+	  if (this.customStartTime !== ''
+			  && this.customEndTime !== '') {
+		  map = this.customTimeframeDataMap;
+	  }
+	  var key = metric + ":" + context;
+	  map[key] = value;
+  }
+
   componentWillReceiveProps(nextProps) {
 	  console.log("nextProps:", nextProps);
-	  if (nextProps.activeMetrics && this.props.activeMetrics !== nextProps.activeMetrics) {
+	  if (nextProps.activeMetrics && (this.props.activeMetrics !== nextProps.activeMetrics
+				  || this.chartChangeRequired)) {
 		this.setState({
 			activeMetrics: nextProps.activeMetrics
 		}, () => {
 			console.log("Current state metrics:", this.state.activeMetrics);
+			this.chartChangeRequired = false;
 			this.onOptionChange(this.currentOption);
 		});
 	  }
@@ -72,9 +112,29 @@ class ExploreMetrics extends Component {
   closeFilter() {
     this.setState({
       openFilter: false,
-      filterBy:   ''
+      filterBy:   '',
     });
   }
+
+  closeExploreMetrics() {
+	if (this.customStartTime !== '') {
+		this.setState({
+			customRangeShouldClear: true
+		});
+		this.customTimeframeDataMap = {};
+		this.customStartTime = '';
+		this.customEndTime = '';
+		this.chartChangeRequired = true;
+	}
+	this.props.closeFilter();
+  }
+
+  afterCustomRangeClear() {
+	  this.setState({
+		  customRangeShouldClear: false,
+	  })
+  }
+
   onRowSelect(filterData) {
     const {filterBy} = this.state;
     if (filterBy === 'product') {
@@ -99,21 +159,32 @@ class ExploreMetrics extends Component {
     });
   }
 
-  setMetric(map, path) {
+  setMetric(option, path) {
 	  var metric_name = this.state.activeMetrics.metric_name;
-	  var metric_map = map[metric_name];
+	  var metric_map = this.getMap(metric_name, option);
 	  if (!metric_map) {
 		    metric_map = {};
-			var ms = moment().utc().startOf('day').valueOf();
-			metric_map.end = moment(ms).add({days: 1}).valueOf();
-			metric_map.start = moment(ms).subtract({years: 1}).valueOf();
 
-			console.log("Timeslice:", moment(metric_map.start).utcOffset("+00:00").format(),
-					moment(metric_map.end).utcOffset("+00:00").format());
+			if (this.customStartTime !== '' && this.customEndTime !== '') {
+				metric_map.start = this.customStartTime;
+				metric_map.end = this.customEndTime;
+			} else {
+				var ms = moment().utc().startOf('day').valueOf();
+				metric_map.end = moment(ms).add({days: 1}).valueOf();
+				metric_map.start = moment(ms).subtract({years: 1}).valueOf();
+
+				console.log("Timeslice:", moment(metric_map.start).utcOffset("+00:00").format(),
+						moment(metric_map.end).utcOffset("+00:00").format());
+			}
 
 			var queryParams = {
 				timeslice_start: metric_map.start,
 				timeslice_end: metric_map.end 
+			}
+			if (option === OPTION_TIME && metric_map.end - metric_map.start <= DAYS_35) {
+				console.log("Inside resolution");
+				queryParams.resolution = RESOLUTION_DAY;
+				metric_map.resolution = RESOLUTION_DAY;
 			}
 
 			return invokeApig({ path: path, queryParams: queryParams}).then((results) => {
@@ -122,7 +193,7 @@ class ExploreMetrics extends Component {
 					throw new Error('results.metrics is undefined');
 				}
 				metric_map.result = results;
-				map[metric_name] = metric_map;
+				this.setMap(metric_name, option, metric_map);
 			});
 	  }
 	  return Promise.resolve();
@@ -134,21 +205,30 @@ class ExploreMetrics extends Component {
 	  // TODO: dynamic contextId
 	  var path = '/metrics/' + metric_name + '/shop/akkotest';
 	  console.log("Path:", path);
-	  return this.setMetric(this.timeMetricMap, path);
+	  return this.setMetric(OPTION_TIME, path);
   }
   
   setProductsMetric() {
 	  console.log("Inside setProductsMetric");
 	  var metric_name = this.state.activeMetrics.metric_name;
 	  var path = '/metrics/' + metric_name + '/product';
-	  return this.setMetric(this.productsMetricMap, path);
+	  return this.setMetric(OPTION_PRODUCT, path);
   }
 
   setCustomersMetric() {
 	  console.log("Inside setCustomersMetric");
 	  var metric_name = this.state.activeMetrics.metric_name;
 	  var path = '/metrics/' + metric_name + '/customer';
-	  return this.setMetric(this.customersMetricMap, path);
+	  return this.setMetric(OPTION_CUSTOMER, path);
+  }
+
+  onTimeframeChange(newStartTime, newEndTime) {
+	  console.log("onTimeframeChange:", newStartTime, newEndTime);
+	  this.customStartTime = newStartTime.valueOf();
+	  this.customEndTime = newEndTime.valueOf();
+	  console.log("onTimeframeChange 2:", this.customStartTime, this.customEndTime);
+	  this.customTimeframeDataMap = {};
+	  this.onOptionChange(this.currentOption);
   }
 
   onSortOptionChange(option) {
@@ -171,7 +251,7 @@ class ExploreMetrics extends Component {
 	  if (option === OPTION_TIME) {
 		  this.setTimeMetric().then(() => {
 			  console.log("Success, finished api call");
-			  var metric_map = this.timeMetricMap[metric_name];
+			  var metric_map = this.getMap(metric_name, OPTION_TIME);
 			  var metrics = metric_map.result.metrics;
 			  if (metrics.length === 0) {
 				  throw new Error('No metrics to display')
@@ -181,7 +261,11 @@ class ExploreMetrics extends Component {
 			  var labels = [], values = [];
 
 			  metrics.forEach((value) => {
-				  const label = moment(value.timeslice_start).utcOffset("+00:00").format('MMM YY');
+				  var format = 'MMM YY';
+				  if (metric_map.resolution === RESOLUTION_DAY) {
+					  format = 'MMM D';
+				  }
+				  const label = moment(value.timeslice_start).utcOffset("+00:00").format(format);
 				  labels.push(label);
 				  values.push(value.value);
 			  });
@@ -204,6 +288,9 @@ class ExploreMetrics extends Component {
 
 			  var width = labels.length * WIDTH_PER_LABEL;
 			  var full_width = document.getElementById('chart-full-width-holder').offsetWidth;
+			  if (metric_map.resolution === RESOLUTION_DAY) {
+				  width = full_width / 31 * labels.length;
+			  }
 			  if (width < full_width) {
 				  width = '100%';
 			  } else {
@@ -218,6 +305,7 @@ class ExploreMetrics extends Component {
 
 			  console.log("state chartData:", this.state.chartData);
 		  }).catch((error) => {
+			  console.log("Error: ", error);
 			  this.setState({
 				  graphError: true,
 				  graphLoadingDone: true
@@ -225,11 +313,10 @@ class ExploreMetrics extends Component {
 		  });
 	  } else if (option === OPTION_PRODUCT || option === OPTION_CUSTOMER) {
 		  var setFunc = option === OPTION_PRODUCT ? this.setProductsMetric : this.setCustomersMetric;
-		  var metricMap = option === OPTION_PRODUCT ? this.productsMetricMap : this.customersMetricMap;
 		  setFunc = setFunc.bind(this);
 		  setFunc().then(() => {
 			  console.log("Success, finished api call");
-			  var metric_map = metricMap[metric_name];
+			  var metric_map = this.getMap(metric_name, option);
 			  var metrics = metric_map.result.metrics;
 			  if (metrics.length === 0) {
 				  throw new Error('No metrics to display')
@@ -328,7 +415,7 @@ class ExploreMetrics extends Component {
               title={<div>
                 <span>{`Exploring ${activeMetrics && activeMetrics.title} metric`}</span>
                 <span className="pull-right close-btn">
-                  <Button className="close-button pull-right" onClick={this.props.closeFilter} />
+                  <Button className="close-button pull-right" onClick={this.closeExploreMetrics} />
                 </span>
               </div>}
               titleStyle={styles.chartsHeaderTitle}
@@ -352,7 +439,9 @@ class ExploreMetrics extends Component {
                 <span className="pull-right" style={{ width: 200 }}>
                   <span className="dd-lable" />
                   <span className="explore-datepicker">
-                    <CustomRangePicker />
+                    <CustomRangePicker onTimeframeChange={this.onTimeframeChange}
+						customRangeShouldClear={this.state.customRangeShouldClear}
+						afterCustomRangeClear={this.afterCustomRangeClear}/>
                   </span>
                 </span>
               </div>}
