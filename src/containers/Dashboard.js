@@ -268,7 +268,9 @@ class Dashboard extends Component {
                   }}
                   activeMetrics={this.state.activeMetrics}
                   activeChartData={this.state.activeChartData}
-                  open={this.state.explore} />
+                  open={this.state.explore}
+                  {...this.props}
+                  />
               </div>
             </Col>
           </Row>
@@ -290,6 +292,9 @@ const mapDispatchToProps = (dispatch) => {
   return {
     getMetrics: () => {
       return dispatch(dashboardActions.getMetrics());
+    },
+    getChartData: (path, activeMetrics, queryParams) => {
+      return dispatch(dashboardActions.getChartData(path, activeMetrics, queryParams));
     }
   };
 };

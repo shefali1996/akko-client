@@ -12,15 +12,20 @@ import profileIcon from '../assets/images/profileIconWhite.svg';
 import downArrowWhite from '../assets/images/downArrowWhite.svg';
 import CustomRangePicker from '../components/CustomRangePicker';
 import { invokeApig } from '../libs/awsLib';
+import {plotByOptions} from '../constants';
 
 const moment = require('moment');
+
 const {Option} = Select;
 
-const ascendingSortOrder = "asc", descendingSortOrder = "desc";
-const WIDTH_PER_LABEL = "50"; // In pixels
+const ascendingSortOrder = 'asc',
+  descendingSortOrder = 'desc';
+const WIDTH_PER_LABEL = '50'; // In pixels
 const RESOLUTION_DAY = 'day';
 
-const OPTION_TIME = "Time", OPTION_PRODUCT = "Product", OPTION_CUSTOMER = "Customer";
+const OPTION_TIME = plotByOptions.time,
+  OPTION_PRODUCT = plotByOptions.product,
+  OPTION_CUSTOMER = plotByOptions.customer;
 
 const DAYS_35 = 35 * 86400000;
 
@@ -28,51 +33,51 @@ class ExploreMetrics extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      openFilter: false,
-	  activeMetrics: null,
-      filterBy: '',
-      products: {},
-      customers: {},
-      open: false,
-	  chartData: null,
-	  graphError: false,
-	  graphLoadingDone: true,
-	  chartWidth: "100%",
+      openFilter:             false,
+	  activeMetrics:          null,
+      filterBy:               '',
+      products:               {},
+      customers:              {},
+      open:                   false,
+	  chartData:              null,
+	  graphError:             false,
+	  graphLoadingDone:       true,
+	  chartWidth:             '100%',
 	  customRangeShouldClear: false,
     };
 
-	this.currentOption = OPTION_TIME;
-	this.currentSortOption = "1";
-	this.customStartTime = '';
-	this.customEndTime = '';
+    this.currentOption = OPTION_TIME;
+    this.currentSortOption = '1';
+    this.customStartTime = '';
+    this.customEndTime = '';
 
     this.openFilter = this.openFilter.bind(this);
     this.closeFilter = this.closeFilter.bind(this);
     this.onRowSelect = this.onRowSelect.bind(this);
     this.returnData = this.returnData.bind(this);
     this.handleToggle = this.handleToggle.bind(this);
-	this.onOptionChange = this.onOptionChange.bind(this);
-	this.onSortOptionChange = this.onSortOptionChange.bind(this);
-	this.onTimeframeChange = this.onTimeframeChange.bind(this);
-	this.getMap = this.getMap.bind(this);
-	this.setMap = this.setMap.bind(this);
-	this.closeExploreMetrics = this.closeExploreMetrics.bind(this);
-	this.afterCustomRangeClear = this.afterCustomRangeClear.bind(this);
+    this.onOptionChange = this.onOptionChange.bind(this);
+    this.onSortOptionChange = this.onSortOptionChange.bind(this);
+    this.onTimeframeChange = this.onTimeframeChange.bind(this);
+    this.getMap = this.getMap.bind(this);
+    this.setMap = this.setMap.bind(this);
+    this.closeExploreMetrics = this.closeExploreMetrics.bind(this);
+    this.afterCustomRangeClear = this.afterCustomRangeClear.bind(this);
 
-	this.defaultDataMap = {};
-	this.customTimeframeDataMap = {};
-	this.timeMetricMap = {};
-	this.productsMetricMap = {};
-	this.customersMetricMap = {};
+    this.defaultDataMap = {};
+    this.customTimeframeDataMap = {};
+    this.timeMetricMap = {};
+    this.productsMetricMap = {};
+    this.customersMetricMap = {};
   }
 
   getMap(metric, context) {
-	  var map = this.defaultDataMap;
+	  let map = this.defaultDataMap;
 	  if (this.customStartTime !== ''
 			  && this.customEndTime !== '') {
 		  map = this.customTimeframeDataMap;
 	  }
-	  var key = metric + ":" + context;
+	  const key = `${metric}:${context}`;
 	  if (map.hasOwnProperty(key)) {
 		  return map[key];
 	  }
@@ -80,26 +85,26 @@ class ExploreMetrics extends Component {
   }
 
   setMap(metric, context, value) {
-	  var map = this.defaultDataMap;
+	  let map = this.defaultDataMap;
 	  if (this.customStartTime !== ''
 			  && this.customEndTime !== '') {
 		  map = this.customTimeframeDataMap;
 	  }
-	  var key = metric + ":" + context;
+	  const key = `${metric}:${context}`;
 	  map[key] = value;
   }
 
   componentWillReceiveProps(nextProps) {
-	  console.log("nextProps:", nextProps);
+	  console.log('nextProps:', nextProps);
 	  if (nextProps.activeMetrics && (this.props.activeMetrics !== nextProps.activeMetrics
 				  || this.chartChangeRequired)) {
-		this.setState({
-			activeMetrics: nextProps.activeMetrics
-		}, () => {
-			console.log("Current state metrics:", this.state.activeMetrics);
-			this.chartChangeRequired = false;
-			this.onOptionChange(this.currentOption);
-		});
+      this.setState({
+        activeMetrics: nextProps.activeMetrics
+      }, () => {
+        console.log('Current state metrics:', this.state.activeMetrics);
+        this.chartChangeRequired = false;
+        this.onOptionChange(this.currentOption);
+      });
 	  }
   }
 
@@ -117,22 +122,22 @@ class ExploreMetrics extends Component {
   }
 
   closeExploreMetrics() {
-	if (this.customStartTime !== '') {
-		this.setState({
-			customRangeShouldClear: true
-		});
-		this.customTimeframeDataMap = {};
-		this.customStartTime = '';
-		this.customEndTime = '';
-		this.chartChangeRequired = true;
-	}
-	this.props.closeFilter();
+    if (this.customStartTime !== '') {
+      this.setState({
+        customRangeShouldClear: true
+      });
+      this.customTimeframeDataMap = {};
+      this.customStartTime = '';
+      this.customEndTime = '';
+      this.chartChangeRequired = true;
+    }
+    this.props.closeFilter();
   }
 
   afterCustomRangeClear() {
 	  this.setState({
 		  customRangeShouldClear: false,
-	  })
+	  });
   }
 
   onRowSelect(filterData) {
@@ -159,80 +164,65 @@ class ExploreMetrics extends Component {
     });
   }
 
-  setMetric(option, path) {
-	  var metric_name = this.state.activeMetrics.metric_name;
-	  var metric_map = this.getMap(metric_name, option);
+  setMetric(option) {
+	  const metric_name = this.state.activeMetrics.metric_name;
+	  let metric_map = this.getMap(metric_name, option);
 	  if (!metric_map) {
 		    metric_map = {};
 
-			if (this.customStartTime !== '' && this.customEndTime !== '') {
-				metric_map.start = this.customStartTime;
-				metric_map.end = this.customEndTime;
-			} else {
-				var ms = moment().utc().startOf('day').valueOf();
-				metric_map.end = moment(ms).add({days: 1}).valueOf();
-				metric_map.start = moment(ms).subtract({years: 1}).valueOf();
+      if (this.customStartTime !== '' && this.customEndTime !== '') {
+        metric_map.start = this.customStartTime;
+        metric_map.end = this.customEndTime;
+      } else {
+        const ms = moment().utc().startOf('day').valueOf();
+        metric_map.end = moment(ms).add({days: 1}).valueOf();
+        metric_map.start = moment(ms).subtract({years: 1}).valueOf();
 
-				console.log("Timeslice:", moment(metric_map.start).utcOffset("+00:00").format(),
-						moment(metric_map.end).utcOffset("+00:00").format());
-			}
+        console.log('Timeslice:', moment(metric_map.start).utcOffset('+00:00').format(),
+          moment(metric_map.end).utcOffset('+00:00').format());
+      }
 
-			var queryParams = {
-				timeslice_start: metric_map.start,
-				timeslice_end: metric_map.end 
-			}
-			if (option === OPTION_TIME && metric_map.end - metric_map.start <= DAYS_35) {
-				console.log("Inside resolution");
-				queryParams.resolution = RESOLUTION_DAY;
-				metric_map.resolution = RESOLUTION_DAY;
-			}
-
-			return invokeApig({ path: path, queryParams: queryParams}).then((results) => {
-				console.log("API result:", results);
-				if (!results.metrics) {
-					throw new Error('results.metrics is undefined');
-				}
-				metric_map.result = results;
-				this.setMap(metric_name, option, metric_map);
-			});
+      const queryParams = {
+        timeslice_start: metric_map.start,
+        timeslice_end:   metric_map.end
+      };
+      if (option === OPTION_TIME && metric_map.end - metric_map.start <= DAYS_35) {
+        console.log('Inside resolution');
+        queryParams.resolution = RESOLUTION_DAY;
+        metric_map.resolution = RESOLUTION_DAY;
+      }
+      return this.props.getChartData(option, this.state.activeMetrics, queryParams).then((results) => {
+        console.log('API result:', results);
+        if (!results.metrics) {
+          throw new Error('results.metrics is undefined');
+        }
+        metric_map.result = results;
+        this.setMap(metric_name, option, metric_map);
+      });
 	  }
 	  return Promise.resolve();
   }
 
   setTimeMetric() {
-	  console.log("Inside setTimeMetric");
-	  var metric_name = this.state.activeMetrics.metric_name;
-	  // TODO: dynamic contextId
-	  var path = '/metrics/' + metric_name + '/shop/akkotest';
-	  console.log("Path:", path);
-	  return this.setMetric(OPTION_TIME, path);
+	  return this.setMetric(OPTION_TIME);
   }
-  
+
   setProductsMetric() {
-	  console.log("Inside setProductsMetric");
-	  var metric_name = this.state.activeMetrics.metric_name;
-	  var path = '/metrics/' + metric_name + '/product';
-	  return this.setMetric(OPTION_PRODUCT, path);
+	  return this.setMetric(OPTION_PRODUCT);
   }
 
   setCustomersMetric() {
-	  console.log("Inside setCustomersMetric");
-	  var metric_name = this.state.activeMetrics.metric_name;
-	  var path = '/metrics/' + metric_name + '/customer';
-	  return this.setMetric(OPTION_CUSTOMER, path);
+	  return this.setMetric(OPTION_CUSTOMER);
   }
 
   onTimeframeChange(newStartTime, newEndTime) {
-	  console.log("onTimeframeChange:", newStartTime, newEndTime);
 	  this.customStartTime = newStartTime.valueOf();
 	  this.customEndTime = newEndTime.valueOf();
-	  console.log("onTimeframeChange 2:", this.customStartTime, this.customEndTime);
 	  this.customTimeframeDataMap = {};
 	  this.onOptionChange(this.currentOption);
   }
 
   onSortOptionChange(option) {
-	  console.log("Inside onSortOptionChange:", option);
 	  this.currentSortOption = option;
 	  this.onOptionChange(this.currentOption);
   }
@@ -240,102 +230,103 @@ class ExploreMetrics extends Component {
   onOptionChange(option) {
 	  this.setState({
 		  graphLoadingDone: false,
-		  graphError: false
+		  graphError:       false
 	  });
-	  console.log("Option change", option);
-	  var sortOrder = ascendingSortOrder;
-	  if (this.currentSortOption === "2") {
+	  console.log('Option change', option);
+	  let sortOrder = ascendingSortOrder;
+	  if (this.currentSortOption === '2') {
 		  sortOrder = descendingSortOrder;
 	  }
-	  var metric_name = this.state.activeMetrics.metric_name;
+	  const metric_name = this.state.activeMetrics.metric_name;
 	  if (option === OPTION_TIME) {
 		  this.setTimeMetric().then(() => {
-			  console.log("Success, finished api call");
-			  var metric_map = this.getMap(metric_name, OPTION_TIME);
-			  var metrics = metric_map.result.metrics;
+			  console.log('Success, finished api call');
+			  const metric_map = this.getMap(metric_name, OPTION_TIME);
+			  const metrics = metric_map.result.metrics;
 			  if (metrics.length === 0) {
-				  throw new Error('No metrics to display')
+				  throw new Error('No metrics to display');
 			  }
 
-			  var value = metrics[0];
-			  var labels = [], values = [];
+			  const value = metrics[0];
+			  let labels = [],
+          values = [];
 
 			  metrics.forEach((value) => {
-				  var format = 'MMM YY';
+				  let format = 'MMM YY';
 				  if (metric_map.resolution === RESOLUTION_DAY) {
 					  format = 'MMM D';
 				  }
-				  const label = moment(value.timeslice_start).utcOffset("+00:00").format(format);
+				  const label = moment(value.timeslice_start).utcOffset('+00:00').format(format);
 				  labels.push(label);
 				  values.push(value.value);
 			  });
 
-			  console.log("labels:", labels);
+			  console.log('labels:', labels);
 
 			  const chartData = {
-					labels: labels,
-					datasets: [{
-					  type: 'line',
-					  label: value.title,
-					  data: values,
+          labels,
+          datasets: [{
+					  type:            'line',
+					  label:           value.title,
+					  data:            values,
 					  backgroundColor: '#575dde',
-					  fill: '1',
-					  tension: 0,
-					  prefix: value.prefix,
-					  postfix: value.postfix
-					}]
+					  fill:            '1',
+					  tension:         0,
+					  prefix:          value.prefix,
+					  postfix:         value.postfix
+          }]
 			  };
 
-			  var width = labels.length * WIDTH_PER_LABEL;
-			  var full_width = document.getElementById('chart-full-width-holder').offsetWidth;
+			  let width = labels.length * WIDTH_PER_LABEL;
+			  const full_width = document.getElementById('chart-full-width-holder').offsetWidth;
 			  if (metric_map.resolution === RESOLUTION_DAY) {
 				  width = full_width / 31 * labels.length;
 			  }
 			  if (width < full_width) {
 				  width = '100%';
 			  } else {
-				  width = width + 'px';
+				  width += 'px';
 			  }
-			  console.log("Width: ", width, full_width);
+			  console.log('Width: ', width, full_width);
 			  this.setState({
-				  chartWidth: width,
-				  chartData: chartData,
+				  chartWidth:       width,
+				  chartData,
 				  graphLoadingDone: true
 			  });
 
-			  console.log("state chartData:", this.state.chartData);
+			  console.log('state chartData:', this.state.chartData);
 		  }).catch((error) => {
-			  console.log("Error: ", error);
+			  console.log('Error: ', error);
 			  this.setState({
-				  graphError: true,
+				  graphError:       true,
 				  graphLoadingDone: true
 			  });
 		  });
 	  } else if (option === OPTION_PRODUCT || option === OPTION_CUSTOMER) {
-		  var setFunc = option === OPTION_PRODUCT ? this.setProductsMetric : this.setCustomersMetric;
+		  let setFunc = option === OPTION_PRODUCT ? this.setProductsMetric : this.setCustomersMetric;
 		  setFunc = setFunc.bind(this);
 		  setFunc().then(() => {
-			  console.log("Success, finished api call");
-			  var metric_map = this.getMap(metric_name, option);
-			  var metrics = metric_map.result.metrics;
+			  console.log('Success, finished api call');
+			  const metric_map = this.getMap(metric_name, option);
+			  const metrics = metric_map.result.metrics;
 			  if (metrics.length === 0) {
-				  throw new Error('No metrics to display')
+				  throw new Error('No metrics to display');
 			  }
-			  var value = metrics[0];
-			  var data = [];
+			  const value = metrics[0];
+			  const data = [];
 
-			  var index = 0;
+			  let index = 0;
 			  metrics.forEach((value) => {
 				  data.push({
-					  label: '' + index,
+					  label: `${index}`,
 					  value: value.value,
-					  index: index
+					  index
 				  });
 				  index++;
 			  });
 
 			  if (sortOrder) {
-				  data.sort(function(a, b) {
+				  data.sort((a, b) => {
 					  if (sortOrder === ascendingSortOrder) {
 						  if (a.value !== b.value) {
 							  return a.value - b.value;
@@ -349,7 +340,8 @@ class ExploreMetrics extends Component {
 				  });
 			  }
 
-			  var labels = [], values = [];
+			  let labels = [],
+          values = [];
 
 			  data.forEach((dataItem) => {
 				  labels.push(dataItem.label);
@@ -357,37 +349,37 @@ class ExploreMetrics extends Component {
 			  });
 
 			  const chartData = {
-					labels: labels,
-					datasets: [{
-					  type: 'bar',
-					  label: value.title,
-					  data: values,
+          labels,
+          datasets: [{
+					  type:            'bar',
+					  label:           value.title,
+					  data:            values,
 					  backgroundColor: '#575dde',
-					  fill: '1',
-					  tension: 0,
-					  prefix: value.prefix,
-					  postfix: value.postfix
-					}]
+					  fill:            '1',
+					  tension:         0,
+					  prefix:          value.prefix,
+					  postfix:         value.postfix
+          }]
 			  };
 
-			  var width = labels.length * WIDTH_PER_LABEL;
-			  var full_width = document.getElementById('chart-full-width-holder').offsetWidth;
+			  let width = labels.length * WIDTH_PER_LABEL;
+			  const full_width = document.getElementById('chart-full-width-holder').offsetWidth;
 			  if (width < full_width) {
 				  width = '100%';
 			  } else {
-				  width = width + 'px';
+				  width += 'px';
 			  }
-			  console.log("Width: ", width, full_width);
+			  console.log('Width: ', width, full_width);
 			  this.setState({
-				  chartWidth: width + 'px',
-				  chartData: chartData,
+				  chartWidth:       `${width}px`,
+				  chartData,
 				  graphLoadingDone: true
 			  });
 
-			  console.log("state chartData:", this.state.chartData);
+			  console.log('state chartData:', this.state.chartData);
 		  }).catch((error) => {
 			  this.setState({
-				  graphError: true,
+				  graphError:       true,
 				  graphLoadingDone: true
 			  });
 		  });
@@ -397,15 +389,15 @@ class ExploreMetrics extends Component {
 
   render() {
     const {activeMetrics, activeChartData} = this.props;
-	const CustomSpin = (
-			<div style={{width:"100%", height: 300, textAlign: "center"}}>
-				<Spin/>
-			</div>
-	);
-	var fullHeight = window.innerHeight
+    const CustomSpin = (
+      <div style={{width: '100%', height: 300, textAlign: 'center'}}>
+        <Spin />
+      </div>
+    );
+    const fullHeight = window.innerHeight
 		|| document.documentElement.clientHeight
 		|| document.body.clientHeight;
-	const chartHeight = fullHeight * 0.35 + 'px';
+    const chartHeight = `${fullHeight * 0.35}px`;
     return (
       <Row>
         <Col md={12}>
@@ -425,7 +417,7 @@ class ExploreMetrics extends Component {
                   <span>
                     <Select defaultValue={OPTION_TIME} onChange={(value, label) => { this.onOptionChange(value); }}>
                       <Option value={OPTION_TIME}>{OPTION_TIME}</Option>
-					  {
+                      {
 						  this.state.activeMetrics
 						  ? this.state.activeMetrics.availableContexts.map((ctx) => {
 							  const Ctx = ctx[0].toUpperCase() + ctx.substring(1).toLowerCase();
@@ -439,9 +431,10 @@ class ExploreMetrics extends Component {
                 <span className="pull-right" style={{ width: 200 }}>
                   <span className="dd-lable" />
                   <span className="explore-datepicker">
-                    <CustomRangePicker onTimeframeChange={this.onTimeframeChange}
-						customRangeShouldClear={this.state.customRangeShouldClear}
-						afterCustomRangeClear={this.afterCustomRangeClear}/>
+                    <CustomRangePicker
+                      onTimeframeChange={this.onTimeframeChange}
+                      customRangeShouldClear={this.state.customRangeShouldClear}
+                      afterCustomRangeClear={this.afterCustomRangeClear} />
                   </span>
                 </span>
               </div>}
@@ -476,42 +469,43 @@ class ExploreMetrics extends Component {
                 </Col>
                 <Col md={12} className="text-center">
                   <Card className="charts-card-style">
-            <CardHeader
-              textStyle={styles.chartHeader}
-              title={<div>
-                <span>{(() => {
+                    <CardHeader
+                      textStyle={styles.chartHeader}
+                      title={<div>
+                        <span>{(() => {
 					if (this.currentOption === OPTION_TIME) {
-						return "Historical Trend";
+						return 'Historical Trend';
 					} else if (this.currentOption === OPTION_PRODUCT) {
-						return this.state.activeMetrics.title + " by Products";
+						return `${this.state.activeMetrics.title} by Products`;
 					} else if (this.currentOption === OPTION_CUSTOMER) {
-						return this.state.activeMetrics.title + " by Customers";
+						return `${this.state.activeMetrics.title} by Customers`;
 					}
-				})()}</span>
-                <span className={this.currentOption === OPTION_TIME ? "display-none" : "pull-right close-btn"}>
-                    <Select defaultValue="1" onChange={(value, label) => { this.onSortOptionChange(value); }}>
-                      <Option value="1">Low to High</Option>
-                      <Option value="2">High to Low</Option>
-                    </Select>
-                </span>
-              </div>}
-              titleStyle={styles.chartsHeaderTitle}
+				})()}
+                        </span>
+                        <span className={this.currentOption === OPTION_TIME ? 'display-none' : 'pull-right close-btn'}>
+                          <Select defaultValue="1" onChange={(value, label) => { this.onSortOptionChange(value); }}>
+                            <Option value="1">Low to High</Option>
+                            <Option value="2">High to Low</Option>
+                          </Select>
+                        </span>
+                             </div>}
+                      titleStyle={styles.chartsHeaderTitle}
           />
                     <CardText>
-					<div id="chart-full-width-holder" style={{width: "100%", height: "0px"}}></div>
-					<ReactPlaceholder ready={this.state.graphLoadingDone} customPlaceholder={CustomSpin} className="loading-placeholder-rect-media">
-					<div>
-					{
+                      <div id="chart-full-width-holder" style={{width: '100%', height: '0px'}} />
+                      <ReactPlaceholder ready={this.state.graphLoadingDone} customPlaceholder={CustomSpin} className="loading-placeholder-rect-media">
+                        <div>
+                          {
 						(this.state.graphError || !this.state.chartData)
 						? <div className="chart-error">Oops! Something went wrong. We have made note of this issue and will fix this as soon as possible</div>
 						: <div className="chart-wrapper">
-							<div style={{width: this.state.chartWidth, height: chartHeight}}>
-							<Chart data={this.state.chartData} type='bar' disableAspectRatio/>
-							</div>
+  <div style={{width: this.state.chartWidth, height: chartHeight}}>
+    <Chart data={this.state.chartData} type="bar" disableAspectRatio />
+  </div>
 						  </div>
 					}
-					</div>
-					</ReactPlaceholder>
+                        </div>
+                      </ReactPlaceholder>
                     </CardText>
                   </Card>
                 </Col>

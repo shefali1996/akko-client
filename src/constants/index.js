@@ -8,6 +8,7 @@ export const pollingInterval = 30 * 1000; // seconds 30s
 export const KEYS_TO_FILTERS = ['productDetail.title', 'stockOnHandUnits', 'stockOnHandValue.value', 'committedUnits', 'committedValue.value', 'availableForSaleUnits', 'availableForSaleValue.value'];
 export const KEYS_TO_METRICES = ['title', 'description', 'prefix', 'value', 'trend', 'trendValue', 'trendPeriod'];
 export const KEYS_TO_FILTERS_VARIANTS = ['variant_details.title', 'variant_details.variant', 'variant_details.sku'];
+export const plotByOptions = {time: 'Time', product: 'Product', customer: 'Customer'};
 // static functions
 export const validateEmail = (email) => {
   // eslint-disable-next-line max-len, no-useless-escape
@@ -28,7 +29,7 @@ export const numberFormatter = (number) => {
 
 export const animationStyle = {
   headShake: {
-    animation: 'x 1s',
+    animation:     'x 1s',
     animationName: Radium.keyframes(headShake, 'headShake')
   }
 };
@@ -38,28 +39,28 @@ export const convertInventoryJSONToObject = (inventoryJSON) => {
   for (let i = 0; i < inventoryJSON.length; i++) {
     const currProduct = inventoryJSON[i];
     const productEntry = {
-      id: currProduct.id,
-      productDetail: currProduct.product_details,
+      id:               currProduct.id,
+      productDetail:    currProduct.product_details,
       stockOnHandUnits: currProduct.inventory_details.in_stock_units,
       stockOnHandValue: {
-        value: currProduct.inventory_details.in_stock_value,
+        value:    currProduct.inventory_details.in_stock_value,
         currency: currProduct.currency
       },
       committedUnits: currProduct.inventory_details.committed_units,
       committedValue: {
-        value: currProduct.inventory_details.committed_value,
+        value:    currProduct.inventory_details.committed_value,
         currency: currProduct.currency
       },
       availableForSaleUnits: currProduct.inventory_details.available_units,
       availableForSaleValue: {
-        value: currProduct.inventory_details.available_value,
+        value:    currProduct.inventory_details.available_value,
         currency: currProduct.currency
       },
-      title: currProduct.product_details.title,
-      variant: currProduct.product_details.variant,
-      sku: currProduct.product_details.sku,
-      price: currProduct.product_details.price,
-      cogs: currProduct.product_details.cogs !== 'null' ? currProduct.product_details.cogs : '',
+      title:              currProduct.product_details.title,
+      variant:            currProduct.product_details.variant,
+      sku:                currProduct.product_details.sku,
+      price:              currProduct.product_details.price,
+      cogs:               currProduct.product_details.cogs !== 'null' ? currProduct.product_details.cogs : '',
       cogsValidateStatus: validateCogsValue(currProduct.product_details.cogs, currProduct.product_details.price)
     };
     products.push(productEntry);
@@ -72,12 +73,12 @@ export const getProductValue = (inventoryJSON) => {
   for (let i = 0; i < inventoryJSON.length; i++) {
     const currProduct = inventoryJSON[i];
     const productEntry = {
-      id: currProduct.id,
-      title: currProduct.variant_details.title,
+      id:      currProduct.id,
+      title:   currProduct.variant_details.title,
       variant: currProduct.variant_details.variant,
-      sku: currProduct.variant_details.sku,
-      price: currProduct.variant_details.price,
-      cogs: currProduct.variant_details.cogs
+      sku:     currProduct.variant_details.sku,
+      price:   currProduct.variant_details.price,
+      cogs:    currProduct.variant_details.cogs
     };
     products.push(productEntry);
   }
@@ -85,12 +86,12 @@ export const getProductValue = (inventoryJSON) => {
 };
 
 export const headers = {
-  id: 'ID',
-  title: 'Title',
+  id:      'ID',
+  title:   'Title',
   variant: 'Variant',
-  sku: 'SKU',
-  price: 'Price',
-  cogs: 'COGS'
+  sku:     'SKU',
+  price:   'Price',
+  cogs:    'COGS'
 };
 
 export const convertToCSV = (objArray) => {
