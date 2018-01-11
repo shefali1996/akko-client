@@ -285,6 +285,7 @@ class Dashboard extends Component {
 const mapStateToProps = state => {
   return {
     metricsData: state.dashboard.metricsData,
+    chartData:   state.exploration.chartData
   };
 };
 
@@ -293,8 +294,11 @@ const mapDispatchToProps = (dispatch) => {
     getMetrics: () => {
       return dispatch(dashboardActions.getMetrics());
     },
-    getChartData: (path, activeMetrics, queryParams) => {
-      return dispatch(dashboardActions.getChartData(path, activeMetrics, queryParams));
+    getChartData: (path, activeMetrics, metric_map, queryParams) => {
+      return dispatch(dashboardActions.getChartData(path, activeMetrics, metric_map, queryParams));
+    },
+    emptyTimeFrameData: () => {
+      return dispatch(dashboardActions.emptyTimeFrameData());
     }
   };
 };

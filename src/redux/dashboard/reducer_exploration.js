@@ -1,10 +1,14 @@
 import {handleActions} from 'redux-actions';
 import update from 'immutability-helper';
+import _ from 'lodash';
 import * as constants from '../../redux/constants';
 
 const initialState = {
   chartData: {
-    data:      {},
+    data: {
+      customTimeframeDataMap: {},
+      defaultDataMap:         {},
+    },
     isLoading: false,
     isError:   false,
     isSuccess: false,
@@ -20,15 +24,25 @@ const getChartDataRequest = (state, action) => update(state, {
     message:   {$set: ''}
   }
 });
-const getChartDataSuccess = (state, action) => update(state, {
-  chartData: {
-    data:      {$set: action.payload},
-    isLoading: {$set: false},
-    isError:   {$set: false},
-    isSuccess: {$set: true},
-    message:   {$set: ''}
+const getChartDataSuccess = (state, action) => {
+  const {metric_name, option, metric_map} = action.payload;
+  const newData = _.cloneDeep(state.chartData.data);
+  const key = `${metric_name}:${option}`;
+  if (metric_map.timeFrame) {
+    newData.customTimeframeDataMap[key] = metric_map;
+  } else {
+    newData.defaultDataMap[key] = metric_map;
   }
-});
+  return update(state, {
+    chartData: {
+      data:      {$set: newData},
+      isLoading: {$set: false},
+      isError:   {$set: false},
+      isSuccess: {$set: true},
+      message:   {$set: ''}
+    }
+  });
+};
 const getChartDataError = (state, action) => update(state, {
   chartData: {
     isLoading: {$set: false},
@@ -38,8 +52,23 @@ const getChartDataError = (state, action) => update(state, {
   }
 });
 
+const emptyTimeFrameData = (state, action) => {
+  const newData = _.cloneDeep(state.chartData.data);
+  newData.customTimeframeDataMap = {};
+  return update(state, {
+    chartData: {
+      data:      {$set: newData},
+      isLoading: {$set: false},
+      isError:   {$set: false},
+      isSuccess: {$set: true},
+      message:   {$set: ''}
+    }
+  });
+};
+
 export default handleActions({
   [constants.GET_CHART_DATA_REQUEST]: getChartDataRequest,
   [constants.GET_CHART_DATA_SUCCESS]: getChartDataSuccess,
   [constants.GET_CHART_DATA_ERROR]:   getChartDataError,
+  [constants.EMPTY_TIME_FRAME_DATA]:  emptyTimeFrameData,
 }, initialState);

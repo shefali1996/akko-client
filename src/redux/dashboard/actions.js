@@ -18,7 +18,7 @@ export const getMetrics = () => {
   };
 };
 
-export const getChartData = (option, activeMetrics, queryParams) => {
+export const getChartData = (option, activeMetrics, metric_map, queryParams) => {
   return (dispatch, getState) => {
     let path = '';
     if (option === plotByOptions.time) {
@@ -28,6 +28,20 @@ export const getChartData = (option, activeMetrics, queryParams) => {
     } else if (option === plotByOptions.customer) {
       path = api.metricsPathForCustomer(activeMetrics.metric_name);
     }
-    return invokeApig({ path, queryParams});
+    invokeApig({ path, queryParams})
+      .then((results) => {
+        if (!results.metrics) {
+          throw new Error('results.metrics is undefined');
+        }
+        metric_map.result = results;
+        dispatch(actions.getChartDataSuccess({metric_name: activeMetrics.metric_name, option, metric_map}));
+      });
+  };
+};
+
+
+export const emptyTimeFrameData = () => {
+  return (dispatch, getState) => {
+    dispatch(actions.emptyTimeFrameData());
   };
 };
