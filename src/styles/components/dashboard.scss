@@ -266,3 +266,12 @@
 .display-none {
 	display: none;
 }
+
+.tooltip-details-show{
+  display: block;
+  min-height: 70px;
+  position: absolute;
+  left: 0;
+  right: 0;
+  margin-top: -15px;
+}

@@ -11,7 +11,7 @@ function getAwsCredentials(userToken) {
 
   AWS.config.credentials = new AWS.CognitoIdentityCredentials({
     IdentityPoolId: config.cognito.IDENTITY_POOL_ID,
-    Logins: {
+    Logins:         {
       [authenticator]: userToken
     }
   });
@@ -63,7 +63,7 @@ async function getUserToken(currentUser) {
 function getCurrentUser() {
   const userPool = new CognitoUserPool({
     UserPoolId: config.cognito.USER_POOL_ID,
-    ClientId: config.cognito.APP_CLIENT_ID
+    ClientId:   config.cognito.APP_CLIENT_ID
   });
   return userPool.getCurrentUser();
 }
@@ -96,11 +96,11 @@ export async function invokeApig({
 
   const signedRequest = sigV4Client
     .newClient({
-      accessKey: AWS.config.credentials.accessKeyId,
-      secretKey: AWS.config.credentials.secretAccessKey,
+      accessKey:    AWS.config.credentials.accessKeyId,
+      secretKey:    AWS.config.credentials.secretAccessKey,
       sessionToken: AWS.config.credentials.sessionToken,
-      region: config.apiGateway.REGION,
-      endpoint: config.apiGateway.URL
+      region:       config.apiGateway.REGION,
+      endpoint:     config.apiGateway.URL
     })
     .signRequest({
       method,

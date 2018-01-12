@@ -7,7 +7,6 @@ class Chart extends Component {
   updates = false;
   constructor(props) {
     super(props);
-    this.abc = this.abc.bind(this);
   }
   componentDidMount() {
     this.initChart();
@@ -37,10 +36,6 @@ class Chart extends Component {
 
       this.chart.update();
     }
-  }
-  abc(tooltipItems, data) {
-    console.log('x,y', tooltipItems, data);
-    this.props.showDetailOnHover && this.props.showDetailOnHover(tooltipItems, data);
   }
   initChart() {
     let prefix = '',
@@ -72,14 +67,18 @@ class Chart extends Component {
           fontColor:     'rgb(255, 99, 132)'
         }
       },
+      onHover: (mouseEvent, chartData) => {
+        if (chartData.length) {
+          _SELF.props.showDetailOnHover && _SELF.props.showDetailOnHover(chartData[0]._model.label);
+        } else {
+          _SELF.props.hideDetail && _SELF.props.hideDetail();
+        }
+      },
       tooltips: {
         mode:      'x',
         intersect: false,
         callbacks: {
           label(tooltipItems, data) {
-            console.log('sssssssssssss', tooltipItems, data, _SELF);
-            // _SELF.props.showDetailOnHover && _SELF.props.showDetailOnHover(tooltipItems, data);
-            _SELF.abc(tooltipItems, data);
             const dataset = data.datasets[tooltipItems.datasetIndex];
             const prefix = dataset.prefix ? dataset.prefix : '';
             const postfix = dataset.postfix ? dataset.postfix : '';

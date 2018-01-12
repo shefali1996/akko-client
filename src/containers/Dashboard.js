@@ -39,7 +39,9 @@ class Dashboard extends Component {
   }
 
   componentWillMount() {
-    this.props.getMetrics();
+    this.props.getMetrics().then(() => {
+      this.props.getCustomers();
+    });
   }
   componentDidMount() {
     const element = document.getElementById('cardSection');
