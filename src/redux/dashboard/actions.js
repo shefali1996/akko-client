@@ -45,3 +45,22 @@ export const emptyTimeFrameData = () => {
     dispatch(actions.emptyTimeFrameData());
   };
 };
+
+
+export const getCustomers = () => {
+  return (dispatch, getState) => {
+    invokeApig({
+      path:        api.customers(),
+      queryParams: {
+        avgOrderValue:    true,
+        reOrderFrequency: true
+      }
+    })
+      .then((results) => {
+        if (!results.customers) {
+          throw new Error('results.customers is undefined');
+        }
+        dispatch(actions.getCustomersSuccess(results.customers));
+      });
+  };
+};

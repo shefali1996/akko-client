@@ -284,8 +284,9 @@ class Dashboard extends Component {
 
 const mapStateToProps = state => {
   return {
-    metricsData: state.dashboard.metricsData,
-    chartData:   state.exploration.chartData
+    metricsData:   state.dashboard.metricsData,
+    chartData:     state.exploration.chartData,
+    customersData: state.customers.customers
   };
 };
 
@@ -299,6 +300,9 @@ const mapDispatchToProps = (dispatch) => {
     },
     emptyTimeFrameData: () => {
       return dispatch(dashboardActions.emptyTimeFrameData());
+    },
+    getCustomers: () => {
+      return dispatch(dashboardActions.getCustomers());
     }
   };
 };

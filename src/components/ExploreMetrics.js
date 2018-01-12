@@ -5,6 +5,7 @@ import Chip from 'material-ui/Chip';
 import Dialog from 'material-ui/Dialog';
 import { Select, DatePicker, Input, Spin } from 'antd';
 import ReactPlaceholder from 'react-placeholder';
+import _ from 'lodash';
 import Chart from '../components/Chart';
 import FilterDialog from '../components/FilterDialog';
 import styles from '../constants/styles';
@@ -13,20 +14,20 @@ import downArrowWhite from '../assets/images/downArrowWhite.svg';
 import CustomRangePicker from '../components/CustomRangePicker';
 import { invokeApig } from '../libs/awsLib';
 import {plotByOptions} from '../constants';
-import _ from 'lodash';
+import {customerFormater} from './CustomTable';
 
 const moment = require('moment');
 
 const {Option} = Select;
 
-const ascendingSortOrder = 'asc',
-  descendingSortOrder = 'desc';
+const ascendingSortOrder = 'asc';
+const descendingSortOrder = 'desc';
 const WIDTH_PER_LABEL = '50'; // In pixels
 const RESOLUTION_DAY = 'day';
 
-const OPTION_TIME = plotByOptions.time,
-  OPTION_PRODUCT = plotByOptions.product,
-  OPTION_CUSTOMER = plotByOptions.customer;
+const OPTION_TIME = plotByOptions.time;
+const OPTION_PRODUCT = plotByOptions.product;
+const OPTION_CUSTOMER = plotByOptions.customer;
 
 const DAYS_35 = 35 * 86400000;
 
@@ -67,6 +68,7 @@ class ExploreMetrics extends Component {
     this.getMap = this.getMap.bind(this);
     this.closeExploreMetrics = this.closeExploreMetrics.bind(this);
     this.afterCustomRangeClear = this.afterCustomRangeClear.bind(this);
+    this.showDetailOnHover = this.showDetailOnHover.bind(this);
   }
 
   getMap(metric, context) {
@@ -81,9 +83,19 @@ class ExploreMetrics extends Component {
     }
     return null;
   }
-
+  componentDidMount() {
+    // this.props.getCustomers();
+  }
   componentWillReceiveProps(nextProps) {
+    console.log('nextProps', nextProps);
     const {activeMetrics, currentOption, defaultDataMap, customTimeframeDataMap} = this.state;
+    if (_.isEmpty(this.props.customersData.data)) {
+      this.props.getCustomers();
+    } else {
+      this.setState({
+        customersData: nextProps.customersData.data
+      });
+    }
     if (nextProps.activeMetrics && (nextProps.activeMetrics !== this.state.activeMetrics)) {
       this.setState({
         activeMetrics: nextProps.activeMetrics
@@ -93,7 +105,7 @@ class ExploreMetrics extends Component {
     }
     const d = nextProps.chartData.data;
     if (!_.isEqual(d.defaultDataMap, defaultDataMap) || !_.isEqual(d.customTimeframeDataMap, customTimeframeDataMap)) {
-      console.log('nextProps.chartData', nextProps.chartData);
+      // console.log('nextProps.chartData', nextProps.chartData);
       this.setState({
         defaultDataMap:         d.defaultDataMap,
         customTimeframeDataMap: d.customTimeframeDataMap
@@ -262,9 +274,10 @@ class ExploreMetrics extends Component {
       const data = [];
 
       let index = 0;
+      // console.log('metrics', metrics);
       metrics.forEach((value) => {
         data.push({
-          label: `${index}`,
+          label: value.contextId.split('_')[1],
           value: value.value,
           index
         });
@@ -293,7 +306,7 @@ class ExploreMetrics extends Component {
         labels.push(dataItem.label);
         values.push(dataItem.value);
       });
-
+      // console.log('labels', labels);
       const chartData = {
         labels,
         datasets: [{
@@ -343,8 +356,9 @@ class ExploreMetrics extends Component {
 
       let index = 0;
       metrics.forEach((value) => {
+        const email = value.contextId.split(':')[1];
         data.push({
-          label: `${index}`,
+          label: email,
           value: value.value,
           index
         });
@@ -372,7 +386,7 @@ class ExploreMetrics extends Component {
         labels.push(dataItem.label);
         values.push(dataItem.value);
       });
-
+      // console.log('labels', labels);
       const chartData = {
         labels,
         datasets: [{
@@ -418,7 +432,7 @@ class ExploreMetrics extends Component {
   }
 
   onOptionChange(option) {
-    console.log(`onOptionChange called with ${option}`, this.timeChanged);
+    // console.log(`onOptionChange called with ${option}`, this.timeChanged);
     this.setState({
       currentOption:    option,
       graphLoadingDone: false,
@@ -432,20 +446,36 @@ class ExploreMetrics extends Component {
       this.setCustomersMetric();
     }
   }
+  showDetailOnHover(a, b) {
+    console.log(a, b);
+    const {customersData, currentOption} = this.state;
+    let tooltipDetailView = [];
+    if (currentOption === OPTION_CUSTOMER) {
+      const cust = _.cloneDeep(customersData);
+      const custInfo = _.find(cust, {email: a.xLabel});
+      console.log('custInfo=custInfo', custInfo);
+      tooltipDetailView = customerFormater(custInfo.name, custInfo);
+    }
+    this.setState({
+      tooltipDetail: tooltipDetailView
+    });
+  }
 
   render() {
     const {activeMetrics, activeChartData} = this.props;
-    console.log('this.state', this.state);
-    console.log('this.customTimeframeDataMap', this.state.graphError, this.state.chartData, this.timeChanged);
+    console.log('this.state************', this.state.tooltipDetail);
+    // console.log('this.customTimeframeDataMap', this.state.graphError, this.state.chartData, this.timeChanged);
     const CustomSpin = (
       <div style={{width: '100%', height: 300, textAlign: 'center'}}>
         <Spin />
       </div>
     );
     const fullHeight = window.innerHeight
-		|| document.documentElement.clientHeight
-		|| document.body.clientHeight;
+    || document.documentElement.clientHeight
+    || document.body.clientHeight;
     const chartHeight = `${fullHeight * 0.35}px`;
+    const tooltip = '';
+
     return (
       <Row>
         <Col md={12}>
@@ -466,13 +496,13 @@ class ExploreMetrics extends Component {
                     <Select defaultValue={OPTION_TIME} onChange={(value, label) => { this.onOptionChange(value); }}>
                       <Option value={OPTION_TIME}>{OPTION_TIME}</Option>
                       {
-						  this.state.activeMetrics
-						  ? this.state.activeMetrics.availableContexts.map((ctx) => {
-							  const Ctx = ctx[0].toUpperCase() + ctx.substring(1).toLowerCase();
-							  return <Option value={Ctx}>{Ctx}</Option>;
-						  })
-						  : ''
-					  }
+                        this.state.activeMetrics
+                                    ? this.state.activeMetrics.availableContexts.map((ctx) => {
+                                    const Ctx = ctx[0].toUpperCase() + ctx.substring(1).toLowerCase();
+                                    return <Option value={Ctx}>{Ctx}</Option>;
+                                    })
+                                    : ''
+                                    }
                     </Select>
                   </span>
                 </span>
@@ -519,17 +549,18 @@ class ExploreMetrics extends Component {
                   <Card className="charts-card-style">
                     <CardHeader
                       textStyle={styles.chartHeader}
-                      title={<div>
-                        <span>{(() => {
-					if (this.currentOption === OPTION_TIME) {
-						return 'Historical Trend';
-					} else if (this.currentOption === OPTION_PRODUCT) {
-						return `${this.state.activeMetrics.title} by Products`;
-					} else if (this.currentOption === OPTION_CUSTOMER) {
-						return `${this.state.activeMetrics.title} by Customers`;
-					}
-				})()}
+                      title={<div className="text-center">
+                        <span className="pull-left">{(() => {
+                                    if (this.currentOption === OPTION_TIME) {
+                                    return 'Historical Trend';
+                                    } else if (this.currentOption === OPTION_PRODUCT) {
+                                    return `${this.state.activeMetrics.title} by Products`;
+                                    } else if (this.currentOption === OPTION_CUSTOMER) {
+                                    return `${this.state.activeMetrics.title} by Customers`;
+                                    }
+                                    })()}
                         </span>
+                        <span>{this.state.tooltipDetail}</span>
                         <span className={this.state.currentOption === OPTION_TIME ? 'display-none' : 'pull-right close-btn'}>
                           <Select defaultValue="1" onChange={(value, label) => { this.onSortOptionChange(value); }}>
                             <Option value="1">Low to High</Option>
@@ -538,20 +569,20 @@ class ExploreMetrics extends Component {
                         </span>
                              </div>}
                       titleStyle={styles.chartsHeaderTitle}
-          />
+                      />
                     <CardText>
                       <div id="chart-full-width-holder" style={{width: '100%', height: '0px'}} />
                       <ReactPlaceholder ready={this.state.graphLoadingDone} customPlaceholder={CustomSpin} className="loading-placeholder-rect-media">
                         <div>
                           {
-						(this.state.graphError || !this.state.chartData)
-						? <div className="chart-error">Oops! Something went wrong. We have made note of this issue and will fix this as soon as possible</div>
-						: <div className="chart-wrapper">
-  <div style={{width: this.state.chartWidth, height: chartHeight}}>
-    <Chart data={this.state.chartData} type="bar" disableAspectRatio />
-  </div>
-						  </div>
-					}
+                            (this.state.graphError || !this.state.chartData)
+                            ? <div className="chart-error">Oops! Something went wrong. We have made note of this issue and will fix this as soon as possible</div>
+                            : <div className="chart-wrapper">
+                              <div style={{width: this.state.chartWidth, height: chartHeight}}>
+                                <Chart data={this.state.chartData} type="bar" disableAspectRatio showDetailOnHover={this.showDetailOnHover} />
+                              </div>
+                            </div>
+                            }
                         </div>
                       </ReactPlaceholder>
                     </CardText>

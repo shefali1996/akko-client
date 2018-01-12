@@ -14,16 +14,16 @@ class CustomRangePicker extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      open: false,
-      rangeType: '',
-      startDate: '',
-      endDate: '',
+      open:           false,
+      rangeType:      '',
+      startDate:      '',
+      endDate:        '',
       startDateInput: '',
-      endDateInput: '',
-      selectedRange: ''
+      endDateInput:   '',
+      selectedRange:  ''
     };
-	// Preserve initial state
-	this.initialState = this.state;
+    // Preserve initial state
+    this.initialState = this.state;
 
     this.handleToggle = this.handleToggle.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
@@ -32,13 +32,13 @@ class CustomRangePicker extends Component {
     this.validateStartDate = this.validateStartDate.bind(this);
   }
   componentWillReceiveProps(nextProps) {
-	  console.log("Inside componentWillReceiveProps CustomRangePicker:", nextProps);
+	  // console.log("Inside componentWillReceiveProps CustomRangePicker:", nextProps);
 	  // TODO: This is not the best want to handle this sort of cases. Ideally,
 	  // the state should move up and passed down as props.
 	  if (nextProps.customRangeShouldClear === true) {
 		  this.setState(this.initialState);
 		  if (this.props.afterCustomRangeClear) {
-			this.props.afterCustomRangeClear();
+        this.props.afterCustomRangeClear();
 		  }
 	  }
   }
@@ -94,8 +94,8 @@ class CustomRangePicker extends Component {
       startDate,
       endDate,
       startDateInput: startDate ? moment(startDate).format('YYYY-MM-DD') : '',
-      endDateInput: endDate ? moment(endDate).format('YYYY-MM-DD') : '',
-      rangeType: value
+      endDateInput:   endDate ? moment(endDate).format('YYYY-MM-DD') : '',
+      rangeType:      value
     });
   }
   validateEndDate(e) {
@@ -107,7 +107,7 @@ class CustomRangePicker extends Component {
     } else {
       this.setState({
         endDateInput: '',
-        endDate: ''
+        endDate:      ''
       });
     }
   }
@@ -120,7 +120,7 @@ class CustomRangePicker extends Component {
     } else {
       this.setState({
         startDateInput: '',
-        startDate: ''
+        startDate:      ''
       });
     }
   }
@@ -163,7 +163,7 @@ class CustomRangePicker extends Component {
                 <Calendar
                   date={this.state.startDate}
                   onChange={(date) => this.setState({
-                    startDate: date,
+                    startDate:      date,
                     startDateInput: moment(date).format('YYYY-MM-DD')
                   })}
                   maxDate={endDate ? moment(endDate) : ''}
@@ -179,7 +179,7 @@ class CustomRangePicker extends Component {
                 <Calendar
                   date={this.state.endDate}
                   onChange={(date) => this.setState({
-                    endDate: date,
+                    endDate:      date,
                     endDateInput: moment(date).format('YYYY-MM-DD')
                   })}
                   minDate={startDate ? moment(startDate) : ''}
