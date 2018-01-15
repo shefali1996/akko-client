@@ -26,11 +26,15 @@ class Dashboard extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      metricsData:      [],
-      width:            '25%',
-      metricDataLoaded: false,
-      activeMetricsId:  'none',
-      activeChartData:  false
+      metricsData:       [],
+      width:             '25%',
+      metricDataLoaded:  false,
+      activeMetricsId:   'none',
+      activeChartData:   false,
+	  userData:          {},
+	  userDataLoaded:    {},
+	  channelData:       {},
+	  channelDataLoaded: {},
     };
     this.setWidth = this.setWidth.bind(this);
     this.handleClickMetrics = this.handleClickMetrics.bind(this);
@@ -39,8 +43,11 @@ class Dashboard extends Component {
   }
 
   componentWillMount() {
+    this.props.getUser();
+    this.props.getChannel();
     this.props.getMetrics();
   }
+
   componentDidMount() {
     const element = document.getElementById('cardSection');
     elementResizeEvent(element, () => {
@@ -48,9 +55,16 @@ class Dashboard extends Component {
     });
   }
   componentWillReceiveProps(props) {
+	  console.log('Inside main componentWillReceiveProps, props: ', props);
     this.setState({
-      metricsData:      props.metricsData.data.metrics || [],
-      metricDataLoaded: !props.metricsData.isLoading,
+      metricsData:       props.metricsData.data.metrics || [],
+      metricDataLoaded:  !props.metricsData.isLoading,
+	  userData:          props.userData.data || {},
+	  userDataLoaded:    !props.userData.isLoading,
+	  channelData:       props.channelData.data || {},
+	  channelDataLoaded: !props.channelData.isLoading,
+    }, () => {
+      console.log('inside main componentWillReceiveProps:', this.state);
     });
   }
   setWidth(w) {
@@ -93,17 +107,44 @@ class Dashboard extends Component {
       <CardText style={styles.expenseCardText}>
         <div className="invalid-block text-center">
           <span className="image-container"><img src={invalidImg} alt="invalid" /></span>
-          <div className="invalid-text">Please set COGS for your products to calculate these values.</div>
+          <div className="invalid-text">
+            {this.state.userData.cogsStatus == 1
+			? <div><div>We've successfully set COGS for all your products.</div>
+  <div>Now, hang on for a few moments while we update all your metrics.</div>
+</div>
+			: 'Please set COGS for your products to calculate these values.'
+			}
+          </div>
+          {this.state.userData.cogsStatus == 1
+          ? '' :
           <div className="flex-center padding-t-20">
             <Button className="login-button" onClick={() => this.props.history.push('/set-cogs')}>
                 SET COGS
             </Button>
           </div>
+		  }
         </div>
       </CardText>
     </Card>
     );
   }
+
+  initialFetchIncompleteCard() {
+    return (<Card className="charts-card-style" style={styles.metricsCardStyle}>
+      <CardHeader
+        titleStyle={styles.chartsHeaderTitle}
+        subtitleStyle={styles.expenseCardSubtitle}
+        />
+      <CardText style={styles.expenseCardText}>
+        <div className="invalid-block text-center">
+          <span className="image-container"><img src={invalidImg} alt="invalid" /></span>
+          <div className="invalid-text">Hang on. We are importing your data and calculating all your metrics.</div>
+        </div>
+      </CardText>
+    </Card>
+    );
+  }
+
   expenseCard(expensesData) {
     return (<Card className="charts-card-style" style={styles.metricsCardStyle}>
       <CardHeader
@@ -149,9 +190,11 @@ class Dashboard extends Component {
   render() {
     const {metricsData} = this.state;
     const renderCards = [];
-    if (!this.state.metricDataLoaded) {
+    const number_of_dummy_cards = 3;
+    const dataLoaded = this.state.metricDataLoaded && this.state.userDataLoaded
+		&& this.state.channelDataLoaded;
+    if (!dataLoaded) {
       // Add dummy loading cards
-      const number_of_dummy_cards = 3;
       const CustomSpin = (
         <div style={{width: '100%', textAlign: 'center'}}>
           <Spin size="large" />
@@ -172,58 +215,65 @@ class Dashboard extends Component {
         </Col>);
       }
     }
+    // if (dataLoaded && this.state.channelData.initial_fetch_status !== 'success') {
+    //   for (let i = 0; i < number_of_dummy_cards; i++) {
+    //     renderCards.push(<Col style={{width: this.state.width}} className="dashboard-card-container">
+    //       {this.initialFetchIncompleteCard()}
+    //                      </Col>);
+    //   }
+    // } else {
     metricsData.map((value, index) => {
-      let active = '';
-      let borderRed = '';
-      const label1 = moment().format('MMM YY');
-      const label2 = moment().subtract(1, 'months').format('MMM YY');
-      const label3 = moment().subtract(2, 'months').format('MMM YY');
-      const label4 = moment().subtract(3, 'months').format('MMM YY');
-      if (`card_${index}` === this.state.activeMetricsId) {
+		  let active = '';
+		  let borderRed = '';
+		  const label1 = moment().format('MMM YY');
+		  const label2 = moment().subtract(1, 'months').format('MMM YY');
+		  const label3 = moment().subtract(2, 'months').format('MMM YY');
+		  const label4 = moment().subtract(3, 'months').format('MMM YY');
+		  if (`card_${index}` === this.state.activeMetricsId) {
         active = 'active-metrics';
-      }
-      if (value.trend === '-') {
+		  }
+		  if (value.trend === '-') {
         borderRed = 'border-red';
-      }
-      let invalid = false;
-      if (value.value === 'invalid' || value.value_one_month_back === 'invalid' || value.value_two_months_back === 'invalid' || value.value_three_months_back === 'invalid') {
+		  }
+		  let invalid = false;
+		  if (value.value === 'invalid' || value.value_one_month_back === 'invalid' || value.value_two_months_back === 'invalid' || value.value_three_months_back === 'invalid') {
         invalid = true;
-      }
-      const chartData = {
+		  }
+		  const chartData = {
         labels:   [label4, label3, label2, label1],
         datasets: [{
-          type:  'line',
-          label: value.title,
-          data:  [
+			  type:  'line',
+			  label: value.title,
+			  data:  [
             `${value.value_three_months_back}`,
             `${value.value_two_months_back}`,
             `${value.value_one_month_back}`,
             `${value.value}`,
-          ],
-          borderColor:     styles.constants.mainThemeColor,
-          backgroundColor: styles.constants.mainThemeColor,
-          fill:            '1',
-          tension:         0,
-          prefix:          value.prefix,
-          postfix:         value.postfix
+			  ],
+			  borderColor:     '#575dde',
+			  backgroundColor: '#575dde',
+			  fill:            '1',
+			  tension:         0,
+			  prefix:          value.prefix,
+			  postfix:         value.postfix
         }]
-      };
-      if (value.title === 'Expenses' || value.title === 'Expenses Breakdown') {
+		  };
+		  if (value.title === 'Expenses' || value.title === 'Expenses Breakdown') {
         const expensesData = value.value;
         if (expensesData.total_sale === 'invalid' || expensesData.total_cogs === 'invalid' || expensesData.total_discount === 'invalid' || expensesData.total_shipping === 'invalid' || expensesData.total_tax === 'invalid') {
-          invalid = true;
-          value.title = 'Expenses Breakdown';
+			  invalid = true;
+			  value.title = 'Expenses Breakdown';
         }
         renderCards.push(<Col key={index} id={`card_${index}`} style={{width: this.state.width}} className="dashboard-card-container expenses-breakdown">
           {invalid ? this.invalidCard(value) : this.expenseCard(expensesData)}
-        </Col>);
-      } else {
+                         </Col>);
+		  } else {
         renderCards.push(<Col key={index} id={`card_${index}`} style={{width: this.state.width}} className="dashboard-card-container" title={!invalid ? `Click to explore ${value.title} in detail` : null}>
           {invalid ? this.invalidCard(value) : <Card
             className={`price-card-style ${active} ${borderRed}`}
             onClick={(e) => this.handleClickMetrics(`card_${index}`, value, chartData)}
             style={styles.metricsCardStyle}
-            >
+				>
             <CardHeader className="card-header-style" >
               <PriceBox value={value} analyze />
             </CardHeader>
@@ -234,8 +284,9 @@ class Dashboard extends Component {
             </CardText>
           </Card>}
         </Col>);
-      }
+		  }
     });
+    // }
     return (
       <div>
         <Navigationbar history={this.props.history} companyName="Test Company" />
@@ -285,7 +336,9 @@ class Dashboard extends Component {
 const mapStateToProps = state => {
   return {
     metricsData: state.dashboard.metricsData,
-    chartData:   state.exploration.chartData
+    chartData:   state.exploration.chartData,
+  	userData:    state.dashboard.userData,
+  	channelData: state.dashboard.channelData,
   };
 };
 
@@ -299,7 +352,13 @@ const mapDispatchToProps = (dispatch) => {
     },
     emptyTimeFrameData: () => {
       return dispatch(dashboardActions.emptyTimeFrameData());
-    }
+    },
+    getUser: () => {
+  	  return dispatch(dashboardActions.getUser());
+    },
+  	getChannel: () => {
+  	  return dispatch(dashboardActions.getChannel());
+  	}
   };
 };
 
