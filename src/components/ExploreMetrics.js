@@ -5,6 +5,7 @@ import Chip from 'material-ui/Chip';
 import Dialog from 'material-ui/Dialog';
 import { Select, DatePicker, Input, Spin } from 'antd';
 import ReactPlaceholder from 'react-placeholder';
+import _ from 'lodash';
 import Chart from '../components/Chart';
 import FilterDialog from '../components/FilterDialog';
 import styles from '../constants/styles';
@@ -13,7 +14,6 @@ import downArrowWhite from '../assets/images/downArrowWhite.svg';
 import CustomRangePicker from '../components/CustomRangePicker';
 import { invokeApig } from '../libs/awsLib';
 import {plotByOptions} from '../constants';
-import _ from 'lodash';
 
 const moment = require('moment');
 
@@ -54,7 +54,6 @@ class ExploreMetrics extends Component {
     this.currentSortOption = '1';
     this.customStartTime = '';
     this.customEndTime = '';
-    this.timeChanged = false;
 
     this.openFilter = this.openFilter.bind(this);
     this.closeFilter = this.closeFilter.bind(this);
@@ -93,12 +92,12 @@ class ExploreMetrics extends Component {
     }
     const d = nextProps.chartData.data;
     if (!_.isEqual(d.defaultDataMap, defaultDataMap) || !_.isEqual(d.customTimeframeDataMap, customTimeframeDataMap)) {
-      console.log('nextProps.chartData', nextProps.chartData);
       this.setState({
         defaultDataMap:         d.defaultDataMap,
         customTimeframeDataMap: d.customTimeframeDataMap
+      }, () => {
+        this.onOptionChange(this.state.currentOption);
       });
-      this.onOptionChange(this.state.currentOption);
     }
   }
 
@@ -128,9 +127,9 @@ class ExploreMetrics extends Component {
   }
 
   afterCustomRangeClear() {
-	  this.setState({
-		  customRangeShouldClear: false,
-	  });
+    this.setState({
+      customRangeShouldClear: false,
+    });
   }
 
   onRowSelect(filterData) {
@@ -188,8 +187,7 @@ class ExploreMetrics extends Component {
   setTimeMetric() {
 	  const {metric_name} = this.state.activeMetrics;
     const metric_map = this.getMap(metric_name, OPTION_TIME);
-    if (!metric_map || this.timeChanged) {
-      this.timeChanged = false;
+    if (!metric_map) {
       this.setMetric(OPTION_TIME);
     } else {
       const metrics = metric_map.result.metrics;
@@ -246,8 +244,7 @@ class ExploreMetrics extends Component {
   setProductsMetric() {
     const metric_name = this.state.activeMetrics.metric_name;
     const metric_map = this.getMap(metric_name, OPTION_PRODUCT);
-    if (!metric_map || this.timeChanged) {
-      this.timeChanged = false;
+    if (!metric_map) {
       this.setMetric(OPTION_PRODUCT);
     } else {
       let sortOrder = ascendingSortOrder;
@@ -330,8 +327,7 @@ class ExploreMetrics extends Component {
 	  }
     const metric_name = this.state.activeMetrics.metric_name;
     const metric_map = this.getMap(metric_name, OPTION_CUSTOMER);
-    if (!metric_map || this.timeChanged) {
-      this.timeChanged = false;
+    if (!metric_map) {
       this.setMetric(OPTION_CUSTOMER);
     } else {
       const metrics = metric_map.result.metrics;
@@ -405,11 +401,11 @@ class ExploreMetrics extends Component {
   onTimeframeChange(newStartTime, newEndTime) {
     this.customStartTime = newStartTime.valueOf();
     this.customEndTime = newEndTime.valueOf();
-    this.timeChanged = true;
     if (!_.isEmpty(this.state.customTimeframeDataMap)) {
       this.props.emptyTimeFrameData();
+    } else {
+      this.onOptionChange(this.state.currentOption);
     }
-    this.onOptionChange(this.state.currentOption);
   }
 
   onSortOptionChange(option) {
@@ -418,7 +414,6 @@ class ExploreMetrics extends Component {
   }
 
   onOptionChange(option) {
-    console.log(`onOptionChange called with ${option}`, this.timeChanged);
     this.setState({
       currentOption:    option,
       graphLoadingDone: false,
@@ -435,16 +430,14 @@ class ExploreMetrics extends Component {
 
   render() {
     const {activeMetrics, activeChartData} = this.props;
-    console.log('this.state', this.state);
-    console.log('this.customTimeframeDataMap', this.state.graphError, this.state.chartData, this.timeChanged);
     const CustomSpin = (
       <div style={{width: '100%', height: 300, textAlign: 'center'}}>
         <Spin />
       </div>
     );
     const fullHeight = window.innerHeight
-		|| document.documentElement.clientHeight
-		|| document.body.clientHeight;
+    || document.documentElement.clientHeight
+    || document.body.clientHeight;
     const chartHeight = `${fullHeight * 0.35}px`;
     return (
       <Row>
