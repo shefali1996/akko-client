@@ -5,7 +5,7 @@ import Chip from 'material-ui/Chip';
 import Dialog from 'material-ui/Dialog';
 import { Select, DatePicker, Input, Spin } from 'antd';
 import ReactPlaceholder from 'react-placeholder';
-import _ from 'lodash';
+import {isEmpty, isEqual} from 'lodash';
 import Chart from '../components/Chart';
 import FilterDialog from '../components/FilterDialog';
 import styles from '../constants/styles';
@@ -91,7 +91,7 @@ class ExploreMetrics extends Component {
       });
     }
     const d = nextProps.chartData.data;
-    if (!_.isEqual(d.defaultDataMap, defaultDataMap) || !_.isEqual(d.customTimeframeDataMap, customTimeframeDataMap)) {
+    if (!isEqual(d.defaultDataMap, defaultDataMap) || !isEqual(d.customTimeframeDataMap, customTimeframeDataMap)) {
       this.setState({
         defaultDataMap:         d.defaultDataMap,
         customTimeframeDataMap: d.customTimeframeDataMap
@@ -215,7 +215,7 @@ class ExploreMetrics extends Component {
           type:            'line',
           label:           value.title,
           data:            values,
-          backgroundColor: '#575dde',
+          backgroundColor: styles.constants.mainThemeColor,
           fill:            '1',
           tension:         0,
           prefix:          value.prefix,
@@ -297,7 +297,7 @@ class ExploreMetrics extends Component {
           type:            'bar',
           label:           value.title,
           data:            values,
-          backgroundColor: '#575dde',
+          backgroundColor: styles.constants.mainThemeColor,
           fill:            '1',
           tension:         0,
           prefix:          value.prefix,
@@ -375,7 +375,7 @@ class ExploreMetrics extends Component {
           type:            'bar',
           label:           value.title,
           data:            values,
-          backgroundColor: '#575dde',
+          backgroundColor: styles.constants.mainThemeColor,
           fill:            '1',
           tension:         0,
           prefix:          value.prefix,
@@ -401,7 +401,7 @@ class ExploreMetrics extends Component {
   onTimeframeChange(newStartTime, newEndTime) {
     this.customStartTime = newStartTime.valueOf();
     this.customEndTime = newEndTime.valueOf();
-    if (!_.isEmpty(this.state.customTimeframeDataMap)) {
+    if (!isEmpty(this.state.customTimeframeDataMap)) {
       this.props.emptyTimeFrameData();
     } else {
       this.onOptionChange(this.state.currentOption);

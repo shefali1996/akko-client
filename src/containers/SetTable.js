@@ -5,7 +5,7 @@ import SearchInput, { createFilter } from 'react-search-input';
 import { BootstrapTable, TableHeaderColumn } from 'react-bootstrap-table';
 import SweetAlert from 'sweetalert-react';
 import { Switch, Progress, Spin } from 'antd';
-import {isEmpty} from 'lodash';
+import {isEmpty, isNull} from 'lodash';
 import {
   customMultiSelect,
   renderSizePerPageDropDown,
@@ -419,7 +419,7 @@ class SetTable extends Component {
     let { data } = this.state;
     const countTotal = data.length;
     const pendingProducts = data.filter((item) => {
-      return _.isEmpty(item.variant_details.cogs) || _.isNull(item.variant_details.cogs) || item.variant_details.cogs === 'null';
+      return isEmpty(item.variant_details.cogs) || isNull(item.variant_details.cogs) || item.variant_details.cogs === 'null';
     });
     const countPending = pendingProducts.length;
     const countCompleted = countTotal - countPending;
