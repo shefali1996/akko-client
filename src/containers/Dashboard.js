@@ -26,14 +26,14 @@ class Dashboard extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      metricsData:      [],
-      width:            '25%',
-      metricDataLoaded: false,
-      activeMetricsId:  'none',
-      activeChartData:  false,
-	  userData: {},
-	  userDataLoaded: {},
-	  channelData: {},
+      metricsData:       [],
+      width:             '25%',
+      metricDataLoaded:  false,
+      activeMetricsId:   'none',
+      activeChartData:   false,
+	  userData:          {},
+	  userDataLoaded:    {},
+	  channelData:       {},
 	  channelDataLoaded: {},
     };
     this.setWidth = this.setWidth.bind(this);
@@ -43,8 +43,8 @@ class Dashboard extends Component {
   }
 
   componentWillMount() {
-	this.props.getUser();
-	this.props.getChannel();
+    this.props.getUser();
+    this.props.getChannel();
     this.props.getMetrics();
   }
 
@@ -55,17 +55,17 @@ class Dashboard extends Component {
     });
   }
   componentWillReceiveProps(props) {
-	  console.log("Inside main componentWillReceiveProps, props: ", props);
+	  console.log('Inside main componentWillReceiveProps, props: ', props);
     this.setState({
-      metricsData:      props.metricsData.data.metrics || [],
-      metricDataLoaded: !props.metricsData.isLoading,
-	  userData: props.userData.data || {},
-	  userDataLoaded: !props.userData.isLoading,
-	  channelData: props.channelData.data || {},
+      metricsData:       props.metricsData.data.metrics || [],
+      metricDataLoaded:  !props.metricsData.isLoading,
+	  userData:          props.userData.data || {},
+	  userDataLoaded:    !props.userData.isLoading,
+	  channelData:       props.channelData.data || {},
 	  channelDataLoaded: !props.channelData.isLoading,
     }, () => {
-		console.log("inside main componentWillReceiveProps:", this.state);
-	});
+      console.log('inside main componentWillReceiveProps:', this.state);
+    });
   }
   setWidth(w) {
     const x = 100;
@@ -108,15 +108,16 @@ class Dashboard extends Component {
         <div className="invalid-block text-center">
           <span className="image-container"><img src={invalidImg} alt="invalid" /></span>
           <div className="invalid-text">
-			{this.state.userData.cogsStatus == 1
-			? <div><div>{"We've successfully set COGS for all your products."}</div>
-			  <div>Now, hang on for a few moments while we update all your metrics.</div></div>
+            {this.state.userData.cogsStatus == 1
+			? <div><div>We've successfully set COGS for all your products.</div>
+  <div>Now, hang on for a few moments while we update all your metrics.</div>
+</div>
 			: 'Please set COGS for your products to calculate these values.'
 			}
-		  </div>
-		  {this.state.userData.cogsStatus == 1
+          </div>
+          {this.state.userData.cogsStatus == 1
           ? '' :
-		  <div className="flex-center padding-t-20">
+          <div className="flex-center padding-t-20">
             <Button className="login-button" onClick={() => this.props.history.push('/set-cogs')}>
                 SET COGS
             </Button>
@@ -190,7 +191,7 @@ class Dashboard extends Component {
     const {metricsData} = this.state;
     const renderCards = [];
     const number_of_dummy_cards = 3;
-	const dataLoaded = this.state.metricDataLoaded && this.state.userDataLoaded
+    const dataLoaded = this.state.metricDataLoaded && this.state.userDataLoaded
 		&& this.state.channelDataLoaded;
     if (!dataLoaded) {
       // Add dummy loading cards
@@ -214,14 +215,14 @@ class Dashboard extends Component {
         </Col>);
       }
     }
-	if (dataLoaded && this.state.channelData.initial_fetch_status !== "success") {
-		for (let i = 0; i < number_of_dummy_cards; i++) {
-			renderCards.push(<Col style={{width: this.state.width}} className="dashboard-card-container">
-			{this.initialFetchIncompleteCard()}
-			</Col>);
-		}
-	} else {
-		metricsData.map((value, index) => {
+    // if (dataLoaded && this.state.channelData.initial_fetch_status !== 'success') {
+    //   for (let i = 0; i < number_of_dummy_cards; i++) {
+    //     renderCards.push(<Col style={{width: this.state.width}} className="dashboard-card-container">
+    //       {this.initialFetchIncompleteCard()}
+    //                      </Col>);
+    //   }
+    // } else {
+    metricsData.map((value, index) => {
 		  let active = '';
 		  let borderRed = '';
 		  const label1 = moment().format('MMM YY');
@@ -229,25 +230,25 @@ class Dashboard extends Component {
 		  const label3 = moment().subtract(2, 'months').format('MMM YY');
 		  const label4 = moment().subtract(3, 'months').format('MMM YY');
 		  if (`card_${index}` === this.state.activeMetricsId) {
-			active = 'active-metrics';
+        active = 'active-metrics';
 		  }
 		  if (value.trend === '-') {
-			borderRed = 'border-red';
+        borderRed = 'border-red';
 		  }
 		  let invalid = false;
 		  if (value.value === 'invalid' || value.value_one_month_back === 'invalid' || value.value_two_months_back === 'invalid' || value.value_three_months_back === 'invalid') {
-			invalid = true;
+        invalid = true;
 		  }
 		  const chartData = {
-			labels:   [label4, label3, label2, label1],
-			datasets: [{
+        labels:   [label4, label3, label2, label1],
+        datasets: [{
 			  type:  'line',
 			  label: value.title,
 			  data:  [
-				`${value.value_three_months_back}`,
-				`${value.value_two_months_back}`,
-				`${value.value_one_month_back}`,
-				`${value.value}`,
+            `${value.value_three_months_back}`,
+            `${value.value_two_months_back}`,
+            `${value.value_one_month_back}`,
+            `${value.value}`,
 			  ],
 			  borderColor:     '#575dde',
 			  backgroundColor: '#575dde',
@@ -255,37 +256,37 @@ class Dashboard extends Component {
 			  tension:         0,
 			  prefix:          value.prefix,
 			  postfix:         value.postfix
-			}]
+        }]
 		  };
 		  if (value.title === 'Expenses' || value.title === 'Expenses Breakdown') {
-			const expensesData = value.value;
-			if (expensesData.total_sale === 'invalid' || expensesData.total_cogs === 'invalid' || expensesData.total_discount === 'invalid' || expensesData.total_shipping === 'invalid' || expensesData.total_tax === 'invalid') {
+        const expensesData = value.value;
+        if (expensesData.total_sale === 'invalid' || expensesData.total_cogs === 'invalid' || expensesData.total_discount === 'invalid' || expensesData.total_shipping === 'invalid' || expensesData.total_tax === 'invalid') {
 			  invalid = true;
 			  value.title = 'Expenses Breakdown';
-			}
-			renderCards.push(<Col key={index} id={`card_${index}`} style={{width: this.state.width}} className="dashboard-card-container expenses-breakdown">
-			  {invalid ? this.invalidCard(value) : this.expenseCard(expensesData)}
-			</Col>);
+        }
+        renderCards.push(<Col key={index} id={`card_${index}`} style={{width: this.state.width}} className="dashboard-card-container expenses-breakdown">
+          {invalid ? this.invalidCard(value) : this.expenseCard(expensesData)}
+                         </Col>);
 		  } else {
-			renderCards.push(<Col key={index} id={`card_${index}`} style={{width: this.state.width}} className="dashboard-card-container" title={!invalid ? `Click to explore ${value.title} in detail` : null}>
-			  {invalid ? this.invalidCard(value) : <Card
-				className={`price-card-style ${active} ${borderRed}`}
-				onClick={(e) => this.handleClickMetrics(`card_${index}`, value, chartData)}
-				style={styles.metricsCardStyle}
+        renderCards.push(<Col key={index} id={`card_${index}`} style={{width: this.state.width}} className="dashboard-card-container" title={!invalid ? `Click to explore ${value.title} in detail` : null}>
+          {invalid ? this.invalidCard(value) : <Card
+            className={`price-card-style ${active} ${borderRed}`}
+            onClick={(e) => this.handleClickMetrics(`card_${index}`, value, chartData)}
+            style={styles.metricsCardStyle}
 				>
-				<CardHeader className="card-header-style" >
-				  <PriceBox value={value} analyze />
-				</CardHeader>
-				<CardText>
-				  <div>
-					<Chart data={chartData} type="line" width="40%" />
-				  </div>
-				</CardText>
-			  </Card>}
-			</Col>);
+            <CardHeader className="card-header-style" >
+              <PriceBox value={value} analyze />
+            </CardHeader>
+            <CardText>
+              <div>
+                <Chart data={chartData} type="line" width="40%" />
+              </div>
+            </CardText>
+          </Card>}
+        </Col>);
 		  }
-		});
-	}
+    });
+    // }
     return (
       <div>
         <Navigationbar history={this.props.history} companyName="Test Company" />
@@ -318,7 +319,9 @@ class Dashboard extends Component {
                   }}
                   activeMetrics={this.state.activeMetrics}
                   activeChartData={this.state.activeChartData}
-                  open={this.state.explore} />
+                  open={this.state.explore}
+                  {...this.props}
+                  />
               </div>
             </Col>
           </Row>
@@ -333,8 +336,9 @@ class Dashboard extends Component {
 const mapStateToProps = state => {
   return {
     metricsData: state.dashboard.metricsData,
-	userData: state.dashboard.userData,
-	channelData: state.dashboard.channelData,
+    chartData:   state.exploration.chartData,
+  	userData:    state.dashboard.userData,
+  	channelData: state.dashboard.channelData,
   };
 };
 
@@ -343,12 +347,18 @@ const mapDispatchToProps = (dispatch) => {
     getMetrics: () => {
       return dispatch(dashboardActions.getMetrics());
     },
-    getUser: () => {
-	  return dispatch(dashboardActions.getUser());
+    getChartData: (path, activeMetrics, metric_map, queryParams) => {
+      return dispatch(dashboardActions.getChartData(path, activeMetrics, metric_map, queryParams));
     },
-	getChannel: () => {
-	  return dispatch(dashboardActions.getChannel());
-	}
+    emptyTimeFrameData: () => {
+      return dispatch(dashboardActions.emptyTimeFrameData());
+    },
+    getUser: () => {
+  	  return dispatch(dashboardActions.getUser());
+    },
+  	getChannel: () => {
+  	  return dispatch(dashboardActions.getChannel());
+  	}
   };
 };
 
