@@ -180,7 +180,8 @@ class ExploreMetrics extends Component {
         queryParams.resolution = RESOLUTION_DAY;
         metric_map.resolution = RESOLUTION_DAY;
       }
-      this.props.getChartData(option, this.state.activeMetrics, metric_map, queryParams);
+      this.props.getChartData(option, this.state.activeMetrics, metric_map, queryParams,
+			  this.props.channelData.data.shopId);
 	  }
   }
 

@@ -319,6 +319,7 @@ class Dashboard extends Component {
                   }}
                   activeMetrics={this.state.activeMetrics}
                   activeChartData={this.state.activeChartData}
+				  channelData={this.state.channelData}
                   open={this.state.explore}
                   {...this.props}
                   />
@@ -347,8 +348,8 @@ const mapDispatchToProps = (dispatch) => {
     getMetrics: () => {
       return dispatch(dashboardActions.getMetrics());
     },
-    getChartData: (path, activeMetrics, metric_map, queryParams) => {
-      return dispatch(dashboardActions.getChartData(path, activeMetrics, metric_map, queryParams));
+    getChartData: (path, activeMetrics, metric_map, queryParams, shopId) => {
+      return dispatch(dashboardActions.getChartData(path, activeMetrics, metric_map, queryParams, shopId));
     },
     emptyTimeFrameData: () => {
       return dispatch(dashboardActions.emptyTimeFrameData());

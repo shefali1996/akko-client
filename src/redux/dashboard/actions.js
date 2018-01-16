@@ -18,11 +18,11 @@ export const getMetrics = () => {
   };
 };
 
-export const getChartData = (option, activeMetrics, metric_map, queryParams) => {
+export const getChartData = (option, activeMetrics, metric_map, queryParams, shopId) => {
   return (dispatch, getState) => {
     let path = '';
     if (option === plotByOptions.time) {
-      path = api.metricsPathForTime(activeMetrics.metric_name);
+      path = api.metricsPathForTime(activeMetrics.metric_name, shopId);
     } else if (option === plotByOptions.product) {
       path = api.metricsPathForProduct(activeMetrics.metric_name);
     } else if (option === plotByOptions.customer) {
