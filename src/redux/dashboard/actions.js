@@ -67,3 +67,51 @@ export const getCustomers = () => {
       });
   };
 };
+
+
+export const getProducts = () => {
+  return (dispatch, getState) => {
+    return new Promise((resolve, reject) => {
+      invokeApig({ path: api.products })
+        .then((results) => {
+          if (!results.products) {
+            throw new Error('results.products is undefined');
+          }
+          dispatch(actions.getProductsSuccess(results));
+          resolve(results.products);
+        })
+        .catch(error => {
+          reject(error);
+        });
+    });
+  };
+};
+
+export const getVariants = (products) => {
+  return (dispatch, getState) => {
+    const variants = [];
+    const getVariant = (i = 0) => {
+      const next = i + 1;
+      invokeApig({
+        path:        api.getProductVariants(products[i].productId),
+        queryParams: {
+          cogs: true
+        }
+      }).then((results) => {
+        if (!results.variants) {
+          throw new Error('results.variants is undefined');
+        }
+        results.productId = products[i].productId;
+        variants.push(results);
+        if (products.length > next) {
+          getVariant(next);
+        } else {
+          dispatch(actions.getVariantsSuccess(variants));
+        }
+      }).catch(error => {
+        console.log('Error get variants', error);
+      });
+    };
+    getVariant();
+  };
+};

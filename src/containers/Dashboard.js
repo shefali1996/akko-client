@@ -41,6 +41,9 @@ class Dashboard extends Component {
   componentWillMount() {
     this.props.getMetrics().then(() => {
       this.props.getCustomers();
+      this.props.getProducts().then((products) => {
+        this.props.getVariants(products);
+      });
     });
   }
   componentDidMount() {
@@ -288,7 +291,8 @@ const mapStateToProps = state => {
   return {
     metricsData:   state.dashboard.metricsData,
     chartData:     state.exploration.chartData,
-    customersData: state.customers.customers
+    customersData: state.customers.customers,
+    productData:   state.products.products
   };
 };
 
@@ -305,6 +309,12 @@ const mapDispatchToProps = (dispatch) => {
     },
     getCustomers: () => {
       return dispatch(dashboardActions.getCustomers());
+    },
+    getProducts: () => {
+      return dispatch(dashboardActions.getProducts());
+    },
+    getVariants: (products) => {
+      return dispatch(dashboardActions.getVariants(products));
     }
   };
 };

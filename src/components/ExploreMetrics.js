@@ -14,7 +14,7 @@ import downArrowWhite from '../assets/images/downArrowWhite.svg';
 import CustomRangePicker from '../components/CustomRangePicker';
 import { invokeApig } from '../libs/awsLib';
 import {plotByOptions} from '../constants';
-import {customerFormater} from './CustomTable';
+import {customerDetailOnHover, productDetailOnHover} from './CustomTable';
 
 const moment = require('moment');
 
@@ -49,7 +49,8 @@ class ExploreMetrics extends Component {
       currentOption:          OPTION_TIME,
       defaultDataMap:         {},
       customTimeframeDataMap: {},
-      customersData:          {}
+      customersData:          {},
+      productData:            {}
     };
 
     this.currentOption = OPTION_TIME;
@@ -88,11 +89,16 @@ class ExploreMetrics extends Component {
   componentWillReceiveProps(nextProps) {
     // console.log('nextProps', nextProps);
     const state = _.cloneDeep(this.state);
-    const {activeMetrics, defaultDataMap, customTimeframeDataMap, customersData} = state;
+    const {activeMetrics, defaultDataMap, customTimeframeDataMap, customersData, productData} = state;
     let {currentOption} = state;
     if (!_.isEqual(nextProps.customersData.data, customersData)) {
       this.setState({
         customersData: nextProps.customersData.data
+      });
+    }
+    if (!_.isEqual(nextProps.productData.data, productData)) {
+      this.setState({
+        productData: nextProps.productData.data
       });
     }
     if (nextProps.activeMetrics && (nextProps.activeMetrics !== this.state.activeMetrics)) {
@@ -452,15 +458,23 @@ class ExploreMetrics extends Component {
     }
   }
   showDetailOnHover(label) {
-    const {customersData, currentOption} = this.state;
-    let tooltipDetailView = [];
+    const {customersData, productData, currentOption} = _.cloneDeep(this.state);
+    const loading = <div className="text-center padding-t-10"> <Spin /></div>;
+    let tooltipDetailView = false;
     if (currentOption === OPTION_CUSTOMER) {
-      const cust = _.cloneDeep(customersData);
-      const custInfo = _.find(cust, {name: label});
-      tooltipDetailView = customerFormater(custInfo.name, custInfo);
+      const custInfo = _.find(customersData, {name: label});
+      if (custInfo) {
+        tooltipDetailView = customerDetailOnHover(custInfo);
+      }
+    } else if (currentOption === OPTION_PRODUCT) {
+      const productInfo = _.find(productData.products && productData.products.products, {productId: parseInt(label)});
+      const variant = _.find(productData.variants, {productId: parseInt(label)});
+      if (productInfo && variant) {
+        tooltipDetailView = productDetailOnHover(productInfo, variant);
+      }
     }
     this.setState({
-      tooltipDetail: tooltipDetailView
+      tooltipDetail: tooltipDetailView || loading
     });
   }
   hideDetail() {

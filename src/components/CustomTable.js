@@ -171,6 +171,59 @@ export const productDetailFormatter = (cell, row) => {
     </div>
   );
 };
+export const productDetailOnHover = (productInfo, variant) => {
+  let productImage = variant && variant.variants.length && variant.variants[0].variant_details.image;
+  if (productImage === null || productImage === 'null') {
+    productImage = productImgPlaceholder;
+  }
+  return (
+    <div className="product-data-cell">
+      <div className="productImage">
+        <img style={{ width: 70 }} src={productImage} alt="Product Image" />
+      </div>
+      <div className="product-custom-title">
+        <div>
+          <span className="productName">{productInfo.title}</span>
+        </div>
+        <div className="sku-view">
+          <span className="channelNumberText">Variants : {productInfo.numVariants}</span>
+        </div>
+      </div>
+    </div>
+  );
+};
+export const customerDetailOnHover = (customer) => {
+  const avgOrderValue = customer.avgOrderValue;
+  const frequency = customer.reOrderFrequency;
+  let avg = false;
+  let fre = false;
+  if (avgOrderValue && avgOrderValue.value !== 'invalid') {
+    avg = `${avgOrderValue.prefix}${avgOrderValue.value}${avgOrderValue.postfix}`;
+  }
+  if (frequency && frequency.value !== 'invalid') {
+    fre = `${frequency.prefix}${frequency.value}${frequency.postfix}`;
+  }
+  return (
+    <div className="product-data-cell">
+      <div className="product-custom-title">
+        <div>
+          <span className="productName">{customer.name}</span>
+        </div>
+        <div>
+          <span className="variantTitle">{customer.email}</span>
+        </div>
+        <div className="sku-view">
+          {avg ? <div>
+            <span className="channelNumberText">Avg Order Value : {avg}</span>
+          </div> : null}
+          {fre || false ? <div>
+            <span className="channelNumberText">Order frequency : {fre}</span>
+          </div> : null}
+        </div>
+      </div>
+    </div>
+  );
+};
 export const productPriceFormatter = (cell, row) => (
   <div className="flex-center padding-t-20">
     <div className="currency-view">
