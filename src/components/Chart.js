@@ -56,6 +56,11 @@ class Chart extends Component {
               return prefix + value + postfix;
             }
           }
+        }],
+        xAxes: [{
+          ticks: {
+            autoSkip: false
+          }
         }]
       },
       legend: {
