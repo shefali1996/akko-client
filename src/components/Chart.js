@@ -87,7 +87,10 @@ class Chart extends Component {
             const dataset = data.datasets[tooltipItems.datasetIndex];
             const prefix = dataset.prefix ? dataset.prefix : '';
             const postfix = dataset.postfix ? dataset.postfix : '';
-            return ` ${prefix}${tooltipItems.yLabel}${postfix}`;
+            return ` ${prefix}${tooltipItems.yLabel.toFixed(2)}${postfix}`;
+          },
+          title(tooltipItem, data) {
+
           }
         }
       }

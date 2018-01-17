@@ -89,8 +89,18 @@ class ExploreMetrics extends Component {
   componentWillReceiveProps(nextProps) {
     // console.log('nextProps', nextProps);
     const state = _.cloneDeep(this.state);
-    const {activeMetrics, defaultDataMap, customTimeframeDataMap, customersData, productData} = state;
+    const {activeMetrics, defaultDataMap, customTimeframeDataMap, customersData, productData, open} = state;
     let {currentOption} = state;
+    if (nextProps.open !== open) {
+      this.setState({
+        open: nextProps.open
+      });
+      if (nextProps.open) {
+        const ms = moment().utc().startOf('day').valueOf();
+        this.customEndTime = moment(ms).add({days: 1}).valueOf();
+        this.customStartTime = moment(ms).subtract({years: 1}).valueOf();
+      }
+    }
     if (!_.isEqual(nextProps.customersData.data, customersData)) {
       this.setState({
         customersData: nextProps.customersData.data
@@ -189,8 +199,8 @@ class ExploreMetrics extends Component {
         metric_map.timeFrame = true;
       } else {
         const ms = moment().utc().startOf('day').valueOf();
-        metric_map.end = moment(ms).add({days: 1}).valueOf();
-        metric_map.start = moment(ms).subtract({years: 1}).valueOf();
+        this.customEndTime = metric_map.end = moment(ms).add({days: 1}).valueOf();
+        this.customStartTime = metric_map.start = moment(ms).subtract({years: 1}).valueOf();
       }
 
       const queryParams = {
@@ -465,16 +475,20 @@ class ExploreMetrics extends Component {
       const custInfo = _.find(customersData, {name: label});
       if (custInfo) {
         tooltipDetailView = customerDetailOnHover(custInfo);
+      } else {
+        tooltipDetailView = loading;
       }
     } else if (currentOption === OPTION_PRODUCT) {
       const productInfo = _.find(productData.products && productData.products.products, {productId: parseInt(label)});
       const variant = _.find(productData.variants, {productId: parseInt(label)});
       if (productInfo && variant) {
         tooltipDetailView = productDetailOnHover(productInfo, variant);
+      } else {
+        tooltipDetailView = loading;
       }
     }
     this.setState({
-      tooltipDetail: tooltipDetailView || loading
+      tooltipDetail: tooltipDetailView
     });
   }
   hideDetail() {
@@ -500,7 +514,7 @@ class ExploreMetrics extends Component {
     return (
       <Row>
         <Col md={12}>
-          <Card className={this.props.open ? 'charts-card-style margin-l-r-10' : ''}>
+          <Card className={this.state.open ? 'charts-card-style margin-l-r-10' : ''}>
             <CardHeader
               textStyle={styles.chartHeader}
               title={<div>
@@ -533,7 +547,9 @@ class ExploreMetrics extends Component {
                     <CustomRangePicker
                       onTimeframeChange={this.onTimeframeChange}
                       customRangeShouldClear={this.state.customRangeShouldClear}
-                      afterCustomRangeClear={this.afterCustomRangeClear} />
+                      afterCustomRangeClear={this.afterCustomRangeClear}
+                      defaultRange={{start: this.customStartTime, end: this.customEndTime}}
+                      />
                   </span>
                 </span>
               </div>}

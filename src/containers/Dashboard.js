@@ -114,8 +114,6 @@ class Dashboard extends Component {
       <CardHeader
         title="Expenses Breakdown"
         titleStyle={styles.chartsHeaderTitle}
-        subtitle={value.trend_period}
-        subtitleStyle={styles.expenseCardSubtitle}
         />
       <CardText style={styles.expenseCardText}>
         <Row>
