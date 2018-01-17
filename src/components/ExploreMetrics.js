@@ -127,8 +127,9 @@ class ExploreMetrics extends Component {
       this.setState({
         defaultDataMap:         d.defaultDataMap,
         customTimeframeDataMap: d.customTimeframeDataMap
+      }, () => {
+        this.onOptionChange(currentOption);
       });
-      this.onOptionChange(currentOption);
     }
   }
 
