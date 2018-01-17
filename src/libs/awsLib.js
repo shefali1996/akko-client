@@ -19,33 +19,35 @@ function getAwsCredentials(userToken) {
   return AWS.config.credentials.getPromise();
 }
 
+let authPromise = null;
+
 export async function authUser() {
+  // This avoids multiple calls to authUser
+  // If a pending promise is available, return that
+  if (authPromise) {
+    return authPromise;
+  }
+
   if (
     AWS.config.credentials &&
     Date.now() < AWS.config.credentials.expireTime - 60000
   ) {
-    return true;
+    return Promise.resolve();
   }
   const currentUser = getCurrentUser();
 
   if (currentUser === null) {
-    return false;
+    return Promise.reject('currentUser is null');
   }
 
-  let userToken = null;
-  try {
-    userToken = await getUserToken(currentUser);
-  } catch (e) {
-    alert(e);
-  }
+  authPromise = getUserToken(currentUser).then((userToken) => {
+	  return getAwsCredentials(userToken);
+  });
 
-  try {
-    await getAwsCredentials(userToken);
-  } catch (e) {
-    alert(e);
-  }
+  await authPromise;
 
-  return true;
+  authPromise = null;
+  return Promise.resolve();
 }
 
 async function getUserToken(currentUser) {
@@ -90,38 +92,66 @@ export async function invokeApig({
   queryParams = {},
   body
 }) {
-  if (!await authUser()) {
-    throw new Error('User is not logged in');
-  }
+// <<<<<<< HEAD
+//   if (!await authUser()) {
+//     throw new Error('User is not logged in');
+//   }
+//
+//   const signedRequest = sigV4Client
+//     .newClient({
+//       accessKey:    AWS.config.credentials.accessKeyId,
+//       secretKey:    AWS.config.credentials.secretAccessKey,
+//       sessionToken: AWS.config.credentials.sessionToken,
+//       region:       config.apiGateway.REGION,
+//       endpoint:     config.apiGateway.URL
+//     })
+//     .signRequest({
+//       method,
+//       path,
+//       headers,
+//       queryParams,
+//       body
+//     });
+//
+//   body = body ? JSON.stringify(body) : body;
+//   headers = signedRequest.headers;
+//   console.log('signedRequest', signedRequest);
+//   const results = await fetch(signedRequest.url, {
+//     method,
+//     headers,
+//     body
+// =======
+  return authUser().then(() => {
+    const signedRequest = sigV4Client
+      .newClient({
+		  accessKey:    AWS.config.credentials.accessKeyId,
+		  secretKey:    AWS.config.credentials.secretAccessKey,
+		  sessionToken: AWS.config.credentials.sessionToken,
+		  region:       config.apiGateway.REGION,
+		  endpoint:     config.apiGateway.URL
+      })
+      .signRequest({
+		  method,
+		  path,
+		  headers,
+		  queryParams,
+		  body
+      });
 
-  const signedRequest = sigV4Client
-    .newClient({
-      accessKey:    AWS.config.credentials.accessKeyId,
-      secretKey:    AWS.config.credentials.secretAccessKey,
-      sessionToken: AWS.config.credentials.sessionToken,
-      region:       config.apiGateway.REGION,
-      endpoint:     config.apiGateway.URL
-    })
-    .signRequest({
+	  body = body ? JSON.stringify(body) : body;
+	  headers = signedRequest.headers;
+	  console.log('signedRequest', signedRequest);
+	  return fetch(signedRequest.url, {
       method,
-      path,
       headers,
-      queryParams,
       body
-    });
-
-  body = body ? JSON.stringify(body) : body;
-  headers = signedRequest.headers;
-  console.log('signedRequest', signedRequest);
-  const results = await fetch(signedRequest.url, {
-    method,
-    headers,
-    body
+	  });
+  }).then((results) => {
+	  if (results.status !== 200) {
+      throw new Error(results.text());
+	  }
+	  console.log('results', results);
+	  return results.json();
+    // >>>>>>> 3985086c03ae248ba12acfb9122f3a1dd714ed38
   });
-  console.log('results', results);
-  if (results.status !== 200) {
-    throw new Error(await results.text());
-  }
-
-  return results.json();
 }

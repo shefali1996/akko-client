@@ -27,13 +27,6 @@ export const numberFormatter = (number) => {
   return parseFloat(Math.round(number * 100) / 100).toFixed(2);
 };
 
-export const animationStyle = {
-  headShake: {
-    animation:     'x 1s',
-    animationName: Radium.keyframes(headShake, 'headShake')
-  }
-};
-
 export const convertInventoryJSONToObject = (inventoryJSON) => {
   const products = [];
   for (let i = 0; i < inventoryJSON.length; i++) {

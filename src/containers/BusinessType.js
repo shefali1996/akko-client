@@ -8,12 +8,18 @@ import businessType3 from '../assets/images/businessType3.svg';
 import businessType4 from '../assets/images/businessType4.svg';
 import HeaderWithCloseAndAlert from '../components/HeaderWithCloseAndAlert';
 import TipBox, {tipBoxMsg} from '../components/TipBox';
+import { Spin } from 'antd';
+import SweetAlert from 'sweetalert-react';
+import { invokeApig } from '../libs/awsLib';
 
 class BusinessType extends Component {
   constructor(props) {
     super(props);
     this.state = {
       option: '',
+	  pendingRequest: false,
+	  updateError: false,
+	  errorText: '',
       tipMsg: ''
     };
     this.onConnect = this.onConnect.bind(this);
@@ -62,8 +68,34 @@ class BusinessType extends Component {
   onConnect() {
     const { option } = this.state;
     if (option.length > 0) {
-      this.props.history.push('/set-cogs');
-    }
+	  this.setState({
+		  pendingRequest: true
+	  });
+	  var params = {
+		  businessType: option
+	  }
+	  invokeApig({
+		  path: '/user',
+		  method: 'PUT',
+		  body: params
+	  }).then(() => {
+		  this.setState({
+			  pendingRequest: false
+		  });
+		this.props.history.push('/set-cogs');
+	  }).catch((error) => {
+		  this.setState({
+			  updateError: true,
+			  errorText: error,
+			  pendingRequest: false
+		  });
+	  })
+    } else {
+		this.setState({
+			errorText: 'Please select an option',
+			updateError: true
+		});
+	}
   }
 
   render() {
@@ -161,9 +193,23 @@ class BusinessType extends Component {
           <div className="text-center margin-t-50">
             <Button className="login-button" onClick={this.onConnect}>
                 PROCEED
+				<div style={{marginLeft: 10, display: this.state.pendingRequest ? 'inline-block' : 'none'}}>
+				  <Spin size="small" />
+				</div>
             </Button>
           </div>
         </Grid>
+
+        <SweetAlert
+          show={this.state.updateError}
+          showConfirmButton
+          type="error"
+          title="Error"
+          text={this.state.errorText.toString()}
+          onConfirm={() => {
+                this.setState({ updateError: false });
+            }}
+        />
       </div>
     );
   }

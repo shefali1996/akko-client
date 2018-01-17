@@ -1,6 +1,6 @@
 import {handleActions} from 'redux-actions';
 import update from 'immutability-helper';
-import _ from 'lodash';
+import {cloneDeep} from 'lodash';
 import * as constants from '../../redux/constants';
 
 const initialState = {
@@ -26,7 +26,7 @@ const getChartDataRequest = (state, action) => update(state, {
 });
 const getChartDataSuccess = (state, action) => {
   const {metric_name, option, metric_map} = action.payload;
-  const newData = _.cloneDeep(state.chartData.data);
+  const newData = cloneDeep(state.chartData.data);
   const key = `${metric_name}:${option}`;
   if (metric_map.timeFrame) {
     newData.customTimeframeDataMap[key] = metric_map;
@@ -53,7 +53,7 @@ const getChartDataError = (state, action) => update(state, {
 });
 
 const emptyTimeFrameData = (state, action) => {
-  const newData = _.cloneDeep(state.chartData.data);
+  const newData = cloneDeep(state.chartData.data);
   newData.customTimeframeDataMap = {};
   return update(state, {
     chartData: {

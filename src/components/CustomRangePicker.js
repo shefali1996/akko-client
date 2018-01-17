@@ -32,7 +32,6 @@ class CustomRangePicker extends Component {
     this.validateStartDate = this.validateStartDate.bind(this);
   }
   componentWillReceiveProps(nextProps) {
-	  // console.log('Inside componentWillReceiveProps CustomRangePicker:', nextProps);
 	  // TODO: This is not the best want to handle this sort of cases. Ideally,
 	  // the state should move up and passed down as props.
     const range = nextProps.defaultRange;

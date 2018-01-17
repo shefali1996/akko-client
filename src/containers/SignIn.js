@@ -8,7 +8,7 @@ import {
   AuthenticationDetails,
   CognitoUser
 } from 'amazon-cognito-identity-js';
-import { validateEmail, animationStyle } from '../constants';
+import { validateEmail } from '../constants';
 import MaterialIcon from '../assets/images/MaterialIcon 3.svg';
 import config from '../config';
 import { invokeApig } from '../libs/awsLib';
@@ -17,8 +17,8 @@ class SignIn extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      email: '',
-      password: '',
+      email:          '',
+      password:       '',
 	  pendingRequest: false,
     };
     this.goLanding = this.goLanding.bind(this);
@@ -64,7 +64,7 @@ class SignIn extends Component {
     const { email } = this.state;
     if (!validateEmail(email)) {
 	  this.setState({
-		  emailError: " Invalid email address"
+		  emailError: ' Invalid email address'
 	  });
       this.refs.email.show();
       return false;
@@ -86,7 +86,7 @@ class SignIn extends Component {
     const { password } = this.state;
     if (password.length < 8) {
 	  this.setState({
-		  passwordError: " Need at least 8 characters"
+		  passwordError: ' Need at least 8 characters'
 	  });
       this.refs.password.show();
       return false;
@@ -115,29 +115,29 @@ class SignIn extends Component {
 	  });
       this.login(email, password).then((result) => {
         localStorage.setItem('isAuthenticated', 'isAuthenticated');
-		return invokeApig({path: '/user'});
+        return invokeApig({path: '/user'});
 	  }).then((result) => {
-		  console.log("userResult", result);
+		  console.log('userResult', result);
 		  this.setState({
 			  pendingRequest: false,
 		  });
-		  switch(result.accountSetupStatus) {
+		  switch (result.accountSetupStatus) {
 			  case 0:
-				this.props.history.push('/connect-shopify');
-				break;
+            this.props.history.push('/connect-shopify');
+            break;
 			  case 1:
-				this.props.history.push('/business-type');
-				break;
+            this.props.history.push('/business-type');
+            break;
 			  case 2:
-				// business-type is set, check if cogs is set or not
-				if (result.cogsStatus === 0) {
-					this.props.history.push('/set-cogs');
-				} else {
-					this.props.history.push('/dashboard');
-				}
-				break;
+            // business-type is set, check if cogs is set or not
+            if (result.cogsStatus === 0) {
+              this.props.history.push('/set-cogs');
+            } else {
+              this.props.history.push('/dashboard');
+            }
+            break;
 			  default:
-				this.props.history.push('/dashboard');
+            this.props.history.push('/dashboard');
 		  }
       })
         .catch(error => {
@@ -145,14 +145,14 @@ class SignIn extends Component {
 		  this.setState({
 			  pendingRequest: false,
 		  });
-		  if (error.message === "User does not exist.") {
+		  if (error.message === 'User does not exist.') {
 			  this.setState({
-				  emailError: " User does not exist"
+				  emailError: ' User does not exist'
 			  });
 			  this.refs.email.show();
-		  } else if (error.message === "Incorrect username or password.") {
+		  } else if (error.message === 'Incorrect username or password.') {
 			  this.setState({
-				  passwordError: " Incorrect password"
+				  passwordError: ' Incorrect password'
 			  });
 			  this.refs.password.show();
 		  }
@@ -165,7 +165,7 @@ class SignIn extends Component {
     // create a new userPool instance
     const userPool = new CognitoUserPool({
       UserPoolId: config.cognito.USER_POOL_ID,
-      ClientId: config.cognito.APP_CLIENT_ID
+      ClientId:   config.cognito.APP_CLIENT_ID
     });
 
     // create a new CognitoUser instance
@@ -243,7 +243,7 @@ class SignIn extends Component {
                     />
                   </OverlayTrigger>
                 </div>
-				{/*
+                {/*
                 <div className="flex-center padding-t-10">
                   <Button className="forgot-text" onClick={this.onForgot}>
                     Forgot Password ?
@@ -253,9 +253,9 @@ class SignIn extends Component {
                 <div className="flex-center padding-t-20">
                   <Button className="login-button" onClick={this.onLogin}>
                     LOGIN
-					<div style={{marginLeft: 10, display: this.state.pendingRequest ? 'inline-block' : 'none'}}>
-						<Spin size="small"/>
-					</div>
+                    <div style={{marginLeft: 10, display: this.state.pendingRequest ? 'inline-block' : 'none'}}>
+                      <Spin size="small" />
+                    </div>
                   </Button>
                 </div>
               </div>

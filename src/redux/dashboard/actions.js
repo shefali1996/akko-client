@@ -21,11 +21,11 @@ export const getMetrics = () => {
   };
 };
 
-export const getChartData = (option, activeMetrics, metric_map, queryParams) => {
+export const getChartData = (option, activeMetrics, metric_map, queryParams, shopId) => {
   return (dispatch, getState) => {
     let path = '';
     if (option === plotByOptions.time) {
-      path = api.metricsPathForTime(activeMetrics.metric_name);
+      path = api.metricsPathForTime(activeMetrics.metric_name, shopId);
     } else if (option === plotByOptions.product) {
       path = api.metricsPathForProduct(activeMetrics.metric_name);
     } else if (option === plotByOptions.customer) {
@@ -42,6 +42,19 @@ export const getChartData = (option, activeMetrics, metric_map, queryParams) => 
   };
 };
 
+export const getUser = () => {
+  return (dispatch, getState) => {
+    dispatch(actions.getUserRequest());
+    invokeApig({ path: api.user })
+      .then((results) => {
+        dispatch(actions.getUserSuccess(results));
+      })
+      .catch(error => {
+        console.log('get user error', error);
+        dispatch(actions.getUserError('get user error'));
+      });
+  };
+};
 
 export const emptyTimeFrameData = () => {
   return (dispatch, getState) => {
@@ -113,5 +126,19 @@ export const getVariants = (products) => {
       });
     };
     getVariant();
+  };
+};
+
+export const getChannel = () => {
+  return (dispatch, getState) => {
+    dispatch(actions.getChannelRequest());
+    invokeApig({ path: api.channel })
+      .then((results) => {
+        dispatch(actions.getChannelSuccess(results));
+      })
+      .catch(error => {
+        console.log('get channel error', error);
+        dispatch(actions.getChannelError('get channel error'));
+      });
   };
 };

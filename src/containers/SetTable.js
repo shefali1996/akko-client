@@ -5,7 +5,7 @@ import SearchInput, { createFilter } from 'react-search-input';
 import { BootstrapTable, TableHeaderColumn } from 'react-bootstrap-table';
 import SweetAlert from 'sweetalert-react';
 import { Switch, Progress, Spin } from 'antd';
-import {isEmpty} from 'lodash';
+import {isEmpty, isNull} from 'lodash';
 import {
   customMultiSelect,
   renderSizePerPageDropDown,
@@ -31,6 +31,8 @@ import {
 import MaterialIcon from '../assets/images/MaterialIcon 3.svg';
 import TipBox, {tipBoxMsg} from '../components/TipBox';
 
+const INVALID_COGS = 'invalid';
+
 class SetTable extends Component {
   constructor(props) {
     super(props);
@@ -47,7 +49,8 @@ class SetTable extends Component {
       hideCompleted:     false,
       valueError:        false,
       loading:           false,
-      inProgressSetCogs: false
+      inProgressSetCogs: false,
+	  pendingRequest:    false,
     };
     this.onFinish = this.onFinish.bind(this);
     this.onMarkUpChange = this.onMarkUpChange.bind(this);
@@ -114,28 +117,25 @@ class SetTable extends Component {
     let pendingCogsProducts = data.filter((item) => {
       return item.cogsValidateStatus !== true;
     });
-    pendingCogsProducts = [];
-    if (pendingCogsProducts.length > 0) {
-      this.setState({
-        errorText:  'Please set COGS for all products or to skip click SKIP FOR NOW button',
-        fetchError: true
-      });
-    } else {
-      const cogsFinal = beautifyDataForCogsApiCall(data);
-      this.fireSetCogsAPI(cogsFinal).then((results) => {
-        this.setState({
-          successMsg:        `COGS successfully set for ${cogsFinal.variants.length} products`,
-          fetchSuccess:      true,
-          inProgressSetCogs: false
-        });
-      }).catch(error => {
-        this.setState({
-          errorText:         error,
-          fetchError:        true,
-          inProgressSetCogs: false
-        });
-      });
-    }
+	this.setState({
+		pendingRequest: true,
+	});
+	const cogsFinal = beautifyDataForCogsApiCall(data);
+	this.fireSetCogsAPI(cogsFinal).then((results) => {
+	  this.setState({
+	    successMsg:        `COGS successfully set for ${cogsFinal.variants.length} products`,
+	    fetchSuccess:      true,
+	    inProgressSetCogs: false,
+	    pendingRequest:    false,
+	  });
+	}).catch(error => {
+	  this.setState({
+	    errorText:         error,
+	    fetchError:        true,
+	    inProgressSetCogs: false,
+	    pendingRequest:    false,
+	  });
+	});
   }
 
   onSetMarkup() {
@@ -319,7 +319,7 @@ class SetTable extends Component {
       const cogsValue = data[index].variant_details.cogs;
       let value = e.target.value;
       if (isEmpty(value)) {
-        value = 'null';// cogsValue;
+        value = INVALID_COGS;// cogsValue;
       }
       data[index].cogs = value;
     }
@@ -343,7 +343,7 @@ class SetTable extends Component {
     if (row.cogs) {
       cogsValue = row.cogs;
     }
-    if (!isEmpty(cogsValue) && cogsValue !== null && cogsValue !== 'null') {
+    if (!isEmpty(cogsValue) && cogsValue !== null && cogsValue !== INVALID_COGS) {
       warningMessage = (<div>
         <span className="cogs-completed" />
                         </div>);
@@ -419,7 +419,7 @@ class SetTable extends Component {
     let { data } = this.state;
     const countTotal = data.length;
     const pendingProducts = data.filter((item) => {
-      return _.isEmpty(item.variant_details.cogs) || _.isNull(item.variant_details.cogs) || item.variant_details.cogs === 'null';
+      return isEmpty(item.variant_details.cogs) || isNull(item.variant_details.cogs) || item.variant_details.cogs === INVALID_COGS;
     });
     const countPending = pendingProducts.length;
     const countCompleted = countTotal - countPending;
@@ -597,6 +597,9 @@ class SetTable extends Component {
                 <Col md={6} className="text-right no-padding">
                   <Button className="login-button" onClick={this.onFinish}>
                     FINISH
+                    <div style={{marginLeft: 10, display: this.state.pendingRequest ? 'inline-block' : 'none'}}>
+                      <Spin size="small" />
+                    </div>
                   </Button>
                 </Col>
               </div>

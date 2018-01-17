@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Grid, Row, Col, Button, Label, Image } from 'react-bootstrap';
 import { Input, Select, Checkbox, Spin } from 'antd';
+import {filter, isEmpty, isNull} from 'lodash';
 import {getProduct, parseVariants} from '../helpers/Csv';
 import { invokeApig } from '../libs/awsLib';
 
@@ -76,8 +77,8 @@ class Setting extends Component {
   getProductCountWithCogs() {
     const {variants} = this.state;
     if (variants) {
-      return _.filter(variants, (o) => {
-        return !_.isEmpty(o.variant_details.cogs) && !_.isNull(o.variant_details.cogs) && o.variant_details.cogs !== 'null';
+      return filter(variants, (o) => {
+        return !isEmpty(o.variant_details.cogs) && !isNull(o.variant_details.cogs) && o.variant_details.cogs !== 'null';
       }).length;
     }
     return 0;
@@ -86,8 +87,8 @@ class Setting extends Component {
   getProductCountWithoutCogs() {
     const {variants} = this.state;
     if (variants) {
-      return _.filter(variants, (o) => {
-        return _.isEmpty(o.variant_details.cogs) || _.isNull(o.variant_details.cogs) || o.variant_details.cogs === 'null';
+      return filter(variants, (o) => {
+        return isEmpty(o.variant_details.cogs) || isNull(o.variant_details.cogs) || o.variant_details.cogs === 'null';
       }).length;
     }
     return 0;

@@ -5,7 +5,7 @@ import Chip from 'material-ui/Chip';
 import Dialog from 'material-ui/Dialog';
 import { Select, DatePicker, Input, Spin } from 'antd';
 import ReactPlaceholder from 'react-placeholder';
-import _ from 'lodash';
+import {isEmpty, isEqual} from 'lodash';
 import Chart from '../components/Chart';
 import FilterDialog from '../components/FilterDialog';
 import styles from '../constants/styles';
@@ -57,7 +57,6 @@ class ExploreMetrics extends Component {
     this.currentSortOption = '1';
     this.customStartTime = '';
     this.customEndTime = '';
-    this.timeChanged = false;
 
     this.openFilter = this.openFilter.bind(this);
     this.closeFilter = this.closeFilter.bind(this);
@@ -123,7 +122,7 @@ class ExploreMetrics extends Component {
       });
     }
     const d = nextProps.chartData.data;
-    if (!_.isEqual(d.defaultDataMap, defaultDataMap) || !_.isEqual(d.customTimeframeDataMap, customTimeframeDataMap)) {
+    if (!isEqual(d.defaultDataMap, defaultDataMap) || !isEqual(d.customTimeframeDataMap, customTimeframeDataMap)) {
       this.setState({
         defaultDataMap:         d.defaultDataMap,
         customTimeframeDataMap: d.customTimeframeDataMap
@@ -159,9 +158,9 @@ class ExploreMetrics extends Component {
   }
 
   afterCustomRangeClear() {
-	  this.setState({
-		  customRangeShouldClear: false,
-	  });
+    this.setState({
+      customRangeShouldClear: false,
+    });
   }
 
   onRowSelect(filterData) {
@@ -212,15 +211,15 @@ class ExploreMetrics extends Component {
         queryParams.resolution = RESOLUTION_DAY;
         metric_map.resolution = RESOLUTION_DAY;
       }
-      this.props.getChartData(option, this.state.activeMetrics, metric_map, queryParams);
+      this.props.getChartData(option, this.state.activeMetrics, metric_map, queryParams,
+			  this.props.channelData.data.shopId);
 	  }
   }
 
   setTimeMetric() {
 	  const {metric_name} = this.state.activeMetrics;
     const metric_map = this.getMap(metric_name, OPTION_TIME);
-    if (!metric_map || this.timeChanged) {
-      this.timeChanged = false;
+    if (!metric_map) {
       this.setMetric(OPTION_TIME);
     } else {
       const metrics = metric_map.result.metrics;
@@ -248,7 +247,7 @@ class ExploreMetrics extends Component {
           type:            'line',
           label:           value.title,
           data:            values,
-          backgroundColor: '#575dde',
+          backgroundColor: styles.constants.mainThemeColor,
           fill:            '1',
           tension:         0,
           prefix:          value.prefix,
@@ -277,8 +276,7 @@ class ExploreMetrics extends Component {
   setProductsMetric() {
     const metric_name = this.state.activeMetrics.metric_name;
     const metric_map = this.getMap(metric_name, OPTION_PRODUCT);
-    if (!metric_map || this.timeChanged) {
-      this.timeChanged = false;
+    if (!metric_map) {
       this.setMetric(OPTION_PRODUCT);
     } else {
       let sortOrder = ascendingSortOrder;
@@ -332,7 +330,7 @@ class ExploreMetrics extends Component {
           type:            'bar',
           label:           value.title,
           data:            values,
-          backgroundColor: '#575dde',
+          backgroundColor: styles.constants.mainThemeColor,
           fill:            '1',
           tension:         0,
           prefix:          value.prefix,
@@ -362,8 +360,7 @@ class ExploreMetrics extends Component {
 	  }
     const metric_name = this.state.activeMetrics.metric_name;
     const metric_map = this.getMap(metric_name, OPTION_CUSTOMER);
-    if (!metric_map || this.timeChanged) {
-      this.timeChanged = false;
+    if (!metric_map) {
       this.setMetric(OPTION_CUSTOMER);
     } else {
       const metrics = metric_map.result.metrics;
@@ -416,7 +413,7 @@ class ExploreMetrics extends Component {
           type:            'bar',
           label:           value.title,
           data:            values,
-          backgroundColor: '#575dde',
+          backgroundColor: styles.constants.mainThemeColor,
           fill:            '1',
           tension:         0,
           prefix:          value.prefix,
@@ -442,11 +439,11 @@ class ExploreMetrics extends Component {
   onTimeframeChange(newStartTime, newEndTime) {
     this.customStartTime = newStartTime.valueOf();
     this.customEndTime = newEndTime.valueOf();
-    this.timeChanged = true;
-    if (!_.isEmpty(this.state.customTimeframeDataMap)) {
+    if (!isEmpty(this.state.customTimeframeDataMap)) {
       this.props.emptyTimeFrameData();
+    } else {
+      this.onOptionChange(this.state.currentOption);
     }
-    this.onOptionChange(this.state.currentOption);
   }
 
   onSortOptionChange(option) {
@@ -515,7 +512,7 @@ class ExploreMetrics extends Component {
     return (
       <Row>
         <Col md={12}>
-          <Card className={this.state.open ? 'charts-card-style margin-l-r-10' : ''}>
+          <Card className={this.props.open ? 'charts-card-style margin-l-r-10' : ''}>
             <CardHeader
               textStyle={styles.chartHeader}
               title={<div>
@@ -591,11 +588,11 @@ class ExploreMetrics extends Component {
                         <Col md={4}>
                           <span className="pull-left">
                             {(() => {
-                                      if (this.currentOption === OPTION_TIME) {
+                                      if (this.state.currentOption === OPTION_TIME) {
                                       return 'Historical Trend';
-                                      } else if (this.currentOption === OPTION_PRODUCT) {
+                                    } else if (this.state.currentOption === OPTION_PRODUCT) {
                                       return `${this.state.activeMetrics.title} by Products`;
-                                      } else if (this.currentOption === OPTION_CUSTOMER) {
+                                    } else if (this.state.currentOption === OPTION_CUSTOMER) {
                                       return `${this.state.activeMetrics.title} by Customers`;
                                       }
                                       })()}
