@@ -150,7 +150,6 @@ class Dashboard extends Component {
       <CardHeader
         title="Expenses Breakdown"
         titleStyle={styles.chartsHeaderTitle}
-        subtitle={value.trend_period}
         subtitleStyle={styles.expenseCardSubtitle}
         />
       <CardText style={styles.expenseCardText}>
@@ -179,7 +178,7 @@ class Dashboard extends Component {
             <hr />
             <Row className="final-row">
               <Col md={7}>Gross Profit</Col>
-              <Col md={5}><span className="dash" />${expensesData.total_sales - expensesData.total_cogs - expensesData.total_discount - expensesData.total_shipping - expensesData.total_tax}</Col>
+              <Col md={5}><span className="dash"/>${expensesData.gross_profit}</Col>
             </Row>
           </Col>
         </Row>
