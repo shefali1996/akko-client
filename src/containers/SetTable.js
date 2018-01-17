@@ -117,32 +117,25 @@ class SetTable extends Component {
     let pendingCogsProducts = data.filter((item) => {
       return item.cogsValidateStatus !== true;
     });
-    if (pendingCogsProducts.length > 0) {
-      this.setState({
-        errorText:  'Please set COGS for all products or to skip click SKIP FOR NOW button',
-        fetchError: true
-      });
-    } else {
+	this.setState({
+		pendingRequest: true,
+	});
+	const cogsFinal = beautifyDataForCogsApiCall(data);
+	this.fireSetCogsAPI(cogsFinal).then((results) => {
 	  this.setState({
-		  pendingRequest: true,
+	    successMsg:        `COGS successfully set for ${cogsFinal.variants.length} products`,
+	    fetchSuccess:      true,
+	    inProgressSetCogs: false,
+	    pendingRequest:    false,
 	  });
-      const cogsFinal = beautifyDataForCogsApiCall(data);
-      this.fireSetCogsAPI(cogsFinal).then((results) => {
-        this.setState({
-          successMsg:        `COGS successfully set for ${cogsFinal.variants.length} products`,
-          fetchSuccess:      true,
-          inProgressSetCogs: false,
-		  pendingRequest:    false,
-        });
-      }).catch(error => {
-        this.setState({
-          errorText:         error,
-          fetchError:        true,
-          inProgressSetCogs: false,
-		  pendingRequest:    false,
-        });
-      });
-    }
+	}).catch(error => {
+	  this.setState({
+	    errorText:         error,
+	    fetchError:        true,
+	    inProgressSetCogs: false,
+	    pendingRequest:    false,
+	  });
+	});
   }
 
   onSetMarkup() {
