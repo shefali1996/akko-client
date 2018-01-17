@@ -49,7 +49,8 @@ class SetTable extends Component {
       hideCompleted:     false,
       valueError:        false,
       loading:           false,
-      inProgressSetCogs: false
+      inProgressSetCogs: false,
+	  pendingRequest:    false,
     };
     this.onFinish = this.onFinish.bind(this);
     this.onMarkUpChange = this.onMarkUpChange.bind(this);
@@ -116,25 +117,29 @@ class SetTable extends Component {
     let pendingCogsProducts = data.filter((item) => {
       return item.cogsValidateStatus !== true;
     });
-    pendingCogsProducts = [];
     if (pendingCogsProducts.length > 0) {
       this.setState({
         errorText:  'Please set COGS for all products or to skip click SKIP FOR NOW button',
         fetchError: true
       });
     } else {
+	  this.setState({
+		  pendingRequest: true,
+	  });
       const cogsFinal = beautifyDataForCogsApiCall(data);
       this.fireSetCogsAPI(cogsFinal).then((results) => {
         this.setState({
           successMsg:        `COGS successfully set for ${cogsFinal.variants.length} products`,
           fetchSuccess:      true,
-          inProgressSetCogs: false
+          inProgressSetCogs: false,
+		  pendingRequest:    false,
         });
       }).catch(error => {
         this.setState({
           errorText:         error,
           fetchError:        true,
-          inProgressSetCogs: false
+          inProgressSetCogs: false,
+		  pendingRequest:    false,
         });
       });
     }
@@ -599,6 +604,9 @@ class SetTable extends Component {
                 <Col md={6} className="text-right no-padding">
                   <Button className="login-button" onClick={this.onFinish}>
                     FINISH
+                    <div style={{marginLeft: 10, display: this.state.pendingRequest ? 'inline-block' : 'none'}}>
+                      <Spin size="small" />
+                    </div>
                   </Button>
                 </Col>
               </div>

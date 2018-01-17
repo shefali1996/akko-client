@@ -294,16 +294,6 @@ class Dashboard extends Component {
           <Row className="analysis">
             <Col>
               <div className={this.state.explore ? 'left-box-50 padding-r-7' : 'left-box-100 margin-t-5'}>
-                {!this.state.explore ? <Row>
-                  <Col md={12} className="padding-left-right-7">
-                    <span className={this.state.explore ? 'pull-right margin-r-23' : 'pull-right'}>
-                      <Select defaultValue="1" onChange={(event, index, value) => { this.setState({value}); }}>
-                        <Option value="1">This month to date</Option>
-                        <Option value="2">This year to date</Option>
-                      </Select>
-                    </span>
-                  </Col>
-                </Row> : null}
                 <Row id="cardSection" className={this.state.explore ? 'report-cards scroll-section' : 'report-cards'}>
                   {renderCards}
                 </Row>
