@@ -16,11 +16,11 @@ class BusinessType extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      option: '',
+      option:         '',
 	  pendingRequest: false,
-	  updateError: false,
-	  errorText: '',
-      tipMsg: ''
+	  updateError:    false,
+	  errorText:      '',
+      tipMsg:         ''
     };
     this.onConnect = this.onConnect.bind(this);
     this.onTypeOneSelected = this.onTypeOneSelected.bind(this);
@@ -71,31 +71,31 @@ class BusinessType extends Component {
 	  this.setState({
 		  pendingRequest: true
 	  });
-	  var params = {
+	  const params = {
 		  businessType: option
-	  }
+	  };
 	  invokeApig({
-		  path: '/user',
+		  path:   '/user',
 		  method: 'PUT',
-		  body: params
+		  body:   params
 	  }).then(() => {
 		  this.setState({
 			  pendingRequest: false
 		  });
-		this.props.history.push('/set-cogs');
+        this.props.history.push('/set-cogs');
 	  }).catch((error) => {
 		  this.setState({
-			  updateError: true,
-			  errorText: error,
+			  updateError:    true,
+			  errorText:      error,
 			  pendingRequest: false
 		  });
-	  })
+	  });
     } else {
-		this.setState({
-			errorText: 'Please select an option',
-			updateError: true
-		});
-	}
+      this.setState({
+        errorText:   'Please select an option',
+        updateError: true
+      });
+    }
   }
 
   render() {
@@ -187,15 +187,17 @@ class BusinessType extends Component {
               </div>
             </Col>
             <Col md={3}>
-              {!isEmpty(this.state.tipMsg) ? <TipBox message={this.state.tipMsg} /> : null}
+              {
+                // !isEmpty(this.state.tipMsg) ? <TipBox message={this.state.tipMsg} /> : null
+              }
             </Col>
           </Row>
           <div className="text-center margin-t-50">
             <Button className="login-button" onClick={this.onConnect}>
                 PROCEED
-				<div style={{marginLeft: 10, display: this.state.pendingRequest ? 'inline-block' : 'none'}}>
-				  <Spin size="small" />
-				</div>
+              <div style={{marginLeft: 10, display: this.state.pendingRequest ? 'inline-block' : 'none'}}>
+                <Spin size="small" />
+              </div>
             </Button>
           </div>
         </Grid>
