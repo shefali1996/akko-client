@@ -31,6 +31,8 @@ import {
 import MaterialIcon from '../assets/images/MaterialIcon 3.svg';
 import TipBox, {tipBoxMsg} from '../components/TipBox';
 
+const INVALID_COGS = 'invalid';
+
 class SetTable extends Component {
   constructor(props) {
     super(props);
@@ -319,7 +321,7 @@ class SetTable extends Component {
       const cogsValue = data[index].variant_details.cogs;
       let value = e.target.value;
       if (isEmpty(value)) {
-        value = 'null';// cogsValue;
+        value = INVALID_COGS;// cogsValue;
       }
       data[index].cogs = value;
     }
@@ -343,7 +345,7 @@ class SetTable extends Component {
     if (row.cogs) {
       cogsValue = row.cogs;
     }
-    if (!isEmpty(cogsValue) && cogsValue !== null && cogsValue !== 'null') {
+    if (!isEmpty(cogsValue) && cogsValue !== null && cogsValue !== INVALID_COGS) {
       warningMessage = (<div>
         <span className="cogs-completed" />
                         </div>);
@@ -419,7 +421,7 @@ class SetTable extends Component {
     let { data } = this.state;
     const countTotal = data.length;
     const pendingProducts = data.filter((item) => {
-      return isEmpty(item.variant_details.cogs) || isNull(item.variant_details.cogs) || item.variant_details.cogs === 'null';
+      return isEmpty(item.variant_details.cogs) || isNull(item.variant_details.cogs) || item.variant_details.cogs === INVALID_COGS;
     });
     const countPending = pendingProducts.length;
     const countCompleted = countTotal - countPending;
