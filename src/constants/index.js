@@ -9,6 +9,7 @@ export const KEYS_TO_FILTERS = ['productDetail.title', 'stockOnHandUnits', 'stoc
 export const KEYS_TO_METRICES = ['title', 'description', 'prefix', 'value', 'trend', 'trendValue', 'trendPeriod'];
 export const KEYS_TO_FILTERS_VARIANTS = ['variant_details.title', 'variant_details.variant', 'variant_details.sku'];
 export const plotByOptions = {time: 'Time', product: 'Product', customer: 'Customer'};
+export const businessType = {dropshipper: 'one', reseller: 'two', manufacture: 'three', other: 'four'};
 // static functions
 export const validateEmail = (email) => {
   // eslint-disable-next-line max-len, no-useless-escape

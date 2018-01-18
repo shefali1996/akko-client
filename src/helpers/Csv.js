@@ -1,5 +1,7 @@
 import {remove, isEmpty, indexOf} from 'lodash';
 import { invokeApig } from '../libs/awsLib';
+import {tipBoxMsg} from '../components/TipBox';
+import {businessType} from '../constants';
 
 function beautifyUploadedCsvData(data) {
   const emptyCogsData = [];
@@ -8,12 +10,12 @@ function beautifyUploadedCsvData(data) {
   data.forEach((row, index) => {
     if (index !== 0) {
       const rowData = {
-        id: row[0],
+        id:      row[0],
         variant: row[1],
-        title: row[2],
-        sku: row[3],
-        price: row[4],
-        cogs: row[5],
+        title:   row[2],
+        sku:     row[3],
+        price:   row[4],
+        cogs:    row[5],
       };
       if (rowData.cogs !== '') {
         nonEmptyCogsData.push(rowData);
@@ -75,7 +77,7 @@ function beautifyDataForCogsApiCall(data) {
     if (row.cogsValidateStatus === true) {
       const newRow = {
         variantId: row.id,
-        cogs: row.cogs
+        cogs:      row.cogs
       };
       variants.push(newRow);
     }
@@ -133,6 +135,20 @@ function parseVariants(variants) {
   return list;
 }
 
+function getTipBoxMessage(type) {
+  let tipMessage = '';
+  if (type === businessType.dropshipper) {
+    tipMessage = tipBoxMsg.dropshipper;
+  } else if (type === businessType.reseller) {
+    tipMessage = tipBoxMsg.reseller;
+  } else if (type === businessType.manufacture) {
+    tipMessage = tipBoxMsg.manufacture;
+  } else if (type === businessType.other) {
+    tipMessage = tipBoxMsg.default;
+  }
+  return tipMessage;
+}
+
 export {
   beautifyUploadedCsvData,
   validateCogsValue,
@@ -142,5 +158,6 @@ export {
   sortByCogs,
   hasClass,
   getProduct,
-  parseVariants
+  parseVariants,
+  getTipBoxMessage
 };

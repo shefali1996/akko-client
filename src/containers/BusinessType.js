@@ -11,6 +11,7 @@ import TipBox, {tipBoxMsg} from '../components/TipBox';
 import { Spin } from 'antd';
 import SweetAlert from 'sweetalert-react';
 import { invokeApig } from '../libs/awsLib';
+import {businessType} from '../constants';
 
 class BusinessType extends Component {
   constructor(props) {
@@ -39,28 +40,28 @@ class BusinessType extends Component {
 
   onTypeOneSelected() {
     this.setState({
-      option: 'one',
+      option: businessType.dropshipper,
       tipMsg: tipBoxMsg.dropshipper
     });
   }
 
   onTypeTwoSelected() {
     this.setState({
-      option: 'two',
+      option: businessType.reseller,
       tipMsg: tipBoxMsg.reseller
     });
   }
 
   onTypeThreeSelected() {
     this.setState({
-      option: 'three',
+      option: businessType.manufacture,
       tipMsg: tipBoxMsg.manufacture
     });
   }
 
   onTypeFourSelected() {
     this.setState({
-      option: 'four',
+      option: businessType.other,
       tipMsg: tipBoxMsg.default
     });
   }
@@ -82,6 +83,7 @@ class BusinessType extends Component {
 		  this.setState({
 			  pendingRequest: false
 		  });
+        localStorage.setItem('businessType', option);
         this.props.history.push('/set-cogs');
 	  }).catch((error) => {
 		  this.setState({
