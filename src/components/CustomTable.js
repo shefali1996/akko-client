@@ -188,6 +188,9 @@ export const productDetailOnHover = (productInfo, variant) => {
         <div className="sku-view">
           <span className="channelNumberText">Variants : {productInfo.numVariants}</span>
         </div>
+        <div className="sku-view">
+          <span className="channelNumberText" style={{fontStyle: 'italic'}}>{productInfo.deleted ? 'Inactive product' : ''}</span>
+        </div>
       </div>
     </div>
   );

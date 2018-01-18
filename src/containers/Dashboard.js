@@ -60,7 +60,6 @@ class Dashboard extends Component {
     });
   }
   componentWillReceiveProps(props) {
-	  console.log('Inside main componentWillReceiveProps, props: ', props);
     this.setState({
       metricsData:       props.metricsData.data.metrics || [],
       metricDataLoaded:  !props.metricsData.isLoading,
@@ -68,8 +67,6 @@ class Dashboard extends Component {
 	  userDataLoaded:    !props.userData.isLoading,
 	  channelData:       props.channelData.data || {},
 	  channelDataLoaded: !props.channelData.isLoading,
-    }, () => {
-      console.log('inside main componentWillReceiveProps:', this.state);
     });
   }
   setWidth(w) {

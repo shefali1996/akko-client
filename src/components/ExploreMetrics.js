@@ -86,7 +86,6 @@ class ExploreMetrics extends Component {
     return null;
   }
   componentWillReceiveProps(nextProps) {
-    // console.log('nextProps', nextProps);
     const state = _.cloneDeep(this.state);
     const {activeMetrics, defaultDataMap, customTimeframeDataMap, customersData, productData, open} = state;
     let {currentOption} = state;
