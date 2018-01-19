@@ -97,10 +97,11 @@ function moveAcceptedToBottom(data, row) {
 
 function sortByCogs(data) {
   return data.sort((itemA, itemB) => {
-    if (itemA.variant_details.cogs !== null && itemA.variant_details.cogs !== 'null') {
+
+    if (itemA.variant_details.cogs !== null && itemA.variant_details.cogs !== 'null' && itemA.variant_details.cogs !== 'invalid') {
       return 1;
     }
-    if (itemB.variant_details.cogs !== null && itemB.variant_details.cogs !== 'null') {
+    if (itemB.variant_details.cogs !== null && itemB.variant_details.cogs !== 'null' && itemB.variant_details.cogs !== 'invalid') {
       return -1;
     }
     return 0;
@@ -136,9 +137,8 @@ function parseVariants(variants) {
 function isCogsPending() {
   const variants = JSON.parse(localStorage.getItem('variantsInfo'));
   if (variants) {
-    console.log('variants', variants);
     const variantsList = parseVariants(variants);
-    const v = _.find(variantsList, (o) => { return o.variant_details.cogs === 'null' || o.variant_details.cogs === null; });
+    const v = _.find(variantsList, (o) => { return isEmpty(o.variant_details.cogs) || o.variant_details.cogs === 'null' || o.variant_details.cogs === null || o.variant_details.cogs === 'invalid'; });
     if (v) {
       return true;
     }
