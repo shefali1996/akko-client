@@ -4,6 +4,7 @@ import * as constants from './constants';
 export const getMetricsRequest = createAction(constants.GET_METRICS_REQUEST);
 export const getMetricsSuccess = createAction(constants.GET_METRICS_SUCCESS);
 export const getMetricsError = createAction(constants.GET_METRICS_ERROR);
+export const updateMetricsSuccess = createAction(constants.UPDATE_METRICS_SUCCESS);
 
 export const getChartDataRequest = createAction(constants.GET_CHART_DATA_REQUEST);
 export const getChartDataSuccess = createAction(constants.GET_CHART_DATA_SUCCESS);

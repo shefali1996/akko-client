@@ -8,14 +8,35 @@ export const getMetrics = () => {
   return (dispatch, getState) => {
     return new Promise((resolve, reject) => {
       dispatch(actions.getMetricsRequest());
-      invokeApig({ path: api.metrics })
+      invokeApig({path: api.metrics})
         .then((results) => {
           dispatch(actions.getMetricsSuccess(results));
           resolve();
         })
         .catch(error => {
           console.log('get metrics error', error);
-          dispatch(actions.getMetricsSuccess('get metrics error'));
+          dispatch(actions.getMetricsError('get metrics error'));
+        });
+    });
+  };
+};
+
+export const updateMetrics = (lastUpdated) => {
+  return (dispatch, getState) => {
+    return new Promise((resolve, reject) => {
+      invokeApig({
+        path:        api.metrics,
+        queryParams: {
+          lastUpdated
+        }
+      })
+        .then((results) => {
+          dispatch(actions.updateMetricsSuccess(results));
+          resolve();
+        })
+        .catch(error => {
+          console.log('get metrics error', error);
+          dispatch(actions.getMetricsError('get metrics error'));
         });
     });
   };

@@ -16,6 +16,7 @@ import { invokeApig } from '../libs/awsLib';
 import styles from '../constants/styles';
 import invalidImg from '../assets/images/FontAwesome472.svg';
 import * as dashboardActions from '../redux/dashboard/actions';
+import { pollingInterval } from '../constants';
 
 const moment = require('moment');
 const elementResizeEvent = require('element-resize-event');
@@ -58,6 +59,14 @@ class Dashboard extends Component {
     elementResizeEvent(element, () => {
       this.setWidth(element.clientWidth);
     });
+    this.loadInterval = setInterval(() => {
+      if (this.props.metricsData.data.lastUpdated) {
+        this.props.updateMetrics(this.props.metricsData.data.lastUpdated);
+      }
+    }, pollingInterval);
+  }
+  componentWillUnmount() {
+    clearInterval(this.loadInterval);
   }
   componentWillReceiveProps(props) {
     this.setState({
@@ -361,7 +370,10 @@ const mapDispatchToProps = (dispatch) => {
     },
   	getChannel: () => {
   	  return dispatch(dashboardActions.getChannel());
-  	}
+  	},
+    updateMetrics: (lastUpdated) => {
+      return dispatch(dashboardActions.updateMetrics(lastUpdated));
+    }
   };
 };
 
