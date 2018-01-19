@@ -54,7 +54,7 @@ class ExploreMetrics extends Component {
     };
 
     this.currentOption = OPTION_TIME;
-    this.currentSortOption = '1';
+    this.currentSortOption = '2';
     this.customStartTime = '';
     this.customEndTime = '';
 
@@ -291,13 +291,22 @@ class ExploreMetrics extends Component {
 
       let index = 0;
       // console.log('metrics', metrics);
+      const {productData} = this.state;
       metrics.forEach((value) => {
-        data.push({
-          label: value.contextId.split('_')[1],
-          value: value.value,
-          index
-        });
-        index++;
+        const label = value.contextId.split('product_')[1];
+        const productId = parseInt(label);
+        let productInfo = _.find(productData.products && productData.products.products, {productId});
+        if (isNaN(productId)) {
+          productInfo = _.find(productData.products && productData.products.products, {productId: label});
+        }
+        if (!productInfo.deleted || (productInfo.deleted && value.value !== 0)) {
+          data.push({
+            label,
+            value: value.value,
+            index
+          });
+          index++;
+        }
       });
 
       if (sortOrder) {
@@ -476,8 +485,13 @@ class ExploreMetrics extends Component {
         tooltipDetailView = loading;
       }
     } else if (currentOption === OPTION_PRODUCT) {
-      const productInfo = _.find(productData.products && productData.products.products, {productId: parseInt(label)});
-      const variant = _.find(productData.variants, {productId: parseInt(label)});
+      const productId = parseInt(label);
+      let productInfo = _.find(productData.products && productData.products.products, {productId});
+      let variant = _.find(productData.variants, {productId});
+      if (isNaN(productId)) {
+        productInfo = _.find(productData.products && productData.products.products, {productId: label});
+        variant = _.find(productData.variants, {productId: label});
+      }
       if (productInfo && variant) {
         tooltipDetailView = productDetailOnHover(productInfo, variant);
       } else {
@@ -491,7 +505,7 @@ class ExploreMetrics extends Component {
   hideDetail() {
     if (!_.isEmpty(this.state.tooltipDetail)) {
       this.setState({
-        tooltipDetail: ''
+        // tooltipDetail: ''
       });
     }
   }
@@ -604,7 +618,7 @@ class ExploreMetrics extends Component {
                         </Col>
                         <Col md={4}>
                           <span className={this.state.currentOption === OPTION_TIME ? 'display-none' : 'pull-right close-btn'}>
-                            <Select defaultValue="1" onChange={(value, label) => { this.onSortOptionChange(value); }}>
+                            <Select defaultValue={this.currentSortOption} onChange={(value, label) => { this.onSortOptionChange(value); }}>
                               <Option value="1">Low to High</Option>
                               <Option value="2">High to Low</Option>
                             </Select>
