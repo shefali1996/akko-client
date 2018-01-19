@@ -545,7 +545,7 @@ class ExploreMetrics extends Component {
                         this.state.activeMetrics
                                     ? this.state.activeMetrics.availableContexts.map((ctx) => {
                                     const Ctx = ctx[0].toUpperCase() + ctx.substring(1).toLowerCase();
-                                    return <Option value={Ctx}>{Ctx}</Option>;
+                                    return <Option key={Ctx} value={Ctx}>{Ctx}</Option>;
                                     })
                                     : ''
                                     }

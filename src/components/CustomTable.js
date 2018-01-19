@@ -11,6 +11,7 @@ import merge from '../assets/images/merge.svg';
 import deleteIcon from '../assets/images/delete.svg';
 import rightArrow from '../assets/images/rightArrow.svg';
 import productImgPlaceholder from '../assets/images/productImgPlaceholder.svg';
+import styles from '../constants/styles';
 
 export const getCaret = (direction) => {
   if (direction === 'asc') {
@@ -183,13 +184,13 @@ export const productDetailOnHover = (productInfo, variant) => {
       </div>
       <div className="product-custom-title">
         <div>
-          <span className="productName">{productInfo.title}</span>
+          <span className="productName" style={styles.showDetailOnHoverTitleBox}>{productInfo.title}</span>
         </div>
         <div className="sku-view">
           <span className="channelNumberText">Variants : {productInfo.numVariants}</span>
         </div>
         <div className="sku-view">
-          <span className="channelNumberText" style={{fontStyle: 'italic'}}>{productInfo.deleted ? 'Inactive product' : ''}</span>
+          <span className="channelNumberText" style={{fontStyle: 'italic'}}>{productInfo.deleted ? 'Deleted product' : ''}</span>
         </div>
       </div>
     </div>
@@ -212,8 +213,8 @@ export const customerDetailOnHover = (customer) => {
         <div>
           <span className="productName">{customer.name}</span>
         </div>
-        <div>
-          <span className="variantTitle">{customer.email}</span>
+        <div className="sku-view">
+          <span className="channelNumberText">{customer.email}</span>
         </div>
         <div className="sku-view">
           {avg ? <div>
