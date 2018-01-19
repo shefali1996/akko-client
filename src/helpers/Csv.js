@@ -8,12 +8,12 @@ function beautifyUploadedCsvData(data) {
   data.forEach((row, index) => {
     if (index !== 0) {
       const rowData = {
-        id: row[0],
+        id:      row[0],
         variant: row[1],
-        title: row[2],
-        sku: row[3],
-        price: row[4],
-        cogs: row[5],
+        title:   row[2],
+        sku:     row[3],
+        price:   row[4],
+        cogs:    row[5],
       };
       if (rowData.cogs !== '') {
         nonEmptyCogsData.push(rowData);
@@ -75,7 +75,7 @@ function beautifyDataForCogsApiCall(data) {
     if (row.cogsValidateStatus === true) {
       const newRow = {
         variantId: row.id,
-        cogs: row.cogs
+        cogs:      row.cogs
       };
       variants.push(newRow);
     }
@@ -133,6 +133,20 @@ function parseVariants(variants) {
   return list;
 }
 
+function isCogsPending() {
+  const variants = JSON.parse(localStorage.getItem('variantsInfo'));
+  if (variants) {
+    console.log('variants', variants);
+    const variantsList = parseVariants(variants);
+    const v = _.find(variantsList, (o) => { return o.variant_details.cogs === 'null' || o.variant_details.cogs === null; });
+    if (v) {
+      return true;
+    }
+    return false;
+  }
+  return 'undefined';
+}
+
 export {
   beautifyUploadedCsvData,
   validateCogsValue,
@@ -142,5 +156,6 @@ export {
   sortByCogs,
   hasClass,
   getProduct,
-  parseVariants
+  parseVariants,
+  isCogsPending
 };
