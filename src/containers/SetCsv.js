@@ -9,7 +9,7 @@ import { Spin } from 'antd';
 import { getProductValue, convertInventoryJSONToObject, exportCSVFile, headers } from '../constants';
 import { invokeApig } from '../libs/awsLib';
 import cogs2 from '../assets/images/cogs2.svg';
-import { beautifyUploadedCsvData, validateCogsValue, getProduct, sortByCogs, parseVariants, beautifyDataForCogsApiCall, isCogsPending } from '../helpers/Csv';
+import { beautifyUploadedCsvData, validateCogsValue, getProduct, sortByCogs, parseVariants, beautifyDataForCogsApiCall, getTipBoxMessage, isCogsPending } from '../helpers/Csv';
 import TipBox, {tipBoxMsg} from '../components/TipBox';
 import HeaderWithCloseAndAlert from '../components/HeaderWithCloseAndAlert';
 
@@ -38,7 +38,14 @@ class SetCsv extends Component {
   }
 
   componentWillMount() {
-
+    const selectedBusinessType = localStorage.getItem('businessType');
+    if (selectedBusinessType) {
+      this.setState({
+        selectedBusinessType
+      });
+    } else {
+      this.props.history.push('/business-type');
+    }
   }
 
   componentDidMount() {
@@ -187,7 +194,7 @@ class SetCsv extends Component {
   }
 
   render() {
-    const { totalProductCount, selectedCogsValue } = this.state;
+    const { totalProductCount, selectedCogsValue, selectedBusinessType } = this.state;
     const restProduct = totalProductCount - selectedCogsValue;
     return (
       <div>
@@ -292,7 +299,7 @@ class SetCsv extends Component {
               </div>
             </Col>
             <Col md={3}>
-              <TipBox message={tipBoxMsg.cogsValue} />
+              <TipBox message={getTipBoxMessage(selectedBusinessType)} />
             </Col>
           </Row>
           <SweetAlert

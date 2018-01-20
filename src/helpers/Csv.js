@@ -1,5 +1,7 @@
 import {remove, isEmpty, indexOf} from 'lodash';
 import { invokeApig } from '../libs/awsLib';
+import {tipBoxMsg} from '../components/TipBox';
+import {businessType} from '../constants';
 
 function beautifyUploadedCsvData(data) {
   const emptyCogsData = [];
@@ -134,6 +136,20 @@ function parseVariants(variants) {
   return list;
 }
 
+function getTipBoxMessage(type) {
+  let tipMessage = '';
+  if (type === businessType.dropshipper) {
+    tipMessage = tipBoxMsg.dropshipper;
+  } else if (type === businessType.reseller) {
+    tipMessage = tipBoxMsg.reseller;
+  } else if (type === businessType.manufacture) {
+    tipMessage = tipBoxMsg.manufacture;
+  } else if (type === businessType.other) {
+    tipMessage = tipBoxMsg.default;
+  }
+  return tipMessage;
+}
+
 function isCogsPending() {
   const variants = JSON.parse(localStorage.getItem('variantsInfo'));
   if (variants) {
@@ -157,5 +173,6 @@ export {
   hasClass,
   getProduct,
   parseVariants,
+  getTipBoxMessage,
   isCogsPending
 };

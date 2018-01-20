@@ -26,7 +26,8 @@ import {
   moveAcceptedToBottom,
   sortByCogs,
   getProduct,
-  parseVariants
+  parseVariants,
+  getTipBoxMessage
 } from '../helpers/Csv';
 import MaterialIcon from '../assets/images/MaterialIcon 3.svg';
 import TipBox, {tipBoxMsg} from '../components/TipBox';
@@ -64,7 +65,14 @@ class SetTable extends Component {
   }
 
   componentWillMount() {
-
+    const selectedBusinessType = localStorage.getItem('businessType');
+    if (selectedBusinessType) {
+      this.setState({
+        selectedBusinessType
+      });
+    } else {
+      this.props.history.push('/business-type');
+    }
   }
 
   componentDidMount() {
@@ -416,7 +424,7 @@ class SetTable extends Component {
   }
 
   render() {
-    const { searchTerm, markup, loading, selectedRows } = this.state;
+    const { searchTerm, markup, loading, selectedRows, selectedBusinessType } = this.state;
     let { data } = this.state;
     const countTotal = data.length;
     const pendingProducts = data.filter((item) => {
@@ -606,7 +614,7 @@ class SetTable extends Component {
               </div>
             </Col>
             <Col md={3}>
-              <TipBox message={tipBoxMsg.cogsValue} />
+              <TipBox message={getTipBoxMessage(selectedBusinessType)} />
             </Col>
           </Row>
         </Grid>

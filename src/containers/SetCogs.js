@@ -8,7 +8,7 @@ import cogs2 from '../assets/images/cogs2.svg';
 import cogs3 from '../assets/images/cogs3.svg';
 import TipBox, {tipBoxMsg} from '../components/TipBox';
 import HeaderWithCloseAndAlert from '../components/HeaderWithCloseAndAlert';
-import {getProduct, isCogsPending} from '../helpers/Csv';
+import {getProduct, getTipBoxMessage, isCogsPending} from '../helpers/Csv';
 import { invokeApig } from '../libs/awsLib';
 
 class SetCogs extends Component {
@@ -31,6 +31,14 @@ class SetCogs extends Component {
   }
 
   componentWillMount() {
+    const selectedBusinessType = localStorage.getItem('businessType');
+    if (selectedBusinessType) {
+      this.setState({
+        selectedBusinessType
+      });
+    } else {
+      this.props.history.push('/business-type');
+    }
   }
 
   componentDidMount() {
@@ -111,7 +119,7 @@ class SetCogs extends Component {
     return numOfVariants;
   }
   render() {
-    const { option, data, loading, loadingVariants } = this.state;
+    const { option, data, loading, selectedBusinessType, loadingVariants } = this.state;
     return (
       <div>
         <Grid className="login-layout">
@@ -196,7 +204,7 @@ class SetCogs extends Component {
               </div>
             </Col>
             <Col md={3}>
-              <TipBox message={tipBoxMsg.cogsValue} />
+              <TipBox message={getTipBoxMessage(selectedBusinessType)} />
             </Col>
           </Row>
           <div className="text-center margin-t-50">
