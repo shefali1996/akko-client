@@ -45,9 +45,10 @@ const getMetricsSuccess = (state, action) => update(state, {
   }
 });
 const updateMetricsSuccess = (state, action) => {
-  const newData = cloneDeep(state.metricsData.data);
-  newData.lastUpdated = action.payload.lastUpdated;
+  let newData = state.metricsData.data;
   if (action.payload.metrics.length) {
+    newData = cloneDeep(state.metricsData.data);
+    newData.lastUpdated = action.payload.lastUpdated;
     newData.metrics.map((obj, i) => {
       const updatedMetric = find(action.payload.metrics, {metric_name: obj.metric_name});
       if (updatedMetric) {

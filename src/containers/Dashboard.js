@@ -7,6 +7,7 @@ import {Card, CardHeader, CardText} from 'material-ui/Card';
 import ReactPlaceholder from 'react-placeholder';
 import { Select, Spin } from 'antd';
 import $ from 'jquery';
+import {isUndefined} from 'lodash';
 import Navigationbar from '../components/Navigationbar';
 import Chart from '../components/Chart';
 import PriceBox from '../components/PriceBox';
@@ -60,7 +61,7 @@ class Dashboard extends Component {
       this.setWidth(element.clientWidth);
     });
     this.loadInterval = setInterval(() => {
-      if (this.props.metricsData.data.lastUpdated) {
+      if (!isUndefined(this.props.metricsData.data.lastUpdated)) {
         this.props.updateMetrics(this.props.metricsData.data.lastUpdated);
       }
     }, pollingInterval);
@@ -72,10 +73,10 @@ class Dashboard extends Component {
     this.setState({
       metricsData:       props.metricsData.data.metrics || [],
       metricDataLoaded:  !props.metricsData.isLoading,
-	  userData:          props.userData.data || {},
-	  userDataLoaded:    !props.userData.isLoading,
-	  channelData:       props.channelData.data || {},
-	  channelDataLoaded: !props.channelData.isLoading,
+      userData:          props.userData.data || {},
+      userDataLoaded:    !props.userData.isLoading,
+      channelData:       props.channelData.data || {},
+      channelDataLoaded: !props.channelData.isLoading,
     });
   }
   setWidth(w) {
@@ -297,10 +298,9 @@ class Dashboard extends Component {
       });
     }
     // }
-    console.log('userData', this.state.userData, this.props.userData);
     return (
       <div>
-        <Navigationbar history={this.props.history} companyName="Test Company" />
+        <Navigationbar history={this.props.history} companyName={this.state.userData.company} />
         <Grid className="page-container">
           <Row className="analysis">
             <Col>
