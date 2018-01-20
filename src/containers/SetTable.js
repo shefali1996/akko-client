@@ -47,7 +47,7 @@ class SetTable extends Component {
       errorText:         '',
       fetchSuccess:      false,
       successMsg:        '',
-      hideCompleted:     false,
+      hideCompleted:     true,
       valueError:        false,
       loading:           false,
       inProgressSetCogs: false,
@@ -174,6 +174,7 @@ class SetTable extends Component {
             cogs = (productPrice - markup).toFixed(2);
           }
           const newData = checkAndUpdateProductCogsValue(cogs, product, data);
+          console.log('==============', newData);
           this.setState({
             data:              sortByCogs(newData),
             inProgressSetCogs: true

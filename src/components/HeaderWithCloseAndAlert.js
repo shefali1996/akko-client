@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { Button, Row, Col, Label } from 'react-bootstrap';
 import SweetAlert from 'sweetalert-react';
+import {isCogsPending} from '../helpers/Csv';
 
 class HeaderWithCloseAndAlert extends Component {
   constructor(props) {
@@ -9,10 +10,24 @@ class HeaderWithCloseAndAlert extends Component {
       alertShow: false
     };
     this.close = this.close.bind(this);
+    this.onConfirm = this.onConfirm.bind(this);
   }
 
   close() {
-    this.setState({ alertShow: true });
+    const status = isCogsPending();
+    if (status === 'undefined' || this.props.loadingVariants === true) {
+      alert('Wait while data is loading...');
+    } else if (status === true) {
+      this.setState({ alertShow: true });
+    } else if (status === false) {
+      this.onConfirm();
+    }
+  }
+
+  onConfirm() {
+    this.setState({ alertShow: false }, () => {
+      this.props.history.push('/dashboard');
+    });
   }
 
   render() {
@@ -42,11 +57,7 @@ class HeaderWithCloseAndAlert extends Component {
           type="warning"
           title="Confirm"
           text="We cannot calculate Gross Profit figures without COGS information. You can also set/update these figures later from the Settings menu"
-          onConfirm={() => {
-            this.setState({ alertShow: false }, () => {
-              this.props.history.push('/dashboard');
-            });
-          }}
+          onConfirm={this.onConfirm}
           onCancel={() => {
               this.setState({ alertShow: false });
           }}

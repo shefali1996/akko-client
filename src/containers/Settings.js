@@ -78,7 +78,7 @@ class Setting extends Component {
     const {variants} = this.state;
     if (variants) {
       return filter(variants, (o) => {
-        return !isEmpty(o.variant_details.cogs) && !isNull(o.variant_details.cogs) && o.variant_details.cogs !== 'null';
+        return !isEmpty(o.variant_details.cogs) && !isNull(o.variant_details.cogs) && o.variant_details.cogs !== 'null' && o.variant_details.cogs === 'invalid';
       }).length;
     }
     return 0;
@@ -88,7 +88,7 @@ class Setting extends Component {
     const {variants} = this.state;
     if (variants) {
       return filter(variants, (o) => {
-        return isEmpty(o.variant_details.cogs) || isNull(o.variant_details.cogs) || o.variant_details.cogs === 'null';
+        return isEmpty(o.variant_details.cogs) || isNull(o.variant_details.cogs) || o.variant_details.cogs === 'null' || o.variant_details.cogs === 'invalid';
       }).length;
     }
     return 0;

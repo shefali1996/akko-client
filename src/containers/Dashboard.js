@@ -178,7 +178,7 @@ class Dashboard extends Component {
             <hr />
             <Row className="final-row">
               <Col md={7}>Gross Profit</Col>
-              <Col md={5}><span className="dash"/>${expensesData.gross_profit}</Col>
+              <Col md={5}><span className="dash" />${expensesData.gross_profit}</Col>
             </Row>
           </Col>
         </Row>
@@ -223,16 +223,12 @@ class Dashboard extends Component {
     // } else {
     metricsData.map((value, index) => {
 		  let active = '';
-		  let borderRed = '';
 		  const label1 = moment().format('MMM YY');
 		  const label2 = moment().subtract(1, 'months').format('MMM YY');
 		  const label3 = moment().subtract(2, 'months').format('MMM YY');
 		  const label4 = moment().subtract(3, 'months').format('MMM YY');
 		  if (`card_${index}` === this.state.activeMetricsId) {
         active = 'active-metrics';
-		  }
-		  if (value.trend === '-') {
-        borderRed = 'border-red';
 		  }
 		  let invalid = false;
 		  if (value.value === 'invalid' || value.value_one_month_back === 'invalid' || value.value_two_months_back === 'invalid' || value.value_three_months_back === 'invalid') {
@@ -269,7 +265,7 @@ class Dashboard extends Component {
 		  } else {
         renderCards.push(<Col key={index} id={`card_${index}`} style={{width: this.state.width}} className="dashboard-card-container" title={!invalid ? `Click to explore ${value.title} in detail` : null}>
           {invalid ? this.invalidCard(value) : <Card
-            className={`price-card-style ${active} ${borderRed}`}
+            className={`price-card-style ${active}`}
             onClick={(e) => this.handleClickMetrics(`card_${index}`, value, chartData)}
             style={styles.metricsCardStyle}
 				>
@@ -308,7 +304,7 @@ class Dashboard extends Component {
                   }}
                   activeMetrics={this.state.activeMetrics}
                   activeChartData={this.state.activeChartData}
-				  channelData={this.state.channelData}
+                  channelData={this.state.channelData}
                   open={this.state.explore}
                   {...this.props}
                   />
