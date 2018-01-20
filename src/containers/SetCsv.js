@@ -9,7 +9,7 @@ import { Spin } from 'antd';
 import { getProductValue, convertInventoryJSONToObject, exportCSVFile, headers } from '../constants';
 import { invokeApig } from '../libs/awsLib';
 import cogs2 from '../assets/images/cogs2.svg';
-import { beautifyUploadedCsvData, validateCogsValue, getProduct, sortByCogs, parseVariants, beautifyDataForCogsApiCall } from '../helpers/Csv';
+import { beautifyUploadedCsvData, validateCogsValue, getProduct, sortByCogs, parseVariants, beautifyDataForCogsApiCall, getTipBoxMessage, isCogsPending } from '../helpers/Csv';
 import TipBox, {tipBoxMsg} from '../components/TipBox';
 import HeaderWithCloseAndAlert from '../components/HeaderWithCloseAndAlert';
 
@@ -38,7 +38,14 @@ class SetCsv extends Component {
   }
 
   componentWillMount() {
-
+    const selectedBusinessType = localStorage.getItem('businessType');
+    if (selectedBusinessType) {
+      this.setState({
+        selectedBusinessType
+      });
+    } else {
+      this.props.history.push('/business-type');
+    }
   }
 
   componentDidMount() {
@@ -58,7 +65,14 @@ class SetCsv extends Component {
   }
 
   onSkip() {
-    this.setState({ alertShow: true });
+    const status = isCogsPending();
+    if (status === 'undefined' || this.state.loading === true) {
+      alert('Wait while data is loading...');
+    } else if (status === true) {
+      this.setState({ alertShow: true });
+    } else if (status === false) {
+      this.onConfirm();
+    }
   }
 
   onConfirm() {
@@ -180,12 +194,12 @@ class SetCsv extends Component {
   }
 
   render() {
-    const { totalProductCount, selectedCogsValue } = this.state;
+    const { totalProductCount, selectedCogsValue, selectedBusinessType } = this.state;
     const restProduct = totalProductCount - selectedCogsValue;
     return (
       <div>
         <Grid className="login-layout">
-          <HeaderWithCloseAndAlert pageTitle="Account Setup" {...this.props} />
+          <HeaderWithCloseAndAlert pageTitle="Account Setup" loadingVariants={this.state.loading} {...this.props} />
           <Row>
             <Col md={6} mdOffset={3} className="center-view">
               <div className="text-center margin-t-40">
@@ -285,7 +299,7 @@ class SetCsv extends Component {
               </div>
             </Col>
             <Col md={3}>
-              <TipBox message={tipBoxMsg.cogsValue} />
+              <TipBox message={getTipBoxMessage(selectedBusinessType)} />
             </Col>
           </Row>
           <SweetAlert

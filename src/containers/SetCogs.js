@@ -8,25 +8,37 @@ import cogs2 from '../assets/images/cogs2.svg';
 import cogs3 from '../assets/images/cogs3.svg';
 import TipBox, {tipBoxMsg} from '../components/TipBox';
 import HeaderWithCloseAndAlert from '../components/HeaderWithCloseAndAlert';
-import {getProduct} from '../helpers/Csv';
+import {getProduct, getTipBoxMessage, isCogsPending} from '../helpers/Csv';
+import { invokeApig } from '../libs/awsLib';
 
 class SetCogs extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      data:      [],
-      option:    '',
-      alertShow: false,
-      loading:   false
+      data:            [],
+      option:          '',
+      alertShow:       false,
+      loading:         false,
+      loadingVariants: false
     };
     this.onSkip = this.onSkip.bind(this);
     this.onTypeOneSelected = this.onTypeOneSelected.bind(this);
     this.onTypeTwoSelected = this.onTypeTwoSelected.bind(this);
     this.onTypeThreeSelected = this.onTypeThreeSelected.bind(this);
     this.onConfirm = this.onConfirm.bind(this);
+    this.getVariants = this.getVariants.bind(this);
+    this.variants = [];
   }
 
   componentWillMount() {
+    const selectedBusinessType = localStorage.getItem('businessType');
+    if (selectedBusinessType) {
+      this.setState({
+        selectedBusinessType
+      });
+    } else {
+      this.props.history.push('/business-type');
+    }
   }
 
   componentDidMount() {
@@ -49,7 +61,14 @@ class SetCogs extends Component {
   }
 
   onSkip() {
-    this.setState({ alertShow: true });
+    const status = isCogsPending();
+    if (status === 'undefined' || this.state.loadingVariants === true) {
+      alert('Wait while data is loading...');
+    } else if (status === true) {
+      this.setState({ alertShow: true });
+    } else if (status === false) {
+      this.onConfirm();
+    }
   }
 
   onConfirm() {
@@ -60,6 +79,7 @@ class SetCogs extends Component {
   getProduct() {
     this.setState({loading: true});
     getProduct().then((res) => {
+      this.getVariants(res.products);
       this.setState({
         data:    res.products,
         loading: false
@@ -68,7 +88,29 @@ class SetCogs extends Component {
       console.log('get products error', error);
     });
   }
-
+  getVariants(products, i = 0) {
+    this.setState({ loadingVariants: true });
+    const next = i + 1;
+    invokeApig({
+      path:        `/products/${products[i].productId}`,
+      queryParams: {
+        cogs: true
+      }
+    }).then((results) => {
+      results.productId = products[i].productId;
+      this.variants.push(results);
+      if (products.length > next) {
+        this.getVariants(products, next);
+      } else {
+        localStorage.setItem('variantsInfo', JSON.stringify(this.variants));
+        this.setState({loadingVariants: false});
+        this.variants = [];
+      }
+    }).catch(error => {
+      this.setState({loadingVariants: false});
+      console.log('Error Product Details', error);
+    });
+  }
   getNumOfVariants(productData) {
     let numOfVariants = 0;
     productData.map((product, i) => {
@@ -77,11 +119,11 @@ class SetCogs extends Component {
     return numOfVariants;
   }
   render() {
-    const { option, data, loading } = this.state;
+    const { option, data, loading, selectedBusinessType, loadingVariants } = this.state;
     return (
       <div>
         <Grid className="login-layout">
-          <HeaderWithCloseAndAlert pageTitle="Account Setup" {...this.props} />
+          <HeaderWithCloseAndAlert pageTitle="Account Setup" loadingVariants={loadingVariants} {...this.props} />
           <Row>
             <Col md={6} mdOffset={3}>
               <div className="text-center margin-t-40">
@@ -162,12 +204,17 @@ class SetCogs extends Component {
               </div>
             </Col>
             <Col md={3}>
-              <TipBox message={tipBoxMsg.cogsValue} />
+              <TipBox message={getTipBoxMessage(selectedBusinessType)} />
             </Col>
           </Row>
           <div className="text-center margin-t-50">
-            <Button className="skip-button" onClick={this.onSkip}>
-                SKIP FOR NOW
+            <Button className="skip-button" style={{height: 'auto'}} onClick={this.onSkip} disabled={!!loadingVariants}>
+              {!loadingVariants ? 'SKIP FOR NOW' :
+              <div>
+                <div>Loading...</div>
+                <div><Spin /></div>
+              </div>
+              }
             </Button>
           </div>
           <SweetAlert
