@@ -179,10 +179,10 @@ export const productDetailOnHover = (productInfo, variant) => {
   }
   return (
     <div className="product-data-cell">
-      <div className="productImage">
-        <img style={{ width: 70 }} src={productImage} alt="Product Image" />
+      <div className="productImage" style={{ maxWidth: '20%' }}>
+        <img style={{ width: '100%', maxWidth: '60px' }} src={productImage} alt="Product Image" />
       </div>
-      <div className="product-custom-title">
+      <div className="product-custom-title" style={{ maxWidth: '80%' }} >
         <div>
           <span className="productName" style={styles.showDetailOnHoverTitleBox}>{productInfo.title}</span>
         </div>

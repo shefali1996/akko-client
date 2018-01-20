@@ -505,7 +505,7 @@ class ExploreMetrics extends Component {
   hideDetail() {
     if (!_.isEmpty(this.state.tooltipDetail)) {
       this.setState({
-        // tooltipDetail: ''
+        tooltipDetail: ''
       });
     }
   }
@@ -611,12 +611,12 @@ class ExploreMetrics extends Component {
                                       })()}
                           </span>
                         </Col>
-                        <Col md={4}>
+                        <Col md={5}>
                           <div className="tooltip-details-show">
                             {this.state.tooltipDetail}
                           </div>
                         </Col>
-                        <Col md={4}>
+                        <Col md={3}>
                           <span className={this.state.currentOption === OPTION_TIME ? 'display-none' : 'pull-right close-btn'}>
                             <Select defaultValue={this.currentSortOption} onChange={(value, label) => { this.onSortOptionChange(value); }}>
                               <Option value="1">Low to High</Option>

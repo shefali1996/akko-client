@@ -297,6 +297,7 @@ class Dashboard extends Component {
       });
     }
     // }
+    console.log('userData', this.state.userData, this.props.userData);
     return (
       <div>
         <Navigationbar history={this.props.history} companyName="Test Company" />
