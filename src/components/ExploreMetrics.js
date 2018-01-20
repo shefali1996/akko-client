@@ -14,19 +14,20 @@ import downArrowWhite from '../assets/images/downArrowWhite.svg';
 import CustomRangePicker from '../components/CustomRangePicker';
 import { invokeApig } from '../libs/awsLib';
 import {plotByOptions} from '../constants';
+import {customerDetailOnHover, productDetailOnHover} from './CustomTable';
 
 const moment = require('moment');
 
 const {Option} = Select;
 
-const ascendingSortOrder = 'asc',
-  descendingSortOrder = 'desc';
+const ascendingSortOrder = 'asc';
+const descendingSortOrder = 'desc';
 const WIDTH_PER_LABEL = '50'; // In pixels
 const RESOLUTION_DAY = 'day';
 
-const OPTION_TIME = plotByOptions.time,
-  OPTION_PRODUCT = plotByOptions.product,
-  OPTION_CUSTOMER = plotByOptions.customer;
+const OPTION_TIME = plotByOptions.time;
+const OPTION_PRODUCT = plotByOptions.product;
+const OPTION_CUSTOMER = plotByOptions.customer;
 
 const DAYS_35 = 35 * 86400000;
 
@@ -47,11 +48,13 @@ class ExploreMetrics extends Component {
       customRangeShouldClear: false,
       currentOption:          OPTION_TIME,
       defaultDataMap:         {},
-      customTimeframeDataMap: {}
+      customTimeframeDataMap: {},
+      customersData:          {},
+      productData:            {}
     };
 
     this.currentOption = OPTION_TIME;
-    this.currentSortOption = '1';
+    this.currentSortOption = '2';
     this.customStartTime = '';
     this.customEndTime = '';
 
@@ -66,6 +69,8 @@ class ExploreMetrics extends Component {
     this.getMap = this.getMap.bind(this);
     this.closeExploreMetrics = this.closeExploreMetrics.bind(this);
     this.afterCustomRangeClear = this.afterCustomRangeClear.bind(this);
+    this.showDetailOnHover = this.showDetailOnHover.bind(this);
+    this.hideDetail = this.hideDetail.bind(this);
   }
 
   getMap(metric, context) {
@@ -80,14 +85,39 @@ class ExploreMetrics extends Component {
     }
     return null;
   }
-
   componentWillReceiveProps(nextProps) {
-    const {activeMetrics, currentOption, defaultDataMap, customTimeframeDataMap} = this.state;
-    if (nextProps.activeMetrics && (nextProps.activeMetrics !== this.state.activeMetrics)) {
+    const state = _.cloneDeep(this.state);
+    const {activeMetrics, defaultDataMap, customTimeframeDataMap, customersData, productData, open} = state;
+    let {currentOption} = state;
+    if (nextProps.open !== open) {
       this.setState({
-        activeMetrics: nextProps.activeMetrics
+        open: nextProps.open
+      });
+      if (nextProps.open) {
+        const ms = moment().utc().startOf('day').valueOf();
+        this.customEndTime = moment(ms).add({days: 1}).valueOf();
+        this.customStartTime = moment(ms).subtract({years: 1}).valueOf();
+      }
+    }
+    if (!_.isEqual(nextProps.customersData.data, customersData)) {
+      this.setState({
+        customersData: nextProps.customersData.data
+      });
+    }
+    if (!_.isEqual(nextProps.productData.data, productData)) {
+      this.setState({
+        productData: nextProps.productData.data
+      });
+    }
+    if (nextProps.activeMetrics && (nextProps.activeMetrics !== this.state.activeMetrics)) {
+      if (_.indexOf(nextProps.activeMetrics.availableContexts, currentOption.toLowerCase()) === -1) {
+        currentOption = OPTION_TIME;
+      }
+      this.setState({
+        activeMetrics: nextProps.activeMetrics,
+        currentOption
       }, () => {
-        this.onOptionChange(this.state.currentOption);
+        this.onOptionChange(currentOption);
       });
     }
     const d = nextProps.chartData.data;
@@ -96,7 +126,7 @@ class ExploreMetrics extends Component {
         defaultDataMap:         d.defaultDataMap,
         customTimeframeDataMap: d.customTimeframeDataMap
       }, () => {
-        this.onOptionChange(this.state.currentOption);
+        this.onOptionChange(currentOption);
       });
     }
   }
@@ -168,8 +198,8 @@ class ExploreMetrics extends Component {
         metric_map.timeFrame = true;
       } else {
         const ms = moment().utc().startOf('day').valueOf();
-        metric_map.end = moment(ms).add({days: 1}).valueOf();
-        metric_map.start = moment(ms).subtract({years: 1}).valueOf();
+        this.customEndTime = metric_map.end = moment(ms).add({days: 1}).valueOf();
+        this.customStartTime = metric_map.start = moment(ms).subtract({years: 1}).valueOf();
       }
 
       const queryParams = {
@@ -260,13 +290,23 @@ class ExploreMetrics extends Component {
       const data = [];
 
       let index = 0;
+      // console.log('metrics', metrics);
+      const {productData} = this.state;
       metrics.forEach((value) => {
-        data.push({
-          label: `${index}`,
-          value: value.value,
-          index
-        });
-        index++;
+        const label = value.contextId.split('product_')[1];
+        const productId = parseInt(label);
+        let productInfo = _.find(productData.products && productData.products.products, {productId});
+        if (isNaN(productId)) {
+          productInfo = _.find(productData.products && productData.products.products, {productId: label});
+        }
+        if (!productInfo.deleted || (productInfo.deleted && value.value !== 0)) {
+          data.push({
+            label,
+            value: value.value,
+            index
+          });
+          index++;
+        }
       });
 
       if (sortOrder) {
@@ -291,7 +331,7 @@ class ExploreMetrics extends Component {
         labels.push(dataItem.label);
         values.push(dataItem.value);
       });
-
+      // console.log('labels', labels);
       const chartData = {
         labels,
         datasets: [{
@@ -339,9 +379,15 @@ class ExploreMetrics extends Component {
       const data = [];
 
       let index = 0;
+      const cust = _.cloneDeep(this.state.customersData);
       metrics.forEach((value) => {
+        let label = value.contextId.split(':')[1];
+        const custInfo = _.find(cust, {email: label});
+        if (!_.isEmpty(custInfo)) {
+          label = custInfo.name;
+        }
         data.push({
-          label: `${index}`,
+          label,
           value: value.value,
           index
         });
@@ -369,7 +415,6 @@ class ExploreMetrics extends Component {
         labels.push(dataItem.label);
         values.push(dataItem.value);
       });
-
       const chartData = {
         labels,
         datasets: [{
@@ -428,7 +473,42 @@ class ExploreMetrics extends Component {
       this.setCustomersMetric();
     }
   }
-
+  showDetailOnHover(label) {
+    const {customersData, productData, currentOption} = _.cloneDeep(this.state);
+    const loading = <div className="text-center padding-t-10"> <Spin /></div>;
+    let tooltipDetailView = false;
+    if (currentOption === OPTION_CUSTOMER) {
+      const custInfo = _.find(customersData, {name: label});
+      if (custInfo) {
+        tooltipDetailView = customerDetailOnHover(custInfo);
+      } else {
+        tooltipDetailView = loading;
+      }
+    } else if (currentOption === OPTION_PRODUCT) {
+      const productId = parseInt(label);
+      let productInfo = _.find(productData.products && productData.products.products, {productId});
+      let variant = _.find(productData.variants, {productId});
+      if (isNaN(productId)) {
+        productInfo = _.find(productData.products && productData.products.products, {productId: label});
+        variant = _.find(productData.variants, {productId: label});
+      }
+      if (productInfo && variant) {
+        tooltipDetailView = productDetailOnHover(productInfo, variant);
+      } else {
+        tooltipDetailView = loading;
+      }
+    }
+    this.setState({
+      tooltipDetail: tooltipDetailView
+    });
+  }
+  hideDetail() {
+    if (!_.isEmpty(this.state.tooltipDetail)) {
+      this.setState({
+        tooltipDetail: ''
+      });
+    }
+  }
   render() {
     const {activeMetrics, activeChartData} = this.props;
     const CustomSpin = (
@@ -440,6 +520,8 @@ class ExploreMetrics extends Component {
     || document.documentElement.clientHeight
     || document.body.clientHeight;
     const chartHeight = `${fullHeight * 0.35}px`;
+    const tooltip = '';
+
     return (
       <Row>
         <Col md={12}>
@@ -457,16 +539,16 @@ class ExploreMetrics extends Component {
                 <span className="pull-left" style={{ width: 200 }}>
                   <span className="dd-lable">Plot By:</span>
                   <span>
-                    <Select defaultValue={OPTION_TIME} onChange={(value, label) => { this.onOptionChange(value); }}>
+                    <Select defaultValue={OPTION_TIME} value={this.state.currentOption} onChange={(value, label) => { this.onOptionChange(value); }}>
                       <Option value={OPTION_TIME}>{OPTION_TIME}</Option>
                       {
-						  this.state.activeMetrics
-						  ? this.state.activeMetrics.availableContexts.map((ctx) => {
-							  const Ctx = ctx[0].toUpperCase() + ctx.substring(1).toLowerCase();
-							  return <Option value={Ctx}>{Ctx}</Option>;
-						  })
-						  : ''
-					  }
+                        this.state.activeMetrics
+                                    ? this.state.activeMetrics.availableContexts.map((ctx) => {
+                                    const Ctx = ctx[0].toUpperCase() + ctx.substring(1).toLowerCase();
+                                    return <Option key={Ctx} value={Ctx}>{Ctx}</Option>;
+                                    })
+                                    : ''
+                                    }
                     </Select>
                   </span>
                 </span>
@@ -476,7 +558,9 @@ class ExploreMetrics extends Component {
                     <CustomRangePicker
                       onTimeframeChange={this.onTimeframeChange}
                       customRangeShouldClear={this.state.customRangeShouldClear}
-                      afterCustomRangeClear={this.afterCustomRangeClear} />
+                      afterCustomRangeClear={this.afterCustomRangeClear}
+                      defaultRange={{start: this.customStartTime, end: this.customEndTime}}
+                      />
                   </span>
                 </span>
               </div>}
@@ -513,39 +597,49 @@ class ExploreMetrics extends Component {
                   <Card className="charts-card-style">
                     <CardHeader
                       textStyle={styles.chartHeader}
-                      title={<div>
-                        <span>{(() => {
-					if (this.currentOption === OPTION_TIME) {
-						return 'Historical Trend';
-					} else if (this.currentOption === OPTION_PRODUCT) {
-						return `${this.state.activeMetrics.title} by Products`;
-					} else if (this.currentOption === OPTION_CUSTOMER) {
-						return `${this.state.activeMetrics.title} by Customers`;
-					}
-				})()}
-                        </span>
-                        <span className={this.state.currentOption === OPTION_TIME ? 'display-none' : 'pull-right close-btn'}>
-                          <Select defaultValue="1" onChange={(value, label) => { this.onSortOptionChange(value); }}>
-                            <Option value="1">Low to High</Option>
-                            <Option value="2">High to Low</Option>
-                          </Select>
-                        </span>
-                             </div>}
+                      title={<Row>
+                        <Col md={4}>
+                          <span className="pull-left">
+                            {(() => {
+                                      if (this.state.currentOption === OPTION_TIME) {
+                                      return 'Historical Trend';
+                                    } else if (this.state.currentOption === OPTION_PRODUCT) {
+                                      return `${this.state.activeMetrics.title} by Products`;
+                                    } else if (this.state.currentOption === OPTION_CUSTOMER) {
+                                      return `${this.state.activeMetrics.title} by Customers`;
+                                      }
+                                      })()}
+                          </span>
+                        </Col>
+                        <Col md={5}>
+                          <div className="tooltip-details-show">
+                            {this.state.tooltipDetail}
+                          </div>
+                        </Col>
+                        <Col md={3}>
+                          <span className={this.state.currentOption === OPTION_TIME ? 'display-none' : 'pull-right close-btn'}>
+                            <Select defaultValue={this.currentSortOption} onChange={(value, label) => { this.onSortOptionChange(value); }}>
+                              <Option value="1">Low to High</Option>
+                              <Option value="2">High to Low</Option>
+                            </Select>
+                          </span>
+                        </Col>
+                             </Row>}
                       titleStyle={styles.chartsHeaderTitle}
-          />
+                      />
                     <CardText>
                       <div id="chart-full-width-holder" style={{width: '100%', height: '0px'}} />
                       <ReactPlaceholder ready={this.state.graphLoadingDone} customPlaceholder={CustomSpin} className="loading-placeholder-rect-media">
                         <div>
                           {
-						(this.state.graphError || !this.state.chartData)
-						? <div className="chart-error">Oops! Something went wrong. We have made note of this issue and will fix this as soon as possible</div>
-						: <div className="chart-wrapper">
-  <div style={{width: this.state.chartWidth, height: chartHeight}}>
-    <Chart data={this.state.chartData} type="bar" disableAspectRatio />
-  </div>
-						  </div>
-					}
+                            (this.state.graphError || !this.state.chartData)
+                            ? <div className="chart-error">Oops! Something went wrong. We have made note of this issue and will fix this as soon as possible</div>
+                            : <div className="chart-wrapper">
+                              <div style={{width: this.state.chartWidth, height: chartHeight}}>
+                                <Chart data={this.state.chartData} type="bar" disableAspectRatio showDetailOnHover={this.showDetailOnHover} hideDetail={this.hideDetail} />
+                              </div>
+                            </div>
+                            }
                         </div>
                       </ReactPlaceholder>
                     </CardText>

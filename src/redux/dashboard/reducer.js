@@ -1,5 +1,6 @@
 import {handleActions} from 'redux-actions';
 import update from 'immutability-helper';
+import {cloneDeep, find} from 'lodash';
 import * as constants from '../../redux/constants';
 
 const initialState = {
@@ -43,6 +44,28 @@ const getMetricsSuccess = (state, action) => update(state, {
     message:   {$set: ''}
   }
 });
+const updateMetricsSuccess = (state, action) => {
+  let newData = state.metricsData.data;
+  if (action.payload.metrics.length) {
+    newData = cloneDeep(state.metricsData.data);
+    newData.lastUpdated = action.payload.lastUpdated;
+    newData.metrics.map((obj, i) => {
+      const updatedMetric = find(action.payload.metrics, {metric_name: obj.metric_name});
+      if (updatedMetric) {
+        obj = updatedMetric;
+      }
+    });
+  }
+  return update(state, {
+    metricsData: {
+      data:      {$set: newData},
+      isLoading: {$set: false},
+      isError:   {$set: false},
+      isSuccess: {$set: true},
+      message:   {$set: ''}
+    }
+  });
+};
 const getMetricsError = (state, action) => update(state, {
   metricsData: {
     isLoading: {$set: false},
@@ -105,13 +128,14 @@ const getChannelError = (state, action) => update(state, {
 });
 
 export default handleActions({
-  [constants.GET_METRICS_REQUEST]: getMetricsRequest,
-  [constants.GET_METRICS_SUCCESS]: getMetricsSuccess,
-  [constants.GET_METRICS_ERROR]:   getMetricsError,
-  [constants.GET_USER_REQUEST]: getUserRequest,
-  [constants.GET_USER_SUCCESS]: getUserSuccess,
-  [constants.GET_USER_ERROR]:   getUserError,
-  [constants.GET_CHANNEL_REQUEST]: getChannelRequest,
-  [constants.GET_CHANNEL_SUCCESS]: getChannelSuccess,
-  [constants.GET_CHANNEL_ERROR]:   getChannelError,
+  [constants.GET_METRICS_REQUEST]:    getMetricsRequest,
+  [constants.GET_METRICS_SUCCESS]:    getMetricsSuccess,
+  [constants.GET_METRICS_ERROR]:      getMetricsError,
+  [constants.UPDATE_METRICS_SUCCESS]: updateMetricsSuccess,
+  [constants.GET_USER_REQUEST]:       getUserRequest,
+  [constants.GET_USER_SUCCESS]:       getUserSuccess,
+  [constants.GET_USER_ERROR]:         getUserError,
+  [constants.GET_CHANNEL_REQUEST]:    getChannelRequest,
+  [constants.GET_CHANNEL_SUCCESS]:    getChannelSuccess,
+  [constants.GET_CHANNEL_ERROR]:      getChannelError,
 }, initialState);

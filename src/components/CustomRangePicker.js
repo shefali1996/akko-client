@@ -34,6 +34,17 @@ class CustomRangePicker extends Component {
   componentWillReceiveProps(nextProps) {
 	  // TODO: This is not the best want to handle this sort of cases. Ideally,
 	  // the state should move up and passed down as props.
+    const range = nextProps.defaultRange;
+    if (range.start && range.end && (moment(range.start) !== this.state.startDate || moment(range.end) !== this.state.endDate)) {
+      this.setState({
+        startDate:      moment(range.start),
+        endDate:        moment(range.end),
+        startDateInput: range.start ? moment(range.start).format('YYYY-MM-DD') : '',
+        endDateInput:   range.end ? moment(range.end).format('YYYY-MM-DD') : '',
+        selectedRange:  `${moment(range.start).format('DD-MMM-YYYY')} to ${moment(range.end).format('DD-MMM-YYYY')}`,
+        rangeType:      'Custom'
+      });
+    }
 	  if (nextProps.customRangeShouldClear === true) {
 		  this.setState(this.initialState);
 		  if (this.props.afterCustomRangeClear) {
@@ -142,7 +153,7 @@ class CustomRangePicker extends Component {
           <div className="custom-dropdown-view">
             <span className="dd-lable">Date Range:</span>
             <span>
-              <Select defaultValue={this.state.rangeType} onChange={this.selectRange}>
+              <Select value={this.state.rangeType} onChange={this.selectRange}>
                 <Option value="">Select</Option>
                 <Option value="This Month">This Month</Option>
                 <Option value="Last Month">Last Month</Option>

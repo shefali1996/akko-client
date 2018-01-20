@@ -14,11 +14,6 @@ class Navigationbar extends Component {
     };
     this.onLogout = this.onLogout.bind(this);
     this.goToSetting = this.goToSetting.bind(this);
-    this.getUser = this.getUser.bind(this);
-  }
-
-  componentWillMount() {
-    this.getUser();
   }
 
   onLogout() {
@@ -29,21 +24,8 @@ class Navigationbar extends Component {
   goToSetting() {
     this.props.history.push('/settings');
   }
-
-  getUser() {
-    // invokeApig({ path: '/user' }).then((results) => {
-    //   this.setState({
-    //     userDetails: results
-    //   });
-    //   user.setUser(results);
-    // })
-    //   .catch(error => {
-    //     console.log('get user error', error);
-    //   });
-  }
-
   render() {
-    const companyName = this.state.userDetails.company;
+    const companyName = this.props.companyName;
     return (
       <div className="nav-container">
         <Row>

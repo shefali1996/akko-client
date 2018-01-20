@@ -11,6 +11,7 @@ import merge from '../assets/images/merge.svg';
 import deleteIcon from '../assets/images/delete.svg';
 import rightArrow from '../assets/images/rightArrow.svg';
 import productImgPlaceholder from '../assets/images/productImgPlaceholder.svg';
+import styles from '../constants/styles';
 
 export const getCaret = (direction) => {
   if (direction === 'asc') {
@@ -166,6 +167,62 @@ export const productDetailFormatter = (cell, row) => {
           <div className="half-width">
             <span className="channelNumberText">SKU : {cell.sku}</span>
           </div>
+        </div>
+      </div>
+    </div>
+  );
+};
+export const productDetailOnHover = (productInfo, variant) => {
+  let productImage = variant && variant.variants.length && variant.variants[0].variant_details.image;
+  if (productImage === null || productImage === 'null') {
+    productImage = productImgPlaceholder;
+  }
+  return (
+    <div className="product-data-cell">
+      <div className="productImage" style={{ maxWidth: '20%' }}>
+        <img style={{ width: '100%', maxWidth: '60px' }} src={productImage} alt="Product Image" />
+      </div>
+      <div className="product-custom-title" style={{ maxWidth: '80%' }} >
+        <div>
+          <span className="productName" style={styles.showDetailOnHoverTitleBox}>{productInfo.title}</span>
+        </div>
+        <div className="sku-view">
+          <span className="channelNumberText">Variants : {productInfo.numVariants}</span>
+        </div>
+        <div className="sku-view">
+          <span className="channelNumberText" style={{fontStyle: 'italic'}}>{productInfo.deleted ? 'Deleted product' : ''}</span>
+        </div>
+      </div>
+    </div>
+  );
+};
+export const customerDetailOnHover = (customer) => {
+  const avgOrderValue = customer.avgOrderValue;
+  const frequency = customer.reOrderFrequency;
+  let avg = false;
+  let fre = false;
+  if (avgOrderValue && avgOrderValue.value !== 'invalid') {
+    avg = `${avgOrderValue.prefix}${avgOrderValue.value}${avgOrderValue.postfix}`;
+  }
+  if (frequency && frequency.value !== 'invalid') {
+    fre = `${frequency.prefix}${frequency.value}${frequency.postfix}`;
+  }
+  return (
+    <div className="product-data-cell">
+      <div className="product-custom-title">
+        <div>
+          <span className="productName">{customer.name}</span>
+        </div>
+        <div className="sku-view">
+          <span className="channelNumberText">{customer.email}</span>
+        </div>
+        <div className="sku-view">
+          {avg ? <div>
+            <span className="channelNumberText">Avg Order Value : {avg}</span>
+          </div> : null}
+          {fre || false ? <div>
+            <span className="channelNumberText">Order frequency : {fre}</span>
+          </div> : null}
         </div>
       </div>
     </div>

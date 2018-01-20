@@ -6,15 +6,39 @@ import {plotByOptions} from '../../constants';
 
 export const getMetrics = () => {
   return (dispatch, getState) => {
-    dispatch(actions.getMetricsRequest());
-    invokeApig({ path: api.metrics })
-      .then((results) => {
-        dispatch(actions.getMetricsSuccess(results));
+    return new Promise((resolve, reject) => {
+      dispatch(actions.getMetricsRequest());
+      invokeApig({path: api.metrics})
+        .then((results) => {
+          dispatch(actions.getMetricsSuccess(results));
+          resolve();
+        })
+        .catch(error => {
+          console.log('get metrics error', error);
+          dispatch(actions.getMetricsError('get metrics error'));
+        });
+    });
+  };
+};
+
+export const updateMetrics = (lastUpdated) => {
+  return (dispatch, getState) => {
+    return new Promise((resolve, reject) => {
+      invokeApig({
+        path:        api.metrics,
+        queryParams: {
+          lastUpdated
+        }
       })
-      .catch(error => {
-        console.log('get metrics error', error);
-        dispatch(actions.getMetricsSuccess('get metrics error'));
-      });
+        .then((results) => {
+          dispatch(actions.updateMetricsSuccess(results));
+          resolve();
+        })
+        .catch(error => {
+          console.log('get metrics error', error);
+          dispatch(actions.getMetricsError('get metrics error'));
+        });
+    });
   };
 };
 
@@ -56,6 +80,73 @@ export const getUser = () => {
 export const emptyTimeFrameData = () => {
   return (dispatch, getState) => {
     dispatch(actions.emptyTimeFrameData());
+  };
+};
+
+
+export const getCustomers = () => {
+  return (dispatch, getState) => {
+    invokeApig({
+      path:        api.customers(),
+      queryParams: {
+        avgOrderValue:    true,
+        reOrderFrequency: true
+      }
+    })
+      .then((results) => {
+        if (!results.customers) {
+          throw new Error('results.customers is undefined');
+        }
+        dispatch(actions.getCustomersSuccess(results.customers));
+      });
+  };
+};
+
+
+export const getProducts = () => {
+  return (dispatch, getState) => {
+    return new Promise((resolve, reject) => {
+      invokeApig({ path: api.products })
+        .then((results) => {
+          if (!results.products) {
+            throw new Error('results.products is undefined');
+          }
+          dispatch(actions.getProductsSuccess(results));
+          resolve(results.products);
+        })
+        .catch(error => {
+          reject(error);
+        });
+    });
+  };
+};
+
+export const getVariants = (products) => {
+  return (dispatch, getState) => {
+    const variants = [];
+    const getVariant = (i = 0) => {
+      const next = i + 1;
+      invokeApig({
+        path:        api.getProductVariants(products[i].productId),
+        queryParams: {
+          cogs: true
+        }
+      }).then((results) => {
+        if (!results.variants) {
+          throw new Error('results.variants is undefined');
+        }
+        results.productId = products[i].productId;
+        variants.push(results);
+        if (products.length > next) {
+          getVariant(next);
+        } else {
+          dispatch(actions.getVariantsSuccess(variants));
+        }
+      }).catch(error => {
+        console.log('Error get variants', error);
+      });
+    };
+    getVariant();
   };
 };
 

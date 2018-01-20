@@ -11,7 +11,7 @@ function getAwsCredentials(userToken) {
 
   AWS.config.credentials = new AWS.CognitoIdentityCredentials({
     IdentityPoolId: config.cognito.IDENTITY_POOL_ID,
-    Logins: {
+    Logins:         {
       [authenticator]: userToken
     }
   });
@@ -19,13 +19,13 @@ function getAwsCredentials(userToken) {
   return AWS.config.credentials.getPromise();
 }
 
-var authPromise = null;
+let authPromise = null;
 
 export async function authUser() {
-	// This avoids multiple calls to authUser
-	// If a pending promise is available, return that
+  // This avoids multiple calls to authUser
+  // If a pending promise is available, return that
   if (authPromise) {
-	return authPromise;
+    return authPromise;
   }
 
   if (
@@ -37,7 +37,7 @@ export async function authUser() {
   const currentUser = getCurrentUser();
 
   if (currentUser === null) {
-    return Promise.reject("currentUser is null");
+    return Promise.reject('currentUser is null');
   }
 
   authPromise = getUserToken(currentUser).then((userToken) => {
@@ -65,7 +65,7 @@ async function getUserToken(currentUser) {
 function getCurrentUser() {
   const userPool = new CognitoUserPool({
     UserPoolId: config.cognito.USER_POOL_ID,
-    ClientId: config.cognito.APP_CLIENT_ID
+    ClientId:   config.cognito.APP_CLIENT_ID
   });
   return userPool.getCurrentUser();
 }
@@ -92,36 +92,66 @@ export async function invokeApig({
   queryParams = {},
   body
 }) {
+// <<<<<<< HEAD
+//   if (!await authUser()) {
+//     throw new Error('User is not logged in');
+//   }
+//
+//   const signedRequest = sigV4Client
+//     .newClient({
+//       accessKey:    AWS.config.credentials.accessKeyId,
+//       secretKey:    AWS.config.credentials.secretAccessKey,
+//       sessionToken: AWS.config.credentials.sessionToken,
+//       region:       config.apiGateway.REGION,
+//       endpoint:     config.apiGateway.URL
+//     })
+//     .signRequest({
+//       method,
+//       path,
+//       headers,
+//       queryParams,
+//       body
+//     });
+//
+//   body = body ? JSON.stringify(body) : body;
+//   headers = signedRequest.headers;
+//   console.log('signedRequest', signedRequest);
+//   const results = await fetch(signedRequest.url, {
+//     method,
+//     headers,
+//     body
+// =======
   return authUser().then(() => {
-		const signedRequest = sigV4Client
-		.newClient({
-		  accessKey: AWS.config.credentials.accessKeyId,
-		  secretKey: AWS.config.credentials.secretAccessKey,
+    const signedRequest = sigV4Client
+      .newClient({
+		  accessKey:    AWS.config.credentials.accessKeyId,
+		  secretKey:    AWS.config.credentials.secretAccessKey,
 		  sessionToken: AWS.config.credentials.sessionToken,
-		  region: config.apiGateway.REGION,
-		  endpoint: config.apiGateway.URL
-		})
-		.signRequest({
+		  region:       config.apiGateway.REGION,
+		  endpoint:     config.apiGateway.URL
+      })
+      .signRequest({
 		  method,
 		  path,
 		  headers,
 		  queryParams,
 		  body
-		});
+      });
 
 	  body = body ? JSON.stringify(body) : body;
 	  headers = signedRequest.headers;
 	  console.log('signedRequest', signedRequest);
 	  return fetch(signedRequest.url, {
-		method,
-		headers,
-		body
+      method,
+      headers,
+      body
 	  });
   }).then((results) => {
 	  if (results.status !== 200) {
-		throw new Error(results.text());
+      throw new Error(results.text());
 	  }
 	  console.log('results', results);
 	  return results.json();
+    // >>>>>>> 3985086c03ae248ba12acfb9122f3a1dd714ed38
   });
 }
