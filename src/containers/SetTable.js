@@ -46,7 +46,7 @@ class SetTable extends Component {
       errorText:         '',
       fetchSuccess:      false,
       successMsg:        '',
-      hideCompleted:     false,
+      hideCompleted:     true,
       valueError:        false,
       loading:           false,
       inProgressSetCogs: false,
@@ -114,28 +114,28 @@ class SetTable extends Component {
   onFinish() {
     const { data } = this.state;
     const pendingCogs = false;
-    let pendingCogsProducts = data.filter((item) => {
+    const pendingCogsProducts = data.filter((item) => {
       return item.cogsValidateStatus !== true;
     });
-	this.setState({
-		pendingRequest: true,
-	});
-	const cogsFinal = beautifyDataForCogsApiCall(data);
-	this.fireSetCogsAPI(cogsFinal).then((results) => {
+    this.setState({
+      pendingRequest: true,
+    });
+    const cogsFinal = beautifyDataForCogsApiCall(data);
+    this.fireSetCogsAPI(cogsFinal).then((results) => {
 	  this.setState({
 	    successMsg:        `COGS successfully set for ${cogsFinal.variants.length} products`,
 	    fetchSuccess:      true,
 	    inProgressSetCogs: false,
 	    pendingRequest:    false,
 	  });
-	}).catch(error => {
+    }).catch(error => {
 	  this.setState({
 	    errorText:         error,
 	    fetchError:        true,
 	    inProgressSetCogs: false,
 	    pendingRequest:    false,
 	  });
-	});
+    });
   }
 
   onSetMarkup() {
@@ -166,6 +166,7 @@ class SetTable extends Component {
             cogs = (productPrice - markup).toFixed(2);
           }
           const newData = checkAndUpdateProductCogsValue(cogs, product, data);
+          console.log('==============', newData);
           this.setState({
             data:              sortByCogs(newData),
             inProgressSetCogs: true
