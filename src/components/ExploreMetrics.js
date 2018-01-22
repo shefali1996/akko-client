@@ -15,6 +15,7 @@ import CustomRangePicker from '../components/CustomRangePicker';
 import { invokeApig } from '../libs/awsLib';
 import {plotByOptions} from '../constants';
 import {customerDetailOnHover, productDetailOnHover} from './CustomTable';
+import BarChart from './BarChart';
 
 const moment = require('moment');
 
@@ -629,16 +630,22 @@ class ExploreMetrics extends Component {
                       />
                     <CardText>
                       <div id="chart-full-width-holder" style={{width: '100%', height: '0px'}} />
-                      <ReactPlaceholder ready={this.state.graphLoadingDone} customPlaceholder={CustomSpin} className="loading-placeholder-rect-media">
+                      <ReactPlaceholder ready={this.state.graphLoadingDone || true} customPlaceholder={CustomSpin} className="loading-placeholder-rect-media">
                         <div>
+                          <BarChart data={[5, 10, 1, 3]} size={[500, 500]} />
                           {
-                            (this.state.graphError || !this.state.chartData)
-                            ? <div className="chart-error">Oops! Something went wrong. We have made note of this issue and will fix this as soon as possible</div>
-                            : <div className="chart-wrapper">
-                              <div style={{width: this.state.chartWidth, height: chartHeight}}>
-                                <Chart data={this.state.chartData} type="bar" disableAspectRatio showDetailOnHover={this.showDetailOnHover} hideDetail={this.hideDetail} />
-                              </div>
-                            </div>
+                            // (this.state.graphError || !this.state.chartData)
+                            // ? <div className="chart-error">Oops! Something went wrong. We have made note of this issue and will fix this as soon as possible</div>
+                            // : <div className="chart-wrapper">
+                            //   <div style={{width: this.state.chartWidth, height: chartHeight}}>
+                            //     {
+                            //       <BarChart data={[5, 10, 1, 3]} size={[500, 500]} />
+                            //       // <svg ref={node => this.node = node} width="960" height="500" />
+                            //       // this.state.currentOption === OPTION_PRODUCT ? <svg ref={node => this.node = node} width="960" height="500" /> :
+                            //       // <Chart data={this.state.chartData} type="bar" disableAspectRatio showDetailOnHover={this.showDetailOnHover} hideDetail={this.hideDetail} />
+                            //     }
+                            //   </div>
+                            // </div>
                             }
                         </div>
                       </ReactPlaceholder>
