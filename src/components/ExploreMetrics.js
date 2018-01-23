@@ -5,7 +5,7 @@ import Chip from 'material-ui/Chip';
 import Dialog from 'material-ui/Dialog';
 import { Select, DatePicker, Input, Spin } from 'antd';
 import ReactPlaceholder from 'react-placeholder';
-import {isEmpty, isEqual} from 'lodash';
+import {isEmpty, isEqual, isUndefined} from 'lodash';
 import Chart from '../components/Chart';
 import FilterDialog from '../components/FilterDialog';
 import styles from '../constants/styles';
@@ -16,6 +16,7 @@ import { invokeApig } from '../libs/awsLib';
 import {plotByOptions} from '../constants';
 import {customerDetailOnHover, productDetailOnHover} from './CustomTable';
 import BarChart from './BarChart';
+import productImgPlaceholder from '../assets/images/productImgPlaceholder.svg';
 
 const moment = require('moment');
 
@@ -279,6 +280,86 @@ class ExploreMetrics extends Component {
     if (!metric_map) {
       this.setMetric(OPTION_PRODUCT);
     } else {
+      // let sortOrder = ascendingSortOrder;
+  	  // if (this.currentSortOption === '2') {
+  		//   sortOrder = descendingSortOrder;
+  	  // }
+      // const metrics = metric_map.result.metrics;
+      // if (metrics.length === 0) {
+      //   throw new Error('No metrics to display');
+      // }
+      // const value = metrics[0];
+      // const data = [];
+      //
+      // let index = 0;
+      // // console.log('metrics', metrics);
+      // const {productData} = this.state;
+      // metrics.forEach((value) => {
+      //   const label = value.contextId.split('product_')[1];
+      //   const productId = parseInt(label);
+      //   let productInfo = _.find(productData.products && productData.products.products, {productId});
+      //   if (isNaN(productId)) {
+      //     productInfo = _.find(productData.products && productData.products.products, {productId: label});
+      //   }
+      //   if (!productInfo.deleted || (productInfo.deleted && value.value !== 0)) {
+      //     data.push({
+      //       label,
+      //       value: value.value,
+      //       index
+      //     });
+      //     index++;
+      //   }
+      // });
+      //
+      // if (sortOrder) {
+      //   data.sort((a, b) => {
+      //     if (sortOrder === ascendingSortOrder) {
+      //       if (a.value !== b.value) {
+      //         return a.value - b.value;
+      //       }
+      //     } else if (sortOrder === descendingSortOrder) {
+      //       if (a.value !== b.value) {
+      //         return b.value - a.value;
+      //       }
+      //     }
+      //     return a.index - b.index;
+      //   });
+      // }
+      //
+      // let labels = [],
+      //   values = [];
+      //
+      // data.forEach((dataItem) => {
+      //   labels.push(dataItem.label);
+      //   values.push(dataItem.value);
+      // });
+      // // console.log('labels', labels);
+      // const chartData = {
+      //   labels,
+      //   datasets: [{
+      //     type:            'bar',
+      //     label:           value.title,
+      //     data:            values,
+      //     backgroundColor: styles.constants.mainThemeColor,
+      //     fill:            '1',
+      //     tension:         0,
+      //     prefix:          value.prefix,
+      //     postfix:         value.postfix
+      //   }]
+      // };
+      //
+      // let width = labels.length * WIDTH_PER_LABEL;
+      // const full_width = document.getElementById('chart-full-width-holder').offsetWidth;
+      // if (width < full_width) {
+      //   width = '100%';
+      // } else {
+      //   width += 'px';
+      // }
+      // this.setState({
+      //   chartWidth:       `${width}px`,
+      //   chartData,
+      //   graphLoadingDone: true
+      // });
       let sortOrder = ascendingSortOrder;
   	  if (this.currentSortOption === '2') {
   		  sortOrder = descendingSortOrder;
@@ -297,14 +378,23 @@ class ExploreMetrics extends Component {
         const label = value.contextId.split('product_')[1];
         const productId = parseInt(label);
         let productInfo = _.find(productData.products && productData.products.products, {productId});
+        let variant = _.find(productData.variants, {productId});
         if (isNaN(productId)) {
           productInfo = _.find(productData.products && productData.products.products, {productId: label});
+          variant = _.find(productData.variants, {productId: label});
+        }
+        let productImage = variant && variant.variants.length && variant.variants[0].variant_details.image;
+        if (productImage === null || productImage === 'null' || isUndefined(productImage)) {
+          productImage = productImgPlaceholder;
         }
         if (!productInfo.deleted || (productInfo.deleted && value.value !== 0)) {
           data.push({
             label,
-            value: value.value,
-            index
+            value:   value.value,
+            index,
+            image:   productImage,
+            prefix:  value.prefix,
+            postfix: value.postfix
           });
           index++;
         }
@@ -332,20 +422,6 @@ class ExploreMetrics extends Component {
         labels.push(dataItem.label);
         values.push(dataItem.value);
       });
-      // console.log('labels', labels);
-      const chartData = {
-        labels,
-        datasets: [{
-          type:            'bar',
-          label:           value.title,
-          data:            values,
-          backgroundColor: styles.constants.mainThemeColor,
-          fill:            '1',
-          tension:         0,
-          prefix:          value.prefix,
-          postfix:         value.postfix
-        }]
-      };
 
       let width = labels.length * WIDTH_PER_LABEL;
       const full_width = document.getElementById('chart-full-width-holder').offsetWidth;
@@ -356,7 +432,7 @@ class ExploreMetrics extends Component {
       }
       this.setState({
         chartWidth:       `${width}px`,
-        chartData,
+        chartData:        data,
         graphLoadingDone: true
       });
     }
@@ -522,7 +598,16 @@ class ExploreMetrics extends Component {
     || document.body.clientHeight;
     const chartHeight = `${fullHeight * 0.35}px`;
     const tooltip = '';
-
+    const adata = [
+      {letter: 'A', frequency: 0.0584, image: 'https://cdn.shopify.com/s/files/1/2374/4003/products/product-image-204525014.jpg?v=1506929542'},
+      {letter: 'B', frequency: 0.0484, image: 'https://cdn.shopify.com/s/files/1/2374/4003/products/product-image-208517391.jpg?v=1506929541'},
+      {letter: 'C', frequency: 0.0884, image: 'https://cdn.shopify.com/s/files/1/2374/4003/products/product-image-231085606.jpg?v=1506929542'},
+      {letter: 'D', frequency: 0.0184, image: 'https://cdn.shopify.com/s/files/1/2374/4003/products/product-image-208685873.jpg?v=1506929542'},
+      {letter: 'E', frequency: 0.0384, image: 'https://cdn.shopify.com/s/files/1/2374/4003/products/product-image-204525017.jpg?v=1506929543'},
+      {letter: 'F', frequency: 0.0284, image: 'https://cdn.shopify.com/s/files/1/2374/4003/products/product-image-397377051.jpg?v=1506929544'},
+      {letter: 'G', frequency: 0.0784, image: 'https://cdn.shopify.com/s/files/1/2374/4003/products/product-image-268386528.jpg?v=1506929543'}
+    ];
+    console.log('this.state.data', this.state.chartData);
     return (
       <Row>
         <Col md={12}>
@@ -630,22 +715,19 @@ class ExploreMetrics extends Component {
                       />
                     <CardText>
                       <div id="chart-full-width-holder" style={{width: '100%', height: '0px'}} />
-                      <ReactPlaceholder ready={this.state.graphLoadingDone || true} customPlaceholder={CustomSpin} className="loading-placeholder-rect-media">
+                      <ReactPlaceholder ready={this.state.graphLoadingDone} customPlaceholder={CustomSpin} className="loading-placeholder-rect-media">
                         <div>
-                          <BarChart data={[5, 10, 1, 3]} size={[500, 500]} />
                           {
-                            // (this.state.graphError || !this.state.chartData)
-                            // ? <div className="chart-error">Oops! Something went wrong. We have made note of this issue and will fix this as soon as possible</div>
-                            // : <div className="chart-wrapper">
-                            //   <div style={{width: this.state.chartWidth, height: chartHeight}}>
-                            //     {
-                            //       <BarChart data={[5, 10, 1, 3]} size={[500, 500]} />
-                            //       // <svg ref={node => this.node = node} width="960" height="500" />
-                            //       // this.state.currentOption === OPTION_PRODUCT ? <svg ref={node => this.node = node} width="960" height="500" /> :
-                            //       // <Chart data={this.state.chartData} type="bar" disableAspectRatio showDetailOnHover={this.showDetailOnHover} hideDetail={this.hideDetail} />
-                            //     }
-                            //   </div>
-                            // </div>
+                            (this.state.graphError || !this.state.chartData)
+                            ? <div className="chart-error">Oops! Something went wrong. We have made note of this issue and will fix this as soon as possible</div>
+                            : <div className="chart-wrapper">
+                              <div style={{width: this.state.chartWidth, height: chartHeight}}>
+                                {
+                                  this.state.currentOption === OPTION_PRODUCT ? <BarChart data={this.state.chartData} /> :
+                                  <Chart data={this.state.chartData} type="bar" disableAspectRatio showDetailOnHover={this.showDetailOnHover} hideDetail={this.hideDetail} />
+                                }
+                              </div>
+                            </div>
                             }
                         </div>
                       </ReactPlaceholder>

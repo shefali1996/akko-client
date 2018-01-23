@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-// import './App.css';
 import * as d3 from 'd3';
 import { scaleLinear } from 'd3-scale';
 import { max } from 'd3-array';
@@ -14,90 +13,83 @@ class BarChart extends Component {
     this.createBarChart();
   }
   componentDidUpdate() {
+    document.getElementById('barChart').innerHTML = '';
     this.createBarChart();
   }
   createBarChart() {
-    const node = this.node;
-    const svg = d3.select(node);
-    let margin = {top: 20, right: 20, bottom: 30, left: 40},
-      width = +svg.attr('width') - margin.left - margin.right,
-      height = +svg.attr('height') - margin.top - margin.bottom;
+    const width1 = document.getElementById('barChart').offsetWidth;
+    const height1 = document.getElementById('chart-full-width-holder').offsetHeight;
+    console.log('width', width1, height1);
+    const svg = d3.select('#barChart').append('svg')
+      .attr('width', width1)
+      .attr('height', 400);
+    // .append("g")
+    // .attr("transform", "translate(" + Math.min(width,height) / 2 + "," + Math.min(width,height) / 2 + ")");
+    // const svg = d3.select(this.node);
+    const margin = {top: 20, right: 20, bottom: 30, left: 50};
+    const width = +svg.attr('width') - margin.left - margin.right;
+    const height = +svg.attr('height') - margin.top - margin.bottom;
 
-    let x = d3.scaleBand().rangeRound([0, width]).padding(0.1),
-      y = d3.scaleLinear().rangeRound([height, 0]);
+    const x = d3.scaleBand().rangeRound([0, width]).padding(0.1);
+    const y = d3.scaleLinear().rangeRound([height, 0]);
 
     const g = svg.append('g')
-      .attr('transform', `translate(${margin.left},${margin.top})`);
+      .attr('transform', `translate(${margin.left},${margin.top})`)
+      .attr('overflow', 'visible');
 
-    d3.tsv('../constants/data.tsv', (d) => {
-      d.frequency = +d.frequency;
-      return d;
-    }, (error, data) => {
-      if (error) throw error;
+    const data = this.props.data;
+    x.domain(data.map((d) => { return d.label; }));
+    y.domain([0, d3.max(data, (d) => { return d.value; })]);
+    console.log('sssssssss', data);
+    // ---------------x labels-----------------------------
+    const labelX = g.append('g')
+      .attr('class', 'axis axis--x')
+      .attr('transform', `translate(0,${height})`)
+      .call(d3.axisBottom(x));
+    labelX.selectAll('g')
+      .select('text')
+      .text((d) => { return ''; });
+    labelX.selectAll('g')
+      .append('image')
+      .attr('xlink:href', (d, i) => {
+        console.log('ddddddddd', d, i, data[i]);
+        return data[i].image;
+      })
+      .attr('x', -35)
+      .attr('y', 8)
+      .attr('height', 70)
+      .attr('width', 70);
+    // ----------------Y labels---------------------
+    const labelY = g.append('g')
+      .attr('class', 'axis axis--y')
+      .attr('transform', 'translate(7,0)')
+      .attr('width', 70)
+      .call(d3.axisLeft(y).ticks(5));
 
-      x.domain(data.map((d) => { return d.letter; }));
-      y.domain([0, d3.max(data, (d) => { return d.frequency; })]);
-      console.log('sssssssss', error, data);
-      const labelG = g.append('g')
-        .attr('class', 'axis axis--x')
-        .attr('transform', `translate(0,${height})`)
-        .call(d3.axisBottom(x));
+    labelY.append('text')
+      .attr('transform', 'rotate(-90)')
+      .attr('y', 6)
+      .attr('dy', '0.71em')
+      .attr('text-anchor', 'end')
+      .text('Frequency');
+    labelY.selectAll('g')
+      .select('text')
+      .attr('font-size', 20)
+      .attr('color', 'gray');
 
-
-      g.append('g')
-        .attr('class', 'axis axis--y')
-        .call(d3.axisLeft(y).ticks(10, '%'))
-        .append('text')
-        .attr('transform', 'rotate(-90)')
-        .attr('y', 6)
-        .attr('dy', '0.71em')
-        .attr('text-anchor', 'end')
-        .text('Frequency');
-
-      g.selectAll('.bar')
-        .data(data)
-        .enter().append('rect')
-        .attr('class', 'bar')
-        .attr('x', (d) => { return x(d.letter); })
-        .attr('y', (d) => { return y(d.frequency); })
-        .attr('width', x.bandwidth())
-        .attr('height', (d) => { return height - y(d.frequency); });
-
-
-      const a = d3.selectAll('.axis--x g');
-      console.log('--------------------', a, a.length);
-      labelG.selectAll('g')
-        // .remove('text')
-        .text((d) => { return ''; })
-        .append('image')
-        .attr('xlink:href', 'https://cdn.shopify.com/s/files/1/2374/4003/products/product-image-204525014.jpg?v=1506929542')
-        .attr('height', 20)
-        .attr('width', 20);
-    });
-    // .append((d, i) => {
-    //   console.log('aaaaaaaaaaaaaaaa', d, i);
-    //   // a[i].append('image')
-    //   //   .attr('xlink:href', 'https://cdn.shopify.com/s/files/1/2374/4003/products/product-image-204525014.jpg?v=1506929542')
-    //   //   .attr('height', 20)
-    //   //   .attr('width', 20)
-    //   //   .attr('x', function (d) {
-    //   //     const bbox = this.parentNode.getBBox();
-    //   //     return bbox.x;
-    //   //   })
-    //   //   .attr('y', function () {
-    //   //     const bbox = this.parentNode.getBBox();
-    //   //     return bbox.y;
-    //   //   });
-    //   return `${<image href="https://mdn.mozillademos.org/files/6457/mdn_logo_only_color.png" height="100" width="100" />}`;
-    //
-    // });
-
+    g.selectAll('.bar')
+      .data(data)
+      .enter().append('rect')
+      .attr('class', 'bar')
+      .attr('x', (d) => { return x(d.label); })
+      .attr('y', (d) => { return y(d.value); })
+      .attr('width', x.bandwidth())
+      .attr('height', (d) => { return height - y(d.value); });
   }
   render() {
-    return (<svg
-      ref={node => this.node = node}
-      width={1000}
-      height={300} />);
+    return (
+      <div id="barChart" />
+    );
   }
 }
 export default BarChart;

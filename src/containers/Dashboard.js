@@ -37,6 +37,7 @@ class Dashboard extends Component {
 	  userDataLoaded:    {},
 	  channelData:       {},
 	  channelDataLoaded: {},
+      // explore:           true
     };
     this.setWidth = this.setWidth.bind(this);
     this.handleClickMetrics = this.handleClickMetrics.bind(this);
