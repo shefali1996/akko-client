@@ -710,29 +710,29 @@ class ExploreMetrics extends Component {
                             </Select>
                           </span>
                         </Col>
-                             </Row>}
+                      </Row>}
                       titleStyle={styles.chartsHeaderTitle}
                       />
                     <CardText>
                       <div id="chart-full-width-holder" style={{width: '100%', height: '0px'}} />
-                      <BarChart data={adata} fullHeight={fullHeight} />
                       {
-                      //   <ReactPlaceholder ready={this.state.graphLoadingDone} customPlaceholder={CustomSpin} className="loading-placeholder-rect-media">
-                      //   <div>
-                      //     {
-                      //       (this.state.graphError || !this.state.chartData)
-                      //       ? <div className="chart-error">Oops! Something went wrong. We have made note of this issue and will fix this as soon as possible</div>
-                      //       : <div className="chart-wrapper">
-                      //         <div style={{width: this.state.chartWidth, height: chartHeight}}>
-                      //           {
-                      //             this.state.currentOption === OPTION_PRODUCT ? <BarChart data={adata} fullHeight={fullHeight} /> :
-                      //             <Chart data={this.state.chartData} type="bar" disableAspectRatio showDetailOnHover={this.showDetailOnHover} hideDetail={this.hideDetail} />
-                      //           }
-                      //         </div>
-                      //       </div>
-                      //       }
-                      //   </div>
-                      // </ReactPlaceholder>
+                        // <BarChart data={adata} fullHeight={fullHeight} />
+                        <ReactPlaceholder ready={this.state.graphLoadingDone} customPlaceholder={CustomSpin} className="loading-placeholder-rect-media">
+                          <div>
+                            {
+                            (this.state.graphError || !this.state.chartData)
+                            ? <div className="chart-error">Oops! Something went wrong. We have made note of this issue and will fix this as soon as possible</div>
+                            : <div className="chart-wrapper">
+                              <div style={{width: this.state.chartWidth, height: chartHeight}}>
+                                {
+                                  this.state.currentOption === OPTION_PRODUCT ? <BarChart data={this.state.chartData} fullHeight={fullHeight} showDetailOnHover={this.showDetailOnHover} hideDetail={this.hideDetail} /> :
+                                  <Chart data={this.state.chartData} type="bar" disableAspectRatio showDetailOnHover={this.showDetailOnHover} hideDetail={this.hideDetail} />
+                                }
+                              </div>
+                            </div>
+                            }
+                          </div>
+                        </ReactPlaceholder>
                     }
                     </CardText>
                   </Card>
