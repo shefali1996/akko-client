@@ -599,13 +599,13 @@ class ExploreMetrics extends Component {
     const chartHeight = `${fullHeight * 0.35}px`;
     const tooltip = '';
     const adata = [
-      {letter: 'A', frequency: 0.0584, image: 'https://cdn.shopify.com/s/files/1/2374/4003/products/product-image-204525014.jpg?v=1506929542'},
-      {letter: 'B', frequency: 0.0484, image: 'https://cdn.shopify.com/s/files/1/2374/4003/products/product-image-208517391.jpg?v=1506929541'},
-      {letter: 'C', frequency: 0.0884, image: 'https://cdn.shopify.com/s/files/1/2374/4003/products/product-image-231085606.jpg?v=1506929542'},
-      {letter: 'D', frequency: 0.0184, image: 'https://cdn.shopify.com/s/files/1/2374/4003/products/product-image-208685873.jpg?v=1506929542'},
-      {letter: 'E', frequency: 0.0384, image: 'https://cdn.shopify.com/s/files/1/2374/4003/products/product-image-204525017.jpg?v=1506929543'},
-      {letter: 'F', frequency: 0.0284, image: 'https://cdn.shopify.com/s/files/1/2374/4003/products/product-image-397377051.jpg?v=1506929544'},
-      {letter: 'G', frequency: 0.0784, image: 'https://cdn.shopify.com/s/files/1/2374/4003/products/product-image-268386528.jpg?v=1506929543'}
+      {label: 'A', value: 0.0584, image: 'https://cdn.shopify.com/s/files/1/2374/4003/products/product-image-204525014.jpg?v=1506929542'},
+      {label: 'B', value: 0.0484, image: 'https://cdn.shopify.com/s/files/1/2374/4003/products/product-image-208517391.jpg?v=1506929541'},
+      {label: 'C', value: 0.0884, image: 'https://cdn.shopify.com/s/files/1/2374/4003/products/product-image-231085606.jpg?v=1506929542'},
+      {label: 'D', value: 0.0184, image: 'https://cdn.shopify.com/s/files/1/2374/4003/products/product-image-208685873.jpg?v=1506929542'},
+      {label: 'E', value: 0.0384, image: 'https://cdn.shopify.com/s/files/1/2374/4003/products/product-image-204525017.jpg?v=1506929543'},
+      {label: 'F', value: 0.0284, image: 'https://cdn.shopify.com/s/files/1/2374/4003/products/product-image-397377051.jpg?v=1506929544'},
+      {label: 'G', value: 0.0784, image: 'https://cdn.shopify.com/s/files/1/2374/4003/products/product-image-268386528.jpg?v=1506929543'}
     ];
     console.log('this.state.data', this.state.chartData);
     return (
@@ -715,22 +715,25 @@ class ExploreMetrics extends Component {
                       />
                     <CardText>
                       <div id="chart-full-width-holder" style={{width: '100%', height: '0px'}} />
-                      <ReactPlaceholder ready={this.state.graphLoadingDone} customPlaceholder={CustomSpin} className="loading-placeholder-rect-media">
-                        <div>
-                          {
-                            (this.state.graphError || !this.state.chartData)
-                            ? <div className="chart-error">Oops! Something went wrong. We have made note of this issue and will fix this as soon as possible</div>
-                            : <div className="chart-wrapper">
-                              <div style={{width: this.state.chartWidth, height: chartHeight}}>
-                                {
-                                  this.state.currentOption === OPTION_PRODUCT ? <BarChart data={this.state.chartData} /> :
-                                  <Chart data={this.state.chartData} type="bar" disableAspectRatio showDetailOnHover={this.showDetailOnHover} hideDetail={this.hideDetail} />
-                                }
-                              </div>
-                            </div>
-                            }
-                        </div>
-                      </ReactPlaceholder>
+                      <BarChart data={adata} fullHeight={fullHeight} />
+                      {
+                      //   <ReactPlaceholder ready={this.state.graphLoadingDone} customPlaceholder={CustomSpin} className="loading-placeholder-rect-media">
+                      //   <div>
+                      //     {
+                      //       (this.state.graphError || !this.state.chartData)
+                      //       ? <div className="chart-error">Oops! Something went wrong. We have made note of this issue and will fix this as soon as possible</div>
+                      //       : <div className="chart-wrapper">
+                      //         <div style={{width: this.state.chartWidth, height: chartHeight}}>
+                      //           {
+                      //             this.state.currentOption === OPTION_PRODUCT ? <BarChart data={adata} fullHeight={fullHeight} /> :
+                      //             <Chart data={this.state.chartData} type="bar" disableAspectRatio showDetailOnHover={this.showDetailOnHover} hideDetail={this.hideDetail} />
+                      //           }
+                      //         </div>
+                      //       </div>
+                      //       }
+                      //   </div>
+                      // </ReactPlaceholder>
+                    }
                     </CardText>
                   </Card>
                 </Col>

@@ -18,15 +18,15 @@ class BarChart extends Component {
   }
   createBarChart() {
     const width1 = document.getElementById('barChart').offsetWidth;
-    const height1 = document.getElementById('chart-full-width-holder').offsetHeight;
-    console.log('width', width1, height1);
+    const fullHeight = this.props.fullHeight;
+
     const svg = d3.select('#barChart').append('svg')
       .attr('width', width1)
-      .attr('height', 400);
+      .attr('height', fullHeight * 0.33);
     // .append("g")
     // .attr("transform", "translate(" + Math.min(width,height) / 2 + "," + Math.min(width,height) / 2 + ")");
     // const svg = d3.select(this.node);
-    const margin = {top: 20, right: 20, bottom: 30, left: 50};
+    const margin = {top: 20, right: 20, bottom: 50, left: 50};
     const width = +svg.attr('width') - margin.left - margin.right;
     const height = +svg.attr('height') - margin.top - margin.bottom;
 
@@ -55,10 +55,10 @@ class BarChart extends Component {
         console.log('ddddddddd', d, i, data[i]);
         return data[i].image;
       })
-      .attr('x', -35)
+      .attr('x', -20)
       .attr('y', 8)
-      .attr('height', 70)
-      .attr('width', 70);
+      .attr('height', 40)
+      .attr('width', 40);
     // ----------------Y labels---------------------
     const labelY = g.append('g')
       .attr('class', 'axis axis--y')
