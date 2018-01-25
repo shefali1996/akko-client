@@ -109,6 +109,10 @@ class ExploreMetrics extends Component {
     if (!_.isEqual(nextProps.productData.data, productData)) {
       this.setState({
         productData: nextProps.productData.data
+      }, () => {
+        if (currentOption === OPTION_PRODUCT) {
+          this.onOptionChange(currentOption);
+        }
       });
     }
     if (nextProps.activeMetrics && (nextProps.activeMetrics !== this.state.activeMetrics)) {
@@ -280,89 +284,9 @@ class ExploreMetrics extends Component {
     if (!metric_map) {
       this.setMetric(OPTION_PRODUCT);
     } else {
-      // let sortOrder = ascendingSortOrder;
-  	  // if (this.currentSortOption === '2') {
-  		//   sortOrder = descendingSortOrder;
-  	  // }
-      // const metrics = metric_map.result.metrics;
-      // if (metrics.length === 0) {
-      //   throw new Error('No metrics to display');
-      // }
-      // const value = metrics[0];
-      // const data = [];
-      //
-      // let index = 0;
-      // // console.log('metrics', metrics);
-      // const {productData} = this.state;
-      // metrics.forEach((value) => {
-      //   const label = value.contextId.split('product_')[1];
-      //   const productId = parseInt(label);
-      //   let productInfo = _.find(productData.products && productData.products.products, {productId});
-      //   if (isNaN(productId)) {
-      //     productInfo = _.find(productData.products && productData.products.products, {productId: label});
-      //   }
-      //   if (!productInfo.deleted || (productInfo.deleted && value.value !== 0)) {
-      //     data.push({
-      //       label,
-      //       value: value.value,
-      //       index
-      //     });
-      //     index++;
-      //   }
-      // });
-      //
-      // if (sortOrder) {
-      //   data.sort((a, b) => {
-      //     if (sortOrder === ascendingSortOrder) {
-      //       if (a.value !== b.value) {
-      //         return a.value - b.value;
-      //       }
-      //     } else if (sortOrder === descendingSortOrder) {
-      //       if (a.value !== b.value) {
-      //         return b.value - a.value;
-      //       }
-      //     }
-      //     return a.index - b.index;
-      //   });
-      // }
-      //
-      // let labels = [],
-      //   values = [];
-      //
-      // data.forEach((dataItem) => {
-      //   labels.push(dataItem.label);
-      //   values.push(dataItem.value);
-      // });
-      // // console.log('labels', labels);
-      // const chartData = {
-      //   labels,
-      //   datasets: [{
-      //     type:            'bar',
-      //     label:           value.title,
-      //     data:            values,
-      //     backgroundColor: styles.constants.mainThemeColor,
-      //     fill:            '1',
-      //     tension:         0,
-      //     prefix:          value.prefix,
-      //     postfix:         value.postfix
-      //   }]
-      // };
-      //
-      // let width = labels.length * WIDTH_PER_LABEL;
-      // const full_width = document.getElementById('chart-full-width-holder').offsetWidth;
-      // if (width < full_width) {
-      //   width = '100%';
-      // } else {
-      //   width += 'px';
-      // }
-      // this.setState({
-      //   chartWidth:       `${width}px`,
-      //   chartData,
-      //   graphLoadingDone: true
-      // });
       let sortOrder = ascendingSortOrder;
-  	  if (this.currentSortOption === '2') {
-  		  sortOrder = descendingSortOrder;
+      if (this.currentSortOption === '2') {
+        sortOrder = descendingSortOrder;
   	  }
       const metrics = metric_map.result.metrics;
       if (metrics.length === 0) {
@@ -391,10 +315,10 @@ class ExploreMetrics extends Component {
           data.push({
             label,
             value:   value.value,
-            index,
             image:   productImage,
             prefix:  value.prefix,
-            postfix: value.postfix
+            postfix: value.postfix,
+            index,
           });
           index++;
         }
@@ -415,15 +339,7 @@ class ExploreMetrics extends Component {
         });
       }
 
-      let labels = [],
-        values = [];
-
-      data.forEach((dataItem) => {
-        labels.push(dataItem.label);
-        values.push(dataItem.value);
-      });
-
-      let width = labels.length * WIDTH_PER_LABEL;
+      let width = data.length * WIDTH_PER_LABEL;
       const full_width = document.getElementById('chart-full-width-holder').offsetWidth;
       if (width < full_width) {
         width = '100%';
@@ -597,17 +513,6 @@ class ExploreMetrics extends Component {
     || document.documentElement.clientHeight
     || document.body.clientHeight;
     const chartHeight = `${fullHeight * 0.35}px`;
-    const tooltip = '';
-    const adata = [
-      {label: 'A', value: 0.0584, image: 'https://cdn.shopify.com/s/files/1/2374/4003/products/product-image-204525014.jpg?v=1506929542'},
-      {label: 'B', value: 0.0484, image: 'https://cdn.shopify.com/s/files/1/2374/4003/products/product-image-208517391.jpg?v=1506929541'},
-      {label: 'C', value: 0.0884, image: 'https://cdn.shopify.com/s/files/1/2374/4003/products/product-image-231085606.jpg?v=1506929542'},
-      {label: 'D', value: 0.0184, image: 'https://cdn.shopify.com/s/files/1/2374/4003/products/product-image-208685873.jpg?v=1506929542'},
-      {label: 'E', value: 0.0384, image: 'https://cdn.shopify.com/s/files/1/2374/4003/products/product-image-204525017.jpg?v=1506929543'},
-      {label: 'F', value: 0.0284, image: 'https://cdn.shopify.com/s/files/1/2374/4003/products/product-image-397377051.jpg?v=1506929544'},
-      {label: 'G', value: 0.0784, image: 'https://cdn.shopify.com/s/files/1/2374/4003/products/product-image-268386528.jpg?v=1506929543'}
-    ];
-    console.log('this.state.data', this.state.chartData);
     return (
       <Row>
         <Col md={12}>
