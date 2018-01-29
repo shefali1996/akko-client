@@ -169,28 +169,28 @@ class Dashboard extends Component {
           <Col md={12} className="expense-text">
             <Row className="padding-t-5">
               <Col md={7}>Total Sales</Col>
-              <Col md={5}><span className="dash" />${expensesData.total_sales}</Col>
+              <Col md={5} className="text-right">${expensesData.total_sales.toFixed(2)}</Col>
             </Row>
             <Row className="padding-t-5">
               <Col md={7}>COGS</Col>
-              <Col md={5}><span className="dash">-</span>${expensesData.total_cogs}</Col>
+              <Col md={5} className="text-right">${expensesData.total_cogs.toFixed(2)}</Col>
             </Row>
             <Row className="padding-t-5">
               <Col md={7}>Discounts</Col>
-              <Col md={5}><span className="dash">-</span>${expensesData.total_discount}</Col>
+              <Col md={5} className="text-right">${expensesData.total_discount.toFixed(2)}</Col>
             </Row>
             <Row className="padding-t-5">
               <Col md={7}>Shipping</Col>
-              <Col md={5}><span className="dash">-</span>${expensesData.total_shipping}</Col>
+              <Col md={5} className="text-right">${expensesData.total_shipping.toFixed(2)}</Col>
             </Row>
             <Row className="padding-t-5">
               <Col md={7}>Tax</Col>
-              <Col md={5}><span className="dash">-</span>${expensesData.total_tax}</Col>
+              <Col md={5} className="text-right">${expensesData.total_tax.toFixed(2)}</Col>
             </Row>
             <hr />
             <Row className="final-row">
               <Col md={7}>Gross Profit</Col>
-              <Col md={5}><span className="dash" />${expensesData.gross_profit}</Col>
+              <Col md={5} className="text-right"><span className="dash" />${expensesData.gross_profit.toFixed(2)}</Col>
             </Row>
           </Col>
         </Row>

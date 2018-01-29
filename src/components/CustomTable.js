@@ -184,7 +184,7 @@ export const productDetailOnHover = (productInfo, variant) => {
       </div>
       <div className="product-custom-title" style={{ maxWidth: '80%' }} >
         <div>
-          <span className="productName" style={styles.showDetailOnHoverTitleBox}>{productInfo.title}</span>
+          <span className="productName multi-line-ellipcs" style={styles.showDetailOnHoverTitleBox}>{productInfo.title}</span>
         </div>
         <div className="sku-view">
           <span className="channelNumberText">Variants : {productInfo.numVariants}</span>

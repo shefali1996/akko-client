@@ -28,8 +28,8 @@ class BarChart extends Component {
     }
   }
 
-  onMouseOver(d) {
-    this.props.showDetailOnHover(d.label);
+  onMouseOver(label) {
+    this.props.showDetailOnHover(label);
   }
   onMouseOut() {
     this.props.hideDetail();
@@ -96,6 +96,13 @@ class BarChart extends Component {
       .attr('height', 40)
       .attr('width', 40);
 
+    labelX.selectAll('g')
+      .on('mouseover', (d) => {
+        this.onMouseOver(d);
+      })
+      .on('mouseout', (d) => {
+        this.onMouseOut();
+      });
     // ----------------Y labels---------------------
     const labelY = g.append('g')
       .attr('class', 'axis axis--y')
@@ -137,7 +144,7 @@ class BarChart extends Component {
           .style('top', `${left}px`)
           .style('opacity', 1)
           .style('transition', 'left .5s, top .5s');
-        this.onMouseOver(d);
+        this.onMouseOver(d.label);
       })
       .on('mouseout', () => {
         this.onMouseOut();

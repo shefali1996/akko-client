@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Row, Col, Label, Button, Image, DropdownButton } from 'react-bootstrap';
+import { Row, Col, Label, ButtonGroup, Button, Image, DropdownButton } from 'react-bootstrap';
 import {Card, CardHeader, CardText} from 'material-ui/Card';
 import Chip from 'material-ui/Chip';
 import Dialog from 'material-ui/Dialog';
@@ -527,25 +527,25 @@ class ExploreMetrics extends Component {
               </div>}
               titleStyle={styles.chartsHeaderTitle}
               subtitle={<div className="margin-t-60">
-                <span className="pull-left" style={{ width: 200 }}>
+                <span className="pull-left" style={{ width: 250 }}>
                   <span className="dd-lable">Plot By:</span>
                   <span>
-                    <Select defaultValue={OPTION_TIME} value={this.state.currentOption} onChange={(value, label) => { this.onOptionChange(value); }}>
-                      <Option value={OPTION_TIME}>{OPTION_TIME}</Option>
+                    <ButtonGroup>
+                      <Button className={this.state.currentOption === OPTION_TIME ? 'active' : ''} onClick={() => this.onOptionChange(OPTION_TIME)}>{OPTION_TIME}</Button>
                       {
-                        this.state.activeMetrics
-                                    ? this.state.activeMetrics.availableContexts.map((ctx) => {
-                                    const Ctx = ctx[0].toUpperCase() + ctx.substring(1).toLowerCase();
-                                    return <Option key={Ctx} value={Ctx}>{Ctx}</Option>;
-                                    })
-                                    : ''
-                                    }
-                    </Select>
+                         this.state.activeMetrics
+                                     ? this.state.activeMetrics.availableContexts.map((ctx) => {
+                                     const Ctx = ctx[0].toUpperCase() + ctx.substring(1).toLowerCase();
+                                     return <Button className={this.state.currentOption === Ctx ? 'active' : ''} onClick={() => this.onOptionChange(Ctx)}>{Ctx}</Button>;
+                                     })
+                                     : ''
+                                     }
+                    </ButtonGroup>
                   </span>
                 </span>
                 <span className="pull-right" style={{ width: 200 }}>
                   <span className="dd-lable" />
-                  <span className="explore-datepicker">
+                  <span>
                     <CustomRangePicker
                       onTimeframeChange={this.onTimeframeChange}
                       customRangeShouldClear={this.state.customRangeShouldClear}
@@ -621,7 +621,6 @@ class ExploreMetrics extends Component {
                     <CardText>
                       <div id="chart-full-width-holder" style={{width: '100%', height: '0px'}} />
                       {
-                        // <BarChart data={adata} fullHeight={fullHeight} />
                         <ReactPlaceholder ready={this.state.graphLoadingDone} customPlaceholder={CustomSpin} className="loading-placeholder-rect-media">
                           <div>
                             {
