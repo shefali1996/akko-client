@@ -375,18 +375,22 @@ class ExploreMetrics extends Component {
       const cust = _.cloneDeep(this.state.customersData);
       metrics.forEach((value) => {
         let label = value.contextId.split(':')[1];
+        let email = label;
         const custInfo = _.find(cust, {email: label});
         if (!_.isEmpty(custInfo)) {
           label = custInfo.name;
+          email = custInfo.email;
         }
         data.push({
           label,
-          value: value.value,
+          value:   value.value,
+          prefix:  value.prefix,
+          postfix: value.postfix,
+          email,
           index
         });
         index++;
       });
-
       if (sortOrder) {
         data.sort((a, b) => {
           if (sortOrder === ascendingSortOrder) {
@@ -431,7 +435,7 @@ class ExploreMetrics extends Component {
       }
       this.setState({
         chartWidth:       `${width}px`,
-        chartData,
+        chartData:        data,
         graphLoadingDone: true
       });
     }
@@ -629,8 +633,9 @@ class ExploreMetrics extends Component {
                             : <div className="chart-wrapper">
                               <div style={{width: this.state.chartWidth, height: chartHeight}}>
                                 {
-                                  this.state.currentOption === OPTION_PRODUCT ? <BarChart data={this.state.chartData} fullHeight={fullHeight} showDetailOnHover={this.showDetailOnHover} hideDetail={this.hideDetail} /> :
-                                  <Chart data={this.state.chartData} type="bar" disableAspectRatio showDetailOnHover={this.showDetailOnHover} hideDetail={this.hideDetail} />
+                                  this.state.currentOption === OPTION_PRODUCT || this.state.currentOption === OPTION_CUSTOMER ?
+                                    <BarChart data={this.state.chartData} fullHeight={fullHeight} selectedOption={this.state.currentOption} showDetailOnHover={this.showDetailOnHover} hideDetail={this.hideDetail} /> :
+                                    <Chart data={this.state.chartData} type="bar" disableAspectRatio showDetailOnHover={this.showDetailOnHover} hideDetail={this.hideDetail} />
                                 }
                               </div>
                             </div>
