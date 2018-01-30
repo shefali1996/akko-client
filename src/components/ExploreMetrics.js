@@ -16,6 +16,7 @@ import { invokeApig } from '../libs/awsLib';
 import {plotByOptions} from '../constants';
 import {customerDetailOnHover, productDetailOnHover} from './CustomTable';
 import BarChart from './BarChart';
+import LineChart from './LineChart';
 import productImgPlaceholder from '../assets/images/productImgPlaceholder.svg';
 
 const moment = require('moment');
@@ -233,37 +234,25 @@ class ExploreMetrics extends Component {
       }
 
       const value = metrics[0];
-      let labels = [],
-        values = [];
-
+      const data = [];
       metrics.forEach((value) => {
         let format = 'MMM YY';
         if (metric_map.resolution === RESOLUTION_DAY) {
           format = 'MMM D';
         }
         const label = moment(value.timeslice_start).utcOffset('+00:00').format(format);
-        labels.push(label);
-        values.push(value.value);
+        data.push({
+          label,
+          value:   value.value,
+          prefix:  value.prefix,
+          postfix: value.postfix
+        });
       });
 
-      const chartData = {
-        labels,
-        datasets: [{
-          type:            'line',
-          label:           value.title,
-          data:            values,
-          backgroundColor: styles.constants.mainThemeColor,
-          fill:            '1',
-          tension:         0,
-          prefix:          value.prefix,
-          postfix:         value.postfix
-        }]
-      };
-
-      let width = labels.length * WIDTH_PER_LABEL;
+      let width = data.length * WIDTH_PER_LABEL;
       const full_width = document.getElementById('chart-full-width-holder').offsetWidth;
       if (metric_map.resolution === RESOLUTION_DAY) {
-        width = full_width / 31 * labels.length;
+        width = full_width / 31 * data.length;
       }
       if (width < full_width) {
         width = '100%';
@@ -272,7 +261,7 @@ class ExploreMetrics extends Component {
       }
       this.setState({
         chartWidth:       width,
-        chartData,
+        chartData:        data,
         graphLoadingDone: true
       });
     }
@@ -296,7 +285,7 @@ class ExploreMetrics extends Component {
       const data = [];
 
       let index = 0;
-      // console.log('metrics', metrics);
+
       const {productData} = this.state;
       metrics.forEach((value) => {
         const label = value.contextId.split('product_')[1];
@@ -635,7 +624,8 @@ class ExploreMetrics extends Component {
                                 {
                                   this.state.currentOption === OPTION_PRODUCT || this.state.currentOption === OPTION_CUSTOMER ?
                                     <BarChart data={this.state.chartData} fullHeight={fullHeight} selectedOption={this.state.currentOption} showDetailOnHover={this.showDetailOnHover} hideDetail={this.hideDetail} /> :
-                                    <Chart data={this.state.chartData} type="bar" disableAspectRatio showDetailOnHover={this.showDetailOnHover} hideDetail={this.hideDetail} />
+                                    <LineChart data={this.state.chartData} fullHeight={fullHeight} selectedOption={this.state.currentOption} chartName="timeChart" />
+                                    // <Chart data={this.state.chartData} type="bar" disableAspectRatio showDetailOnHover={this.showDetailOnHover} hideDetail={this.hideDetail} />
                                 }
                               </div>
                             </div>

@@ -18,6 +18,7 @@ import styles from '../constants/styles';
 import invalidImg from '../assets/images/FontAwesome472.svg';
 import * as dashboardActions from '../redux/dashboard/actions';
 import { pollingInterval } from '../constants';
+import LineChart from '../components/LineChart';
 
 const moment = require('moment');
 const elementResizeEvent = require('element-resize-event');
@@ -265,6 +266,12 @@ class Dashboard extends Component {
   			  postfix:         value.postfix
           }]
   		  };
+        const data = [
+          {label: label4, value: value.value_three_months_back, prefix: value.prefix, postfix: value.postfix, chartName: value.metric_name },
+          {label: label3, value: value.value_two_months_back, prefix: value.prefix, postfix: value.postfix, chartName: value.metric_name },
+          {label: label2, value: value.value_one_month_back, prefix: value.prefix, postfix: value.postfix, chartName: value.metric_name },
+          {label: label1, value: value.value, prefix: value.prefix, postfix: value.postfix, chartName: value.metric_name },
+        ];
   		  if (value.title === 'Expenses' || value.title === 'Expenses Breakdown') {
           const expensesData = value.value;
           if (expensesData.total_sale === 'invalid' || expensesData.total_cogs === 'invalid' || expensesData.total_discount === 'invalid' || expensesData.total_shipping === 'invalid' || expensesData.total_tax === 'invalid') {
@@ -275,6 +282,7 @@ class Dashboard extends Component {
             {invalid ? this.invalidCard(value) : this.expenseCard(expensesData)}
                            </Col>);
   		  } else {
+          const fullHeight = '500px';
           renderCards.push(<Col key={index} id={`card_${index}`} style={{width: this.state.width}} className="dashboard-card-container" title={!invalid ? `Click to explore ${value.title} in detail` : null}>
             {invalid ? this.invalidCard(value) : <Card
               className={`price-card-style ${active}`}
@@ -286,7 +294,11 @@ class Dashboard extends Component {
               </CardHeader>
               <CardText>
                 <div>
-                  <Chart data={chartData} type="line" width="40%" />
+                  {
+                    // <LineChart data={data} fullHeight={fullHeight} selectedOption={this.state.currentOption} chartName={value.metric_name} />
+
+                    <Chart data={chartData} type="line" width="40%" />
+                  }
                 </div>
               </CardText>
             </Card>}
