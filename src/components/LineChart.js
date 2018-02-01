@@ -55,7 +55,7 @@ class LineChart extends Component {
     const fullwidth = document.getElementById(`chart_${this.props.chartName}`).offsetWidth;
     let fullHeight = this.props.fullHeight;
     const data = this.state.data;
-    const margin = {top: 20, right: 20, bottom: 50, left: 50};
+    const margin = {top: 20, right: 10, bottom: 50, left: 70};
     if (currentOption === OPTION_TIME) {
       fullHeight *= 0.33;
     } else if (currentOption === METRICS_CARD) {
