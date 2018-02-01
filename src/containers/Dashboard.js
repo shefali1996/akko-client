@@ -236,10 +236,11 @@ class Dashboard extends Component {
     } else {
       metricsData.map((value, index) => {
   		  let active = '';
-  		  const label1 = moment().format('MMM YY');
-  		  const label2 = moment().subtract(1, 'months').format('MMM YY');
-  		  const label3 = moment().subtract(2, 'months').format('MMM YY');
-  		  const label4 = moment().subtract(3, 'months').format('MMM YY');
+        const format = 'MMM YY';
+  		  const label1 = moment().utc().format(format);
+  		  const label2 = moment().utc().subtract(1, 'months').format(format);
+  		  const label3 = moment().utc().subtract(2, 'months').format(format);
+  		  const label4 = moment().utc().subtract(3, 'months').format(format);
   		  if (`card_${index}` === this.state.activeMetricsId) {
           active = 'active-metrics';
   		  }
