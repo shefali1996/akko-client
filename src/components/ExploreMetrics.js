@@ -6,7 +6,6 @@ import Dialog from 'material-ui/Dialog';
 import { Select, DatePicker, Input, Spin } from 'antd';
 import ReactPlaceholder from 'react-placeholder';
 import {isEmpty, isEqual, isUndefined} from 'lodash';
-import Chart from '../components/Chart';
 import FilterDialog from '../components/FilterDialog';
 import styles from '../constants/styles';
 import profileIcon from '../assets/images/profileIconWhite.svg';
@@ -603,9 +602,8 @@ class ExploreMetrics extends Component {
                               <div style={{width: this.state.chartWidth, height: chartHeight}}>
                                 {
                                   this.state.currentOption === OPTION_PRODUCT || this.state.currentOption === OPTION_CUSTOMER ?
-                                    <BarChart data={this.state.chartData} fullHeight={fullHeight} selectedOption={this.state.currentOption} showDetailOnHover={this.showDetailOnHover} hideDetail={this.hideDetail} /> :
+                                    <BarChart data={this.state.chartData} fullHeight={fullHeight} selectedOption={this.state.currentOption} showDetailOnHover={this.showDetailOnHover} hideDetail={this.hideDetail} chartName={this.state.currentOption} /> :
                                     <LineChart data={this.state.chartData} fullHeight={fullHeight} selectedOption={this.state.currentOption} chartName="timeChart" />
-                                    // <Chart data={this.state.chartData} type="bar" disableAspectRatio showDetailOnHover={this.showDetailOnHover} hideDetail={this.hideDetail} />
                                 }
                               </div>
                             </div>

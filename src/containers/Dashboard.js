@@ -9,7 +9,6 @@ import { Select, Spin } from 'antd';
 import $ from 'jquery';
 import {isUndefined} from 'lodash';
 import Navigationbar from '../components/Navigationbar';
-import Chart from '../components/Chart';
 import PriceBox from '../components/PriceBox';
 import ExploreMetrics from '../components/ExploreMetrics';
 import Footer from '../components/Footer';
@@ -295,10 +294,7 @@ class Dashboard extends Component {
               </CardHeader>
               <CardText style={{padding: '0px'}}>
                 <div>
-                  {
-                    <LineChart data={data} selectedOption={METRICS_CARD} chartName={value.metric_name} />
-                    // <Chart data={chartData} type="line" width="40%" />
-                  }
+                  <LineChart data={data} selectedOption={METRICS_CARD} chartName={value.metric_name} />
                 </div>
               </CardText>
             </Card>}

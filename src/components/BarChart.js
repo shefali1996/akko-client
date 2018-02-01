@@ -74,8 +74,8 @@ class BarChart extends Component {
       .attr('transform', `translate(${margin.left},${margin.top})`);
 
     // ----------------Tooltip------------------
-    $('.toolTip').remove();
-    const tooltip = d3.select('body').append('div').attr('class', 'toolTip');
+    $(`.tooltip_${this.props.chartName}`).remove();
+    const tooltip = d3.select('body').append('div').attr('class', `toolTip tooltip_${this.props.chartName}`);
 
     // ----------------Grid lines---------------------
 
@@ -184,8 +184,8 @@ class BarChart extends Component {
       .attr('transform', `translate(${margin.left},${margin.top})`);
 
     // ----------------Tooltip------------------
-    $('.toolTip').remove();
-    const tooltip = d3.select('body').append('div').attr('class', 'toolTip');
+    $(`.tooltip_${this.props.chartName}`).remove();
+    const tooltip = d3.select('body').append('div').attr('class', `toolTip tooltip_${this.props.chartName}`);
 
     // ----------------Grid lines---------------------
 
