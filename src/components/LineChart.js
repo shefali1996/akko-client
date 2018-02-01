@@ -4,11 +4,15 @@ import { scaleLinear } from 'd3-scale';
 import { max } from 'd3-array';
 import { select } from 'd3-selection';
 import $ from 'jquery';
+import {isEqual} from 'lodash';
 import {plotByOptions} from '../constants';
+
+const elementResizeEvent = require('element-resize-event');
 
 const OPTION_TIME = plotByOptions.time;
 const OPTION_PRODUCT = plotByOptions.product;
 const OPTION_CUSTOMER = plotByOptions.customer;
+const METRICS_CARD = 'metrics_card';
 
 class LineChart extends Component {
   constructor(props) {
@@ -20,34 +24,46 @@ class LineChart extends Component {
   }
   componentDidMount() {
     const currentOption = this.props.selectedOption;
-    if (currentOption === OPTION_TIME) {
-      this.createLineChartTime();
-    }
+    this.setState({
+      chart: <div id={`chart_${this.props.chartName}`} />
+    }, () => {
+      if (currentOption === OPTION_TIME) {
+        this.createLineChartTime();
+      } else if (currentOption === METRICS_CARD) {
+        this.createLineChartTime();
+        const element = document.getElementById('cardSection');
+        elementResizeEvent(element, () => {
+          this.createLineChartTime();
+        });
+      }
+    });
   }
   componentWillReceiveProps(props) {
-    if (props.data !== this.state.data) {
+    if (!isEqual(props.data, this.state.data)) {
       this.setState({
-        data: props.data
+        data:  props.data,
+        chart: <div id={`chart_${this.props.chartName}`} />
       }, () => {
-        const currentOption = props.selectedOption;
-        if (currentOption === OPTION_TIME) {
-          this.createLineChartTime();
-        }
+        this.createLineChartTime();
       });
     }
   }
 
   createLineChartTime() {
-    $('#lineChart').empty();
+    $(`#chart_${this.props.chartName}`).empty();
     const currentOption = this.props.selectedOption;
-    const fullwidth = document.getElementById('lineChart').offsetWidth;
-    const fullHeight = this.props.fullHeight;
+    const fullwidth = document.getElementById(`chart_${this.props.chartName}`).offsetWidth;
+    let fullHeight = this.props.fullHeight;
     const data = this.state.data;
     const margin = {top: 20, right: 20, bottom: 50, left: 50};
-
-    const svg = d3.select('#lineChart').append('svg')
+    if (currentOption === OPTION_TIME) {
+      fullHeight *= 0.33;
+    } else if (currentOption === METRICS_CARD) {
+      fullHeight = fullwidth * 0.5;
+    }
+    const svg = d3.select(`#chart_${this.props.chartName}`).append('svg')
       .attr('width', fullwidth)
-      .attr('height', fullHeight * 0.33);
+      .attr('height', fullHeight);
 
     const width = +svg.attr('width') - margin.left - margin.right;
     const height = +svg.attr('height') - margin.top - margin.bottom;
@@ -59,10 +75,9 @@ class LineChart extends Component {
 
     const g = svg.append('g')
       .attr('transform', `translate(${margin.left},${margin.top})`);
-
     // ----------------Tooltip------------------
-    $('.toolTip').remove();
-    const tooltip = d3.select('body').append('div').attr('class', 'toolTip');
+    $(`.tooltip_${this.props.chartName}`).remove();
+    const tooltip = d3.select('body').append('div').attr('class', `toolTip tooltip_${this.props.chartName}`);
 
     // ----------------Grid lines---------------------
 
@@ -141,10 +156,10 @@ class LineChart extends Component {
         const postfix = d.postfix || '';
         const value = d.value.toFixed(2);
         tooltip.html(`<span>${prefix}${value}${postfix}</span>`);
-        const top = point.left - ($('.toolTip').width() / 2) + (point.width / 2);
-        const left = point.top - ($('.toolTip').height() + 15);
-        tooltip.style('left', `${top}px`)
-          .style('top', `${left}px`)
+        const left = point.left - ($('.toolTip').width() / 2) + (point.width / 2);
+        const top = point.top - ($('.toolTip').height() + 15);
+        tooltip.style('left', `${left}px`)
+          .style('top', `${top}px`)
           .style('opacity', 1)
           .style('transition', 'left .5s, top .5s');
       })
@@ -156,7 +171,7 @@ class LineChart extends Component {
 
   render() {
     return (
-      <div id="lineChart" />
+      <div>{this.state.chart}</div>
     );
   }
 }

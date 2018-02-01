@@ -394,28 +394,8 @@ class ExploreMetrics extends Component {
           return a.index - b.index;
         });
       }
-      let labels = [],
-        values = [];
 
-      data.forEach((dataItem) => {
-        labels.push(dataItem.label);
-        values.push(dataItem.value);
-      });
-      const chartData = {
-        labels,
-        datasets: [{
-          type:            'bar',
-          label:           value.title,
-          data:            values,
-          backgroundColor: styles.constants.mainThemeColor,
-          fill:            '1',
-          tension:         0,
-          prefix:          value.prefix,
-          postfix:         value.postfix
-        }]
-      };
-
-      let width = labels.length * WIDTH_PER_LABEL;
+      let width = data.length * WIDTH_PER_LABEL;
       const full_width = document.getElementById('chart-full-width-holder').offsetWidth;
       if (width < full_width) {
         width = '100%';

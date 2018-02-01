@@ -24,6 +24,7 @@ const moment = require('moment');
 const elementResizeEvent = require('element-resize-event');
 
 const {Option} = Select;
+const METRICS_CARD = 'metrics_card';
 
 class Dashboard extends Component {
   constructor(props) {
@@ -123,11 +124,11 @@ class Dashboard extends Component {
           <span className="image-container"><img src={invalidImg} alt="invalid" /></span>
           <div className="invalid-text">
             {this.state.userData.cogsStatus == 1
-			? <div><div>We've successfully set COGS for all your products.</div>
-  <div>Now, hang on for a few moments while we update all your metrics.</div>
-</div>
-			: 'Please set COGS for your products to calculate these values.'
-			}
+              ? <div><div>We've successfully set COGS for all your products.</div>
+                <div>Now, hang on for a few moments while we update all your metrics.</div>
+              </div>
+            : 'Please set COGS for your products to calculate these values.'
+          }
           </div>
           {this.state.userData.cogsStatus == 1
           ? '' :
@@ -280,9 +281,9 @@ class Dashboard extends Component {
           }
           renderCards.push(<Col key={index} id={`card_${index}`} style={{width: this.state.width}} className="dashboard-card-container expenses-breakdown">
             {invalid ? this.invalidCard(value) : this.expenseCard(expensesData)}
+
                            </Col>);
   		  } else {
-          const fullHeight = '500px';
           renderCards.push(<Col key={index} id={`card_${index}`} style={{width: this.state.width}} className="dashboard-card-container" title={!invalid ? `Click to explore ${value.title} in detail` : null}>
             {invalid ? this.invalidCard(value) : <Card
               className={`price-card-style ${active}`}
@@ -292,12 +293,11 @@ class Dashboard extends Component {
               <CardHeader className="card-header-style" >
                 <PriceBox value={value} analyze />
               </CardHeader>
-              <CardText>
+              <CardText style={{padding: '0px'}}>
                 <div>
                   {
-                    // <LineChart data={data} fullHeight={fullHeight} selectedOption={this.state.currentOption} chartName={value.metric_name} />
-
-                    <Chart data={chartData} type="line" width="40%" />
+                    <LineChart data={data} selectedOption={METRICS_CARD} chartName={value.metric_name} />
+                    // <Chart data={chartData} type="line" width="40%" />
                   }
                 </div>
               </CardText>
