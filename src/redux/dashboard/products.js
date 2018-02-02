@@ -8,19 +8,20 @@ const initialState = {
       products: {},
       variants: {}
     },
-    isLoading: false,
-    isError:   false,
-    isSuccess: false,
-    message:   ''
+    isProductLoading:  false,
+    isVariantsLoading: false,
+    isError:           false,
+    isSuccess:         false,
+    message:           ''
   }
 };
 
 const getProductsRequest = (state, action) => update(state, {
   products: {
-    isLoading: {$set: true},
-    isError:   {$set: false},
-    isSuccess: {$set: false},
-    message:   {$set: ''}
+    isProductLoading: {$set: true},
+    isError:          {$set: false},
+    isSuccess:        {$set: false},
+    message:          {$set: ''}
   }
 });
 const getProductsSuccess = (state, action) => {
@@ -28,20 +29,29 @@ const getProductsSuccess = (state, action) => {
   newData.products = action.payload;
   return update(state, {
     products: {
-      data:      {$set: newData},
-      isLoading: {$set: false},
-      isError:   {$set: false},
-      isSuccess: {$set: true},
-      message:   {$set: ''}
+      data:             {$set: newData},
+      isProductLoading: {$set: false},
+      isError:          {$set: false},
+      isSuccess:        {$set: true},
+      message:          {$set: ''}
     }
   });
 };
 const getProductsError = (state, action) => update(state, {
   products: {
-    isLoading: {$set: false},
-    isSuccess: {$set: false},
-    isError:   {$set: true},
-    message:   {$set: action.payload}
+    isProductLoading: {$set: false},
+    isSuccess:        {$set: false},
+    isError:          {$set: true},
+    message:          {$set: action.payload}
+  }
+});
+
+const getVariantsRequest = (state, action) => update(state, {
+  products: {
+    isVariantsLoading: {$set: true},
+    isError:           {$set: false},
+    isSuccess:         {$set: false},
+    message:           {$set: ''}
   }
 });
 const getVariantsSuccess = (state, action) => {
@@ -49,17 +59,28 @@ const getVariantsSuccess = (state, action) => {
   newData.variants = action.payload;
   return update(state, {
     products: {
-      data:      {$set: newData},
-      isLoading: {$set: false},
-      isError:   {$set: false},
-      isSuccess: {$set: true},
-      message:   {$set: ''}
+      data:              {$set: newData},
+      isVariantsLoading: {$set: false},
+      isError:           {$set: false},
+      isSuccess:         {$set: true},
+      message:           {$set: ''}
     }
   });
 };
+const getVariantsError = (state, action) => update(state, {
+  products: {
+    isVariantsLoading: {$set: false},
+    isSuccess:         {$set: false},
+    isError:           {$set: true},
+    message:           {$set: action.payload}
+  }
+});
 export default handleActions({
   [constants.GET_PRODUCTS_REQUEST]: getProductsRequest,
   [constants.GET_PRODUCTS_SUCCESS]: getProductsSuccess,
   [constants.GET_PRODUCTS_ERROR]:   getProductsError,
+
+  [constants.GET_VARIANTS_REQUEST]: getVariantsRequest,
   [constants.GET_VARIANTS_SUCCESS]: getVariantsSuccess,
+  [constants.GET_VARIANTS_ERROR]:   getVariantsError,
 }, initialState);

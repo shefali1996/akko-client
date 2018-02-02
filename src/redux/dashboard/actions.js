@@ -106,6 +106,7 @@ export const getCustomers = () => {
 export const getProducts = () => {
   return (dispatch, getState) => {
     return new Promise((resolve, reject) => {
+      dispatch(actions.getProductsRequest());
       invokeApig({ path: api.products })
         .then((results) => {
           if (!results.products) {
@@ -121,8 +122,27 @@ export const getProducts = () => {
   };
 };
 
+export const fireSetCogsAPI = (params) => {
+  return (dispatch, getState) => {
+    return new Promise((resolve, reject) => {
+      invokeApig({
+        path:   api.products,
+        method: 'PUT',
+        body:   params
+      })
+        .then((results) => {
+          resolve(results);
+        })
+        .catch(error => {
+          reject(error);
+        });
+    });
+  };
+};
+
 export const getVariants = (products) => {
   return (dispatch, getState) => {
+    dispatch(actions.getVariantsRequest());
     const variants = [];
     const getVariant = (i = 0) => {
       const next = i + 1;

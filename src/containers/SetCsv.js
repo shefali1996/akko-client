@@ -1,17 +1,20 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
+import {withRouter} from 'react-router';
 import { Grid, Row, Col, Button, Label, Image } from 'react-bootstrap';
 import Dropzone from 'react-dropzone';
 import SweetAlert from 'sweetalert-react';
 import { ToastContainer, ToastMessageAnimated } from 'react-toastr';
 import Papa from 'papaparse';
 import { Spin } from 'antd';
+import {isEmpty} from 'lodash';
 import { getProductValue, convertInventoryJSONToObject, exportCSVFile, headers } from '../constants';
 import { invokeApig } from '../libs/awsLib';
 import cogs2 from '../assets/images/cogs2.svg';
 import { beautifyUploadedCsvData, validateCogsValue, getProduct, sortByCogs, parseVariants, beautifyDataForCogsApiCall, getTipBoxMessage, isCogsPending } from '../helpers/Csv';
 import TipBox, {tipBoxMsg} from '../components/TipBox';
 import HeaderWithCloseAndAlert from '../components/HeaderWithCloseAndAlert';
+import * as dashboardActions from '../redux/dashboard/actions';
 
 const ToastMessageFactory = React.createFactory(ToastMessageAnimated);
 
@@ -46,12 +49,29 @@ class SetCsv extends Component {
     } else {
       this.props.history.push('/business-type');
     }
+    this.props.getProducts().then((products) => {
+      this.props.getVariants(products);
+    }).catch((err) => {
+      this.setState({
+        errorText:  err,
+        fetchError: true
+      });
+    });
   }
 
-  componentDidMount() {
-    this.getProduct();
-  }
 
+  componentWillReceiveProps(props) {
+    const {data, isProductLoading, isVariantsLoading} = props.productData;
+    let variants = [];
+    if (!isEmpty(data.variants)) {
+      const variantsList = parseVariants(data.variants);
+      variants = sortByCogs(variantsList);
+    }
+    this.setState({
+      data:    variants,
+      loading: !!(isProductLoading || isVariantsLoading)
+    });
+  }
   onDrop(files) {
     this.setState({
       importedCSV: files[0]
@@ -89,13 +109,6 @@ class SetCsv extends Component {
       this.props.history.push('/dashboard');
     }
   }
-  fireSetCogsAPI(params) {
-    return invokeApig({
-      path:   '/products',
-      method: 'PUT',
-      body:   params
-    });
-  }
   onConnect() {
     const $this = this;
     const { data } = this.state;
@@ -131,7 +144,7 @@ class SetCsv extends Component {
           });
           // end
           const cogsFinal = beautifyDataForCogsApiCall(data);
-          $this.fireSetCogsAPI(cogsFinal).then((results) => {
+          $this.props.fireSetCogsAPI(cogsFinal).then((results) => {
             $this.setState({
               totalProductCount: updatedProducts.length,
               selectedCogsValue: updatedProducts.length - nullCogsCount,
@@ -148,44 +161,6 @@ class SetCsv extends Component {
         }
       });
     }
-  }
-  getProduct() {
-    getProduct().then((res) => {
-      this.getVariants(res.products);
-    }).catch((err) => {
-      this.setState({
-        errorText:  err,
-        fetchError: true
-      });
-    });
-  }
-
-  getVariants(products, i = 0) {
-    this.setState({ loading: true });
-    const next = i + 1;
-    invokeApig({
-      path:        `/products/${products[i].productId}`,
-      queryParams: {
-        cogs: true
-      }
-    }).then((results) => {
-      results.productId = products[i].productId;
-      this.variants.push(results);
-      if (products.length > next) {
-        this.getVariants(products, next);
-      } else {
-        localStorage.setItem('variantsInfo', JSON.stringify(this.variants));
-        const variantsList = parseVariants(this.variants);
-        this.setState({
-          data:    variantsList ? sortByCogs(variantsList) : [],
-          loading: false
-        });
-        this.variants = [];
-      }
-    }).catch(error => {
-      this.setState({loading: false});
-      console.log('Error Product Details', error);
-    });
   }
 
   csvButtonClicked() {
@@ -348,8 +323,24 @@ class SetCsv extends Component {
   }
 }
 
-const mapStateToProps = state => ({
+const mapStateToProps = state => {
+  return {
+    productData: state.products.products,
+  };
+};
 
-});
+const mapDispatchToProps = (dispatch) => {
+  return {
+    getProducts: () => {
+      return dispatch(dashboardActions.getProducts());
+    },
+    getVariants: (products) => {
+      return dispatch(dashboardActions.getVariants(products));
+    },
+    fireSetCogsAPI: (params) => {
+      return dispatch(dashboardActions.fireSetCogsAPI(params));
+    }
+  };
+};
 
-export default connect(mapStateToProps)(SetCsv);
+export default withRouter(connect(mapStateToProps, mapDispatchToProps)(SetCsv));

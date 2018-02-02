@@ -1,15 +1,17 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
+import {withRouter} from 'react-router';
 import { Grid, Row, Col, Button, Image } from 'react-bootstrap';
 import SweetAlert from 'sweetalert-react';
 import { Spin } from 'antd';
+import {isEmpty} from 'lodash';
 import cogs1 from '../assets/images/cogs1.svg';
 import cogs2 from '../assets/images/cogs2.svg';
 import cogs3 from '../assets/images/cogs3.svg';
 import TipBox, {tipBoxMsg} from '../components/TipBox';
 import HeaderWithCloseAndAlert from '../components/HeaderWithCloseAndAlert';
 import {getProduct, getTipBoxMessage, isCogsPending} from '../helpers/Csv';
-import { invokeApig } from '../libs/awsLib';
+import * as dashboardActions from '../redux/dashboard/actions';
 
 class SetCogs extends Component {
   constructor(props) {
@@ -26,7 +28,6 @@ class SetCogs extends Component {
     this.onTypeTwoSelected = this.onTypeTwoSelected.bind(this);
     this.onTypeThreeSelected = this.onTypeThreeSelected.bind(this);
     this.onConfirm = this.onConfirm.bind(this);
-    this.getVariants = this.getVariants.bind(this);
     this.variants = [];
   }
 
@@ -39,10 +40,15 @@ class SetCogs extends Component {
     } else {
       this.props.history.push('/business-type');
     }
+    this.props.getProducts().then((products) => {
+      this.props.getVariants(products);
+    });
   }
-
-  componentDidMount() {
-    this.getProduct();
+  componentWillReceiveProps(props) {
+    this.setState({
+      data:    props.productData.data,
+      loading: props.productData.isProductLoading
+    });
   }
 
   onTypeOneSelected() {
@@ -76,44 +82,9 @@ class SetCogs extends Component {
     this.props.history.push('/dashboard');
   }
 
-  getProduct() {
-    this.setState({loading: true});
-    getProduct().then((res) => {
-      this.getVariants(res.products);
-      this.setState({
-        data:    res.products,
-        loading: false
-      });
-    }).catch((error) => {
-      console.log('get products error', error);
-    });
-  }
-  getVariants(products, i = 0) {
-    this.setState({ loadingVariants: true });
-    const next = i + 1;
-    invokeApig({
-      path:        `/products/${products[i].productId}`,
-      queryParams: {
-        cogs: true
-      }
-    }).then((results) => {
-      results.productId = products[i].productId;
-      this.variants.push(results);
-      if (products.length > next) {
-        this.getVariants(products, next);
-      } else {
-        localStorage.setItem('variantsInfo', JSON.stringify(this.variants));
-        this.setState({loadingVariants: false});
-        this.variants = [];
-      }
-    }).catch(error => {
-      this.setState({loadingVariants: false});
-      console.log('Error Product Details', error);
-    });
-  }
   getNumOfVariants(productData) {
     let numOfVariants = 0;
-    productData.map((product, i) => {
+    !isEmpty(productData) && productData.products.map((product, i) => {
       numOfVariants += product.numVariants;
     });
     return numOfVariants;
@@ -143,7 +114,7 @@ class SetCogs extends Component {
               </div>
               <div className="flex-center margin-t-40">
                 <span className="select-style-comment">
-                    We found {loading ? <Spin /> : this.getNumOfVariants(data)} product-variants from your shop. How do you
+                    We found {loading ? <Spin /> : this.getNumOfVariants(data.products)} product-variants from your shop. How do you
                 </span>
               </div>
               <div className="flex-center margin-t-5">
@@ -235,7 +206,21 @@ class SetCogs extends Component {
   }
 }
 
-const mapStateToProps = state => ({
-});
+const mapStateToProps = state => {
+  return {
+    productData: state.products.products,
+  };
+};
 
-export default connect(mapStateToProps)(SetCogs);
+const mapDispatchToProps = (dispatch) => {
+  return {
+    getProducts: () => {
+      return dispatch(dashboardActions.getProducts());
+    },
+    getVariants: (products) => {
+      return dispatch(dashboardActions.getVariants(products));
+    }
+  };
+};
+
+export default withRouter(connect(mapStateToProps, mapDispatchToProps)(SetCogs));
