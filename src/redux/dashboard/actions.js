@@ -170,6 +170,36 @@ export const getVariants = (products) => {
   };
 };
 
+export const updateVariants = (variantsInfo) => {
+  return (dispatch, getState) => {
+    const variants = [];
+    const updateVariant = (i = 0) => {
+      const next = i + 1;
+      invokeApig({
+        path:        api.getProductVariants(variantsInfo[i].productId),
+        queryParams: {
+          cogs:        true,
+          lastUpdated: variantsInfo[i].lastUpdated
+        }
+      }).then((results) => {
+        if (!results.variants) {
+          throw new Error('results.variants is undefined');
+        }
+        results.productId = variantsInfo[i].productId;
+        variants.push(results);
+        if (variantsInfo.length > next) {
+          updateVariant(next);
+        } else {
+          dispatch(actions.updateVariantsSuccess(variants));
+        }
+      }).catch(error => {
+        console.log('Error update variants', error);
+      });
+    };
+    updateVariant();
+  };
+};
+
 export const getChannel = () => {
   return (dispatch, getState) => {
     dispatch(actions.getChannelRequest());

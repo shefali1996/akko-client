@@ -37,7 +37,6 @@ class SetCsv extends Component {
     this.csvButtonClicked = this.csvButtonClicked.bind(this);
     this.onConfirm = this.onConfirm.bind(this);
     this.onCogsConfirm = this.onCogsConfirm.bind(this);
-    this.variants = [];
   }
 
   componentWillMount() {

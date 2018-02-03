@@ -24,6 +24,8 @@ export const getVariantsRequest = createAction(constants.GET_VARIANTS_REQUEST);
 export const getVariantsSuccess = createAction(constants.GET_VARIANTS_SUCCESS);
 export const getVariantsError = createAction(constants.GET_VARIANTS_ERROR);
 
+export const updateVariantsSuccess = createAction(constants.UPDATE_VARIANTS_SUCCESS);
+
 export const getUserRequest = createAction(constants.GET_USER_REQUEST);
 export const getUserSuccess = createAction(constants.GET_USER_SUCCESS);
 export const getUserError = createAction(constants.GET_USER_ERROR);
