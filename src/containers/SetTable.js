@@ -82,10 +82,17 @@ class SetTable extends Component {
       const variantsList = parseVariants(data.variants);
       variants = sortByCogs(variantsList);
     }
-    this.setState({
-      data:    variants,
-      loading: !!(isProductLoading || isVariantsLoading)
-    });
+    if (variants.length > 0) {
+      this.setState({
+        data:    variants,
+        loading: !!(isProductLoading || isVariantsLoading)
+      });
+    } else {
+      this.setState({
+        loading: !!(isProductLoading || isVariantsLoading)
+      });
+    }
+
   }
   componentDidMount() {
     const variantsInfo = this.props.productData.data.variants;
