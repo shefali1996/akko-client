@@ -273,7 +273,8 @@ class SetTable extends Component {
     if (row.variant_details.cogs !== row.cogs) {
       const newData = checkAndUpdateProductCogsValue(e.target.value, row, data);
       this.setState({
-        data:              moveAcceptedToBottom(newData, row),
+        // data:              moveAcceptedToBottom(newData, row),
+        data:              newData,
         inProgressSetCogs: true
       });
     }

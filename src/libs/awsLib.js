@@ -140,7 +140,7 @@ export async function invokeApig({
 
 	  body = body ? JSON.stringify(body) : body;
 	  headers = signedRequest.headers;
-	  console.log('signedRequest', signedRequest);
+	  // console.log('signedRequest', signedRequest);
 	  return fetch(signedRequest.url, {
       method,
       headers,
@@ -150,7 +150,7 @@ export async function invokeApig({
 	  if (results.status !== 200) {
       throw new Error(results.text());
 	  }
-	  console.log('results', results);
+	  // console.log('results', results);
 	  return results.json();
     // >>>>>>> 3985086c03ae248ba12acfb9122f3a1dd714ed38
   });
