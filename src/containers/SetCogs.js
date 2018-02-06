@@ -28,7 +28,6 @@ class SetCogs extends Component {
     this.onTypeTwoSelected = this.onTypeTwoSelected.bind(this);
     this.onTypeThreeSelected = this.onTypeThreeSelected.bind(this);
     this.onConfirm = this.onConfirm.bind(this);
-    this.variants = [];
   }
 
   componentWillMount() {
@@ -84,13 +83,21 @@ class SetCogs extends Component {
 
   getNumOfVariants(productData) {
     let numOfVariants = 0;
-    !isEmpty(productData) && productData.products.map((product, i) => {
+    productData && productData.products.map((product, i) => {
       numOfVariants += product.numVariants;
     });
     return numOfVariants;
   }
+  getNumOfProducts(productData) {
+    let numOfproducts = 0;
+    if (productData && productData.products) {
+      numOfproducts = productData.products.length;
+    }
+    return numOfproducts;
+  }
   render() {
     const { option, data, loading, selectedBusinessType, loadingVariants } = this.state;
+    console.log('aaaaaaaaaaaaaa', data, this.props.productData,);
     return (
       <div>
         <Grid className="login-layout">
@@ -114,7 +121,7 @@ class SetCogs extends Component {
               </div>
               <div className="flex-center margin-t-40">
                 <span className="select-style-comment">
-                    We found {loading ? <Spin /> : this.getNumOfVariants(data.products)} product-variants from your shop. How do you
+                    We found {loading ? <Spin /> : this.getNumOfVariants(data.products)} variants in {loading ? <Spin /> : this.getNumOfProducts(data.products)} products from your shop. How do you
                 </span>
               </div>
               <div className="flex-center margin-t-5">
