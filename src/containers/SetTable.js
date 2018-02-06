@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
+import {withRouter} from 'react-router';
 import { Grid, Row, Col, Button, Label, FormControl, Tooltip, OverlayTrigger } from 'react-bootstrap';
 import SearchInput, { createFilter } from 'react-search-input';
 import { BootstrapTable, TableHeaderColumn } from 'react-bootstrap-table';
@@ -31,6 +32,7 @@ import {
 } from '../helpers/Csv';
 import MaterialIcon from '../assets/images/MaterialIcon 3.svg';
 import TipBox, {tipBoxMsg} from '../components/TipBox';
+import * as dashboardActions from '../redux/dashboard/actions';
 
 const INVALID_COGS = 'invalid';
 
@@ -51,7 +53,7 @@ class SetTable extends Component {
       valueError:        false,
       loading:           false,
       inProgressSetCogs: false,
-	  pendingRequest:    false,
+      pendingRequest:    false,
     };
     this.onFinish = this.onFinish.bind(this);
     this.onMarkUpChange = this.onMarkUpChange.bind(this);
@@ -61,7 +63,6 @@ class SetTable extends Component {
     this.onSkip = this.onSkip.bind(this);
     this.doToggleRows = this.doToggleRows.bind(this);
     this.renderProgressBar = this.renderProgressBar.bind(this);
-    this.variants = [];
   }
 
   componentWillMount() {
@@ -74,13 +75,24 @@ class SetTable extends Component {
       this.props.history.push('/business-type');
     }
   }
-
+  componentWillReceiveProps(props) {
+    const {data, isProductLoading, isVariantsLoading} = props.productData;
+    let variants = [];
+    if (!isEmpty(data.variants) && !this.state.inProgressSetCogs) {
+      const variantsList = parseVariants(data.variants);
+      variants = sortByCogs(variantsList);
+    }
+    this.setState({
+      data:    variants,
+      loading: !!(isProductLoading || isVariantsLoading)
+    });
+  }
   componentDidMount() {
-    const variantsInfo = JSON.parse(localStorage.getItem('variantsInfo'));
-    if (variantsInfo) {
+    const variantsInfo = this.props.productData.data.variants;
+    if (!isEmpty(variantsInfo)) {
       const variantsList = parseVariants(variantsInfo);
       this.setState({
-        data: variantsList ? sortByCogs(variantsList) : []
+        data: sortByCogs(variantsList)
       });
     }
     this.onVariantUpdate();
@@ -93,11 +105,18 @@ class SetTable extends Component {
     this.setState({data: []});
   }
   onVariantUpdate() {
-    const variantsInfo = JSON.parse(localStorage.getItem('variantsInfo'));
-    if (variantsInfo) {
-      this.updateVariants(variantsInfo);
+    const variantsInfo = this.props.productData.data.variants;
+    if (!isEmpty(variantsInfo)) {
+      this.props.updateVariants(variantsInfo);
     } else {
-      this.getProduct();
+      this.props.getProducts().then((products) => {
+        this.props.getVariants(products);
+      }).catch((err) => {
+        this.setState({
+          errorText:  err,
+          fetchError: true
+        });
+      });
     }
   }
   onMarkUpChange(e) {
@@ -111,14 +130,6 @@ class SetTable extends Component {
     this.props.history.push('/dashboard');
   }
 
-  fireSetCogsAPI(params) {
-    return invokeApig({
-      path:   '/products',
-      method: 'PUT',
-      body:   params
-    });
-  }
-
   onFinish() {
     const { data } = this.state;
     const pendingCogs = false;
@@ -129,7 +140,7 @@ class SetTable extends Component {
       pendingRequest: true,
     });
     const cogsFinal = beautifyDataForCogsApiCall(data);
-    this.fireSetCogsAPI(cogsFinal).then((results) => {
+    this.props.fireSetCogsAPI(cogsFinal).then((results) => {
 	  this.setState({
 	    successMsg:        `COGS successfully set for ${cogsFinal.variants.length} products`,
 	    fetchSuccess:      true,
@@ -174,7 +185,6 @@ class SetTable extends Component {
             cogs = (productPrice - markup).toFixed(2);
           }
           const newData = checkAndUpdateProductCogsValue(cogs, product, data);
-          console.log('==============', newData);
           this.setState({
             data:              sortByCogs(newData),
             inProgressSetCogs: true
@@ -191,85 +201,9 @@ class SetTable extends Component {
     }
   }
 
-  getProduct() {
-    getProduct().then((res) => {
-      this.getVariants(res.products);
-    }).catch((err) => {
-      this.setState({
-        errorText:  err,
-        fetchError: true
-      });
-    });
-  }
   handleOptionChange(e) {
     this.setState({
       selectedOption: e.target.value
-    });
-  }
-  getVariants(products, i = 0) {
-    this.setState({ loading: true });
-    const next = i + 1;
-    invokeApig({
-      path:        `/products/${products[i].productId}`,
-      queryParams: {
-        cogs: true
-      }
-    }).then((results) => {
-      results.productId = products[i].productId;
-      this.variants.push(results);
-      if (products.length > next) {
-        this.getVariants(products, next);
-      } else {
-        localStorage.setItem('variantsInfo', JSON.stringify(this.variants));
-        const variantsList = parseVariants(this.variants);
-        this.setState({
-          data:    variantsList ? sortByCogs(variantsList) : [],
-          loading: false
-        });
-        this.variants = [];
-      }
-    }).catch(error => {
-      this.setState({loading: false});
-      console.log('Error Product Details', error);
-    });
-  }
-  updateVariants(variantsInfo, i = 0) {
-    const next = i + 1;
-    invokeApig({
-      path:        `/products/${variantsInfo[i].productId}`,
-      queryParams: {
-        cogs:        true,
-        lastUpdated: variantsInfo[i].lastUpdated
-      }
-    }).then((results) => {
-      if (results.lastUpdated !== -1 && !isEmpty(results.variants)) {
-        const updatedVariants = [];
-        variantsInfo[i].variants.map((preVariant, i) => {
-          let isUpdated = false;
-          results.variants.map((newVariant, k) => {
-            if (preVariant.id === newVariant.id) {
-              updatedVariants.push(newVariant);
-              isUpdated = true;
-            }
-          });
-          if (!isUpdated) {
-            updatedVariants.push(preVariant);
-          }
-        });
-        variantsInfo[i].variants = updatedVariants;
-        variantsInfo[i].lastUpdated = results.lastUpdated;
-      }
-      if (variantsInfo.length > next) {
-        this.updateVariants(variantsInfo, next);
-      } else if (!this.state.inProgressSetCogs) {
-        const variantsList = parseVariants(variantsInfo);
-        this.setState({
-          data: variantsList ? sortByCogs(variantsList) : [],
-        });
-        localStorage.setItem('variantsInfo', JSON.stringify(variantsInfo));
-      }
-    }).catch(error => {
-      console.log('Error Product Details', error);
     });
   }
 
@@ -280,7 +214,6 @@ class SetTable extends Component {
   }
 
   onRowSelect(row, isSelected) {
-    console.log('row, isSelected', row, isSelected);
     const {selectedRows} = this.state;
     if (isSelected) {
       selectedRows.push(row.id);
@@ -655,9 +588,27 @@ class SetTable extends Component {
   }
 }
 
-const mapStateToProps = state => ({
-  // dataset: state.dataset,
-  // profile: state.user
-});
+const mapStateToProps = state => {
+  return {
+    productData: state.products.products,
+  };
+};
 
-export default connect(mapStateToProps)(SetTable);
+const mapDispatchToProps = (dispatch) => {
+  return {
+    getProducts: () => {
+      return dispatch(dashboardActions.getProducts());
+    },
+    getVariants: (products) => {
+      return dispatch(dashboardActions.getVariants(products));
+    },
+    updateVariants: (variantsInfo) => {
+      return dispatch(dashboardActions.updateVariants(variantsInfo));
+    },
+    fireSetCogsAPI: (params) => {
+      return dispatch(dashboardActions.fireSetCogsAPI(params));
+    }
+  };
+};
+
+export default withRouter(connect(mapStateToProps, mapDispatchToProps)(SetTable));

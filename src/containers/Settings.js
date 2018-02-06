@@ -1,10 +1,12 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
+import {withRouter} from 'react-router';
 import { Grid, Row, Col, Button, Label, Image } from 'react-bootstrap';
 import { Input, Select, Checkbox, Spin } from 'antd';
 import {filter, isEmpty, isNull} from 'lodash';
 import {getProduct, parseVariants} from '../helpers/Csv';
 import { invokeApig } from '../libs/awsLib';
+import * as dashboardActions from '../redux/dashboard/actions';
 
 const Option = Select.Option;
 
@@ -12,7 +14,7 @@ class Setting extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      variants: false,
+      variants: [],
       loading:  false,
     };
     this.getProductCount = this.getProductCount.bind(this);
@@ -23,75 +25,43 @@ class Setting extends Component {
     this.variants = [];
   }
 
+  componentWillReceiveProps(props) {
+    const {data, isProductLoading, isVariantsLoading} = props.productData;
+    this.setState({
+      variants: parseVariants(data.variants),
+      loading:  !!(isProductLoading || isVariantsLoading)
+    });
+  }
+
   componentDidMount() {
-    const variantsInfo = JSON.parse(localStorage.getItem('variantsInfo'));
-    if (variantsInfo) {
+    const variantsInfo = this.props.productData.data.variants;
+    if (!isEmpty(variantsInfo)) {
       this.setState({
         variants: parseVariants(variantsInfo)
       });
     }
-    this.getProduct();
+    this.props.getProducts().then((products) => {
+      this.props.getVariants(products);
+    });
   }
   goDashboard() {
     this.props.history.push('/dashboard');
   }
-  getProduct() {
-    getProduct().then((res) => {
-      this.getVariants(res.products);
-    }).catch((err) => {
-      console.log('Error in getProduct', err);
-    });
-  }
-  getVariants(products, i = 0) {
-    this.setState({ loading: true });
-    const next = i + 1;
-    invokeApig({
-      path:        `/products/${products[i].productId}`,
-      queryParams: {
-        cogs: true
-      }
-    }).then((results) => {
-      results.productId = products[i].productId;
-      this.variants.push(results);
-      if (products.length > next) {
-        this.getVariants(products, next);
-      } else {
-        localStorage.setItem('variantsInfo', JSON.stringify(this.variants));
-        const variantsList = parseVariants(this.variants);
-        this.setState({
-          variants: variantsList || [],
-          loading:  false
-        });
-        this.variants = [];
-      }
-    }).catch(error => {
-      this.setState({loading: false});
-      console.log('Error Product Details', error);
-    });
-  }
+
   getProductCount() {
-    const {variants} = this.state;
-    return variants ? variants.length : 0;
+    return this.state.variants.length;
   }
 
   getProductCountWithCogs() {
-    const {variants} = this.state;
-    if (variants) {
-      return filter(variants, (o) => {
-        return !isEmpty(o.variant_details.cogs) && !isNull(o.variant_details.cogs) && o.variant_details.cogs !== 'null' && o.variant_details.cogs !== 'invalid';
-      }).length;
-    }
-    return 0;
+    return filter(this.state.variants, (o) => {
+      return !isEmpty(o.variant_details.cogs) && !isNull(o.variant_details.cogs) && o.variant_details.cogs !== 'null' && o.variant_details.cogs !== 'invalid';
+    }).length;
   }
 
   getProductCountWithoutCogs() {
-    const {variants} = this.state;
-    if (variants) {
-      return filter(variants, (o) => {
-        return isEmpty(o.variant_details.cogs) || isNull(o.variant_details.cogs) || o.variant_details.cogs === 'null' || o.variant_details.cogs === 'invalid';
-      }).length;
-    }
-    return 0;
+    return filter(this.state.variants, (o) => {
+      return isEmpty(o.variant_details.cogs) || isNull(o.variant_details.cogs) || o.variant_details.cogs === 'null' || o.variant_details.cogs === 'invalid';
+    }).length;
   }
 
   saveData() {
@@ -194,8 +164,21 @@ class Setting extends Component {
   }
 }
 
-const mapStateToProps = state => ({
+const mapStateToProps = state => {
+  return {
+    productData: state.products.products,
+  };
+};
 
-});
+const mapDispatchToProps = (dispatch) => {
+  return {
+    getProducts: () => {
+      return dispatch(dashboardActions.getProducts());
+    },
+    getVariants: (products) => {
+      return dispatch(dashboardActions.getVariants(products));
+    }
+  };
+};
 
-export default connect(mapStateToProps)(Setting);
+export default withRouter(connect(mapStateToProps, mapDispatchToProps)(Setting));

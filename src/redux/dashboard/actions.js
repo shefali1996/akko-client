@@ -106,6 +106,7 @@ export const getCustomers = () => {
 export const getProducts = () => {
   return (dispatch, getState) => {
     return new Promise((resolve, reject) => {
+      dispatch(actions.getProductsRequest());
       invokeApig({ path: api.products })
         .then((results) => {
           if (!results.products) {
@@ -121,8 +122,27 @@ export const getProducts = () => {
   };
 };
 
+export const fireSetCogsAPI = (params) => {
+  return (dispatch, getState) => {
+    return new Promise((resolve, reject) => {
+      invokeApig({
+        path:   api.products,
+        method: 'PUT',
+        body:   params
+      })
+        .then((results) => {
+          resolve(results);
+        })
+        .catch(error => {
+          reject(error);
+        });
+    });
+  };
+};
+
 export const getVariants = (products) => {
   return (dispatch, getState) => {
+    dispatch(actions.getVariantsRequest());
     const variants = [];
     const getVariant = (i = 0) => {
       const next = i + 1;
@@ -147,6 +167,36 @@ export const getVariants = (products) => {
       });
     };
     getVariant();
+  };
+};
+
+export const updateVariants = (variantsInfo) => {
+  return (dispatch, getState) => {
+    const variants = [];
+    const updateVariant = (i = 0) => {
+      const next = i + 1;
+      invokeApig({
+        path:        api.getProductVariants(variantsInfo[i].productId),
+        queryParams: {
+          cogs:        true,
+          lastUpdated: variantsInfo[i].lastUpdated
+        }
+      }).then((results) => {
+        if (!results.variants) {
+          throw new Error('results.variants is undefined');
+        }
+        results.productId = variantsInfo[i].productId;
+        variants.push(results);
+        if (variantsInfo.length > next) {
+          updateVariant(next);
+        } else {
+          dispatch(actions.updateVariantsSuccess(variants));
+        }
+      }).catch(error => {
+        console.log('Error update variants', error);
+      });
+    };
+    updateVariant();
   };
 };
 
