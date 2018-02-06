@@ -1,12 +1,11 @@
 import React, { Component } from 'react';
-import { Row, Col, Label, Button, Image, DropdownButton } from 'react-bootstrap';
+import { Row, Col, Label, ButtonGroup, Button, Image, DropdownButton } from 'react-bootstrap';
 import {Card, CardHeader, CardText} from 'material-ui/Card';
 import Chip from 'material-ui/Chip';
 import Dialog from 'material-ui/Dialog';
 import { Select, DatePicker, Input, Spin } from 'antd';
 import ReactPlaceholder from 'react-placeholder';
-import {isEmpty, isEqual} from 'lodash';
-import Chart from '../components/Chart';
+import {isEmpty, isEqual, isUndefined} from 'lodash';
 import FilterDialog from '../components/FilterDialog';
 import styles from '../constants/styles';
 import profileIcon from '../assets/images/profileIconWhite.svg';
@@ -15,6 +14,9 @@ import CustomRangePicker from '../components/CustomRangePicker';
 import { invokeApig } from '../libs/awsLib';
 import {plotByOptions} from '../constants';
 import {customerDetailOnHover, productDetailOnHover} from './CustomTable';
+import BarChart from './BarChart';
+import LineChart from './LineChart';
+import productImgPlaceholder from '../assets/images/productImgPlaceholder.svg';
 
 const moment = require('moment');
 
@@ -107,6 +109,10 @@ class ExploreMetrics extends Component {
     if (!_.isEqual(nextProps.productData.data, productData)) {
       this.setState({
         productData: nextProps.productData.data
+      }, () => {
+        if (currentOption === OPTION_PRODUCT) {
+          this.onOptionChange(currentOption);
+        }
       });
     }
     if (nextProps.activeMetrics && (nextProps.activeMetrics !== this.state.activeMetrics)) {
@@ -227,37 +233,25 @@ class ExploreMetrics extends Component {
       }
 
       const value = metrics[0];
-      let labels = [],
-        values = [];
-
+      const data = [];
       metrics.forEach((value) => {
         let format = 'MMM YY';
         if (metric_map.resolution === RESOLUTION_DAY) {
           format = 'MMM D';
         }
         const label = moment(value.timeslice_start).utcOffset('+00:00').format(format);
-        labels.push(label);
-        values.push(value.value);
+        data.push({
+          label,
+          value:   value.value,
+          prefix:  value.prefix,
+          postfix: value.postfix
+        });
       });
 
-      const chartData = {
-        labels,
-        datasets: [{
-          type:            'line',
-          label:           value.title,
-          data:            values,
-          backgroundColor: styles.constants.mainThemeColor,
-          fill:            '1',
-          tension:         0,
-          prefix:          value.prefix,
-          postfix:         value.postfix
-        }]
-      };
-
-      let width = labels.length * WIDTH_PER_LABEL;
+      let width = data.length * WIDTH_PER_LABEL;
       const full_width = document.getElementById('chart-full-width-holder').offsetWidth;
       if (metric_map.resolution === RESOLUTION_DAY) {
-        width = full_width / 31 * labels.length;
+        width = full_width / 31 * data.length;
       }
       if (width < full_width) {
         width = '100%';
@@ -266,7 +260,7 @@ class ExploreMetrics extends Component {
       }
       this.setState({
         chartWidth:       width,
-        chartData,
+        chartData:        data,
         graphLoadingDone: true
       });
     }
@@ -279,8 +273,8 @@ class ExploreMetrics extends Component {
       this.setMetric(OPTION_PRODUCT);
     } else {
       let sortOrder = ascendingSortOrder;
-  	  if (this.currentSortOption === '2') {
-  		  sortOrder = descendingSortOrder;
+      if (this.currentSortOption === '2') {
+        sortOrder = descendingSortOrder;
   	  }
       const metrics = metric_map.result.metrics;
       if (metrics.length === 0) {
@@ -290,20 +284,29 @@ class ExploreMetrics extends Component {
       const data = [];
 
       let index = 0;
-      // console.log('metrics', metrics);
+
       const {productData} = this.state;
       metrics.forEach((value) => {
         const label = value.contextId.split('product_')[1];
         const productId = parseInt(label);
         let productInfo = _.find(productData.products && productData.products.products, {productId});
+        let variant = _.find(productData.variants, {productId});
         if (isNaN(productId)) {
           productInfo = _.find(productData.products && productData.products.products, {productId: label});
+          variant = _.find(productData.variants, {productId: label});
+        }
+        let productImage = variant && variant.variants.length && variant.variants[0].variant_details.image;
+        if (productImage === null || productImage === 'null' || isUndefined(productImage)) {
+          productImage = productImgPlaceholder;
         }
         if (!productInfo.deleted || (productInfo.deleted && value.value !== 0)) {
           data.push({
             label,
-            value: value.value,
-            index
+            value:   value.value,
+            image:   productImage,
+            prefix:  value.prefix,
+            postfix: value.postfix,
+            index,
           });
           index++;
         }
@@ -324,29 +327,7 @@ class ExploreMetrics extends Component {
         });
       }
 
-      let labels = [],
-        values = [];
-
-      data.forEach((dataItem) => {
-        labels.push(dataItem.label);
-        values.push(dataItem.value);
-      });
-      // console.log('labels', labels);
-      const chartData = {
-        labels,
-        datasets: [{
-          type:            'bar',
-          label:           value.title,
-          data:            values,
-          backgroundColor: styles.constants.mainThemeColor,
-          fill:            '1',
-          tension:         0,
-          prefix:          value.prefix,
-          postfix:         value.postfix
-        }]
-      };
-
-      let width = labels.length * WIDTH_PER_LABEL;
+      let width = data.length * WIDTH_PER_LABEL;
       const full_width = document.getElementById('chart-full-width-holder').offsetWidth;
       if (width < full_width) {
         width = '100%';
@@ -355,7 +336,7 @@ class ExploreMetrics extends Component {
       }
       this.setState({
         chartWidth:       `${width}px`,
-        chartData,
+        chartData:        data,
         graphLoadingDone: true
       });
     }
@@ -382,18 +363,22 @@ class ExploreMetrics extends Component {
       const cust = _.cloneDeep(this.state.customersData);
       metrics.forEach((value) => {
         let label = value.contextId.split(':')[1];
+        let email = label;
         const custInfo = _.find(cust, {email: label});
         if (!_.isEmpty(custInfo)) {
           label = custInfo.name;
+          email = custInfo.email;
         }
         data.push({
           label,
-          value: value.value,
+          value:   value.value,
+          prefix:  value.prefix,
+          postfix: value.postfix,
+          email,
           index
         });
         index++;
       });
-
       if (sortOrder) {
         data.sort((a, b) => {
           if (sortOrder === ascendingSortOrder) {
@@ -408,28 +393,8 @@ class ExploreMetrics extends Component {
           return a.index - b.index;
         });
       }
-      let labels = [],
-        values = [];
 
-      data.forEach((dataItem) => {
-        labels.push(dataItem.label);
-        values.push(dataItem.value);
-      });
-      const chartData = {
-        labels,
-        datasets: [{
-          type:            'bar',
-          label:           value.title,
-          data:            values,
-          backgroundColor: styles.constants.mainThemeColor,
-          fill:            '1',
-          tension:         0,
-          prefix:          value.prefix,
-          postfix:         value.postfix
-        }]
-      };
-
-      let width = labels.length * WIDTH_PER_LABEL;
+      let width = data.length * WIDTH_PER_LABEL;
       const full_width = document.getElementById('chart-full-width-holder').offsetWidth;
       if (width < full_width) {
         width = '100%';
@@ -438,7 +403,7 @@ class ExploreMetrics extends Component {
       }
       this.setState({
         chartWidth:       `${width}px`,
-        chartData,
+        chartData:        data,
         graphLoadingDone: true
       });
     }
@@ -520,8 +485,6 @@ class ExploreMetrics extends Component {
     || document.documentElement.clientHeight
     || document.body.clientHeight;
     const chartHeight = `${fullHeight * 0.35}px`;
-    const tooltip = '';
-
     return (
       <Row>
         <Col md={12}>
@@ -536,25 +499,25 @@ class ExploreMetrics extends Component {
               </div>}
               titleStyle={styles.chartsHeaderTitle}
               subtitle={<div className="margin-t-60">
-                <span className="pull-left" style={{ width: 200 }}>
+                <span className="pull-left" style={{ width: 250 }}>
                   <span className="dd-lable">Plot By:</span>
                   <span>
-                    <Select defaultValue={OPTION_TIME} value={this.state.currentOption} onChange={(value, label) => { this.onOptionChange(value); }}>
-                      <Option value={OPTION_TIME}>{OPTION_TIME}</Option>
+                    <ButtonGroup>
+                      <Button className={this.state.currentOption === OPTION_TIME ? 'active' : ''} onClick={() => this.onOptionChange(OPTION_TIME)}>{OPTION_TIME}</Button>
                       {
-                        this.state.activeMetrics
-                                    ? this.state.activeMetrics.availableContexts.map((ctx) => {
-                                    const Ctx = ctx[0].toUpperCase() + ctx.substring(1).toLowerCase();
-                                    return <Option key={Ctx} value={Ctx}>{Ctx}</Option>;
-                                    })
-                                    : ''
-                                    }
-                    </Select>
+                         this.state.activeMetrics
+                                     ? this.state.activeMetrics.availableContexts.map((ctx) => {
+                                     const Ctx = ctx[0].toUpperCase() + ctx.substring(1).toLowerCase();
+                                     return <Button className={this.state.currentOption === Ctx ? 'active' : ''} onClick={() => this.onOptionChange(Ctx)}>{Ctx}</Button>;
+                                     })
+                                     : ''
+                                     }
+                    </ButtonGroup>
                   </span>
                 </span>
                 <span className="pull-right" style={{ width: 200 }}>
                   <span className="dd-lable" />
-                  <span className="explore-datepicker">
+                  <span>
                     <CustomRangePicker
                       onTimeframeChange={this.onTimeframeChange}
                       customRangeShouldClear={this.state.customRangeShouldClear}
@@ -624,24 +587,30 @@ class ExploreMetrics extends Component {
                             </Select>
                           </span>
                         </Col>
-                             </Row>}
+                      </Row>}
                       titleStyle={styles.chartsHeaderTitle}
                       />
                     <CardText>
                       <div id="chart-full-width-holder" style={{width: '100%', height: '0px'}} />
-                      <ReactPlaceholder ready={this.state.graphLoadingDone} customPlaceholder={CustomSpin} className="loading-placeholder-rect-media">
-                        <div>
-                          {
+                      {
+                        <ReactPlaceholder ready={this.state.graphLoadingDone} customPlaceholder={CustomSpin} className="loading-placeholder-rect-media">
+                          <div>
+                            {
                             (this.state.graphError || !this.state.chartData)
                             ? <div className="chart-error">Oops! Something went wrong. We have made note of this issue and will fix this as soon as possible</div>
                             : <div className="chart-wrapper">
                               <div style={{width: this.state.chartWidth, height: chartHeight}}>
-                                <Chart data={this.state.chartData} type="bar" disableAspectRatio showDetailOnHover={this.showDetailOnHover} hideDetail={this.hideDetail} />
+                                {
+                                  this.state.currentOption === OPTION_PRODUCT || this.state.currentOption === OPTION_CUSTOMER ?
+                                    <BarChart data={this.state.chartData} fullHeight={fullHeight} selectedOption={this.state.currentOption} showDetailOnHover={this.showDetailOnHover} hideDetail={this.hideDetail} chartName={this.state.currentOption} /> :
+                                    <LineChart data={this.state.chartData} fullHeight={fullHeight} selectedOption={this.state.currentOption} chartName="timeChart" />
+                                }
                               </div>
                             </div>
                             }
-                        </div>
-                      </ReactPlaceholder>
+                          </div>
+                        </ReactPlaceholder>
+                    }
                     </CardText>
                   </Card>
                 </Col>
