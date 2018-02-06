@@ -71,7 +71,7 @@ class LineChart extends Component {
     const x = d3.scaleBand().rangeRound([0, width]).padding(0.1);
     const y = d3.scaleLinear().rangeRound([height, 0]);
     x.domain(data.map((d) => { return d.label; }));
-    y.domain([0, d3.max(data, (d) => { return d.value; }) + 100]);
+    y.domain([0, d3.max(data, (d) => { return d.value; })]);
 
     const g = svg.append('g')
       .attr('transform', `translate(${margin.left},${margin.top})`);
