@@ -137,19 +137,12 @@ class CustomRangePicker extends Component {
   render() {
     const {startDate, endDate, startDateInput, endDateInput, rangeType, selectedRange} = this.state;
     return (
-      <DropdownButton
-        title={
-          <div className="calender-btn" onClick={this.handleToggle}>
-            <i className="fa fa-calendar" aria-hidden="true" />
-            <span>{selectedRange || ''}</span>
-          </div>
-        }
-        id="bg-nested-dropdown"
-        className="calender-dd-btn"
-        style={{float: 'right'}}
-        open={this.state.open}
-      >
-        <div>
+      <div>
+        <div className="calender-btn" onClick={this.handleToggle}>
+          <i className="fa fa-calendar" aria-hidden="true" />
+          <span>{selectedRange || ''}</span>
+        </div>
+        <div className="explore-datepicker" style={this.state.open ? {display: 'block'} : {display: 'none'}}>
           <div className="custom-dropdown-view">
             <span className="dd-lable">Date Range:</span>
             <span>
@@ -195,7 +188,7 @@ class CustomRangePicker extends Component {
                   minDate={startDate ? moment(startDate) : ''}
                   maxDate={moment()}
                 />
-                                        </span> : null}
+              </span> : null}
             </div>
           </div>
           <div className="custom-dropdown-view rangepicker-footer">
@@ -204,7 +197,7 @@ class CustomRangePicker extends Component {
             <Button className="login-button pull-right" onClick={this.handleSubmit}>SAVE</Button>
           </div>
         </div>
-      </DropdownButton>
+      </div>
     );
   }
 }
