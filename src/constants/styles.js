@@ -40,10 +40,7 @@ const styles = {
     mainThemeColor: '#575dde'
   },
   showDetailOnHoverTitleBox: {
-    fontSize:   '10px',
-    whiteSpace: 'normal',
-    maxHeight:  '37px',
-    display:    'block'
+    fontSize: '12px'
   }
 };
 

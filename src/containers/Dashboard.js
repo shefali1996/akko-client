@@ -9,7 +9,6 @@ import { Select, Spin } from 'antd';
 import $ from 'jquery';
 import {isUndefined} from 'lodash';
 import Navigationbar from '../components/Navigationbar';
-import Chart from '../components/Chart';
 import PriceBox from '../components/PriceBox';
 import ExploreMetrics from '../components/ExploreMetrics';
 import Footer from '../components/Footer';
@@ -18,11 +17,13 @@ import styles from '../constants/styles';
 import invalidImg from '../assets/images/FontAwesome472.svg';
 import * as dashboardActions from '../redux/dashboard/actions';
 import { pollingInterval } from '../constants';
+import LineChart from '../components/LineChart';
 
 const moment = require('moment');
 const elementResizeEvent = require('element-resize-event');
 
 const {Option} = Select;
+const METRICS_CARD = 'metrics_card';
 
 class Dashboard extends Component {
   constructor(props) {
@@ -37,6 +38,7 @@ class Dashboard extends Component {
 	  userDataLoaded:    {},
 	  channelData:       {},
 	  channelDataLoaded: {},
+      // explore:           true
     };
     this.setWidth = this.setWidth.bind(this);
     this.handleClickMetrics = this.handleClickMetrics.bind(this);
@@ -121,11 +123,11 @@ class Dashboard extends Component {
           <span className="image-container"><img src={invalidImg} alt="invalid" /></span>
           <div className="invalid-text">
             {this.state.userData.cogsStatus == 1
-			? <div><div>We've successfully set COGS for all your products.</div>
-  <div>Now, hang on for a few moments while we update all your metrics.</div>
-</div>
-			: 'Please set COGS for your products to calculate these values.'
-			}
+              ? <div><div>We've successfully set COGS for all your products.</div>
+                <div>Now, hang on for a few moments while we update all your metrics.</div>
+              </div>
+            : 'Please set COGS for your products to calculate these values.'
+          }
           </div>
           {this.state.userData.cogsStatus == 1
           ? '' :
@@ -168,28 +170,28 @@ class Dashboard extends Component {
           <Col md={12} className="expense-text">
             <Row className="padding-t-5">
               <Col md={7}>Total Sales</Col>
-              <Col md={5}><span className="dash" />${expensesData.total_sales}</Col>
+              <Col md={5} className="text-right">${expensesData.total_sales.toFixed(2)}</Col>
             </Row>
             <Row className="padding-t-5">
               <Col md={7}>COGS</Col>
-              <Col md={5}><span className="dash">-</span>${expensesData.total_cogs}</Col>
+              <Col md={5} className="text-right">${expensesData.total_cogs.toFixed(2)}</Col>
             </Row>
             <Row className="padding-t-5">
               <Col md={7}>Discounts</Col>
-              <Col md={5}><span className="dash">-</span>${expensesData.total_discount}</Col>
+              <Col md={5} className="text-right">${expensesData.total_discount.toFixed(2)}</Col>
             </Row>
             <Row className="padding-t-5">
               <Col md={7}>Shipping</Col>
-              <Col md={5}><span className="dash">-</span>${expensesData.total_shipping}</Col>
+              <Col md={5} className="text-right">${expensesData.total_shipping.toFixed(2)}</Col>
             </Row>
             <Row className="padding-t-5">
               <Col md={7}>Tax</Col>
-              <Col md={5}><span className="dash">-</span>${expensesData.total_tax}</Col>
+              <Col md={5} className="text-right">${expensesData.total_tax.toFixed(2)}</Col>
             </Row>
             <hr />
             <Row className="final-row">
               <Col md={7}>Gross Profit</Col>
-              <Col md={5}><span className="dash" />${expensesData.gross_profit}</Col>
+              <Col md={5} className="text-right"><span className="dash" />${expensesData.gross_profit.toFixed(2)}</Col>
             </Row>
           </Col>
         </Row>
@@ -234,10 +236,11 @@ class Dashboard extends Component {
     } else {
       metricsData.map((value, index) => {
   		  let active = '';
-  		  const label1 = moment().format('MMM YY');
-  		  const label2 = moment().subtract(1, 'months').format('MMM YY');
-  		  const label3 = moment().subtract(2, 'months').format('MMM YY');
-  		  const label4 = moment().subtract(3, 'months').format('MMM YY');
+        const format = 'MMM YY';
+  		  const label1 = moment().utc().format(format);
+  		  const label2 = moment().utc().subtract(1, 'months').format(format);
+  		  const label3 = moment().utc().subtract(2, 'months').format(format);
+  		  const label4 = moment().utc().subtract(3, 'months').format(format);
   		  if (`card_${index}` === this.state.activeMetricsId) {
           active = 'active-metrics';
   		  }
@@ -264,6 +267,12 @@ class Dashboard extends Component {
   			  postfix:         value.postfix
           }]
   		  };
+        const data = [
+          {label: label4, value: value.value_three_months_back, prefix: value.prefix, postfix: value.postfix, chartName: value.metric_name },
+          {label: label3, value: value.value_two_months_back, prefix: value.prefix, postfix: value.postfix, chartName: value.metric_name },
+          {label: label2, value: value.value_one_month_back, prefix: value.prefix, postfix: value.postfix, chartName: value.metric_name },
+          {label: label1, value: value.value, prefix: value.prefix, postfix: value.postfix, chartName: value.metric_name },
+        ];
   		  if (value.title === 'Expenses' || value.title === 'Expenses Breakdown') {
           const expensesData = value.value;
           if (expensesData.total_sale === 'invalid' || expensesData.total_cogs === 'invalid' || expensesData.total_discount === 'invalid' || expensesData.total_shipping === 'invalid' || expensesData.total_tax === 'invalid') {
@@ -272,6 +281,7 @@ class Dashboard extends Component {
           }
           renderCards.push(<Col key={index} id={`card_${index}`} style={{width: this.state.width}} className="dashboard-card-container expenses-breakdown">
             {invalid ? this.invalidCard(value) : this.expenseCard(expensesData)}
+
                            </Col>);
   		  } else {
           renderCards.push(<Col key={index} id={`card_${index}`} style={{width: this.state.width}} className="dashboard-card-container" title={!invalid ? `Click to explore ${value.title} in detail` : null}>
@@ -283,9 +293,9 @@ class Dashboard extends Component {
               <CardHeader className="card-header-style" >
                 <PriceBox value={value} analyze />
               </CardHeader>
-              <CardText>
+              <CardText style={{padding: '0px'}}>
                 <div>
-                  <Chart data={chartData} type="line" width="40%" />
+                  <LineChart data={data} selectedOption={METRICS_CARD} chartName={value.metric_name} />
                 </div>
               </CardText>
             </Card>}

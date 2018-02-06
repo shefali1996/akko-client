@@ -5,13 +5,15 @@
   min-width: 630px;
   position: absolute;
   right: 0;
-  .dropdown{
-    width: 100%;
-    .dropdown-menu{
-      padding-bottom: 15px;
-      border: 1px solid $light-gray-color;
-    }
-  }
+
+  z-index: 1;
+  background: #FFF;
+  border: 1px solid $light-gray-color;
+  border-radius: 3px;
+  margin-top: 60px;
+  margin-right: 14px;
+  padding-bottom: 15px;
+
   .dropdown .btn-default:hover,
   .dropdown.open .btn-default:hover,
   .dropdown .btn-default:active,
@@ -55,13 +57,16 @@
   border: 1px solid $light-gray-color;
   display: block;
   padding: 4px 7px;
-  text-align: left;
   border-radius: 2px;
   font-family: Ubuntu;
   font-size: 14px;
   color: $light-gray-color;
   font-weight: bold;
   text-align: justify;
+  float: right;
+  margin-top: 14px;
+  min-width: 250px;
+  cursor: pointer;
   i{
     font-size: 20px;
     color: black;
