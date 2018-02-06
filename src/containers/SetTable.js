@@ -80,7 +80,8 @@ class SetTable extends Component {
     let variants = [];
     if (!isEmpty(data.variants) && !this.state.inProgressSetCogs) {
       const variantsList = parseVariants(data.variants);
-      variants = sortByCogs(variantsList);
+      // variants = sortByCogs(variantsList);
+      variants = variantsList;
     }
     if (variants.length > 0) {
       this.setState({
@@ -99,7 +100,8 @@ class SetTable extends Component {
     if (!isEmpty(variantsInfo)) {
       const variantsList = parseVariants(variantsInfo);
       this.setState({
-        data: sortByCogs(variantsList)
+        // data: sortByCogs(variantsList)
+        data: variantsList
       });
     }
     this.onVariantUpdate();
@@ -193,7 +195,8 @@ class SetTable extends Component {
           }
           const newData = checkAndUpdateProductCogsValue(cogs, product, data);
           this.setState({
-            data:              sortByCogs(newData),
+            // data:              sortByCogs(newData),
+            data:              newData,
             inProgressSetCogs: true
           });
         }
