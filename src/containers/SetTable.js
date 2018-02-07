@@ -79,9 +79,7 @@ class SetTable extends Component {
     const {data, isProductLoading, isVariantsLoading} = props.productData;
     let variants = [];
     if (!isEmpty(data.variants) && !this.state.inProgressSetCogs) {
-      const variantsList = parseVariants(data.variants);
-      // variants = sortByCogs(variantsList);
-      variants = variantsList;
+      variants = parseVariants(data.variants);
     }
     if (variants.length > 0) {
       this.setState({
@@ -98,10 +96,8 @@ class SetTable extends Component {
   componentDidMount() {
     const variantsInfo = this.props.productData.data.variants;
     if (!isEmpty(variantsInfo)) {
-      const variantsList = parseVariants(variantsInfo);
       this.setState({
-        // data: sortByCogs(variantsList)
-        data: variantsList
+        data: parseVariants(variantsInfo)
       });
     }
     this.onVariantUpdate();
@@ -195,7 +191,6 @@ class SetTable extends Component {
           }
           const newData = checkAndUpdateProductCogsValue(cogs, product, data);
           this.setState({
-            // data:              sortByCogs(newData),
             data:              newData,
             inProgressSetCogs: true
           });
@@ -283,7 +278,6 @@ class SetTable extends Component {
     if (row.variant_details.cogs !== row.cogs) {
       const newData = checkAndUpdateProductCogsValue(e.target.value, row, data);
       this.setState({
-        // data:              moveAcceptedToBottom(newData, row),
         data:              newData,
         inProgressSetCogs: true
       });
