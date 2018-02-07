@@ -31,6 +31,7 @@ class Dashboard extends Component {
     this.state = {
       metricsData:       [],
       width:             '25%',
+      height:            400,
       metricDataLoaded:  false,
       activeMetricsId:   'none',
       activeChartData:   false,
@@ -38,9 +39,8 @@ class Dashboard extends Component {
 	  userDataLoaded:    {},
 	  channelData:       {},
 	  channelDataLoaded: {},
-      // explore:           true
     };
-    this.setWidth = this.setWidth.bind(this);
+    this.setHeightWidth = this.setHeightWidth.bind(this);
     this.handleClickMetrics = this.handleClickMetrics.bind(this);
     this.column = 4;
     this.top = 0;
@@ -60,7 +60,7 @@ class Dashboard extends Component {
   componentDidMount() {
     const element = document.getElementById('cardSection');
     elementResizeEvent(element, () => {
-      this.setWidth(element.clientWidth);
+      this.setHeightWidth(element.clientWidth);
     });
     this.loadInterval = setInterval(() => {
       if (!isUndefined(this.props.metricsData.data.lastUpdated)) {
@@ -81,7 +81,23 @@ class Dashboard extends Component {
       channelDataLoaded: !props.channelData.isLoading,
     });
   }
-  setWidth(w) {
+  setHeightWidth(w) {
+    // ---------------set height------------
+    let i = 0;
+    let maxHeight = 0;
+    const bottom = 10;
+    for (i = 0; i < this.state.metricsData.length; i++) {
+      const height = $(`#card_${i} > div > div`).height();
+      if (height > maxHeight) {
+        maxHeight = height;
+      }
+    }
+    if (maxHeight + bottom !== this.state.height) {
+      this.setState({
+        height: maxHeight + bottom
+      });
+    }
+    // -----------------set width--------------------
     const x = 100;
     let n = Math.floor(w / 320);
     const r = w % 320;
@@ -112,7 +128,7 @@ class Dashboard extends Component {
     });
   }
   invalidCard(value) {
-    return (<Card className="charts-card-style" style={styles.metricsCardStyle}>
+    return (<Card className="charts-card-style" style={{minHeight: `${this.state.height}px`}}>
       <CardHeader
         title={value.title}
         titleStyle={styles.chartsHeaderTitle}
@@ -144,7 +160,7 @@ class Dashboard extends Component {
   }
 
   initialFetchIncompleteCard() {
-    return (<Card className="charts-card-style" style={styles.metricsCardStyle}>
+    return (<Card className="charts-card-style" style={{minHeight: `${this.state.height}px`}}>
       <CardHeader
         titleStyle={styles.chartsHeaderTitle}
         subtitleStyle={styles.expenseCardSubtitle}
@@ -160,7 +176,7 @@ class Dashboard extends Component {
   }
 
   expenseCard(expensesData) {
-    return (<Card className="charts-card-style" style={styles.metricsCardStyle}>
+    return (<Card className="charts-card-style" style={{minHeight: `${this.state.height}px`}}>
       <CardHeader
         title="Expenses Breakdown"
         titleStyle={styles.chartsHeaderTitle}
@@ -223,7 +239,7 @@ class Dashboard extends Component {
         renderCards.push(<Col style={{width: this.state.width}} className="dashboard-card-container">
           <Card
             className="price-card-style"
-            style={styles.metricsCardStyle}
+            style={{minHeight: `${this.state.height}px`}}
             >
             <CardText>
               <div style={{padding: '40%'}}>
@@ -288,7 +304,7 @@ class Dashboard extends Component {
             {invalid ? this.invalidCard(value) : <Card
               className={`price-card-style ${active}`}
               onClick={(e) => this.handleClickMetrics(`card_${index}`, value, chartData)}
-              style={styles.metricsCardStyle}
+              style={{minHeight: `${this.state.height}px`}}
   				>
               <CardHeader className="card-header-style" >
                 <PriceBox value={value} analyze />
