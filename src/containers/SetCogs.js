@@ -97,7 +97,6 @@ class SetCogs extends Component {
   }
   render() {
     const { option, data, loading, selectedBusinessType, loadingVariants } = this.state;
-    console.log('aaaaaaaaaaaaaa', data, this.props.productData,);
     return (
       <div>
         <Grid className="login-layout">
