@@ -51,14 +51,16 @@ class PriceBox extends React.Component {
         <div className="first-price">
           <div className="half-height">
             <span className="price-title">{title}</span>
-          </div>
-          <div className="half-height margin-t-10">
-            <span className="price-description">{description}</span>
+            <i className="alt-price-title" title={description} />
+            <br />
+            <span className="price-value" style={analyze ? {fontSize: '30px'} : {}}>{prefix}{infix}{postfix}</span>
           </div>
         </div>
+
         <div className="second-price">
-          <span className="price-value" style={analyze ? {fontSize: '30px'} : {}}>{prefix}{infix}{postfix}</span>
+          {/*  <span className="price-value" style={analyze ? {fontSize: '30px'} : {}}>{prefix}{infix}{postfix}</span> */}
         </div>
+
         <div className="third-price">
           <div>
             {(() => {

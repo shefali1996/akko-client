@@ -112,7 +112,7 @@
 	float: left;
 }
 .first-price {
-	width: 40%;
+	width: 60%;
 	float: left;
 	padding-left: 10px;
   white-space: normal;
@@ -121,7 +121,7 @@
   width:60%;
 }
 .second-price {
-	width: 40%;
+	width: 20%;
 	float: left;
   text-align: center;
   display: block;
@@ -137,6 +137,14 @@
 	font-size: $size-16;
 	color: #666666;
 	text-decoration: none solid rgb(102, 102, 102);
+}
+.alt-price-title{
+  display: inline-block;
+  height: 14px;
+  width: 14px;
+  margin-left: 8px;
+  background-image: url('/assets/images/warning.svg');
+  transform: rotate(180deg);
 }
 .price-value {
 	font-family: $ubuntu-bold;
@@ -213,6 +221,7 @@
 	color: #bbbbbb;
 	text-decoration: none solid rgb(187, 187, 187);
 	white-space: normal;
+  display: none;
 }
 .price-view {
 	background: white;
