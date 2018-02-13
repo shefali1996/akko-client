@@ -2,6 +2,7 @@ import React from 'react';
 import { numberFormatter } from '../constants';
 import upArrow from '../assets/images/upArrow.svg';
 import downArrow from '../assets/images/downArrow.svg';
+import infoIcon from '../assets/images/MaterialIcon5.svg';
 
 class PriceBox extends React.Component {
   render() {
@@ -50,16 +51,15 @@ class PriceBox extends React.Component {
       <div className="price-view">
         <div className="first-price">
           <div className="half-height">
-            <span className="price-title">{title}</span>
-            <i className="alt-price-title" title={description} />
+            <span className="price-title">
+              {title} <img src={infoIcon} className="alt-price-title" alt="info icon" title={description} />
+            </span>
             <br />
             <span className="price-value" style={analyze ? {fontSize: '30px'} : {}}>{prefix}{infix}{postfix}</span>
           </div>
         </div>
 
-        <div className="second-price">
-          {/*  <span className="price-value" style={analyze ? {fontSize: '30px'} : {}}>{prefix}{infix}{postfix}</span> */}
-        </div>
+        <div className="second-price" />
 
         <div className="third-price">
           <div>

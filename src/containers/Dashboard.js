@@ -18,6 +18,7 @@ import invalidImg from '../assets/images/FontAwesome472.svg';
 import * as dashboardActions from '../redux/dashboard/actions';
 import { pollingInterval } from '../constants';
 import LineChart from '../components/LineChart';
+import infoIcon from '../assets/images/MaterialIcon5.svg';
 
 const moment = require('moment');
 const elementResizeEvent = require('element-resize-event');
@@ -130,7 +131,10 @@ class Dashboard extends Component {
   invalidCard(value) {
     return (<Card className="charts-card-style" style={{minHeight: `${this.state.height}px`}}>
       <CardHeader
-        title={value.title}
+        style={{padding: '21px'}}
+        title={<span className="price-title">
+          {value.title} <img src={infoIcon} className="alt-price-title" alt="info icon" title={value.description} />
+        </span>}
         titleStyle={styles.chartsHeaderTitle}
         subtitleStyle={styles.expenseCardSubtitle}
         />
@@ -175,10 +179,13 @@ class Dashboard extends Component {
     );
   }
 
-  expenseCard(expensesData) {
+  expenseCard(value) {
+    const expensesData = value.value;
     return (<Card className="charts-card-style" style={{minHeight: `${this.state.height}px`}}>
       <CardHeader
-        title="Expenses Breakdown"
+        title={<span className="price-title">
+          {'Expenses Breakdown'} <img src={infoIcon} className="alt-price-title" alt="info icon" title={value.description} />
+        </span>}
         titleStyle={styles.chartsHeaderTitle}
         />
       <CardText style={styles.expenseCardText}>
@@ -296,9 +303,8 @@ class Dashboard extends Component {
   			  value.title = 'Expenses Breakdown';
           }
           renderCards.push(<Col key={index} id={`card_${index}`} style={{width: this.state.width}} className="dashboard-card-container expenses-breakdown">
-            {invalid ? this.invalidCard(value) : this.expenseCard(expensesData)}
-
-                           </Col>);
+            {invalid ? this.invalidCard(value) : this.expenseCard(value)}
+          </Col>);
   		  } else {
           renderCards.push(<Col key={index} id={`card_${index}`} style={{width: this.state.width}} className="dashboard-card-container" title={!invalid ? `Click to explore ${value.title} in detail` : null}>
             {invalid ? this.invalidCard(value) : <Card
