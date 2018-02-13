@@ -112,7 +112,7 @@
 	float: left;
 }
 .first-price {
-	width: 40%;
+	width: 80%;
 	float: left;
 	padding-left: 10px;
   white-space: normal;
@@ -121,7 +121,7 @@
   width:60%;
 }
 .second-price {
-	width: 40%;
+	width: 0%;
 	float: left;
   text-align: center;
   display: block;
@@ -137,6 +137,11 @@
 	font-size: $size-16;
 	color: #666666;
 	text-decoration: none solid rgb(102, 102, 102);
+}
+.alt-price-title{
+  display: inline-block;
+  width: 20px;
+  margin-left: 4px;
 }
 .price-value {
 	font-family: $ubuntu-bold;
@@ -213,6 +218,7 @@
 	color: #bbbbbb;
 	text-decoration: none solid rgb(187, 187, 187);
 	white-space: normal;
+  display: none;
 }
 .price-view {
 	background: white;
