@@ -8,17 +8,6 @@ import enUS from 'antd/lib/locale-provider/en_US';
 import asyncComponent from './AsyncComponent';
 
 import Main from './Main';
-// import Landing from './Landing';
-// import SignIn from './SignIn';
-// import SignUp from './SignUp';
-// import ConnectShopify from './ConnectShopify';
-// import BusinessType from './BusinessType';
-// import SetCogs from './SetCogs';
-// import SetCsv from './SetCsv';
-// import SetTable from './SetTable';
-// import Settings from './Settings';
-// import AuthorizedContainer from './AuthorizedContainer';
-// import NotFound from './NotFound';
 import store from '../redux/store';
 
 const Landing = asyncComponent(() =>
