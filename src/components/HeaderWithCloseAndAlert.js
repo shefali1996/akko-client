@@ -14,7 +14,8 @@ class HeaderWithCloseAndAlert extends Component {
   }
 
   close() {
-    const status = isCogsPending();
+    const variants = this.props.productData && this.props.productData.data && this.props.productData.data.variants;
+    const status = isCogsPending(variants);
     if (status === 'undefined' || this.props.loadingVariants === true) {
       alert('Wait while data is loading...');
     } else if (status === true) {

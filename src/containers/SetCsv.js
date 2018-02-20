@@ -84,7 +84,8 @@ class SetCsv extends Component {
   }
 
   onSkip() {
-    const status = isCogsPending();
+    const variants = this.props.productData && this.props.productData.data && this.props.productData.data.variants;
+    const status = isCogsPending(variants);
     if (status === 'undefined' || this.state.loading === true) {
       alert('Wait while data is loading...');
     } else if (status === true) {
