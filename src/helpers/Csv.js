@@ -150,9 +150,8 @@ function getTipBoxMessage(type) {
   return tipMessage;
 }
 
-function isCogsPending() {
-  const variants = JSON.parse(localStorage.getItem('variantsInfo'));
-  if (variants) {
+function isCogsPending(variants) {
+  if (variants && !isEmpty(variants)) {
     const variantsList = parseVariants(variants);
     const v = _.find(variantsList, (o) => { return isEmpty(o.variant_details.cogs) || o.variant_details.cogs === 'null' || o.variant_details.cogs === null || o.variant_details.cogs === 'invalid'; });
     if (v) {
