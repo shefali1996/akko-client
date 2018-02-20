@@ -12,7 +12,7 @@ class ConnectShopify extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      shopName: '',
+      shopName:  '',
       alertShow: false
     };
     this.goLanding = this.goLanding.bind(this);
@@ -44,12 +44,11 @@ class ConnectShopify extends Component {
       this.setState({
         alertShow: true
       });
-      this.props.history.push('/business-type');
     } else {
       invokeApig({
-        path: '/connect-shopify',
+        path:   '/connect-shopify',
         method: 'POST',
-        body: {
+        body:   {
           shopId: this.state.shopName
         }
       }).then((result) => {
@@ -61,16 +60,17 @@ class ConnectShopify extends Component {
   onConfirm() {
     this.setState({
       alertShow: false
+    }, () => {
+      this.props.history.push('/business-type');
     });
-    this.props.history.push('/business-type');
   }
 
   renderSuccessPage() {
     invokeApig({
-      path: '/connect-shopify',
+      path:   '/connect-shopify',
       method: 'PUT',
-      body: {
-        shopId: this.state.shop,
+      body:   {
+        shopId:      this.state.shop,
         queryParams: this.props.location.search
       }
     }).then((result) => {
@@ -78,7 +78,6 @@ class ConnectShopify extends Component {
       this.setState({
         alertShow: true
       });
-      this.props.history.push('/business-type');
     });
   }
 
