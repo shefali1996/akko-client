@@ -13,6 +13,7 @@ import { validateEmail } from '../constants';
 import MaterialIcon from '../assets/images/MaterialIcon 3.svg';
 import config from '../config';
 import { invokeApig } from '../libs/awsLib';
+import user from '../auth/user';
 
 class SignIn extends Component {
   constructor(props) {
@@ -38,7 +39,9 @@ class SignIn extends Component {
   }
 
   componentWillMount() {
-
+    if (user.isAuthenticated !== null) {
+      this.props.history.push('/dashboard');
+    }
   }
 
   goLanding() {

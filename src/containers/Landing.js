@@ -12,12 +12,13 @@ import landing2 from '../assets/images/landing_2.png';
 import dashboard1 from '../assets/images/dashboard_1.png';
 import dashboard2 from '../assets/images/dashboard_2.png';
 import MaterialIcon from '../assets/images/MaterialIcon 3.svg';
+import user from '../auth/user';
 
 class Landing extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      email: '',
+      email:     '',
       alertShow: false,
     };
     this.onEmailChange = this.onEmailChange.bind(this);
@@ -28,7 +29,9 @@ class Landing extends Component {
   }
 
   componentWillMount() {
-
+    if (user.isAuthenticated !== null) {
+      this.props.history.push('/dashboard');
+    }
   }
 
   onEmailChange(e) {
@@ -52,9 +55,9 @@ class Landing extends Component {
     const emailAuth = this.emailValidation();
     if (emailAuth) {
       invokeApigUnAuth({
-        path: '/leads',
+        path:   '/leads',
         method: 'POST',
-        body: {
+        body:   {
           email: this.state.email
         }
       }).then((result) => {
