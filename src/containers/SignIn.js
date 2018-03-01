@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 import { Grid, Row, Col, Button, Label, Tabs, Tab, FormControl, Tooltip, OverlayTrigger } from 'react-bootstrap';
 import { StyleRoot } from 'radium';
 import { Spin } from 'antd';
+import SweetAlert from 'sweetalert-react';
 import {
   CognitoUserPool,
   AuthenticationDetails,
@@ -12,6 +13,7 @@ import { validateEmail } from '../constants';
 import MaterialIcon from '../assets/images/MaterialIcon 3.svg';
 import config from '../config';
 import { invokeApig } from '../libs/awsLib';
+import user from '../auth/user';
 
 class SignIn extends Component {
   constructor(props) {
@@ -19,6 +21,8 @@ class SignIn extends Component {
     this.state = {
       email:          '',
       password:       '',
+      fetchError:     false,
+      errorText:      '',
 	  pendingRequest: false,
     };
     this.goLanding = this.goLanding.bind(this);
@@ -35,7 +39,9 @@ class SignIn extends Component {
   }
 
   componentWillMount() {
-
+    if (user.isAuthenticated !== null) {
+      this.props.history.push('/dashboard');
+    }
   }
 
   goLanding() {
@@ -155,7 +161,12 @@ class SignIn extends Component {
 				  passwordError: ' Incorrect password'
 			  });
 			  this.refs.password.show();
-		  }
+		  } else {
+            this.setState({
+              errorText:  'Login failed. Please try again',
+              fetchError: true
+            });
+          }
         });
     }
   }
@@ -263,6 +274,16 @@ class SignIn extends Component {
             <Tab eventKey={2} title="Sign Up" />
           </Tabs>
         </Row>
+        <SweetAlert
+          show={this.state.fetchError}
+          showConfirmButton
+          type="error"
+          title="Error"
+          text={this.state.errorText.toString()}
+          onConfirm={() => {
+                this.setState({ fetchError: false });
+            }}
+        />
       </Grid>
     );
   }

@@ -10,6 +10,7 @@ import config from '../config';
 import { invokeApig, signOutUser } from '../libs/awsLib';
 import MaterialIcon from '../assets/images/MaterialIcon 3.svg';
 import { Spin } from 'antd';
+import user from '../auth/user';
 
 const options = [
   { value: 'CEO/Founder', label: 'CEO/Founder' },
@@ -22,16 +23,16 @@ class SignUp extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      firstName: '',
-      lastName: '',
-      companyName: '',
-      yourRole: '',
-      email: '',
-      password: '',
-      newUser: null,
-      emailSent: false,
-      verifyCode: '',
-      alertShow: false,
+      firstName:      '',
+      lastName:       '',
+      companyName:    '',
+      yourRole:       '',
+      email:          '',
+      password:       '',
+      newUser:        null,
+      emailSent:      false,
+      verifyCode:     '',
+      alertShow:      false,
 	  pendingRequest: false,
     };
     this.goLanding = this.goLanding.bind(this);
@@ -61,6 +62,9 @@ class SignUp extends Component {
   }
 
   componentWillMount() {
+    if (user.isAuthenticated !== null) {
+      this.props.history.push('/dashboard');
+    }
   }
 
   componentDidMount() {
@@ -170,7 +174,7 @@ class SignUp extends Component {
     const { email } = this.state;
     if (!validateEmail(email)) {
 	  this.setState({
-		  emailError: " Invalid email address"
+		  emailError: ' Invalid email address'
 	  });
       this.refs.email.show();
       return false;
@@ -226,22 +230,22 @@ class SignUp extends Component {
         this.signup(email, password).then((result) => {
           if (!result.userConfirmed) {
             this.setState({
-              emailSent: true,
+              emailSent:      true,
 			  pendingRequest: false,
-              newUser: result.user
+              newUser:        result.user
             });
           }
         }).catch((error) => {
 		  this.setState({
 			  pendingRequest: false,
 		  });
-			if (error.message === "An account with the given email already exists.") {
+          if (error.message === 'An account with the given email already exists.') {
 			  this.setState({
-				  emailError: " An account with the given email already exists"
+				  emailError: ' An account with the given email already exists'
 			  });
 			  this.refs.email.show();
-			}
-		});
+          }
+        });
       }
     }
   }
@@ -257,11 +261,11 @@ class SignUp extends Component {
             password
           ).then((result) => {
             this.createNewUser({
-              fname: this.state.firstName,
-              lname: this.state.lastName,
-              company: this.state.companyName,
-              role: this.state.yourRole,
-              email: this.state.email,
+              fname:    this.state.firstName,
+              lname:    this.state.lastName,
+              company:  this.state.companyName,
+              role:     this.state.yourRole,
+              email:    this.state.email,
               location: 'Earth'
             }).then((result) => {
               this.setState({
@@ -282,9 +286,9 @@ class SignUp extends Component {
 
   createNewUser(userData) {
     return invokeApig({
-      path: '/user',
+      path:   '/user',
       method: 'POST',
-      body: userData
+      body:   userData
     });
   }
 
@@ -295,7 +299,7 @@ class SignUp extends Component {
 
     const userPool = new CognitoUserPool({
       UserPoolId: config.cognito.USER_POOL_ID,
-      ClientId: config.cognito.APP_CLIENT_ID
+      ClientId:   config.cognito.APP_CLIENT_ID
     });
 
     return new Promise((resolve, reject) =>
@@ -532,9 +536,9 @@ class SignUp extends Component {
                   <Col md={12} className="padding-t-30">
                     <Button className="login-button" onClick={this.onSignUp}>
                         SIGN UP
-					<div style={{marginLeft: 10, display: this.state.pendingRequest ? 'inline-block' : 'none'}}>
-						<Spin size="small"/>
-					</div>
+                      <div style={{marginLeft: 10, display: this.state.pendingRequest ? 'inline-block' : 'none'}}>
+                        <Spin size="small" />
+                      </div>
                     </Button>
                   </Col>
                 }
