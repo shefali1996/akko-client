@@ -8,6 +8,7 @@ const initialState = {
     data: {
       customTimeframeDataMap: {},
       defaultDataMap:         {},
+      categoriesData:         {}
     },
     isLoading: false,
     isError:   false,
@@ -65,10 +66,23 @@ const emptyTimeFrameData = (state, action) => {
     }
   });
 };
-
+const getCategoriesSuccess = (state, action) => {
+  const newData = cloneDeep(state.chartData.data);
+  newData.categoriesData = action.payload;
+  return update(state, {
+    chartData: {
+      data:      {$set: newData},
+      isLoading: {$set: false},
+      isError:   {$set: false},
+      isSuccess: {$set: true},
+      message:   {$set: ''}
+    }
+  });
+};
 export default handleActions({
   [constants.GET_CHART_DATA_REQUEST]: getChartDataRequest,
   [constants.GET_CHART_DATA_SUCCESS]: getChartDataSuccess,
   [constants.GET_CHART_DATA_ERROR]:   getChartDataError,
   [constants.EMPTY_TIME_FRAME_DATA]:  emptyTimeFrameData,
+  [constants.GET_CATEGORIES_SUCCESS]: getCategoriesSuccess,
 }, initialState);

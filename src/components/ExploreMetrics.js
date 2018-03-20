@@ -12,7 +12,7 @@ import profileIcon from '../assets/images/profileIconWhite.svg';
 import downArrowWhite from '../assets/images/downArrowWhite.svg';
 import CustomRangePicker from '../components/CustomRangePicker';
 import { invokeApig } from '../libs/awsLib';
-import {plotByOptions} from '../constants';
+import {plotByOptions, categoryOptions} from '../constants';
 import {customerDetailOnHover, productDetailOnHover} from './CustomTable';
 import BarChart from './BarChart';
 import LineChart from './LineChart';
@@ -30,6 +30,7 @@ const RESOLUTION_DAY = 'day';
 const OPTION_TIME = plotByOptions.time;
 const OPTION_PRODUCT = plotByOptions.product;
 const OPTION_CUSTOMER = plotByOptions.customer;
+const OPTION_CATEGORIES = plotByOptions.categories;
 
 const DAYS_35 = 35 * 86400000;
 
@@ -52,6 +53,8 @@ class ExploreMetrics extends Component {
       defaultDataMap:         {},
       customTimeframeDataMap: {},
       customersData:          {},
+      categoriesData:         {},
+      categoriesNav:          {top: categoryOptions.categories, path: []},
       productData:            {}
     };
 
@@ -73,6 +76,8 @@ class ExploreMetrics extends Component {
     this.afterCustomRangeClear = this.afterCustomRangeClear.bind(this);
     this.showDetailOnHover = this.showDetailOnHover.bind(this);
     this.hideDetail = this.hideDetail.bind(this);
+    this.setCategoryMetrics = this.setCategoryMetrics.bind(this);
+    this.onCategoryClick = this.onCategoryClick.bind(this);
   }
 
   getMap(metric, context) {
@@ -89,7 +94,7 @@ class ExploreMetrics extends Component {
   }
   componentWillReceiveProps(nextProps) {
     const state = _.cloneDeep(this.state);
-    const {activeMetrics, defaultDataMap, customTimeframeDataMap, customersData, productData, open} = state;
+    const {activeMetrics, defaultDataMap, customTimeframeDataMap, categoriesData, customersData, productData, open} = state;
     let {currentOption} = state;
     if (nextProps.open !== open) {
       this.setState({
@@ -109,10 +114,6 @@ class ExploreMetrics extends Component {
     if (!_.isEqual(nextProps.productData.data, productData)) {
       this.setState({
         productData: nextProps.productData.data
-      }, () => {
-        if (currentOption === OPTION_PRODUCT) {
-          this.onOptionChange(currentOption);
-        }
       });
     }
     if (nextProps.activeMetrics && (nextProps.activeMetrics !== this.state.activeMetrics)) {
@@ -127,10 +128,13 @@ class ExploreMetrics extends Component {
       });
     }
     const d = nextProps.chartData.data;
-    if (!isEqual(d.defaultDataMap, defaultDataMap) || !isEqual(d.customTimeframeDataMap, customTimeframeDataMap)) {
+    if (!isEqual(d.defaultDataMap, defaultDataMap) || !isEqual(d.customTimeframeDataMap, customTimeframeDataMap)
+    || !isEqual(d.categoriesData, categoriesData)
+    ) {
       this.setState({
         defaultDataMap:         d.defaultDataMap,
-        customTimeframeDataMap: d.customTimeframeDataMap
+        customTimeframeDataMap: d.customTimeframeDataMap,
+        categoriesData:         d.categoriesData
       }, () => {
         this.onOptionChange(currentOption);
       });
@@ -266,51 +270,68 @@ class ExploreMetrics extends Component {
     }
   }
 
-  setProductsMetric() {
+  setCategoryMetrics() {
     const metric_name = this.state.activeMetrics.metric_name;
-    const metric_map = this.getMap(metric_name, OPTION_PRODUCT);
+    const metric_map = this.getMap(metric_name, OPTION_CATEGORIES);
     if (!metric_map) {
-      this.setMetric(OPTION_PRODUCT);
+      this.setMetric(OPTION_CATEGORIES);
     } else {
       let sortOrder = ascendingSortOrder;
       if (this.currentSortOption === '2') {
         sortOrder = descendingSortOrder;
-  	  }
-      const metrics = metric_map.result.metrics;
+      }
+      let metrics = metric_map.result.metrics;
+      if (this.state.categoriesNav.top === categoryOptions.product || this.state.categoriesNav.top === categoryOptions.variant) {
+        metrics = this.state.categoriesData.metrics || [];
+      }
+
       if (metrics.length === 0) {
         throw new Error('No metrics to display');
       }
-      const value = metrics[0];
       const data = [];
 
       let index = 0;
-
-      const {productData} = this.state;
-      metrics.forEach((value) => {
-        const label = value.contextId.split('product_')[1];
-        const productId = parseInt(label);
-        let productInfo = _.find(productData.products && productData.products.products, {productId});
-        let variant = _.find(productData.variants, {productId});
-        if (isNaN(productId)) {
-          productInfo = _.find(productData.products && productData.products.products, {productId: label});
-          variant = _.find(productData.variants, {productId: label});
-        }
-        let productImage = variant && variant.variants.length && variant.variants[0].variant_details.image;
-        if (productImage === null || productImage === 'null' || isUndefined(productImage)) {
-          productImage = productImgPlaceholder;
-        }
-        if (!productInfo.deleted || (productInfo.deleted && value.value !== 0)) {
+      const categoriesNavTop = this.state.categoriesNav.top;
+      if (categoriesNavTop === categoryOptions.product) {
+        const {productData} = this.state;
+        metrics.forEach((value) => {
+          const label = value.contextId.split('product_')[1];
+          const productId = parseInt(label);
+          let productInfo = _.find(productData.products && productData.products.products, {productId});
+          let variant = _.find(productData.variants, {productId});
+          if (isNaN(productId)) {
+            productInfo = _.find(productData.products && productData.products.products, {productId: label});
+            variant = _.find(productData.variants, {productId: label});
+          }
+          let productImage = variant && variant.variants.length && variant.variants[0].variant_details.image;
+          if (productImage === null || productImage === 'null' || isUndefined(productImage)) {
+            productImage = productImgPlaceholder;
+          }
+          if (!productInfo.deleted || (productInfo.deleted && value.value !== 0)) {
+            data.push({
+              label,
+              value:   value.value,
+              image:   productImage,
+              prefix:  value.prefix,
+              postfix: value.postfix,
+              index,
+            });
+            index++;
+          }
+        });
+      } else {
+        metrics.forEach((value) => {
+          const label = value.contextId.split(':')[1];
           data.push({
             label,
             value:   value.value,
-            image:   productImage,
             prefix:  value.prefix,
             postfix: value.postfix,
             index,
           });
           index++;
-        }
-      });
+        });
+      }
 
       if (sortOrder) {
         data.sort((a, b) => {
@@ -408,7 +429,37 @@ class ExploreMetrics extends Component {
       });
     }
   }
+  onCategoryClick(label, id) {
+    const categoriesNav = this.state.categoriesNav;
+    if (label === categoryOptions.product) {
+      categoriesNav.top = categoryOptions.product;
+      categoriesNav.path = [{label, id}];
+    } else if (label === categoryOptions.variant) {
+      categoriesNav.top = categoryOptions.variant;
+      categoriesNav.path[1] = {label, id};
+    }
+    this.setState({
+      categoriesNav,
+      graphLoadingDone: false
+    });
+    const queryParams = {
+      timeslice_start: this.customStartTime,
+      timeslice_end:   this.customEndTime
+    };
+    if (isEmpty(this.customStartTime) || isEmpty(this.customEndTime)) {
+      const ms = moment().utc().startOf('day').valueOf();
+      this.customEndTime = queryParams.timeslice_end = moment(ms).add({days: 1}).valueOf();
+      this.customStartTime = queryParams.timeslice_start = moment(ms).subtract({years: 1}).valueOf();
+    }
 
+    this.props.getCategories({activeMetrics: this.state.activeMetrics, label, id, queryParams}).then(() => {
+      this.setState({
+        graphLoadingDone: true
+      }, () => {
+        this.onOptionChange(this.state.currentOption);
+      });
+    });
+  }
   onTimeframeChange(newStartTime, newEndTime) {
     this.customStartTime = newStartTime.valueOf();
     this.customEndTime = newEndTime.valueOf();
@@ -432,8 +483,8 @@ class ExploreMetrics extends Component {
     });
     if (option === OPTION_TIME) {
       this.setTimeMetric();
-    } else if (option === OPTION_PRODUCT) {
-      this.setProductsMetric();
+    } else if (option === OPTION_CATEGORIES) {
+      this.setCategoryMetrics();
     } else if (option === OPTION_CUSTOMER) {
       this.setCustomersMetric();
     }
@@ -449,7 +500,7 @@ class ExploreMetrics extends Component {
       } else {
         tooltipDetailView = loading;
       }
-    } else if (currentOption === OPTION_PRODUCT) {
+    } else if (currentOption === OPTION_CATEGORIES && this.state.categoriesNav.top === categoryOptions.product) {
       const productId = parseInt(label);
       let productInfo = _.find(productData.products && productData.products.products, {productId});
       let variant = _.find(productData.variants, {productId});
@@ -474,17 +525,29 @@ class ExploreMetrics extends Component {
       });
     }
   }
+  onCategory=() => {
+    this.setState({
+      categoriesNav: {top: categoryOptions.categories, path: []}
+    }, () => { this.onOptionChange(OPTION_CATEGORIES); });
+  }
   render() {
     const {activeMetrics, activeChartData} = this.props;
+    const {categoriesNav, currentOption} = this.state;
     const CustomSpin = (
       <div style={{width: '100%', height: 300, textAlign: 'center'}}>
         <Spin />
       </div>
     );
-    const fullHeight = window.innerHeight
-    || document.documentElement.clientHeight
-    || document.body.clientHeight;
+    const fullHeight = window.innerHeight || document.documentElement.clientHeight || document.body.clientHeight;
     const chartHeight = `${fullHeight * 0.35}px`;
+    let chartTitle = '';
+    if (this.state.currentOption === OPTION_TIME) {
+      chartTitle = 'Historical Trend';
+    } else if (this.state.currentOption === OPTION_CATEGORIES) {
+      chartTitle = `${this.state.activeMetrics.title} by ${categoriesNav.top}`;
+    } else {
+      chartTitle = `${this.state.activeMetrics.title} by ${currentOption}`;
+    }
     return (
       <Row>
         <Col md={12}>
@@ -499,16 +562,20 @@ class ExploreMetrics extends Component {
               </div>}
               titleStyle={styles.chartsHeaderTitle}
               subtitle={<div className="margin-t-60">
-                <span className="pull-left" style={{ width: 250 }}>
+                <span className="pull-left" style={{ width: 350 }}>
                   <span className="dd-lable">Plot By:</span>
                   <span>
                     <ButtonGroup>
                       <Button className={this.state.currentOption === OPTION_TIME ? 'active' : ''} onClick={() => this.onOptionChange(OPTION_TIME)}>{OPTION_TIME}</Button>
+                      <Button
+                        className={this.state.currentOption === OPTION_CATEGORIES ? 'active' : ''}
+                        onClick={this.onCategory}>{OPTION_CATEGORIES}
+                      </Button>
                       {
                          this.state.activeMetrics
-                                     ? this.state.activeMetrics.availableContexts.map((ctx) => {
+                                     ? this.state.activeMetrics.availableContexts.map((ctx, i) => {
                                      const Ctx = ctx[0].toUpperCase() + ctx.substring(1).toLowerCase();
-                                     return <Button className={this.state.currentOption === Ctx ? 'active' : ''} onClick={() => this.onOptionChange(Ctx)}>{Ctx}</Button>;
+                                     return <Button key={i} className={this.state.currentOption === Ctx ? 'active' : ''} onClick={() => this.onOptionChange(Ctx)} disabled={Ctx === OPTION_PRODUCT}>{Ctx}</Button>;
                                      })
                                      : ''
                                      }
@@ -563,15 +630,7 @@ class ExploreMetrics extends Component {
                       title={<Row>
                         <Col md={4}>
                           <span className="pull-left">
-                            {(() => {
-                                      if (this.state.currentOption === OPTION_TIME) {
-                                      return 'Historical Trend';
-                                    } else if (this.state.currentOption === OPTION_PRODUCT) {
-                                      return `${this.state.activeMetrics.title} by Products`;
-                                    } else if (this.state.currentOption === OPTION_CUSTOMER) {
-                                      return `${this.state.activeMetrics.title} by Customers`;
-                                      }
-                                      })()}
+                            {chartTitle}
                           </span>
                         </Col>
                         <Col md={5}>
@@ -587,6 +646,11 @@ class ExploreMetrics extends Component {
                             </Select>
                           </span>
                         </Col>
+                        {currentOption === OPTION_CATEGORIES && categoriesNav.path.length ? <Col md={12} className="category-link-container">
+                          <span className="link cursor-pointer" onClick={this.onCategory}> Category </span>
+                          {categoriesNav.path[0] ? <span className={`link ${categoriesNav.path.length > 1 ? 'cursor-pointer' : ''}`} onClick={() => { categoriesNav.path.length > 1 ? this.onCategoryClick(categoriesNav.path[0].label, categoriesNav.path[0].id) : ''; }}> &nbsp;&nbsp;&gt;&nbsp; Products </span> : ''}
+                          {categoriesNav.path[1] ? <span className="link"> &nbsp;&nbsp;&gt;&nbsp; Variants </span> : ''}
+                        </Col> : null}
                       </Row>}
                       titleStyle={styles.chartsHeaderTitle}
                       />
@@ -601,8 +665,17 @@ class ExploreMetrics extends Component {
                             : <div className="chart-wrapper">
                               <div style={{width: this.state.chartWidth, height: chartHeight}}>
                                 {
-                                  this.state.currentOption === OPTION_PRODUCT || this.state.currentOption === OPTION_CUSTOMER ?
-                                    <BarChart data={this.state.chartData} fullHeight={fullHeight} selectedOption={this.state.currentOption} showDetailOnHover={this.showDetailOnHover} hideDetail={this.hideDetail} chartName={this.state.currentOption} /> :
+                                  this.state.currentOption === OPTION_CUSTOMER || this.state.currentOption === OPTION_CATEGORIES ?
+                                    <BarChart
+                                      data={this.state.chartData}
+                                      fullHeight={fullHeight}
+                                      selectedOption={this.state.currentOption}
+                                      showDetailOnHover={this.showDetailOnHover}
+                                      hideDetail={this.hideDetail}
+                                      chartName={this.state.currentOption}
+                                      productsByCategory={this.onCategoryClick}
+                                      categoriesNav={this.state.categoriesNav}
+                                      /> :
                                     <LineChart data={this.state.chartData} fullHeight={fullHeight} selectedOption={this.state.currentOption} chartName="timeChart" />
                                 }
                               </div>

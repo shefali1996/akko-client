@@ -288,3 +288,11 @@
   -webkit-line-clamp: 2; /* number of lines to show */
   -webkit-box-orient: vertical;
 }
+.category-link-container{
+  .link{
+    color: $main-blue-color;
+    font-size: 14px;
+    font-weight: 500;
+    float: left;
+  }
+}

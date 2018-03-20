@@ -8,8 +8,9 @@ export const pollingInterval = 30 * 1000; // seconds 30s
 export const KEYS_TO_FILTERS = ['productDetail.title', 'stockOnHandUnits', 'stockOnHandValue.value', 'committedUnits', 'committedValue.value', 'availableForSaleUnits', 'availableForSaleValue.value'];
 export const KEYS_TO_METRICES = ['title', 'description', 'prefix', 'value', 'trend', 'trendValue', 'trendPeriod'];
 export const KEYS_TO_FILTERS_VARIANTS = ['variant_details.title', 'variant_details.variant', 'variant_details.sku'];
-export const plotByOptions = {time: 'Time', product: 'Product', customer: 'Customer'};
+export const plotByOptions = {time: 'Time', product: 'Product', customer: 'Customer', categories: 'Categories'};
 export const businessType = {dropshipper: 'one', reseller: 'two', manufacture: 'three', other: 'four'};
+export const categoryOptions = {categories: 'Category', product: 'Product', variant: 'Variant'};
 // static functions
 export const validateEmail = (email) => {
   // eslint-disable-next-line max-len, no-useless-escape

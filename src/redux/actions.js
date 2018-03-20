@@ -33,3 +33,5 @@ export const getUserError = createAction(constants.GET_USER_ERROR);
 export const getChannelRequest = createAction(constants.GET_CHANNEL_REQUEST);
 export const getChannelSuccess = createAction(constants.GET_CHANNEL_SUCCESS);
 export const getChannelError = createAction(constants.GET_CHANNEL_ERROR);
+
+export const getCategoriesSuccess = createAction(constants.GET_CATEGORIES_SUCCESS);

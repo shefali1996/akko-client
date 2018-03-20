@@ -199,10 +199,10 @@ class Dashboard extends Component {
               <Col md={7}>COGS</Col>
               <Col md={5} className="text-right">${expensesData.total_cogs.toFixed(2)}</Col>
             </Row>
-            <Row className="padding-t-5">
+            {/* <Row className="padding-t-5">
               <Col md={7}>Discounts</Col>
               <Col md={5} className="text-right">${expensesData.total_discount.toFixed(2)}</Col>
-            </Row>
+            </Row> */}
             <Row className="padding-t-5">
               <Col md={7}>Shipping</Col>
               <Col md={5} className="text-right">${expensesData.total_shipping.toFixed(2)}</Col>
@@ -350,6 +350,8 @@ class Dashboard extends Component {
                   activeChartData={this.state.activeChartData}
                   channelData={this.state.channelData}
                   open={this.state.explore}
+                  getCategories={this.props.getCategories}
+                  categoriesData={this.state.categoriesData}
                   {...this.props}
                   />
               </div>
@@ -365,12 +367,13 @@ class Dashboard extends Component {
 
 const mapStateToProps = state => {
   return {
-    metricsData:   state.dashboard.metricsData,
-    chartData:     state.exploration.chartData,
-    customersData: state.customers.customers,
-    productData:   state.products.products,
-  	userData:      state.dashboard.userData,
-  	channelData:   state.dashboard.channelData,
+    metricsData:    state.dashboard.metricsData,
+    chartData:      state.exploration.chartData,
+    customersData:  state.customers.customers,
+    productData:    state.products.products,
+  	userData:       state.dashboard.userData,
+  	channelData:    state.dashboard.channelData,
+    categoriesData: state.dashboard.categoriesData
   };
 };
 
@@ -402,6 +405,9 @@ const mapDispatchToProps = (dispatch) => {
   	},
     updateMetrics: (lastUpdated) => {
       return dispatch(dashboardActions.updateMetrics(lastUpdated));
+    },
+    getCategories: (params) => {
+      return dispatch(dashboardActions.getCategories(params));
     }
   };
 };

@@ -170,6 +170,11 @@ class CustomRangePicker extends Component {
                     startDateInput: moment(date).format('YYYY-MM-DD')
                   })}
                   maxDate={endDate ? moment(endDate) : ''}
+                  theme={{
+                    DaySelected: {
+                      background: styles.constants.mainThemeColor
+                    }
+                  }}
                 />
               </span> : null}
             </div>
@@ -187,6 +192,11 @@ class CustomRangePicker extends Component {
                   })}
                   minDate={startDate ? moment(startDate) : ''}
                   maxDate={moment()}
+                  theme={{
+                    DaySelected: {
+                      background: styles.constants.mainThemeColor
+                    }
+                  }}
                 />
               </span> : null}
             </div>

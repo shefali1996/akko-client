@@ -1,7 +1,7 @@
 import * as actions from '../../redux/actions';
 import { invokeApig } from '../../libs/awsLib';
 import * as api from '../../redux/api';
-import {plotByOptions} from '../../constants';
+import {plotByOptions, categoryOptions} from '../../constants';
 
 
 export const getMetrics = () => {
@@ -51,6 +51,8 @@ export const getChartData = (option, activeMetrics, metric_map, queryParams, sho
       path = api.metricsPathForProduct(activeMetrics.metric_name);
     } else if (option === plotByOptions.customer) {
       path = api.metricsPathForCustomer(activeMetrics.metric_name);
+    } else if (option === plotByOptions.categories) {
+      path = api.metricsPathForCategory(activeMetrics.metric_name);
     }
     invokeApig({ path, queryParams})
       .then((results) => {
@@ -211,5 +213,27 @@ export const getChannel = () => {
         console.log('get channel error', error);
         dispatch(actions.getChannelError('get channel error'));
       });
+  };
+};
+
+export const getCategories = ({activeMetrics, label, id, queryParams = {}}) => {
+  return (dispatch, getState) => {
+    return new Promise((resolve, reject) => {
+      let path = '';
+      if (label === categoryOptions.product) {
+        path = api.metricsPathForProductByCategory(activeMetrics.metric_name, id);
+      } else if (label === categoryOptions.variant) {
+        path = api.metricsPathForVariantsByProduct(activeMetrics.metric_name, id);
+      }
+      invokeApig({ path, queryParams })
+        .then((results) => {
+          dispatch(actions.getCategoriesSuccess(results));
+          resolve();
+        })
+        .catch(error => {
+          console.log('get Categories error', error);
+          dispatch(actions.getCategoriesError('get Categories error'));
+        });
+    });
   };
 };

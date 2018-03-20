@@ -1,10 +1,10 @@
 .explore-datepicker{
   display: block;
   margin-top: 20px;
-  width: 75%;
+  width: 500px;
   min-width: 630px;
-  position: absolute;
-  right: 0;
+  position: fixed;
+  right: 14px;
 
   z-index: 1;
   background: #FFF;

@@ -137,5 +137,5 @@ export default handleActions({
   [constants.GET_USER_ERROR]:         getUserError,
   [constants.GET_CHANNEL_REQUEST]:    getChannelRequest,
   [constants.GET_CHANNEL_SUCCESS]:    getChannelSuccess,
-  [constants.GET_CHANNEL_ERROR]:      getChannelError,
+  [constants.GET_CHANNEL_ERROR]:      getChannelError
 }, initialState);

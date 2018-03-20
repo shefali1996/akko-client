@@ -4,11 +4,11 @@ import { scaleLinear } from 'd3-scale';
 import { max } from 'd3-array';
 import { select } from 'd3-selection';
 import $ from 'jquery';
-import {plotByOptions} from '../constants';
+import {plotByOptions, categoryOptions} from '../constants';
 
 const OPTION_TIME = plotByOptions.time;
-const OPTION_PRODUCT = plotByOptions.product;
 const OPTION_CUSTOMER = plotByOptions.customer;
+const OPTION_CATEGORIES = plotByOptions.categories;
 
 class BarChart extends Component {
   constructor(props) {
@@ -16,17 +16,16 @@ class BarChart extends Component {
     this.state = {
       data: this.props.data || []
     };
-    this.createBarChartProduct = this.createBarChartProduct.bind(this);
     this.createBarChartCustomer = this.createBarChartCustomer.bind(this);
     this.onMouseOver = this.onMouseOver.bind(this);
     this.onMouseOut = this.onMouseOut.bind(this);
   }
   componentDidMount() {
     const currentOption = this.props.selectedOption;
-    if (currentOption === OPTION_PRODUCT) {
-      this.createBarChartProduct();
-    } else if (currentOption === OPTION_CUSTOMER) {
+    if (currentOption === OPTION_CUSTOMER) {
       this.createBarChartCustomer();
+    } else if (currentOption === OPTION_CATEGORIES) {
+      this.createBarChartCategory();
     }
   }
   componentWillReceiveProps(props) {
@@ -35,10 +34,10 @@ class BarChart extends Component {
         data: props.data
       }, () => {
         const currentOption = props.selectedOption;
-        if (currentOption === OPTION_PRODUCT) {
-          this.createBarChartProduct();
-        } else if (currentOption === OPTION_CUSTOMER) {
+        if (currentOption === OPTION_CUSTOMER) {
           this.createBarChartCustomer();
+        } else if (currentOption === OPTION_CATEGORIES) {
+          this.createBarChartCategory();
         }
       });
     }
@@ -161,11 +160,14 @@ class BarChart extends Component {
       });
 
   }
-  createBarChartProduct() {
+
+  createBarChartCategory() {
     $('#barChart').empty();
     const fullwidth = document.getElementById('barChart').offsetWidth;
     const fullHeight = this.props.fullHeight;
     const data = this.state.data;
+    const categoriesShowing = this.props.categoriesNav.top;
+    const maxBandWidth = 60;
     const margin = {top: 20, right: 20, bottom: 50, left: 50};
 
     const svg = d3.select('#barChart').append('svg')
@@ -211,16 +213,19 @@ class BarChart extends Component {
       .attr('class', 'axis axis--x')
       .attr('transform', `translate(0,${height})`)
       .call(d3.axisBottom(x));
-    labelX.selectAll('g')
-      .select('text')
-      .text((d) => { return ''; });
-    labelX.selectAll('g')
-      .append('image')
-      .attr('xlink:href', (d, i) => { return data[i].image; })
-      .attr('x', -20)
-      .attr('y', 8)
-      .attr('height', 40)
-      .attr('width', 40);
+
+    if (categoriesShowing === categoryOptions.product) {
+      labelX.selectAll('g')
+        .select('text')
+        .text((d) => { return ''; });
+      labelX.selectAll('g')
+        .append('image')
+        .attr('xlink:href', (d, i) => { return data[i].image; })
+        .attr('x', -20)
+        .attr('y', 8)
+        .attr('height', 40)
+        .attr('width', 40);
+    }
 
     labelX.selectAll('g')
       .on('mouseover', (d) => {
@@ -253,10 +258,16 @@ class BarChart extends Component {
     const bar = g.selectAll('.bar')
       .data(data)
       .enter().append('rect')
-      .attr('class', 'bar')
-      .attr('x', (d) => { return x(d.label); })
+      .attr('class', `bar ${this.props.categoriesNav.top !== categoryOptions.variant ? 'cursor-pointer' : ''}`)
+      .attr('x', (d) => {
+        const bandwidth = x.bandwidth();
+        return bandwidth > maxBandWidth ? (x(d.label) + (bandwidth / 2)) - (maxBandWidth / 2) : x(d.label);
+      })
       .attr('y', (d) => { return y(d.value); })
-      .attr('width', x.bandwidth())
+      .attr('width', (d) => {
+        const bandwidth = x.bandwidth();
+        return bandwidth > maxBandWidth ? maxBandWidth : bandwidth;
+      })
       .attr('height', (d) => { return height - y(d.value) < 0 ? 0 : height - y(d.value); })
       .on('mouseover', (d) => {
         const rect = d3.event.target.getBoundingClientRect();
@@ -275,6 +286,20 @@ class BarChart extends Component {
       .on('mouseout', () => {
         this.onMouseOut();
         tooltip.style('opacity', 0).style('transition', 'opacity .5s');
+      })
+      .on('click', (d) => {
+        const id = d.label;
+        let nextOption = false;
+        if (categoriesShowing === categoryOptions.categories) {
+          nextOption = categoryOptions.product;
+        } else if (categoriesShowing === categoryOptions.product) {
+          nextOption = categoryOptions.variant;
+        }
+        if (nextOption) {
+          this.props.productsByCategory(nextOption, id);
+          this.onMouseOut();
+          tooltip.style('opacity', 0).style('transition', 'opacity .5s');
+        }
       });
 
   }
