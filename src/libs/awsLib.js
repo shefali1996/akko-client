@@ -92,35 +92,6 @@ export async function invokeApig({
   queryParams = {},
   body
 }) {
-// <<<<<<< HEAD
-//   if (!await authUser()) {
-//     throw new Error('User is not logged in');
-//   }
-//
-//   const signedRequest = sigV4Client
-//     .newClient({
-//       accessKey:    AWS.config.credentials.accessKeyId,
-//       secretKey:    AWS.config.credentials.secretAccessKey,
-//       sessionToken: AWS.config.credentials.sessionToken,
-//       region:       config.apiGateway.REGION,
-//       endpoint:     config.apiGateway.URL
-//     })
-//     .signRequest({
-//       method,
-//       path,
-//       headers,
-//       queryParams,
-//       body
-//     });
-//
-//   body = body ? JSON.stringify(body) : body;
-//   headers = signedRequest.headers;
-//   console.log('signedRequest', signedRequest);
-//   const results = await fetch(signedRequest.url, {
-//     method,
-//     headers,
-//     body
-// =======
   return authUser().then(() => {
     const signedRequest = sigV4Client
       .newClient({
@@ -152,6 +123,5 @@ export async function invokeApig({
 	  }
 	  console.log('results', results);
 	  return results.json();
-    // >>>>>>> 3985086c03ae248ba12acfb9122f3a1dd714ed38
   });
 }

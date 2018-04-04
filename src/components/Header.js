@@ -32,32 +32,34 @@ class Header extends Component {
 
   render() {
     return (
-      <Row>
-        <Col md={6}>
-          <Label className="logo-title">
-            akko
-          </Label>
-        </Col>
-        <Col md={6} className="padding-t-20">
-          {/* <Col md={3}>
-            <Button className="feature-text" onClick={this.goFeature}>
-              FEATURES
-            </Button>
+      <Row className="header-bar">
+        <Col xs={12} className="padding-t-15 padding-b-10">
+          <Col className="logo-container">
+            <Label className="logo-title">
+              akko
+            </Label>
           </Col>
-          <Col md={3}>
-            <Button className="feature-text" onClick={this.goHome}>
-              PRICING
-            </Button>
-          </Col> */}
-          <Col md={3} mdOffset={6}>
-            <Button className="feature-text" onClick={this.goLogin}>
-              LOGIN
-            </Button>
-          </Col>
-          <Col md={3}>
+          <Col className="menu-btn-signup-box">
             <Button className="signup-button-text" onClick={this.goSignUp}>
-              SIGN UP
+              SIGN UP FOR FREE
             </Button>
+          </Col>
+          <Col className="menu-btn-box-container">
+            <Col className="menu-btn-box">
+              <Button className="feature-text" onClick={this.goLogin}>
+                LOGIN
+              </Button>
+            </Col>
+            <Col className="menu-btn-box">
+              <a href="#pricing" className="feature-text btn-link" >
+                PRICING
+              </a>
+            </Col>
+            <Col className="menu-btn-box">
+              <a href="#features" className="feature-text btn-link">
+                FEATURES
+              </a>
+            </Col>
           </Col>
         </Col>
       </Row>

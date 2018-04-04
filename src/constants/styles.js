@@ -36,6 +36,9 @@ const styles = {
   metricsCardStyle: {
     minHeight: '400px'
   },
+  bgLightBlue: {
+    backgroundColor: '#ebfbfb'
+  },
   constants: {
     mainThemeColor: '#575dde'
   },

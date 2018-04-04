@@ -1,8 +1,8 @@
 .feature-text {
-	font-family: $ubuntu-regular;
-	font-size: $size-16;
-	color: $white-color;
-	text-decoration: none solid $white-color;
+	font-family:$ubuntu-regular;
+	font-size: $size-14;
+	color: $gray-color;
+	text-decoration: none solid $gray-color;
 	background: none;
 	border: none;
   background-image: none;
@@ -11,16 +11,39 @@
 	box-shadow: none !important;
 	outline: none;
 }
+.header-bar{
+	box-shadow: 0px 1px 2px rgba(0,0,0,0.4);
+}
+.logo-container{
+	float: left;
+}
+.menu-btn-signup-box {
+	float: right;
+	padding-right: 15px;
+}
+.menu-btn-box-container{
+	display: inline-block;
+	float: right;
+  // min-width: 310px;
+}
+.menu-btn-box{
+	float: right;
+	padding-right: 25px;
+	.btn-link{
+		padding: 6px 12px;
+    display: inline-block;
+	}
+}
 .feature-text:active,
 .feature-text:hover,
 .feature-text:focus,
 .feature-text:active:focus {
 	outline: none;
+	text-decoration: none;
+	background: none;
 }
 .signup-button-text {
-	width: 90px;
-	height: 36px;
-	background-color: #5bc0de;
+	background-color: $main-blue-color;
 	background-repeat: no-repeat;
 	font-family: $ubuntu-regular;
 	font-size: $size-14;
@@ -30,10 +53,19 @@
 	box-shadow: 0 1px 2px rgba(0, 0, 0, 0.5);
 	border: none;
 	border-radius: 0;
+	padding: 6px 10px;
+	border-radius: 2px;
+	font-weight: bold;
 }
 .signup-button-text:active,
 .signup-button-text:hover,
 .signup-button-text:focus,
 .signup-button-text:active:focus {
 	outline: none;
+}
+
+@media screen and (max-width: 600px) {
+	.menu-btn-box-container {
+		// width: 100%;
+	}
 }

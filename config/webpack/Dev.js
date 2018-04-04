@@ -9,7 +9,7 @@ class WebpackDevConfig extends WebpackBaseConfig {
     super();
     this.config = {
       devtool: 'cheap-module-source-map',
-      entry: [
+      entry:   [
         'webpack-dev-server/client?http://localhost:3000/',
         'webpack/hot/only-dev-server',
         'react-hot-loader/patch',
@@ -25,17 +25,17 @@ class WebpackDevConfig extends WebpackBaseConfig {
 
     this.config.module.rules = this.config.module.rules.concat([
       {
-        test: /\.scss$/,
+        test:    /\.scss$/,
         loaders: [
           { loader: 'style-loader' },
           {
-            loader: 'css-loader',
+            loader:  'css-loader',
             options: {
               sourceMap: true,
             },
           },
           {
-            loader: 'sass-loader',
+            loader:  'sass-loader',
             options: {
               sourceMap: true,
             },
@@ -43,17 +43,17 @@ class WebpackDevConfig extends WebpackBaseConfig {
         ],
       },
       {
-        test: /^.((?!cssmodule).)*\.less$/,
+        test:    /^.((?!cssmodule).)*\.less$/,
         loaders: [
           { loader: 'style-loader' },
           {
-            loader: 'css-loader',
+            loader:  'css-loader',
             options: {
               sourceMap: true,
             },
           },
           {
-            loader: 'less-loader',
+            loader:  'less-loader',
             options: {
               sourceMap: true,
             },

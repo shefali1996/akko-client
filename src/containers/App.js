@@ -53,8 +53,8 @@ class App extends Component {
         <MuiThemeProvider>
           <LocaleProvider locale={enUS}>
             <Router history={history}>
-              <Switch>
-                <Main>
+              <Main>
+                <Switch>
                   <Route exact path="/" component={Landing} />
                   <Route exact path="/signin" component={SignIn} />
                   <Route exact path="/signup" component={SignUp} />
@@ -65,9 +65,9 @@ class App extends Component {
                   <Route exact path="/set-table" component={SetTable} />
                   <Route exact path="/settings" component={Settings} />
                   <Route path="/" name="Authorized Sections" component={AuthorizedContainer} />
-                </Main>
-                <Route path="*" component={NotFound} />
-              </Switch>
+                  <Route path="*" component={NotFound} />
+                </Switch>
+              </Main>
             </Router>
           </LocaleProvider>
         </MuiThemeProvider>

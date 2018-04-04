@@ -10,6 +10,7 @@ import config from '../config';
 import { invokeApig, signOutUser } from '../libs/awsLib';
 import MaterialIcon from '../assets/images/MaterialIcon 3.svg';
 import { Spin } from 'antd';
+import {withRouter} from 'react-router';
 import user from '../auth/user';
 
 const options = [
@@ -22,18 +23,19 @@ const options = [
 class SignUp extends Component {
   constructor(props) {
     super(props);
+    const email = localStorage.getItem('email');
     this.state = {
       firstName:      '',
       lastName:       '',
       companyName:    '',
       yourRole:       '',
-      email:          '',
+      email:          email || '',
       password:       '',
       newUser:        null,
       emailSent:      false,
       verifyCode:     '',
       alertShow:      false,
-	  pendingRequest: false,
+  	  pendingRequest: false,
     };
     this.goLanding = this.goLanding.bind(this);
     this.handleSelect = this.handleSelect.bind(this);
@@ -70,12 +72,20 @@ class SignUp extends Component {
   componentDidMount() {
     this.validMailCheck();
   }
+  componentWillUnmount() {
+    localStorage.removeItem('email');
+  }
 
   validMailCheck() {
+    const email = localStorage.getItem('email');
     const isEmailValid = this.props.history.location.query;
     if (isEmailValid !== undefined) {
       this.setState({
         email: isEmailValid.email
+      });
+    } else if (email !== undefined) {
+      this.setState({
+        email
       });
     } else {
       this.setState({
@@ -563,4 +573,4 @@ const mapStateToProps = state => ({
 
 });
 
-export default connect(mapStateToProps)(SignUp);
+export default withRouter(connect(mapStateToProps)(SignUp));
