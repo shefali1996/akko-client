@@ -44,6 +44,14 @@ const styles = {
   },
   showDetailOnHoverTitleBox: {
     fontSize: '12px'
+  },
+  mainLoading: {
+    width:         '100vh',
+    height:        '100vh',
+    margin:        '0 auto',
+    textAlign:     'center',
+    verticalAlign: 'middle',
+    paddingTop:    '45vh'
   }
 };
 

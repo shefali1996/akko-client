@@ -35,3 +35,6 @@ export const getChannelSuccess = createAction(constants.GET_CHANNEL_SUCCESS);
 export const getChannelError = createAction(constants.GET_CHANNEL_ERROR);
 
 export const getCategoriesSuccess = createAction(constants.GET_CATEGORIES_SUCCESS);
+
+export const getDataLoadStatusSuccess = createAction(constants.GET_DATA_LOAD_STATUS_SUCCESS);
+export const getDataLoadStatusError = createAction(constants.GET_DATA_LOAD_STATUS_ERROR);

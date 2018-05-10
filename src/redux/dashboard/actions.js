@@ -204,15 +204,19 @@ export const updateVariants = (variantsInfo) => {
 
 export const getChannel = () => {
   return (dispatch, getState) => {
-    dispatch(actions.getChannelRequest());
-    invokeApig({ path: api.channel })
-      .then((results) => {
-        dispatch(actions.getChannelSuccess(results));
-      })
-      .catch(error => {
-        console.log('get channel error', error);
-        dispatch(actions.getChannelError('get channel error'));
-      });
+    return new Promise((resolve, reject) => {
+      dispatch(actions.getChannelRequest());
+      invokeApig({ path: api.channel })
+        .then((results) => {
+          dispatch(actions.getChannelSuccess(results));
+          resolve(results);
+        })
+        .catch(error => {
+          console.log('get channel error', error);
+          dispatch(actions.getChannelError('get channel error'));
+          reject(error);
+        });
+    });
   };
 };
 
@@ -235,5 +239,29 @@ export const getCategories = ({activeMetrics, label, id, queryParams = {}}) => {
           dispatch(actions.getCategoriesError('get Categories error'));
         });
     });
+  };
+};
+
+export const getDataLoadStatus = (shopId) => {
+  return (dispatch, getState) => {
+    invokeApig({ path: api.dataLoadStatus(shopId) })
+      .then((results) => {
+        const {
+          num_customers_pages,
+          num_orders_pages,
+          num_products_pages,
+          num_products_pages_fetched,
+          num_customers_pages_fetched,
+          num_orders_pages_fetched
+        } = results;
+        results.num_total_pages = num_customers_pages + num_orders_pages + num_products_pages;
+        results.num_total_pages_fetched = num_customers_pages_fetched + num_orders_pages_fetched + num_products_pages_fetched;
+        results.fetchedPercent = Math.floor((results.num_total_pages_fetched * 100) / results.num_total_pages);
+        dispatch(actions.getDataLoadStatusSuccess(results));
+      })
+      .catch(error => {
+        console.log('get status error', error);
+        dispatch(actions.getDataLoadStatusError('get status error'));
+      });
   };
 };

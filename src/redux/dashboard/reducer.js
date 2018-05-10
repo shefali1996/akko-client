@@ -24,6 +24,13 @@ const initialState = {
     isError:   false,
     isSuccess: false,
     message:   ''
+  },
+  status: {
+    data:      {},
+    isLoading: false,
+    isError:   false,
+    isSuccess: false,
+    message:   ''
   }
 };
 
@@ -126,16 +133,36 @@ const getChannelError = (state, action) => update(state, {
     message:   {$set: action.payload}
   }
 });
+const getStatusSuccess = (state, action) => update(state, {
+  status: {
+    data:      {$set: action.payload},
+    isLoading: {$set: false},
+    isError:   {$set: false},
+    isSuccess: {$set: true},
+    message:   {$set: ''}
+  }
+});
+const getStatusError = (state, action) => update(state, {
+  status: {
+    isLoading: {$set: false},
+    isSuccess: {$set: false},
+    isError:   {$set: true},
+    message:   {$set: action.payload}
+  }
+});
+
 
 export default handleActions({
-  [constants.GET_METRICS_REQUEST]:    getMetricsRequest,
-  [constants.GET_METRICS_SUCCESS]:    getMetricsSuccess,
-  [constants.GET_METRICS_ERROR]:      getMetricsError,
-  [constants.UPDATE_METRICS_SUCCESS]: updateMetricsSuccess,
-  [constants.GET_USER_REQUEST]:       getUserRequest,
-  [constants.GET_USER_SUCCESS]:       getUserSuccess,
-  [constants.GET_USER_ERROR]:         getUserError,
-  [constants.GET_CHANNEL_REQUEST]:    getChannelRequest,
-  [constants.GET_CHANNEL_SUCCESS]:    getChannelSuccess,
-  [constants.GET_CHANNEL_ERROR]:      getChannelError
+  [constants.GET_METRICS_REQUEST]:          getMetricsRequest,
+  [constants.GET_METRICS_SUCCESS]:          getMetricsSuccess,
+  [constants.GET_METRICS_ERROR]:            getMetricsError,
+  [constants.UPDATE_METRICS_SUCCESS]:       updateMetricsSuccess,
+  [constants.GET_USER_REQUEST]:             getUserRequest,
+  [constants.GET_USER_SUCCESS]:             getUserSuccess,
+  [constants.GET_USER_ERROR]:               getUserError,
+  [constants.GET_CHANNEL_REQUEST]:          getChannelRequest,
+  [constants.GET_CHANNEL_SUCCESS]:          getChannelSuccess,
+  [constants.GET_CHANNEL_ERROR]:            getChannelError,
+  [constants.GET_DATA_LOAD_STATUS_SUCCESS]: getStatusSuccess,
+  [constants.GET_DATA_LOAD_STATUS_ERROR]:   getStatusError,
 }, initialState);

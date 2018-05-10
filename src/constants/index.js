@@ -5,12 +5,16 @@ import { validateCogsValue } from '../helpers/Csv';
 // static constants
 export const testMode = false;
 export const pollingInterval = 30 * 1000; // seconds 30s
+export const routeConstants = {landing: '/', signin: '/signin', signup: '/signup', connectShopify: '/connect-shopify', businessType: '/business-type', setCogs: '/set-cogs', setCsv: '/set-csv', setTable: '/set-table', settings: '/settings', fetchStatus: '/fetch-status', dashboard: '/dashboard'};
 export const KEYS_TO_FILTERS = ['productDetail.title', 'stockOnHandUnits', 'stockOnHandValue.value', 'committedUnits', 'committedValue.value', 'availableForSaleUnits', 'availableForSaleValue.value'];
 export const KEYS_TO_METRICES = ['title', 'description', 'prefix', 'value', 'trend', 'trendValue', 'trendPeriod'];
 export const KEYS_TO_FILTERS_VARIANTS = ['variant_details.title', 'variant_details.variant', 'variant_details.sku'];
 export const plotByOptions = {time: 'Time', product: 'Product', customer: 'Customer', categories: 'Categories'};
 export const businessType = {dropshipper: 'one', reseller: 'two', manufacture: 'three', other: 'four'};
 export const categoryOptions = {categories: 'Category', product: 'Product', variant: 'Variant'};
+export const fetchRoutes = [routeConstants.setCogs, routeConstants.dashboard, routeConstants.settings];
+export const fetchStatusInterval = 10 * 1000;
+
 // static functions
 export const validateEmail = (email) => {
   // eslint-disable-next-line max-len, no-useless-escape

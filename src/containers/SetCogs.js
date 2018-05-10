@@ -21,7 +21,8 @@ class SetCogs extends Component {
       option:          '',
       alertShow:       false,
       loading:         false,
-      loadingVariants: false
+      loadingVariants: false,
+      status:          this.props.status
     };
     this.onSkip = this.onSkip.bind(this);
     this.onTypeOneSelected = this.onTypeOneSelected.bind(this);
@@ -43,12 +44,16 @@ class SetCogs extends Component {
       this.props.getVariants(products);
     });
   }
+
   componentWillReceiveProps(props) {
+    const {status, productData} = props;
     this.setState({
-      data:    props.productData.data,
-      loading: props.productData.isProductLoading
+      data:    productData.data,
+      loading: productData.isProductLoading,
+      status
     });
   }
+
 
   onTypeOneSelected() {
     this.setState({ option: 'one' });
@@ -216,6 +221,8 @@ class SetCogs extends Component {
 const mapStateToProps = state => {
   return {
     productData: state.products.products,
+    status:      state.dashboard.status,
+    userData:    state.dashboard.userData,
   };
 };
 
@@ -226,6 +233,12 @@ const mapDispatchToProps = (dispatch) => {
     },
     getVariants: (products) => {
       return dispatch(dashboardActions.getVariants(products));
+    },
+    getDataLoadStatus: (shopId) => {
+      return dispatch(dashboardActions.getDataLoadStatus(shopId));
+    },
+    getChannel: () => {
+      return dispatch(dashboardActions.getChannel());
     }
   };
 };

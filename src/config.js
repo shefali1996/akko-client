@@ -1,6 +1,5 @@
 export default {
   apiGateway: {
-    // URL:    'https://stbtxrug94.execute-api.us-east-2.amazonaws.com/dev',              // Deprecated
     URL:    'https://s09umysgj1.execute-api.us-east-2.amazonaws.com/dev',
     REGION: 'us-east-2'
   },

@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 import { Switch, Route } from 'react-router';
 import Dashboard from './Dashboard';
 import user from '../auth/user';
+import {routeConstants} from '../constants';
 
 class AuthorizedContainer extends Component {
   componentWillMount() {
@@ -18,7 +19,7 @@ class AuthorizedContainer extends Component {
   render() {
     return (
       <Switch>
-        <Route exact path="/dashboard" component={Dashboard} />
+        <Route exact path={routeConstants.dashboard} component={Dashboard} />
       </Switch>
     );
   }

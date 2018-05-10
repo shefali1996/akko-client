@@ -7,6 +7,7 @@ import { LocaleProvider } from 'antd';
 import enUS from 'antd/lib/locale-provider/en_US';
 import asyncComponent from './AsyncComponent';
 
+import {routeConstants} from '../constants';
 import Main from './Main';
 import store from '../redux/store';
 
@@ -43,6 +44,9 @@ const AuthorizedContainer = asyncComponent(() =>
 const NotFound = asyncComponent(() =>
     import('./NotFound').then(module => module.default)
 );
+const FetchStatus = asyncComponent(() =>
+    import('./FetchStatus').then(module => module.default)
+);
 
 const history = createHistory();
 
@@ -55,16 +59,17 @@ class App extends Component {
             <Router history={history}>
               <Main>
                 <Switch>
-                  <Route exact path="/" component={Landing} />
-                  <Route exact path="/signin" component={SignIn} />
-                  <Route exact path="/signup" component={SignUp} />
-                  <Route exact path="/connect-shopify" component={ConnectShopify} />
-                  <Route exact path="/business-type" component={BusinessType} />
-                  <Route exact path="/set-cogs" component={SetCogs} />
-                  <Route exact path="/set-csv" component={SetCsv} />
-                  <Route exact path="/set-table" component={SetTable} />
-                  <Route exact path="/settings" component={Settings} />
-                  <Route path="/" name="Authorized Sections" component={AuthorizedContainer} />
+                  <Route exact path={routeConstants.landing} component={Landing} />
+                  <Route exact path={routeConstants.signin} component={SignIn} />
+                  <Route exact path={routeConstants.signup} component={SignUp} />
+                  <Route exact path={routeConstants.connectShopify} component={ConnectShopify} />
+                  <Route exact path={routeConstants.businessType} component={BusinessType} />
+                  <Route exact path={routeConstants.setCogs} component={SetCogs} />
+                  <Route exact path={routeConstants.setCsv} component={SetCsv} />
+                  <Route exact path={routeConstants.setTable} component={SetTable} />
+                  <Route exact path={routeConstants.settings} component={Settings} />
+                  <Route exact path={routeConstants.fetchStatus} component={FetchStatus} />
+                  <Route path={routeConstants.landing} name="Authorized Sections" component={AuthorizedContainer} />
                   <Route path="*" component={NotFound} />
                 </Switch>
               </Main>
