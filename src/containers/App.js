@@ -23,18 +23,6 @@ const SignUp = asyncComponent(() =>
 const ConnectShopify = asyncComponent(() =>
     import('./ConnectShopify').then(module => module.default)
 );
-const BusinessType = asyncComponent(() =>
-    import('./BusinessType').then(module => module.default)
-);
-const SetCogs = asyncComponent(() =>
-    import('./SetCogs').then(module => module.default)
-);
-const SetCsv = asyncComponent(() =>
-    import('./SetCsv').then(module => module.default)
-);
-const SetTable = asyncComponent(() =>
-    import('./SetTable').then(module => module.default)
-);
 const Settings = asyncComponent(() =>
     import('./Settings').then(module => module.default)
 );
@@ -63,10 +51,6 @@ class App extends Component {
                   <Route exact path={routeConstants.signin} component={SignIn} />
                   <Route exact path={routeConstants.signup} component={SignUp} />
                   <Route exact path={routeConstants.connectShopify} component={ConnectShopify} />
-                  <Route exact path={routeConstants.businessType} component={BusinessType} />
-                  <Route exact path={routeConstants.setCogs} component={SetCogs} />
-                  <Route exact path={routeConstants.setCsv} component={SetCsv} />
-                  <Route exact path={routeConstants.setTable} component={SetTable} />
                   <Route exact path={routeConstants.settings} component={Settings} />
                   <Route exact path={routeConstants.fetchStatus} component={FetchStatus} />
                   <Route path={routeConstants.landing} name="Authorized Sections" component={AuthorizedContainer} />
