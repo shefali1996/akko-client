@@ -36,5 +36,9 @@ export const getChannelError = createAction(constants.GET_CHANNEL_ERROR);
 
 export const getCategoriesSuccess = createAction(constants.GET_CATEGORIES_SUCCESS);
 
+export const getProductsCountRequest = createAction(constants.GET_PRODUCTS_COUNT_REQUEST);
+export const getProductsCountSuccess = createAction(constants.GET_PRODUCTS_COUNT_SUCCESS);
+export const getProductsCountError = createAction(constants.GET_PRODUCTS_COUNT_ERROR);
+
 export const getDataLoadStatusSuccess = createAction(constants.GET_DATA_LOAD_STATUS_SUCCESS);
 export const getDataLoadStatusError = createAction(constants.GET_DATA_LOAD_STATUS_ERROR);

@@ -13,62 +13,24 @@ const Option = Select.Option;
 class Setting extends Component {
   constructor(props) {
     super(props);
-    this.state = {
-      variants: [],
-      loading:  false,
-    };
-    this.getProductCount = this.getProductCount.bind(this);
-    this.getProductCountWithCogs = this.getProductCountWithCogs.bind(this);
-    this.getProductCountWithoutCogs = this.getProductCountWithoutCogs.bind(this);
-    this.saveData = this.saveData.bind(this);
-    this.goDashboard = this.goDashboard.bind(this);
-    this.variants = [];
   }
 
   componentWillReceiveProps(props) {
-    const {data, isProductLoading, isVariantsLoading} = props.productData;
-    this.setState({
-      variants: parseVariants(data.variants),
-      loading:  !!(isProductLoading || isVariantsLoading)
-    });
+
   }
 
   componentDidMount() {
-    const variantsInfo = this.props.productData.data.variants;
-    if (!isEmpty(variantsInfo)) {
-      this.setState({
-        variants: parseVariants(variantsInfo)
-      });
-    }
-    this.props.getProducts().then((products) => {
-      this.props.getVariants(products);
-    });
+    this.props.getCount();
   }
-  goDashboard() {
+  goDashboard = () => {
     this.props.history.push('/dashboard');
   }
 
-  getProductCount() {
-    return this.state.variants.length;
-  }
-
-  getProductCountWithCogs() {
-    return filter(this.state.variants, (o) => {
-      return !isEmpty(o.variant_details.cogs) && !isNull(o.variant_details.cogs) && o.variant_details.cogs !== 'null' && o.variant_details.cogs !== 'invalid';
-    }).length;
-  }
-
-  getProductCountWithoutCogs() {
-    return filter(this.state.variants, (o) => {
-      return isEmpty(o.variant_details.cogs) || isNull(o.variant_details.cogs) || o.variant_details.cogs === 'null' || o.variant_details.cogs === 'invalid';
-    }).length;
-  }
-
-  saveData() {
-
-  }
-
   render() {
+    const {data, isLoading} = this.props.productCount;
+    const totalVariants = data.num_variants || 0;
+    const variantsWithoutCogs = data.num_variants_missing_cogs || 0;
+    const variantsWithCogs = totalVariants - variantsWithoutCogs;
     return (
       <div>
         <Grid className="login-layout">
@@ -95,15 +57,15 @@ class Setting extends Component {
             </span>
           </div>
           <div className="text-center margin-t-40">
-            {this.state.loading ? <span className="update-style-text"><Spin /></span> : null}
+            {isLoading ? <span className="update-style-text"><Spin /></span> : null}
             <span className="update-style-text margin-t-20">
-              You have <strong>{this.getProductCount()}</strong> products/variants.
+              You have <strong>{totalVariants}</strong> products/variants.
             </span>
             <span className="update-style-text margin-t-20">
-              <strong>{this.getProductCountWithCogs()}</strong> products have COGS set.
+              <strong>{variantsWithCogs}</strong> products have COGS set.
             </span>
             <span className="update-style-text margin-t-20">
-              <strong>{this.getProductCountWithoutCogs()}</strong> products need COGS.
+              <strong>{variantsWithoutCogs}</strong> products need COGS.
             </span>
           </div>
           <div className="text-center margin-t-50">
@@ -166,18 +128,15 @@ class Setting extends Component {
 
 const mapStateToProps = state => {
   return {
-    productData: state.products.products,
+    productCount: state.dashboard.productCount
   };
 };
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    getProducts: () => {
-      return dispatch(dashboardActions.getProducts());
+    getCount: () => {
+      return dispatch(dashboardActions.getCount());
     },
-    getVariants: (products) => {
-      return dispatch(dashboardActions.getVariants(products));
-    }
   };
 };
 

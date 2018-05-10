@@ -25,6 +25,13 @@ const initialState = {
     isSuccess: false,
     message:   ''
   },
+  productCount: {
+    data:      {},
+    isLoading: false,
+    isError:   false,
+    isSuccess: false,
+    message:   ''
+  },
   status: {
     data:      {},
     isLoading: false,
@@ -152,6 +159,32 @@ const getStatusError = (state, action) => update(state, {
 });
 
 
+const getProductsCountRequest = (state, action) => update(state, {
+  productCount: {
+    isLoading: {$set: true},
+    isError:   {$set: false},
+    isSuccess: {$set: false},
+    message:   {$set: ''}
+  }
+});
+const getProductsCountSuccess = (state, action) => update(state, {
+  productCount: {
+    data:      {$set: action.payload},
+    isLoading: {$set: false},
+    isError:   {$set: false},
+    isSuccess: {$set: true},
+    message:   {$set: ''}
+  }
+});
+const getProductsCountError = (state, action) => update(state, {
+  productCount: {
+    isLoading: {$set: false},
+    isSuccess: {$set: false},
+    isError:   {$set: true},
+    message:   {$set: action.payload}
+  }
+});
+
 export default handleActions({
   [constants.GET_METRICS_REQUEST]:          getMetricsRequest,
   [constants.GET_METRICS_SUCCESS]:          getMetricsSuccess,
@@ -163,6 +196,9 @@ export default handleActions({
   [constants.GET_CHANNEL_REQUEST]:          getChannelRequest,
   [constants.GET_CHANNEL_SUCCESS]:          getChannelSuccess,
   [constants.GET_CHANNEL_ERROR]:            getChannelError,
+  [constants.GET_PRODUCTS_COUNT_REQUEST]:   getProductsCountRequest,
+  [constants.GET_PRODUCTS_COUNT_SUCCESS]:   getProductsCountSuccess,
+  [constants.GET_PRODUCTS_COUNT_ERROR]:     getProductsCountError,
   [constants.GET_DATA_LOAD_STATUS_SUCCESS]: getStatusSuccess,
-  [constants.GET_DATA_LOAD_STATUS_ERROR]:   getStatusError,
+  [constants.GET_DATA_LOAD_STATUS_ERROR]:   getStatusError
 }, initialState);

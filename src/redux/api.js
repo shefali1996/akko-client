@@ -12,4 +12,5 @@ export const metricsPathForProductByCategory = (metric_name, categoryId) => `/me
 export const metricsPathForVariantsByProduct = (metric_name, productId) => `/metrics/${metric_name}/product/${productId}`;
 export const user = '/user';
 export const channel = '/channel';
+export const getCount = '/products/count';
 export const dataLoadStatus = shopId => `/status/${shopId}`;

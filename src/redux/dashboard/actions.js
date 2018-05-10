@@ -242,6 +242,22 @@ export const getCategories = ({activeMetrics, label, id, queryParams = {}}) => {
   };
 };
 
+export const getCount = () => {
+  return (dispatch, getState) => {
+    dispatch(actions.getProductsCountRequest());
+    return new Promise((resolve, reject) => {
+      invokeApig({ path: api.getCount })
+        .then((results) => {
+          dispatch(actions.getProductsCountSuccess(results));
+        })
+        .catch(error => {
+          console.log('get count error', error);
+          dispatch(actions.getProductsCountRequest('Error: get count error'));
+        });
+    });
+  };
+};
+
 export const getDataLoadStatus = (shopId) => {
   return (dispatch, getState) => {
     invokeApig({ path: api.dataLoadStatus(shopId) })
