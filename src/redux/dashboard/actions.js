@@ -3,6 +3,7 @@ import { invokeApig } from '../../libs/awsLib';
 import * as api from '../../redux/api';
 import {plotByOptions, categoryOptions} from '../../constants';
 
+const moment = require('moment');
 
 export const getMetrics = () => {
   return (dispatch, getState) => {
@@ -11,27 +12,6 @@ export const getMetrics = () => {
       invokeApig({path: api.metrics})
         .then((results) => {
           dispatch(actions.getMetricsSuccess(results));
-          resolve();
-        })
-        .catch(error => {
-          console.log('get metrics error', error);
-          dispatch(actions.getMetricsError('get metrics error'));
-        });
-    });
-  };
-};
-
-export const updateMetrics = (lastUpdated) => {
-  return (dispatch, getState) => {
-    return new Promise((resolve, reject) => {
-      invokeApig({
-        path:        api.metrics,
-        queryParams: {
-          lastUpdated
-        }
-      })
-        .then((results) => {
-          dispatch(actions.updateMetricsSuccess(results));
           resolve();
         })
         .catch(error => {
@@ -114,7 +94,7 @@ export const getProducts = () => {
           if (!results.products) {
             throw new Error('results.products is undefined');
           }
-          dispatch(actions.getProductsSuccess(results));
+          dispatch(actions.getProductsSuccess(results.products));
           resolve(results.products);
         })
         .catch(error => {
@@ -146,59 +126,12 @@ export const getVariants = (products) => {
   return (dispatch, getState) => {
     dispatch(actions.getVariantsRequest());
     const variants = [];
-    const getVariant = (i = 0) => {
-      const next = i + 1;
-      invokeApig({
-        path:        api.getProductVariants(products[i].productId),
-        queryParams: {
-          cogs: true
-        }
-      }).then((results) => {
-        if (!results.variants) {
-          throw new Error('results.variants is undefined');
-        }
-        results.productId = products[i].productId;
-        variants.push(results);
-        if (products.length > next) {
-          getVariant(next);
-        } else {
-          dispatch(actions.getVariantsSuccess(variants));
-        }
-      }).catch(error => {
-        console.log('Error get variants', error);
+    products.map((prod, i) => {
+      prod.variants.map((v, j) => {
+        variants.push(v);
       });
-    };
-    getVariant();
-  };
-};
-
-export const updateVariants = (variantsInfo) => {
-  return (dispatch, getState) => {
-    const variants = [];
-    const updateVariant = (i = 0) => {
-      const next = i + 1;
-      invokeApig({
-        path:        api.getProductVariants(variantsInfo[i].productId),
-        queryParams: {
-          cogs:        true,
-          lastUpdated: variantsInfo[i].lastUpdated
-        }
-      }).then((results) => {
-        if (!results.variants) {
-          throw new Error('results.variants is undefined');
-        }
-        results.productId = variantsInfo[i].productId;
-        variants.push(results);
-        if (variantsInfo.length > next) {
-          updateVariant(next);
-        } else {
-          dispatch(actions.updateVariantsSuccess(variants));
-        }
-      }).catch(error => {
-        console.log('Error update variants', error);
-      });
-    };
-    updateVariant();
+    });
+    dispatch(actions.getVariantsSuccess(variants));
   };
 };
 
@@ -279,5 +212,21 @@ export const getDataLoadStatus = (shopId) => {
         console.log('get status error', error);
         dispatch(actions.getDataLoadStatusError('get status error'));
       });
+  };
+};
+
+export const getLuTimestamp = () => {
+  return (dispatch, getState) => {
+    return new Promise((resolve, reject) => {
+      invokeApig({ path: api.getLuTimestamp })
+        .then((results) => {
+          console.log('results----------------', results);
+          results.lastUpdated = moment(results.lastUpdated, 'YYYY-MM-DD HH:mm:ss').valueOf();
+          dispatch(actions.getLastUpdatedTimestampSuccess(results));
+        })
+        .catch(error => {
+          console.log('get lu timestamp error', error);
+        });
+    });
   };
 };

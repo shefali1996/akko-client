@@ -6,9 +6,10 @@ import { Spin } from 'antd';
 import swal from 'sweetalert';
 import {includes, isEmpty, isEqual} from 'lodash';
 import { hasClass } from '../helpers/Csv';
-import { fetchRoutes, fetchStatusInterval, routeConstants } from '../constants';
+import { fetchRoutes, fetchStatusInterval, pollingInterval, routeConstants } from '../constants';
 import styles from '../constants/styles';
-import { getDataLoadStatus, getChannel } from '../redux/dashboard/actions';
+import user from '../auth/user';
+import { getDataLoadStatus, getChannel, getLuTimestamp } from '../redux/dashboard/actions';
 
 class Main extends Component {
   constructor(props) {
@@ -22,11 +23,16 @@ class Main extends Component {
   componentWillMount() {
     window.removeEventListener('popstate', this.handleSWAL);
     const {location} = this.props;
-    if (includes(fetchRoutes, location.pathname)) {
-      this.setState({
-        isDataFetched: false
-      });
-      this.getStatus();
+    if (user.isAuthenticated !== null) {
+      if (includes(fetchRoutes, location.pathname)) {
+        this.setState({
+          isDataFetched: false
+        });
+        this.getStatus();
+      }
+      this.lastUpdatedInterval = setInterval(() => {
+        this.props.getLuTimestamp();
+      }, pollingInterval);
     }
   }
 
@@ -40,10 +46,12 @@ class Main extends Component {
       status,
       channel: channelData
     }, () => {
-      if (isEmpty(status.data)) {
-        this.getStatus();
-      } else {
-        this.checkFetchStatus();
+      if (user.isAuthenticated !== null) {
+        if (isEmpty(status.data)) {
+          this.getStatus();
+        } else {
+          this.checkFetchStatus();
+        }
       }
     });
   }
@@ -102,7 +110,8 @@ const mapStateToProps = state => {
 const mapDispatchToProps = (dispatch) => {
   return bindActionCreators({
     getDataLoadStatus,
-    getChannel
+    getChannel,
+    getLuTimestamp
   }, dispatch);
 };
 

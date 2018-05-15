@@ -35,10 +35,11 @@ class Dashboard extends Component {
       metricDataLoaded:  false,
       activeMetricsId:   'none',
       activeChartData:   false,
-	  userData:          {},
-	  userDataLoaded:    {},
-	  channelData:       {},
-	  channelDataLoaded: {},
+      userData:          {},
+      userDataLoaded:    {},
+      channelData:       {},
+      channelDataLoaded: {},
+      lastUpdated:       0
     };
     this.setHeightWidth = this.setHeightWidth.bind(this);
     this.handleClickMetrics = this.handleClickMetrics.bind(this);
@@ -51,9 +52,9 @@ class Dashboard extends Component {
       this.props.getUser();
       this.props.getChannel();
       this.props.getCustomers();
-      this.props.getProducts().then((products) => {
-        this.props.getVariants(products);
-      });
+    });
+    this.props.getProducts().then((products) => {
+      this.props.getVariants(products);
     });
   }
 
@@ -62,14 +63,6 @@ class Dashboard extends Component {
     elementResizeEvent(element, () => {
       this.setHeightWidth(element.clientWidth);
     });
-    this.loadInterval = setInterval(() => {
-      if (!isUndefined(this.props.metricsData.data.lastUpdated)) {
-        this.props.updateMetrics(this.props.metricsData.data.lastUpdated);
-      }
-    }, pollingInterval);
-  }
-  componentWillUnmount() {
-    clearInterval(this.loadInterval);
   }
   componentWillReceiveProps(props) {
     this.setState({
@@ -78,8 +71,20 @@ class Dashboard extends Component {
       userData:          props.userData.data || {},
       userDataLoaded:    !props.userData.isLoading,
       channelData:       props.channelData.data || {},
-      channelDataLoaded: !props.channelData.isLoading,
+      channelDataLoaded: !props.channelData.isLoading
     });
+    this.updateData(props);
+  }
+  updateData = (props) => {
+    if (props.lastUpdated.lastUpdated > this.state.lastUpdated) {
+      this.props.getMetrics();
+      this.props.getProducts().then((products) => {
+        this.props.getVariants(products);
+      });
+      this.setState({
+        lastUpdated: props.lastUpdated.lastUpdated
+      });
+    }
   }
   setHeightWidth(w) {
     // ---------------set height------------
@@ -370,8 +375,9 @@ const mapStateToProps = state => {
     chartData:      state.exploration.chartData,
     customersData:  state.customers.customers,
     productData:    state.products.products,
-  	userData:       state.dashboard.userData,
-  	channelData:    state.dashboard.channelData,
+    userData:       state.dashboard.userData,
+    channelData:    state.dashboard.channelData,
+    lastUpdated:    state.dashboard.lastUpdated,
     categoriesData: state.dashboard.categoriesData
   };
 };
@@ -407,6 +413,9 @@ const mapDispatchToProps = (dispatch) => {
     },
     getCategories: (params) => {
       return dispatch(dashboardActions.getCategories(params));
+    },
+    updateProducts: (params) => {
+      return dispatch(dashboardActions.updateProducts(params));
     }
   };
 };

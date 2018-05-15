@@ -38,6 +38,13 @@ const initialState = {
     isError:   false,
     isSuccess: false,
     message:   ''
+  },
+  lastUpdated: {
+    data:      {},
+    isLoading: false,
+    isError:   false,
+    isSuccess: false,
+    message:   ''
   }
 };
 
@@ -58,28 +65,7 @@ const getMetricsSuccess = (state, action) => update(state, {
     message:   {$set: ''}
   }
 });
-const updateMetricsSuccess = (state, action) => {
-  let newData = state.metricsData.data;
-  if (action.payload.metrics.length) {
-    newData = cloneDeep(state.metricsData.data);
-    newData.lastUpdated = action.payload.lastUpdated;
-    newData.metrics.map((obj, i) => {
-      const updatedMetric = find(action.payload.metrics, {metric_name: obj.metric_name});
-      if (updatedMetric) {
-        obj = updatedMetric;
-      }
-    });
-  }
-  return update(state, {
-    metricsData: {
-      data:      {$set: newData},
-      isLoading: {$set: false},
-      isError:   {$set: false},
-      isSuccess: {$set: true},
-      message:   {$set: ''}
-    }
-  });
-};
+
 const getMetricsError = (state, action) => update(state, {
   metricsData: {
     isLoading: {$set: false},
@@ -185,20 +171,30 @@ const getProductsCountError = (state, action) => update(state, {
   }
 });
 
+const getLastUpdatedTimestampSuccess = (state, action) => update(state, {
+  lastUpdated: {
+    data:      {$set: action.payload},
+    isLoading: {$set: false},
+    isError:   {$set: false},
+    isSuccess: {$set: true},
+    message:   {$set: ''}
+  }
+});
+
 export default handleActions({
-  [constants.GET_METRICS_REQUEST]:          getMetricsRequest,
-  [constants.GET_METRICS_SUCCESS]:          getMetricsSuccess,
-  [constants.GET_METRICS_ERROR]:            getMetricsError,
-  [constants.UPDATE_METRICS_SUCCESS]:       updateMetricsSuccess,
-  [constants.GET_USER_REQUEST]:             getUserRequest,
-  [constants.GET_USER_SUCCESS]:             getUserSuccess,
-  [constants.GET_USER_ERROR]:               getUserError,
-  [constants.GET_CHANNEL_REQUEST]:          getChannelRequest,
-  [constants.GET_CHANNEL_SUCCESS]:          getChannelSuccess,
-  [constants.GET_CHANNEL_ERROR]:            getChannelError,
-  [constants.GET_PRODUCTS_COUNT_REQUEST]:   getProductsCountRequest,
-  [constants.GET_PRODUCTS_COUNT_SUCCESS]:   getProductsCountSuccess,
-  [constants.GET_PRODUCTS_COUNT_ERROR]:     getProductsCountError,
-  [constants.GET_DATA_LOAD_STATUS_SUCCESS]: getStatusSuccess,
-  [constants.GET_DATA_LOAD_STATUS_ERROR]:   getStatusError
+  [constants.GET_METRICS_REQUEST]:                getMetricsRequest,
+  [constants.GET_METRICS_SUCCESS]:                getMetricsSuccess,
+  [constants.GET_METRICS_ERROR]:                  getMetricsError,
+  [constants.GET_USER_REQUEST]:                   getUserRequest,
+  [constants.GET_USER_SUCCESS]:                   getUserSuccess,
+  [constants.GET_USER_ERROR]:                     getUserError,
+  [constants.GET_CHANNEL_REQUEST]:                getChannelRequest,
+  [constants.GET_CHANNEL_SUCCESS]:                getChannelSuccess,
+  [constants.GET_CHANNEL_ERROR]:                  getChannelError,
+  [constants.GET_PRODUCTS_COUNT_REQUEST]:         getProductsCountRequest,
+  [constants.GET_PRODUCTS_COUNT_SUCCESS]:         getProductsCountSuccess,
+  [constants.GET_PRODUCTS_COUNT_ERROR]:           getProductsCountError,
+  [constants.GET_DATA_LOAD_STATUS_SUCCESS]:       getStatusSuccess,
+  [constants.GET_DATA_LOAD_STATUS_ERROR]:         getStatusError,
+  [constants.GET_LAST_UPDATED_TIMESTAMP_SUCCESS]: getLastUpdatedTimestampSuccess,
 }, initialState);

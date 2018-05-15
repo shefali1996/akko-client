@@ -4,7 +4,6 @@ import * as constants from './constants';
 export const getMetricsRequest = createAction(constants.GET_METRICS_REQUEST);
 export const getMetricsSuccess = createAction(constants.GET_METRICS_SUCCESS);
 export const getMetricsError = createAction(constants.GET_METRICS_ERROR);
-export const updateMetricsSuccess = createAction(constants.UPDATE_METRICS_SUCCESS);
 
 export const getChartDataRequest = createAction(constants.GET_CHART_DATA_REQUEST);
 export const getChartDataSuccess = createAction(constants.GET_CHART_DATA_SUCCESS);
@@ -24,8 +23,6 @@ export const getVariantsRequest = createAction(constants.GET_VARIANTS_REQUEST);
 export const getVariantsSuccess = createAction(constants.GET_VARIANTS_SUCCESS);
 export const getVariantsError = createAction(constants.GET_VARIANTS_ERROR);
 
-export const updateVariantsSuccess = createAction(constants.UPDATE_VARIANTS_SUCCESS);
-
 export const getUserRequest = createAction(constants.GET_USER_REQUEST);
 export const getUserSuccess = createAction(constants.GET_USER_SUCCESS);
 export const getUserError = createAction(constants.GET_USER_ERROR);
@@ -42,3 +39,5 @@ export const getProductsCountError = createAction(constants.GET_PRODUCTS_COUNT_E
 
 export const getDataLoadStatusSuccess = createAction(constants.GET_DATA_LOAD_STATUS_SUCCESS);
 export const getDataLoadStatusError = createAction(constants.GET_DATA_LOAD_STATUS_ERROR);
+
+export const getLastUpdatedTimestampSuccess = createAction(constants.GET_LAST_UPDATED_TIMESTAMP_SUCCESS);

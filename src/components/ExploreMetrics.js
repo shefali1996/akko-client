@@ -297,13 +297,11 @@ class ExploreMetrics extends Component {
         metrics.forEach((value) => {
           const label = value.contextId.split('product_')[1];
           const productId = parseInt(label);
-          let productInfo = _.find(productData.products && productData.products.products, {productId});
-          let variant = _.find(productData.variants, {productId});
+          let productInfo = _.find(productData.products, {productId});
           if (isNaN(productId)) {
-            productInfo = _.find(productData.products && productData.products.products, {productId: label});
-            variant = _.find(productData.variants, {productId: label});
+            productInfo = _.find(productData.products, {productId: label});
           }
-          let productImage = variant && variant.variants.length && variant.variants[0].variant_details.image;
+          let productImage = productInfo && productInfo.variants.length && productInfo.variants[0].variantImage;
           if (productImage === null || productImage === 'null' || isUndefined(productImage)) {
             productImage = productImgPlaceholder;
           }
@@ -502,14 +500,12 @@ class ExploreMetrics extends Component {
       }
     } else if (currentOption === OPTION_CATEGORIES && this.state.categoriesNav.top === categoryOptions.product) {
       const productId = parseInt(label);
-      let productInfo = _.find(productData.products && productData.products.products, {productId});
-      let variant = _.find(productData.variants, {productId});
+      let productInfo = _.find(productData.products, {productId});
       if (isNaN(productId)) {
-        productInfo = _.find(productData.products && productData.products.products, {productId: label});
-        variant = _.find(productData.variants, {productId: label});
+        productInfo = _.find(productData.products, {productId: label});
       }
-      if (productInfo && variant) {
-        tooltipDetailView = productDetailOnHover(productInfo, variant);
+      if (productInfo) {
+        tooltipDetailView = productDetailOnHover(productInfo);
       } else {
         tooltipDetailView = loading;
       }

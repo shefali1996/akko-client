@@ -14,3 +14,4 @@ export const user = '/user';
 export const channel = '/channel';
 export const getCount = '/products/count';
 export const dataLoadStatus = shopId => `/status/${shopId}`;
+export const getLuTimestamp = '/lastUpdated';

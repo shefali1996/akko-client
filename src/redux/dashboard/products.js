@@ -76,40 +76,6 @@ const getVariantsError = (state, action) => update(state, {
   }
 });
 
-const updateVariantsSuccess = (state, action) => {
-  const newData = _.cloneDeep(state.products.data);
-  action.payload.map((results, i) => {
-    if (results.lastUpdated !== -1 && !isEmpty(results.variants)) {
-      const updatedVariants = [];
-      const i = _.findIndex(newData.variants, ['productId', results.productId]);
-      if (i >= 0) {
-        newData.variants[i].variants.map((preVariant, i) => {
-          let isUpdated = false;
-          results.variants.map((newVariant, k) => {
-            if (preVariant.id === newVariant.id) {
-              updatedVariants.push(newVariant);
-              isUpdated = true;
-            }
-          });
-          if (!isUpdated) {
-            updatedVariants.push(preVariant);
-          }
-        });
-        newData.variants[i].variants = updatedVariants;
-        newData.variants[i].lastUpdated = results.lastUpdated;
-      }
-    }
-  });
-  return update(state, {
-    products: {
-      data:              {$set: newData},
-      isVariantsLoading: {$set: false},
-      isError:           {$set: false},
-      isSuccess:         {$set: true},
-      message:           {$set: ''}
-    }
-  });
-};
 export default handleActions({
   [constants.GET_PRODUCTS_REQUEST]: getProductsRequest,
   [constants.GET_PRODUCTS_SUCCESS]: getProductsSuccess,
@@ -119,5 +85,4 @@ export default handleActions({
   [constants.GET_VARIANTS_SUCCESS]: getVariantsSuccess,
   [constants.GET_VARIANTS_ERROR]:   getVariantsError,
 
-  [constants.UPDATE_VARIANTS_SUCCESS]: updateVariantsSuccess,
 }, initialState);

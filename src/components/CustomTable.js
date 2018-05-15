@@ -173,7 +173,7 @@ export const productDetailFormatter = (cell, row) => {
   );
 };
 export const productDetailOnHover = (productInfo, variant) => {
-  let productImage = variant && variant.variants.length && variant.variants[0].variant_details.image;
+  let productImage = productInfo && productInfo.variants.length && productInfo.variants[0].variantImage;
   if (productImage === null || productImage === 'null') {
     productImage = productImgPlaceholder;
   }
