@@ -11,6 +11,7 @@ import styles from '../constants/styles';
 import user from '../auth/user';
 import { getDataLoadStatus, getChannel, getLuTimestamp } from '../redux/dashboard/actions';
 
+
 class Main extends Component {
   constructor(props) {
     super(props);
@@ -22,13 +23,15 @@ class Main extends Component {
   }
   componentWillMount() {
     window.removeEventListener('popstate', this.handleSWAL);
-    const {location} = this.props;
+    const {location, userData} = this.props;
     if (user.isAuthenticated !== null) {
-      if (includes(fetchRoutes, location.pathname)) {
-        this.setState({
-          isDataFetched: false
-        });
+      if (userData.accountSetupStatus === 0 && location.pathname !== routeConstants.connectShopify) {
+        this.props.history.push(routeConstants.connectShopify);
+      } else if (userData.accountSetupStatus === 1 && location.pathname === routeConstants.setCogs) {
+        this.setState({isDataFetched: false});
         this.getStatus();
+      } else if (userData.accountSetupStatus === 1 && location.pathname !== routeConstants.fetchStatus) {
+        this.props.history.push(routeConstants.fetchStatus);
       }
       this.lastUpdatedInterval = setInterval(() => {
         this.props.getLuTimestamp();
@@ -46,7 +49,7 @@ class Main extends Component {
       status,
       channel: channelData
     }, () => {
-      if (user.isAuthenticated !== null) {
+      if (user.isAuthenticated !== null && location.pathname === routeConstants.setCogs) {
         if (isEmpty(status.data)) {
           this.getStatus();
         } else {
@@ -65,9 +68,8 @@ class Main extends Component {
   checkFetchStatus = () => {
     const {channel, status} = this.state;
     const {location} = this.props;
-    if (includes(fetchRoutes, location.pathname) && !isEmpty(status.data)) {
-      if ((isEqual(routeConstants.setCogs, location.pathname) && status.data.num_products_pages_fetched === status.data.num_products_pages)
-      || status.data.fetchedPercent >= 100) {
+    if (!isEmpty(status.data)) {
+      if (status.data.num_products_pages_fetched === status.data.num_products_pages || status.data.completed === 1) {
         this.setState({
           isDataFetched: true
         });

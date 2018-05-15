@@ -132,15 +132,10 @@ class SignIn extends Component {
             this.props.history.push('/connect-shopify');
             break;
 			  case 1:
-            this.props.history.push('/business-type');
+            this.props.history.push('/fetch-status');
             break;
 			  case 2:
-            // business-type is set, check if cogs is set or not
-            if (result.cogsStatus === 0) {
-              this.props.history.push('/set-cogs');
-            } else {
-              this.props.history.push('/dashboard');
-            }
+            this.props.history.push('/dashboard');
             break;
 			  default:
             this.props.history.push('/dashboard');
