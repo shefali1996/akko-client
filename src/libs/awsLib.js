@@ -118,7 +118,7 @@ export async function invokeApig({
       body
 	  });
   }).then((results) => {
-	  if (results.status !== 200) {
+    if (results.status !== 200 && results.status !== 404) {
       throw new Error(results.text());
 	  }
 	  console.log('results', results);

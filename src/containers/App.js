@@ -32,6 +32,9 @@ const AuthorizedContainer = asyncComponent(() =>
 const NotFound = asyncComponent(() =>
     import('./NotFound').then(module => module.default)
 );
+const ForgotPassword = asyncComponent(() =>
+    import('./ForgotPassword').then(module => module.default)
+);
 const FetchStatus = asyncComponent(() =>
     import('./FetchStatus').then(module => module.default)
 );
@@ -50,6 +53,7 @@ class App extends Component {
                   <Route exact path={routeConstants.landing} component={Landing} />
                   <Route exact path={routeConstants.signin} component={SignIn} />
                   <Route exact path={routeConstants.signup} component={SignUp} />
+                  <Route exact path={routeConstants.forgotPassword} component={ForgotPassword} />
                   <Route exact path={routeConstants.connectShopify} component={ConnectShopify} />
                   <Route exact path={routeConstants.settings} component={Settings} />
                   <Route exact path={routeConstants.fetchStatus} component={FetchStatus} />

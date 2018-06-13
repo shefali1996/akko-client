@@ -144,6 +144,15 @@ const getStatusError = (state, action) => update(state, {
   }
 });
 
+const getLastUpdatedTimestampSuccess = (state, action) => update(state, {
+  lastUpdated: {
+    data:      {$set: action.payload},
+    isLoading: {$set: false},
+    isError:   {$set: false},
+    isSuccess: {$set: true},
+    message:   {$set: ''}
+  }
+});
 
 const getProductsCountRequest = (state, action) => update(state, {
   productCount: {
@@ -171,16 +180,6 @@ const getProductsCountError = (state, action) => update(state, {
   }
 });
 
-const getLastUpdatedTimestampSuccess = (state, action) => update(state, {
-  lastUpdated: {
-    data:      {$set: action.payload},
-    isLoading: {$set: false},
-    isError:   {$set: false},
-    isSuccess: {$set: true},
-    message:   {$set: ''}
-  }
-});
-
 export default handleActions({
   [constants.GET_METRICS_REQUEST]:                getMetricsRequest,
   [constants.GET_METRICS_SUCCESS]:                getMetricsSuccess,
@@ -196,5 +195,5 @@ export default handleActions({
   [constants.GET_PRODUCTS_COUNT_ERROR]:           getProductsCountError,
   [constants.GET_DATA_LOAD_STATUS_SUCCESS]:       getStatusSuccess,
   [constants.GET_DATA_LOAD_STATUS_ERROR]:         getStatusError,
-  [constants.GET_LAST_UPDATED_TIMESTAMP_SUCCESS]: getLastUpdatedTimestampSuccess,
+  [constants.GET_LAST_UPDATED_TIMESTAMP_SUCCESS]: getLastUpdatedTimestampSuccess
 }, initialState);

@@ -23,7 +23,7 @@ class SignIn extends Component {
       password:       '',
       fetchError:     false,
       errorText:      '',
-	  pendingRequest: false,
+      pendingRequest: false,
     };
     this.goLanding = this.goLanding.bind(this);
     this.handleSelect = this.handleSelect.bind(this);
@@ -39,6 +39,12 @@ class SignIn extends Component {
   }
 
   componentWillMount() {
+    const {state} = this.props.history.location;
+    if (state !== undefined) {
+      this.setState({
+        email: state.email
+      });
+    }
     if (user.isAuthenticated !== null) {
       this.props.history.push('/dashboard');
     }
@@ -69,9 +75,9 @@ class SignIn extends Component {
   emailValidation() {
     const { email } = this.state;
     if (!validateEmail(email)) {
-	  this.setState({
-		  emailError: ' Invalid email address'
-	  });
+      this.setState({
+        emailError: ' Invalid email address'
+      });
       this.refs.email.show();
       return false;
     }
@@ -91,9 +97,9 @@ class SignIn extends Component {
   passValidation() {
     const { password } = this.state;
     if (password.length < 8) {
-	  this.setState({
-		  passwordError: ' Need at least 8 characters'
-	  });
+      this.setState({
+        passwordError: ' Need at least 8 characters'
+      });
       this.refs.password.show();
       return false;
     }
@@ -108,7 +114,7 @@ class SignIn extends Component {
   }
 
   onForgot() {
-
+    this.props.history.push('/forgot-password');
   }
 
   onLogin() {
@@ -116,47 +122,54 @@ class SignIn extends Component {
     const emailAuth = this.emailValidation();
     const passAuth = this.passValidation();
     if (emailAuth && passAuth) {
-	  this.setState({
-		  pendingRequest: true,
-	  });
+      this.setState({
+        pendingRequest: true,
+      });
       this.login(email, password).then((result) => {
-        localStorage.setItem('isAuthenticated', 'isAuthenticated');
         return invokeApig({path: '/user'});
-	  }).then((result) => {
-		  console.log('userResult', result);
-		  this.setState({
-			  pendingRequest: false,
-		  });
-		  switch (result.accountSetupStatus) {
-			  case 0:
-            this.props.history.push('/connect-shopify');
-            break;
-			  case 1:
-            this.props.history.push('/fetch-status');
-            break;
-			  case 2:
-            this.props.history.push('/dashboard');
-            break;
-			  default:
-            this.props.history.push('/dashboard');
-		  }
+      }).then((result) => {
+        if (!result.status && result.message === 'Unable to fetch user') {
+          this.setState({
+            emailError:     ' User does not exist',
+            pendingRequest: false,
+          });
+          this.refs.email.show();
+        } else {
+          localStorage.setItem('isAuthenticated', 'isAuthenticated');
+          this.setState({
+            pendingRequest: false,
+          });
+          switch (result.accountSetupStatus) {
+            case 0:
+              this.props.history.push('/connect-shopify');
+              break;
+            case 1:
+              this.props.history.push('/fetch-status');
+              break;
+            case 2:
+              this.props.history.push('/dashboard');
+              break;
+            default:
+              this.props.history.push('/dashboard');
+          }
+        }
       })
         .catch(error => {
           console.log('login error', error);
-		  this.setState({
-			  pendingRequest: false,
-		  });
-		  if (error.message === 'User does not exist.') {
-			  this.setState({
-				  emailError: ' User does not exist'
-			  });
-			  this.refs.email.show();
-		  } else if (error.message === 'Incorrect username or password.') {
-			  this.setState({
-				  passwordError: ' Incorrect password'
-			  });
-			  this.refs.password.show();
-		  } else {
+          this.setState({
+            pendingRequest: false,
+          });
+          if (error.message === 'User does not exist.') {
+            this.setState({
+              emailError: ' User does not exist'
+            });
+            this.refs.email.show();
+          } else if (error.message === 'Incorrect username or password.') {
+            this.setState({
+              passwordError: ' Incorrect password'
+            });
+            this.refs.password.show();
+          } else {
             this.setState({
               errorText:  'Login failed. Please try again',
               fetchError: true
@@ -249,13 +262,9 @@ class SignIn extends Component {
                     />
                   </OverlayTrigger>
                 </div>
-                {/*
                 <div className="flex-center padding-t-10">
-                  <Button className="forgot-text" onClick={this.onForgot}>
-                    Forgot Password ?
-                  </Button>
+                  <span className="forgot-text" onClick={this.onForgot} >Forgot Password ?</span>
                 </div>
-				*/}
                 <div className="flex-center padding-t-20">
                   <Button className="login-button" onClick={this.onLogin}>
                     LOGIN

@@ -5,7 +5,7 @@ import { validateCogsValue } from '../helpers/Csv';
 // static constants
 export const testMode = false;
 export const pollingInterval = 30 * 1000; // seconds 30s
-export const routeConstants = {landing: '/', signin: '/signin', signup: '/signup', connectShopify: '/connect-shopify', settings: '/settings', fetchStatus: '/fetch-status', dashboard: '/dashboard'};
+export const routeConstants = {landing: '/', signin: '/signin', signup: '/signup', forgotPassword: '/forgot-password', connectShopify: '/connect-shopify', settings: '/settings', fetchStatus: '/fetch-status', dashboard: '/dashboard'};
 export const KEYS_TO_FILTERS = ['productDetail.title', 'stockOnHandUnits', 'stockOnHandValue.value', 'committedUnits', 'committedValue.value', 'availableForSaleUnits', 'availableForSaleValue.value'];
 export const KEYS_TO_METRICES = ['title', 'description', 'prefix', 'value', 'trend', 'trendValue', 'trendPeriod'];
 export const KEYS_TO_FILTERS_VARIANTS = ['variant_details.title', 'variant_details.variant', 'variant_details.sku'];
