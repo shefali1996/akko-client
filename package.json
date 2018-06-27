@@ -71,7 +71,7 @@
     "sass-lint": "^1.12.1",
     "sass-loader": "^6.0.6",
     "source-map-explorer": "^1.5.0",
-    "sweetalert-react": "^0.4.10",
+    "sweetalert2": "^7.22.0",
     "underscore": "^1.8.3",
     "uritemplate": "^0.3.4",
     "webpack": "^3.8.1",

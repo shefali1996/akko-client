@@ -4,8 +4,6 @@ import {withRouter} from 'react-router';
 import { Grid, Row, Col, Button, Label, Image } from 'react-bootstrap';
 import { Input, Select, Checkbox, Spin } from 'antd';
 import {filter, isEmpty, isNull} from 'lodash';
-import {getProduct, parseVariants} from '../helpers/Csv';
-import { invokeApig } from '../libs/awsLib';
 import * as dashboardActions from '../redux/dashboard/actions';
 
 const Option = Select.Option;

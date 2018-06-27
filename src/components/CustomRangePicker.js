@@ -3,7 +3,6 @@ import { Row, Col, Label, Button, Image, DropdownButton } from 'react-bootstrap'
 import { Select, Input } from 'antd';
 import { defaultRanges, Calendar, DateRange } from 'react-date-range';
 import { isEmpty } from 'lodash';
-import swal from 'sweetalert';
 import styles from '../constants/styles';
 
 const moment = require('moment');

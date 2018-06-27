@@ -4,13 +4,23 @@ import { Grid, Row, Col, Button, Label, Tabs, Tab, FormControl, Tooltip, Overlay
 import { StyleRoot } from 'radium';
 import { Spin } from 'antd';
 import { isEmpty } from 'lodash';
-import SweetAlert from 'sweetalert-react';
+import swal from 'sweetalert2';
 import { CognitoUserPool, AuthenticationDetails, CognitoUser } from 'amazon-cognito-identity-js';
 import { validateEmail } from '../constants';
 import MaterialIcon from '../assets/images/MaterialIcon 3.svg';
 import config from '../config';
 import user from '../auth/user';
 import styles from '../constants/styles';
+
+const swalert = () => {
+  return swal({
+    title:             'Error!',
+    type:              'error',
+    text:              this.state.alertError.message,
+    allowOutsideClick: false,
+    focusConfirm:      false,
+  });
+};
 
 class ForgotPassword extends Component {
   constructor(props) {
@@ -99,6 +109,7 @@ class ForgotPassword extends Component {
             _self.setState({
               alertError: {open: true, message: 'Username / email not found'}
             });
+            swalert();
           }
         });
       } else if (step === 1) {
@@ -117,6 +128,7 @@ class ForgotPassword extends Component {
               _self.setState({
                 alertError: {open: true, message: `Could not reset password for user ${email}, Retry.`}
               });
+              swalert();
             }
           });
         }
@@ -251,16 +263,6 @@ class ForgotPassword extends Component {
             </Tab>
           </Tabs>
         </Row>
-        <SweetAlert
-          show={this.state.alertError.open}
-          showConfirmButton
-          type="error"
-          title="Error"
-          text={this.state.alertError.message}
-          onConfirm={() => {
-                this.setState({ alertError: {open: false, message: ''} });
-            }}
-        />
       </Grid>
     );
   }

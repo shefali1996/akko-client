@@ -106,10 +106,12 @@ class ExploreMetrics extends Component {
         this.customStartTime = moment(ms).subtract({years: 1}).valueOf();
       }
     }
-    if (!_.isEqual(nextProps.customersData.data, customersData)) {
-      this.setState({
-        customersData: nextProps.customersData.data
-      });
+    if(nextProps.customersData != undefined){
+      if (!_.isEqual(nextProps.customersData.data, customersData)) {
+        this.setState({
+          customersData: nextProps.customersData.data
+        });
+      }
     }
     if (!_.isEqual(nextProps.productData.data, productData)) {
       this.setState({

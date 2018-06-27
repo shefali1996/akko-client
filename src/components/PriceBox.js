@@ -16,7 +16,7 @@ class PriceBox extends React.Component {
     }
     if (trend_value === 'invalid') {
       trend_value = '';
-    } else if (trend_value !== null) {
+    } else if (trend_value !== null && trend_value !== -1) {
       const i = trend_value[trend_value.length - 1];
       const tmp = trend_value.slice(0, trend_value.length - 1);
       trend_value = Math.round(parseInt(tmp)) + i;

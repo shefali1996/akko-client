@@ -1,5 +1,5 @@
 import * as actions from '../../redux/actions';
-import { invokeApig } from '../../libs/awsLib';
+import { invokeApigWithErrorReport } from '../../libs/apiUtils';
 import * as api from '../../redux/api';
 import {plotByOptions, categoryOptions} from '../../constants';
 
@@ -9,7 +9,7 @@ export const getMetrics = () => {
   return (dispatch, getState) => {
     return new Promise((resolve, reject) => {
       dispatch(actions.getMetricsRequest());
-      invokeApig({path: api.metrics})
+      invokeApigWithErrorReport({path: api.metrics})
         .then((results) => {
           dispatch(actions.getMetricsSuccess(results));
           resolve();
@@ -34,7 +34,7 @@ export const getChartData = (option, activeMetrics, metric_map, queryParams, sho
     } else if (option === plotByOptions.categories) {
       path = api.metricsPathForCategory(activeMetrics.metric_name);
     }
-    invokeApig({ path, queryParams})
+    invokeApigWithErrorReport({ path, queryParams})
       .then((results) => {
         if (!results.metrics) {
           throw new Error('results.metrics is undefined');
@@ -48,7 +48,7 @@ export const getChartData = (option, activeMetrics, metric_map, queryParams, sho
 export const getUser = () => {
   return (dispatch, getState) => {
     dispatch(actions.getUserRequest());
-    invokeApig({ path: api.user })
+    invokeApigWithErrorReport({ path: api.user })
       .then((results) => {
         dispatch(actions.getUserSuccess(results));
       })
@@ -65,31 +65,11 @@ export const emptyTimeFrameData = () => {
   };
 };
 
-
-export const getCustomers = () => {
-  return (dispatch, getState) => {
-    invokeApig({
-      path:        api.customers(),
-      queryParams: {
-        avgOrderValue:    true,
-        reOrderFrequency: true
-      }
-    })
-      .then((results) => {
-        if (!results.customers) {
-          throw new Error('results.customers is undefined');
-        }
-        dispatch(actions.getCustomersSuccess(results.customers));
-      });
-  };
-};
-
-
 export const getProducts = () => {
   return (dispatch, getState) => {
     return new Promise((resolve, reject) => {
       dispatch(actions.getProductsRequest());
-      invokeApig({ path: api.products })
+      invokeApigWithErrorReport({ path: api.products })
         .then((results) => {
           if (!results.products) {
             throw new Error('results.products is undefined');
@@ -107,7 +87,7 @@ export const getProducts = () => {
 export const fireSetCogsAPI = (params) => {
   return (dispatch, getState) => {
     return new Promise((resolve, reject) => {
-      invokeApig({
+      invokeApigWithErrorReport({
         path:   api.products,
         method: 'PUT',
         body:   params
@@ -139,7 +119,7 @@ export const getChannel = () => {
   return (dispatch, getState) => {
     return new Promise((resolve, reject) => {
       dispatch(actions.getChannelRequest());
-      invokeApig({ path: api.channel })
+      invokeApigWithErrorReport({ path: api.channel })
         .then((results) => {
           dispatch(actions.getChannelSuccess(results));
           resolve(results);
@@ -162,7 +142,7 @@ export const getCategories = ({activeMetrics, label, id, queryParams = {}}) => {
       } else if (label === categoryOptions.variant) {
         path = api.metricsPathForVariantsByProduct(activeMetrics.metric_name, id);
       }
-      invokeApig({ path, queryParams })
+      invokeApigWithErrorReport({ path, queryParams })
         .then((results) => {
           dispatch(actions.getCategoriesSuccess(results));
           resolve();
@@ -179,7 +159,7 @@ export const getCount = () => {
   return (dispatch, getState) => {
     dispatch(actions.getProductsCountRequest());
     return new Promise((resolve, reject) => {
-      invokeApig({ path: api.getCount })
+      invokeApigWithErrorReport({ path: api.getCount })
         .then((results) => {
           dispatch(actions.getProductsCountSuccess(results));
         })
@@ -193,7 +173,7 @@ export const getCount = () => {
 
 export const getDataLoadStatus = (shopId) => {
   return (dispatch, getState) => {
-    invokeApig({ path: api.dataLoadStatus(shopId) })
+    invokeApigWithErrorReport({ path: api.dataLoadStatus(shopId) })
       .then((results) => {
         const {
           num_customers_pages,
@@ -218,7 +198,7 @@ export const getDataLoadStatus = (shopId) => {
 export const getLuTimestamp = () => {
   return (dispatch, getState) => {
     return new Promise((resolve, reject) => {
-      invokeApig({ path: api.getLuTimestamp })
+      invokeApigWithErrorReport({ path: api.getLuTimestamp })
         .then((results) => {
           console.log('results----------------', results);
           results.lastUpdated = moment(results.lastUpdated, 'YYYY-MM-DD HH:mm:ss').valueOf();
@@ -226,6 +206,44 @@ export const getLuTimestamp = () => {
         })
         .catch(error => {
           console.log('get lu timestamp error', error);
+        });
+    });
+  };
+};
+
+export const connectShopify = (body = {}) => {
+  return (dispatch, getState) => {
+    return new Promise((resolve, reject) => {
+      invokeApigWithoutErrorReport({
+        path:   api.connectShopify,
+        method: 'POST',
+        body
+      })
+        .then((result) => {
+          window.location = result.uri;
+        })
+        .catch(error => {
+          console.log('connectShopify error', error);
+        });
+    });
+  };
+};
+
+export const updateShopify = (body = {}) => {
+  return (dispatch, getState) => {
+    return new Promise((resolve, reject) => {
+      invokeApigWithoutErrorReport({
+        path:   api.connectShopify,
+        method: 'PUT',
+        body
+      })
+        .then((result) => {
+          localStorage.setItem('isAuthenticated', 'isAuthenticated');
+          resolve();
+        })
+        .catch(error => {
+          console.log('updateShopify error', error);
+          reject();
         });
     });
   };

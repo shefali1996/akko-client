@@ -4,7 +4,6 @@ import { Row, Col, Label, Image, DropdownButton } from 'react-bootstrap';
 import user from '../auth/user';
 import profileIcon from '../assets/images/profileIconWhite.svg';
 import downArrowWhite from '../assets/images/downArrowWhite.svg';
-import { invokeApig } from '../libs/awsLib';
 
 class Navigationbar extends Component {
   constructor(props) {

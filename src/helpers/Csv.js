@@ -1,5 +1,4 @@
 import {remove, isEmpty, indexOf} from 'lodash';
-import { invokeApig } from '../libs/awsLib';
 import {tipBoxMsg} from '../components/TipBox';
 import {businessType} from '../constants';
 
@@ -114,20 +113,6 @@ const hasClass = function (elem, className) {
   return new RegExp(` ${className} `).test(` ${elem.className} `);
 };
 
-function getProduct(update) {
-  return new Promise((resolve, reject) => {
-    if (localStorage.getItem('productInfo')) {
-      resolve(JSON.parse(localStorage.getItem('productInfo')));
-    } else {
-      invokeApig({ path: '/products' }).then((results) => {
-        localStorage.setItem('productInfo', JSON.stringify(results));
-        resolve(results);
-      }).catch(error => {
-        reject(error);
-      });
-    }
-  });
-}
 function parseVariants(variants) {
   let list = [];
   variants.map((val, i) => {
@@ -170,7 +155,6 @@ export {
   moveAcceptedToBottom,
   sortByCogs,
   hasClass,
-  getProduct,
   parseVariants,
   getTipBoxMessage,
   isCogsPending

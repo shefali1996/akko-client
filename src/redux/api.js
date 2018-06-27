@@ -1,6 +1,7 @@
 export const metrics = '/metrics';
 
-export const customers = () => '/customers';
+export const bugReport = '/bugReport';
+export const connectShopify = '/connect-shopify';
 export const products = '/products';
 export const getProductVariants = productId => `/products/${productId}`;
 

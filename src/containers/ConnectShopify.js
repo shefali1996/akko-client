@@ -1,19 +1,27 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Grid, Row, Col, Button, Label, FormControl, Image } from 'react-bootstrap';
-import SweetAlert from 'sweetalert-react';
+import swal from 'sweetalert2';
 import { testMode } from '../constants';
-import { invokeApig } from '../libs/awsLib';
+import { invokeApigWithoutErrorReport } from '../libs/awsLib';
 import shopifyIcon from '../assets/images/shopify.svg';
 
 const queryString = require('query-string');
 
+const swalert = () => {
+  return swal({
+    title:             'Success!',
+    type:              'success',
+    text:              'Connection is successful.',
+    allowOutsideClick: false,
+    focusConfirm:      false,
+  });
+};
 class ConnectShopify extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      shopName:  '',
-      alertShow: false
+      shopName: '',
     };
     this.goLanding = this.goLanding.bind(this);
     this.onShopNameChange = this.onShopNameChange.bind(this);
@@ -41,42 +49,25 @@ class ConnectShopify extends Component {
 
   onConnect() {
     if (testMode) {
-      this.setState({
-        alertShow: true
+      swalert().then(() => {
+        this.onConfirm();
       });
     } else {
-      invokeApig({
-        path:   '/connect-shopify',
-        method: 'POST',
-        body:   {
-          shopId: this.state.shopName
-        }
-      }).then((result) => {
-        window.location = result.uri;
-      });
+      this.props.connectShopify({shopId: this.state.shopName});
     }
   }
 
   onConfirm() {
-    this.setState({
-      alertShow: false
-    }, () => {
-      this.props.history.push('/business-type');
-    });
+    this.props.history.push('/fetch-status');
   }
 
   renderSuccessPage() {
-    invokeApig({
-      path:   '/connect-shopify',
-      method: 'PUT',
-      body:   {
-        shopId:      this.state.shop,
-        queryParams: this.props.location.search
-      }
+    this.props.updateShopify({
+      shopId:      this.state.shop,
+      queryParams: this.props.location.search
     }).then((result) => {
-      localStorage.setItem('isAuthenticated', 'isAuthenticated');
-      this.setState({
-        alertShow: true
+      swalert().then(() => {
+        this.onConfirm();
       });
     });
   }
@@ -138,14 +129,6 @@ class ConnectShopify extends Component {
               :
               this.renderSuccessPage()
           }
-        <SweetAlert
-          show={this.state.alertShow}
-          showConfirmButton
-          type="success"
-          title="Success!"
-          text="Connection is successful."
-          onConfirm={this.onConfirm}
-        />
       </div>
     );
   }
@@ -155,4 +138,14 @@ const mapStateToProps = state => ({
 
 });
 
+const mapDispatchToProps = (dispatch) => {
+  return {
+    connectShopify: (body) => {
+      return dispatch(dashboardActions.connectShopify(body));
+    },
+    updateShopify: (body) => {
+      return dispatch(dashboardActions.updateShopify(body));
+    }
+  };
+};
 export default connect(mapStateToProps)(ConnectShopify);

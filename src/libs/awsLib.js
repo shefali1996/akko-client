@@ -1,5 +1,6 @@
 import { CognitoUserPool } from 'amazon-cognito-identity-js';
 import AWS from 'aws-sdk';
+import swal from 'sweetalert2';
 import config from '../config';
 import sigV4Client from './sigV4Client';
 
@@ -41,7 +42,7 @@ export async function authUser() {
   }
 
   authPromise = getUserToken(currentUser).then((userToken) => {
-	  return getAwsCredentials(userToken);
+    return getAwsCredentials(userToken);
   });
 
   await authPromise;
@@ -95,33 +96,27 @@ export async function invokeApig({
   return authUser().then(() => {
     const signedRequest = sigV4Client
       .newClient({
-		  accessKey:    AWS.config.credentials.accessKeyId,
-		  secretKey:    AWS.config.credentials.secretAccessKey,
-		  sessionToken: AWS.config.credentials.sessionToken,
-		  region:       config.apiGateway.REGION,
-		  endpoint:     config.apiGateway.URL
+        accessKey:    AWS.config.credentials.accessKeyId,
+        secretKey:    AWS.config.credentials.secretAccessKey,
+        sessionToken: AWS.config.credentials.sessionToken,
+        region:       config.apiGateway.REGION,
+        endpoint:     config.apiGateway.URL
       })
       .signRequest({
-		  method,
-		  path,
-		  headers,
-		  queryParams,
-		  body
+        method,
+        path,
+        headers,
+        queryParams,
+        body
       });
 
-	  body = body ? JSON.stringify(body) : body;
-	  headers = signedRequest.headers;
-	  console.log('signedRequest', signedRequest);
-	  return fetch(signedRequest.url, {
+    body = body ? JSON.stringify(body) : body;
+    headers = signedRequest.headers;
+    console.log('signedRequest', signedRequest);
+    return fetch(signedRequest.url, {
       method,
       headers,
       body
-	  });
-  }).then((results) => {
-    if (results.status !== 200 && results.status !== 404) {
-      throw new Error(results.text());
-	  }
-	  console.log('results', results);
-	  return results.json();
+    });
   });
 }

@@ -11,10 +11,6 @@ export const getChartDataError = createAction(constants.GET_CHART_DATA_ERROR);
 
 export const emptyTimeFrameData = createAction(constants.EMPTY_TIME_FRAME_DATA);
 
-export const getCustomersRequest = createAction(constants.GET_CUSTOMERS_REQUEST);
-export const getCustomersSuccess = createAction(constants.GET_CUSTOMERS_SUCCESS);
-export const getCustomersError = createAction(constants.GET_CUSTOMERS_ERROR);
-
 export const getProductsRequest = createAction(constants.GET_PRODUCTS_REQUEST);
 export const getProductsSuccess = createAction(constants.GET_PRODUCTS_SUCCESS);
 export const getProductsError = createAction(constants.GET_PRODUCTS_ERROR);

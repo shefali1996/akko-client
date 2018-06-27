@@ -11,7 +11,6 @@ import Navigationbar from '../components/Navigationbar';
 import PriceBox from '../components/PriceBox';
 import ExploreMetrics from '../components/ExploreMetrics';
 import Footer from '../components/Footer';
-import { invokeApig } from '../libs/awsLib';
 import styles from '../constants/styles';
 import invalidImg from '../assets/images/FontAwesome472.svg';
 import * as dashboardActions from '../redux/dashboard/actions';
@@ -51,7 +50,6 @@ class Dashboard extends Component {
     this.props.getMetrics().then(() => {
       this.props.getUser();
       this.props.getChannel();
-      this.props.getCustomers();
     });
     this.props.getProducts().then((products) => {
       this.props.getVariants(products);
@@ -373,7 +371,6 @@ const mapStateToProps = state => {
   return {
     metricsData:    state.dashboard.metricsData,
     chartData:      state.exploration.chartData,
-    customersData:  state.customers.customers,
     productData:    state.products.products,
     userData:       state.dashboard.userData,
     channelData:    state.dashboard.channelData,
@@ -392,9 +389,6 @@ const mapDispatchToProps = (dispatch) => {
     },
     emptyTimeFrameData: () => {
       return dispatch(dashboardActions.emptyTimeFrameData());
-    },
-    getCustomers: () => {
-      return dispatch(dashboardActions.getCustomers());
     },
     getProducts: () => {
       return dispatch(dashboardActions.getProducts());

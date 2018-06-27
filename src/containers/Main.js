@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import {withRouter} from 'react-router';
 import { Spin } from 'antd';
-import swal from 'sweetalert';
+import swal from 'sweetalert2';
 import {includes, isEmpty, isEqual} from 'lodash';
 import { hasClass } from '../helpers/Csv';
 import { fetchRoutes, fetchStatusInterval, pollingInterval, routeConstants } from '../constants';
@@ -60,8 +60,7 @@ class Main extends Component {
   }
 
   handleSWAL() {
-    const modal = document.querySelector('.sweet-alert');
-    if (modal && hasClass(modal, 'showSweetAlert')) {
+    if (swal.isVisible()) {
       swal.close();
     }
   }

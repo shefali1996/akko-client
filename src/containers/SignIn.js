@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import { Grid, Row, Col, Button, Label, Tabs, Tab, FormControl, Tooltip, OverlayTrigger } from 'react-bootstrap';
 import { StyleRoot } from 'radium';
 import { Spin } from 'antd';
-import SweetAlert from 'sweetalert-react';
+import swal from 'sweetalert2';
 import {
   CognitoUserPool,
   AuthenticationDetails,
@@ -12,8 +12,18 @@ import {
 import { validateEmail } from '../constants';
 import MaterialIcon from '../assets/images/MaterialIcon 3.svg';
 import config from '../config';
-import { invokeApig } from '../libs/awsLib';
+import { invokeApigWithoutErrorReport } from '../libs/apiUtils';
 import user from '../auth/user';
+
+const swalert = () => {
+  return swal({
+    title:             'Error!',
+    type:              'error',
+    text:              'Login failed. Please try again',
+    allowOutsideClick: false,
+    focusConfirm:      false,
+  });
+};
 
 class SignIn extends Component {
   constructor(props) {
@@ -21,7 +31,6 @@ class SignIn extends Component {
     this.state = {
       email:          '',
       password:       '',
-      fetchError:     false,
       errorText:      '',
       pendingRequest: false,
     };
@@ -126,7 +135,7 @@ class SignIn extends Component {
         pendingRequest: true,
       });
       this.login(email, password).then((result) => {
-        return invokeApig({path: '/user'});
+        return invokeApigWithoutErrorReport({path: '/user'});
       }).then((result) => {
         if (!result.status && result.message === 'Unable to fetch user') {
           this.setState({
@@ -170,10 +179,7 @@ class SignIn extends Component {
             });
             this.refs.password.show();
           } else {
-            this.setState({
-              errorText:  'Login failed. Please try again',
-              fetchError: true
-            });
+            swalert();
           }
         });
     }
@@ -278,16 +284,6 @@ class SignIn extends Component {
             <Tab eventKey={2} title="Sign Up" />
           </Tabs>
         </Row>
-        <SweetAlert
-          show={this.state.fetchError}
-          showConfirmButton
-          type="error"
-          title="Error"
-          text={this.state.errorText.toString()}
-          onConfirm={() => {
-                this.setState({ fetchError: false });
-            }}
-        />
       </Grid>
     );
   }

@@ -2,12 +2,12 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Grid, Row, Col, Button, Label, Tabs, Tab, FormControl, Tooltip, OverlayTrigger } from 'react-bootstrap';
 import Select from 'react-select';
-import SweetAlert from 'sweetalert-react';
+import swal from 'sweetalert2';
 import { AuthenticationDetails, CognitoUserPool } from 'amazon-cognito-identity-js';
 import { isEmpty } from 'lodash';
 import { validateEmail, testMode } from '../constants';
 import config from '../config';
-import { invokeApig, signOutUser } from '../libs/awsLib';
+import { invokeApigWithoutErrorReport, signOutUser } from '../libs/awsLib';
 import MaterialIcon from '../assets/images/MaterialIcon 3.svg';
 import { Spin } from 'antd';
 import {withRouter} from 'react-router';
@@ -19,6 +19,16 @@ const options = [
   { value: 'Employee', label: 'Employee' },
   { value: 'Other', label: 'Other' }
 ];
+
+const swalert = () => {
+  return swal({
+    title:             'Thanks for signing up!!',
+    type:              'success',
+    text:              'Let us now setup your new akko account.',
+    allowOutsideClick: false,
+    focusConfirm:      false,
+  });
+};
 
 class SignUp extends Component {
   constructor(props) {
@@ -34,7 +44,6 @@ class SignUp extends Component {
       newUser:        null,
       emailSent:      false,
       verifyCode:     '',
-      alertShow:      false,
   	  pendingRequest: false,
     };
     this.goLanding = this.goLanding.bind(this);
@@ -222,8 +231,8 @@ class SignUp extends Component {
 
   onSignUp() {
     if (testMode) {
-      this.setState({
-        alertShow: true
+      swalert().then(() => {
+        this.onConfirm();
       });
     } else {
       const {firstName, lastName, companyName, yourRole, email, password} = this.state;
@@ -278,8 +287,8 @@ class SignUp extends Component {
               email:    this.state.email,
               location: 'Earth'
             }).then((result) => {
-              this.setState({
-                alertShow: true
+              swalert().then(() => {
+                this.onConfirm();
               });
             });
           });
@@ -288,14 +297,11 @@ class SignUp extends Component {
     }
   }
   onConfirm() {
-    this.setState({
-      alertShow: false
-    });
     this.props.history.push('/connect-shopify');
   }
 
   createNewUser(userData) {
-    return invokeApig({
+    return invokeApigWithoutErrorReport({
       path:   '/user',
       method: 'POST',
       body:   userData
@@ -552,14 +558,6 @@ class SignUp extends Component {
                     </Button>
                   </Col>
                 }
-                <SweetAlert
-                  show={this.state.alertShow}
-                  showConfirmButton
-                  type="success"
-                  title="Thanks for signing up!"
-                  text="Let us now setup your new akko account."
-                  onConfirm={this.onConfirm}
-                />
               </div>
             </Tab>
           </Tabs>
