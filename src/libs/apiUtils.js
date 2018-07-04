@@ -3,25 +3,26 @@ import { invokeApig } from '../libs/awsLib';
 import * as api from '../redux/api';
 
 const moment = require('moment');
+
 const swalert = (status, response, data = {}) => {
   const errCode = response.status || '';
   const log = {
-    message: `GET : ${status ? response.text() : response}`,
-    log: `Error occured in ${data.path} on ${moment().format()} at window location ${window.location.href}`
-  }
+    message: `${data.path}:${data.method || 'GET'} - ${status ? response.text() : response}`,
+    log:     `Error occured in ${data.path} on ${moment().format()} at window location ${window.location.href}`
+  };
   swal({
     type:              'error',
     title:             `API Error ${errCode}`,
-    html:              "Uh oh! Looks like you've found a bug in our code. We've collected some logs and will fix this as soon as possible. If you need any help in the meantime, please write to us at "+' <a href="mailto:help@akko.io"> help@akko.io</a>',
+    html:              "Uh oh! Looks like you've found a bug in our code. We've collected some logs and will fix this as soon as possible. If you need any help in the meantime, please write to us at " + ' <a href="mailto:help@akko.io"> help@akko.io</a>',
     allowOutsideClick: false,
     confirmButtonText: 'OK',
     focusConfirm:      false,
-    onOpen: () => invokeApigWithoutErrorReport({
-          path:   api.bugReport,
-          method: 'POST',
-          body:   log
-      })
+    onOpen:            () => invokeApigWithoutErrorReport({
+      path:   api.bugReport,
+      method: 'POST',
+      body:   log
     })
+  });
 };
 
 export const invokeApigWithErrorReport = (params) => {

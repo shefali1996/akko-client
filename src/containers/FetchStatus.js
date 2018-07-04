@@ -38,6 +38,7 @@ class FetchStatusContainer extends Component {
     const {channel, status} = this.state;
     if (!isEmpty(status.data) && status.data.fetchedPercent >= 100) {
       clearInterval(this.statusInterval);
+      this.props.history.push('/dashboard');
     }
   }
   getStatus = () => {
