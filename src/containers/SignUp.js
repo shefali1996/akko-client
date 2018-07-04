@@ -7,17 +7,30 @@ import { AuthenticationDetails, CognitoUserPool } from 'amazon-cognito-identity-
 import { isEmpty } from 'lodash';
 import { validateEmail, testMode } from '../constants';
 import config from '../config';
-import { invokeApigWithoutErrorReport, signOutUser } from '../libs/awsLib';
+import { signOutUser } from '../libs/awsLib';
+import { invokeApigWithoutErrorReport } from '../libs/apiUtils';
 import MaterialIcon from '../assets/images/MaterialIcon 3.svg';
 import { Spin } from 'antd';
-import {withRouter} from 'react-router';
+import { withRouter } from 'react-router';
 import user from '../auth/user';
 
 const options = [
-  { value: 'CEO/Founder', label: 'CEO/Founder' },
-  { value: 'Manager', label: 'Manager' },
-  { value: 'Employee', label: 'Employee' },
-  { value: 'Other', label: 'Other' }
+  {
+    value: 'CEO/Founder',
+    label: 'CEO/Founder'
+  },
+  {
+    value: 'Manager',
+    label: 'Manager'
+  },
+  {
+    value: 'Employee',
+    label: 'Employee'
+  },
+  {
+    value: 'Other',
+    label: 'Other'
+  }
 ];
 
 const swalert = () => {
@@ -44,7 +57,7 @@ class SignUp extends Component {
       newUser:        null,
       emailSent:      false,
       verifyCode:     '',
-  	  pendingRequest: false,
+      pendingRequest: false,
     };
     this.goLanding = this.goLanding.bind(this);
     this.handleSelect = this.handleSelect.bind(this);
@@ -190,11 +203,11 @@ class SignUp extends Component {
   }
 
   onEmailBlur() {
-    const { email } = this.state;
+    const {email} = this.state;
     if (!validateEmail(email)) {
-	  this.setState({
-		  emailError: ' Invalid email address'
-	  });
+      this.setState({
+        emailError: ' Invalid email address'
+      });
       this.refs.email.show();
       return false;
     }
@@ -243,26 +256,26 @@ class SignUp extends Component {
       const emailAuth = this.onEmailBlur();
       const passAuth = this.validatePassword();
       if (firstNameAuth && lastNameAuth && companyNameAuth && roleAuth && emailAuth && passAuth) {
-	  this.setState({
-		  pendingRequest: true,
-	  });
+        this.setState({
+          pendingRequest: true,
+        });
         this.signup(email, password).then((result) => {
           if (!result.userConfirmed) {
             this.setState({
               emailSent:      true,
-			  pendingRequest: false,
+              pendingRequest: false,
               newUser:        result.user
             });
           }
         }).catch((error) => {
-		  this.setState({
-			  pendingRequest: false,
-		  });
+          this.setState({
+            pendingRequest: false,
+          });
           if (error.message === 'An account with the given email already exists.') {
-			  this.setState({
-				  emailError: ' An account with the given email already exists'
-			  });
-			  this.refs.email.show();
+            this.setState({
+              emailError: ' An account with the given email already exists'
+            });
+            this.refs.email.show();
           }
         });
       }
@@ -270,7 +283,7 @@ class SignUp extends Component {
   }
 
   onVerify() {
-    const { verifyCode, newUser, email, password } = this.state;
+    const {verifyCode, newUser, email, password} = this.state;
     if (verifyCode.length > 0) {
       this.confirm(newUser, verifyCode).then((result) => {
         if (result === 'SUCCESS') {
@@ -318,27 +331,25 @@ class SignUp extends Component {
       ClientId:   config.cognito.APP_CLIENT_ID
     });
 
-    return new Promise((resolve, reject) =>
-      userPool.signUp(email, password, [], null, (err, result) => {
-        if (err) {
-          reject(err);
-          return;
-        }
+    return new Promise((resolve, reject) => userPool.signUp(email, password, [], null, (err, result) => {
+      if (err) {
+        reject(err);
+        return;
+      }
 
-        resolve(result);
-      })
+      resolve(result);
+    })
     );
   }
 
   confirm(user, confirmationCode) {
-    return new Promise((resolve, reject) =>
-      user.confirmRegistration(confirmationCode, true, (err, result) => {
-        if (err) {
-          reject(err);
-          return;
-        }
-        resolve(result);
-      })
+    return new Promise((resolve, reject) => user.confirmRegistration(confirmationCode, true, (err, result) => {
+      if (err) {
+        reject(err);
+        return;
+      }
+      resolve(result);
+    })
     );
   }
 
@@ -349,11 +360,10 @@ class SignUp extends Component {
     };
     const authenticationDetails = new AuthenticationDetails(authenticationData);
 
-    return new Promise((resolve, reject) =>
-      user.authenticateUser(authenticationDetails, {
-        onSuccess: result => resolve(),
-        onFailure: err => reject(err)
-      })
+    return new Promise((resolve, reject) => user.authenticateUser(authenticationDetails, {
+      onSuccess: result => resolve(),
+      onFailure: err => reject(err)
+    })
     );
   }
 
@@ -370,7 +380,7 @@ class SignUp extends Component {
   }
 
   render() {
-    const { firstName, lastName, companyName, yourRole, email, password, emailSent, verifyCode } = this.state;
+    const {firstName, lastName, companyName, yourRole, email, password, emailSent, verifyCode} = this.state;
     return (
       <Grid className="login-layout">
         <Row>
@@ -394,43 +404,43 @@ class SignUp extends Component {
                   <Col md={6}>
                     <div className="flex-right padding-t-20">
                       <OverlayTrigger
-                        placement="left"
-                        trigger="manual"
-                        ref="firstName"
-                        overlay={
-                          <Tooltip id="tooltip"><img src={MaterialIcon} alt="icon" /> Enter first name</Tooltip>
-                        }>
-                        <FormControl
-                          type="text"
-                          placeholder="first name"
-                          className="signup-email-input"
-                          value={firstName}
-                          onChange={this.onFirstNameChange}
-                          onBlur={this.validateFirstName}
-                          onFocus={this.onFouseFirstName}
-                          />
-                      </OverlayTrigger>
+                            placement="left"
+                            trigger="manual"
+                            ref="firstName"
+                            overlay={
+                                <Tooltip id="tooltip"><img src={MaterialIcon} alt="icon" /> Enter first name</Tooltip>
+            }>
+                            <FormControl
+                                type="text"
+                                placeholder="first name"
+                                className="signup-email-input"
+                                value={firstName}
+                                onChange={this.onFirstNameChange}
+                                onBlur={this.validateFirstName}
+                                onFocus={this.onFouseFirstName}
+            />
+                          </OverlayTrigger>
                     </div>
                   </Col>
                   <Col md={6}>
                     <div className="flex-left padding-t-20">
                       <OverlayTrigger
-                        placement="right"
-                        trigger="manual"
-                        ref="lastName"
-                        overlay={
-                          <Tooltip id="tooltip"><img src={MaterialIcon} alt="icon" /> Enter last name</Tooltip>
-                        }>
-                        <FormControl
-                          type="text"
-                          placeholder="last name"
-                          className="signup-email-input"
-                          value={lastName}
-                          onChange={this.onLastNameChange}
-                          onBlur={this.validateLastName}
-                          onFocus={this.onFouseLastName}
-                          />
-                      </OverlayTrigger>
+                            placement="right"
+                            trigger="manual"
+                            ref="lastName"
+                            overlay={
+                                <Tooltip id="tooltip"><img src={MaterialIcon} alt="icon" /> Enter last name</Tooltip>
+            }>
+                            <FormControl
+                                type="text"
+                                placeholder="last name"
+                                className="signup-email-input"
+                                value={lastName}
+                                onChange={this.onLastNameChange}
+                                onBlur={this.validateLastName}
+                                onFocus={this.onFouseLastName}
+            />
+                          </OverlayTrigger>
                     </div>
                   </Col>
                 </Col>
@@ -438,43 +448,43 @@ class SignUp extends Component {
                   <Col md={6}>
                     <div className="flex-right padding-t-20">
                       <OverlayTrigger
-                        placement="left"
-                        trigger="manual"
-                        ref="companyName"
-                        overlay={
-                          <Tooltip id="tooltip"><img src={MaterialIcon} alt="icon" /> Enter company name</Tooltip>
-                        }>
-                        <FormControl
-                          type="text"
-                          placeholder="company name"
-                          className="signup-email-input"
-                          value={companyName}
-                          onChange={this.onCompanyNameChange}
-                          onBlur={this.validateCompanyName}
-                          onFocus={this.onFouseCompanyName}
-                          />
-                      </OverlayTrigger>
+                            placement="left"
+                            trigger="manual"
+                            ref="companyName"
+                            overlay={
+                                <Tooltip id="tooltip"><img src={MaterialIcon} alt="icon" /> Enter company name</Tooltip>
+            }>
+                            <FormControl
+                                type="text"
+                                placeholder="company name"
+                                className="signup-email-input"
+                                value={companyName}
+                                onChange={this.onCompanyNameChange}
+                                onBlur={this.validateCompanyName}
+                                onFocus={this.onFouseCompanyName}
+            />
+                          </OverlayTrigger>
                     </div>
                   </Col>
                   <Col md={6}>
                     <div className="flex-left padding-t-20">
                       <OverlayTrigger
-                        placement="right"
-                        trigger="manual"
-                        ref="yourRole"
-                        overlay={
-                          <Tooltip id="tooltip"><img src={MaterialIcon} alt="icon" /> Choose your role</Tooltip>
-                        }>
-                        <Select
-                          name="form-field-name"
-                          placeholder="your role"
-                          className="signup-role-input"
-                          value={yourRole}
-                          options={options}
-                          onChange={this.logChange}
-                          onFocus={this.yourRoleFocus}
-                      />
-                      </OverlayTrigger>
+                            placement="right"
+                            trigger="manual"
+                            ref="yourRole"
+                            overlay={
+                                <Tooltip id="tooltip"><img src={MaterialIcon} alt="icon" /> Choose your role</Tooltip>
+            }>
+                            <Select
+                                name="form-field-name"
+                                placeholder="your role"
+                                className="signup-role-input"
+                                value={yourRole}
+                                options={options}
+                                onChange={this.logChange}
+                                onFocus={this.yourRoleFocus}
+            />
+                          </OverlayTrigger>
                     </div>
                   </Col>
                 </Col>
@@ -482,43 +492,43 @@ class SignUp extends Component {
                   <Col md={6}>
                     <div className="flex-right padding-t-20">
                       <OverlayTrigger
-                        placement="left"
-                        trigger="manual"
-                        ref="email"
-                        overlay={
-                          <Tooltip id="tooltip"><img src={MaterialIcon} alt="icon" />{this.state.emailError}</Tooltip>
-                        }>
-                        <FormControl
-                          type="text"
-                          placeholder="email"
-                          className="signup-email-input"
-                          value={email}
-                          disabled={emailSent}
-                          onBlur={this.onEmailBlur}
-                          onFocus={this.onEmailFocus}
-                          onChange={this.onEmailChange} />
-                      </OverlayTrigger>
+                            placement="left"
+                            trigger="manual"
+                            ref="email"
+                            overlay={
+                                <Tooltip id="tooltip"><img src={MaterialIcon} alt="icon" />{this.state.emailError}</Tooltip>
+            }>
+                            <FormControl
+                                type="text"
+                                placeholder="email"
+                                className="signup-email-input"
+                                value={email}
+                                disabled={emailSent}
+                                onBlur={this.onEmailBlur}
+                                onFocus={this.onEmailFocus}
+                                onChange={this.onEmailChange} />
+                          </OverlayTrigger>
                     </div>
                   </Col>
                   <Col md={6}>
                     <div className="flex-left padding-t-20">
                       <OverlayTrigger
-                        placement="right"
-                        trigger="manual"
-                        ref="password"
-                        overlay={
-                          <Tooltip id="tooltip"><img src={MaterialIcon} alt="icon" /> Need at least 8 characters</Tooltip>
-                        }>
-                        <FormControl
-                          type="password"
-                          placeholder="password"
-                          className="signup-email-input"
-                          value={password}
-                          disabled={emailSent}
-                          onBlur={this.validatePassword}
-                          onFocus={this.passwordOnFocus}
-                          onChange={this.onPasswordChange} />
-                      </OverlayTrigger>
+                            placement="right"
+                            trigger="manual"
+                            ref="password"
+                            overlay={
+                                <Tooltip id="tooltip"><img src={MaterialIcon} alt="icon" /> Need at least 8 characters</Tooltip>
+            }>
+                            <FormControl
+                                type="password"
+                                placeholder="password"
+                                className="signup-email-input"
+                                value={password}
+                                disabled={emailSent}
+                                onBlur={this.validatePassword}
+                                onFocus={this.passwordOnFocus}
+                                onChange={this.onPasswordChange} />
+                          </OverlayTrigger>
                     </div>
                   </Col>
                 </Col>
@@ -527,37 +537,40 @@ class SignUp extends Component {
                     <Col md={12} className="padding-t-30">
                       <Label className="signup-title">
                         We've sent a verification code to {email}
-                      </Label>
+                          </Label>
                     </Col>
                     <Col md={12}>
                       <Label className="signup-title">
                           Please enter the code to verify your email address
-                      </Label>
+                          </Label>
                     </Col>
                     <Col md={12} className="flex-center padding-t-10">
                       <FormControl
-                        type="text"
-                        placeholder="verification code"
-                        className="signup-email-input"
-                        value={verifyCode}
-                        onChange={this.onVerifyCodeChange} />
+                            type="text"
+                            placeholder="verification code"
+                            className="signup-email-input"
+                            value={verifyCode}
+                            onChange={this.onVerifyCodeChange} />
                     </Col>
                     <Col md={12} className="padding-t-30">
                       <Button className="login-button" onClick={this.onVerify}>
                           VERIFY
-                      </Button>
+                          </Button>
                     </Col>
                   </div>
-                  :
+                :
                   <Col md={12} className="padding-t-30">
                     <Button className="login-button" onClick={this.onSignUp}>
                         SIGN UP
-                      <div style={{marginLeft: 10, display: this.state.pendingRequest ? 'inline-block' : 'none'}}>
-                        <Spin size="small" />
-                      </div>
-                    </Button>
+                          <div style={{
+                    marginLeft: 10,
+                    display:    this.state.pendingRequest ? 'inline-block' : 'none'
+                }}>
+                              <Spin size="small" />
+                            </div>
+                        </Button>
                   </Col>
-                }
+            }
               </div>
             </Tab>
           </Tabs>
