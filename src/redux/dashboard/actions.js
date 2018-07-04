@@ -1,5 +1,5 @@
 import * as actions from '../../redux/actions';
-import { invokeApigWithErrorReport } from '../../libs/apiUtils';
+import { invokeApigWithErrorReport, invokeApigWithoutErrorReport } from '../../libs/apiUtils';
 import * as api from '../../redux/api';
 import {plotByOptions, categoryOptions} from '../../constants';
 

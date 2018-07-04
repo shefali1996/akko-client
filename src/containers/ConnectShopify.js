@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import { Grid, Row, Col, Button, Label, FormControl, Image } from 'react-bootstrap';
 import swal from 'sweetalert2';
 import { testMode } from '../constants';
-import { invokeApigWithoutErrorReport } from '../libs/awsLib';
+import * as dashboardActions from '../redux/dashboard/actions';
 import shopifyIcon from '../assets/images/shopify.svg';
 
 const queryString = require('query-string');
@@ -48,6 +48,7 @@ class ConnectShopify extends Component {
   }
 
   onConnect() {
+    console.log('this.props', this.props);
     if (testMode) {
       swalert().then(() => {
         this.onConfirm();
@@ -148,4 +149,4 @@ const mapDispatchToProps = (dispatch) => {
     }
   };
 };
-export default connect(mapStateToProps)(ConnectShopify);
+export default connect(mapStateToProps, mapDispatchToProps)(ConnectShopify);
