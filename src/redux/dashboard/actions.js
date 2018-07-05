@@ -214,7 +214,7 @@ export const getLuTimestamp = () => {
 export const connectShopify = (body = {}) => {
   return (dispatch, getState) => {
     return new Promise((resolve, reject) => {
-      invokeApigWithoutErrorReport({
+      invokeApigWithErrorReport({
         path:   api.connectShopify,
         method: 'POST',
         body
@@ -232,7 +232,7 @@ export const connectShopify = (body = {}) => {
 export const updateShopify = (body = {}) => {
   return (dispatch, getState) => {
     return new Promise((resolve, reject) => {
-      invokeApigWithoutErrorReport({
+      invokeApigWithErrorReport({
         path:   api.connectShopify,
         method: 'PUT',
         body
