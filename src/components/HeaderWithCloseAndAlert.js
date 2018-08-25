@@ -46,15 +46,13 @@ class HeaderWithCloseAndAlert extends Component {
     return (
       <div>
         <Row>
-          <Col md={12}>
-            <Col md={6} className="text-left padding-t-20">
-              <Label className="login-title">
+          <Col md={6} className="text-left padding-t-20">
+            <Label className="login-title" style={{paddingLeft: '0px'}}>
                 akko
-              </Label>
-            </Col>
-            <Col md={6} className="text-right padding-t-20">
-              <Button className="close-button" onClick={this.close} />
-            </Col>
+            </Label>
+          </Col>
+          <Col md={6} className="text-right padding-t-20">
+            <Button className="close-button" onClick={this.close} />
           </Col>
         </Row>
         <Row className="account-setup-header">

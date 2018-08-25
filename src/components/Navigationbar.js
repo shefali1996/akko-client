@@ -4,6 +4,7 @@ import { Row, Col, Label, Image, DropdownButton } from 'react-bootstrap';
 import user from '../auth/user';
 import profileIcon from '../assets/images/profileIconWhite.svg';
 import downArrowWhite from '../assets/images/downArrowWhite.svg';
+import logo from '../assets/images/transparent_white.svg'
 
 class Navigationbar extends Component {
   constructor(props) {
@@ -17,7 +18,7 @@ class Navigationbar extends Component {
 
   onLogout() {
     user.logout();
-    this.props.history.push('/');
+    window.location.pathname = '/';
   }
 
   goToSetting() {
@@ -30,7 +31,7 @@ class Navigationbar extends Component {
         <Row>
           <Col md={3} sm={6} xs={6} className="flex-left app-title-container padding-left-right-7">
             <Label className="app-title">
-              akko
+              <div className="logo" />
             </Label>
             {companyName ? <span className="company-name-label">
               <span>{companyName}</span>

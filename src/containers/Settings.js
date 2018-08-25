@@ -4,6 +4,7 @@ import {withRouter} from 'react-router';
 import { Grid, Row, Col, Button, Label, Image } from 'react-bootstrap';
 import { Input, Select, Checkbox, Spin } from 'antd';
 import {filter, isEmpty, isNull} from 'lodash';
+import { invokeApig } from '../libs/awsLib';
 import * as dashboardActions from '../redux/dashboard/actions';
 
 const Option = Select.Option;
@@ -12,14 +13,17 @@ class Setting extends Component {
   constructor(props) {
     super(props);
   }
-
   componentWillReceiveProps(props) {
-
+    
   }
 
   componentDidMount() {
-    this.props.getCount();
+    document.title = "Settings | Akko";
+    if(_.isEmpty(this.props.productCount.data)){
+      this.props.getCount();
+    }
   }
+
   goDashboard = () => {
     this.props.history.push('/dashboard');
   }

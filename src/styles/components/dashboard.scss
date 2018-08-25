@@ -1,30 +1,30 @@
 .dashboard-container {
   overflow: hidden;
-	width: $full-width;
-	background-color: $main-background-color;
-	padding: $size-0;
-	> .row {
-		margin: 0;
-		transform: translateZ(0);
-		min-height: calc(100vh - 60px);
-	}
+  width: $full-width;
+  background-color: $main-background-color;
+  padding: $size-0;
+  > .row {
+    margin: 0;
+    transform: translateZ(0);
+    min-height: calc(100vh - 60px);
+  }
 }
 .page-container {
   overflow: hidden;
-	width: $full-width;
-	background-color: $main-background-color;
-	padding: $size-0;
-  margin-top: 60px;
+  width: $full-width;
+  background-color: $main-background-color;
+  padding: $size-0;
+  margin-top: 3%;
   position: relative;
-	> .row {
-		margin: 0;
-		min-height: calc(100vh - 60px);
-	}
+  > .row {
+    margin: 0;
+    min-height: calc(100vh - 60px);
+  }
 }
-.dialog{
+.dialog {
   height: 100%;
   width: 100%;
-  background: #ffffff;
+  background: $pure-white;
   position: fixed;
   top: 0;
   bottom: 0;
@@ -32,125 +32,142 @@
   right: 0;
   z-index: 1111;
 }
-.analysis{
+.analysis {
   padding: 5px 15px;
   overflow: hidden;
 }
-  .page-select-text{
+.page-select-text {
+  font-family: Ubuntu;
+  font-size: 20px;
+  color: #666666;
+  font-weight: bold;
+  text-decoration: none solid rgb(102, 102, 102);
+  top: -12px;
+  position: absolute;
+}
+.right-top-description {
+  font-family: Ubuntu;
+  font-size: 11px;
+  color: $smooth-grey;
+  font-weight: bold;
+  text-decoration: none solid rgb(187, 187, 187);
+  width: 80%;
+  padding-top: 20px;
+}
+.content-box {
+  background: #f2f2f2;
+  margin-top: 10px;
+  padding: 10px 15px;
+  padding-bottom: 50px;
+}
+.charts-card-style {
+  // margin-top: 10px;
+  border: 1px solid $light-gray-color;
+  border-radius: 2px;
+  font-family: ubuntu !important;
+  font-size: 16px;
+  text-align: left;
+}
+.explore-dialog-container {
+  max-width: 1000px !important;
+  transform: translate(0px, 0px) !important;
+}
+.explore-dialog-body {
+  max-height: calc(100vh - 110px) !important;
+}
+.dd-lable {
+  font-size: 12px;
+}
+.expenses-breakdown {
+  .expense-text {
     font-family: Ubuntu;
-    font-size: 20px;
-    color: #666666;
+    font-size: 16px;
+    color: $light-gray-color;
     font-weight: bold;
-    text-decoration: none solid rgb(102, 102, 102);
-    top: -12px;
-    position: absolute;
+    text-decoration: none solid rgb(200, 200, 200);
+    .text-row {
+      padding-top: 5px;
+    }
+    .expense-text-color {
+      color: $grey-color-metrics;
+    }
+    .dash {
+      width: 5px;
+      margin-right: 5px;
+      display: inline-block;
+    }
+    hr {
+      margin-top: 15px;
+      margin-bottom: 15px;
+    }
+    .final-row {
+      color: $main-blue-color;
+    }
   }
-  .right-top-description{
+}
+.select-container {
+  width: 90%;
+  margin: 0 auto;
+  height: 110px;
+  margin-top: 5px;
+  margin-bottom: 7px;
+}
+
+.card-content {
+  padding: 7px !important;
+  .card-title {
     font-family: Ubuntu;
-    font-size: 11px;
-    color: #bbbbbb;
+    font-size: 14px;
+    color: $smooth-grey;
     font-weight: bold;
     text-decoration: none solid rgb(187, 187, 187);
-    width: 80%;
-    padding-top: 20px;
+    text-align: center;
   }
-  .content-box{
-    background: #f2f2f2;
+  .chip-wrapper {
+    display: inline-block;
     margin-top: 10px;
-    padding: 10px 15px;
-    padding-bottom: 50px;
-  }
-  .charts-card-style{
-    margin-top: 10px;
-    border: 1px solid #c8c8e8;
-    border-radius: 2px;
-    font-family: ubuntu !important;
-    font-size: 16px;
-    text-align: left;
-  }
-  .dd-lable{
-    font-size: 12px;
-  }
-  .expenses-breakdown{
-    .expense-text{
-      font-family: Ubuntu;
-      font-size: 16px;
-      color: #c8c8c8;
-      font-weight: bold;
-      text-decoration: none solid rgb(200, 200, 200);
-      .text-row{
-        padding-top: 5px;
-      }
-      .dash{
-        width: 5px;
-        margin-right: 5px;
-        display: inline-block;
-      }
-      hr{
-        margin-top: 15px;
-        margin-bottom: 15px;
-      }
-      .final-row{
-        color: #575dde;
-      }
+    .chip {
+      background-color: $smooth-grey !important;
+      font-family: Ubuntu !important;
+      text-align: center;
     }
   }
-    .select-container{
-      width: 90%;
-      margin: 0 auto;
-      height: 110px;
-      margin-top: 5px;
-      margin-bottom: 7px;
+  .link {
+    font-family: Ubuntu;
+    font-weight: bold;
+    text-align: center;
+    margin-top: 8px;
+    text-decoration: underline;
+    a {
+      font-size: 14px;
+      color: $new-blue;
     }
+  }
+}
 
-    .card-content{
-      padding: 7px !important;
-      .card-title{
-        font-family: Ubuntu;
-        font-size: 14px;
-        color: #bbbbbb;
-        font-weight: bold;
-        text-decoration: none solid rgb(187, 187, 187);
-        text-align: center
-      }
-      .chip-wrapper{
-        display: inline-block;
-        margin-top: 10px;
-        .chip{
-          background-color: #bbbbbb !important;
-          font-family: Ubuntu !important;
-          text-align: center;
-        }
-      }
-      .link{
-        font-family: Ubuntu;
-        font-weight: bold;
-        text-align: center;
-        margin-top: 8px;
-        text-decoration: underline;
-        a{
-          font-size: 14px;
-          color: #575dde;
-        }
-      }
+.text-center {
+  .charts-card-style {
+    .label-header,
+    .suboption-btn {
+      margin: 0;
     }
+  }
+}
 
-
-
-.filter-dialog{
-  .charts-card-style{
-    box-shadow:none !important;
+.filter-dialog {
+  .charts-card-style {
+    box-shadow: none !important;
     margin-top: 0;
     border: none;
   }
-  .close-btn{
-  margin-top: -16px;
-  margin-right: -16px;
+  .close-btn {
+    margin-top: -16px;
+    margin-right: -16px;
   }
-  .search-input{
+  .search-input {
     height: 100%;
   }
-  .selected-text{
+  .selected-text {
     font-family: Ubuntu;
     font-size: 14px;
     color: $main-blue-color;
@@ -158,116 +175,143 @@
     text-align: center;
     margin-bottom: 15px;
   }
-  .filter-table-header{
+  .filter-table-header {
     thead > tr > th {
       border: none;
     }
   }
-  .filter-table-body{
-    .custom-table{
-      background: #fbfbfb;
-      border-top: 3px solid #FFFFFF;
-      border-bottom: 3px solid #FFFFFF;
+  .filter-table-body {
+    .custom-table {
+      background: $dull-white;
+      border-top: 3px solid $pure-white;
+      border-bottom: 3px solid $pure-white;
     }
   }
-  .half-width{
+  .half-width {
     width: 100%;
   }
-  .selected-row{
-    background: #fbfbfb;
+  .selected-row {
+    background: $dull-white;
     padding-left: 5px;
     margin-top: 5px;
   }
 }
 // -----------------------NEW dashboardJSON--------------
-.analysis{
-  .scroll-section{
+.analysis {
+  #cardSection {
+    z-index: 0;
+  }
+  .scroll-section {
     // max-height: 150vh;
     // overflow-y: auto;
   }
-  .active-metrics{
-    box-shadow: rgba(87, 93, 222, 0.60) 0px 1px 6px, rgba(87, 93, 222, 0.60) 0px 1px 4px !important;
+  .active-metrics {
+    box-shadow: rgba(87, 93, 222, 0.6) 0px 1px 6px,
+      rgba(87, 93, 222, 0.6) 0px 1px 4px !important;
   }
-  .dashboard-card-container{
+  .dashboard-card-container {
     min-width: 320px;
     float: left;
-    padding-left: 7px;
-    padding-right: 7px;
-    min-height: 310px;
+    padding-left: 4px;
+    padding-right: 4px;
+    min-height: 300px;
+    display: grid;
+    padding-top: 10px;
+    .exploreMetrics {
+      width: 35px;
+      height: 35px;
+      float: right;
+      margin: 5px;
+      .exploreImage {
+        width: 25px;
+        height: 25px;
+        margin: 5px;
+        background-image: url("../assets/images/openExploreMetrics.svg");
+      }
+    }
+    .exploreMetrics:hover {
+      width: 35px;
+      height: 35px;
+      float: right;
+      margin: 5px;
+      border-radius: 50%;
+      background: $main-blue-color;
+      .exploreImage {
+        width: 25px;
+        height: 25px;
+        margin: 5px;
+        background-image: url("../assets/images/openExploreMetricsWhite.svg");
+      }
+    }
   }
-  .left-box-100{
+  .left-box-100 {
     width: 100%;
-    transition: width 1s;
+    transition: width 1s linear;
     float: left;
   }
-  .left-box-50{
+  .left-box-50 {
     width: 50%;
-    transition: width 1s;
+    transition: width 1s linear;
     float: left;
   }
-  .right-box-50{
+  .right-box-50 {
     overflow: hidden;
     width: 50%;
-    transition: width 1s, right 1s;
+    transition: right 1s linear;
     float: left;
-    // position: absolute;
-    right: 0px;
     position: fixed;
-    // top: 77;
-    // overflow-y: auto;
-    // max-height: 100vh;
+    right: 0;
   }
-  .right-box-0{
+  .right-box-0 {
     width: 50%;
-    transition: width 1s, right 1s;
-    display: block;
+    transition: right 1s linear;
     overflow: hidden;
     float: left;
-    position: absolute;
-    right: -1000px;
+    position: fixed;
+    right: -50vw;
   }
 }
 
-.scroll-matrics{
+.scroll-matrics {
   max-height: 83vh;
   overflow-y: auto;
 }
-.invalid-block{
+.invalid-block {
   display: block;
   margin: 0px auto;
-  .image-container{
+  .image-container {
     width: 50%;
     display: block;
     margin: 0px auto;
   }
-  .invalid-text{
+  .invalid-text {
     font-family: Ubuntu;
     font-size: 12px;
-    color: #bbbbbb;
+    color: $smooth-grey;
     text-decoration: none solid rgb(187, 187, 187);
-    text-align: center
+    text-align: center;
   }
 }
 
 .chart-error {
-	width: 100%;
-	height: 300px;
-	text-align: center;
-	font-size: 32px;
-	background-color: rgb(224, 224, 224);
-	color: #444444;
-	padding-top: 10%;
+  width: 100%;
+  height: 300px;
+  text-align: center;
+  font-size: 32px;
+  background-color: rgb(224, 224, 224);
+  color: #444444;
+  padding-top: 10%;
 }
 
 .chart-wrapper {
-	overflow-x: auto;
+  overflow-x: auto;
 }
 
 .display-none {
-	display: none;
+  display: none;
 }
 
-.tooltip-details-show{
+.tooltip-details-show {
   display: block;
   min-height: 70px;
   position: absolute;
@@ -278,18 +322,18 @@
   overflow: hidden;
 }
 
-.multi-line-ellipcs{
+.multi-line-ellipcs {
   overflow: hidden;
   white-space: normal;
   text-overflow: ellipsis;
   display: -webkit-box;
-  line-height: 16px;     /* fallback */
-  max-height: 32px;      /* fallback */
+  line-height: 16px; /* fallback */
+  max-height: 32px; /* fallback */
   -webkit-line-clamp: 2; /* number of lines to show */
   -webkit-box-orient: vertical;
 }
-.category-link-container{
-  .link{
+.category-link-container {
+  .link {
     color: $main-blue-color;
     font-size: 14px;
     font-weight: 500;

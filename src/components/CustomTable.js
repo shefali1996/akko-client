@@ -1,66 +1,48 @@
 import React from 'react';
 import { Image, Label } from 'react-bootstrap';
 import { ButtonGroup } from 'react-bootstrap-table';
+import {isEmpty, find, indexOf} from 'lodash';
 import Checkbox from '../components/Checkbox';
-import { numberFormatter } from '../constants';
+import { numberFormatter, INVALID_COGS, isCogsInvalid } from '../constants';
 
-import sort from '../assets/images/sort.svg';
-import inversesort from '../assets/images/inversesort.svg';
+import sort from '../assets/images/openDownIcon.svg';
+import inversesort from '../assets/images/openUpIcon.svg';
 import plus from '../assets/images/plus.svg';
 import merge from '../assets/images/merge.svg';
 import deleteIcon from '../assets/images/delete.svg';
 import rightArrow from '../assets/images/rightArrow.svg';
 import productImgPlaceholder from '../assets/images/productImgPlaceholder.svg';
+import openDownIcon from '../assets/images/openDownIcon.svg';
 import styles from '../constants/styles';
 
 export const getCaret = (direction) => {
   if (direction === 'asc') {
-    return <Image src={sort} className="sort-icon" />;
+    return <Image src={sort} className="sort-icon pull-right" />;
   }
   if (direction === 'desc') {
     return (
-      <Image src={inversesort} className="sort-icon" />
+      <span className="pull-right">
+        <Image src={inversesort} className="sort-icon" />
+      </span>
     );
   }
   return (
-    <Image src={sort} className="sort-icon" />
+    <span className="pull-right">
+      <Image src={sort} className="sort-icon" />
+    </span>
   );
 };
 
-export const customMultiSelect = (props) => {
-  const { type, checked, disabled, onChange, rowIndex } = props;
-  if (rowIndex === 'Header') {
-    return (
-      <div className="checkbox-personalized">
-        <Checkbox {...props} />
-        <label htmlFor={`checkbox${rowIndex}`}>
-          <div className="check" />
-        </label>
-      </div>
-    );
-  }
-
+export const getHeaderText = (text) => {
   return (
-    <div className="checkbox-personalized">
-      <input
-        type={type}
-        name={`checkbox${rowIndex}`}
-        id={`checkbox${rowIndex}`}
-        checked={checked}
-        disabled={disabled}
-        onChange={e => onChange(e, rowIndex)}
-        ref={input => {
-          if (input) {
-            input.indeterminate = props.indeterminate;
-          }
-        }}
-      />
-      <label htmlFor={`checkbox${rowIndex}`}>
-        <div className="check" />
-      </label>
+    <div className="header-text-wrapper" style={{display: 'inline-block'}}>
+      <div className="table-header-text">
+        <div>
+          <span>{text}</span>
+        </div>
+      </div>
     </div>
   );
-
 };
 
 export const createCustomInsertButton = (openModal) => (
@@ -172,22 +154,22 @@ export const productDetailFormatter = (cell, row) => {
     </div>
   );
 };
-export const productDetailOnHover = (productInfo, variant) => {
-  let productImage = productInfo && productInfo.variants.length && productInfo.variants[0].variantImage;
+export const productDetailOnHover = (productInfo, variant) => {  
+  let productImage = productInfo && productInfo.variants.length && productInfo.variants[0].imageUrl;
   if (productImage === null || productImage === 'null') {
     productImage = productImgPlaceholder;
   }
   return (
     <div className="product-data-cell">
       <div className="productImage" style={{ maxWidth: '20%' }}>
-        <img style={{ width: '100%', maxWidth: '60px' }} src={productImage} alt="Product Image" />
+        <img style={{ width: '100%', maxWidth: '45px', float: 'right' }} src={productImage} alt="Product Image" />
       </div>
       <div className="product-custom-title" style={{ maxWidth: '80%' }} >
         <div>
-          <span className="productName multi-line-ellipcs" style={styles.showDetailOnHoverTitleBox}>{productInfo.title}</span>
+          <span className="productName multi-line-ellipcs" style={styles.showDetailOnHoverTitleBox}>{productInfo.productTitle}</span>
         </div>
         <div className="sku-view">
-          <span className="channelNumberText">Variants : {productInfo.numVariants}</span>
+          <span className="channelNumberText">Variants : {productInfo.variants.length != 0 ? productInfo.variants[0].variantTitle : ""}</span>
         </div>
         <div className="sku-view">
           <span className="channelNumberText" style={{fontStyle: 'italic'}}>{productInfo.deleted ? 'Deleted product' : ''}</span>
@@ -232,7 +214,7 @@ export const productPriceFormatter = (cell, row) => (
   <div className="flex-center padding-t-20">
     <div className="currency-view">
       <span className="product-listed-price">
-        ${cell.price}
+        {cell && `$${cell.price}`}
       </span>
     </div>
   </div>
@@ -284,6 +266,7 @@ export const cellValueFormatter = (cell, row) => (
   </div>
 );
 
+
 export const arrowFormatter = (cell, row) => (
   <div className="stock-on-hand-cell">
     <Image src={rightArrow} className="rightArrow" />
@@ -291,7 +274,7 @@ export const arrowFormatter = (cell, row) => (
 );
 
 export const sortByTitle = (a, b, order) => {
-  const ascVal = a.productDetail.title.localeCompare(b.productDetail.title);
+  const ascVal = a.title.localeCompare(b.title);
   return order === 'asc' ? ascVal : -ascVal;
 };
 

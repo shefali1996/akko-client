@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Grid, Row, Col, Button, Label, FormControl, Image } from 'react-bootstrap';
 import swal from 'sweetalert2';
+import { Spin } from 'antd';
 import { testMode } from '../constants';
 import * as dashboardActions from '../redux/dashboard/actions';
 import shopifyIcon from '../assets/images/shopify.svg';
@@ -18,25 +19,18 @@ const swalert = () => {
   });
 };
 class ConnectShopify extends Component {
-  constructor(props) {
+  constructor(props) { 
     super(props);
     this.state = {
-      shopName: '',
+      shopName:       '',
+      pendingRequest: false
     };
     this.goLanding = this.goLanding.bind(this);
     this.onShopNameChange = this.onShopNameChange.bind(this);
     this.onConnect = this.onConnect.bind(this);
     this.onConfirm = this.onConfirm.bind(this);
   }
-
-  componentDidMount() {
-
-  }
-
-  componentWillMount() {
-
-  }
-
+  
   goLanding() {
     this.props.history.push('/');
   }
@@ -47,14 +41,19 @@ class ConnectShopify extends Component {
     });
   }
 
-  onConnect() {
+  onConnect() {    
+    this.setState({pendingRequest: true})
     console.log('this.props', this.props);
     if (testMode) {
       swalert().then(() => {
         this.onConfirm();
       });
     } else {
-      this.props.connectShopify({shopId: this.state.shopName});
+      this.props.connectShopify({shopId: this.state.shopName}).then((result) => {        
+        this.setState({pendingRequest: false});
+      }).catch(() => {
+        this.setState({pendingRequest: false});
+      })
     }
   }
 
@@ -62,7 +61,7 @@ class ConnectShopify extends Component {
     this.props.history.push('/fetch-status');
   }
 
-  renderSuccessPage() {
+  renderSuccessPage() {    
     this.props.updateShopify({
       shopId:      this.state.shop,
       queryParams: this.props.location.search
@@ -75,7 +74,7 @@ class ConnectShopify extends Component {
 
   render() {
     const { shopName } = this.state;
-    const parsedParams = queryString.parse(this.props.location.search);
+    const parsedParams = queryString.parse(this.props.location.search);    
     return (
       <div>
         {!Object.keys(parsedParams).length ?
@@ -124,6 +123,9 @@ class ConnectShopify extends Component {
             <div className="text-center margin-t-50">
               <Button className="login-button" onClick={this.onConnect}>
                 CONNECT
+                <div style={{marginLeft: 10, display: this.state.pendingRequest ? 'inline-block' : 'none'}}>
+                  <Spin size="small" />
+                </div>
               </Button>
             </div>
           </Grid>
@@ -135,9 +137,11 @@ class ConnectShopify extends Component {
   }
 }
 
-const mapStateToProps = state => ({
-
-});
+const mapStateToProps = state => {
+  return {
+    connectShopifyAlert: state.dashboard.connectShopifyAlert
+  };
+};
 
 const mapDispatchToProps = (dispatch) => {
   return {

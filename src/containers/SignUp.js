@@ -3,13 +3,14 @@ import { connect } from 'react-redux';
 import { Grid, Row, Col, Button, Label, Tabs, Tab, FormControl, Tooltip, OverlayTrigger } from 'react-bootstrap';
 import Select from 'react-select';
 import swal from 'sweetalert2';
-import { AuthenticationDetails, CognitoUserPool } from 'amazon-cognito-identity-js';
+import { AuthenticationDetails, CognitoUserPool, CognitoUser } from 'amazon-cognito-identity-js';
 import { isEmpty } from 'lodash';
-import { validateEmail, testMode } from '../constants';
+import { testMode } from '../constants';
+import { validateEmail } from '../helpers/functions';
 import config from '../config';
-import { signOutUser } from '../libs/awsLib';
+import { invokeApig, signOutUser } from '../libs/awsLib';
+import MaterialIcon from '../assets/images/MaterialIcon.svg';
 import { invokeApigWithoutErrorReport } from '../libs/apiUtils';
-import MaterialIcon from '../assets/images/MaterialIcon 3.svg';
 import { Spin } from 'antd';
 import { withRouter } from 'react-router';
 import user from '../auth/user';
@@ -62,6 +63,7 @@ class SignUp extends Component {
     this.goLanding = this.goLanding.bind(this);
     this.handleSelect = this.handleSelect.bind(this);
     this.onFirstNameChange = this.onFirstNameChange.bind(this);
+    this.onLogin = this.onLogin.bind(this);
     this.validateFirstName = this.validateFirstName.bind(this);
     this.onFouseFirstName = this.onFouseFirstName.bind(this);
     this.onLastNameChange = this.onLastNameChange.bind(this);
@@ -80,6 +82,7 @@ class SignUp extends Component {
     this.onConfirm = this.onConfirm.bind(this);
     this.onEmailBlur = this.onEmailBlur.bind(this);
     this.onEmailFocus = this.onEmailFocus.bind(this);
+    this.onCodeFocus = this.onCodeFocus.bind(this);
     this.yourRoleFocus = this.yourRoleFocus.bind(this);
     this.validatePassword = this.validatePassword.bind(this);
     this.passwordOnFocus = this.passwordOnFocus.bind(this);
@@ -217,6 +220,10 @@ class SignUp extends Component {
   onEmailFocus() {
     this.refs.email.hide();
   }
+  
+  onCodeFocus() {
+    this.refs.code.hide();
+  }
 
   onPasswordChange(e) {
     this.setState({
@@ -285,6 +292,7 @@ class SignUp extends Component {
   onVerify() {
     const {verifyCode, newUser, email, password} = this.state;
     if (verifyCode.length > 0) {
+      this.setState({pendingRequest: true})
       this.confirm(newUser, verifyCode).then((result) => {
         if (result === 'SUCCESS') {
           this.authenticate(
@@ -292,6 +300,7 @@ class SignUp extends Component {
             email,
             password
           ).then((result) => {
+            this.setState({pendingRequest: false})
             this.createNewUser({
               fname:    this.state.firstName,
               lname:    this.state.lastName,
@@ -310,7 +319,53 @@ class SignUp extends Component {
     }
   }
   onConfirm() {
-    this.props.history.push('/connect-shopify');
+    const email = this.state.email;
+    const password = this.state.password
+    this.onLogin();
+  }
+  onLogin() {
+    const { email, password } = this.state;
+    this.login(email, password).then((result) => {
+      return invokeApigWithoutErrorReport({path: '/user'});
+    }).then((result) => {
+        localStorage.setItem('isAuthenticated', 'isAuthenticated');
+        switch (result.accountSetupStatus) {
+          case 0:
+            this.props.history.push('/connect-shopify');
+            break;
+          case 1:
+            this.props.history.push('/fetch-status');
+            break;
+          case 2:
+            this.props.history.push('/dashboard');
+            break;
+          default:
+            this.props.history.push('/dashboard');
+        }
+      }).catch(error => {
+        console.log('login error', error);
+      });
+  }
+  login(email, password) {
+    // create a new userPool instance
+    const userPool = new CognitoUserPool({
+      UserPoolId: config.cognito.USER_POOL_ID,
+      ClientId:   config.cognito.APP_CLIENT_ID
+    });
+
+    // create a new CognitoUser instance
+    const user = new CognitoUser({ Username: email, Pool: userPool });
+
+    // get authentication data
+    const authenticationData = { Username: email, Password: password };
+    const authenticationDetails = new AuthenticationDetails(authenticationData);
+    // authenticate user
+    return new Promise((resolve, reject) =>
+      user.authenticateUser(authenticationDetails, {
+        onSuccess: result => resolve(),
+        onFailure: err => reject(err)
+      })
+    );
   }
 
   createNewUser(userData) {
@@ -345,8 +400,12 @@ class SignUp extends Component {
   confirm(user, confirmationCode) {
     return new Promise((resolve, reject) => user.confirmRegistration(confirmationCode, true, (err, result) => {
       if (err) {
-        reject(err);
-        return;
+        this.setState({
+          pendingRequest: false,
+          codeError: 'Invalid verification code'
+        });
+        this.refs.code.show();
+        return err;
       }
       resolve(result);
     })
@@ -545,16 +604,31 @@ class SignUp extends Component {
                           </Label>
                     </Col>
                     <Col md={12} className="flex-center padding-t-10">
+                    <OverlayTrigger
+                            placement="left"
+                            trigger="manual"
+                            ref="code"
+                            overlay={
+                                <Tooltip id="tooltip"><img src={MaterialIcon} alt="icon" />{this.state.codeError}</Tooltip>
+            }>
                       <FormControl
                             type="text"
                             placeholder="verification code"
                             className="signup-email-input"
                             value={verifyCode}
+                            onFocus={this.onCodeFocus}
                             onChange={this.onVerifyCodeChange} />
+                    </OverlayTrigger>
                     </Col>
                     <Col md={12} className="padding-t-30">
                       <Button className="login-button" onClick={this.onVerify}>
                           VERIFY
+                          <div style={{
+                    marginLeft: 10,
+                    display:    this.state.pendingRequest ? 'inline-block' : 'none'
+                }}>
+                              <Spin size="small" />
+                            </div>
                           </Button>
                     </Col>
                   </div>

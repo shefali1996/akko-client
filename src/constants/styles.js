@@ -1,3 +1,5 @@
+import style from '../styles/global/variables.scss'
+const millis = parseInt(style.mainBlueColor)
 
 const styles = {
   paper: {
@@ -6,7 +8,7 @@ const styles = {
   },
   chartsHeaderTitle: {
     fontSize:       '16px',
-    color:          '#666666',
+    color:          `${style['grey']}`,
     fontWeight:     'bold',
     textDecoration: 'none solid rgb(102, 102, 102)',
   },
@@ -16,17 +18,17 @@ const styles = {
   },
   chipLabelStyle: {
     fontSize:       '12px',
-    color:          '#ffffff',
-    fontWeight:     'bold',
+    color:          `${style['pure-white']}`,
+    fontWeight:     'bold', 
     textDecoration: 'none solid white',
     paddingLeft:    '30px',
     paddingRight:   '30px'
   },
   bsTableHeaderStyle: {
-    background: '#fbfbfb'
+    background: `${style['dull-white']}`
   },
   expenseCardSubtitle: {
-    color:      '#bbbbbb',
+    color:      `${style['smooth-grey']}`,
     fontWeight: '600',
     fontSize:   '11px'
   },
@@ -37,13 +39,32 @@ const styles = {
     minHeight: '400px'
   },
   bgLightBlue: {
-    backgroundColor: '#ebfbfb'
+    backgroundColor: `${style['white-shade']}`
   },
   constants: {
-    mainThemeColor: '#575dde'
+    mainThemeColor: `${style['new-blue']}`
   },
   showDetailOnHoverTitleBox: {
     fontSize: '12px'
+  },
+  cogsTableTitle: {
+    paddingLeft:   '0px',
+    paddingBottom: '0px',
+    paddingTop:    '0px',
+    height:        '47px'
+  },
+  cogsProgressBarContainer: {
+    lineHeight: '.1',
+    marginTop:  '2px'
+  },
+  markupInputStyle: {
+    height:       'auto',
+    border:       'none',
+    boxShadow:    'none',
+    padding:      '0px',
+    borderBottom: `1px solid ${style['light-gray-color']} `,
+    borderRadius: '0px',
+    margin:       '4px'
   },
   mainLoading: {
     width:         '100vh',
@@ -52,6 +73,10 @@ const styles = {
     textAlign:     'center',
     verticalAlign: 'middle',
     paddingTop:    '45vh'
+  },
+  noBorder: {
+    border:    'none',
+    boxShadow: 'none',
   }
 };
 

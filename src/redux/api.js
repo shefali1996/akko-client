@@ -1,18 +1,21 @@
-export const metrics = '/metrics';
-
-export const bugReport = '/bugReport';
-export const connectShopify = '/connect-shopify';
-export const products = '/products';
-export const getProductVariants = productId => `/products/${productId}`;
-
-export const metricsPathForTime = (metric_name, shopId) => `/metrics/${metric_name}/shop/${shopId}`;
-export const metricsPathForProduct = metric_name => `/metrics/${metric_name}/product`;
-export const metricsPathForCustomer = metric_name => `/metrics/${metric_name}/customer`;
-export const metricsPathForCategory = metric_name => `/metrics/${metric_name}/category`;
-export const metricsPathForProductByCategory = (metric_name, categoryId) => `/metrics/${metric_name}/category/${categoryId}`;
-export const metricsPathForVariantsByProduct = (metric_name, productId) => `/metrics/${metric_name}/product/${productId}`;
 export const user = '/user';
+export const metrics = '/metrics';
 export const channel = '/channel';
+export const products = '/products';
+export const bugReport = '/bugReport';
+export const cogsStatus = '/cogsStatus';
 export const getCount = '/products/count';
-export const dataLoadStatus = shopId => `/status/${shopId}`;
 export const getLuTimestamp = '/lastUpdated';
+export const connectShopify = '/connect-shopify';
+export const dataLoadStatus = shopId => `/status/${shopId}`;
+export const getProductVariants = productId => `/products/${productId}`;
+export const metricsPathForTime = (metric_name) => `/metrics/${metric_name}`;
+export const metricsPathForVendor = metric_name => `/metrics/${metric_name}/vendors`;
+export const metricsPathForCategory = metric_name => `/metrics/${metric_name}/categories`;
+export const metricsPathForTimeByVendor = (metric_name, vendorId) => `/metrics/${metric_name}/vendors/${vendorId}`
+export const metricsPathForVariantsByProduct = (metric_name, productId) => `/metrics/${metric_name}/products/${productId}`;
+export const metricsPathForTimeBySingleProduct = (metric_name, productId) => `/metrics/${metric_name}/products/${productId}`;
+export const metricsPathForProductByCategory = (metric_name, categoryId) => `/metrics/${metric_name}/categories/${categoryId}`;
+export const metricsPathForVariantBySingleProduct = (metric_name, productId) => `/metrics/${metric_name}/products/${productId}/variants`;
+export const metricsPathForProductBySingleCategory = (metric_name, categoryId) => `/metrics/${metric_name}/categories/${categoryId}/products`;
+export const metricsPathForTimeBySingleVariant = (metric_name, productId, variantId) => `/metrics/${metric_name}/products/${productId}/variants/${variantId}`

@@ -45,6 +45,20 @@ const initialState = {
     isError:   false,
     isSuccess: false,
     message:   ''
+  },
+  dataLoadStatus: {
+    data:      [],
+    isLoading: false,
+    isError:   false,
+    isSuccess: false,
+    message:   ''
+  },
+  connectShopifyAlert: {
+    data:      [],
+    isLoading: false,
+    isError:   false,
+    isSuccess: false,
+    message:   ''
   }
 };
 
@@ -89,7 +103,8 @@ const getUserSuccess = (state, action) => update(state, {
     isLoading: {$set: false},
     isError:   {$set: false},
     isSuccess: {$set: true},
-    message:   {$set: ''}
+    message:   {$set: ''},
+    aaaa:{$set:''}
   }
 });
 const getUserError = (state, action) => update(state, {
@@ -179,6 +194,24 @@ const getProductsCountError = (state, action) => update(state, {
     message:   {$set: action.payload}
   }
 });
+const getDataLoadStatusSuccess = (state, action) => update(state, {
+  dataLoadStatus: {
+    data:      {$set: action.payload},
+    isLoading: {$set: false},
+    isError:   {$set: false},
+    isSuccess: {$set: true},
+    message:   {$set: ''}
+  }
+})
+const getConnectShopifyAlertSuccess = (state, action) => update(state, {
+  connectShopifyAlert: {
+    data:      {$set: action.payload},
+    isLoading: {$set: false},
+    isError:   {$set: false},
+    isSuccess: {$set: true},
+    message:   {$set: ''}
+  }
+})
 
 export default handleActions({
   [constants.GET_METRICS_REQUEST]:                getMetricsRequest,
@@ -195,5 +228,7 @@ export default handleActions({
   [constants.GET_PRODUCTS_COUNT_ERROR]:           getProductsCountError,
   [constants.GET_DATA_LOAD_STATUS_SUCCESS]:       getStatusSuccess,
   [constants.GET_DATA_LOAD_STATUS_ERROR]:         getStatusError,
-  [constants.GET_LAST_UPDATED_TIMESTAMP_SUCCESS]: getLastUpdatedTimestampSuccess
+  [constants.GET_LAST_UPDATED_TIMESTAMP_SUCCESS]: getLastUpdatedTimestampSuccess,
+  [constants.GET_DATA_LOAD_STATUS_SUCCESS]:       getDataLoadStatusSuccess,
+  [constants.GET_CONNECT_SHOPIFY_ALERT_SUCCESS]:  getConnectShopifyAlertSuccess
 }, initialState);

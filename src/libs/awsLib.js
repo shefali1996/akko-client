@@ -17,7 +17,7 @@ function getAwsCredentials(userToken) {
     }
   });
 
-  return AWS.config.credentials.getPromise();
+  return AWS.config.credentials.getPromise(); 
 }
 
 let authPromise = null;

@@ -5,15 +5,11 @@ import downArrow from '../assets/images/downArrow.svg';
 import infoIcon from '../assets/images/MaterialIcon5.svg';
 
 class PriceBox extends React.Component {
-  render() {
+  render() {   
     const {analyze, customer} = this.props;
-    let {title, description, prefix, postfix, value, trend_value, trend_period, trend} = this.props.value;
+    let {title, description, prefix, postfix, value, trend_value, trend_period, trend, metric_name} = this.props.value;
     let infix = '';
-    if (prefix === '$') {
-      infix = numberFormatter(Math.round(value * 100) / 100);
-    } else {
       infix = value;
-    }
     if (trend_value === 'invalid') {
       trend_value = '';
     } else if (trend_value !== null && trend_value !== -1) {
@@ -27,8 +23,12 @@ class PriceBox extends React.Component {
       postfix = '';
     }
     const tmpVal = parseFloat(infix);
-    if (!isNaN(tmpVal) && postfix !== 'days') {
-      infix = tmpVal.toFixed(2);
+    if (!isNaN(tmpVal) && postfix !== 'days') {  
+      if(metric_name == 'number_of_orders'){
+        infix = tmpVal  
+      } else{
+        infix = tmpVal.toFixed(2);
+      }
     }
     if (customer) {
       return (

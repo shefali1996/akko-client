@@ -3,13 +3,14 @@ import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import {withRouter} from 'react-router';
 import { Spin } from 'antd';
+import toastr from 'toastr';
 import swal from 'sweetalert2';
 import {includes, isEmpty, isEqual} from 'lodash';
 import { hasClass } from '../helpers/Csv';
-import { fetchRoutes, fetchStatusInterval, pollingInterval, routeConstants } from '../constants';
+import { fetchRoutes, pollingInterval, routeConstants } from '../constants';
 import styles from '../constants/styles';
 import user from '../auth/user';
-import { getDataLoadStatus, getChannel, getLuTimestamp } from '../redux/dashboard/actions';
+import { getDataLoadStatus, getChannel, getLuTimestamp, getMetrics } from '../redux/dashboard/actions';
 
 
 class Main extends Component {
@@ -18,10 +19,15 @@ class Main extends Component {
     this.state = {
       channel:       this.props.channelData,
       status:        this.props.status,
-      isDataFetched: true
+      isDataFetched: true,
+      lastUpdated:   0
     };
   }
   componentWillMount() {
+    toastr.options = {
+      preventDuplicates: true,
+      timeOut:           10000
+    };
     window.removeEventListener('popstate', this.handleSWAL);
     const {location, userData} = this.props;
     if (user.isAuthenticated !== null) {
@@ -35,7 +41,7 @@ class Main extends Component {
       }
       this.lastUpdatedInterval = setInterval(() => {
         this.props.getLuTimestamp();
-      }, pollingInterval);
+      }, pollingInterval.lastUpdated);
     }
   }
 
@@ -57,6 +63,26 @@ class Main extends Component {
         }
       }
     });
+    this.updateData(props);
+  }
+
+  updateData = (props) => {
+    let lastUpdated = props.lastUpdated.data.lastUpdated === undefined ? 0 : props.lastUpdated.data.lastUpdated;
+    if (lastUpdated > this.state.lastUpdated) {
+      if(this.state.lastUpdated == 0){
+        this.setState({
+          lastUpdated: lastUpdated
+        });
+      } else{
+        this.refreshData();
+        this.setState({
+          lastUpdated: lastUpdated
+        });
+      }
+    }
+  }
+  refreshData() {
+    this.props.getMetrics();
   }
 
   handleSWAL() {
@@ -79,7 +105,7 @@ class Main extends Component {
   }
   getStatus = () => {
     const {channel, status} = this.state;
-    if (channel.data.shopId) {
+    if (channel.data.shopId) {      
       this.props.getDataLoadStatus(channel.data.shopId);
     } else if (!channel.isLoading) {
       this.props.getChannel();
@@ -102,6 +128,7 @@ class Main extends Component {
 
 const mapStateToProps = state => {
   return {
+    lastUpdated:    state.dashboard.lastUpdated,
     channelData: state.dashboard.channelData,
     status:      state.dashboard.status,
     userData:    state.dashboard.userData,
@@ -112,7 +139,8 @@ const mapDispatchToProps = (dispatch) => {
   return bindActionCreators({
     getDataLoadStatus,
     getChannel,
-    getLuTimestamp
+    getLuTimestamp,
+    getMetrics
   }, dispatch);
 };
 

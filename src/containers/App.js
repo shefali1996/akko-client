@@ -9,6 +9,7 @@ import asyncComponent from './AsyncComponent';
 
 import {routeConstants} from '../constants';
 import Main from './Main';
+
 import store from '../redux/store';
 
 const Landing = asyncComponent(() =>
@@ -20,12 +21,6 @@ const SignIn = asyncComponent(() =>
 const SignUp = asyncComponent(() =>
     import('./SignUp').then(module => module.default)
 );
-const ConnectShopify = asyncComponent(() =>
-    import('./ConnectShopify').then(module => module.default)
-);
-const Settings = asyncComponent(() =>
-    import('./Settings').then(module => module.default)
-);
 const AuthorizedContainer = asyncComponent(() =>
     import('./AuthorizedContainer').then(module => module.default)
 );
@@ -34,9 +29,6 @@ const NotFound = asyncComponent(() =>
 );
 const ForgotPassword = asyncComponent(() =>
     import('./ForgotPassword').then(module => module.default)
-);
-const FetchStatus = asyncComponent(() =>
-    import('./FetchStatus').then(module => module.default)
 );
 
 const history = createHistory();
@@ -54,9 +46,6 @@ class App extends Component {
                   <Route exact path={routeConstants.signin} component={SignIn} />
                   <Route exact path={routeConstants.signup} component={SignUp} />
                   <Route exact path={routeConstants.forgotPassword} component={ForgotPassword} />
-                  <Route exact path={routeConstants.connectShopify} component={ConnectShopify} />
-                  <Route exact path={routeConstants.settings} component={Settings} />
-                  <Route exact path={routeConstants.fetchStatus} component={FetchStatus} />
                   <Route path={routeConstants.landing} name="Authorized Sections" component={AuthorizedContainer} />
                   <Route path="*" component={NotFound} />
                 </Switch>

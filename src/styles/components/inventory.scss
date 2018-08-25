@@ -141,7 +141,7 @@
 .alt-price-title{
   display: inline-block;
   width: 20px;
-  margin-left: 4px;
+  margin-left: 2px;
 }
 .price-value {
 	font-family: $ubuntu-bold;
@@ -170,7 +170,7 @@
 .price-period {
 	font-family: $ubuntu-bold;
 	font-size: $size-12;
-	color: #cbcbcb;
+	color: $grey-color-metrics;
 	text-decoration: none solid rgb(203, 203, 203);
 }
 .half-height {
@@ -186,12 +186,14 @@
   background: white;
 }
 .price-card-style {
-	margin-top: 10px;
 	border: 1px solid $light-gray-color;
 	border-radius: 2px;
 	background-color: $white-color;
 	box-shadow: 0 1px 2px $black-color;
-  cursor: pointer;
+	height: 100%;
+	.exploreMetrics{
+		cursor: pointer;
+	}
 }
 .border-red{
   border: 1px solid $main-red-color !important;
@@ -215,7 +217,7 @@
 .price-description {
 	font-family: $ubuntu-regular;
 	font-size: $size-12;
-	color: #bbbbbb;
+	color: $smooth-grey;
 	text-decoration: none solid rgb(187, 187, 187);
 	white-space: normal;
   display: none;

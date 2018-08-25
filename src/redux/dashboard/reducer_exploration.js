@@ -2,13 +2,19 @@ import {handleActions} from 'redux-actions';
 import update from 'immutability-helper';
 import {cloneDeep} from 'lodash';
 import * as constants from '../../redux/constants';
+import { stat } from 'fs';
 
 const initialState = {
   chartData: {
     data: {
-      customTimeframeDataMap: {},
-      defaultDataMap:         {},
-      categoriesData:         {}
+      customTimeframeDataMap:     {},
+      defaultDataMap:             {},
+      categoriesData:             {},
+      vendorsData:                {},
+      productBySingleCategoryData:{},
+      timeBySingleProductData:    {},
+      variantBySingleProductData: {},
+      timeBySingleVariantData:    {},
     },
     isLoading: false,
     isError:   false,
@@ -67,8 +73,14 @@ const emptyTimeFrameData = (state, action) => {
   });
 };
 const getCategoriesSuccess = (state, action) => {
+  const {metric_name, option, metric_map} = action.payload;
   const newData = cloneDeep(state.chartData.data);
-  newData.categoriesData = action.payload;
+  const key = `${metric_name}:${option}`;
+  if (metric_map.timeFrame) {
+    newData.customTimeframeDataMap[key] = metric_map;
+  } else {
+    newData.defaultDataMap[key] = metric_map;
+  }
   return update(state, {
     chartData: {
       data:      {$set: newData},
@@ -79,10 +91,113 @@ const getCategoriesSuccess = (state, action) => {
     }
   });
 };
+const getVendorsSuccess = (state, action) => {
+  const {metric_name, option, metric_map} = action.payload;
+  const newData = cloneDeep(state.chartData.data);
+  const key = `${metric_name}:${option}`;
+  if (metric_map.timeFrame) {
+    newData.customTimeframeDataMap[key] = metric_map;
+  } else {
+    newData.defaultDataMap[key] = metric_map;
+  }
+  return update(state, {
+    chartData: {
+      data:      {$set: newData},
+      isLoading: {$set: false},
+      isError:   {$set: false},
+      isSuccess: {$set: true},
+      message:   {$set: ''}
+    }
+  });
+};
+const getProductBySingleCategorySuccess = (state, action) => {
+  const {metric_name, option, metric_map} = action.payload;
+  const newData = cloneDeep(state.chartData.data);
+  const key = `${metric_name}:${option}`;
+  if (metric_map.timeFrame) {
+    newData.customTimeframeDataMap[key] = metric_map;
+  } else {
+    newData.defaultDataMap[key] = metric_map;
+  }
+  return update(state, {
+    chartData: {
+      data:      {$set: newData},
+      isLoading: {$set: false},
+      isError:   {$set: false},
+      isSuccess: {$set: true},
+      message:   {$set: ''}
+    }
+  });
+};
+const getVariantBySingleProductSuccess = (state, action) => {
+  const {metric_name, option, metric_map} = action.payload;
+  const newData = cloneDeep(state.chartData.data);
+  const key = `${metric_name}:${option}`;
+  if (metric_map.timeFrame) {
+    newData.customTimeframeDataMap[key] = metric_map;
+  } else {
+    newData.defaultDataMap[key] = metric_map;
+  }
+  return update(state, {
+    chartData: {
+      data:      {$set: newData},
+      isLoading: {$set: false},
+      isError:   {$set: false},
+      isSuccess: {$set: true},
+      message:   {$set: ''}
+    }
+  });
+};
+const getTimeBySingleVariantSuccess = (state, action) => {
+  const {metric_name, option, metric_map} = action.payload;
+  const newData = cloneDeep(state.chartData.data);
+  const key = `${metric_name}:${option}`;
+  if (metric_map.timeFrame) {
+    newData.customTimeframeDataMap[key] = metric_map;
+  } else {
+    newData.defaultDataMap[key] = metric_map;
+  }
+  return update(state, {
+    chartData: {
+      data:      {$set: newData},
+      isLoading: {$set: false},
+      isError:   {$set: false},
+      isSuccess: {$set: true},
+      message:   {$set: ''}
+    }
+  });
+};
+
+const getClearChartDataSuccess = (state, action) => {
+  return update(state, {
+    chartData: {
+      data: {$set:{
+        customTimeframeDataMap:     {},
+        defaultDataMap:             {},
+        categoriesData:             {},
+        vendorsData:                {},
+        productBySingleCategoryData:{},
+        timeBySingleProductData:    {},
+        variantBySingleProductData: {},
+        timeBySingleVariantData:    {},
+      }},
+      isLoading: {$set: false},
+      isError:   {$set: false},
+      isSuccess: {$set: true},
+      message:   {$set: ''}
+    }
+  });
+}
+
 export default handleActions({
   [constants.GET_CHART_DATA_REQUEST]: getChartDataRequest,
   [constants.GET_CHART_DATA_SUCCESS]: getChartDataSuccess,
   [constants.GET_CHART_DATA_ERROR]:   getChartDataError,
+  [constants.GET_CLEAR_CHARTDATA_SUCCESS]:   getClearChartDataSuccess,
   [constants.EMPTY_TIME_FRAME_DATA]:  emptyTimeFrameData,
   [constants.GET_CATEGORIES_SUCCESS]: getCategoriesSuccess,
+  [constants.GET_VENDORS_SUCCESS]: getVendorsSuccess,
+  [constants.GET_PRODUCT_BY_SINGLE_CATEGORY_SUCCESS]: getProductBySingleCategorySuccess,
+  [constants.GET_VARIANT_BY_SINGLE_PRODUCT_SUCCESS]: getVariantBySingleProductSuccess,
+  [constants.GET_TIME_BY_SINGLE_VARIANT_SUCCESS]: getTimeBySingleVariantSuccess,
 }, initialState);

@@ -12,7 +12,7 @@ class FetchStatus extends Component {
     this.props.history.push('/set-cogs');
   }
   progressText = (percent) => {
-    const status = this.props.status.data;
+    const status = this.props.dataLoadStatus.data;
     let estimatedTimeLeft = '';
     let pageFetching = '';
     if (status.estimated_time_left && !isEmpty(status.estimated_time_left)) {
@@ -35,7 +35,7 @@ class FetchStatus extends Component {
     </div>);
   }
   displaySetCogs = () => {
-    const status = this.props.status.data;
+    const status = this.props.dataLoadStatus.data;
     let displayCogsButton = false;
     let cogsStyle = {};
     let cogsText = '';
@@ -62,7 +62,7 @@ class FetchStatus extends Component {
     return '';
   }
   render() {
-    const status = this.props.status.data;
+    const status = this.props.dataLoadStatus.data;
     const percent = isNaN(this.props.percent) ? 0 : this.props.percent;
     return (
       <div>

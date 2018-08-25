@@ -1,40 +1,49 @@
-import {remove, isEmpty, indexOf} from 'lodash';
+import {remove, isEmpty, indexOf, findIndex, isEqual} from 'lodash';
+import toastr from 'toastr';
+import { invokeApig } from '../libs/awsLib';
 import {tipBoxMsg} from '../components/TipBox';
-import {businessType} from '../constants';
+import {CsvTableHeaderRow, businessType, getCogsFromMarginDoller, getCogsFromMarginPercent, getMarginPercentFromCogs, getMarginDollerFromCogs, defaultCogsRange, VARIANT } from '../constants';
 
-function beautifyUploadedCsvData(data) {
-  const emptyCogsData = [];
-  const nonEmptyCogsData = [];
-  const finalCsvData = [];
+function beautifyUploadedCsvData(data, tableData) {
+  const allCsvData = [];
+  const updatedCogsCsv = [];
+  const error = {schema: false, noMatchingRows: true, unchangedFile: true};
   data.forEach((row, index) => {
-    if (index !== 0) {
+    if (index === 0) {
+      error.schema = !isEqual(row, CsvTableHeaderRow) && 'Invalid table data format';
+    } else {
       const rowData = {
         id:      row[0],
-        variant: row[1],
-        title:   row[2],
+        title:   row[1],
+        variant: row[2],
         sku:     row[3],
         price:   row[4],
         cogs:    row[5],
       };
-      if (rowData.cogs !== '') {
-        nonEmptyCogsData.push(rowData);
-      } else {
-        emptyCogsData.push(rowData);
+      const rowIndex = tableData.findIndex((r) => { return r.id === rowData.id; });
+      if (rowIndex !== -1) {
+        error.noMatchingRows = false;
+        const row = tableData[rowIndex];
+        const cogs = row.cogs ? row.cogs : row.variant.cogs;
+        if (!isEqual(Number(cogs), Number(rowData.cogs))) {
+          error.unchangedFile = false;
+          updatedCogsCsv.push(rowData);
+        }
       }
-      finalCsvData.push(rowData);
+      allCsvData.push(rowData);
     }
   });
   return {
-    csvData: finalCsvData,
-    emptyCogsData,
-    nonEmptyCogsData
+    csvData: allCsvData,
+    updatedCogsCsv,
+    error
   };
 }
 
 function validateCogsValue(cogs, price) {
   let ret = 'Empty COGS';
   if (cogs.toString().length === 0 || cogs.toString() === 'null') {
-    ret = 'Empty COGS';
+    ret = 'Empty COGS';  
   } else {
     cogs = Number(cogs);
     price = Number(price);
@@ -52,48 +61,48 @@ function validateCogsValue(cogs, price) {
   return ret;
 }
 
-function checkAndUpdateProductCogsValue(cogs, product, products) {
-  const updatedProducts = [];
-  const cogsValidateStatus = validateCogsValue(cogs, product.variant_details.price);
-  products.forEach((p) => {
-    if (product.id === p.id) {
-      p.cogs = '';
-      p.variant_details.cogs = '';
-      if (cogsValidateStatus === true) {
-        p.cogs = cogs;
-        p.variant_details.cogs = cogs;
-      }
-      p.cogsValidateStatus = cogsValidateStatus;
+function updatedCogsValue(cogs, product, products) {
+  const cogsValidateStatus = validateCogsValue(cogs, product.variant.price);
+  const index = findIndex(products, {id: product.id});
+  if (index > -1) {
+    const p = products[index];
+    if (cogsValidateStatus === true) {
+      p.cogs = cogs;
+      p.variant.cogs = cogs;
     }
-    updatedProducts.push(p);
-  });
-  return updatedProducts;
+  }
+  return products;
 }
 
 function beautifyDataForCogsApiCall(data) {
   const variants = [];
+  const tData = [];
+  let numInvalidCogs = 0;
   data.forEach((row, index) => {
-    if (row.cogsValidateStatus === true) {
-      const newRow = {
-        variantId: row.id,
-        cogs:      row.cogs
-      };
-      variants.push(newRow);
+    if (row.rowType === VARIANT) {
+      const cogs = row.variant.cogs;
+      row.cogs = cogs;
+      const isValid = validateCogsValue(cogs, row.variant.price);
+      if (isValid === true) {
+        const newRow = {
+          variantId: row.variant.variantId,
+          productId: row.productId,
+          cogs,
+          startDate: defaultCogsRange.start,
+          endDate:   defaultCogsRange.end
+        };
+        variants.push(newRow);
+      } else {
+        numInvalidCogs += 1;
+      }
     }
+    tData.push(row);
   });
   return {
-    variants
+    variants,
+    numInvalidCogs,
+    tData
   };
-}
-
-function moveAcceptedToBottom(data, row) {
-  const updatedRow = data.splice(indexOf(data, row), 1)[0];
-  if (row && !isEmpty(row.variant_details.cogs)) {
-    data.push(updatedRow);
-  } else if (row && isEmpty(row.variant_details.cogs)) {
-    data.unshift(updatedRow);
-  }
-  return data;
 }
 
 function sortByCogs(data) {
@@ -113,6 +122,20 @@ const hasClass = function (elem, className) {
   return new RegExp(` ${className} `).test(` ${elem.className} `);
 };
 
+function getProduct(update) {
+  return new Promise((resolve, reject) => {
+    if (localStorage.getItem('productInfo')) {
+      resolve(JSON.parse(localStorage.getItem('productInfo')));
+    } else {
+      invokeApig({ path: '/products' }).then((results) => {
+        localStorage.setItem('productInfo', JSON.stringify(results));
+        resolve(results);
+      }).catch(error => {
+        reject(error);
+      });
+    }
+  });
+}
 function parseVariants(variants) {
   let list = [];
   variants.map((val, i) => {
@@ -137,8 +160,7 @@ function getTipBoxMessage(type) {
 
 function isCogsPending(variants) {
   if (variants && !isEmpty(variants)) {
-    const variantsList = parseVariants(variants);
-    const v = _.find(variantsList, (o) => { return isEmpty(o.variant_details.cogs) || o.variant_details.cogs === 'null' || o.variant_details.cogs === null || o.variant_details.cogs === 'invalid'; });
+    const v = _.find(variants, (o) => { return isEmpty(o.variant_details.cogs) || o.variant_details.cogs === 'null' || o.variant_details.cogs === null || o.variant_details.cogs === 'invalid'; });
     if (v) {
       return true;
     }
@@ -147,15 +169,114 @@ function isCogsPending(variants) {
   return 'undefined';
 }
 
+const updateProgress = (cogs, row, progress) => {
+  let {total, pending, completed} = progress;
+  const oldCogs = validateCogsValue(row.variant.cogs, row.variant.price);
+  const newCogs = validateCogsValue(cogs, row.variant.price);
+  let i = 0;
+  if (oldCogs !== true && newCogs === true) {
+    i = 1;
+  } else if (oldCogs === true && newCogs !== true) {
+    i = -1;
+  }
+  completed += i;
+  pending = total - completed;
+  return {total, pending, completed};
+};
+
+const updateMarginDoller = (markup, row, tableData, progress) => {
+  const rowIndex = findIndex(tableData, { id: row.id });
+  let isValid = true;
+  if (row.variant && rowIndex !== -1) {
+    let previousMargin = 0;
+    const cogsValue = row.variant.cogs;
+    const priceValue = row.variant.price;
+
+    if (validateCogsValue(cogsValue, priceValue) === true) {
+      previousMargin = getMarginDollerFromCogs(priceValue, cogsValue);
+    }
+    if (previousMargin !== Number(markup)) {
+      const cogs = getCogsFromMarginDoller(priceValue, markup);
+      const marginPercent = getMarginPercentFromCogs(priceValue, cogs);
+      progress = updateProgress(cogs, row, progress);
+      tableData[rowIndex].marginPercent = marginPercent;
+      tableData[rowIndex].cogs = cogs;
+      tableData[rowIndex].variant.cogs = cogs;
+      if (validateCogsValue(cogs, priceValue) !== true) {
+        isValid = false;
+      }
+    }
+    tableData[rowIndex].marginDoller = markup;
+  }
+  return {tableData, progress, isValid};
+};
+const updateMarginPercent = (markup, row, tableData, progress) => {
+  const rowIndex = findIndex(tableData, { id: row.id });
+  let isValid = true;
+  if (row.variant && rowIndex !== -1) {
+    let previousMargin = 0;
+    const cogsValue = row.variant.cogs;
+    const priceValue = row.variant.price;
+    if (validateCogsValue(cogsValue, priceValue) === true) {
+      previousMargin = getMarginPercentFromCogs(priceValue, cogsValue);
+    }
+    if (previousMargin !== Number(markup)) {
+      const cogs = getCogsFromMarginPercent(priceValue, markup);
+      const marginDoller = getMarginDollerFromCogs(priceValue, cogs);
+      progress = updateProgress(cogs, row, progress);
+      tableData[rowIndex].marginDoller = marginDoller;
+      tableData[rowIndex].cogs = cogs;
+      tableData[rowIndex].variant.cogs = cogs;
+      if (validateCogsValue(cogs, priceValue) !== true) {
+        isValid = false;
+      }
+    }
+    tableData[rowIndex].marginPercent = markup;
+  }
+  return {tableData, progress, isValid};
+};
+const updateCogs = (cogs, row, tableData, progress) => {
+  let isValid = true;
+  const rowIndex = findIndex(tableData, { id: row.id });
+  const cogsValue = row.variant.cogs;
+  const priceValue = row.variant.price;
+  if (cogsValue !== cogs && rowIndex !== -1) {
+    const marginDoller = getMarginDollerFromCogs(priceValue, cogs);
+    const marginPercent = getMarginPercentFromCogs(priceValue, cogs);
+    progress = updateProgress(cogs, row, progress);
+    
+    if (validateCogsValue(cogs, priceValue) !== true) {
+      isValid = false;
+    }
+    if(isValid){
+      tableData[rowIndex].marginDoller = marginDoller;
+      tableData[rowIndex].marginPercent = marginPercent;
+      tableData[rowIndex].cogs = cogs;
+      tableData[rowIndex].variant.cogs = cogs;
+    } else{
+      tableData[rowIndex].marginDoller = marginDoller;
+      tableData[rowIndex].marginPercent = marginPercent;
+      tableData[rowIndex].cogs = -1;
+      tableData[rowIndex].variant.cogs = -1;
+    }
+    
+  }
+  return {tableData, progress, isValid};
+};
+
 export {
   beautifyUploadedCsvData,
   validateCogsValue,
-  checkAndUpdateProductCogsValue,
   beautifyDataForCogsApiCall,
-  moveAcceptedToBottom,
   sortByCogs,
   hasClass,
+  getProduct,
   parseVariants,
   getTipBoxMessage,
-  isCogsPending
+  isCogsPending,
+  updatedCogsValue,
+  updateProgress,
+  updateMarginDoller,
+  updateMarginPercent,
+  updateCogs
 };

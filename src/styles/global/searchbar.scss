@@ -33,6 +33,25 @@
 
 .search-input > input:focus {
   outline: none;
+  height: 44px;
+}
+.set-cogs-search{
+  .search-input {
+    padding: 0px;
+    height: 44px;
+  }
+  .search-input::before {
+    top: 11px;
+    left: 10px;
+    width: 20px;
+    height: 19px;
+  }
+  .search-input > input {
+    padding: 0px 10px 0px 34px;
+    border-radius: 0px;
+    height: 44px;
+    font-size: $size-16;
+  }
 }
 
 ::-webkit-input-placeholder { /* WebKit, Blink, Edge */
@@ -51,4 +70,37 @@
 }
 ::-ms-input-placeholder { /* Microsoft Edge */
   color:$light-gray-color;
+}
+
+@media only screen and (max-width: 1300px) {
+	.set-cogs-header{
+		font-size: 13px;
+	}
+}
+@media only screen and (max-width: 1100px) {
+	.set-cogs-header{
+    font-size: 12px;
+  }
+}
+@media only screen and (max-width: 900px) {
+	.set-cogs-header{
+    font-size: .8em;
+  }
+}
+@media only screen and (max-width: 767px) {
+  .set-cogs-search{
+    .search-input {
+      height: 35px;
+    }
+    .search-input::before {
+      top: 4px;
+      left: 10px;
+      width: 16px;
+      height: 20px
+    }
+    .search-input > input {
+      height: 35px;
+      font-size: $size-14;
+    }
+  }
 }

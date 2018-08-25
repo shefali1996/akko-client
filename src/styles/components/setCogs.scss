@@ -1,0 +1,172 @@
+.set-markup{
+  min-height: 115px;
+  width: 500px;
+  background: $white-color;
+  position: absolute;
+  right: 233px;
+  margin-top: 4px;
+  border: 1px solid gainsboro;
+  padding: 5px 10px;
+  box-shadow: 0px 1px 2px rgba(0,0,0,0.4);
+  z-index: 4;
+  .top-row{
+    min-height: 30px;
+  }
+  .close-button{
+    float: right;
+    width: 30px;
+    height: 30px;
+  }
+  .product-cogs-text{
+    color: $main-blue-color;
+    width: calc(100% - 20px);
+  }
+  .radio-wrapper{
+    width: 110px;
+    min-width: 110px;
+    margin: 0px auto;
+  }
+}
+.col-4{
+  width: 33%;
+}
+.csv-upload{
+  min-height: 115px;
+  width: 600px;
+  background: $white-color;
+  position: absolute;
+  right: 15px;
+  margin-top: 4px;
+  border: 1px solid gainsboro;
+  box-shadow: 0px 1px 2px rgba(0,0,0,0.4);
+  z-index: 4;
+  .close-button{
+    float: right;
+    width: 30px;
+    height: 30px;
+  }
+  .product-cogs-text{
+    color: $main-blue-color;
+  }
+  .top-row{
+    min-height: 30px;
+  }
+  .left-box{
+    width: 10%;
+    min-width: 100px;
+    min-height: 115px;
+    .download-box{
+      width: 100px;
+      height: 115px;
+      padding: 6px 10px;
+      border: 1px solid #e6e6ff;
+      background-color: $light-blue-color;
+    }
+    .icon-container{
+      width: 70%;
+      margin: 15px auto;
+    }
+    .spin-container{
+      width: 70%;
+      margin: 30px auto;
+      text-align: center;
+    }
+    .text{
+      font-family: Ubuntu;
+      font-size: 14px;
+      color: #b8b8d9;
+      text-decoration: none solid rgb(184, 184, 217);
+      text-align: center;
+    }
+  }
+  .downloadCsv{
+    height: 36px;
+    margin-bottom: 6%;
+    width: 100%;
+  }
+  .uploadCsv{
+    margin-bottom: 5px;
+    width: 100%;
+  }
+  .middle-box{
+    width: 45%;
+    min-width: 285px;
+    text-align: center;
+    padding: 6px 10px;
+  }
+  .right-box{
+    width: 35%;
+    padding: 6px 10px;
+  }
+}
+.set-cogs-close-button-wrapper{
+  position: absolute;
+  top:0px;
+  right: 0px;
+}
+
+.hide-completed{
+  padding: 0px;
+  .text{
+    min-width: 150px;
+  }
+  .switch{
+    line-height: 1;
+  }
+}
+.ReactVirtualized__Grid{
+  will-change: inherit !important;
+}
+@media only screen and (max-width: 767px) {
+  .csv-upload{
+    min-height: 101px;
+    width: 450px;
+    margin-left: -274px;
+    .product-cogs-text{
+      font-size: 12px;
+      width: 221px !important;
+    }
+    .left-box{
+      width: 20%;
+      min-width: 88px;
+      min-height: 100px;
+      .download-box{
+        width: 80px;
+        height: 101px;
+      }
+      .text{
+        font-size: 11px;
+      }
+    }
+    .middle-box{
+      width: 50%;
+      min-width: 224px;
+    }
+    .right-box{
+      width: 25%;
+      .set-cogs-finish-button{
+        font-size: 14px;
+        width: 89px;
+        height: 34px;
+        padding: 6px !important;
+      }
+    }
+  }
+  .set-markup{
+    min-height: 115px;
+    width: 380px;
+    right: 200px;
+    .select-style-comment-small{
+      font-size: 12px;
+    }
+    .radio-wrapper{
+      width: 95px;
+      min-width: 95px;
+    }
+    .set-cogs-finish-button{
+      width: 106px;
+      height: 34px;
+      font-size: 14px;
+    }
+  }
+}

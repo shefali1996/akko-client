@@ -1,10 +1,42 @@
-
+//---------------set-cogs page footer------------------
+.footer-set-cogs{
+	position: fixed;
+	bottom: 0;
+	left:0;
+	right: 0;
+	background-color: $main-blue-color;
+	z-index: 1000;
+	.skip-button{
+		background-color: $main-blue-color;
+		color: $light-gray-color;
+		border: 1px solid $light-gray-color;
+		margin: 10px 25px;
+		padding: 6px 5px 4px;
+		font-size: 12px;
+	}
+	.set-cogs-finish-button:focus,
+	.set-cogs-finish-button{
+		background-color: $white-color;
+		color: $black-color;
+		margin: 6px 25px;
+		height: auto; 
+		padding: 8px;
+		font-size: 14px;
+		box-shadow: 2px 2px 2px rgba(0,0,0,0.2);
+		&:hover {
+			background-color: $white-color;
+		    color:$black-color;
+		}
+	}
+}
 .footer-container {
-	background-color: #fbfbfb;
+	background-color: $dull-white;
 	position: relative;
 }
-.footer{
-	color: #ffffff;
+
+//------landing page footer------------------
+.footer-landing{
+	color: $pure-white;
   padding: 20px 35px;
 	display: flex;
 	.social{
@@ -20,33 +52,35 @@
 			cursor: pointer;
 		}
 	}
+	.footer-logo{
+		font-family: $ubuntu-bold;
+		font-size: $size-32;
+		font-weight: 400;
+		color: $white-color;
+		text-decoration: none solid $white-color;
+		background: none;
+		// padding-top: 15px;
+		display: block;
+		text-align: left;
+		padding-left: 5px;
+	  padding: 5px 0;
+	}
+	.footer-small-text{
+		font-family: $ubuntu-regular;
+		font-size: 16px;
+		color: $white-color;
+		text-decoration: none solid $white-color;
+	}
 }
-.footer-logo{
-	font-family: $ubuntu-bold;
-	font-size: $size-32;
-	font-weight: 400;
-	color: $white-color;
-	text-decoration: none solid $white-color;
-	background: none;
-	// padding-top: 15px;
-	display: block;
-	text-align: left;
-	padding-left: 5px;
-  padding: 5px 0;
-}
-.footer-small-text{
-	font-family: $ubuntu-regular;
-	font-size: 16px;
-	color: $white-color;
-	text-decoration: none solid $white-color;
-}
+
 @media screen and (max-width: 767px) {
 	.date-view {
 		display: none;
 	}
 }
+
 @media screen and (max-width: 450px) {
-	.footer{
+	.footer-landing{
 		padding: 10px 20px;
 		margin-top: 10px;
 	}

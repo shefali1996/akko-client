@@ -9,8 +9,8 @@ import {
   AuthenticationDetails,
   CognitoUser
 } from 'amazon-cognito-identity-js';
-import { validateEmail } from '../constants';
-import MaterialIcon from '../assets/images/MaterialIcon 3.svg';
+import { validateEmail } from '../helpers/functions';
+import MaterialIcon from '../assets/images/MaterialIcon.svg';
 import config from '../config';
 import { invokeApigWithoutErrorReport } from '../libs/apiUtils';
 import user from '../auth/user';
@@ -147,7 +147,7 @@ class SignIn extends Component {
           localStorage.setItem('isAuthenticated', 'isAuthenticated');
           this.setState({
             pendingRequest: false,
-          });
+          });          
           switch (result.accountSetupStatus) {
             case 0:
               this.props.history.push('/connect-shopify');

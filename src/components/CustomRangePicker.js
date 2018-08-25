@@ -2,11 +2,12 @@ import React, { Component } from 'react';
 import { Row, Col, Label, Button, Image, DropdownButton } from 'react-bootstrap';
 import { Select, Input } from 'antd';
 import { defaultRanges, Calendar, DateRange } from 'react-date-range';
+import style from '../styles/global/variables.scss'
 import { isEmpty } from 'lodash';
 import styles from '../constants/styles';
 
 const moment = require('moment');
-
+const mainThemeColor = style.mainBlueColor
 const {Option} = Select;
 
 class CustomRangePicker extends Component {
@@ -14,7 +15,7 @@ class CustomRangePicker extends Component {
     super(props);
     this.state = {
       open:           false,
-      rangeType:      '',
+      rangeType:      'Custom',
       startDate:      '',
       endDate:        '',
       startDateInput: '',
@@ -36,12 +37,11 @@ class CustomRangePicker extends Component {
     const range = nextProps.defaultRange;
     if (range.start && range.end && (moment(range.start) !== this.state.startDate || moment(range.end) !== this.state.endDate)) {
       this.setState({
-        startDate:      moment(range.start),
-        endDate:        moment(range.end),
+        startDate:      moment(range.start).utc(),
+        endDate:        moment(range.end).utc(),
         startDateInput: range.start ? moment(range.start).format('YYYY-MM-DD') : '',
         endDateInput:   range.end ? moment(range.end).format('YYYY-MM-DD') : '',
-        selectedRange:  `${moment(range.start).format('DD-MMM-YYYY')} to ${moment(range.end).format('DD-MMM-YYYY')}`,
-        rangeType:      'Custom'
+        selectedRange:  `${moment(range.start).utc().format('DD-MMM-YYYY')} to ${moment(range.end).utc().format('DD-MMM-YYYY')}`,
       });
     }
 	  if (nextProps.customRangeShouldClear === true) {
@@ -81,29 +81,27 @@ class CustomRangePicker extends Component {
     let startDate = '';
     let endDate = '';
     if (value === 'This Month') {
-      startDate = moment().date(1);
-      endDate = moment();
+      startDate = moment.utc().date(1);
+      endDate = moment.utc();
     } else if (value === 'Last Month') {
-      startDate = moment().month(moment().get('month') - 1).date(1);
-      endDate = moment().date(0);
+      startDate = moment.utc().month(moment().get('month') - 1).date(1);
+      endDate = moment.utc().date(0);
     } else if (value === 'This Year') {
-      startDate = moment().month(0).date(1);
-      endDate = moment();
+      startDate = moment.utc().month(0).date(1);
+      endDate = moment.utc();
     } else if (value === 'Last Year') {
-      startDate = moment().year(moment().get('year') - 1).month(0).date(1);
-      endDate = moment().month(0).date(0);
+      startDate = moment.utc().year(moment().get('year') - 1).month(0).date(1);
+      endDate = moment.utc().month(0).date(0);
     } else if (value === 'Custom') {
       startDate = this.state.startDate;
       endDate = this.state.endDate;
     } else {
-      // startDate = '';
-      // endDate = '';
     }
     this.setState({
       startDate,
       endDate,
-      startDateInput: startDate ? moment(startDate).format('YYYY-MM-DD') : '',
-      endDateInput:   endDate ? moment(endDate).format('YYYY-MM-DD') : '',
+      startDateInput: startDate ? moment(startDate).utc().format('YYYY-MM-DD') : '',
+      endDateInput:   endDate ? moment(endDate).utc().format('YYYY-MM-DD') : '',
       rangeType:      value
     });
   }
@@ -145,7 +143,7 @@ class CustomRangePicker extends Component {
           <div className="custom-dropdown-view">
             <span className="dd-lable">Date Range:</span>
             <span>
-              <Select value={this.state.rangeType} onChange={this.selectRange}>
+              <Select value={this.state.rangeType} onClick={this.handleToggle} onChange={this.selectRange}>
                 <Option value="">Select</Option>
                 <Option value="This Month">This Month</Option>
                 <Option value="Last Month">Last Month</Option>
@@ -171,7 +169,7 @@ class CustomRangePicker extends Component {
                   maxDate={endDate ? moment(endDate) : ''}
                   theme={{
                     DaySelected: {
-                      background: styles.constants.mainThemeColor
+                      background: mainThemeColor
                     }
                   }}
                 />
@@ -193,7 +191,7 @@ class CustomRangePicker extends Component {
                   maxDate={moment()}
                   theme={{
                     DaySelected: {
-                      background: styles.constants.mainThemeColor
+                      background: mainThemeColor
                     }
                   }}
                 />
@@ -202,6 +200,7 @@ class CustomRangePicker extends Component {
           </div>
           <div className="custom-dropdown-view rangepicker-footer">
             <hr />
+            <br />
             <Button className="login-button pull-left" onClick={this.handleToggle}>CANCEL</Button>
             <Button className="login-button pull-right" onClick={this.handleSubmit}>SAVE</Button>
           </div>

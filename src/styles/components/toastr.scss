@@ -1,0 +1,15 @@
+#toast-container > div {
+  width: 500px;
+  font-size: 14px;
+}
+#toast-container{
+  .toast-error{
+    background-color: $tooltip-error-color;
+  }
+  .toast-success{
+    background-color: $japanese-laurel;
+  }
+  .toast-info {
+    background-color: $new-blue;
+  }
+}

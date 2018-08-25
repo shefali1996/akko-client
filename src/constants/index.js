@@ -1,96 +1,104 @@
 import Radium from 'radium';
-import { headShake } from 'react-animations';
+import {isEmpty, find, isNull} from 'lodash';
 import { validateCogsValue } from '../helpers/Csv';
 
 // static constants
 export const testMode = false;
-export const pollingInterval = 30 * 1000; // seconds 30s
-export const routeConstants = {landing: '/', signin: '/signin', signup: '/signup', forgotPassword: '/forgot-password', connectShopify: '/connect-shopify', settings: '/settings', fetchStatus: '/fetch-status', dashboard: '/dashboard'};
+export const pollingInterval = {lastUpdated: 30 * 1000, fetchStatusInterval: 5 * 1000, cogsStatus: 5 * 1000}; // seconds 30s
+export const routeConstants = {landing: '/', signin: '/signin', signup: '/signup', forgotPassword: '/forgot-password', connectShopify: '/connect-shopify', setCogs: '/set-cogs', settings: '/settings', fetchStatus: '/fetch-status', dashboard: '/dashboard'};
 export const KEYS_TO_FILTERS = ['productDetail.title', 'stockOnHandUnits', 'stockOnHandValue.value', 'committedUnits', 'committedValue.value', 'availableForSaleUnits', 'availableForSaleValue.value'];
 export const KEYS_TO_METRICES = ['title', 'description', 'prefix', 'value', 'trend', 'trendValue', 'trendPeriod'];
-export const KEYS_TO_FILTERS_VARIANTS = ['variant_details.title', 'variant_details.variant', 'variant_details.sku'];
-export const plotByOptions = {time: 'Time', product: 'Product', customer: 'Customer', categories: 'Categories'};
+export const plotByOptions = {time: 'Time', product: 'Product', categories: 'Categories', vendors: 'Vendors'};
+export const KEYS_TO_FILTERS_VARIANTS = ['productTitle', 'variant.variantTitle', 'variant.variant', 'variant.variantSku'];
+export const INVALID_COGS = 'invalid';
+export const PRODUCT = 'product';
+export const VARIANT = 'variant';
 export const businessType = {dropshipper: 'one', reseller: 'two', manufacture: 'three', other: 'four'};
-export const categoryOptions = {categories: 'Category', product: 'Product', variant: 'Variant'};
+export const categoryOptions = {categories: 'Category', product: 'Product', variant: 'Variant', time: 'Time'};
+export const vendorOptions = {vendors: 'Vendors', time: 'Time'}
 export const fetchRoutes = [routeConstants.setCogs, routeConstants.dashboard, routeConstants.settings];
 export const fetchStatusInterval = 10 * 1000;
+export const METRICS_CARD = 'metrics_card';
+export const bandwidthSize = 1.1;
+export const dashboardGrid = {maxColumn: 4, maxColWidth: 320};
+export const CsvTableHeaderRow = ['ID', 'Title', 'Variant', 'SKU', 'Price', 'COGS'];
+export const defaultCogsRange = {start: '01-01-1800', end: '01-01-2200'};
+export const RESPONSE_TEXT_MATRICS="Setting COGS is not completed for this store"
+export const HAND_ON_TEXT="Hang on. We are importing your data and calculating all your metrics";
+export const UPDATED_COGS_TEXT="We've updated your COGS and calculating your metrics";
+//= ====================Set cogs column width ===================
+
+export const getTableConstants = () => {
+  const w_500 = {rowHeight: 25, select: 20, title: 0.25, variant: 0.13, sku: 0.13, price: 0.08, cogs: 0.09, marginPercent: 0.11, marginDoller: 0.11, expand: 0.10};
+  const w_600 = {rowHeight: 35, select: 20, title: 0.25, variant: 0.13, sku: 0.13, price: 0.08, cogs: 0.09, marginPercent: 0.11, marginDoller: 0.11, expand: 0.10};
+  const w_767 = {rowHeight: 35, select: 25, title: 0.25, variant: 0.13, sku: 0.13, price: 0.08, cogs: 0.09, marginPercent: 0.11, marginDoller: 0.11, expand: 0.10};
+  const w_991 = {rowHeight: 40, select: 35, title: 0.22, variant: 0.12, sku: 0.12, price: 0.09, cogs: 0.10, marginDoller: 0.13, marginPercent: 0.13, expand: 0.10};
+  const w_1100 = {rowHeight: 45, select: 35, title: 0.22, variant: 0.13, sku: 0.13, price: 0.09, ogs: 0.09, marginDoller: 0.12, marginPercent: 0.12, expand: 0.10};
+  const w_1300 = {rowHeight: 45, select: 35, title: 0.22, variant: 0.13, sku: 0.13, price: 0.09, cogs: 0.09, marginDoller: 0.11, marginPercent: 0.11, expand: 0.10};
+  let colWidth = {rowHeight: 45, select: 35, title: 0.25, variant: 0.13, sku: 0.13, price: 0.09, cogs: 0.09, marginPercent: 0.11, marginDoller: 0.11, expand: 0.09};
+
+  if (screen.width <= 500) {
+    colWidth = w_500;
+  } else if (screen.width <= 600) {
+    colWidth = w_600;
+  } else if (screen.width <= 767) {
+    colWidth = w_767;
+  } else if (screen.width <= 991) {
+    colWidth = w_991;
+  } else if (screen.width <= 1100) {
+    colWidth = w_1100;
+  } else if (screen.width <= 1300) {
+    colWidth = w_1300;
+  }
+  return colWidth;
+};
+// ====================COGS calcutating formulas===============
+export const getCogsFromMarginDoller = (price, marginDoller) => (price - marginDoller).toFixed(2);
+export const getCogsFromMarginPercent = (price, marginPercent) => (price / (1 + (marginPercent / 100))).toFixed(2);
+export const getMarginPercentFromCogs = (price, cogs) => ((price - cogs) * 100 / cogs).toFixed(2);
+export const getMarginDollerFromCogs = (price, cogs) => (price - cogs).toFixed(2);
 
 // static functions
-export const validateEmail = (email) => {
-  // eslint-disable-next-line max-len, no-useless-escape
-  const regex = /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
-  return regex.test(email);
-};
+
 
 export const numberFormatter = (number) => {
-  if (number > 999) {
-    return `${(number / 1000).toFixed(1)} K`;
+  if(number > 999){
+    return `${(number / 1000).toFixed(1)}K`;
   } else if (number > 999999) {
-    return `${(number / 1000000).toFixed(1)} M`;
+    return `${(number / 1000000).toFixed(1)}M`;
   } else if (number > 999999999) {
-    return `${(number / 1000000000).toFixed(1)} B`;
+    return `${(number / 1000000000).toFixed(1)}B`;
+  } else{
+    return number;
   }
-  return parseFloat(Math.round(number * 100) / 100).toFixed(2);
 };
 
-export const convertInventoryJSONToObject = (inventoryJSON) => {
+export const getProductValue = (productsJSON) => {
   const products = [];
-  for (let i = 0; i < inventoryJSON.length; i++) {
-    const currProduct = inventoryJSON[i];
-    const productEntry = {
-      id:               currProduct.id,
-      productDetail:    currProduct.product_details,
-      stockOnHandUnits: currProduct.inventory_details.in_stock_units,
-      stockOnHandValue: {
-        value:    currProduct.inventory_details.in_stock_value,
-        currency: currProduct.currency
-      },
-      committedUnits: currProduct.inventory_details.committed_units,
-      committedValue: {
-        value:    currProduct.inventory_details.committed_value,
-        currency: currProduct.currency
-      },
-      availableForSaleUnits: currProduct.inventory_details.available_units,
-      availableForSaleValue: {
-        value:    currProduct.inventory_details.available_value,
-        currency: currProduct.currency
-      },
-      title:              currProduct.product_details.title,
-      variant:            currProduct.product_details.variant,
-      sku:                currProduct.product_details.sku,
-      price:              currProduct.product_details.price,
-      cogs:               currProduct.product_details.cogs !== 'null' ? currProduct.product_details.cogs : '',
-      cogsValidateStatus: validateCogsValue(currProduct.product_details.cogs, currProduct.product_details.price)
-    };
-    products.push(productEntry);
-  }
-  return products;
-};
-
-export const getProductValue = (inventoryJSON) => {
-  const products = [];
-  for (let i = 0; i < inventoryJSON.length; i++) {
-    const currProduct = inventoryJSON[i];
-    const productEntry = {
-      id:      currProduct.id,
-      title:   currProduct.variant_details.title,
-      variant: currProduct.variant_details.variant,
-      sku:     currProduct.variant_details.sku,
-      price:   currProduct.variant_details.price,
-      cogs:    currProduct.variant_details.cogs
-    };
-    products.push(productEntry);
+  for (let i = 0; i < productsJSON.length; i++) {
+    const currProduct = productsJSON[i];
+    if (currProduct.rowType === VARIANT) {
+      const productEntry = {
+        id:      currProduct.id || null,
+        title:   currProduct.productTitle || null,
+        variant: currProduct.variant.variantTitle || null,
+        sku:     currProduct.variant.variantSku || null,
+        price:   currProduct.variant.price || null,
+        cogs:    currProduct.cogs || currProduct.variant.cogs || null
+      };
+      products.push(productEntry);
+    }
   }
   return products;
 };
 
 export const headers = {
-  id:      'ID',
-  title:   'Title',
-  variant: 'Variant',
-  sku:     'SKU',
-  price:   'Price',
-  cogs:    'COGS'
+  id:      CsvTableHeaderRow[0],
+  title:   CsvTableHeaderRow[1],
+  variant: CsvTableHeaderRow[2],
+  sku:     CsvTableHeaderRow[3],
+  price:   CsvTableHeaderRow[4],
+  cogs:    CsvTableHeaderRow[5]
 };
 
 export const convertToCSV = (objArray) => {
@@ -151,4 +159,7 @@ export const getCogsValue = (objArray) => {
 
 export const isNumeric = (n) => {
   return !isNaN(parseFloat(n)) && isFinite(n);
+};
+export const isCogsInvalid = (cogs) => {
+  return isEmpty(cogs) || isNull(cogs) || cogs === INVALID_COGS || cogs <= 0;
 };

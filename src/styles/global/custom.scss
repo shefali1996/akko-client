@@ -2,17 +2,19 @@
   box-shadow: none;
 }
 .custom-table {
-	height: 103px;
   background: white;
   font-family: $ubuntu-regular;
   font-size: $size-16;
-  color: #1d2fb5;
+  color: $dark-purple;
   text-decoration: none solid $main-decoration-color;
+  &:hover{
+    background: $light-blue-color;
+  }
 }
 .custom-table td {
   text-align: center;
 	outline: none;
-	border-bottom: 1px solid $light-gray-color;
+	border-bottom: 1px solid $light-gray-color !important;
 }
 .react-bs-container-footer, .react-bs-container-header {
 	background: white;
@@ -35,8 +37,8 @@
   background-color: #fff;
   font-family: "Ubuntu-Regular";
   font-size: 14px;
-  color: #1d2fb5;
-  text-decoration: none solid #1d2fb5;
+  color: $dark-purple;
+  text-decoration: none solid $dark-purple;
   text-align: center;
   box-shadow: 0 1px 2px rgba(0, 0, 0, 0.5);
   border: none;
@@ -47,34 +49,35 @@
   width: 100% !important;
   font-family: Ubuntu;
   font-size: 14px;
-  color: #c8c8e8;
+  color: $light-gray-color;
   font-weight: bold;
   text-decoration: none solid rgb(200, 200, 232);
   .ant-select-selection{
     border-radius: 0;
     height: 41px;
-    border: 1px solid #c8c8e8;
+    border: 1px solid $light-gray-color;
     border-radius: 2px;
-    background-color: #ffffff;
+    background-color: $pure-white;
   }
   .ant-select-selection-selected-value{
     padding: 7px 15px;
   }
 }
 .ant-select-dropdown{
-  z-index: 1111;
+  z-index: 1501 !important;
+  display: block;
   border-radius: 0;
   font-family: Ubuntu;
   font-size: 14px;
-  color: #c8c8e8;
+  color: $light-gray-color;
   font-weight: bold;
-  text-decoration: none solid #c8c8e8;
+  text-decoration: none solid $light-gray-color;
 }
 .ant-input{
   height: auto;
   font-family: Ubuntu;
   font-size: 14px;
-  color: #c8c8e8;
+  color: $light-gray-color;
   font-weight: bold;
   text-decoration: none solid rgb(200, 200, 232);
   border-radius: 2px;

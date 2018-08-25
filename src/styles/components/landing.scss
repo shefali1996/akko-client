@@ -17,7 +17,7 @@
 .smaller-text{
 	font-family: $ubuntu-regular;
 	font-size: $size-14;
-	color: #777777;
+	color: $gray-color;
 	text-decoration: none solid rgb(119, 119, 119);
 	text-align: center;
 }
@@ -138,7 +138,7 @@
 	background-color: #e8e8e8;
 	font-family: $ubuntu-regular;
 	font-size: $size-14;
-	color: #1d2fb5;
+	color: $dark-purple;
 	text-decoration: none solid $main-decoration-color;
 	text-align: center;
 	box-shadow: 0 1px 2px $black-color;

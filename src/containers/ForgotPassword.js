@@ -6,8 +6,8 @@ import { Spin } from 'antd';
 import { isEmpty } from 'lodash';
 import swal from 'sweetalert2';
 import { CognitoUserPool, AuthenticationDetails, CognitoUser } from 'amazon-cognito-identity-js';
-import { validateEmail } from '../constants';
-import MaterialIcon from '../assets/images/MaterialIcon 3.svg';
+import { validateEmail } from '../helpers/functions';
+import MaterialIcon from '../assets/images/MaterialIcon.svg';
 import config from '../config';
 import user from '../auth/user';
 import styles from '../constants/styles';
@@ -88,8 +88,9 @@ class ForgotPassword extends Component {
   }
 
   forgotPassword = () => {
-    const { email, newPassword, verificationCode, step } = this.state;
+    const { email, newPassword, verificationCode, step, pendingRequest } = this.state;
     const _self = this;
+    _self.setState({pendingRequest: true})
     const emailAuth = this.emailValidation();
     if (emailAuth) {
       // create a new userPool instance
@@ -103,11 +104,11 @@ class ForgotPassword extends Component {
       if (step === 0) {
         cognitoUser.forgotPassword({
           onSuccess(result) {
-            _self.setState({step: 1});
+            _self.setState({step: 1, pendingRequest: false});
           },
           onFailure(err) {
             _self.setState({
-              alertError: {open: true, message: 'Username / email not found'}
+              alertError: {open: true, pendingRequest: false, message: 'Username / email not found'}
             });
             swalert();
           }
@@ -118,7 +119,7 @@ class ForgotPassword extends Component {
         if (passAuth && otpAuth) {
           cognitoUser.confirmPassword(verificationCode, newPassword, {
             onSuccess() {
-              _self.setState({step: 2});
+              _self.setState({step: 2, pendingRequest: false});
               _self.props.history.push({
                 pathname: '/signin',
                 state:    { email }
@@ -126,7 +127,7 @@ class ForgotPassword extends Component {
             },
             onFailure(err) {
               _self.setState({
-                alertError: {open: true, message: `Could not reset password for user ${email}, Retry.`}
+                alertError: {open: true, pendingRequest: false, message: `Could not reset password for user ${email}, Retry.`}
               });
               swalert();
             }

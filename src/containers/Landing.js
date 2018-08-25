@@ -3,10 +3,10 @@ import { Grid, Row, Col, Label, FormGroup, InputGroup, FormControl, Button, Tool
 import Header from '../components/Header';
 import Footer from '../components/Footer';
 import user from '../auth/user';
-import {validateEmail} from '../constants';
+import {validateEmail} from '../helpers/functions';
 import styles from '../constants/styles';
 import shopifyicon from '../assets/images/shopifyicon.svg';
-import MaterialIcon from '../assets/images/MaterialIcon 3.svg';
+import MaterialIcon from '../assets/images/MaterialIcon.svg';
 import macbook3 from '../assets/images/macbook3_edited.png';
 import placeholderImg from '../assets/images/placeholder4-f4502c.png';
 import dataflow from '../assets/images/data-flow(1).svg';
@@ -43,6 +43,7 @@ class Landing extends Component {
     }
   }
   componentWillMount() {
+    document.title = "Akko | Realtime analytics and reporting for Shopify";
     if (user.isAuthenticated !== null) {
       this.props.history.push('/dashboard');
     }
@@ -73,7 +74,7 @@ class Landing extends Component {
   render() {
     const {email} = this.state;
     return (
-      <Grid className="main-layout">
+      <Grid className="main-layout landing">
         <div className="header">
           <Header history={this.props.history} />
         </div>
@@ -335,7 +336,7 @@ class Landing extends Component {
             </Col>
           </Row>
           <Row>
-            <Col md={12} className="margin-t-60 bg-blue footer text-center">
+            <Col md={12} className="margin-t-60 bg-blue footer-landing text-center">
               <Col xs={6} >
                 <div><Label className="footer-logo"> akko</Label></div>
                 <div className="footer-small-text text-left">© 2018 Akko.</div>
@@ -343,8 +344,8 @@ class Landing extends Component {
               <Col xs={6} >
                 <div className="footer-small-text text-right">help@akko.io</div>
                 <div className="social text-right">
-                  <span><img src={twitter_footer} onClick={()=>{window.open('https://twitter.com/akkoHQ')}} alt="twitter" /></span>
-                  <span><img src={facebook_footer} onClick={()=>{window.open('https://www.facebook.com/akkoHQ/')}} alt="facebook" /></span>
+                  <span><img src={twitter_footer} onClick={() => { window.open('https://twitter.com/akkoHQ'); }} alt="twitter" /></span>
+                  <span><img src={facebook_footer} onClick={() => { window.open('https://www.facebook.com/akkoHQ/'); }} alt="facebook" /></span>
                 </div>
               </Col>
             </Col>

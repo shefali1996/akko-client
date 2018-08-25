@@ -55,9 +55,12 @@
 .account-setup-header {
 	text-align: right;
 	margin-top: 20px;
-	margin-left: 40px;
-	margin-right: 40px;
+	margin-left: 0px;
+	margin-right: 0px;
 	padding-bottom: 10px;
+	border-bottom: 1px solid $light-gray-color;
+}
+.devider{
 	border-bottom: 1px solid $light-gray-color;
 }
 .account-comment {
@@ -74,6 +77,32 @@
 	text-decoration: none solid rgb(87, 93, 222);
 	text-align: center;
 }
+.login-layout {
+	.select-style-text {
+		sup{
+			cursor: pointer;
+			margin: -3px;
+			top: -12px;
+			span{
+				border: 1px solid $light-gray-color-1;
+				border-radius: 12px;
+				font-size: 12px;
+				padding: .5px 5.5px;
+			}
+		}
+		sup:hover+.cogs-tips{
+			display: block;
+		}
+		.cogs-tips{
+			display: none;
+	    position: absolute;
+			top: 30px;
+			left: 120px;
+			z-index: 1;
+		}
+	}
+}
+
 .select-style-comment {
 	font-family: $ubuntu-regular;
 	font-size: $size-16;
@@ -212,7 +241,7 @@
 	height: 201px;
 	border: 1px solid $light-gray-color;
 	border-radius: 5px;
-	background-color: #fbfbfb;
+	background-color: $dull-white;
 	display: flex;
 	justify-content: center;
 	align-items: center;
@@ -254,7 +283,7 @@
 	width: 668px;
 	height: 80px;
 	padding: 6px 10px;
-	background-color: #fbfbfb;
+	background-color: $dull-white;
 	box-shadow: 0 1px 2px rgba(0, 0, 0, 0.5);
 	display: flex;
 	flex-direction: row;
@@ -274,7 +303,7 @@
 .product-title {
 	font-family: $ubuntu-regular;
 	font-size: $size-16;
-	color: #1d2fb5;
+	color: $dark-purple;
 	text-decoration: none solid $main-decoration-color;
 }
 .product-type {
@@ -307,14 +336,13 @@
 	text-align: center;
 }
 .currency-view {
-	margin-left: 10px;
 	display: flex;
 	flex-direction: column;
 }
 .product-currency-text {
 	font-family: $ubuntu-regular;
 	font-size: $size-12;
-	color: #c8c8c8;
+	color: $light-gray-color-1;
 	text-decoration: none solid rgb(200, 200, 200);
 }
 .product-input {
@@ -326,9 +354,15 @@
 	margin-left: 5px;
 }
 .set-table-header {
-	color: #1d2fb5;
+	color: $dark-purple;
 	font-size: 18px;
 	font-weight: normal;
+}
+.set-cogs-header {
+	color: $light-blue-shade;
+	font-size: 14px;
+	font-weight: normal;
+	margin-right: 0px;
 }
 .react-bs-table {
 	height: unset !important;
@@ -343,7 +377,7 @@
 	background-color: $white-color;
 	font-family: $ubuntu-regular;
 	font-size: $size-14;
-	color: #1d2fb5;
+	color: $dark-purple;
 	text-decoration: none solid $main-decoration-color;
 	text-align: center;
 	box-shadow: 0 1px 2px rgba(0, 0, 0, 0.5);
@@ -360,7 +394,7 @@
 .product-listed-price{
 	font-family: Ubuntu;
 	font-size: 20px;
-	color: #575dde;
+	color: $new-blue;
 	font-weight: 400;
 	text-decoration: none solid rgb(87, 93, 222);
 	text-align: center;
@@ -369,7 +403,7 @@
 .cogs-pending {
 	width: 43px;
 	height: 43px;
-	fill: #c8c8e8;
+	fill: $light-gray-color;
 	background-image: url("../assets/images/cogs_pending.svg");
 	background-repeat: no-repeat;
 	background-color: transparent;
@@ -383,7 +417,7 @@
 .cogs-completed {
 	width: 43px;
 	height: 43px;
-	fill: #c8c8e8;
+	fill: $light-gray-color;
 	background-image: url("../assets/images/cogs_completed.svg");
 	background-repeat: no-repeat;
 	background-color: transparent;
@@ -410,4 +444,76 @@
 
 .tipbox-text{
 	 font-size: 14px;
+}
+
+.cogs-page-button {
+	.btn-icon{
+		padding-right: 3px;
+		display: inline-block;
+		img{
+			height: 24px;
+			width: 24px;
+		}
+	}
+	height: auto;
+	width: auto;
+	padding: 8px 10px;
+	background-color: $main-blue-color;
+	font-family: $ubuntu-regular;
+	font-size: $size-14;
+	color: $white-color;
+	text-decoration: none solid $main-decoration-color;
+	text-align: center;
+	box-shadow: 0 1px 2px rgba(0, 0, 0, 0.5);
+	border: none;
+	border-radius: 0;
+}
+
+.cogs-page-button:active,
+.cogs-page-button:hover,
+.cogs-page-button:focus,
+.cogs-page-button:active:focus {
+	outline: 0;
+	background-color: $main-blue-color;
+	color: $white-color;
+}
+
+@media only screen and (max-width: 1300px) {
+	.set-cogs-header{
+		font-size: 13px;
+	}
+}
+@media only screen and (max-width: 1100px) {
+	.set-cogs-header{
+    font-size: 12px;
+  }
+}
+@media only screen and (max-width: 900px) {
+	.set-cogs-header{
+    font-size: .8em;
+  }
+}
+@media only screen and (max-width: 767px) {
+	.set-cogs-header{
+    font-size: .7em;
+  }
+	.cogs-page-button{
+		font-size: 12px;
+		padding: 5px 7px;
+		.btn-icon{
+			padding-right: 3px;
+			img{
+				height: 20px;
+				width: 20px;
+			}
+		}
+	}
+}
+@media only screen and (max-width: 600px) {
+	.set-cogs-header{
+    font-size: .6em;
+  }
+	.select-style-comment-small {
+		font-size: $size-12;
+	}
 }

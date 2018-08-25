@@ -1,8 +1,10 @@
 .checkbox-personalized * {
   box-sizing: border-box;
 }
-td .checkbox-personalized {
-  padding-top: 25px;
+.checkbox-personalized {
+  padding-top: 0px;
+  display: block;
+  margin: 0 auto;
 }
 
 .checkbox-personalized input[type=checkbox] {
@@ -14,7 +16,7 @@ td .checkbox-personalized {
   padding: 5px 0;
 }
 .checkbox-personalized label .check {
-  margin: 0;
+  margin: 0 auto;
   width: 20px;
   height: 20px;
   border: 2px solid $main-blue-color;
@@ -61,4 +63,67 @@ td .checkbox-personalized {
 
 .custom-select-header-class > thead > tr > th:first-child {
   padding: 0 !important;
+}
+@media only screen and (max-width: 900px) {
+  .set-cogs-table{
+    .checkbox-personalized{
+      width: 35px;
+    }
+    .checkbox-personalized label {
+      padding: 0;
+    }
+    .checkbox-personalized label .check {
+      width: 16px;
+      height: 16px;
+    }
+    .checkbox-personalized input[type=checkbox]:checked + label .check:after {
+        width: 5px;
+        height: 11px;
+        margin: 0px 5px;
+    }
+  }
+}
+@media only screen and (max-width: 767px) {
+  .set-cogs-table{
+    .checkbox-personalized{
+      width: 35px;
+    }
+    .checkbox-personalized label {
+      padding: 0;
+    }
+    .checkbox-personalized label .check {
+      width: 14px;
+      height: 14px;
+    }
+    .checkbox-personalized input[type=checkbox]:checked + label .check:after {
+        width: 5px;
+        height: 11px;
+        margin: 0px 3px;
+    }
+    .checkbox-personalized input[type=checkbox]:indeterminate + label .check:after {
+      margin: 1px 5px;
+    }
+  }
+}
+@media only screen and (max-width: 600px) {
+  .set-cogs-table{
+    .checkbox-personalized{
+      width: 25px;
+    }
+    .checkbox-personalized label {
+      padding: 0;
+    }
+    .checkbox-personalized label .check {
+      width: 10px;
+      height: 10px;
+    }
+    .checkbox-personalized input[type=checkbox]:checked + label .check:after {
+      width: 5px;
+      height: 9px;
+      margin: -2px 2px;
+    }
+    .checkbox-personalized input[type=checkbox]:indeterminate + label .check:after {
+      margin: -1px 4px;
+    }
+  }
 }

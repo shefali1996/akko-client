@@ -11,33 +11,35 @@
   }
 }
 .app-title {
-  font-family: $ubuntu-bold;
-	font-size: $size-32;
-  color: $white-color;
-  text-decoration: none solid $main-decoration-color;
-  background: none;
-  padding-top: 20px;
+  padding-top: 0px;
   padding-left: 0px;
 	display: block;
-	// position: absolute;
-	top: 25px;
+  width: 30px;
+  height: 30px;
+  top: 20px;
+  background-color: $main-blue-color;
 	left: 10px;
-	z-index: 999;
+  z-index: 999;
+  .logo{
+    background: url("../assets/images/transparent_white.svg") no-repeat center center;
+    width: 50px;
+    height: 50px;
+    background-size: cover;
+  }
 }
 .company-name-label{
+  height: 40px;
   font-family: Ubuntu;
-  font-size: 20px;
+  font-size: 16px;
   color: $white-color;
-  font-weight: bold;
   text-decoration: none solid rgb(255, 255, 255);
   text-align: center;
-  // padding: 0px;
-  display: block;
   background: none;
-  margin-top: 17px;
+  margin-top: 5px;
   margin-bottom: 8px;
-  padding-top: 7px;
-  padding-left: 12px;
+  padding-top: 14px;
+  margin-left: 25px;
+  padding-left: 9px;
   border-left: 2px solid #ccc;
 }
 .user-profile {
@@ -48,6 +50,10 @@
 	float: right !important;
 	z-index: 999;
 	text-align: right;
+}
+
+.dropdown .btn-default{
+  margin-top: 4px !important;
 }
 .username {
   // font-family: $ubuntu-light;
@@ -78,7 +84,7 @@
 	padding: 0;
 	width: 100%;
 	border: none;
-  margin-top: 12px;
+  margin-top: 10px;
 }
 .dropdown .btn-default:hover,
 .dropdown.open .btn-default:hover,
@@ -107,12 +113,15 @@
 	padding: 10px;
 }
 
+.custom-dropdown-view:hover{
+  background: $custom-dropdown-background-color;
+}
 .custom-dropdown-view .username{
-  color: #c8c8e9;
+  color: $custom-dropdown-color;
 }
 
 .custom-dropdown-view .setting{
-  color: #c8c8e9;
+  color: $custom-dropdown-color;
 }
 
 .dropdown{

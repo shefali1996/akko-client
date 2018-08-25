@@ -3,15 +3,35 @@
  */
 
 //colors
+
 $white-color: #fff;
 $black-color: #000000;
 $light-gray-color: #c8c8e8;
-$main-blue-color: #575dde;
+$main-blue-color: #4688FF;
 $main-red-color: #f02a1f;
-$main-background-color: #ebebeb;
+$main-background-color: #ebebeb; 
 $main-decoration-color: rgb(29, 47, 181);
 $tooltip-error-color: #e65c49;
+$light-gray-color-1:  #c8c8c8;
+$color-var-1: #484848;
+$light-blue-color: #fafaff;
+$japanese-laurel: #00aa00;
+$japanese-laurel-dark: #009900;
 $gray-color: #777777;
+$dim-white: #F7F7FC;
+$snow: #dddddd; 
+$new-blue: #575dde;
+$dark-purple: #1d2fb5;
+$smooth-grey: #bbbbbb;
+$pure-white: #ffffff;
+$dull-white: #fbfbfb;
+$grey-color-metrics: #cbcbcb;
+$focus-color:#f1f3f3;
+$custom-dropdown-background-color:#f2f9fc;
+$custom-dropdown-color:#c8c8e9;
+$light-blue-shade:#b8b8d9;
+$grey:#666666;
+$white-shade:#ebfbfb;
 
 //font-size
 $size-0: 0px;
@@ -29,9 +49,43 @@ $size-30: 30px;
 $size-32: 32px;
 
 //font-name
+$ubuntu: 'Ubuntu';
 $ubuntu-bold: 'Ubuntu-Bold';
 $ubuntu-regular: 'Ubuntu-Regular';
 $ubuntu-light: 'Ubuntu-Light';
 $lato-regular: 'Lato-Regular';
 $ubuntu: 'Ubuntu';
 $open-sans: 'Open Sans';
+
+//color variable which are defined above must be exported here
+:export {
+    mainBlueColor: $main-blue-color;
+    white-color:$white-color;
+    black-color: $black-color;
+    light-gray-color: $light-gray-color;
+    main-blue-color: $main-blue-color;
+    main-red-color: $main-red-color;
+    main-background-color: $main-background-color; 
+    main-decoration-color:$main-decoration-color;
+    tooltip-error-color: $tooltip-error-color;
+    light-gray-color-1:  $light-gray-color-1;
+    color-var-1: $color-var-1;
+    light-blue-color: $light-blue-color;
+    japanese-laurel: $japanese-laurel;
+    japanese-laurel-dark:$japanese-laurel-dark;
+    gray-color: $gray-color;
+    dim-white: $dim-white;
+    snow: $snow; 
+    new-blue: $new-blue;
+    dark-purple: $dark-purple;
+    smooth-grey: $smooth-grey;
+    pure-white: $pure-white;
+    dull-white: $dull-white;
+    grey-color-metrics: $grey-color-metrics;
+    focus-color:$focus-color;
+    custom-dropdown-background-color:$custom-dropdown-background-color;
+    custom-dropdown-color:$custom-dropdown-color;
+    light-blue-shade:$light-blue-shade;
+    grey:$grey;
+    white-shade:$white-shade;
+}

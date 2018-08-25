@@ -1,7 +1,7 @@
 .update-style-title{
   font-family: Ubuntu;
   font-size: 18px;
-  color: #575dde;
+  color: $new-blue;
   font-weight: 500;
   text-decoration: none solid rgb(87, 93, 222);
   text-align: center;
@@ -11,7 +11,7 @@
   font-family: Ubuntu;
   display: block;
   font-size: 16px;
-  color: #575dde;
+  color: $new-blue;
   font-weight: 400;
   text-decoration: none solid rgb(87, 93, 222);
   text-align: center;
@@ -20,7 +20,7 @@
 .inventory-alert-title{
   font-family: Ubuntu;
   font-size: 18px;
-  color: #575dde;
+  color: $new-blue;
   font-weight: 500;
   text-decoration: none solid rgb(87, 93, 222);
   text-align: center;
@@ -28,7 +28,7 @@
 .inventory-alert-text{
   font-family: Ubuntu;
   font-size: 14px;
-  color: #575dde;
+  color: $new-blue;
   font-weight: 400;
   text-decoration: none solid rgb(87, 93, 222);
   text-align: center;
@@ -39,7 +39,7 @@
     display: inline-block;
     margin-left: 15px;
     font-size: 14px;
-    color: #575dde;
+    color: $new-blue;
     font-weight: 400;
     text-decoration: none solid rgb(87, 93, 222);
     text-align: center;
