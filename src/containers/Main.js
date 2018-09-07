@@ -10,7 +10,7 @@ import { hasClass } from '../helpers/Csv';
 import { fetchRoutes, pollingInterval, routeConstants } from '../constants';
 import styles from '../constants/styles';
 import user from '../auth/user';
-import { getDataLoadStatus, getChannel, getLuTimestamp, getMetrics } from '../redux/dashboard/actions';
+import { getDataLoadStatus, getChannel, getLuTimestamp, getMetricsWithoutLoading} from '../redux/dashboard/actions';
 
 
 class Main extends Component {
@@ -49,7 +49,7 @@ class Main extends Component {
     window.addEventListener('popstate', this.handleSWAL);
   }
 
-  componentWillReceiveProps(props) {
+  componentWillReceiveProps(props) {    
     const {status, channelData} = props;
     this.setState({
       status,
@@ -82,7 +82,7 @@ class Main extends Component {
     }
   }
   refreshData() {
-    this.props.getMetrics();
+    this.props.getMetricsWithoutLoading();
   }
 
   handleSWAL() {
@@ -140,7 +140,7 @@ const mapDispatchToProps = (dispatch) => {
     getDataLoadStatus,
     getChannel,
     getLuTimestamp,
-    getMetrics
+    getMetricsWithoutLoading
   }, dispatch);
 };
 

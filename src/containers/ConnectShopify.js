@@ -43,7 +43,6 @@ class ConnectShopify extends Component {
 
   onConnect() {    
     this.setState({pendingRequest: true})
-    console.log('this.props', this.props);
     if (testMode) {
       swalert().then(() => {
         this.onConfirm();

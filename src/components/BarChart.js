@@ -398,7 +398,7 @@ class BarChart extends Component {
         this.onMouseOut();
         tooltip.style("opacity", 0).style("transition", "opacity .5s");
       })
-      .on("click", d => {
+      .on("click", d => {        
         const label = d.label;
         const categoryBarId = d.categoryBarId;
         let nextOption = false;

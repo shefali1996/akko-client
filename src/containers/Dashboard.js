@@ -105,12 +105,6 @@ class Dashboard extends Component {
     if( screen.height > 800 && maxHeight < 408 && screen.width >1700){
       maxHeight = 408;
     }
-    // if( screen.height < 800 ){
-    //   maxHeight = 378;
-    // }
-    // if(screen.width === 1280 ){
-    //   maxHeight=345;
-    // }
     if (maxHeight !== this.maxHeight) {
       $('.dashboard-card-container').css({height: `${maxHeight}px`});
     }
@@ -143,9 +137,15 @@ class Dashboard extends Component {
       explore:         true,
       activeMetrics:   value,
       activeMetricsId: id,
+      receiveProps:true
     });
   }
-  render() {          
+  setReceiveProps=(data)=>{
+    this.setState({
+      receiveProps:data
+    })
+  }
+  render() {               
     const {metricsData, activeMetrics} = this.state;
     const{message,originalMessage}=this.props.metricsData.data
     const renderCards = [];
@@ -185,7 +185,7 @@ class Dashboard extends Component {
           if (expensesData.total_sale === -1 || expensesData.total_cogs === -1 || expensesData.total_discount === -1 || expensesData.total_shipping === -1 || expensesData.total_tax === -1) {
             invalid = true;
             value.title = 'Expenses Breakdown';
-          }
+          } 
           const expenseCard = invalid ?
             <InvalidCard key={index} height={this.state.maxHeight} index={index} width={dashboardGridInfo.colWidth} value={value} userData={this.state.userData} onClickSetCogs={() => this.props.history.push('/set-cogs')} />
             : <ExpenseCard key={index} index={index} width={dashboardGridInfo.colWidth} value={value} maxHeight={this.state.maxHeight}/>;
@@ -222,6 +222,7 @@ class Dashboard extends Component {
                   activeMetrics={this.state.activeMetrics}
                   channelData={this.state.channelData}
                   open={this.state.explore}
+                  receiveProps={this.state.receiveProps}
                   getVendors={this.props.chartData.data.getVendors}
                   getProductBySingleCategory={this.props.chartData.data.getProductBySingleCategory}
                   getTimeBySingleProduct={this.props.chartData.data.getTimeBySingleProduct}
@@ -229,6 +230,7 @@ class Dashboard extends Component {
                   getTimeBySingleVariant={this.props.chartData.data.getTimeBySingleVariant}
                   getCategories={this.props.chartData.data.getCategories}
                   categoriesData={this.state.categoriesData}
+                  setReceiveProps={this.setReceiveProps}
                   {...this.props}
                   />
               </div>

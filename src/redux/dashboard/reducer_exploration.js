@@ -32,14 +32,15 @@ const getChartDataRequest = (state, action) => update(state, {
   }
 });
 const getChartDataSuccess = (state, action) => {
-  const {metric_name, option, metric_map} = action.payload;
+
+  const {metric_name, option, data} = action.payload;
   const newData = cloneDeep(state.chartData.data);
   const key = `${metric_name}:${option}`;
-  if (metric_map.timeFrame) {
-    newData.customTimeframeDataMap[key] = metric_map;
+  if (data.timeFrame) {
+    newData.customTimeframeDataMap[key] = data;
   } else {
-    newData.defaultDataMap[key] = metric_map;
-  }
+    newData.defaultDataMap[key] = data;
+  }    
   return update(state, {
     chartData: {
       data:      {$set: newData},
@@ -92,13 +93,13 @@ const getCategoriesSuccess = (state, action) => {
   });
 };
 const getVendorsSuccess = (state, action) => {
-  const {metric_name, option, metric_map} = action.payload;
+  const {metric_name, option, data,label} = action.payload;
   const newData = cloneDeep(state.chartData.data);
-  const key = `${metric_name}:${option}`;
-  if (metric_map.timeFrame) {
-    newData.customTimeframeDataMap[key] = metric_map;
-  } else {
-    newData.defaultDataMap[key] = metric_map;
+  const key = `${metric_name}:${option}:${label}`;
+  if (data.timeFrame) {
+    newData.customTimeframeDataMap[key] = data;
+  } else {    
+    newData.defaultDataMap[key] = data;
   }
   return update(state, {
     chartData: {

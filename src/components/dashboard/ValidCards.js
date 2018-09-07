@@ -7,7 +7,7 @@ import LineChart from '../../components/LineChart';
 import PriceBox from '../../components/PriceBox';
 import {METRICS_CARD} from '../../constants';
 
-export default ({width, active, index, handleClickMetrics, value, data, openExploreMetric}) => {  
+export default ({width, active, index, handleClickMetrics, value, data, openExploreMetric}) => {    
   return (<Col id={`card_${index}`} style={{width}} className="dashboard-card-container" >
     <Card className={`price-card-style ${active}`} >
       <CardHeader className="card-header-style" >

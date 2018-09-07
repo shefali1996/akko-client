@@ -59,14 +59,14 @@ class ExploreMetrics extends Component {
       categoriesNav:          {top: categoryOptions.categories, path: []},
       vendorsNav:             {top: vendorOptions.vendors, path: []},
       noData:                 false,
-      productData:            {}
+      productData:            {},
+      receiveProps:           true
     };
 
     this.currentOption = OPTION_TIME;
     this.currentSortOption = '2';
     this.customStartTime = '';
     this.customEndTime = '';
-
     this.openFilter = this.openFilter.bind(this);
     this.closeFilter = this.closeFilter.bind(this);
     this.onRowSelect = this.onRowSelect.bind(this);
@@ -86,23 +86,28 @@ class ExploreMetrics extends Component {
     this.onVendorClick = this.onVendorClick.bind(this);
   }
 
-  getMap(metric, context) {
+  getMap(metric, context,subOption) {
     let map = this.state.defaultDataMap;
     if (this.customStartTime !== ''
     && this.customEndTime !== '') {
       map = this.state.customTimeframeDataMap;
     }
     const key = `${metric}:${context}`;
-    if (map.hasOwnProperty(key)) {
-      return map[key];
+    const key2=`${metric}:${context}:${subOption}`
+    const finalKey=subOption?key2:key
+    
+    if (map.hasOwnProperty(finalKey)) {
+      return map[finalKey];
     }
     return null;
   }
-  componentWillReceiveProps(nextProps) {  
+ 
+  componentWillReceiveProps(nextProps) {      
     const state = _.cloneDeep(this.state);
     this.setState({
-      metrics: nextProps.metricsData.data.metrics
-    })
+      metrics: nextProps.metricsData.data.metrics,
+      receiveProps:nextProps.receiveProps
+    },()=>{
     const {activeMetrics, defaultDataMap, customTimeframeDataMap, categoriesData, customersData, productData, open} = state;
     let {currentOption} = state;
     if (nextProps.open !== open) {
@@ -127,7 +132,7 @@ class ExploreMetrics extends Component {
         productData: nextProps.productData.data
       });
     }
-    if (nextProps.activeMetrics && (nextProps.activeMetrics !== this.state.activeMetrics)) {
+    if (nextProps.activeMetrics && (nextProps.activeMetrics !== this.state.activeMetrics)) {               
       if (_.indexOf(nextProps.activeMetrics.availableContexts, currentOption.toLowerCase()) === -1) {
         currentOption = OPTION_TIME;
       }
@@ -135,22 +140,24 @@ class ExploreMetrics extends Component {
         activeMetrics: nextProps.activeMetrics,
         currentOption
       }, () => {
+        
         this.onOptionChange(currentOption);
       });
     }
     const d = nextProps.chartData.data;
-    if (!isEqual(d.defaultDataMap, defaultDataMap) || !isEqual(d.customTimeframeDataMap, customTimeframeDataMap)
-    || !isEqual(d.categoriesData, categoriesData)
-    ) {
+    if (( !isEqual(d.defaultDataMap, defaultDataMap)  || !isEqual(d.customTimeframeDataMap, customTimeframeDataMap) 
+    || !isEqual(d.categoriesData, categoriesData))
+    ) {      
       this.setState({
         graphLoadingDone:       true,
         defaultDataMap:         d.defaultDataMap,
         customTimeframeDataMap: d.customTimeframeDataMap,
         categoriesData:         d.categoriesData
       }, () => {
-        this.onOptionChange(currentOption);
+        this.onOptionChange(currentOption); 
       });
     }
+  })
   }
 
   openFilter(filterBy) {
@@ -170,7 +177,8 @@ class ExploreMetrics extends Component {
       categoryLabel:          '',
       chartData:              null,
       categoryId:             '',
-      productId:               '',
+      productId:              '',
+      vendorsId:              '',
       categoriesData:         {},
       categoriesNav:          {top: categoryOptions.categories, path: []},
       vendorsNav:             {top: vendorOptions.vendors, path: []},
@@ -178,14 +186,14 @@ class ExploreMetrics extends Component {
   }
 
   closeExploreMetrics() {
-    if (this.customStartTime !== '') {
-      this.clearStates();
-      this.customStartTime = '';
-      this.customEndTime = '';
-    }
-    this.clearStates();
-    this.props.clearChartData();
-    this.props.closeFilter();
+        if (this.customStartTime !== '') {
+          this.clearStates();
+          this.customStartTime = '';
+          this.customEndTime = '';
+        }
+        this.clearStates();
+        this.props.clearChartData();
+        this.props.closeFilter();
   }
   
   clearStates(){
@@ -199,6 +207,7 @@ class ExploreMetrics extends Component {
       chartData:              null,
       categoryId:             '',
       productId:               '',
+      vendorsId:               "",
       categoriesData:         {},
       categoriesNav:          {top: categoryOptions.categories, path: []},
       vendorsNav:             {top: vendorOptions.vendors, path: []},
@@ -236,7 +245,7 @@ class ExploreMetrics extends Component {
     });
   }
 
-  setMetric(option) {
+  setMetric(option) {    
 	  const metric_name = this.state.activeMetrics.metric_name;
     let metric_map = this.getMap(metric_name, option);
 	  if (!metric_map) {
@@ -261,6 +270,7 @@ class ExploreMetrics extends Component {
         metric_map.resolution = RESOLUTION_DAY;
       }
       const { categoriesNav, vendorsNav, currentSubOption } = this.state
+      
       if(categoriesNav.path.length != 0  && option === OPTION_CATEGORIES){
         if(categoriesNav.path.length == 1 && this.state.currentSubOption == 'time'){
           this.props.getCategories({activeMetrics: this.state.activeMetrics, label: this.state.categoryLabel, id: this.state.categoryId, queryParams, option, metric_map}).then(() => {
@@ -310,15 +320,15 @@ class ExploreMetrics extends Component {
           }, () => {
             this.onOptionChange(this.state.currentOption);
           });
-        });  
-      } else{
+        });
+      } else{        
         this.props.getChartData(option, this.state.activeMetrics, metric_map, queryParams,
           this.props.channelData.data.shopId);
       }
 	  }
   }
 
-  setTimeMetric() {
+  setTimeMetric() {    
 	  const {metric_name} = this.state.activeMetrics;
     const metric_map = this.getMap(metric_name, OPTION_TIME);
     if (!metric_map) {
@@ -476,6 +486,8 @@ class ExploreMetrics extends Component {
                 prefix,
                 postfix,
                 index,
+                categoryBarId:value.productTypeId   
+
               });
               index++;
             });
@@ -526,13 +538,15 @@ class ExploreMetrics extends Component {
     }
   }
   
-  setCustomersMetric() {
+  setVendorsMetric() {    
     let sortOrder = ascendingSortOrder;
 	  if (this.currentSortOption === '2') {
       sortOrder = descendingSortOrder;
-	  }
+    }
+   const {top}= this.state.vendorsNav
+   const label=top==="Time"?"Time":""
     const metric_name = this.state.activeMetrics.metric_name;
-    const metric_map = this.getMap(metric_name, OPTION_VENDOR);
+    const metric_map = this.getMap(metric_name, OPTION_VENDOR,label);    
     if (!metric_map) {
       this.setMetric(OPTION_VENDOR);
     } else {
@@ -555,14 +569,17 @@ class ExploreMetrics extends Component {
         throw new Error('No metrics to display');
       }
       const value = metrics[0];
+      
       const data = [];
       
       let index = 0;
       const vendorsNavTop = this.state.vendorsNav.top;
+      
       if (vendorsNavTop === vendorOptions.time) {
         this.setState({
           currentOption: OPTION_VENDOR
         });
+        
         metrics.forEach((value) => {
           let format = 'MMM YY';
           const label = moment(value.time_start).utcOffset('+00:00').format(format);
@@ -574,6 +591,8 @@ class ExploreMetrics extends Component {
             prefix,
             postfix,
             index,
+            vendorId:value.vendorId
+
           });
             index++;
           });
@@ -588,7 +607,8 @@ class ExploreMetrics extends Component {
               prefix,
               postfix,
               email,
-              index
+              index,
+              vendorId:value.vendorId
             });
             index++;
           });
@@ -640,40 +660,52 @@ class ExploreMetrics extends Component {
       });
     }
   }
-  onVendorClick(label, id,vendorGraphLabel){    
-    this.setState({
-      vendorsId:    id,
-      vendorsLabel: label,
-      vendorGraphLabel:vendorGraphLabel
-    })
-    const vendorsNav = this.state.vendorsNav;
-    let metric_map = this.getMap(this.state.activeMetrics.metric_name, this.state.currentOption);
-    if (label === vendorOptions.time) {
-      vendorsNav.top = vendorOptions.time;
-      vendorsNav.path = [{label, id}];
-    }
-    this.setState({
-      vendorsNav,
-      graphLoadingDone: false,
-    });
-    const queryParams = {
-      timeslice_start: this.customStartTime,
-      timeslice_end:   this.customEndTime
-    };
-    if (isEmpty(this.customStartTime) || isEmpty(this.customEndTime)) {
-      const ms = moment().utc().startOf('day').valueOf();
-      this.customEndTime = queryParams.timeslice_end = moment(ms).add({days: 1}).valueOf();
-      this.customStartTime = queryParams.timeslice_start = moment(ms).subtract({years: 1}).valueOf();
-    }
-    const option = this.state.currentOption;
-    this.props.getVendors({activeMetrics: this.state.activeMetrics, label, id, queryParams, option, metric_map}).then(() => {
+  onVendorClick(label, id,vendorGraphLabel){       
+    if( id !== this.state.vendorsId){
       this.setState({
-        graphLoadingDone: true,
-      }, () => {
-        this.onOptionChange(this.state.currentOption);
+        vendorsId:    id,
+        vendorsLabel: label,
+        vendorGraphLabel:vendorGraphLabel
+      })
+      const vendorsNav = this.state.vendorsNav;
+
+      let metric_map = this.getMap(this.state.activeMetrics.metric_name, this.state.currentOption);    
+      if (label === vendorOptions.time) {
+        vendorsNav.top = vendorOptions.time;
+        vendorsNav.path = [{label, id}];
+      }
+      this.setState({
+        vendorsNav,
+        graphLoadingDone: false,
       });
-    });
+      const queryParams = {
+        timeslice_start: this.customStartTime,
+        timeslice_end:   this.customEndTime
+      };
+      if (isEmpty(this.customStartTime) || isEmpty(this.customEndTime)) {
+        const ms = moment().utc().startOf('day').valueOf();
+        this.customEndTime = queryParams.timeslice_end = moment(ms).add({days: 1}).valueOf();
+        this.customStartTime = queryParams.timeslice_start = moment(ms).subtract({years: 1}).valueOf();
+      }
+      const option = this.state.currentOption;
+      this.props.getVendors({activeMetrics: this.state.activeMetrics, label, id, queryParams, option, metric_map}).then(() => {
+        this.setState({
+          graphLoadingDone: true,
+        }, () => {
+          this.onOptionChange(this.state.currentOption,label);
+        });
+      });
+    }
+    else{
+      const vendorsNav = this.state.vendorsNav;
+      if (label === vendorOptions.time) {
+        vendorsNav.top = vendorOptions.time;
+        vendorsNav.path = [{label, id}];
+      }
+      this.onOptionChange(this.state.currentOption,label);
+    }
   }
+
   onCategoryClick(label, id,graphLabel) {    
     this.setState({
       currentSubOption: 'time',
@@ -731,6 +763,7 @@ class ExploreMetrics extends Component {
       });
     }
   }
+  
   onTimeframeChange(newStartTime, newEndTime) {
     this.customStartTime = newStartTime.valueOf();
     this.customEndTime = newEndTime.valueOf();
@@ -746,7 +779,7 @@ class ExploreMetrics extends Component {
     this.onOptionChange(this.state.currentOption);
   }
 
-  onOptionChange(option) {
+  onOptionChange(option,label) {
     this.setState({
       chartData:        null,
       currentOption:    option,
@@ -759,10 +792,10 @@ class ExploreMetrics extends Component {
     } else if (option === OPTION_CATEGORIES) {
       this.setCategoryMetrics();
     } else if (option === OPTION_VENDOR) {
-      this.setCustomersMetric();
+      this.setVendorsMetric(label);
     }
   }
-  onSubOptionChange(e) {    
+  onSubOptionChange(e) {        
     this.setState({
       currentSubOption: e.target.value
     });
@@ -903,6 +936,8 @@ class ExploreMetrics extends Component {
     });
   }
   onVendor=() => { 
+    const{metric_name}=this.props.activeMetrics
+    const vendors=this.props.chartData.data.customTimeframeDataMap[`${metric_name}:Vendors`]
     let metric_map = this.getMap(this.state.activeMetrics.metric_name, this.state.currentOption);
     const queryParams = {
       timeslice_start: this.customStartTime,
@@ -912,19 +947,30 @@ class ExploreMetrics extends Component {
       const ms = moment().utc().startOf('day').valueOf();
       this.customEndTime = queryParams.timeslice_end = moment(ms).add({days: 1}).valueOf();
       this.customStartTime = queryParams.timeslice_start = moment(ms).subtract({years: 1}).valueOf();
-    }
+    }    
     const option = this.state.currentOption;
+    if(!vendors){
     this.setState({
       graphLoadingDone: false,
     })
     this.props.getChartData(option, this.state.activeMetrics, metric_map, queryParams, this.props.channelData.data.shopId).then((results) => {
-      this.setState({
+  
+    this.setState({
           vendorsNav: {top: vendorOptions.vendors, path: []},
       })  
         this.onOptionChange(this.state.currentOption);
     });
   }
-  render() {    
+  else{
+    this.setState({
+      vendorsNav: {top: vendorOptions.vendors, path: []},
+      },()=>{
+        this.onOptionChange(this.state.currentOption);
+      })  
+    }
+
+  }
+  render() {        
     const {activeMetrics} = this.props;
     const {categoriesNav, vendorsNav, currentOption} = this.state;
     const CustomSpin = (
@@ -981,7 +1027,7 @@ class ExploreMetrics extends Component {
                          this.state.activeMetrics
                                      ? this.state.activeMetrics.availableContexts.map((ctx, i) => {
                                      const Ctx = ctx.label;
-                                     return <Button key={i} className={this.state.currentOption === Ctx ? 'active' : ''} onClick={() => this.onOptionChange(Ctx)} >{Ctx}</Button>;
+                                     return <Button key={i} className={this.state.currentOption === Ctx ? 'active' : ''} onClick={this.state.currentOption === Ctx?"":() => this.onOptionChange(Ctx)}  >{Ctx}</Button>;
                                      })
                                      : ''
                                      }
@@ -1081,7 +1127,7 @@ class ExploreMetrics extends Component {
                                                                                               </Col> : null}
                           {currentOption === OPTION_VENDOR && vendorsNav.path.length ? <Col md={12} style={{marginTop:'10px'}} className="category-link-container">
                             <span className="link cursor-pointer" onClick={this.onVendor}> Vendor </span>
-                            {vendorsNav.path[0] ? <span className={`link ${vendorsNav.path.length > 1 ? 'cursor-pointer' : ''}`} onClick={() => { vendorsNav.path.length > 1 ? this.onVendorClick(vendorsNav.path[0].label, vendorsNav.path[0].id) : ''; }}> &nbsp;&nbsp;&gt;&nbsp; Time </span> : ''}                                                                                              </Col> : null}                                                                                              
+                            {vendorsNav.path[0] ? <span className={`link ${vendorsNav.path.length > 1 ? 'cursor-pointer ' : ''}`} onClick={() => { vendorsNav.path.length > 1 ? this.onVendorClick(vendorsNav.path[0].label, vendorsNav.path[0].id) : ''; }}> &nbsp;&nbsp;&gt;&nbsp; Time </span> : ''}                                                                                              </Col> : null}                                                                                              
                         </Row>}
                         titleStyle={styles.chartsHeaderTitle}
                       />

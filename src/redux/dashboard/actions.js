@@ -4,6 +4,7 @@ import { invokeApigWithErrorReport, invokeApigWithoutErrorReport } from '../../l
 import * as api from '../../redux/api';
 import { invokeApig } from '../../libs/awsLib';
 import {plotByOptions, vendorOptions, categoryOptions} from '../../constants';
+import lodash from "lodash";
 
 const moment = require('moment');
 
@@ -40,9 +41,9 @@ export const getMetrics = () => {
 export const getChartData = (option, activeMetrics, metric_map, queryParams, shopId) => {
   return (dispatch, getState) => {
     return new Promise((resolve, reject) => {
-    let path = '';
-    if (option === plotByOptions.time) {
-      path = api.metricsPathForTime(activeMetrics.metric_name);
+      let path = '';
+      if (option === plotByOptions.time) {
+        path = api.metricsPathForTime(activeMetrics.metric_name);
     } else if (option === plotByOptions.vendors) {
       path = api.metricsPathForVendor(activeMetrics.metric_name);
     } else if (option === plotByOptions.categories) {
@@ -50,8 +51,9 @@ export const getChartData = (option, activeMetrics, metric_map, queryParams, sho
     }
     invokeApigWithErrorReport({ path, queryParams})
       .then((results) => {
-        metric_map.result = results;
-        dispatch(actions.getChartDataSuccess({metric_name: activeMetrics.metric_name, option, metric_map}));
+        const data=_.cloneDeep(metric_map)
+        data.result=results
+        dispatch(actions.getChartDataSuccess({metric_name: activeMetrics.metric_name, option, data}));
         resolve();
       });
     })
@@ -62,10 +64,10 @@ export const getUser = () => {
   return (dispatch, getState) => {
     dispatch(actions.getUserRequest());
     invokeApigWithErrorReport({ path: api.user })
-      .then((results) => {        
-        dispatch(actions.getUserSuccess(results));
-      })
-      .catch(error => {
+    .then((results) => {        
+      dispatch(actions.getUserSuccess(results));
+    })
+    .catch(error => {
         console.log('get user error', error);
         dispatch(actions.getUserError('get user error'));
       });
@@ -106,7 +108,7 @@ export const fireSetCogsAPI = (params) => {
         method: 'PUT',
         body:   params
       })
-        .then((results) => {
+      .then((results) => {
           resolve(results);
         })
         .catch(error => {
@@ -149,7 +151,7 @@ export const getChannel = () => {
     return new Promise((resolve, reject) => {
       dispatch(actions.getChannelRequest());
       invokeApigWithErrorReport({ path: api.channel })
-        .then((results) => {          
+      .then((results) => {          
           dispatch(actions.getChannelSuccess(results));
           resolve(results);
         })
@@ -158,7 +160,7 @@ export const getChannel = () => {
           dispatch(actions.getChannelError('get channel error'));
           reject(error);
         });
-    });
+      });
   };
 };
 
@@ -172,7 +174,7 @@ export const getCategories = ({activeMetrics, label, id, queryParams = {}, optio
         path = api.metricsPathForVariantsByProduct(activeMetrics.metric_name, id);
       }
       invokeApigWithErrorReport({ path, queryParams })
-        .then((results) => {
+      .then((results) => {
           metric_map.result = results;
           dispatch(actions.getCategoriesSuccess({metric_name: activeMetrics.metric_name, option, metric_map}));
           resolve();
@@ -181,7 +183,7 @@ export const getCategories = ({activeMetrics, label, id, queryParams = {}, optio
           console.log('get Categories error', error);
           dispatch(actions.getCategoriesError('get Categories error'));
         });
-    });
+      });
   };
 };
 
@@ -196,21 +198,22 @@ export const getVendors = ({activeMetrics, label, id, queryParams = {}, option, 
       invokeApigWithErrorReport({ 
         path: path, 
         queryParams: queryParams
-       })
-        .then((results) => {
-          metric_map.result = results;
-          dispatch(actions.getVendorsSuccess({metric_name: activeMetrics.metric_name, option, metric_map}));
+      })
+      .then((results) => {
+          var data = _.cloneDeep(metric_map);
+          data.result=results
+          dispatch(actions.getVendorsSuccess({metric_name: activeMetrics.metric_name, option, data,label}));
           resolve();
         })
         .catch(error => {
           console.log('get Vendors error', error);
           dispatch(actions.getVendorsError('get Vendors error'));
         });
-    });
+      });
+    };
   };
-};
-
-export const getProductBySingleCategory = ({activeMetrics, label, id, queryParams = {}, option, metric_map}) => {
+  
+  export const getProductBySingleCategory = ({activeMetrics, label, id, queryParams = {}, option, metric_map}) => {
   return (dispatch, getState) => {
     dispatch(actions.getProductBySingleCategoryRequest());
     return new Promise((resolve, reject) => {
@@ -228,10 +231,10 @@ export const getProductBySingleCategory = ({activeMetrics, label, id, queryParam
           console.log('get ProductBySingleCategory error', error);
           dispatch(actions.getProductBySingleCategoryError('get ProductBySingleCategory error'));
         });
-    });
+      });
+    };
   };
-};
-
+  
 export const getVariantBySingleProduct = ({activeMetrics, label, id, queryParams = {}, option, metric_map}) => {
   return (dispatch, getState) => {
     dispatch(actions.getVariantBySingleProductRequest());
@@ -240,7 +243,7 @@ export const getVariantBySingleProduct = ({activeMetrics, label, id, queryParams
       invokeApigWithErrorReport({ 
         path: path, 
         queryParams: queryParams
-       })
+      })
         .then((results) => {
           metric_map.result = results;
           dispatch(actions.getVariantBySingleProductSuccess({metric_name: activeMetrics.metric_name, option, metric_map}));
@@ -250,7 +253,7 @@ export const getVariantBySingleProduct = ({activeMetrics, label, id, queryParams
           console.log('get VariantBySingleProduct error', error);
           dispatch(actions.getVariantBySingleProductError('get VariantBySingleProduct error'));
         });
-    });
+      });
   };
 };
 
@@ -262,9 +265,9 @@ export const getTimeBySingleVariant = ({activeMetrics, label, productId, id, que
       invokeApigWithErrorReport({ 
         path: path, 
         queryParams: queryParams
-       })
-        .then((results) => {
-          metric_map.result = results;
+      })
+      .then((results) => {
+        metric_map.result = results;
           dispatch(actions.getTimeBySingleVariantSuccess({metric_name: activeMetrics.metric_name, option, metric_map}));
           resolve();
         })
@@ -272,7 +275,7 @@ export const getTimeBySingleVariant = ({activeMetrics, label, productId, id, que
           console.log('get TimeBySingleVariant error', error);
           dispatch(actions.getTimeBySingleVariantError('get TimeBySingleVariant error'));
         });
-    });
+      });
   };
 };
 
@@ -281,8 +284,8 @@ export const getCount = () => {
     dispatch(actions.getProductsCountRequest());
     return new Promise((resolve, reject) => {
       invokeApigWithErrorReport({ path: api.getCount })
-        .then((results) => {
-          dispatch(actions.getProductsCountSuccess(results));
+      .then((results) => {
+        dispatch(actions.getProductsCountSuccess(results));
         })
         .catch(error => {
           console.log('get count error', error);
@@ -295,9 +298,7 @@ export const getCount = () => {
 export const getDataLoadStatus = (shopId) => {
   return (dispatch, getState) => {
     invokeApigWithErrorReport({ path: api.dataLoadStatus(shopId) })
-      .then((results) => {
-        console.log(results,'88888888888');
-        
+      .then((results) => {        
         const {
           num_customers_pages,
           num_orders_pages,
@@ -331,7 +332,7 @@ export const getLuTimestamp = () => {
         .catch(error => {
           console.log('get lu timestamp error', error);
         });
-    });
+      });
   };
 };
 
@@ -365,8 +366,8 @@ export const connectShopify = (body = {}) => {
           console.log('connectShopify error', error);
           reject();
         });
-    });
-  };
+      });
+    };
 };
 
 export const updateShopify = (body = {}) => {
@@ -377,7 +378,7 @@ export const updateShopify = (body = {}) => {
         method: 'PUT',
         body
       })
-        .then((result) => {
+      .then((result) => {
           localStorage.setItem('isAuthenticated', 'isAuthenticated');
           resolve();
         })
@@ -394,3 +395,19 @@ export const getClearChartData = () => {
     dispatch(actions.getClearChartDataSuccess());
   };
 };
+      export const getMetricsWithoutLoading=()=>{
+        return (dispatch, getState) => {
+          return new Promise((resolve, reject) => {
+            invokeApigWithErrorReport({path: api.metrics})
+              .then((results) => {                    
+                dataFetchStatus(results);
+                dispatch(actions.getMetricsSuccess(results));
+                resolve();
+              })
+              .catch(error => {
+                console.log('get metrics error', error);
+                dispatch(actions.getMetricsError('get metrics error'));
+              });
+          });
+        };
+      }
