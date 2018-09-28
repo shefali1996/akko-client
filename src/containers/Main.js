@@ -10,7 +10,7 @@ import { hasClass } from '../helpers/Csv';
 import { fetchRoutes, pollingInterval, routeConstants } from '../constants';
 import styles from '../constants/styles';
 import user from '../auth/user';
-import { getDataLoadStatus, getChannel, getLuTimestamp, getMetricsWithoutLoading} from '../redux/dashboard/actions';
+import { getDataLoadStatus, getChannel, getLuTimestamp, getMetricsWithoutLoading,getClearChartData} from '../redux/dashboard/actions';
 
 
 class Main extends Component {
@@ -67,7 +67,7 @@ class Main extends Component {
   }
 
   updateData = (props) => {
-    let lastUpdated = props.lastUpdated.data.lastUpdated === undefined ? 0 : props.lastUpdated.data.lastUpdated;
+    let lastUpdated = props.lastUpdated.data.lastUpdated === undefined ? 0 : props.lastUpdated.data.lastUpdated;    
     if (lastUpdated > this.state.lastUpdated) {
       if(this.state.lastUpdated == 0){
         this.setState({
@@ -78,6 +78,7 @@ class Main extends Component {
         this.setState({
           lastUpdated: lastUpdated
         });
+        this,props.getClearChartData()
       }
     }
   }
@@ -140,7 +141,8 @@ const mapDispatchToProps = (dispatch) => {
     getDataLoadStatus,
     getChannel,
     getLuTimestamp,
-    getMetricsWithoutLoading
+    getMetricsWithoutLoading,
+    getClearChartData
   }, dispatch);
 };
 

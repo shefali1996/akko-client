@@ -5,6 +5,10 @@ export const getMetricsRequest = createAction(constants.GET_METRICS_REQUEST);
 export const getMetricsSuccess = createAction(constants.GET_METRICS_SUCCESS);
 export const getMetricsError = createAction(constants.GET_METRICS_ERROR);
 
+export const getMetricsDataByNameRequest = createAction(constants.GET_METRICS_DATA_BY_NAME_REQUEST);
+export const getMetricsDataByNameSuccess = createAction(constants.GET_METRICS_DATA_BY_NAME_SUCCESS);
+export const getMetricsDataByNameError = createAction(constants.GET_METRICS_DATA_BY_NAME_ERROR);
+
 export const getChartDataRequest = createAction(constants.GET_CHART_DATA_REQUEST);
 export const getChartDataSuccess = createAction(constants.GET_CHART_DATA_SUCCESS);
 export const getChartDataError = createAction(constants.GET_CHART_DATA_ERROR);

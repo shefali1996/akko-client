@@ -60,7 +60,6 @@ class ExploreMetrics extends Component {
       vendorsNav:             {top: vendorOptions.vendors, path: []},
       noData:                 false,
       productData:            {},
-      receiveProps:           true
     };
 
     this.currentOption = OPTION_TIME;
@@ -86,16 +85,16 @@ class ExploreMetrics extends Component {
     this.onVendorClick = this.onVendorClick.bind(this);
   }
 
-  getMap(metric, context,subOption) {
+  getMap(metric, context,subOption,currentSubOption,id) {
     let map = this.state.defaultDataMap;
     if (this.customStartTime !== ''
     && this.customEndTime !== '') {
       map = this.state.customTimeframeDataMap;
     }
     const key = `${metric}:${context}`;
-    const key2=`${metric}:${context}:${subOption}`
-    const finalKey=subOption?key2:key
-    
+    const key2=`${metric}:${context}:${subOption}:${id}`
+    const key3=`${metric}:${context}:${subOption}:${currentSubOption}:${id}`
+    const finalKey=subOption && currentSubOption?key3:subOption?key2:key            
     if (map.hasOwnProperty(finalKey)) {
       return map[finalKey];
     }
@@ -106,7 +105,6 @@ class ExploreMetrics extends Component {
     const state = _.cloneDeep(this.state);
     this.setState({
       metrics: nextProps.metricsData.data.metrics,
-      receiveProps:nextProps.receiveProps
     },()=>{
     const {activeMetrics, defaultDataMap, customTimeframeDataMap, categoriesData, customersData, productData, open} = state;
     let {currentOption} = state;
@@ -140,7 +138,6 @@ class ExploreMetrics extends Component {
         activeMetrics: nextProps.activeMetrics,
         currentOption
       }, () => {
-        
         this.onOptionChange(currentOption);
       });
     }
@@ -166,6 +163,7 @@ class ExploreMetrics extends Component {
       filterBy
     });
   }
+  
   closeFilter() {
     this.setState({
       openFilter:             false,
@@ -182,6 +180,7 @@ class ExploreMetrics extends Component {
       categoriesData:         {},
       categoriesNav:          {top: categoryOptions.categories, path: []},
       vendorsNav:             {top: vendorOptions.vendors, path: []},
+
     });
   }
 
@@ -192,7 +191,6 @@ class ExploreMetrics extends Component {
           this.customEndTime = '';
         }
         this.clearStates();
-        this.props.clearChartData();
         this.props.closeFilter();
   }
   
@@ -211,7 +209,8 @@ class ExploreMetrics extends Component {
       categoriesData:         {},
       categoriesNav:          {top: categoryOptions.categories, path: []},
       vendorsNav:             {top: vendorOptions.vendors, path: []},
-      customTimeframeDataMap: {}
+      customTimeframeDataMap: {},
+
     })
   }
 
@@ -236,7 +235,6 @@ class ExploreMetrics extends Component {
     } else if (filterBy === 'customer') {
       return customers;
     }
-
   }
 
   handleToggle() {
@@ -260,7 +258,6 @@ class ExploreMetrics extends Component {
         this.customEndTime = metric_map.end = moment(ms).add({days: 1}).valueOf();
         this.customStartTime = metric_map.start = moment(ms).subtract({years: 1}).valueOf();
       }
-
       const queryParams = {
         timeslice_start: metric_map.start,
         timeslice_end:   metric_map.end
@@ -269,47 +266,46 @@ class ExploreMetrics extends Component {
         queryParams.resolution = RESOLUTION_DAY;
         metric_map.resolution = RESOLUTION_DAY;
       }
-      const { categoriesNav, vendorsNav, currentSubOption } = this.state
-      
+      const { categoriesNav, vendorsNav, currentSubOption ,categoryLabel,categoryId,vendorsId} = this.state
       if(categoriesNav.path.length != 0  && option === OPTION_CATEGORIES){
         if(categoriesNav.path.length == 1 && this.state.currentSubOption == 'time'){
-          this.props.getCategories({activeMetrics: this.state.activeMetrics, label: this.state.categoryLabel, id: this.state.categoryId, queryParams, option, metric_map}).then(() => {
+          this.props.getCategories({activeMetrics: this.state.activeMetrics, label: this.state.categoryLabel, id: this.state.categoryId, queryParams, option, metric_map,currentSubOption,categoryLabel}).then(() => {
             this.setState({
               graphLoadingDone: true
             }, () => {
-              this.onOptionChange(this.state.currentOption);
+              this.onOptionChange(this.state.currentOption,categoryId);
             });
           });
         } else if(categoriesNav.path.length == 1 && this.state.currentSubOption == 'product'){
-          this.props.getProductBySingleCategory({activeMetrics: this.state.activeMetrics, label: this.state.categoryLabel, id: this.state.categoryId, queryParams, option, metric_map}).then(() => {
+          this.props.getProductBySingleCategory({activeMetrics: this.state.activeMetrics, label: this.state.categoryLabel, id: this.state.categoryId, queryParams, option, metric_map,currentSubOption,categoryLabel}).then(() => {
             this.setState({
               graphLoadingDone: true
             }, () => {
-              this.onOptionChange(this.state.currentOption);
+              this.onOptionChange(this.state.currentOption,categoryId);
             });
           });
         } else if(categoriesNav.path.length == 2 && this.state.currentSubOption == 'variant'){
-          this.props.getVariantBySingleProduct({activeMetrics: this.state.activeMetrics, label: this.state.categoryLabel, id: this.state.categoryId, queryParams, option, metric_map}).then(() => {
+          this.props.getVariantBySingleProduct({activeMetrics: this.state.activeMetrics, label: this.state.categoryLabel, id: this.state.categoryId, queryParams, option, metric_map,currentSubOption,categoryLabel}).then(() => {
             this.setState({
               graphLoadingDone: true
             }, () => {
-              this.onOptionChange(this.state.currentOption);
+              this.onOptionChange(this.state.currentOption,categoryId);
             });
           });
         } else if(categoriesNav.path.length == 2 && this.state.currentSubOption == 'time' && categoriesNav.top == 'Variant'){
-          this.props.getCategories({activeMetrics: this.state.activeMetrics, label: this.state.categoryLabel, id: this.state.categoryId, queryParams, option, metric_map}).then(() => {
+          this.props.getCategories({activeMetrics: this.state.activeMetrics, label: this.state.categoryLabel, id: this.state.categoryId, queryParams, option, metric_map,currentSubOption,categoryLabel}).then(() => {
             this.setState({
               graphLoadingDone: true
             }, () => {
-              this.onOptionChange(this.state.currentOption);
+              this.onOptionChange(this.state.currentOption,categoryId);
             });
           });
         } else{   
-          this.props.getTimeBySingleVariant({activeMetrics: this.state.activeMetrics, label: this.state.categoryLabel, productId: this.state.productId, id: this.state.categoryId, queryParams, option, metric_map}).then(() => {
+          this.props.getTimeBySingleVariant({activeMetrics: this.state.activeMetrics, label: this.state.categoryLabel, productId: this.state.productId, id: this.state.categoryId, queryParams, option, metric_map,currentSubOption,categoryLabel}).then(() => {
             this.setState({
               graphLoadingDone: true
             }, () => {
-              this.onOptionChange(this.state.currentOption);
+              this.onOptionChange(this.state.currentOption,categoryId);
             });
           });
         }
@@ -318,10 +314,10 @@ class ExploreMetrics extends Component {
           this.setState({
             graphLoadingDone: true,
           }, () => {
-            this.onOptionChange(this.state.currentOption);
+            this.onOptionChange(this.state.currentOption,vendorsId);
           });
         });
-      } else{        
+      } else{                
         this.props.getChartData(option, this.state.activeMetrics, metric_map, queryParams,
           this.props.channelData.data.shopId);
       }
@@ -358,8 +354,10 @@ class ExploreMetrics extends Component {
       metrics.forEach((value) => {
         let format = 'MMM YY';
         const label = moment(value.time_start).utcOffset('+00:00').format(format);
-        let prefix = (_.find(this.state.metrics, function(o) {return o.metric_name == metric_name})).prefix;
-        let postfix = (_.find(this.state.metrics, function(o) {return o.metric_name == metric_name})).postfix;
+        console.log(this.state.metrics,'//////////////////////',(_.find(this.state.metrics, function(o) {return o.db_name == metric_name})));
+        
+        let prefix = (_.find(this.state.metrics, function(o) {return o.db_name == metric_name})).prefix;
+        let postfix = (_.find(this.state.metrics, function(o) {return o.db_name == metric_name})).postfix;
         data.push({
           label,
           value:   value.value,
@@ -386,9 +384,10 @@ class ExploreMetrics extends Component {
     }
   }
   
-  setCategoryMetrics() {    
-    const metric_name = this.state.activeMetrics.metric_name;   
-    const metric_map = this.getMap(metric_name, OPTION_CATEGORIES);
+  setCategoryMetrics(id) {    
+    const metric_name = this.state.activeMetrics.metric_name;  
+    const {categoryLabel,currentSubOption}=this.state 
+    const metric_map = this.getMap(metric_name, OPTION_CATEGORIES,categoryLabel,currentSubOption,id);    
     if (!metric_map) {
       this.setMetric(OPTION_CATEGORIES);
     } else {
@@ -422,8 +421,8 @@ class ExploreMetrics extends Component {
           let format = 'MMM YY';
           if(this.state.currentSubOption == 'time'){
             const label = moment(value.time_start).utcOffset('+00:00').format(format);
-            let prefix = (_.find(this.state.metrics, function(o) {return o.metric_name == metric_name})).prefix;
-            let postfix = (_.find(this.state.metrics, function(o) {return o.metric_name == metric_name})).postfix;
+            let prefix = (_.find(this.state.metrics, function(o) {return o.db_name == metric_name})).prefix;
+            let postfix = (_.find(this.state.metrics, function(o) {return o.db_name == metric_name})).postfix;
             data.push({
               label,
               value:   value.value,
@@ -433,8 +432,8 @@ class ExploreMetrics extends Component {
             });
           } else if(this.state.currentSubOption == 'variant'){
             const label = value.variantTitle
-            let prefix = (_.find(this.state.metrics, function(o) {return o.metric_name == metric_name})).prefix;
-            let postfix = (_.find(this.state.metrics, function(o) {return o.metric_name == metric_name})).postfix;
+            let prefix = (_.find(this.state.metrics, function(o) {return o.db_name == metric_name})).prefix;
+            let postfix = (_.find(this.state.metrics, function(o) {return o.db_name == metric_name})).postfix;
             data.push({
               label,
               value:         value.value,
@@ -446,8 +445,8 @@ class ExploreMetrics extends Component {
             });
           } else if(this.state.categoriesNav.top == categoryOptions.time){            
             const label =  moment(value.time_start).utcOffset('+00:00').format(format);
-            let prefix = (_.find(this.state.metrics, function(o) {return o.metric_name == metric_name})).prefix;
-            let postfix = (_.find(this.state.metrics, function(o) {return o.metric_name == metric_name})).postfix;
+            let prefix = (_.find(this.state.metrics, function(o) {return o.db_name == metric_name})).prefix;
+            let postfix = (_.find(this.state.metrics, function(o) {return o.db_name == metric_name})).postfix;
             data.push({
               label,
               value:   value.value,
@@ -461,8 +460,8 @@ class ExploreMetrics extends Component {
             const variantArr = _.find(this.state.productData.products, function(o) { return o.productId == value.productId; });
             const image = variantArr && variantArr.variants[0].imageUrl || productImgPlaceholder    
             
-            let prefix = (_.find(this.state.metrics, function(o) {return o.metric_name == metric_name})).prefix;
-            let postfix = (_.find(this.state.metrics, function(o) {return o.metric_name == metric_name})).postfix;
+            let prefix = (_.find(this.state.metrics, function(o) {return o.db_name == metric_name})).prefix;
+            let postfix = (_.find(this.state.metrics, function(o) {return o.db_name == metric_name})).postfix;
             data.push({ 
                 label,
                 image,
@@ -478,24 +477,23 @@ class ExploreMetrics extends Component {
             });
           } else if(this.state.activeMetrics.metric_name == 'avg_margin' || this.state.activeMetrics.metric_name == 'number_of_orders'){
             metrics.forEach((value) => {
-              let prefix = (_.find(this.state.metrics, function(o) {return o.metric_name == metric_name})).prefix;
-              let postfix = (_.find(this.state.metrics, function(o) {return o.metric_name == metric_name})).postfix;
+              let prefix = (_.find(this.state.metrics, function(o) {return o.db_name == metric_name})).prefix;
+              let postfix = (_.find(this.state.metrics, function(o) {return o.db_name == metric_name})).postfix;
               data.push({
                 label:   value.productType,
                 value:   value.value,
                 prefix,
                 postfix,
                 index,
-                categoryBarId:value.productTypeId   
-
+                categoryBarId:value.productTypeId
               });
               index++;
             });
           } else{
             metrics.forEach((value) => {
               const label = value.contextId.split(':')[1];
-              let prefix = (_.find(this.state.metrics, function(o) {return o.metric_name == metric_name})).prefix;
-              let postfix = (_.find(this.state.metrics, function(o) {return o.metric_name == metric_name})).postfix;
+              let prefix = (_.find(this.state.metrics, function(o) {return o.db_name == metric_name})).prefix;
+              let postfix = (_.find(this.state.metrics, function(o) {return o.db_name == metric_name})).postfix;
               data.push({
                 label,
                 value:   value.value,
@@ -507,7 +505,6 @@ class ExploreMetrics extends Component {
               index++;
             });
           }
-
         if (sortOrder) {
           data.sort((a, b) => {
             if (sortOrder === ascendingSortOrder) {
@@ -522,7 +519,6 @@ class ExploreMetrics extends Component {
             return a.index - b.index;
           });
         }
-      
       let width = data.length * WIDTH_PER_LABEL;
       const full_width = document.getElementById('chart-full-width-holder') != null ? document.getElementById('chart-full-width-holder').offsetWidth : 904;
       if (width < full_width) {
@@ -538,15 +534,17 @@ class ExploreMetrics extends Component {
     }
   }
   
-  setVendorsMetric() {    
+  setVendorsMetric(id) {    
+    
     let sortOrder = ascendingSortOrder;
 	  if (this.currentSortOption === '2') {
       sortOrder = descendingSortOrder;
     }
-   const {top}= this.state.vendorsNav
-   const label=top==="Time"?"Time":""
+    const {vendorsNav:{top}}= this.state
+    const label=top==="Time"?"Time":""
     const metric_name = this.state.activeMetrics.metric_name;
-    const metric_map = this.getMap(metric_name, OPTION_VENDOR,label);    
+    const metric_map = this.getMap(metric_name, OPTION_VENDOR,label,'',id);    
+    
     if (!metric_map) {
       this.setMetric(OPTION_VENDOR);
     } else {
@@ -583,8 +581,8 @@ class ExploreMetrics extends Component {
         metrics.forEach((value) => {
           let format = 'MMM YY';
           const label = moment(value.time_start).utcOffset('+00:00').format(format);
-          let prefix = (_.find(this.state.metrics, function(o) {return o.metric_name == metric_name})).prefix;
-          let postfix = (_.find(this.state.metrics, function(o) {return o.metric_name == metric_name})).postfix;
+          let prefix = (_.find(this.state.metrics, function(o) {return o.db_name == metric_name})).prefix;
+          let postfix = (_.find(this.state.metrics, function(o) {return o.db_name == metric_name})).postfix;
           data.push({
             label,
             value:   value.value,
@@ -599,8 +597,8 @@ class ExploreMetrics extends Component {
         } else if(this.state.activeMetrics.metric_name == 'avg_margin' || this.state.activeMetrics.metric_name == 'number_of_orders' || this.state.activeMetrics.metric_name == 'gross_profit' ) {
           metrics.forEach((value) => {
             let email = value.vendor;
-            let prefix = (_.find(this.state.metrics, function(o) {return o.metric_name == metric_name})).prefix;
-            let postfix = (_.find(this.state.metrics, function(o) {return o.metric_name == metric_name})).postfix;
+            let prefix = (_.find(this.state.metrics, function(o) {return o.db_name == metric_name})).prefix;
+            let postfix = (_.find(this.state.metrics, function(o) {return o.db_name == metric_name})).postfix;
             data.push({
               label:   value.vendor,
               value:   value.value,
@@ -613,12 +611,11 @@ class ExploreMetrics extends Component {
             index++;
           });
         } else {
-          
           metrics.forEach((value) => {
           let label = value.contextId.split('_')[1];
           let email = label;
-          let prefix = (_.find(this.state.metrics, function(o) {return o.metric_name == metric_name})).prefix;
-          let postfix = (_.find(this.state.metrics, function(o) {return o.metric_name == metric_name})).postfix;
+          let prefix = (_.find(this.state.metrics, function(o) {return o.db_name == metric_name})).prefix;
+          let postfix = (_.find(this.state.metrics, function(o) {return o.db_name == metric_name})).postfix;
           data.push({
             label,
             value:   value.value,
@@ -660,8 +657,11 @@ class ExploreMetrics extends Component {
       });
     }
   }
-  onVendorClick(label, id,vendorGraphLabel){       
-    if( id !== this.state.vendorsId){
+
+  onVendorClick(label, id,vendorGraphLabel){   
+    const {metric_name}=this.state.activeMetrics    
+     const currentVendorBar  = this.props.chartData.data.customTimeframeDataMap[`${metric_name}:Vendors:Time:${id}`]
+    if( !currentVendorBar){
       this.setState({
         vendorsId:    id,
         vendorsLabel: label,
@@ -692,29 +692,28 @@ class ExploreMetrics extends Component {
         this.setState({
           graphLoadingDone: true,
         }, () => {
-          this.onOptionChange(this.state.currentOption,label);
+          this.onOptionChange(this.state.currentOption,id);
         });
       });
     }
     else{
+      this.setState({
+        vendorsId:    id,
+      })
       const vendorsNav = this.state.vendorsNav;
       if (label === vendorOptions.time) {
         vendorsNav.top = vendorOptions.time;
         vendorsNav.path = [{label, id}];
       }
-      this.onOptionChange(this.state.currentOption,label);
+      this.onOptionChange(this.state.currentOption,id);
+
     }
   }
 
   onCategoryClick(label, id,graphLabel) {    
-    this.setState({
-      currentSubOption: 'time',
-      categoryLabel: label,
-      categoryId:    id,
-      graphLabel:graphLabel
-    })
     const categoriesNav = this.state.categoriesNav;
-    let metric_map = this.getMap(this.state.activeMetrics.metric_name, this.state.currentOption);
+    const {metric_name}=this.state.activeMetrics
+
     if (label === categoryOptions.product) {
       categoriesNav.top = categoryOptions.product;
       categoriesNav.path = [{label, id,graphLabel}];
@@ -727,6 +726,18 @@ class ExploreMetrics extends Component {
     }
     this.setState({
       categoriesNav,
+      currentSubOption: 'time',
+      categoryLabel: label,
+      categoryId:    id,
+      graphLabel,
+    },()=>{
+    const{categoriesNav:{top},currentOption,currentSubOption,categoryLabel}=this.state
+    const categoryBarsId=this.props.chartData.data.customTimeframeDataMap[`${metric_name}:Categories:${this.state.categoryLabel}:${this.state.currentSubOption}:${id}`]
+    
+    if(!categoryBarsId){     
+    const categoriesNav = this.state.categoriesNav;
+    let metric_map = this.getMap(this.state.activeMetrics.metric_name, this.state.currentOption)||{};
+    this.setState({
       graphLoadingDone: false
     });
     const queryParams = {
@@ -744,26 +755,43 @@ class ExploreMetrics extends Component {
         currentSubOption: 'time'
       })
     }
-    if(this.state.categoriesNav.top == categoryOptions.time){
-      const productId = this.state.productId
-      this.props.getTimeBySingleVariant({activeMetrics: this.state.activeMetrics, label, productId, id, queryParams, option, metric_map}).then(() => {
+    const  {currentSubOption,categoryLabel}=this.state
+
+    if(this.state.categoriesNav.top == categoryOptions.time){      
+        const productId = this.state.productId
+      this.props.getTimeBySingleVariant({activeMetrics: this.state.activeMetrics, label, productId, id, queryParams, option, metric_map,currentSubOption,categoryLabel}).then(() => {
         this.setState({
           graphLoadingDone: true
         }, () => {
-          this.onOptionChange(this.state.currentOption);
+          this.onOptionChange(this.state.currentOption,id);
         });
       });
     } else {
-      this.props.getCategories({activeMetrics: this.state.activeMetrics, label, id, queryParams, option, metric_map}).then(() => {
+
+      this.props.getCategories({activeMetrics: this.state.activeMetrics, label, id, queryParams, option, metric_map,currentSubOption,categoryLabel}).then(() => {
         this.setState({
           graphLoadingDone: true
         }, () => {
-          this.onOptionChange(this.state.currentOption);
+          this.onOptionChange(this.state.currentOption,id);
         });
       });
     }
   }
-  
+  else{
+    this.setState({
+      currentSubOption:      'time',
+      categoriesNav,
+      categoryLabel:          label,
+      graphLabel,
+      categoryId:              id,
+    },()=>{
+      this.onOptionChange(this.state.currentOption,id);
+    })
+  }
+});
+
+  }
+
   onTimeframeChange(newStartTime, newEndTime) {
     this.customStartTime = newStartTime.valueOf();
     this.customEndTime = newEndTime.valueOf();
@@ -779,7 +807,7 @@ class ExploreMetrics extends Component {
     this.onOptionChange(this.state.currentOption);
   }
 
-  onOptionChange(option,label) {
+  onOptionChange(option,id) {
     this.setState({
       chartData:        null,
       currentOption:    option,
@@ -790,22 +818,26 @@ class ExploreMetrics extends Component {
     if (option === OPTION_TIME) {
       this.setTimeMetric();
     } else if (option === OPTION_CATEGORIES) {
-      this.setCategoryMetrics();
+      this.setCategoryMetrics(id);
     } else if (option === OPTION_VENDOR) {
-      this.setVendorsMetric(label);
+      this.setVendorsMetric(id);
     }
   }
-  onSubOptionChange(e) {        
+
+  onSubOptionChange(e) { 
+    const {metric_name}=this.state.activeMetrics
+    const { categoryLabel, categoryId ,graphLabel} = this.state;
+    const productBarData=this.props.chartData.data.customTimeframeDataMap[`${metric_name}:Categories:Product:product:${categoryId}`]
+    const currentSubOption=e.target.value       
     this.setState({
       currentSubOption: e.target.value
     });
+    const categoriesNav = this.state.categoriesNav;
+    const label = categoryLabel
+    const id = categoryId
     if(e.target.value == 'product'){
-      const { categoryLabel, categoryId ,graphLabel} = this.state;
-      if(categoryLabel != '' && categoryId != ''){
-        const categoriesNav = this.state.categoriesNav;
-        const id = categoryId
-        const label = categoryLabel
-        let metric_map = this.getMap(this.state.activeMetrics.metric_name, this.state.currentOption);
+      if(categoryLabel != '' && categoryId != '' && !productBarData  ){ 
+        let metric_map = this.getMap(this.state.activeMetrics.metric_name, this.state.currentOption)||{};
         if (categoryLabel === categoryOptions.product) {
           categoriesNav.top = categoryOptions.product;
           categoriesNav.path = [{ label, id,graphLabel}];
@@ -827,25 +859,38 @@ class ExploreMetrics extends Component {
           this.customStartTime = queryParams.timeslice_start = moment(ms).subtract({years: 1}).valueOf();
         }
         const option = this.state.currentOption;
-        this.props.getProductBySingleCategory({activeMetrics: this.state.activeMetrics, label, id, queryParams, option, metric_map}).then(() => {
+        this.props.getProductBySingleCategory({activeMetrics: this.state.activeMetrics, label, id, queryParams, option, metric_map,currentSubOption,categoryLabel}).then(() => {
           this.setState({
             graphLoadingDone: true
           }, () => {
-            this.onOptionChange(this.state.currentOption);
+            this.onOptionChange(this.state.currentOption,id);
           });
         });
       }
-    } else if(e.target.value == 'time'){
+      else{
+        if (categoryLabel === categoryOptions.product) {
+          categoriesNav.top = categoryOptions.product;
+          categoriesNav.path = [{ label, id,graphLabel}];
+        } else if (categoryLabel === categoryOptions.variant) {
+          categoriesNav.top = categoryOptions.variant;
+          categoriesNav.path[1] = { label, id,graphLabel};
+        }
+        this.setState({
+          categoriesNav,
+        },()=>{this.onOptionChange(this.state.currentOption,id)});
+      }
+    } else if(e.target.value == 'time'){      
       const {categoryLabel, categoryId,graphLabel} = this.state      
-      this.onCategoryClick(categoryLabel, categoryId,graphLabel);
+      this.onCategoryClick(categoryLabel, categoryId,graphLabel,currentSubOption);
     } else {
-      const { categoryLabel, categoryId ,graphLabel
-      } = this.state;
-      if(categoryLabel != '' && categoryId != ''){
+      const { categoryLabel, categoryId ,graphLabel,
+        activeMetrics:{metric_name} } = this.state;
+      const variantBarData=this.props.chartData.data.customTimeframeDataMap[`${metric_name}:Categories:Variant:variant:${categoryId}`]      
+      if(categoryLabel != '' && categoryId != '' && !variantBarData  ){
         const categoriesNav = this.state.categoriesNav;
         const id = categoryId
         const label = categoryLabel
-        let metric_map = this.getMap(this.state.activeMetrics.metric_name, this.state.currentOption);
+        let metric_map = this.getMap(this.state.activeMetrics.metric_name, this.state.currentOption)||{};
         if (categoryLabel === categoryOptions.product) {
           categoriesNav.top = categoryOptions.product;
           categoriesNav.path = [{ label, id,graphLabel}];
@@ -867,16 +912,37 @@ class ExploreMetrics extends Component {
           this.customStartTime = queryParams.timeslice_start = moment(ms).subtract({years: 1}).valueOf();
         }
         const option = this.state.currentOption;
-        this.props.getVariantBySingleProduct({activeMetrics: this.state.activeMetrics, label, id, queryParams, option, metric_map}).then(() => {
+        this.props.getVariantBySingleProduct({activeMetrics: this.state.activeMetrics, label, id, queryParams, option, metric_map,currentSubOption,categoryLabel}).then(() => {
           this.setState({
             graphLoadingDone: true
           }, () => {
-            this.onOptionChange(this.state.currentOption);
+            this.onOptionChange(this.state.currentOption,id);
           });
         });
       }
+      else{
+        const categoriesNav = this.state.categoriesNav;
+        const id = categoryId
+        const label = categoryLabel
+        let metric_map = this.getMap(this.state.activeMetrics.metric_name, this.state.currentOption,id);
+        if (categoryLabel === categoryOptions.product) {
+          categoriesNav.top = categoryOptions.product;
+          categoriesNav.path = [{ label, id,graphLabel}];
+        } else if (categoryLabel === categoryOptions.variant) {
+          categoriesNav.top = categoryOptions.variant;
+          categoriesNav.path[1] = { label, id,graphLabel};
+        }
+        this.setState({
+          categoriesNav,
+          graphLoadingDone: true
+        }, () => {
+          this.onOptionChange(this.state.currentOption,id);
+        });
+      }
+      
     }
   }
+
   showDetailOnHover(label) {    
     const {customersData, productData, currentOption} = _.cloneDeep(this.state);
     const loading = <div className="text-center padding-t-10"> <Spin /></div>;
@@ -913,31 +979,32 @@ class ExploreMetrics extends Component {
       });
     }
   }
+
   onCategory=() => {
-    let metric_map = this.getMap(this.state.activeMetrics.metric_name, this.state.currentOption);
+    let metric_map = this.getMap(this.state.activeMetrics.metric_name, this.state.currentOption)||{};
     const queryParams = {
       timeslice_start: this.customStartTime,
       timeslice_end:   this.customEndTime
-    };
+    };    
     if (isEmpty(this.customStartTime) || isEmpty(this.customEndTime)) {
       const ms = moment().utc().startOf('day').valueOf();
       this.customEndTime = queryParams.timeslice_end = moment(ms).add({days: 1}).valueOf();
       this.customStartTime = queryParams.timeslice_start = moment(ms).subtract({years: 1}).valueOf();
     }
     const option = this.state.currentOption;
-    this.setState({
-      graphLoadingDone: false,
-    })
-    this.props.getChartData(option, this.state.activeMetrics, metric_map, queryParams, this.props.channelData.data.shopId).then((results) => {
       this.setState({
           categoriesNav: {top: categoryOptions.categories, path: []},
-      })  
+          categoryLabel:"",
+          currentSubOption:"time"
+      },()=>{
         this.onOptionChange(this.state.currentOption);
-    });
+
+      })  
   }
+
   onVendor=() => { 
     const{metric_name}=this.props.activeMetrics
-    const vendors=this.props.chartData.data.customTimeframeDataMap[`${metric_name}:Vendors`]
+    const vendors=this.props.chartData.data.customTimeframeDataMap[`${metric_name}:Vendors`] || {}
     let metric_map = this.getMap(this.state.activeMetrics.metric_name, this.state.currentOption);
     const queryParams = {
       timeslice_start: this.customStartTime,
@@ -968,11 +1035,11 @@ class ExploreMetrics extends Component {
         this.onOptionChange(this.state.currentOption);
       })  
     }
-
   }
-  render() {        
+
+  render() {              
     const {activeMetrics} = this.props;
-    const {categoriesNav, vendorsNav, currentOption} = this.state;
+    const {categoriesNav, vendorsNav, currentOption,categoryId,vendorsId} = this.state;
     const CustomSpin = (
       <div style={{width: '100%', height: 300, textAlign: 'center', maxHeight: 'calc(100vh - 325px)'}}>
         <Spin />
@@ -1026,8 +1093,8 @@ class ExploreMetrics extends Component {
                         {
                          this.state.activeMetrics
                                      ? this.state.activeMetrics.availableContexts.map((ctx, i) => {
-                                     const Ctx = ctx.label;
-                                     return <Button key={i} className={this.state.currentOption === Ctx ? 'active' : ''} onClick={this.state.currentOption === Ctx?"":() => this.onOptionChange(Ctx)}  >{Ctx}</Button>;
+                                     const Ctx = ctx.label;                                     
+                                     return <Button key={i} value={Ctx} className={this.state.currentOption === Ctx ? 'active' : ''} onClick={this.state.currentOption === Ctx?"":(e) => {this.onOptionChange(Ctx,e.target.value==="Categories"?categoryId:vendorsId)}  }>{Ctx}</Button>;
                                      })
                                      : ''
                                      }
@@ -1121,8 +1188,8 @@ class ExploreMetrics extends Component {
                           <br />
                           {this.state.categoriesNav.path.length == 1 && this.state.currentSubOption == 'time' ?
                             null : currentOption === OPTION_CATEGORIES && categoriesNav.path.length ? <Col md={12} style={{marginTop:'10px'}} className="category-link-container">
-                            <span className="link cursor-pointer" onClick={this.onCategory}> Category </span>
-                            {categoriesNav.path[0] ? <span className={`link ${categoriesNav.path.length > 1 ? 'cursor-pointer' : ''}`} onClick={() => { categoriesNav.path.length > 1 ? this.onCategoryClick(categoriesNav.path[0].label, categoriesNav.path[0].id,categoriesNav.path[0].graphLabel) : ''; }}> &nbsp;&nbsp;&gt;&nbsp; Products </span> : ''}
+                            <span className="link cursor-pointer" onClick={this.onCategory}> <u>Category</u> </span>
+                            {categoriesNav.path[0] ? <span className={`link ${categoriesNav.path.length > 1 ? 'cursor-pointer' : ''}`} onClick={() => { categoriesNav.path.length > 1 ? this.onCategoryClick(categoriesNav.path[0].label, categoriesNav.path[0].id,categoriesNav.path[0].graphLabel) : ''; }}> &nbsp;&nbsp;&gt;&nbsp;{categoriesNav.path.length > 1?<u>Products</u>:"Products" }</span> : ''}
                             {categoriesNav.path[1] ? <span className="link"> &nbsp;&nbsp;&gt;&nbsp; Variants </span> : ''}
                                                                                               </Col> : null}
                           {currentOption === OPTION_VENDOR && vendorsNav.path.length ? <Col md={12} style={{marginTop:'10px'}} className="category-link-container">

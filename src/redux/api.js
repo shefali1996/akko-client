@@ -19,3 +19,4 @@ export const metricsPathForProductByCategory = (metric_name, categoryId) => `/me
 export const metricsPathForVariantBySingleProduct = (metric_name, productId) => `/metrics/${metric_name}/products/${productId}/variants`;
 export const metricsPathForProductBySingleCategory = (metric_name, categoryId) => `/metrics/${metric_name}/categories/${categoryId}/products`;
 export const metricsPathForTimeBySingleVariant = (metric_name, productId, variantId) => `/metrics/${metric_name}/products/${productId}/variants/${variantId}`
+export const metricsDataByName=metric_name=> `/metrics/${metric_name}/summary`;

@@ -10,7 +10,7 @@ export default ({width}) => {
       <Spin size="large" />
     </div>
   );
-  return (<Col style={{width}} className="dashboard-card-container">
+  return (<Col  style={{width}} className="dashboard-card-container">
     <Card className="price-card-style">
       <CardText>
         <div style={{padding: '40%'}}>

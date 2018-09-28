@@ -7,12 +7,12 @@ import infoIcon from '../assets/images/MaterialIcon5.svg';
 class PriceBox extends React.Component {
   render() {   
     const {analyze, customer} = this.props;
-    let {title, description, prefix, postfix, value, trend_value, trend_period, trend, metric_name} = this.props.value;
+    let {title, description, prefix, postfix, value, trend_value, trend_period, trend, metric_name} = this.props.value;    
     let infix = '';
       infix = value;
     if (trend_value === 'invalid') {
       trend_value = '';
-    } else if (trend_value !== null && trend_value !== -1) {
+    } else if (trend_value !=undefined  && trend_value !== -1) {      
       const i = trend_value[trend_value.length - 1];
       const tmp = trend_value.slice(0, trend_value.length - 1);
       trend_value = Math.round(parseInt(tmp)) + i;

@@ -2,7 +2,6 @@ import {handleActions} from 'redux-actions';
 import update from 'immutability-helper';
 import {cloneDeep} from 'lodash';
 import * as constants from '../../redux/constants';
-import { stat } from 'fs';
 
 const initialState = {
   chartData: {
@@ -73,14 +72,14 @@ const emptyTimeFrameData = (state, action) => {
     }
   });
 };
-const getCategoriesSuccess = (state, action) => {
-  const {metric_name, option, metric_map} = action.payload;
+const getCategoriesSuccess = (state, action) => { 
+  const {metric_name, option, data,currentSubOption,categoryLabel,id} = action.payload;
   const newData = cloneDeep(state.chartData.data);
-  const key = `${metric_name}:${option}`;
-  if (metric_map.timeFrame) {
-    newData.customTimeframeDataMap[key] = metric_map;
+  const key = `${metric_name}:${option}:${categoryLabel}:${currentSubOption}:${id}`;
+  if (data.timeFrame) {
+    newData.customTimeframeDataMap[key] = data;
   } else {
-    newData.defaultDataMap[key] = metric_map;
+    newData.defaultDataMap[key] = data;
   }
   return update(state, {
     chartData: {
@@ -93,9 +92,9 @@ const getCategoriesSuccess = (state, action) => {
   });
 };
 const getVendorsSuccess = (state, action) => {
-  const {metric_name, option, data,label} = action.payload;
+  const {metric_name, option, data,label,id} = action.payload;
   const newData = cloneDeep(state.chartData.data);
-  const key = `${metric_name}:${option}:${label}`;
+  const key = `${metric_name}:${option}:${label}:${id}`;
   if (data.timeFrame) {
     newData.customTimeframeDataMap[key] = data;
   } else {    
@@ -112,13 +111,13 @@ const getVendorsSuccess = (state, action) => {
   });
 };
 const getProductBySingleCategorySuccess = (state, action) => {
-  const {metric_name, option, metric_map} = action.payload;
+  const {metric_name, option, data,currentSubOption,categoryLabel,id} = action.payload;
   const newData = cloneDeep(state.chartData.data);
-  const key = `${metric_name}:${option}`;
-  if (metric_map.timeFrame) {
-    newData.customTimeframeDataMap[key] = metric_map;
+  const key = `${metric_name}:${option}:${categoryLabel}:${currentSubOption}:${id}`;
+  if (data.timeFrame) {
+    newData.customTimeframeDataMap[key] = data;
   } else {
-    newData.defaultDataMap[key] = metric_map;
+    newData.defaultDataMap[key] = data;
   }
   return update(state, {
     chartData: {
@@ -131,13 +130,13 @@ const getProductBySingleCategorySuccess = (state, action) => {
   });
 };
 const getVariantBySingleProductSuccess = (state, action) => {
-  const {metric_name, option, metric_map} = action.payload;
+  const {metric_name, option, data,categoryLabel,currentSubOption,id} = action.payload;
   const newData = cloneDeep(state.chartData.data);
-  const key = `${metric_name}:${option}`;
-  if (metric_map.timeFrame) {
-    newData.customTimeframeDataMap[key] = metric_map;
+  const key = `${metric_name}:${option}:${categoryLabel}:${currentSubOption}:${id}`;
+  if (data.timeFrame) {
+    newData.customTimeframeDataMap[key] = data;
   } else {
-    newData.defaultDataMap[key] = metric_map;
+    newData.defaultDataMap[key] = data;
   }
   return update(state, {
     chartData: {
@@ -150,13 +149,13 @@ const getVariantBySingleProductSuccess = (state, action) => {
   });
 };
 const getTimeBySingleVariantSuccess = (state, action) => {
-  const {metric_name, option, metric_map} = action.payload;
+  const {metric_name, option, data,currentSubOption,categoryLabel,id} = action.payload;  
   const newData = cloneDeep(state.chartData.data);
-  const key = `${metric_name}:${option}`;
-  if (metric_map.timeFrame) {
-    newData.customTimeframeDataMap[key] = metric_map;
+  const key = `${metric_name}:${option}:${categoryLabel}:${currentSubOption}:${id}`;
+  if (data.timeFrame) {
+    newData.customTimeframeDataMap[key] = data;
   } else {
-    newData.defaultDataMap[key] = metric_map;
+    newData.defaultDataMap[key] = data;
   }
   return update(state, {
     chartData: {

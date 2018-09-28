@@ -41,9 +41,9 @@ class Dashboard extends Component {
 
   componentWillMount() {
     if(_.isEmpty(this.props.metricsData.data) || _.isEmpty(this.props.userData.data)){
+      this.refreshData();
       this.props.getUser();
       this.props.getChannel();
-      this.refreshData();
     } else{
       this.setState({
         metricsData:       this.props.metricsData.data.metrics || [],
@@ -88,14 +88,17 @@ class Dashboard extends Component {
   }
   
   refreshData() {
-    this.props.getMetrics().then(() => {
+    this.props.getMetrics().then((res) => {
+      this.props.metricsData.data.metrics.map((k)=>{
+        this.props.getMetricsDataByName(k.db_name)
+      })
       this.props.getProducts().then((products) => {
       this.props.getVariants(products);
       });
     });
   }
   
-  setHeightWidth(w) {
+  setHeightWidth(w) {    
     // ---------------set height------------
     const elements = document.getElementsByClassName('dashboard-card-container');    
     const elementHeights = Array.prototype.map.call(elements, (el) => {
@@ -105,6 +108,9 @@ class Dashboard extends Component {
     if( screen.height > 800 && maxHeight < 408 && screen.width >1700){
       maxHeight = 408;
     }
+    this.setState({
+      maxHeight
+    })
     if (maxHeight !== this.maxHeight) {
       $('.dashboard-card-container').css({height: `${maxHeight}px`});
     }
@@ -145,59 +151,83 @@ class Dashboard extends Component {
       receiveProps:data
     })
   }
-  render() {               
+  arrayPush=()=>{
+    const metricsData =this.props.metricsData.data.metrics
+    const metricsDataByName=_.cloneDeep(this.props.metricsDataByName.data)
+    const pushLength=(metricsData && metricsData.length)-(metricsDataByName && metricsDataByName.metricNameData.length)
+    const metricsDataWithEmptyArray=metricsDataByName.metricNameData
+    let i=0
+     while(i<pushLength){
+      metricsDataWithEmptyArray.push([])
+        i++
+     }
+    return metricsDataWithEmptyArray     
+  }
+  render() {    
     const {metricsData, activeMetrics} = this.state;
-    const{message,originalMessage}=this.props.metricsData.data
+    const{message,originalMessage,metrics}=this.props.metricsData.data
+    const {metricNameData}=this.props.metricsDataByName.data
+    const metricsDataWithEmptyArray=metricNameData.length && this.arrayPush()
     const renderCards = [];
     const dashboardGridInfo = getColumn();
+    const counter=metrics?metrics.length:4
     const dataLoaded = this.state.userDataLoaded && this.state.channelDataLoaded && this.state.metricDataLoaded;
-    if ( !dataLoaded || this.state.dataLoadStatus.length == 0 ) {  
-      for (let i = 0; i < dashboardGridInfo.numColumn; i++) {
+    if ( !dataLoaded || this.state.dataLoadStatus.length == 0 ||!metricsDataWithEmptyArray) {        
+      for (let i = 0; i <counter; i++) {
         renderCards.push(<LoaderCards key={i} width={dashboardGridInfo.colWidth} />);
       }
     } else if (dataLoaded &&message || dataLoaded && originalMessage ) {  
       for (let i = 0; i < dashboardGridInfo.numColumn; i++) {
         renderCards.push(<InitialFetchIncompleteCard key={i} propsData={this.props} height={this.state.maxHeight} onClickFetchStatus={() => this.props.history.push('/fetch-status')} status={this.props.dataLoadStatus.data.completed == undefined ? null : this.props.dataLoadStatus.data.completed} width={dashboardGridInfo.colWidth} />);
       }
-    } else {    
-      metricsData.map((value, index) => {
-        let active = '';
-        const format = 'MMM YY';
-        const label1 = moment().utc().format(format);
-        const label2 = moment().utc().subtract(1, 'months').format(format);
-        const label3 = moment().utc().subtract(2, 'months').format(format);
-        const label4 = moment().utc().subtract(3, 'months').format(format);
-        if (`card_${index}` === this.state.activeMetricsId) {
-          active = 'active-metrics';
+    } else {      
+      metricsDataWithEmptyArray.map((value, index) => {      
+        if(!value.length && Array.isArray(value)){      
+          renderCards.push(<LoaderCards key={index*20} width={dashboardGridInfo.colWidth} />);
         }
-        let invalid = false;
-        if (value.value === -1 || value.value_one_month_back === -1 || value.value_two_months_back === -1 || value.value_three_months_back === -1) {
-          invalid = true;
-        }
-        const data = [
-          {label: label4, value: value.value_three_months_back, prefix: value.prefix, postfix: value.postfix, chartName: value.metric_name },
-          {label: label3, value: value.value_two_months_back, prefix: value.prefix, postfix: value.postfix, chartName: value.metric_name },
-          {label: label2, value: value.value_one_month_back, prefix: value.prefix, postfix: value.postfix, chartName: value.metric_name },
-          {label: label1, value: value.value, prefix: value.prefix, postfix: value.postfix, chartName: value.metric_name },
-        ];
-        if (value.title === 'Expenses' || value.title === 'Expenses Breakdown') {
-          const expensesData = value.value;
-          if (expensesData.total_sale === -1 || expensesData.total_cogs === -1 || expensesData.total_discount === -1 || expensesData.total_shipping === -1 || expensesData.total_tax === -1) {
+        else{
+          let active = '';
+          const format = 'MMM YY';
+          const label1 = moment().utc().format(format);
+          const label2 = moment().utc().subtract(1, 'months').format(format);
+          const label3 = moment().utc().subtract(2, 'months').format(format);
+          const label4 = moment().utc().subtract(3, 'months').format(format);
+          if (`card_${index}` === this.state.activeMetricsId) {
+            active = 'active-metrics';
+          }
+          let invalid = false;
+          if (value.value === -1 || value.value_one_month_back === -1 || value.value_two_months_back === -1 || value.value_three_months_back === -1) {
             invalid = true;
-            value.title = 'Expenses Breakdown';
-          } 
-          const expenseCard = invalid ?
+          }
+          const data = [
+            {label: label4, value: value.value_three_months_back, prefix: value.prefix, postfix: value.postfix, chartName: value.metric_name },
+            {label: label3, value: value.value_two_months_back, prefix: value.prefix, postfix: value.postfix, chartName: value.metric_name },
+            {label: label2, value: value.value_one_month_back, prefix: value.prefix, postfix: value.postfix, chartName: value.metric_name },
+            {label: label1, value: value.value, prefix: value.prefix, postfix: value.postfix, chartName: value.metric_name },
+          ];
+          if (value.title === undefined || value.title === 'Expenses Breakdown') {
+            const expensesData = {}
+            value.forEach((k)=>{
+              const me=k.metric_name
+              expensesData[k.metric_name]=k.value
+            })
+            if (expensesData.total_sale === -1 || expensesData.total_cogs === -1 || expensesData.total_discount === -1 || expensesData.total_shipping === -1 || expensesData.total_tax === -1) {
+              invalid = true;
+              value.title = 'Expenses Breakdown';
+            } 
+            const expenseCard = invalid ?
             <InvalidCard key={index} height={this.state.maxHeight} index={index} width={dashboardGridInfo.colWidth} value={value} userData={this.state.userData} onClickSetCogs={() => this.props.history.push('/set-cogs')} />
-            : <ExpenseCard key={index} index={index} width={dashboardGridInfo.colWidth} value={value} maxHeight={this.state.maxHeight}/>;
-          renderCards.push(expenseCard);
+            : <ExpenseCard key={index} index={index} width={dashboardGridInfo.colWidth} value={expensesData} height={this.state.maxHeight}/>;
+            renderCards.push(expenseCard);
         } else {
           const validCards = invalid ? <InvalidCard height={this.state.maxHeight}key={index} index={index} width={dashboardGridInfo.colWidth} value={value} userData={this.state.userData} onClickSetCogs={() => this.props.history.push('/set-cogs')} />
-            : _.isEmpty(value.availableContexts)  ?
+          : _.isEmpty(value.availableContexts)  ?
                 <ValidCards key={index} height={this.state.maxHeight} index={index} style={{cursor:'none'}} width={dashboardGridInfo.colWidth} value={value} active={active} data={_.cloneDeep(data)}  />
-            :   <ValidCards key={index} height={this.state.maxHeight} index={index} width={dashboardGridInfo.colWidth} value={value} active={active} openExploreMetric="openExploreMetric" data={_.cloneDeep(data)} handleClickMetrics={this.handleClickMetrics} />;
-          renderCards.push(validCards);
-        }
-      });
+                :   <ValidCards key={index} height={this.state.maxHeight} index={index} width={dashboardGridInfo.colWidth} value={value} active={active} openExploreMetric="openExploreMetric" data={_.cloneDeep(data)} handleClickMetrics={this.handleClickMetrics} />;
+                renderCards.push(validCards);
+              }
+            }
+          });
     }
     return (
       <div>
@@ -253,7 +283,8 @@ const mapStateToProps = state => {
     channelData:    state.dashboard.channelData,
     lastUpdated:    state.dashboard.lastUpdated,
     categoriesData: state.dashboard.categoriesData,
-    dataLoadStatus: state.dashboard.dataLoadStatus
+    dataLoadStatus: state.dashboard.dataLoadStatus,
+    metricsDataByName:state.dashboard.metricsDataByName
   };
 };
 
@@ -312,6 +343,9 @@ const mapDispatchToProps = (dispatch) => {
     },
     getLuTimestamp:()=>{
       return dispatch(dashboardActions.getLuTimestamp());
+    },
+    getMetricsDataByName:(metricsName)=>{
+     return dispatch(dashboardActions.getMetricsDataByName(metricsName))
     }
   };
 };

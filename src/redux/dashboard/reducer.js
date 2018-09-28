@@ -1,6 +1,6 @@
 import {handleActions} from 'redux-actions';
 import update from 'immutability-helper';
-import {cloneDeep, find} from 'lodash';
+import {cloneDeep, find,findIndex} from 'lodash';
 import * as constants from '../../redux/constants';
 
 const initialState = {
@@ -59,7 +59,13 @@ const initialState = {
     isError:   false,
     isSuccess: false,
     message:   ''
-  }
+  },
+  metricsDataByName:{
+    isLoading: {$set: false},
+    isError:   {$set: false},
+    isSuccess: {$set: true},
+    data:{metricNameData:[]
+    }  }
 };
 
 const getMetricsRequest = (state, action) => update(state, {
@@ -80,6 +86,39 @@ const getMetricsSuccess = (state, action) => update(state, {
   }
 });
 
+const getMetricsDataByNameSuccess = (state, action) => {
+  const {results,queryParams}=action.payload
+  const newData= cloneDeep(state.metricsDataByName.data)
+  const metrics=state.metricsData.data.metrics
+  
+  metrics.forEach((k)=>{
+    newData.metricNameData[7] && newData.metricNameData[7].length?"":newData.metricNameData[7]=[]
+    const index=findIndex(metrics,(o)=>{return o.db_name===k.db_name})
+    if(results.metric_name){      
+      if((!Array.isArray(newData.metricNameData[index]) && typeof(newData.metricNameData[index])==="object")){
+     return
+    }
+    else if(results.metric_name===k.db_name){
+      newData.metricNameData[index]=results
+    }
+    else if(index!==7){
+      newData.metricNameData[index]=[]
+    }
+  }
+  else{
+    Array.isArray(results)?newData.metricNameData[7]=results:newData.metricNameData[index]=[]
+  }
+  })
+  return update(state, {
+  metricsDataByName: {
+    data:      {$set: newData},
+    isLoading: {$set: false},
+    isError:   {$set: false},
+    isSuccess: {$set: true},
+    message:   {$set: ''}
+  }
+});
+}
 const getMetricsError = (state, action) => update(state, {
   metricsData: {
     isLoading: {$set: false},
@@ -216,6 +255,7 @@ const getConnectShopifyAlertSuccess = (state, action) => update(state, {
 export default handleActions({
   [constants.GET_METRICS_REQUEST]:                getMetricsRequest,
   [constants.GET_METRICS_SUCCESS]:                getMetricsSuccess,
+  [constants.GET_METRICS_DATA_BY_NAME_SUCCESS]:   getMetricsDataByNameSuccess,
   [constants.GET_METRICS_ERROR]:                  getMetricsError,
   [constants.GET_USER_REQUEST]:                   getUserRequest,
   [constants.GET_USER_SUCCESS]:                   getUserSuccess,

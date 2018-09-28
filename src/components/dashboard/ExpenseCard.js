@@ -5,13 +5,13 @@ import infoIcon from '../../assets/images/MaterialIcon5.svg';
 import styles from '../../constants/styles';
 
 
-export default ({width, index, value}) => {
-  const expensesData = value.value;         
+export default ({width, index, value,height}) => {
+  const expensesData = value;         
   let sales_total = expensesData.total_sales - expensesData.total_discount;
   let gross_profit = expensesData.total_sales - expensesData.total_discount - expensesData.total_cogs - expensesData.total_tax - expensesData.total_shipping;
   expensesData.sales_total = sales_total;
   expensesData.gross_profit = gross_profit;                                                                                        
-  return (<Col key={index} id={`card_${index}`} style={{width}} className="dashboard-card-container expenses-breakdown">
+  return (<Col key={index} id={`card_${index}`} style={{width,height}} className="dashboard-card-container expenses-breakdown">
     <Card className="charts-card-style" >
       <CardHeader
         title={<span className="price-title">

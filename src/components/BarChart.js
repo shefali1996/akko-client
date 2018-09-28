@@ -94,7 +94,7 @@ class BarChart extends Component {
       .scaleBand()
       .rangeRound([0, width])
       .align(0);
-    const y = d3.scaleLinear().rangeRound([height, 0]);
+    const y = d3.scaleLinear().rangeRound([height-20, 0]);
     x.domain(
       data.map(d => {
         return d.email;
@@ -185,14 +185,14 @@ class BarChart extends Component {
         return x(d.email);
       })
       .attr("y", d => {
-        return y(d.value);
+      return  height-20 - y(d.value) < 0 ? height-15   :  y(d.value);
       })
       .attr("width", d => {
         const bandwidth = x.bandwidth();
         return maxBandWidth;
       })
-      .attr("height", d => {
-        return height - y(d.value) < 0 ? 0 : height - y(d.value);
+      .attr("height", d => {        
+        return height-20 - y(d.value) < 0 ? 15 : height - y(d.value);
       })
       .on("mouseover", d => {
         const rect = d3.event.target.getBoundingClientRect();
@@ -251,7 +251,7 @@ class BarChart extends Component {
       .scaleBand()
       .rangeRound([0, width])
       .align(0);
-    const y = d3.scaleLinear().rangeRound([height, 0]);
+    const y = d3.scaleLinear().rangeRound([height-20, 0]);
     x.domain(
       data.map(d => {
         return d.label;
@@ -352,15 +352,14 @@ class BarChart extends Component {
           ? x(d.label) + bandwidth / 2 - maxBandWidth / 2
           : x(d.label);
       })
-      .attr("y", d => {
-        return y(d.value);
-      })
+      .attr("y", d => {        
+        return height -20- y(d.value) < 0 ? height-15 :y(d.value)})
       .attr("width", d => {
         const bandwidth = x.bandwidth();
         return maxBandWidth;
       })
       .attr("height", d => {
-        return height - y(d.value) < 0 ? 0 : height - y(d.value);
+        return height-20 - y(d.value) < 0 ? 15 : height - y(d.value);
       })
       .on("mouseover", d => {        
         this.onMouseOver(d.categoryBarId);

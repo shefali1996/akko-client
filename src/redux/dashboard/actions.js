@@ -164,7 +164,7 @@ export const getChannel = () => {
   };
 };
 
-export const getCategories = ({activeMetrics, label, id, queryParams = {}, option, metric_map}) => {
+export const getCategories = ({activeMetrics, label, id, queryParams = {}, option, metric_map,currentSubOption,categoryLabel}) => {  
   return (dispatch, getState) => {
     return new Promise((resolve, reject) => {
       let path = '';
@@ -175,8 +175,9 @@ export const getCategories = ({activeMetrics, label, id, queryParams = {}, optio
       }
       invokeApigWithErrorReport({ path, queryParams })
       .then((results) => {
-          metric_map.result = results;
-          dispatch(actions.getCategoriesSuccess({metric_name: activeMetrics.metric_name, option, metric_map}));
+        const data = _.cloneDeep(metric_map);
+        data.result=results
+          dispatch(actions.getCategoriesSuccess({metric_name: activeMetrics.metric_name, option, data,currentSubOption,categoryLabel,id}));
           resolve();
         })
         .catch(error => {
@@ -200,9 +201,9 @@ export const getVendors = ({activeMetrics, label, id, queryParams = {}, option, 
         queryParams: queryParams
       })
       .then((results) => {
-          var data = _.cloneDeep(metric_map);
+          const data = _.cloneDeep(metric_map);
           data.result=results
-          dispatch(actions.getVendorsSuccess({metric_name: activeMetrics.metric_name, option, data,label}));
+          dispatch(actions.getVendorsSuccess({metric_name: activeMetrics.metric_name, option, data,label,id}));
           resolve();
         })
         .catch(error => {
@@ -213,7 +214,8 @@ export const getVendors = ({activeMetrics, label, id, queryParams = {}, option, 
     };
   };
   
-  export const getProductBySingleCategory = ({activeMetrics, label, id, queryParams = {}, option, metric_map}) => {
+  export const getProductBySingleCategory = ({activeMetrics, label, id, queryParams = {}, option, metric_map,currentSubOption,categoryLabel}) => {
+    
   return (dispatch, getState) => {
     dispatch(actions.getProductBySingleCategoryRequest());
     return new Promise((resolve, reject) => {
@@ -223,8 +225,9 @@ export const getVendors = ({activeMetrics, label, id, queryParams = {}, option, 
         queryParams: queryParams
       })
       .then((results) => {
-        metric_map.result = results;
-          dispatch(actions.getProductBySingleCategorySuccess({metric_name: activeMetrics.metric_name, option, metric_map}));
+        const data = _.cloneDeep(metric_map);
+        data.result=results
+        dispatch(actions.getProductBySingleCategorySuccess({metric_name: activeMetrics.metric_name, option,data,currentSubOption,categoryLabel,id}));
           resolve();
         })
         .catch(error => {
@@ -235,7 +238,8 @@ export const getVendors = ({activeMetrics, label, id, queryParams = {}, option, 
     };
   };
   
-export const getVariantBySingleProduct = ({activeMetrics, label, id, queryParams = {}, option, metric_map}) => {
+export const getVariantBySingleProduct = ({activeMetrics, label, id, queryParams = {}, option, metric_map,currentSubOption,categoryLabel}) => {
+  
   return (dispatch, getState) => {
     dispatch(actions.getVariantBySingleProductRequest());
     return new Promise((resolve, reject) => {
@@ -245,8 +249,9 @@ export const getVariantBySingleProduct = ({activeMetrics, label, id, queryParams
         queryParams: queryParams
       })
         .then((results) => {
-          metric_map.result = results;
-          dispatch(actions.getVariantBySingleProductSuccess({metric_name: activeMetrics.metric_name, option, metric_map}));
+          const data = _.cloneDeep(metric_map);
+          data.result=results
+          dispatch(actions.getVariantBySingleProductSuccess({metric_name: activeMetrics.metric_name, option, data,currentSubOption,categoryLabel,id}));
           resolve();
         })
         .catch(error => {
@@ -257,7 +262,8 @@ export const getVariantBySingleProduct = ({activeMetrics, label, id, queryParams
   };
 };
 
-export const getTimeBySingleVariant = ({activeMetrics, label, productId, id, queryParams = {}, option, metric_map}) => {
+export const getTimeBySingleVariant = ({activeMetrics, label, productId, id, queryParams = {}, option, metric_map,currentSubOption,categoryLabel}) => {
+  
   return (dispatch, getState) => {
     dispatch(actions.getTimeBySingleVariantRequest());
     return new Promise((resolve, reject) => {
@@ -267,8 +273,9 @@ export const getTimeBySingleVariant = ({activeMetrics, label, productId, id, que
         queryParams: queryParams
       })
       .then((results) => {
-        metric_map.result = results;
-          dispatch(actions.getTimeBySingleVariantSuccess({metric_name: activeMetrics.metric_name, option, metric_map}));
+        const data = _.cloneDeep(metric_map);        
+        data.result=results
+        dispatch(actions.getTimeBySingleVariantSuccess({metric_name: activeMetrics.metric_name, option, data,currentSubOption,categoryLabel,id}));
           resolve();
         })
         .catch(error => {
@@ -395,19 +402,36 @@ export const getClearChartData = () => {
     dispatch(actions.getClearChartDataSuccess());
   };
 };
-      export const getMetricsWithoutLoading=()=>{
-        return (dispatch, getState) => {
-          return new Promise((resolve, reject) => {
-            invokeApigWithErrorReport({path: api.metrics})
-              .then((results) => {                    
-                dataFetchStatus(results);
-                dispatch(actions.getMetricsSuccess(results));
-                resolve();
-              })
-              .catch(error => {
-                console.log('get metrics error', error);
-                dispatch(actions.getMetricsError('get metrics error'));
-              });
-          });
-        };
-      }
+
+export const getMetricsWithoutLoading=()=>{
+  return (dispatch, getState) => {
+    return new Promise((resolve, reject) => {
+      invokeApigWithErrorReport({path: api.metrics})
+        .then((results) => {                    
+          dataFetchStatus(results);
+          dispatch(actions.getMetricsSuccess(results));
+          resolve();
+        })
+        .catch(error => {
+          console.log('get metrics error', error);
+          dispatch(actions.getMetricsError('get metrics error'));
+        });
+    });
+  };
+}
+
+export const getMetricsDataByName=(queryParams)=>{  
+  return (dispatch,getState)=>{
+    return new Promise((resolve,reject)=>{
+      invokeApigWithErrorReport({path: api.metricsDataByName(queryParams)})
+      .then((results)=>{        
+        dispatch(actions.getMetricsDataByNameSuccess({results,queryParams}));
+        resolve();
+      })
+      .catch(error=>{
+        console.log('get metrics error', error);
+        dispatch(actions.getMetricsError('get metrics error'));
+      });
+    });
+  };
+}
