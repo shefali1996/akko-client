@@ -12,7 +12,7 @@ import {
   bandwidthSize,
   numberFormatter
 } from "../constants";
-
+const elementResizeEvent = require('element-resize-event');
 const OPTION_TIME = plotByOptions.time;
 const OPTION_VENDOR = plotByOptions.vendors;
 const OPTION_CATEGORIES = plotByOptions.categories;
@@ -34,9 +34,11 @@ class BarChart extends Component {
   componentDidMount() {
     const currentOption = this.props.selectedOption;
     if (currentOption === OPTION_VENDOR) {
+      window.addEventListener('resize', this.createBarChartVendor);
       this.createBarChartVendor();
     } else if (currentOption === OPTION_CATEGORIES) {
       this.createBarChartCategory();
+      window.addEventListener('resize', this.createBarChartCategory);
     }
   }
   componentWillReceiveProps(props) {
@@ -70,17 +72,16 @@ class BarChart extends Component {
     this.props.hideDetail();
   }
   createBarChartVendor() {
+    if(document.getElementById("barChart")){
     $("#barChart").empty();
-    const currentOption = this.props.selectedOption;
+    const currentOption = this.props.selectedOption;    
     const fullHeight = this.props.fullHeight;
     const data = this.state.data;
     const maxBandWidth = 55;
     const step = maxBandWidth * bandwidthSize;
-    let fullwidth = document.getElementById("barChart").offsetWidth;
-    fullwidth = fullwidth < step * data.length ? step * data.length : fullwidth;
+    let fullwidth = document.getElementById("barChart").offsetWidth;    
     const vendorsShowing = this.props.vendorsNav.top;
     const margin = { top: 20, right: 20, bottom: 50, left: 50 };
-
     const svg = d3
       .select("#barChart")
       .append("svg")
@@ -181,15 +182,15 @@ class BarChart extends Component {
       .append("rect")
       .style("cursor", "pointer")
       .attr("class", "bar")
-      .attr("x", d => {
+      .attr("x", d => {           
         return x(d.email);
       })
       .attr("y", d => {
       return  height-20 - y(d.value) < 0 ? height-15   :  y(d.value);
       })
       .attr("width", d => {
-        const bandwidth = x.bandwidth();
-        return maxBandWidth;
+        const bandwidth = x.bandwidth();            
+        return bandwidth<maxBandWidth?bandwidth:maxBandWidth;
       })
       .attr("height", d => {        
         return height-20 - y(d.value) < 0 ? 15 : height - y(d.value);
@@ -226,13 +227,16 @@ class BarChart extends Component {
           tooltip.style("opacity", 0).style("transition", "opacity .5s");
         }
       });
+    }
   }
 
-  createBarChartCategory() {
-    $("#barChart").empty();
+  createBarChartCategory=()=> {
+    if(document.getElementById("barChart")){
+
+    $("#barChart").empty();    
     const fullHeight = this.props.fullHeight;
     const data = this.state.data;
-    const maxBandWidth = 60;
+    const maxBandWidth = 55;
     const step = maxBandWidth * bandwidthSize;
     let fullwidth = document.getElementById("barChart").offsetWidth;
     fullwidth = fullwidth < step * data.length ? step * data.length : fullwidth;
@@ -347,7 +351,7 @@ class BarChart extends Component {
       .append("rect")
       .attr("class", "bar cursor-pointer")
       .attr("x", d => {
-        const bandwidth = x.bandwidth();
+        const bandwidth = x.bandwidth();        
         return bandwidth > maxBandWidth
           ? x(d.label) + bandwidth / 2 - maxBandWidth / 2
           : x(d.label);
@@ -355,8 +359,8 @@ class BarChart extends Component {
       .attr("y", d => {        
         return height -20- y(d.value) < 0 ? height-15 :y(d.value)})
       .attr("width", d => {
-        const bandwidth = x.bandwidth();
-        return maxBandWidth;
+        const bandwidth = x.bandwidth();        
+        return bandwidth<maxBandWidth?bandwidth:maxBandWidth;
       })
       .attr("height", d => {
         return height-20 - y(d.value) < 0 ? 15 : height - y(d.value);
@@ -414,6 +418,7 @@ class BarChart extends Component {
           tooltip.style("opacity", 0).style("transition", "opacity .5s");
         }
       });
+    }
   }
   render() {
     return <div id="barChart" />;

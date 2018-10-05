@@ -11,22 +11,22 @@ export default ({width, index, value,height}) => {
   let gross_profit = expensesData.total_sales - expensesData.total_discount - expensesData.total_cogs - expensesData.total_tax - expensesData.total_shipping;
   expensesData.sales_total = sales_total;
   expensesData.gross_profit = gross_profit;                                                                                        
-  return (<Col key={index} id={`card_${index}`} style={{width,height}} className="dashboard-card-container expenses-breakdown">
+  return (<Col key={index} id={`card_${index}`}  className="dashboard-card-container expenses-breakdown">
     <Card className="charts-card-style" >
-      <CardHeader
+      <CardHeader className="expense-header"
         title={<span className="price-title">
           {'Expenses Breakdown'} <img src={infoIcon} className="alt-price-title" alt="info icon" title={value.description} />
         </span>}
         titleStyle={styles.chartsHeaderTitle}
       />
-      <CardText style={styles.expenseCardText}>
+      <CardText style={styles.expenseCardText} className="expense-text">
         <Row>
           <Col md={12} className="expense-text">
             { 
               expensesData.total_sales != undefined ?
                 <Row className="expense-text-color">
-                  <Col md={7}>Gross Sales</Col>
-                  <Col md={5} className="text-right">${expensesData.total_sales.toFixed(2)}</Col>
+                  <Col md={7} sm={6} xs={6}>Gross Sales</Col>
+                  <Col md={5} sm={6} xs={6} className="text-right">${expensesData.total_sales.toFixed(2)}</Col>
                 </Row> 
               : 
                 null
@@ -34,8 +34,8 @@ export default ({width, index, value,height}) => {
             {
               expensesData.total_discount != undefined ?
                   <Row className="padding-t-5 expense-text-color">
-                  <Col md={7}>Discounts</Col>
-                  <Col md={5} className="text-right">${expensesData.total_discount.toFixed(2)}</Col>
+                  <Col md={7} sm={6} xs={6}>Discounts</Col>
+                  <Col md={5} sm={6} xs={6} className="text-right">${expensesData.total_discount.toFixed(2)}</Col>
                 </Row>
               :
                 null
@@ -44,8 +44,8 @@ export default ({width, index, value,height}) => {
             {
               expensesData.sales_total != undefined ?
               <Row className="final-row">
-                  <Col md={7}>Total Sales</Col>
-                  <Col md={5} className="text-right"><span className="dash" />${expensesData.sales_total.toFixed(2)}</Col>
+                  <Col md={7} sm={6} xs={6}>Total Sales</Col>
+                  <Col md={5} sm={6} xs={6}className="text-right"><span className="dash" />${expensesData.sales_total.toFixed(2)}</Col>
                 </Row>
               :
                 null
@@ -53,8 +53,8 @@ export default ({width, index, value,height}) => {
             { 
               expensesData.total_cogs != undefined ?
                 <Row className="padding-t-5 expense-text-color">
-                  <Col md={7}>COGS</Col>
-                  <Col md={5} className="text-right">${expensesData.total_cogs.toFixed(2)}</Col>
+                  <Col md={7} sm={6} xs={6}>COGS</Col>
+                  <Col md={5} sm={6} xs={6} className="text-right">${expensesData.total_cogs.toFixed(2)}</Col>
                 </Row>
               : 
                 null
@@ -62,8 +62,8 @@ export default ({width, index, value,height}) => {
             {
               expensesData.total_tax != undefined ?
                 <Row className="padding-t-5 expense-text-color">
-                  <Col md={7}>Tax</Col>
-                  <Col md={5} className="text-right">${expensesData.total_tax.toFixed(2)}</Col>
+                  <Col md={7} sm={6} xs={6}>Tax</Col>
+                  <Col md={5} sm={6} xs={6} className="text-right">${expensesData.total_tax.toFixed(2)}</Col>
                 </Row>
               :
                 null
@@ -71,8 +71,8 @@ export default ({width, index, value,height}) => {
             { 
               expensesData.total_shipping != undefined ?
                 <Row className="padding-t-5 expense-text-color">
-                  <Col md={7}>Shipping</Col>
-                  <Col md={5} className="text-right">${expensesData.total_shipping.toFixed(2)}</Col>
+                  <Col md={7} sm={6} xs={6}>Shipping</Col>
+                  <Col md={5} sm={6} xs={6} className="text-right">${expensesData.total_shipping.toFixed(2)}</Col>
                 </Row>
               :
                 null
@@ -81,8 +81,8 @@ export default ({width, index, value,height}) => {
             {
               expensesData.gross_profit != undefined ?
                 <Row className="final-row">
-                  <Col md={7}>Gross Profit</Col>
-                  <Col md={5} className="text-right"><span className="dash" />${expensesData.gross_profit.toFixed(2)}</Col>
+                  <Col md={7} sm={6} xs={6}>Gross Profit</Col>
+                  <Col md={5} sm={6} xs={6} className="text-right"><span className="dash" />${expensesData.gross_profit.toFixed(2)}</Col>
                 </Row>
               :
                 null

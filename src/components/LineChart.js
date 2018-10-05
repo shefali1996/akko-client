@@ -25,14 +25,10 @@ class LineChart extends Component {
     };
     this.createLineChartTime = this.createLineChartTime.bind(this);
   }
-  componentDidMount() {
+  componentDidMount() {    
     const currentOption = this.props.selectedOption;
     this.setState(
-      {
-        chart: (
-          <div id={`chart_${this.props.chartName}`} className="line-chart" />
-        )
-      },
+      {chart: (<div id={`chart_${this.props.chartName}`} className="line-chart" /> )},
       () => {        
         if (
           currentOption === OPTION_CATEGORIES ||
@@ -40,16 +36,22 @@ class LineChart extends Component {
           currentOption === OPTION_TIME
         ) {
           this.createLineChartTime();
+          const element = document.getElementById("cardSection");
+          elementResizeEvent(element, () => {            
+            if(d3.select(`#chart_${this.props.chartName}`)){                            
+            this.createLineChartTime();
+            }
+          });
         } else if (currentOption === METRICS_CARD) {
           this.createLineChartTime();
           const element = document.getElementById("cardSection");
-          elementResizeEvent(element, () => {
-            this.createLineChartTime();
-          });
+          window.addEventListener('resize', this.createLineChartTime);
+
         }
       }
     );
   }
+
 
   componentWillReceiveProps(props) {
     if (!isEqual(props.data, this.state.data)) {
@@ -64,16 +66,18 @@ class LineChart extends Component {
       );
     }
   }
+ 
   componentWillUnmount() {
     $(`.tooltip_${this.props.chartName}`).remove();
   }
-  createLineChartTime() {
+  createLineChartTime() {        
+    if(document.getElementById(`chart_${this.props.chartName}`)){
     $(`#chart_${this.props.chartName}`).empty();
     const currentOption = this.props.selectedOption;
     const fullwidth =
       document.getElementById(`chart_${this.props.chartName}`) == null
         ? 904
-        : document.getElementById(`chart_${this.props.chartName}`).offsetWidth;
+        : document.getElementById(`chart_${this.props.chartName}`).clientWidth;        
     let fullHeight = this.props.fullHeight;
     const data = cloneDeep(this.state.data);
     const margin = {
@@ -149,7 +153,7 @@ class LineChart extends Component {
     const tooltip = d3
       .select("body")
       .append("div")
-      .attr("class", `toolTip tooltip_${this.props.chartName}`);
+      .attr("class", `toolTip tooltip_${this.props.chartName}`)
 
     g.append("g")
       .attr("class", "grid")
@@ -288,9 +292,10 @@ class LineChart extends Component {
     rect.on("mousemove", mousemove);
     svg.on("mouseleave", removeToolTip);
   }
+}
 
-  render() {
-    return <div>{this.state.chart}</div>;
+  render() {        
+    return <div>{this.state.chart} </div>;
   }
 }
 export default LineChart;

@@ -10,7 +10,7 @@ import { hasClass } from '../helpers/Csv';
 import { fetchRoutes, pollingInterval, routeConstants } from '../constants';
 import styles from '../constants/styles';
 import user from '../auth/user';
-import { getDataLoadStatus, getChannel, getLuTimestamp, getMetricsWithoutLoading,getClearChartData} from '../redux/dashboard/actions';
+import { getDataLoadStatus, getChannel, getLuTimestamp, getMetricsDataByName,getClearChartData,getMetricsWithoutLoading} from '../redux/dashboard/actions';
 
 
 class Main extends Component {
@@ -82,8 +82,12 @@ class Main extends Component {
       }
     }
   }
-  refreshData() {
-    this.props.getMetricsWithoutLoading();
+  refreshData() {    
+    this.props.getMetricsWithoutLoading().then((res) => {
+    this.props.metricsData.data.metrics.map((k)=>{
+      this.props.getMetricsDataByName(k.db_name)
+    })
+  })
   }
 
   handleSWAL() {
@@ -128,7 +132,9 @@ class Main extends Component {
 }
 
 const mapStateToProps = state => {
+
   return {
+    metricsData:    state.dashboard.metricsData,
     lastUpdated:    state.dashboard.lastUpdated,
     channelData: state.dashboard.channelData,
     status:      state.dashboard.status,
@@ -142,7 +148,8 @@ const mapDispatchToProps = (dispatch) => {
     getChannel,
     getLuTimestamp,
     getMetricsWithoutLoading,
-    getClearChartData
+    getClearChartData,
+    getMetricsDataByName
   }, dispatch);
 };
 

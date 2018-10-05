@@ -6,8 +6,8 @@ import invalidImg from '../../assets/images/FontAwesome472.svg';
 import styles from '../../constants/styles';
 
 
-export default ({width, index, value, userData, onClickSetCogs}) => {
-  return (<Col key={index} id={`card_${index}`} style={{width}} className="dashboard-card-container">
+export default ({width, index, value, userData, onClickSetCogs,height}) => {
+  return (<Col key={index} id={`card_${index}`} className="dashboard-card-container">
     <Card className="charts-card-style" >
       <CardHeader
         style={{padding: '20px'}}

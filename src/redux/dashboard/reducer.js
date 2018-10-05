@@ -1,8 +1,9 @@
 import {handleActions} from 'redux-actions';
 import update from 'immutability-helper';
-import {cloneDeep, find,findIndex} from 'lodash';
+import {cloneDeep, find,findIndex,isEqual} from 'lodash';
 import * as constants from '../../redux/constants';
 
+let i=0
 const initialState = {
   metricsData: {
     data:      {},
@@ -87,18 +88,23 @@ const getMetricsSuccess = (state, action) => update(state, {
 });
 
 const getMetricsDataByNameSuccess = (state, action) => {
+  i++
   const {results,queryParams}=action.payload
   const newData= cloneDeep(state.metricsDataByName.data)
-  const metrics=state.metricsData.data.metrics
-  
+  const metrics=state.metricsData.data.metrics  
   metrics.forEach((k)=>{
     newData.metricNameData[7] && newData.metricNameData[7].length?"":newData.metricNameData[7]=[]
     const index=findIndex(metrics,(o)=>{return o.db_name===k.db_name})
-    if(results.metric_name){      
-      if((!Array.isArray(newData.metricNameData[index]) && typeof(newData.metricNameData[index])==="object")){
-     return
+    if(results.metric_name){ 
+      if((!Array.isArray(newData.metricNameData[index]) && typeof(newData.metricNameData[index])==="object") ){  
+     if(isEqual(newData.metricNameData[index],results)){       
+         return
+     }
+     else if(results.metric_name===k.db_name){             
+      newData.metricNameData[index]=results
+      }
     }
-    else if(results.metric_name===k.db_name){
+    else if(results.metric_name===k.db_name){      
       newData.metricNameData[index]=results
     }
     else if(index!==7){
@@ -109,6 +115,7 @@ const getMetricsDataByNameSuccess = (state, action) => {
     Array.isArray(results)?newData.metricNameData[7]=results:newData.metricNameData[index]=[]
   }
   })
+  
   return update(state, {
   metricsDataByName: {
     data:      {$set: newData},

@@ -1,61 +1,61 @@
-.update-style-title{
+.update-style-title {
   font-family: Ubuntu;
   font-size: 18px;
-  color: $new-blue;
+  color: $main-blue-color;
   font-weight: 500;
-  text-decoration: none solid rgb(87, 93, 222);
+  text-decoration: none solid $main-decoration-color;
   text-align: center;
 }
 
-.update-style-text{
+.update-style-text {
   font-family: Ubuntu;
   display: block;
   font-size: 16px;
-  color: $new-blue;
+  color: $main-blue-color;
   font-weight: 400;
-  text-decoration: none solid rgb(87, 93, 222);
+  text-decoration: none solid $main-decoration-color;
   text-align: center;
 }
 
-.inventory-alert-title{
+.inventory-alert-title {
   font-family: Ubuntu;
   font-size: 18px;
-  color: $new-blue;
+  color: $main-blue-color;
   font-weight: 500;
-  text-decoration: none solid rgb(87, 93, 222);
+  text-decoration: none solid $main-decoration-color;
   text-align: center;
 }
-.inventory-alert-text{
+.inventory-alert-text {
   font-family: Ubuntu;
   font-size: 14px;
-  color: $new-blue;
+  color: $main-blue-color;
   font-weight: 400;
-  text-decoration: none solid rgb(87, 93, 222);
+  text-decoration: none solid $main-decoration-color;
   text-align: center;
 }
-.inventory-form{
-  .inventory-alert-text{
+.inventory-form {
+  .inventory-alert-text {
     font-family: Ubuntu;
     display: inline-block;
     margin-left: 15px;
     font-size: 14px;
-    color: $new-blue;
+    color: $main-blue-color;
     font-weight: 400;
-    text-decoration: none solid rgb(87, 93, 222);
+    text-decoration: none solid $main-decoration-color;
     text-align: center;
   }
-  .input-field{
+  .input-field {
     width: 35px;
   }
 }
 
-.inventory-alert-checkbox{
+.inventory-alert-checkbox {
   margin-left: 100px;
   display: inline-grid;
   line-height: 2;
 }
 
-.inventory-btn-wrapper{
+.inventory-btn-wrapper {
   display: inline-grid;
   .inventory-button {
     font-weight: 600;
@@ -70,28 +70,28 @@
     border: none;
     border-radius: 0;
   }
-  .btn-savenclose{
+  .btn-savenclose {
     padding: 13px 20px;
     width: 150px;
     min-width: 155px;
     margin: 0 auto;
   }
-  .btn-cancel{
+  .btn-cancel {
     width: 100px;
     margin: 10px auto;
     color: rgba(87, 93, 222, 0.2);
   }
 }
 
-.margin-l-10{
+.margin-l-10 {
   margin-left: 10px;
 }
-.margin-r-10{
-  margin-right: 10px
+.margin-r-10 {
+  margin-right: 10px;
 }
-.margin-l-5{
+.margin-l-5 {
   margin-left: 5px;
 }
-.margin-r-5{
-  margin-right: 5px
+.margin-r-5 {
+  margin-right: 5px;
 }

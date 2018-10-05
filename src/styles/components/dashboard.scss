@@ -9,12 +9,14 @@
     min-height: calc(100vh - 60px);
   }
 }
+.swal2-container {
+  z-index: 1600;
+}
 .page-container {
   overflow: hidden;
   width: $full-width;
   background-color: $main-background-color;
   padding: $size-0;
-  margin-top: 3%;
   position: relative;
   > .row {
     margin: 0;
@@ -33,7 +35,7 @@
   z-index: 1111;
 }
 .analysis {
-  padding: 5px 15px;
+  padding: 0px 15px 5px;
   overflow: hidden;
 }
 .page-select-text {
@@ -61,12 +63,17 @@
   padding-bottom: 50px;
 }
 .charts-card-style {
-  // margin-top: 10px;
   border: 1px solid $light-gray-color;
   border-radius: 2px;
   font-family: ubuntu !important;
   font-size: 16px;
   text-align: left;
+  > div {
+    padding-bottom: 0px !important;
+    .expense-header {
+      padding: 16px 16px 0px !important;
+    }
+  }
 }
 .explore-dialog-container {
   max-width: 1000px !important;
@@ -200,17 +207,23 @@
 .analysis {
   #cardSection {
     z-index: 0;
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr 1fr;
+    :first-child {
+      grid-column-start: 1;
+    }
   }
-  .scroll-section {
-    // max-height: 150vh;
-    // overflow-y: auto;
+  html,
+  body {
+    height: 100%;
   }
+
   .active-metrics {
     box-shadow: rgba(87, 93, 222, 0.6) 0px 1px 6px,
       rgba(87, 93, 222, 0.6) 0px 1px 4px !important;
   }
   .dashboard-card-container {
-    min-width: 320px;
+    min-width:310px;
     float: left;
     padding-left: 4px;
     padding-right: 4px;
@@ -340,3 +353,25 @@
     float: left;
   }
 }
+@media only screen and (max-width: 1024px) {
+  .analysis {
+    #cardSection {
+      grid-template-columns: 1fr 1fr 1fr;
+    }
+  }
+}
+@media only screen and (max-width: 768px) {
+  .analysis {
+    #cardSection {
+      grid-template-columns: 1fr 1fr;
+    }
+  }
+}
+@media only screen and (max-width: 650px) {
+  .analysis {
+    #cardSection {
+      grid-template-columns: 1fr;
+    }
+  }
+}
+

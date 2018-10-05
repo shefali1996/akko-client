@@ -1,6 +1,6 @@
 .nav-container {
   background-color: $main-blue-color;
-  position: fixed;
+  position: sticky;
   top: 0;
   right: 0;
   left: 0;
@@ -13,9 +13,9 @@
 .app-title {
   padding-top: 0px;
   padding-left: 0px;
-	display: block;
-  width: 30px;
-  height: 30px;
+  display: block;
+  display:flex;
+  align-items: center;
   top: 20px;
   background-color: $main-blue-color;
 	left: 10px;
@@ -23,24 +23,25 @@
   .logo{
     background: url("../assets/images/transparent_white.svg") no-repeat center center;
     width: 50px;
-    height: 50px;
+    height: 40px;
     background-size: cover;
   }
 }
 .company-name-label{
-  height: 40px;
+  display:flex;
+  align-items: center;
+  height: auto;
   font-family: Ubuntu;
   font-size: 16px;
   color: $white-color;
   text-decoration: none solid rgb(255, 255, 255);
   text-align: center;
   background: none;
-  margin-top: 5px;
-  margin-bottom: 8px;
-  padding-top: 14px;
-  margin-left: 25px;
-  padding-left: 9px;
+  padding-left:10px;
   border-left: 2px solid #ccc;
+}
+.app-title-container{
+  padding: .5% 0
 }
 .user-profile {
   width: 165px;
@@ -56,7 +57,6 @@
   margin-top: 4px !important;
 }
 .username {
-  // font-family: $ubuntu-light;
   font-size: $size-16;
   color: $white-color;
   text-decoration: none solid $white-color;
@@ -124,10 +124,6 @@
   color: $custom-dropdown-color;
 }
 
-.dropdown{
-  width: 200px;
-}
-
 .profileIcon {
 	width: 34px;
 	height: 34px;
@@ -138,13 +134,19 @@
   height: 20px;
   margin-left: 10px;
 }
+.setting-popup{
+  .dropdown{
+    width:100%;
+    #bg-nested-dropdown{
+      width:70%;
+    }
+  }
+}
 @media screen and (max-width: 767px) {
   .app-title {
-    padding-top: 20px;
     position: unset;
   }
   .user-profile {
-    top: 10px;
-    right: 10px;
+    right: 20px;
   }
 }

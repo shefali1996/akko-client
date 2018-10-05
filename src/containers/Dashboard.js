@@ -13,7 +13,7 @@ import * as dashboardActions from '../redux/dashboard/actions';
 import {METRICS_CARD, dashboardGrid} from '../constants/index';
 import {ExpenseCard, InitialFetchIncompleteCard, InvalidCard, LoaderCards, ValidCards} from '../components/dashboard/index';
 import {getColumn} from '../helpers/functions';
-import { stat } from 'fs';
+import swal from 'sweetalert2';
 
 const moment = require('moment');
 const elementResizeEvent = require('element-resize-event');
@@ -55,7 +55,20 @@ class Dashboard extends Component {
       });
     }
   }
-  
+  componentDidUpdate(){
+    if(this.state.explore && screen.width<768){
+      swal({
+        type:              'warning',
+        html:              "This page works best on larger screens.Please try again from a device with a larger screen, like a laptop or tablet",
+        allowOutsideClick: false,
+        confirmButtonText: 'ok',
+        focusConfirm:      false,
+      });
+      this.setState({
+        explore:false
+      })
+    }
+  }
   componentDidMount() {
     const element = document.getElementById('cardSection');
     elementResizeEvent(element, () => {
@@ -99,36 +112,12 @@ class Dashboard extends Component {
   }
   
   setHeightWidth(w) {    
-    // ---------------set height------------
-    const elements = document.getElementsByClassName('dashboard-card-container');    
-    const elementHeights = Array.prototype.map.call(elements, (el) => {
-      return el.clientHeight;
-    });     
-    let maxHeight = Math.max.apply(null, elementHeights);
-    if( screen.height > 800 && maxHeight < 408 && screen.width >1700){
-      maxHeight = 408;
-    }
-    this.setState({
-      maxHeight
-    })
-    if (maxHeight !== this.maxHeight) {
-      $('.dashboard-card-container').css({height: `${maxHeight}px`});
-    }
-    // -----------------set width--------------------
-    const x = 100;
-    let n = Math.floor(w / 320);
-    const r = w % 320;
-    let a = 0;
-    n = n > 4 ? 4 : n;
-    if (n !== this.column) {
-      this.column = n;
-      a = x / n;
-      $('.dashboard-card-container').css({width: `${a}%`, transition: 'width .05s lenear'});
+    // ---------------set height------------    
       if (this.state.explore) {
         this.scrollTop(this.state.activeMetricsId);
       }
     }
-  }
+  
   
   scrollTop = (id) => {
     const element = $(`#${id}`);
@@ -240,6 +229,7 @@ class Dashboard extends Component {
                   {renderCards}
                 </Row>
               </div>
+              {screen.width>767 &&
               <div className="right-box-0">
                 <ExploreMetrics
                   closeFilter={() => {
@@ -264,6 +254,7 @@ class Dashboard extends Component {
                   {...this.props}
                   />
               </div>
+              }
             </Col>
           </Row>
         </Grid>

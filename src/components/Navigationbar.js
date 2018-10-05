@@ -29,15 +29,15 @@ class Navigationbar extends Component {
     return (
       <div className="nav-container">
         <Row>
-          <Col md={3} sm={6} xs={6} className="flex-left app-title-container padding-left-right-7">
+          <Col md={3} sm={6} xs={8} className="flex-left app-title-container padding-left-right-7">
             <Label className="app-title">
               <div className="logo" />
             </Label>
             {companyName ? <span className="company-name-label">
-              <span>{companyName}</span>
+              <span >{companyName}</span>
             </span> : null}
           </Col>
-          <Col md={2} sm={6} xs={6} className="pull-right text-right padding-left-right-7">
+          <Col md={2} sm={6} xs={4} className="pull-right text-right padding-left-right-7 setting-popup">
             <DropdownButton
               title={
                 <div>

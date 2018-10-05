@@ -100,8 +100,8 @@ class ExploreMetrics extends Component {
     }
     return null;
   }
- 
-  componentWillReceiveProps(nextProps) {      
+
+  componentWillReceiveProps(nextProps) {          
     const state = _.cloneDeep(this.state);
     this.setState({
       metrics: nextProps.metricsData.data.metrics,
@@ -156,7 +156,9 @@ class ExploreMetrics extends Component {
     }
   })
   }
-
+resizeFunction=()=>{
+  this.setTimeMetric()
+}
   openFilter(filterBy) {
     this.setState({
       openFilter: true,
@@ -324,7 +326,7 @@ class ExploreMetrics extends Component {
 	  }
   }
 
-  setTimeMetric() {    
+  setTimeMetric() {  
 	  const {metric_name} = this.state.activeMetrics;
     const metric_map = this.getMap(metric_name, OPTION_TIME);
     if (!metric_map) {
@@ -353,9 +355,7 @@ class ExploreMetrics extends Component {
       const data = [];
       metrics.forEach((value) => {
         let format = 'MMM YY';
-        const label = moment(value.time_start).utcOffset('+00:00').format(format);
-        console.log(this.state.metrics,'//////////////////////',(_.find(this.state.metrics, function(o) {return o.db_name == metric_name})));
-        
+        const label = moment(value.time_start).utcOffset('+00:00').format(format);        
         let prefix = (_.find(this.state.metrics, function(o) {return o.db_name == metric_name})).prefix;
         let postfix = (_.find(this.state.metrics, function(o) {return o.db_name == metric_name})).postfix;
         data.push({
@@ -366,16 +366,12 @@ class ExploreMetrics extends Component {
         });
       });
 
-      let width = data.length * WIDTH_PER_LABEL;
+      let width = data.length * WIDTH_PER_LABEL;      
       const full_width = document.getElementById('chart-full-width-holder') != null ? document.getElementById('chart-full-width-holder').offsetWidth : 904;
       if (metric_map.resolution === RESOLUTION_DAY) {
         width = full_width / 31 * data.length;
       }
-      if (width < full_width) {
-        width = '100%';
-      } else {
-        width += 'px';
-      }
+        width = '100%';              
       this.setState({
         chartWidth:       width,
         chartData:        data,
@@ -1037,7 +1033,7 @@ class ExploreMetrics extends Component {
     }
   }
 
-  render() {              
+  render() {                  
     const {activeMetrics} = this.props;
     const {categoriesNav, vendorsNav, currentOption,categoryId,vendorsId} = this.state;
     const CustomSpin = (
@@ -1204,6 +1200,7 @@ class ExploreMetrics extends Component {
                         <ReactPlaceholder ready={this.state.graphLoadingDone} customPlaceholder={CustomSpin} className="loading-placeholder-rect-media">
                           <div>
                             {
+                            
                               this.state.graphError && !this.state.chartData && this.state.graphLoadingDone && this.state.noData ? 
                               <div className="chart-error">Nothing to show for this time range</div>
                               : 
@@ -1215,6 +1212,7 @@ class ExploreMetrics extends Component {
                                   {
                                     this.state.currentOption === OPTION_VENDOR ?
                                       this.state.vendorsNav.path.length === 0 ?
+                                      
                                       <BarChart
                                         data={this.state.chartData}
                                         fullHeight={fullHeight}
@@ -1228,7 +1226,7 @@ class ExploreMetrics extends Component {
                                         categoriesNav={this.state.categoriesNav}
                                         vendorsNav={this.state.vendorsNav}
                                         /> :
-                                        <LineChart data={this.state.chartData} fullHeight={fullHeight} selectedOption={this.state.currentOption} chartName="timeChart" />
+                                        <LineChart data={this.state.chartData} open={this.props.open} fullHeight={fullHeight} selectedOption={this.state.currentOption} chartName="timeChart" />
                                         :  this.state.currentOption === OPTION_CATEGORIES ?
                                         this.state.categoriesNav.path.length === 0 ?
                                         <BarChart
@@ -1259,9 +1257,9 @@ class ExploreMetrics extends Component {
                                           vendorsNav={this.state.vendorsNav}
                                           />
                                           :
-                                          <LineChart data={this.state.chartData} fullHeight={fullHeight} selectedOption={this.state.currentOption} chartName="timeChart" />
+                                          <LineChart data={this.state.chartData} open={this.props.open} fullHeight={fullHeight} selectedOption={this.state.currentOption} chartName="timeChart" />
                                     :      
-                                        <LineChart data={this.state.chartData} fullHeight={fullHeight} selectedOption={this.state.currentOption} chartName="timeChart" />
+                                        <LineChart data={this.state.chartData} open={this.props.open} fullHeight={fullHeight} selectedOption={this.state.currentOption} chartName="timeChart" graphLoadingDone={this.state.graphLoadingDone}/>
                                   }
                                 </div>
                               </div>

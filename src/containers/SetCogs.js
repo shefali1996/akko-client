@@ -74,7 +74,7 @@ class SetCogs extends Component {
     }
   }
 
-  componentWillReceiveProps(props) {
+  componentWillReceiveProps(props) {    
     const {data, isProductLoading, isVariantsLoading} = props.productData;
     if (!isEqual(data, this.state.data) && !this.state.inProgressSetCogs) {
       this.setState({
@@ -99,6 +99,16 @@ class SetCogs extends Component {
     }
     if(this.props.productData.data.products.length == 0){ 
       this.getProductData();
+    }
+    if(screen.width<768){
+      swal({
+        type:              'warning',
+        title:             `WARNING`,
+        html:              "This page works best on larger screens. Please try again from a device with a larger screen, like a laptop or tablet",
+        allowOutsideClick: false,
+        showConfirmButton:false,
+        focusConfirm:      false,
+      });
     }
   }
 
@@ -350,6 +360,7 @@ class SetCogs extends Component {
       const {tableData} = this.state;
       return (
         <div>
+          {screen.width>=768 &&
           <Grid className="login-layout">
             <Row className="devider" style={{ margin: '0 5px' }}>
               <Col md={12} style={{ paddingLeft: '0' }}>
@@ -438,7 +449,7 @@ class SetCogs extends Component {
                 </Button>
               </Col>
             </Row>
-          </Grid>
+          </Grid>}
         </div>
       );
     }
