@@ -2,24 +2,24 @@
   background: $main-blue-color;
   display: inline-block;
   padding: 6px 10px;
-	cursor: pointer;
-	box-shadow: 0 1px 2px $black-color;
+  cursor: pointer;
+  box-shadow: 0 1px 2px $pure-black;
 }
 .plus-icon {
   width: 22px;
   height: 22px;
 }
 .delete-button {
-  background: #d42920;
+  background: $main-red-color;
   display: inline-block;
   padding: 6px 10px;
-	cursor: pointer;
-	box-shadow: 0 1px 2px $black-color;
+  cursor: pointer;
+  box-shadow: 0 1px 2px $pure-black;
 }
-.header-text-wrapper{
+.header-text-wrapper {
   display: inline-block;
-  width: 100%;
-  .table-header-text{
+  width: $full-width;
+  .table-header-text {
     display: flex;
     flex-direction: column-reverse;
     text-align: center;
@@ -30,60 +30,60 @@
   display: inline-block;
   padding: 6px 10px;
   cursor: pointer;
-	margin-right: 10px;
-	box-shadow: 0 1px 2px $black-color;
+  margin-right: 10px;
+  box-shadow: 0 1px 2px $pure-black;
 }
 .button-text {
   font-family: $ubuntu-light;
   font-size: $size-14;
-  color: $white-color;
-  text-decoration: none solid $white-color;
+  color: $pure-white;
+  text-decoration: none solid $pure-white;
   text-align: center;
   background: none;
 }
 .pageList-style {
-	margin-top: 0px;
+  margin-top: 0px;
 }
 .pageList-style .pagination .page-item .page-link {
   font-family: $ubuntu;
   font-size: $size-14;
-  color: $black-color;
-  text-decoration: none solid rgb(0, 0, 0);
+  color: $pure-black;
+  text-decoration: none solid $pure-black;
   text-align: center;
   border: none;
 }
 .pageList-style .pagination .active.page-item .page-link {
   font-family: $ubuntu;
   font-size: $size-14;
-  color: $white-color;
-  text-decoration: none solid rgb(0, 0, 0);
+  color: $pure-white;
+  text-decoration: none solid $pure-white;
   text-align: center;
   border: none;
   border-radius: 0px;
-  background: #2199e8;
+  background: $main-blue-color;
 }
 .setTablePageList-style {
-	text-align: center;
-	margin-top: 0px;
+  text-align: center;
+  margin-top: 0px;
 }
 .setTablePageList-style .pagination .page-item .page-link {
   font-family: $ubuntu;
   font-size: $size-14;
-  color: $black-color;
-  text-decoration: none solid rgb(0, 0, 0);
+  color: $pure-black;
+  text-decoration: none solid $pure-black;
   text-align: center;
   border: none;
-  border-radius:0px;
+  border-radius: 0px;
 }
 .setTablePageList-style .pagination .active.page-item .page-link {
   font-family: $ubuntu;
   font-size: $size-14;
-  color: $white-color;
-  text-decoration: none solid rgb(0, 0, 0);
+  color: $pure-white;
+  text-decoration: none solid $pure-white;
   text-align: center;
   border: none;
   border-radius: 0px;
-  background: #2199e8;
+  background: $main-blue-color;
 }
 .left-button-view {
   width: 50%;
@@ -96,7 +96,7 @@
   text-align: right;
 }
 .button-group-custom-class {
-  width: 100%;
+  width: $full-width;
   display: inline-block;
 }
 .sort-icon {
@@ -104,201 +104,204 @@
   height: 32px;
 }
 .product-data-cell {
-	display: flex;
-	flex-direction: row;
+  display: flex;
+  flex-direction: row;
   align-items: center;
 }
 .productName {
-	font-family: $ubuntu-regular;
-	font-size: $size-16;
-	color: $dark-purple;
-	text-decoration: none solid $main-decoration-color;
-	white-space: nowrap;
-	text-overflow: ellipsis;
-	max-width: 400px;
-	overflow: hidden;
+  font-family: $ubuntu-regular;
+  font-size: $size-16;
+  color: $dark-purple;
+  text-decoration: none solid $main-decoration-color;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  max-width: 400px;
+  overflow: hidden;
 }
-.cogs-product-title{
+.cogs-product-title {
   font-family: $ubuntu;
   font-size: $size-12;
   color: $color-var-1;
   text-decoration: none solid $main-decoration-color;
   white-space: nowrap;
   text-overflow: ellipsis;
-  max-width: 100%;
+  max-width: $full-width;
   overflow: hidden;
   display: inline-block;
 }
 .product-custom-title {
-	display: flex;
-	flex-direction: column-reverse;
-	width: 100%;
-	text-align: left;
+  display: flex;
+  flex-direction: column-reverse;
+  width: $full-width;
+  text-align: left;
   overflow: hidden;
 }
 .variantTitle {
-	font-family: $ubuntu-regular;
-	font-size: $size-12;
-	color: $color-var-1;
-	text-decoration: none solid rgb(0, 0, 0);
-	text-align: left;
-	padding-top: 1px;
+  font-family: $ubuntu-regular;
+  font-size: $size-12;
+  color: $color-var-1;
+  text-decoration: none solid $color-var-1;
+  text-align: left;
+  padding-top: 1px;
 }
 .channelNumberText {
-	font-family: $ubuntu-regular;
-	font-size: $size-12;
-	color: $light-gray-color-1;
-	text-decoration: none solid rgb(200, 200, 200);
-	padding-top: 3px;
+  font-family: $ubuntu-regular;
+  font-size: $size-12;
+  color: $light-gray-color-1;
+  text-decoration: none solid $light-gray-color-1;
+  padding-top: 3px;
 }
 .productImage {
   display: flex;
   flex-direction: column-reverse;
-  img{
+  img {
     width: 30px;
     margin: 0 5px;
   }
 }
 .stock-data-cell {
-	padding-top: 25px;
+  padding-top: 25px;
 }
 .stock-on-hand-cell {
-	padding-top: 25px;
-	text-align: center;
+  padding-top: 25px;
+  text-align: center;
 }
 .stock-unit-view {
-	width: 50%;
+  width: 50%;
 }
 .stock-on-hand-header {
-	display: flex;
-	flex-direction: row;
+  display: flex;
+  flex-direction: row;
 }
 .rightArrow {
-	width: 32px;
-	height: 32px;
+  width: 32px;
+  height: 32px;
 }
 
-.product-sku-text{
-  font-family: "Ubuntu-Regular";
+.product-sku-text {
+  font-family: $ubuntu-regular;
   font-size: 12px;
   color: $color-var-1;
   font-style: italic;
 }
 
-.product-variant-cogs{
-  font-family: "Ubuntu-Regular";
+.product-variant-cogs {
+  font-family: $ubuntu-regular;
   font-size: $size-12;
   color: $color-var-1;
   text-align: left;
   padding-top: 1px;
 }
-.product-cogs-text{
-  font-family: "Ubuntu-Regular";
+.product-cogs-text {
+  font-family: $ubuntu-regular;
   font-size: 14px;
   color: $light-gray-color-1;
   display: inline-block;
 }
 
-.border-left-red{
-  border-left: 7px solid #eb554d;
-  height: 100%;
+.border-left-red {
+  border-left: 7px solid $fade-red;
+  height: $full-height;
 }
 
-.border-left-gray{
+.border-left-gray {
   border-left: 7px solid $light-gray-color-1;
-  height: 100%;
+  height: $full-height;
 }
 
-.border-left-green{
-  border-left: 7px solid #00cc00;
-  height: 100%;
+.border-left-green {
+  border-left: 7px solid $light-green;
+  height: $full-height;
 }
-.w-100{
-  width: 100% !important;
+.w-100 {
+  width: $full-width !important;
 }
-.set-cogs-table{
+.set-cogs-table {
   // overflow: scroll !important;
-    > div {
-      height: 100%;
+  > div {
+    height: $full-height;
+  }
+  .expand-arrow {
+    width: 30px;
+  }
+  .expand-arrow-hover {
+    width: 20px;
+    margin: 0 4px;
+  }
+  .cogs-table-title {
+    text-align: left;
+    padding-left: 0px;
+    padding-bottom: 0px;
+    padding-top: 0px;
+    .product-data-cell {
+      padding: 8px 0px;
     }
-    .expand-arrow{
-      width: 30px;
+  }
+  .table-input-field {
+    padding: 0px 20px;
+    input {
+      height: auto;
+      border: none;
+      box-shadow: none;
+      padding: 0px;
+      width: 85%;
     }
-    .expand-arrow-hover{
-      width: 20px;
-      margin: 0 4px;
-    }
-    .cogs-table-title{
-      text-align: left;
-      padding-left: 0px;
-      padding-bottom: 0px;
-      padding-top: 0px;
-      .product-data-cell{
-        padding: 8px 0px;
-      }
-    }
-    .table-input-field{
-      padding: 0px 20px;
-      input{
-        height: auto;
-        border: none;
-        box-shadow: none;
-        padding: 0px;
-        width: 85%;
-      }
-    }
-    //-----------------reat-virtuallize-table-------------
-    .no-data-text{
-      padding: 10px;
-      text-align: center;
-      border-bottom: 1px solid #ddd;
-    }
-    .vt-table-header{
+  }
+  //-----------------reat-virtuallize-table-------------
+  .no-data-text {
+    padding: 10px;
+    text-align: center;
+    border-bottom: 1px solid $snow;
+  }
+  .vt-table-header {
+    background-color: $light-blue-color;
+    border: 1px solid $snow;
+  }
+  .vt-table-row {
+    background: $pure-white;
+    border-bottom: 1px solid $snow;
+    border-left: 1px solid $pure-white;
+    border-right: 1px solid $pure-white;
+    &:hover {
       background-color: $light-blue-color;
-      border: 1px solid #ddd;
     }
-    .vt-table-row{
-      background: $pure-white;
-      border-bottom: 1px solid #ddd;
-      border-left: 1px solid #fff;
-      border-right: 1px solid #fff;
-      &:hover{
-        background-color: $light-blue-color;
-      }
-    }
+  }
 
-    .vt-table{
-      border: 1px solid #ddd;
-      display: table;
-    }
-    
-    .p-title{
-      height: 100%;
-      padding-left: 2px;
-    }
-    .ReactVirtualized__Table__Grid{
-      border: 1px solid #ddd;
-      border-top: 0;
-    }
-    .ReactVirtualized__Table__headerColumn, .ReactVirtualized__Table__rowColumn{
-      margin: 0px;
-      height: 100%;
-      display: flex;
-      align-items: center;
-    }
-    .ReactVirtualized__Table__rowColumn.border-left{
-      border-left: 1px solid #ddd;
-    }
-    .error{
-      border: 1px double rgba(255, 0, 0, 0.45) !important;
-      border-right: 0px;
-    }
-    .ReactVirtualized__Table__headerColumn:first-of-type, .ReactVirtualized__Table__rowColumn:first-of-type{
-      margin: 0px;
-    }
-    .ReactVirtualized__Table__Grid, .ReactVirtualized__Table__row{
-      outline: none;
-    }
+  .vt-table {
+    border: 1px solid $snow;
+    display: table;
+  }
+
+  .p-title {
+    height: $full-height;
+    padding-left: 2px;
+  }
+  .ReactVirtualized__Table__Grid {
+    border: 1px solid $snow;
+    border-top: 0;
+  }
+  .ReactVirtualized__Table__headerColumn,
+  .ReactVirtualized__Table__rowColumn {
+    margin: 0px;
+    height: $full-height;
+    display: flex;
+    align-items: center;
+  }
+  .ReactVirtualized__Table__rowColumn.border-left {
+    border-left: 1px solid $snow;
+  }
+  .error {
+    border: 1px double rgba($pure-red, 0.45) !important;
+    border-right: 0px;
+  }
+  .ReactVirtualized__Table__headerColumn:first-of-type,
+  .ReactVirtualized__Table__rowColumn:first-of-type {
+    margin: 0px;
+  }
+  .ReactVirtualized__Table__Grid,
+  .ReactVirtualized__Table__row {
+    outline: none;
+  }
 }
 
 @media only screen and (max-width: 1300px) {
@@ -308,108 +311,120 @@
   }
 }
 @media only screen and (max-width: 1100px) {
-  .set-cogs-table{
-    .expand-arrow{
+  .set-cogs-table {
+    .expand-arrow {
       width: 20px;
     }
-    .expand-arrow-hover{
+    .expand-arrow-hover {
       width: 16px;
     }
-    .p-title{
+    .p-title {
       padding-left: 1px;
     }
-    .table-input-field{
+    .table-input-field {
       padding: 0px 10px;
     }
   }
-  .product-custom-title{
-    padding-left: 0px
+  .product-custom-title {
+    padding-left: 0px;
   }
 }
 @media only screen and (max-width: 900px) {
-  .set-cogs-table{
-    .expand-arrow{
+  .set-cogs-table {
+    .expand-arrow {
       width: 16px;
     }
-    .expand-arrow-hover{
+    .expand-arrow-hover {
       width: 14px;
     }
     .productImage {
-      img{
+      img {
         width: 30px;
         margin: 0 3px;
       }
     }
-    .cogs-table-title{
-      .product-data-cell{
+    .cogs-table-title {
+      .product-data-cell {
         padding: 4px 0px;
       }
     }
-    .cogs-product-title, .product-variant-cogs, .product-sku-text, .variantTitle, .product-cogs-text{
-      font-size: .8em;
+    .cogs-product-title,
+    .product-variant-cogs,
+    .product-sku-text,
+    .variantTitle,
+    .product-cogs-text {
+      font-size: 0.8em;
     }
   }
 }
 
 @media only screen and (max-width: 767px) {
-  .set-cogs-table{
-    .expand-arrow{
+  .set-cogs-table {
+    .expand-arrow {
       width: 14px;
     }
-    .expand-arrow-hover{
+    .expand-arrow-hover {
       width: 12px;
       margin: 0 3px;
     }
     .productImage {
-      img{
+      img {
         width: 25px;
         margin: 0 3px;
       }
     }
-    .cogs-table-title{
-      .product-data-cell{
+    .cogs-table-title {
+      .product-data-cell {
         padding: 4px 0px;
       }
     }
-    .cogs-product-title, .product-variant-cogs, .product-sku-text, .variantTitle, .product-cogs-text{
-      font-size: .7em;
+    .cogs-product-title,
+    .product-variant-cogs,
+    .product-sku-text,
+    .variantTitle,
+    .product-cogs-text {
+      font-size: 0.7em;
     }
-    .border-left-red{
-      border-left: 5px solid #eb554d;
+    .border-left-red {
+      border-left: 5px solid $fade-red;
     }
 
-    .border-left-gray{
+    .border-left-gray {
       border-left: 5px solid $light-gray-color-1;
     }
 
-    .border-left-green{
-      border-left: 5px solid #00cc00;
+    .border-left-green {
+      border-left: 5px solid $light-green;
     }
   }
 }
 @media only screen and (max-width: 600px) {
-  .set-cogs-table{
+  .set-cogs-table {
     overflow-x: scroll !important;
-    .expand-arrow{
+    .expand-arrow {
       width: 10px;
     }
-    .expand-arrow-hover{
+    .expand-arrow-hover {
       width: 8px;
       margin: 0 2px;
     }
     .productImage {
-      img{
+      img {
         width: 20px;
         margin: 0 3px;
       }
     }
-    .cogs-table-title{
-      .product-data-cell{
+    .cogs-table-title {
+      .product-data-cell {
         padding: 4px 0px;
       }
     }
-    .cogs-product-title, .product-variant-cogs, .product-sku-text, .variantTitle, .product-cogs-text{
-      font-size: .6em;
+    .cogs-product-title,
+    .product-variant-cogs,
+    .product-sku-text,
+    .variantTitle,
+    .product-cogs-text {
+      font-size: 0.6em;
     }
   }
 }

@@ -1,62 +1,62 @@
-.fetch-status{
+.fetch-status {
   font-family: $ubuntu-regular;
   text-align: center;
   margin-top: 30px;
-  .title-text{
+  .title-text {
     font-size: 24px;
     color: $main-blue-color;
     text-decoration: none solid $main-blue-color;
   }
-  .sub-title-text{
+  .sub-title-text {
     font-size: 14px;
-    color: #aaaaaa;
-    text-decoration: none solid rgb(170, 170, 170);
+    color: $smooth-grey;
+    text-decoration: none solid $smooth-grey;
   }
-  .progress-text{
+  .progress-text {
     font-family: $ubuntu-regular;
-    .title{
+    .title {
       font-size: 40px;
       font-weight: 500;
     }
-    .sub-title-bold{
+    .sub-title-bold {
       font-size: 14px;
       font-weight: 600;
-      color: #aaaaaa;
-      text-decoration: none solid rgb(170, 170, 170);
+      color: $smooth-grey;
+      text-decoration: none solid $smooth-grey;
     }
-    .sub-title{
+    .sub-title {
       font-size: 11px;
-      color: #aaaaaa;
+      color: $smooth-grey;
       font-weight: 300;
-      text-decoration: none solid rgb(170, 170, 170);
+      text-decoration: none solid $smooth-grey;
     }
   }
   .ant-progress-status-success .ant-progress-circle-path {
-    stroke: #00a854;
-}
-  .ant-progress-circle-path{
-    stroke:$main-blue-color;
+    stroke: $ant-progress-color;
   }
-  .set-cogs-loading-btn{
-	width: 131px;
-	height: 44px;
-	padding: 6px 10px;
-	background-color: $main-blue-color;
-	font-family: $ubuntu-regular;
-	font-size: $size-16;
-	color: $white-color;
-	text-decoration: none solid  rgb(255, 255, 255);
-	text-align: center;
-	box-shadow: 0px 1px 2px rgba(0,0,0,0.4);
-	border: none;
-	border-radius: 0;
-}
-.set-cogs-loading-btn:active,
-.set-cogs-loading-btn:hover,
-.set-cogs-loading-btn:focus,
-.set-cogs-loading-btn:active:focus {
-	outline: none;
-	background-color: $main-blue-color;
-	color: $white-color;
-}
+  .ant-progress-circle-path {
+    stroke: $main-blue-color;
+  }
+  .set-cogs-loading-btn {
+    width: 131px;
+    height: 44px;
+    padding: 6px 10px;
+    background-color: $main-blue-color;
+    font-family: $ubuntu-regular;
+    font-size: $size-16;
+    color: $white-color;
+    text-decoration: none solid $pure-white;
+    text-align: center;
+    box-shadow: 0px 1px 2px rgba($pure-black, 0.4);
+    border: none;
+    border-radius: 0;
+  }
+  .set-cogs-loading-btn:active,
+  .set-cogs-loading-btn:hover,
+  .set-cogs-loading-btn:focus,
+  .set-cogs-loading-btn:active:focus {
+    outline: none;
+    background-color: $main-blue-color;
+    color: $pure-white;
+  }
 }

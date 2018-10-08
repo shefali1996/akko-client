@@ -6,7 +6,7 @@
   > .row {
     margin: 0;
     transform: translateZ(0);
-    min-height: calc(100vh - 60px);
+    min-height: $min-height;
   }
 }
 .swal2-container {
@@ -20,7 +20,7 @@
   position: relative;
   > .row {
     margin: 0;
-    min-height: calc(100vh - 60px);
+    min-height: $min-height;
   }
 }
 .dialog {
@@ -39,25 +39,25 @@
   overflow: hidden;
 }
 .page-select-text {
-  font-family: Ubuntu;
+  font-family: $ubuntu;
   font-size: 20px;
-  color: #666666;
+  color: $grey;
   font-weight: bold;
-  text-decoration: none solid rgb(102, 102, 102);
+  text-decoration: none solid $grey;
   top: -12px;
   position: absolute;
 }
 .right-top-description {
-  font-family: Ubuntu;
+  font-family: $ubuntu;
   font-size: 11px;
   color: $smooth-grey;
   font-weight: bold;
-  text-decoration: none solid rgb(187, 187, 187);
+  text-decoration: none solid $smooth-grey;
   width: 80%;
   padding-top: 20px;
 }
 .content-box {
-  background: #f2f2f2;
+  background: $dull-white;
   margin-top: 10px;
   padding: 10px 15px;
   padding-bottom: 50px;
@@ -65,7 +65,7 @@
 .charts-card-style {
   border: 1px solid $light-gray-color;
   border-radius: 2px;
-  font-family: ubuntu !important;
+  font-family: $ubuntu !important;
   font-size: 16px;
   text-align: left;
   > div {
@@ -87,11 +87,11 @@
 }
 .expenses-breakdown {
   .expense-text {
-    font-family: Ubuntu;
+    font-family: $ubuntu;
     font-size: 16px;
     color: $light-gray-color;
     font-weight: bold;
-    text-decoration: none solid rgb(200, 200, 200);
+    text-decoration: none solid $light-gray-color;
     .text-row {
       padding-top: 5px;
     }
@@ -123,11 +123,11 @@
 .card-content {
   padding: 7px !important;
   .card-title {
-    font-family: Ubuntu;
+    font-family: $ubuntu;
     font-size: 14px;
     color: $smooth-grey;
     font-weight: bold;
-    text-decoration: none solid rgb(187, 187, 187);
+    text-decoration: none solid $smooth-grey;
     text-align: center;
   }
   .chip-wrapper {
@@ -135,12 +135,12 @@
     margin-top: 10px;
     .chip {
       background-color: $smooth-grey !important;
-      font-family: Ubuntu !important;
+      font-family: $ubuntu !important;
       text-align: center;
     }
   }
   .link {
-    font-family: Ubuntu;
+    font-family: $ubuntu;
     font-weight: bold;
     text-align: center;
     margin-top: 8px;
@@ -175,10 +175,10 @@
     height: 100%;
   }
   .selected-text {
-    font-family: Ubuntu;
+    font-family: $ubuntu;
     font-size: 14px;
     color: $main-blue-color;
-    text-decoration: none solid rgb(87, 93, 222);
+    text-decoration: none solid $main-blue-color;
     text-align: center;
     margin-bottom: 15px;
   }
@@ -219,8 +219,8 @@
   }
 
   .active-metrics {
-    box-shadow: rgba(87, 93, 222, 0.6) 0px 1px 6px,
-      rgba(87, 93, 222, 0.6) 0px 1px 4px !important;
+    box-shadow: rgba($new-blue, 0.6) 0px 1px 6px,
+      rgba($new-blue, 0.6) 0px 1px 4px !important;
   }
   .dashboard-card-container {
     min-width:310px;
@@ -230,6 +230,7 @@
     min-height: 300px;
     display: grid;
     padding-top: 10px;
+    transition: width 0.5s linear 0.5s, height 0.5s linear 0.5s;
     .exploreMetrics {
       width: 35px;
       height: 35px;
@@ -298,21 +299,21 @@
     margin: 0px auto;
   }
   .invalid-text {
-    font-family: Ubuntu;
+    font-family: $ubuntu;
     font-size: 12px;
     color: $smooth-grey;
-    text-decoration: none solid rgb(187, 187, 187);
+    text-decoration: none solid $smooth-grey;
     text-align: center;
   }
 }
 
 .chart-error {
-  width: 100%;
+  width: $full-width;
   height: 300px;
   text-align: center;
   font-size: 32px;
-  background-color: rgb(224, 224, 224);
-  color: #444444;
+  background-color: $dull-white;
+  color: $color-var-1;
   padding-top: 10%;
 }
 
@@ -353,6 +354,217 @@
     float: left;
   }
 }
+
+.custom-shadow {
+  transform: translateZ(0);
+}
+.white-view {
+  background-color: $pure-white;
+  height: 178px;
+  margin-top: $size-20;
+}
+.Select-arrow {
+  border-color: $light-gray-color transparent transparent !important;
+  border-style: solid;
+  border-width: 5px 5px 2.5px;
+  display: inline-block;
+  height: 0;
+  width: 0;
+  position: relative;
+}
+.Select-placeholder,
+.Select--single > .Select-control .Select-value {
+  color: $light-gray-color !important;
+}
+.table > tbody > tr > td,
+.table > tbody > tr > th,
+.table > tfoot > tr > td,
+.table > tfoot > tr > th,
+.table > thead > tr > td,
+.table > thead > tr > th {
+  border-top: 0px;
+}
+.react-bs-table-pagination {
+  margin-top: 0px !important;
+  background: $pure-white;
+  padding: 0px;
+}
+.react-bs-table-pagination .row {
+  margin-top: 0px !important;
+}
+.react-bs-table .react-bs-container-header .sort-column,
+td.react-bs-table-expand-cell {
+  padding-left: 0px;
+  padding-right: 0px;
+}
+.custom-padding-left {
+  padding-left: 5px;
+}
+.margin-l-20 {
+  margin-left: 20px;
+}
+.sku-view {
+  display: flex;
+  flex-direction: row;
+}
+.half-width {
+  width: 50%;
+}
+.iconSpan {
+  float: left;
+}
+.first-price {
+  width: 80%;
+  float: left;
+  padding-left: 10px;
+  white-space: normal;
+}
+.first-price-customer {
+  width: 60%;
+}
+.second-price {
+  width: 0%;
+  float: left;
+  text-align: center;
+  display: block;
+  min-height: 18px;
+}
+.third-price {
+  width: 20%;
+  float: left;
+  white-space: normal;
+}
+.price-title {
+  font-family: $ubuntu-bold;
+  font-size: $size-16;
+  color: $grey;
+  text-decoration: none solid $grey;
+}
+.alt-price-title {
+  display: inline-block;
+  width: 20px;
+  margin-left: 2px;
+}
+.price-value {
+  font-family: $ubuntu-bold;
+  font-size: 36px;
+  color: $main-blue-color;
+  text-decoration: none solid $main-blue-color;
+}
+.price-percent {
+  font-family: $ubuntu-bold;
+  font-size: $size-16;
+  color: $japanese-laurel-light;
+  text-decoration: none solid $japanese-laurel-light;
+}
+.price-percent-down {
+  font-family: $ubuntu-bold;
+  font-size: $size-16;
+  color: $main-red-color;
+  text-decoration: none solid $main-red-color;
+}
+.price-percent-neutral {
+  font-family: $ubuntu-bold;
+  font-size: $size-16;
+  color: $grey;
+  text-decoration: none solid $grey;
+}
+.price-period {
+  font-family: $ubuntu-bold;
+  font-size: $size-12;
+  color: $grey-color-metrics;
+  text-decoration: none solid $grey-color-metrics;
+}
+.half-height {
+  text-align: left;
+}
+.arrow-icon {
+  width: 15px;
+  height: 15px;
+}
+.grid-item {
+  width: $full-width;
+  height: 100px;
+  background: $pure-white;
+}
+.price-card-style {
+  border: 1px solid $light-gray-color;
+  border-radius: 2px;
+  background-color: $pure-white;
+  box-shadow: 0 1px 2px $pure-black;
+  height: 100%;
+  .exploreMetrics {
+    cursor: pointer;
+  }
+}
+.border-red {
+  border: 1px solid $main-red-color !important;
+}
+.card-header-style {
+  padding: 0px !important;
+  height: 110px;
+}
+.card-header-style button {
+  position: absolute !important;
+  bottom: 0px !important;
+  right: -5px !important;
+  top: 75px !important;
+  color: $light-gray-color !important;
+}
+.statistics-icon {
+  width: 100%;
+  padding-left: 10px;
+  padding-right: 10px;
+}
+.price-description {
+  font-family: $ubuntu-regular;
+  font-size: $size-12;
+  color: $smooth-grey;
+  text-decoration: none solid $smooth-grey;
+  white-space: normal;
+  display: none;
+}
+.price-view {
+  background: $pure-white;
+}
+.expand-content {
+  padding: 0px !important;
+}
+
+.item {
+  display: inline-block;
+  margin: 0 0 1em;
+  width: 90%;
+}
+.open-icon {
+  display: none;
+}
+.close-icon {
+  width: 32px;
+  height: 32px;
+}
+.expand-close-icon {
+  width: 32px;
+  height: 32px;
+}
+.analyze-button {
+  margin-top: 10px;
+  padding: 6px 10px;
+  border: 1px solid $light-gray-color;
+  border-radius: 2px;
+  background-color: $main-blue-color;
+  font-family: $ubuntu-bold;
+  font-size: $size-14;
+  color: $pure-white;
+  text-decoration: none solid $pure-white;
+}
+.loading-placeholder-rect-media {
+  .round-shape {
+    border-radius: 0 !important;
+  }
+}
+
+
 @media only screen and (max-width: 1024px) {
   .analysis {
     #cardSection {

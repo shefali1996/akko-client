@@ -1,0 +1,190 @@
+.close-button {
+  width: 43px;
+  height: 43px;
+  fill: $light-gray-color;
+  background-image: url("../assets/images/close.svg");
+  background-repeat: no-repeat;
+  background-color: transparent;
+  border: none;
+  background-size: contain;
+}
+
+.skip-button {
+  width: 119px;
+  height: 29px;
+  padding: 6px 10px;
+  background-color: $white-color;
+  font-family: $ubuntu-regular;
+  font-size: $size-14;
+  color: $light-gray-color;
+  text-decoration: none solid $main-decoration-color;
+  text-align: center;
+  box-shadow: 0 1px 2px rgba($pure-black, 0.5);
+  border: none;
+  border-radius: 0;
+}
+
+.logout-button {
+  width: 43px;
+  height: 43px;
+  fill: $light-gray-color;
+  background-image: url("../assets/images/logout.svg");
+  background-repeat: no-repeat;
+  background-color: transparent;
+  border: none;
+  background-size: contain;
+}
+
+.set-cogs-finish-button {
+  width: 131px;
+  height: 44px;
+  padding: 6px 10px;
+  background-color: $main-blue-color;
+  font-family: $ubuntu-regular;
+  font-size: $size-16;
+  color: $white-color;
+  text-decoration: none solid $dark-purple;
+  text-align: center;
+  box-shadow: none solid $main-decoration-color;
+  border: none;
+  border-radius: 0;
+}
+
+.fetch-status-button {
+  width: 110px;
+  height: 34px;
+  padding: 6px 10px;
+  background-color: $white-color;
+  font-family: $ubuntu-regular;
+  font-size: $size-14;
+  color: $main-blue-color;
+  text-decoration: none solid $main-decoration-color;
+  text-align: center;
+  box-shadow: 0 1px 2px rgba($pure-black, 0.5);
+  border: none;
+  border-radius: 0;
+}
+
+.login-button {
+  width: 100px;
+  height: 34px;
+  padding: 6px 10px;
+  background-color: $white-color;
+  font-family: $ubuntu-regular;
+  font-size: $size-14;
+  color: $main-blue-color;
+  text-decoration: none solid $main-decoration-color;
+  text-align: center;
+  box-shadow: 0 1px 2px rgba($pure-black, 0.5);
+  border: none;
+  border-radius: 0;
+}
+
+.reset-password-button {
+  width: 150px;
+  height: 34px;
+  padding: 6px 10px;
+  background-color: $white-color;
+  font-family: $ubuntu-regular;
+  font-size: $size-14;
+  color: $main-blue-color;
+  text-decoration: none solid $main-decoration-color;
+  text-align: center;
+  box-shadow: 0 1px 2px rgba($pure-black, 0.5);
+  border: none;
+  border-radius: 0;
+}
+
+.upload-csv-button {
+  width: 120px;
+  height: 34px;
+  padding: 6px 10px;
+  background-color: $white-color;
+  font-family: $ubuntu-regular;
+  font-size: $size-14;
+  color: $dark-purple;
+  text-decoration: none solid $main-decoration-color;
+  text-align: center;
+  box-shadow: 0 1px 2px rgba($pure-black, 0.5);
+  border: none;
+  border-radius: 0;
+  cursor: pointer;
+}
+
+.cogs-page-button {
+  .btn-icon {
+    padding-right: 3px;
+    display: inline-block;
+    img {
+      height: 24px;
+      width: 24px;
+    }
+  }
+  height: auto;
+  width: auto;
+  padding: 8px 10px;
+  background-color: $main-blue-color;
+  font-family: $ubuntu-regular;
+  font-size: $size-14;
+  color: $white-color;
+  text-decoration: none solid $main-decoration-color;
+  text-align: center;
+  box-shadow: 0 1px 2px rgba($pure-black, 0.5);
+  border: none;
+  border-radius: 0;
+}
+
+.signup-button-text {
+  background-color: $main-blue-color;
+  background-repeat: no-repeat;
+  font-family: $ubuntu-regular;
+  font-size: $size-14;
+  color: $pure-white;
+  text-decoration: none solid rgba($pure-white, 0.84);
+  text-align: center;
+  box-shadow: 0 1px 2px rgba($pure-black, 0.5);
+  border: none;
+  border-radius: 0;
+  padding: 6px 10px;
+  border-radius: 2px;
+  font-weight: bold;
+}
+
+//button outline
+.close-button:active,
+.close-button:hover,
+.close-button:focus,
+.close-button:active:focus,
+.logout-button:active,
+.logout-button:hover,
+.logout-button:focus,
+.logout-button:active:focus,
+.fetch-status-button:active,
+.fetch-status-button:hover,
+.fetch-status-button:focus,
+.fetch-status-button:active:focus,
+.login-button:active,
+.login-button:hover,
+.login-button:focus,
+.login-button:active:focus,
+.reset-password-button:active,
+.reset-password-button:hover,
+.reset-password-button:focus,
+.reset-password-button:active:focus,
+.set-cogs-finish-button:active,
+.set-cogs-finish-button:hover,
+.set-cogs-finish-button:active:focus,
+.skip-button:active,
+.skip-button:hover,
+.skip-button:focus,
+.skip-button:active:focus,
+.cogs-page-button:active,
+.cogs-page-button:hover,
+.cogs-page-button:focus,
+.cogs-page-button:active:focus,
+.signup-button-text:active,
+.signup-button-text:hover,
+.signup-button-text:focus,
+.signup-button-text:active:focus {
+  outline: none;
+}

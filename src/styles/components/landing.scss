@@ -1,571 +1,557 @@
-
 .large-title {
-	font-family: $ubuntu-bold;
-	font-size: $size-30;
-	color: $main-blue-color;
-	text-decoration: none solid $main-blue-color;
-	text-align: center;
+  font-family: $ubuntu-bold;
+  font-size: $size-30;
+  color: $main-blue-color;
+  text-decoration: none solid $main-blue-color;
+  text-align: center;
 }
 .middle-title {
-	font-family: $ubuntu-regular;
-	font-size: $size-16;
-	color: $main-blue-color;
-	text-decoration: none solid $main-blue-color;
-	text-align: center;
-	width: 100%;
+  font-family: $ubuntu-regular;
+  font-size: $size-16;
+  color: $main-blue-color;
+  text-decoration: none solid $main-blue-color;
+  text-align: center;
+  width: $full-width;
 }
-.smaller-text{
-	font-family: $ubuntu-regular;
-	font-size: $size-14;
-	color: $gray-color;
-	text-decoration: none solid rgb(119, 119, 119);
-	text-align: center;
+.smaller-text {
+  font-family: $ubuntu-regular;
+  font-size: $size-14;
+  color: $gray-color;
+  text-decoration: none solid $gray-color;
+  text-align: center;
 }
 .main-layout {
-	width: 100%;
-	background-position: center center;
+  width: $full-width;
+  background-position: center center;
 }
 .top-border {
-	padding-top: 20px;
+  padding-top: 20px;
 }
 .padding-header {
-	padding-left: 70px;
-	padding-right: 70px;
-	padding-bottom: 20px;
+  padding-left: 70px;
+  padding-right: 70px;
+  padding-bottom: 20px;
 }
 .company-title {
-	font-family: $ubuntu-light;
-	font-size: $size-16;
-	color: $main-blue-color;
-	text-decoration: none solid $main-decoration-color;
-	background: none;
+  font-family: $ubuntu-light;
+  font-size: $size-16;
+  color: $main-blue-color;
+  text-decoration: none solid $main-decoration-color;
+  background: none;
 }
 .contact-title {
-	font-family: $ubuntu-light;
-	font-size: $size-16;
-	color: $main-blue-color;
-	text-decoration: none solid $main-decoration-color;
-	background: none;
-	padding: 0;
+  font-family: $ubuntu-light;
+  font-size: $size-16;
+  color: $main-blue-color;
+  text-decoration: none solid $main-decoration-color;
+  background: none;
+  padding: 0;
 }
-.macbook-container{
-	text-align: center;
-	img{
-		width: 100%
-	}
+.macbook-container {
+  text-align: center;
+  img {
+    width: 100%;
+  }
 }
-.bg-blue{
-	background-color: $main-blue-color;
+.bg-blue {
+  background-color: $main-blue-color;
 }
-.header{
-	position: fixed;
-	z-index: 1111;
-	background: #fff;
-	left: 0;
-	right: 0;
+.header {
+  position: fixed;
+  z-index: 1111;
+  background: $pure-white;
+  left: 0;
+  right: 0;
 }
-.body{
-	display: block;
-	margin-top: 70px;
+.body {
+  display: block;
+  margin-top: 70px;
 }
 .header-title {
-	font-family: $ubuntu-bold;
-	font-size: $size-32;
-	color: $main-blue-color;
-	text-decoration: none solid $main-decoration-color;
-	background: none;
-	padding: 0;
+  font-family: $ubuntu-bold;
+  font-size: $size-32;
+  color: $main-blue-color;
+  text-decoration: none solid $main-decoration-color;
+  background: none;
+  padding: 0;
 }
 .headerIcon {
-	width: 23px;
-	height: 23px;
+  width: 23px;
+  height: 23px;
 }
-.section-container{
-	max-width: 1305px;
-	margin: 0 auto;
+.section-container {
+  max-width: 1305px;
+  margin: 0 auto;
 }
 .logo-title {
-	font-family: $ubuntu-bold;
-	font-size: $size-32;
-	font-weight:400;
-	color: $main-blue-color;
-	text-decoration: none solid $main-decoration-color;
-	background: none;
-	display: block;
-	text-align: left;
-	padding-left: 15px;
+  font-family: $ubuntu-bold;
+  font-size: $size-32;
+  font-weight: 400;
+  color: $main-blue-color;
+  text-decoration: none solid $main-decoration-color;
+  background: none;
+  display: block;
+  text-align: left;
+  padding-left: 15px;
 }
 .landing-email-input {
-	width: 40%;
-	height: 43px;
-	padding: 0px 10px;
-	border: 1px solid $light-gray-color;
-	border-radius: 2px;
-	background-color: $white-color;
-	font-family: $ubuntu-regular;
-	font-size: $size-14;
-	color: $light-gray-color;
-	text-decoration: none solid $main-decoration-color;
-	line-height: 14px;
-	// margin-top: 10px;
+  width: 40%;
+  height: 43px;
+  padding: 0px 10px;
+  border: 1px solid $light-gray-color;
+  border-radius: 2px;
+  background-color: $pure-white;
+  font-family: $ubuntu-regular;
+  font-size: $size-14;
+  color: $light-gray-color;
+  text-decoration: none solid $main-decoration-color;
+  line-height: 14px;
+  // margin-top: 10px;
 }
 .shopify-landing-icon {
-	width: 81px;
-	height: 23px;
-	margin-right: 5px;
-	margin-left: 10px;
+  width: 81px;
+  height: 23px;
+  margin-right: 5px;
+  margin-left: 10px;
 }
 .small-title {
-	font-family: $ubuntu-regular;
-	font-size: $size-16;
-	color: $white-color;
-	text-decoration: none solid $white-color;
-	text-align: center;
-	vertical-align: bottom;
+  font-family: $ubuntu-regular;
+  font-size: $size-16;
+  color: $pure-white;
+  text-decoration: none solid $pure-white;
+  text-align: center;
+  vertical-align: bottom;
 }
 .invite-text {
-	font-family: $ubuntu-light;
-	font-size: $size-24;
-	color: $white-color;
-	text-decoration: none solid $white-color;
-	text-align: center;
+  font-family: $ubuntu-light;
+  font-size: $size-24;
+  color: $pure-white;
+  text-decoration: none solid $pure-white;
+  text-align: center;
 }
 .invite-button {
-	width: 146px;
-	height: 43px;
-	padding: 6px 10px;
-	border-radius: 5px;
-	background-color: #e8e8e8;
-	font-family: $ubuntu-regular;
-	font-size: $size-14;
-	color: $dark-purple;
-	text-decoration: none solid $main-decoration-color;
-	text-align: center;
-	box-shadow: 0 1px 2px $black-color;
-	margin-top: 10px;
-	margin-left: 20px;
+  width: $full-width;
+  height: $full-height;
+  padding: 10px 25px;
+  border-radius: 5px;
+  background-color: $light-gray-color-1;
+  font-family: $ubuntu-regular;
+  font-size: $size-14;
+  color: $pure-white;
+  text-decoration: none solid $main-decoration-color;
+  text-align: center;
+  box-shadow: 0 1px 2px $black-color;
+  display: block;
+  background: transparent;
+  margin-top: 0;
+  margin-left: 0;
 }
 .recapture-text {
-	font-family: $ubuntu-light;
-	font-size: $size-24;
-	color: $white-color;
-	text-decoration: none solid $white-color;
-	text-align: center;
-	margin-top: 70px;
+  font-family: $ubuntu-light;
+  font-size: $size-24;
+  color: $pure-white;
+  text-decoration: none solid $pure-white;
+  text-align: center;
+  margin-top: 70px;
 }
 .landing-image-one {
-	width: 100%;
-	height: auto;
+  width: $full-width;
+  height: auto;
 }
 .landing-image-two {
-	width: 100%;
-	height: auto;
+  width: $full-width;
+  height: auto;
 }
 .landing-image-three {
-	width: 100%;
-	height: auto;
+  width: $full-width;
+  height: auto;
 }
 .inventory-text {
-	font-family: $ubuntu-light;
-	font-size: $size-24;
-	color: $white-color;
-	text-decoration: none solid $white-color;
-	text-align: center;
-	margin-top: 90px;
+  font-family: $ubuntu-light;
+  font-size: $size-24;
+  color: $pure-white;
+  text-decoration: none solid $pure-white;
+  text-align: center;
+  margin-top: 90px;
 }
 .sale-text-one {
-	width: 100%;
-	height: 58px;
-	font-family: $ubuntu-regular;
-	font-size: $size-16;
-	color: $white-color;
-	text-decoration: none solid $white-color;
-	text-align: center;
-	margin: 10px;
+  width: 100%;
+  height: 58px;
+  font-family: $ubuntu-regular;
+  font-size: $size-16;
+  color: $pure-white;
+  text-decoration: none solid $pure-white;
+  text-align: center;
+  margin: 10px;
 }
 .email-view {
-	width: 70%;
-	margin: auto;
-	display: flex;
-	justify-content: center;
-	.input-group-addon{
-		padding: 0px;
+  width: 70%;
+  margin: auto;
+  display: flex;
+  justify-content: center;
+  .input-group-addon {
+    padding: 0px;
     line-height: inherit;
-		border-color: $main-blue-color;
-		border-radius: 2px;
-		background-color: $main-blue-color;
-		font-family: Open Sans;
-		font-size: 16px;
-		color: $white-color;
-		text-decoration: none solid $white-color;
-		text-align: center;
-		cursor: pointer;
-		border-top-left-radius: 0px;
-		border-bottom-left-radius: 0px;
-	}
-	.invite-button{
-		padding: 10px 25px;
-		display: block;
-		width: 100%;
-		height: 100%;
+    border-color: $main-blue-color;
+    border-radius: 2px;
+    background-color: $main-blue-color;
+    font-family: $open-sans;
+    font-size: 16px;
+    color: $pure-white;
+    text-decoration: none solid $pure-white;
+    text-align: center;
+    cursor: pointer;
+    border-top-left-radius: 0px;
+    border-bottom-left-radius: 0px;
+  }
+  .invite-button {
+    padding: 10px 25px;
+    display: block;
+    width: $full-width;
+    height: $full-height;
     background: transparent;
-		color: $white-color;
-		box-shadow: none;
-		margin-top: 0;
-		margin-left: 0;
-	}
-	.form-group{
-		margin-bottom: 5px;
-	}
+    color: $pure-white;
+    box-shadow: none;
+    margin-top: 0;
+    margin-left: 0;
+  }
+  .form-group {
+    margin-bottom: 5px;
+  }
 }
-.sec-1-left-container{
-	width: 100%;
-	max-width: 608px;
-	margin: 0px auto;
-	display: block
+.sec-1-left-container {
+  width: 100%;
+  max-width: 608px;
+  margin: 0px auto;
+  display: block;
 }
-.lading-sec-2{
-	padding: 40px 20px;
-	.content-blocks{
-		display: inline-block;
-		margin-top: 20px;
-		min-height: 130px;
-	}
-	.image-container{
-		float: left;
-		min-width: 40px;
-		width: 25%;
-		text-align: right;
-		img{
-			width: 40px;
-			margin-top: 8px;
-			margin-right: 10px;
-		}
-	}
-	.text-container{
-		float: left;
-		width: 70%;
-		text-align: center;
-	}
-	.title{
-		font-family: $ubuntu-bold;
-		font-size: 20px;
-		color: $white-color;
-		text-decoration: none solid $white-color;
-		text-align: center;
-	}
-	.text{
-		font-family: $open-sans;
-		font-size: 14px;
-		color: $white-color;
-		text-decoration: none solid $white-color;
-		text-align: center;
-		margin-top: 7px;
-	}
+.lading-sec-2 {
+  padding: 40px 20px;
+  .content-blocks {
+    display: inline-block;
+    margin-top: 20px;
+    min-height: 130px;
+  }
+  .image-container {
+    float: left;
+    min-width: 40px;
+    width: 25%;
+    text-align: right;
+    img {
+      width: 40px;
+      margin-top: 8px;
+      margin-right: 10px;
+    }
+  }
+  .text-container {
+    float: left;
+    width: 70%;
+    text-align: center;
+  }
+  .title {
+    font-family: $ubuntu-bold;
+    font-size: 20px;
+    color: $pure-white;
+    text-decoration: none solid $pure-white;
+    text-align: center;
+  }
+  .text {
+    font-family: $open-sans;
+    font-size: 14px;
+    color: $pure-white;
+    text-decoration: none solid $pure-white;
+    text-align: center;
+    margin-top: 7px;
+  }
 }
-.landing-sec-3{
-	.placeholder-image{
-		width: 95%;
-		margin: 0px auto;
-		filter: drop-shadow(2px 2px 2px rgba(0,0,0,0.2));
-	}
-	.text-container{
-		color: #000000;
-		text-decoration: none solid rgb(0, 0, 0);
-		width: 77%;
-		margin: 30px auto;
-		text-align: left;
-		.title{
-			font-size: 20px;
-			font-family: $open-sans;
-			font-weight: 600;
-		}
-		.text{
-			font-size: 14px;
-			font-family: $open-sans;
-			margin-top: 15px;
-		}
-	}
-	.blocks-padding-y{
-		padding-top: 100px;
-		padding-bottom: 100px;
-	}
+.landing-sec-3 {
+  .placeholder-image {
+    width: 95%;
+    margin: 0px auto;
+    filter: drop-shadow(2px 2px 2px rgba($pure-black, 0.2));
+  }
+  .text-container {
+    color: $pure-black;
+    text-decoration: none solid $pure-black;
+    width: 77%;
+    margin: 30px auto;
+    text-align: left;
+    .title {
+      font-size: 20px;
+      font-family: $open-sans;
+      font-weight: 600;
+    }
+    .text {
+      font-size: 14px;
+      font-family: $open-sans;
+      margin-top: 15px;
+    }
+  }
+  .blocks-padding-y {
+    padding-top: 100px;
+    padding-bottom: 100px;
+  }
 }
-.lading-sec-4{
-	padding: 40px 20px;
-	color: $white-color;
-	text-decoration: none solid $white-color;
-	text-align: center;
-	.title{
-		font-family: $open-sans;
-		font-size: 32px;
-		font-weight: 600;
-	}
-	.text{
-		font-family: $open-sans;
-		font-size: 24px;
-		margin-top: 7px;
-	}
-	.email{
+.lading-sec-4 {
+  padding: 40px 20px;
+  color: $pure-white;
+  text-decoration: none solid $pure-white;
+  text-align: center;
+  .title {
+    font-family: $open-sans;
+    font-size: 32px;
+    font-weight: 600;
+  }
+  .text {
+    font-family: $open-sans;
+    font-size: 24px;
+    margin-top: 7px;
+  }
+  .email {
     text-decoration: underline;
-	}
+  }
 }
-.landing-sec-5{
-	max-width: 608px;
-	margin: 60px auto;
+.landing-sec-5 {
+  max-width: 608px;
+  margin: 60px auto;
 }
 .seek-text {
-	font-family: $ubuntu-light;
-	font-size: $size-24;
-	color: $white-color;
-	text-decoration: none solid $white-color;
-	text-align: center;
+  font-family: $ubuntu-light;
+  font-size: $size-24;
+  color: $pure-white;
+  text-decoration: none solid $pure-white;
+  text-align: center;
 }
 .productive-text-view {
-	margin-top: 40px;
+  margin-top: 40px;
 }
 .request-view {
-	text-align: center;
-	margin-top: 40px;
+  text-align: center;
+  margin-top: 40px;
 }
 .inventory-image-view {
-	padding: 0px;
+  padding: 0px;
 }
 .dashboard-image-view {
-	padding: 0px;
+  padding: 0px;
 }
 .landing-one-view {
-	text-align: center;
-	padding: 0px;
+  text-align: center;
+  padding: 0px;
 }
 
 @media screen and (max-width: 1200px) {
-	.landing-sec-3{
-		.text-container{
-			width: 100%;
-			margin: 10px auto;
-		}
-		.blocks-padding-y{
-			padding-top: 80px;
-			padding-bottom: 80px;
-		}
-	}
+  .landing-sec-3 {
+    .text-container {
+      width: 100%;
+      margin: 10px auto;
+    }
+    .blocks-padding-y {
+      padding-top: 80px;
+      padding-bottom: 80px;
+    }
+  }
 }
 @media screen and (max-width: 991px) {
-	.landing-sec-3{
-		.text-container{
-			width: 70%;
-			margin: 30px auto;
-		}
-	}
+  .landing-sec-3 {
+    .text-container {
+      width: 70%;
+      margin: 30px auto;
+    }
+  }
 }
 @media screen and (min-width: 992px) and (max-width: 1199px) {
-	.recapture-text {
-		margin-top: 30px;
-		font-size: $size-22;
-	}
-	.inventory-text {
-		margin-top: 30px;
-		font-size: $size-22;
-	}
-	.request-view {
-		margin-top: 30px;
-	}
-	.productive-text-view {
-		margin-top: 90px;
-	}
-	.sale-text-one {
-		font-size: $size-12;
-	}
-	.landing-sec-3{
-		.blocks-padding-y{
-			padding-top: 70px;
-			padding-bottom: 70px;
-		}
-	}
+  .recapture-text {
+    margin-top: 30px;
+    font-size: $size-22;
+  }
+  .inventory-text {
+    margin-top: 30px;
+    font-size: $size-22;
+  }
+  .request-view {
+    margin-top: 30px;
+  }
+  .productive-text-view {
+    margin-top: 90px;
+  }
+  .sale-text-one {
+    font-size: $size-12;
+  }
+  .landing-sec-3 {
+    .blocks-padding-y {
+      padding-top: 70px;
+      padding-bottom: 70px;
+    }
+  }
 }
 @media screen and (min-width: 768px) and (max-width: 991px) {
-	.invite-text {
-		font-size: $size-20;
-	}
-	.recapture-text {
-		margin-top: 15px;
-		font-size: $size-18;
-	}
-	.inventory-text {
-		margin-top: 25px;
-		font-size: $size-18;
-	}
-	.request-view {
-		margin-top: 10px;
-	}
-	.productive-text-view {
-		margin-top: 50px;
-	}
-	.dashboard-image-view {
-		padding-right: 15px;
-		padding-left: 15px;
-	}
-	.inventory-image-view {
-		padding-left: 15px;
-		padding-right: 15px;
-	}
+  .invite-text {
+    font-size: $size-20;
+  }
+  .recapture-text {
+    margin-top: 15px;
+    font-size: $size-18;
+  }
+  .request-view {
+    margin-top: 10px;
+  }
+  .productive-text-view {
+    margin-top: 50px;
+  }
+  .dashboard-image-view {
+    padding-right: 15px;
+    padding-left: 15px;
+  }
 }
 @media screen and (max-width: 767px) {
-	.main-layout {
-		overflow-x: hidden;
-	}
-	.header-title {
-		display: none;
-	}
-	.padding-header {
-		padding: 20px;
-		display: flex;
-		justify-content: center;
-	}
-	.top-border {
-		padding: 0px;
-	}
-	.sale-text-one {
-		font-size: 8px;
-		height: unset;
-	}
-	.productive-text-view {
-		margin-top: 10px;
-	}
-	.large-title {
-		font-size: $size-20;
-	}
-	.middle-title {
-		font-size: 13px;
-	}
-	.landing-email-input {
-		width: 80%;
-	}
-	.email-view {
-		display: flex;
-		flex-direction: column;
-		align-items: center;
-	}
-	.request-view {
-		text-align: center;
-		margin-top: 10px;
-	}
-	.logo-title {
-		font-size: 26px;
-	}
-	.small-title {
-		font-size: $size-12;
-	}
-	.invite-text {
-		font-size: $size-14;
-	}
-	.invite-button {
-		font-size: 10px;
-		width: 100px;
-		height: 35px;
-		margin-left: 0px;
-	}
-	.recapture-text {
-		margin-top: 20px;
-		font-size: $size-14;
-	}
-	.inventory-text {
-		margin-top: 20px;
-		font-size: $size-14;
-	}
-	.seek-text {
-		margin-top: 20px;
-		font-size: $size-16;
-		height: 50px;
-	}
-	.landing-image-two {
-		width: 100%;
-	}
-	.inventory-image-view {
-		margin-left: 15px;
-		margin-right: 15px;
-		overflow: hidden;
-		position: relative;
-	}
-	.dashboard-image-view {
-		padding-left: 15px;
-		padding-right: 15px;
-		overflow: hidden;
-		width: 100%;
-	}
-	.landing-image-three {
-		height: auto;
-	}
-	.landing-image-three-repeat {
-		width: 200%;
-		height: auto;
-		right: 0;
-		bottom: 0;
-		position: absolute;
-	}
-	.landing-one-view {
-		margin-right: 15px;
-		margin-left: 15px;
-	}
-	.landing-image-one {
-		width: 70%;
-		height: auto;
-	}
-	.landing-sec-3{
-		.blocks-padding-y{
-			padding-top: 60px;
-			padding-bottom: 60px;
-		}
-	}
+  .main-layout {
+    overflow-x: hidden;
+  }
+  .header-title {
+    display: none;
+  }
+  .padding-header {
+    padding: 20px;
+    display: flex;
+    justify-content: center;
+  }
+  .top-border {
+    padding: 0px;
+  }
+  .sale-text-one {
+    font-size: 8px;
+    height: unset;
+  }
+  .productive-text-view {
+    margin-top: 10px;
+  }
+  .large-title {
+    font-size: $size-20;
+  }
+  .middle-title {
+    font-size: 13px;
+  }
+  .landing-email-input {
+    width: 80%;
+  }
+  .email-view {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+  .request-view {
+    text-align: center;
+    margin-top: 10px;
+  }
+  .logo-title {
+    font-size: 26px;
+  }
+  .small-title {
+    font-size: $size-12;
+  }
+  .invite-text {
+    font-size: $size-14;
+  }
+  .invite-button {
+    font-size: 10px;
+    width: 100px;
+    height: 35px;
+    margin-left: 0px;
+  }
+  .recapture-text {
+    margin-top: 20px;
+    font-size: $size-14;
+  }
+
+  .seek-text {
+    margin-top: 20px;
+    font-size: $size-16;
+    height: 50px;
+  }
+  .landing-image-two {
+    width: $full-width;
+  }
+ 
+  .dashboard-image-view {
+    padding-left: 15px;
+    padding-right: 15px;
+    overflow: hidden;
+    width: $full-width;
+  }
+  .landing-image-three {
+    height: auto;
+  }
+  .landing-image-three-repeat {
+    width: 2 * $full-width;
+    height: auto;
+    right: 0;
+    bottom: 0;
+    position: absolute;
+  }
+  .landing-one-view {
+    margin-right: 15px;
+    margin-left: 15px;
+  }
+  .landing-image-one {
+    width: 70%;
+    height: auto;
+  }
+  .landing-sec-3 {
+    .blocks-padding-y {
+      padding-top: 60px;
+      padding-bottom: 60px;
+    }
+  }
 }
 @media screen and (max-width: 600px) {
-	.lading-sec-2{
-		padding: 15px;
-		.content-blocks{
-			width: 100%;
-			min-width: 100%;
-			min-height: auto;
-			padding: 0px;
-		}
-	}
+  .lading-sec-2 {
+    padding: 15px;
+    .content-blocks {
+      width: $full-width;
+      min-width: $full-width;
+      min-height: auto;
+      padding: 0px;
+    }
+  }
 }
 @media screen and (max-width: 450px) {
-	.landing-sec-5, .sec-1-left-container{
-		.content-blocks{
-			padding: 0px;
-		}
-		.content-blocks-email{
-			padding: 0px;
-			margin-top: 40px;
-		}
-	}
-	.landing-sec-5{
-		margin: 30px auto;
-	}
-	.email-view{
-		width: 100%;
-	}
-	.landing-sec-3 {
-		.placeholder-image{
-			width: 80%;
-		}
-		.text-container{
-			width: 100%;
-		}
-		.blocks-padding-y{
-			padding-top: 40px;
-			padding-bottom: 40px;
-		}
-	}
-	.lading-sec-4{
-		padding: 15px;
+  .landing-sec-5,
+  .sec-1-left-container {
+    .content-blocks {
+      padding: 0px;
+    }
+    .content-blocks-email {
+      padding: 0px;
+      margin-top: 40px;
+    }
+  }
+  .landing-sec-5 {
+    margin: 30px auto;
+  }
+  .email-view {
+    width: $full-width;
+  }
+  .landing-sec-3 {
+    .placeholder-image {
+      width: 80%;
+    }
+    .text-container {
+      width: $full-width;
+    }
+    .blocks-padding-y {
+      padding-top: 40px;
+      padding-bottom: 40px;
+    }
+  }
+  .lading-sec-4 {
+    padding: 15px;
     margin-top: 10px;
-		.title{
-			font-size: 30px;
-		}
-		.text{
-			font-size: 20px;
-		}
-	}
+    .title {
+      font-size: 30px;
+    }
+    .text {
+      font-size: 20px;
+    }
+  }
 }

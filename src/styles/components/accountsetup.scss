@@ -1,519 +1,453 @@
 .shopify-comment {
-	font-family: $ubuntu-regular;
-	font-size: $size-20;
-	color: $main-blue-color;
-	text-decoration: none solid rgb(87, 93, 222);
-	text-align: center;
+  font-family: $ubuntu-regular;
+  font-size: $size-20;
+  color: $main-blue-color;
+  text-decoration: none solid $main-blue-color;
+  text-align: center;
 }
 .shopify-input-view {
-	display: flex;
-	flex-direction: row;
-	justify-content: center;
-	align-items: center;
-	margin-top: 60px;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  margin-top: 60px;
 }
 .shopify-icon {
-	width: 37px;
-	height: 37px;
-	margin-right: 10px;
+  width: 37px;
+  height: 37px;
+  margin-right: 10px;
 }
 .shopify-url-text {
-	font-family: $ubuntu-regular;
-	font-size: $size-20;
-	color: $main-blue-color;
-	text-decoration: none solid rgb(87, 93, 222);
-	text-align: center;
-	margin-left: 5px;
+  font-family: $ubuntu-regular;
+  font-size: $size-20;
+  color: $main-blue-color;
+  text-decoration: none solid $main-blue-color;
+  text-align: center;
+  margin-left: 5px;
 }
 .shopify-instruction-text {
-	font-family: $ubuntu-regular;
-	font-size: $size-16;
-	color: $main-blue-color;
-	text-decoration: none solid rgb(87, 93, 222);
-	text-align: center;
+  font-family: $ubuntu-regular;
+  font-size: $size-16;
+  color: $main-blue-color;
+  text-decoration: none solid $main-blue-color;
+  text-align: center;
 }
 .bubble-alert-view {
-	height: 20px;
-	display: flex;
-	flex-direction: row;
-	align-items: center;
-	justify-content: center;
-	margin-top: 5px;
+  height: 20px;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  margin-top: 5px;
 }
 .alert-text {
-	color: #822510;
-	font-family: $ubuntu-regular;
-	font-size: $size-14;
-	text-decoration: none solid rgb(87, 93, 222);
-	text-align: center;
-	margin-left: 15px;
+  color: $pure-red;
+  font-family: $ubuntu-regular;
+  font-size: $size-14;
+  text-decoration: none solid $main-blue-color;
+  text-align: center;
+  margin-left: 15px;
 }
 .red-mark {
-	color: #822510;
-	margin-left: 5px;
+  color: $pure-red;
+  margin-left: 5px;
 }
 .account-setup-header {
-	text-align: right;
-	margin-top: 20px;
-	margin-left: 0px;
-	margin-right: 0px;
-	padding-bottom: 10px;
-	border-bottom: 1px solid $light-gray-color;
+  text-align: right;
+  margin-top: 20px;
+  margin-left: 0px;
+  margin-right: 0px;
+  padding-bottom: 10px;
+  border-bottom: 1px solid $light-gray-color;
 }
-.devider{
-	border-bottom: 1px solid $light-gray-color;
+.devider {
+  border-bottom: 1px solid $light-gray-color;
 }
 .account-comment {
-	font-family: $ubuntu-bold;
-	font-size: $size-24;
-	color: $main-blue-color;
-	text-decoration: none solid rgb(87, 93, 222);
-	text-align: center;
+  font-family: $ubuntu-bold;
+  font-size: $size-24;
+  color: $main-blue-color;
+  text-decoration: none solid $main-blue-color;
+  text-align: center;
 }
 .select-style-text {
-	font-family: $ubuntu-regular;
-	font-size: $size-24;
-	color: $main-blue-color;
-	text-decoration: none solid rgb(87, 93, 222);
-	text-align: center;
+  font-family: $ubuntu-regular;
+  font-size: $size-24;
+  color: $main-blue-color;
+  text-decoration: none solid $main-blue-color;
+  text-align: center;
 }
 .login-layout {
-	.select-style-text {
-		sup{
-			cursor: pointer;
-			margin: -3px;
-			top: -12px;
-			span{
-				border: 1px solid $light-gray-color-1;
-				border-radius: 12px;
-				font-size: 12px;
-				padding: .5px 5.5px;
-			}
-		}
-		sup:hover+.cogs-tips{
-			display: block;
-		}
-		.cogs-tips{
-			display: none;
-	    position: absolute;
-			top: 30px;
-			left: 120px;
-			z-index: 1;
-		}
-	}
+  .select-style-text {
+    sup {
+      cursor: pointer;
+      margin: -3px;
+      top: -12px;
+      span {
+        border: 1px solid $light-gray-color-1;
+        border-radius: 12px;
+        font-size: 12px;
+        padding: 0.5px 5.5px;
+      }
+    }
+    sup:hover + .cogs-tips {
+      display: block;
+    }
+    .cogs-tips {
+      display: none;
+      position: absolute;
+      top: 30px;
+      left: 120px;
+      z-index: 1;
+    }
+  }
 }
 
 .select-style-comment {
-	font-family: $ubuntu-regular;
-	font-size: $size-16;
-	color: $main-blue-color;
-	text-decoration: none solid rgb(87, 93, 222);
-	text-align: center;
+  font-family: $ubuntu-regular;
+  font-size: $size-16;
+  color: $main-blue-color;
+  text-decoration: none solid $main-blue-color;
+  text-align: center;
 }
 .select-style-comment-small {
-	font-family: $ubuntu-regular;
-	font-size: $size-14;
-	color: $main-blue-color;
-	text-decoration: none solid rgb(87, 93, 222);
-	text-align: center;
+  font-family: $ubuntu-regular;
+  font-size: $size-14;
+  color: $main-blue-color;
+  text-decoration: none solid $main-blue-color;
+  text-align: center;
 }
 .style-container {
-	width: 500px;
-	height: 82px;
-	border: 1px solid $light-gray-color;
-	border-radius: 5px;
-	background-color: $main-background-color;
-	display: flex;
-	flex-direction: row;
-	align-items: center;
-	cursor: pointer;
+  width: 500px;
+  height: 82px;
+  border: 1px solid $light-gray-color;
+  border-radius: 5px;
+  background-color: $main-background-color;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  cursor: pointer;
 }
 .style-container:hover {
-	border: 2px solid $light-gray-color;
-	cursor: pointer;
+  border: 2px solid $light-gray-color;
+  cursor: pointer;
 }
 .active-border {
-	width: 500px;
-	height: 82px;
-	border-radius: 5px;
-	background-color: $main-background-color;
-	display: flex;
-	flex-direction: row;
-	align-items: center;
-	border: 2px solid #aaaaaa;
-	cursor: pointer;
+  width: 500px;
+  height: 82px;
+  border-radius: 5px;
+  background-color: $main-background-color;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  border: 2px solid $smooth-grey;
+  cursor: pointer;
 }
 .style-icon-view {
-	width: 60px;
-	height: 60px;
-	border: 1px solid $light-gray-color;
-	border-radius: 5px;
-	background-color: $main-background-color;
-	display: flex;
-	justify-content: center;
-	align-items: center;
+  width: 60px;
+  height: 60px;
+  border: 1px solid $light-gray-color;
+  border-radius: 5px;
+  background-color: $main-background-color;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 .business-icon {
-	width: 50px;
-	height: 50px;
+  width: 50px;
+  height: 50px;
 }
 .style-text-view {
-	width: 408px;
-	font-family: $ubuntu-regular;
-	font-size: $size-14;
-	color: $main-blue-color;
-	text-decoration: none solid rgb(87, 93, 222);
-	text-align: center;
-	display: flex;
-	flex-direction: column;
-	justify-content: center;
-	align-items: center;
+  width: 408px;
+  font-family: $ubuntu-regular;
+  font-size: $size-14;
+  color: $main-blue-color;
+  text-decoration: none solid $main-blue-color;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
 }
 .select-text-large {
-	font-family: $ubuntu-regular;
-	font-size: $size-16;
-	color: $main-blue-color;
-	text-decoration: none solid rgb(87, 93, 222);
-	text-align: center;
+  font-family: $ubuntu-regular;
+  font-size: $size-16;
+  color: $main-blue-color;
+  text-decoration: none solid $main-blue-color;
+  text-align: center;
 }
 .select-text-small {
-	font-family: $ubuntu-regular;
-	font-size: $size-14;
-	color: $main-blue-color;
-	text-decoration: none solid rgb(87, 93, 222);
-	text-align: center;
-	font-weight: lighter;
+  font-family: $ubuntu-regular;
+  font-size: $size-14;
+  color: $main-blue-color;
+  text-decoration: none solid $main-blue-color;
+  text-align: center;
+  font-weight: lighter;
 }
-.skip-button {
-	width: 119px;
-	height: 29px;
-	padding: 6px 10px;
-	background-color: $white-color;
-	font-family: $ubuntu-regular;
-	font-size: $size-14;
-	color: $light-gray-color;
-	text-decoration: none solid $main-decoration-color;
-	text-align: center;
-	box-shadow: 0 1px 2px rgba(0, 0, 0, 0.5);
-	border: none;
-	border-radius: 0;
-}
-.skip-button:active,
-.skip-button:hover,
-.skip-button:focus,
-.skip-button:active:focus {
-	outline: 0;
-}
+
 .description-view {
-	font-size: 14px;
-	width: 253px;
-	border: 1px solid $light-gray-color;
-	border-radius: 5px;
-	background-color: $main-background-color;
-	padding: 3px;
+  font-size: 14px;
+  width: 253px;
+  border: 1px solid $light-gray-color;
+  border-radius: 5px;
+  background-color: $main-background-color;
+  padding: 3px;
 }
 .center-view {
-	display: flex;
-	flex-direction: column;
-	align-items: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 .step-one-view {
-	display: flex;
-	flex-direction: row;
+  display: flex;
+  flex-direction: row;
 }
 .step-title {
-	font-family: $ubuntu-bold;
-	font-size: $size-14;
-	color: $main-blue-color;
-	text-decoration: none solid rgb(87, 93, 222);
+  font-family: $ubuntu-bold;
+  font-size: $size-14;
+  color: $main-blue-color;
+  text-decoration: none solid $main-blue-color;
 }
 .step-content {
-	font-family: $ubuntu-regular;
-	font-size: $size-14;
-	color: $main-blue-color;
-	text-decoration: none solid rgb(87, 93, 222);
+  font-family: $ubuntu-regular;
+  font-size: $size-14;
+  color: $main-blue-color;
+  text-decoration: none solid $main-blue-color;
 }
 .content-center {
-	width: 508px;
+  width: 508px;
 }
 .drag-view {
-	width: 508px;
-	height: 201px;
-	border: 1px solid $light-gray-color;
-	border-radius: 5px;
-	background-color: $dull-white;
-	display: flex;
-	justify-content: center;
-	align-items: center;
-	cursor: pointer;
+  width: 508px;
+  height: 201px;
+  border: 1px solid $light-gray-color;
+  border-radius: 5px;
+  background-color: $dull-white;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
 }
 .drag-text {
-	font-family: $ubuntu-regular;
-	font-size: $size-20;
-	color: $light-gray-color;
-	text-decoration: none solid rgb(200, 200, 232);
-	text-align: center;
+  font-family: $ubuntu-regular;
+  font-size: $size-20;
+  color: $light-gray-color;
+  text-decoration: none solid $light-gray-color;
+  text-align: center;
 }
 .table-center {
-	width: 668px;
-	display: flex;
-	justify-content: center;
-	flex-direction: column;
+  width: 668px;
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
 }
 .markup-center {
-	width: 668px;
-	display: flex;
-	justify-content: center;
+  width: 668px;
+  display: flex;
+  justify-content: center;
 }
 .markup-input {
-	width: 68px;
-	height: 28px;
-	border: 1px solid $light-gray-color;
-	border-radius: 5px;
-	background-color: $white-color;
-	margin-left: 10px;
+  width: 68px;
+  height: 28px;
+  border: 1px solid $light-gray-color;
+  border-radius: 5px;
+  background-color: $pure-white;
+  margin-left: 10px;
 }
 .height-center {
-	align-items: center;
+  align-items: center;
 }
 .left-padding {
-	padding-left: 50px;
+  padding-left: 50px;
 }
 .product-view {
-	width: 668px;
-	height: 80px;
-	padding: 6px 10px;
-	background-color: $dull-white;
-	box-shadow: 0 1px 2px rgba(0, 0, 0, 0.5);
-	display: flex;
-	flex-direction: row;
-	align-items: center;
+  width: 668px;
+  height: 80px;
+  padding: 6px 10px;
+  background-color: $dull-white;
+  box-shadow: 0 1px 2px rgba($pure-black, 0.5);
+  display: flex;
+  flex-direction: row;
+  align-items: center;
 }
 .blank-image-icon {
-	width: 60px;
-	height: 60px;
-	margin-left: 10px;
+  width: 60px;
+  height: 60px;
+  margin-left: 10px;
 }
 .product-text-view {
-	width: 371px;
-	margin-left: 20px;
-	display: flex;
-	flex-direction: column;
+  width: 371px;
+  margin-left: 20px;
+  display: flex;
+  flex-direction: column;
 }
 .product-title {
-	font-family: $ubuntu-regular;
-	font-size: $size-16;
-	color: $dark-purple;
-	text-decoration: none solid $main-decoration-color;
+  font-family: $ubuntu-regular;
+  font-size: $size-16;
+  color: $dark-purple;
+  text-decoration: none solid $main-decoration-color;
 }
 .product-type {
-	font-family: $ubuntu-regular;
-	font-size: $size-12;
-	color: $black-color;
-	text-decoration: none solid rgb(0, 0, 0);
+  font-family: $ubuntu-regular;
+  font-size: $size-12;
+  color: $pure-black;
+  text-decoration: none solid $pure-black;
 }
 .product-price-front {
-	font-family: $ubuntu-regular;
-	font-size: $size-12;
-	color: $black-color;
-	text-decoration: none solid rgb(0, 0, 0);
-	margin-left: 40px;
+  font-family: $ubuntu-regular;
+  font-size: $size-12;
+  color: $pure-black;
+  text-decoration: none solid $pure-black;
+  margin-left: 40px;
 }
 .product-price-back {
-	width: 61px;
-	height: 18px;
-	font-family: $ubuntu-regular;
-	font-size: $size-16;
-	color: $black-color;
-	text-decoration: none solid rgb(0, 0, 0);
-	margin-left: 5px;
+  width: 61px;
+  height: 18px;
+  font-family: $ubuntu-regular;
+  font-size: $size-16;
+  color: $pure-black;
+  text-decoration: none solid $pure-black;
+  margin-left: 5px;
 }
 .product-currency {
-	font-family: $ubuntu-regular;
-	font-size: $size-24;
-	color: $main-blue-color;
-	text-decoration: none solid rgb(87, 93, 222);
-	text-align: center;
+  font-family: $ubuntu-regular;
+  font-size: $size-24;
+  color: $main-blue-color;
+  text-decoration: none solid $main-blue-color;
+  text-align: center;
 }
 .currency-view {
-	display: flex;
-	flex-direction: column;
+  display: flex;
+  flex-direction: column;
 }
 .product-currency-text {
-	font-family: $ubuntu-regular;
-	font-size: $size-12;
-	color: $light-gray-color-1;
-	text-decoration: none solid rgb(200, 200, 200);
+  font-family: $ubuntu-regular;
+  font-size: $size-12;
+  color: $light-gray-color-1;
+  text-decoration: none solid $light-gray-color-1;
 }
 .product-input {
-	width: 90px;
-	height: 56px;
-	border: 1px solid $light-gray-color;
-	border-radius: 5px;
-	background-color: $main-background-color;
-	margin-left: 5px;
+  width: 90px;
+  height: 56px;
+  border: 1px solid $light-gray-color;
+  border-radius: 5px;
+  background-color: $main-background-color;
+  margin-left: 5px;
 }
 .set-table-header {
-	color: $dark-purple;
-	font-size: 18px;
-	font-weight: normal;
+  color: $dark-purple;
+  font-size: 18px;
+  font-weight: normal;
 }
 .set-cogs-header {
-	color: $light-blue-shade;
-	font-size: 14px;
-	font-weight: normal;
-	margin-right: 0px;
+  color: $light-blue-shade;
+  font-size: 14px;
+  font-weight: normal;
+  margin-right: 0px;
 }
 .react-bs-table {
-	height: unset !important;
+  height: unset !important;
 }
 .no-border {
-	border: 0px solid $light-gray-color;
-}
-.upload-csv-button {
-	width: 120px;
-	height: 34px;
-	padding: 6px 10px;
-	background-color: $white-color;
-	font-family: $ubuntu-regular;
-	font-size: $size-14;
-	color: $dark-purple;
-	text-decoration: none solid $main-decoration-color;
-	text-align: center;
-	box-shadow: 0 1px 2px rgba(0, 0, 0, 0.5);
-	border: none;
-	border-radius: 0;
-	cursor: pointer;
+  border: 0px solid $light-gray-color;
 }
 
-.tip-icon{
-	margin-top: 40px;
-	height: 24px;
+.tip-icon {
+  margin-top: 40px;
+  height: 24px;
 }
 
-.product-listed-price{
-	font-family: Ubuntu;
-	font-size: 20px;
-	color: $new-blue;
-	font-weight: 400;
-	text-decoration: none solid rgb(87, 93, 222);
-	text-align: center;
+.product-listed-price {
+  font-family: Ubuntu;
+  font-size: 20px;
+  color: $main-blue-color;
+  font-weight: 400;
+  text-decoration: none solid $main-blue-color;
+  text-align: center;
 }
 
 .cogs-pending {
-	width: 43px;
-	height: 43px;
-	fill: $light-gray-color;
-	background-image: url("../assets/images/cogs_pending.svg");
-	background-repeat: no-repeat;
-	background-color: transparent;
-	border: none;
-	background-size: contain;
-	position: absolute;
-	margin-left: 25px;
-	margin-top:5px;
+  width: 43px;
+  height: 43px;
+  fill: $light-gray-color;
+  background-image: url("../assets/images/cogs_pending.svg");
+  background-repeat: no-repeat;
+  background-color: transparent;
+  border: none;
+  background-size: contain;
+  position: absolute;
+  margin-left: 25px;
+  margin-top: 5px;
 }
 
 .cogs-completed {
-	width: 43px;
-	height: 43px;
-	fill: $light-gray-color;
-	background-image: url("../assets/images/cogs_completed.svg");
-	background-repeat: no-repeat;
-	background-color: transparent;
-	border: none;
-	background-size: contain;
-	position: absolute;
-	margin-left: 25px;
-	margin-top:5px;
+  width: 43px;
+  height: 43px;
+  fill: $light-gray-color;
+  background-image: url("../assets/images/cogs_completed.svg");
+  background-repeat: no-repeat;
+  background-color: transparent;
+  border: none;
+  background-size: contain;
+  position: absolute;
+  margin-left: 25px;
+  margin-top: 5px;
 }
 
-.ant-progress-bg{
-	border-radius: 0px !important;
+.ant-progress-bg {
+  border-radius: 0px !important;
 }
 
-.padding-0{
-  padding-right:0;
-  padding-left:0;
+.padding-0 {
+  padding-right: 0;
+  padding-left: 0;
 }
 
-.margin-0{
-  margin-right:0;
-  margin-left:0;
+.margin-0 {
+  margin-right: 0;
+  margin-left: 0;
 }
 
-.tipbox-text{
-	 font-size: 14px;
-}
-
-.cogs-page-button {
-	.btn-icon{
-		padding-right: 3px;
-		display: inline-block;
-		img{
-			height: 24px;
-			width: 24px;
-		}
-	}
-	height: auto;
-	width: auto;
-	padding: 8px 10px;
-	background-color: $main-blue-color;
-	font-family: $ubuntu-regular;
-	font-size: $size-14;
-	color: $white-color;
-	text-decoration: none solid $main-decoration-color;
-	text-align: center;
-	box-shadow: 0 1px 2px rgba(0, 0, 0, 0.5);
-	border: none;
-	border-radius: 0;
-}
-
-.cogs-page-button:active,
-.cogs-page-button:hover,
-.cogs-page-button:focus,
-.cogs-page-button:active:focus {
-	outline: 0;
-	background-color: $main-blue-color;
-	color: $white-color;
+.tipbox-text {
+  font-size: 14px;
 }
 
 @media only screen and (max-width: 1300px) {
-	.set-cogs-header{
-		font-size: 13px;
-	}
+  .set-cogs-header {
+    font-size: 13px;
+  }
 }
 @media only screen and (max-width: 1100px) {
-	.set-cogs-header{
+  .set-cogs-header {
     font-size: 12px;
   }
 }
 @media only screen and (max-width: 900px) {
-	.set-cogs-header{
-    font-size: .8em;
+  .set-cogs-header {
+    font-size: 0.8em;
   }
 }
 @media only screen and (max-width: 767px) {
-	.set-cogs-header{
-    font-size: .7em;
+  .set-cogs-header {
+    font-size: 0.7em;
   }
-	.cogs-page-button{
-		font-size: 12px;
-		padding: 5px 7px;
-		.btn-icon{
-			padding-right: 3px;
-			img{
-				height: 20px;
-				width: 20px;
-			}
-		}
-	}
+  .cogs-page-button {
+    font-size: 12px;
+    padding: 5px 7px;
+    .btn-icon {
+      padding-right: 3px;
+      img {
+        height: 20px;
+        width: 20px;
+      }
+    }
+  }
 }
 @media only screen and (max-width: 600px) {
-	.set-cogs-header{
-    font-size: .6em;
+  .set-cogs-header {
+    font-size: 0.6em;
   }
-	.select-style-comment-small {
-		font-size: $size-12;
-	}
+  .select-style-comment-small {
+    font-size: $size-12;
+  }
 }

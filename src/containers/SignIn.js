@@ -1,27 +1,38 @@
-import React, { Component } from 'react';
-import { connect } from 'react-redux';
-import { Grid, Row, Col, Button, Label, Tabs, Tab, FormControl, Tooltip, OverlayTrigger } from 'react-bootstrap';
-import { StyleRoot } from 'radium';
-import { Spin } from 'antd';
-import swal from 'sweetalert2';
+import React, { Component } from "react";
+import { connect } from "react-redux";
+import {
+  Grid,
+  Row,
+  Col,
+  Button,
+  Label,
+  Tabs,
+  Tab,
+  FormControl,
+  Tooltip,
+  OverlayTrigger
+} from "react-bootstrap";
+import { StyleRoot } from "radium";
+import { Spin } from "antd";
+import swal from "sweetalert2";
 import {
   CognitoUserPool,
   AuthenticationDetails,
   CognitoUser
-} from 'amazon-cognito-identity-js';
-import { validateEmail } from '../helpers/functions';
-import MaterialIcon from '../assets/images/MaterialIcon.svg';
-import config from '../config';
-import { invokeApigWithoutErrorReport } from '../libs/apiUtils';
-import user from '../auth/user';
+} from "amazon-cognito-identity-js";
+import { validateEmail } from "../helpers/functions";
+import MaterialIcon from "../assets/images/MaterialIcon.svg";
+import config from "../config";
+import { invokeApigWithoutErrorReport } from "../libs/apiUtils";
+import user from "../auth/user";
 
 const swalert = () => {
   return swal({
-    title:             'Error!',
-    type:              'error',
-    text:              'Login failed. Please try again',
+    title: "Error!",
+    type: "error",
+    text: "Login failed. Please try again",
     allowOutsideClick: false,
-    focusConfirm:      false,
+    focusConfirm: false
   });
 };
 
@@ -29,10 +40,10 @@ class SignIn extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      email:          '',
-      password:       '',
-      errorText:      '',
-      pendingRequest: false,
+      email: "",
+      password: "",
+      errorText: "",
+      pendingRequest: false
     };
     this.goLanding = this.goLanding.bind(this);
     this.handleSelect = this.handleSelect.bind(this);
@@ -48,26 +59,26 @@ class SignIn extends Component {
   }
 
   componentWillMount() {
-    const {state} = this.props.history.location;
+    const { state } = this.props.history.location;
     if (state !== undefined) {
       this.setState({
         email: state.email
       });
     }
     if (user.isAuthenticated !== null) {
-      this.props.history.push('/dashboard');
+      this.props.history.push("/dashboard");
     }
   }
 
   goLanding() {
-    this.props.history.push('/');
+    this.props.history.push("/");
   }
 
   handleSelect(key) {
     if (key === 1) {
-      this.props.history.push('/signin');
+      this.props.history.push("/signin");
     } else if (key === 2) {
-      this.props.history.push('/signup');
+      this.props.history.push("/signup");
     }
   }
 
@@ -85,7 +96,7 @@ class SignIn extends Component {
     const { email } = this.state;
     if (!validateEmail(email)) {
       this.setState({
-        emailError: ' Invalid email address'
+        emailError: " Invalid email address"
       });
       this.refs.email.show();
       return false;
@@ -107,7 +118,7 @@ class SignIn extends Component {
     const { password } = this.state;
     if (password.length < 8) {
       this.setState({
-        passwordError: ' Need at least 8 characters'
+        passwordError: " Need at least 8 characters"
       });
       this.refs.password.show();
       return false;
@@ -115,15 +126,14 @@ class SignIn extends Component {
     return true;
   }
 
-
   _handleKeyPress(e) {
-    if (e.key === 'Enter') {
+    if (e.key === "Enter") {
       this.onLogin();
     }
   }
 
   onForgot() {
-    this.props.history.push('/forgot-password');
+    this.props.history.push("/forgot-password");
   }
 
   onLogin() {
@@ -132,50 +142,52 @@ class SignIn extends Component {
     const passAuth = this.passValidation();
     if (emailAuth && passAuth) {
       this.setState({
-        pendingRequest: true,
+        pendingRequest: true
       });
-      this.login(email, password).then((result) => {
-        return invokeApigWithoutErrorReport({path: '/user'});
-      }).then((result) => {
-        if (!result.status && result.message === 'Unable to fetch user') {
-          this.setState({
-            emailError:     ' User does not exist',
-            pendingRequest: false,
-          });
-          this.refs.email.show();
-        } else {
-          localStorage.setItem('isAuthenticated', 'isAuthenticated');
-          this.setState({
-            pendingRequest: false,
-          });          
-          switch (result.accountSetupStatus) {
-            case 0:
-              this.props.history.push('/connect-shopify');
-              break;
-            case 1:
-              this.props.history.push('/fetch-status');
-              break;
-            case 2:
-              this.props.history.push('/dashboard');
-              break;
-            default:
-              this.props.history.push('/dashboard');
-          }
-        }
-      })
-        .catch(error => {
-          console.log('login error', error);
-          this.setState({
-            pendingRequest: false,
-          });
-          if (error.message === 'User does not exist.') {
+      this.login(email, password)
+        .then(result => {
+          return invokeApigWithoutErrorReport({ path: "/user" });
+        })
+        .then(result => {
+          if (!result.status && result.message === "Unable to fetch user") {
             this.setState({
-              emailError: ' User does not exist'
+              emailError: " User does not exist",
+              pendingRequest: false
             });
             this.refs.email.show();
-          } else if (error.message === 'Incorrect username or password.') {
+          } else {
+            localStorage.setItem("isAuthenticated", "isAuthenticated");
             this.setState({
-              passwordError: ' Incorrect password'
+              pendingRequest: false
+            });
+            switch (result.accountSetupStatus) {
+              case 0:
+                this.props.history.push("/connect-shopify");
+                break;
+              case 1:
+                this.props.history.push("/fetch-status");
+                break;
+              case 2:
+                this.props.history.push("/dashboard");
+                break;
+              default:
+                this.props.history.push("/dashboard");
+            }
+          }
+        })
+        .catch(error => {
+          console.log("login error", error);
+          this.setState({
+            pendingRequest: false
+          });
+          if (error.message === "User does not exist.") {
+            this.setState({
+              emailError: " User does not exist"
+            });
+            this.refs.email.show();
+          } else if (error.message === "Incorrect username or password.") {
+            this.setState({
+              passwordError: " Incorrect password"
             });
             this.refs.password.show();
           } else {
@@ -190,7 +202,7 @@ class SignIn extends Component {
     // create a new userPool instance
     const userPool = new CognitoUserPool({
       UserPoolId: config.cognito.USER_POOL_ID,
-      ClientId:   config.cognito.APP_CLIENT_ID
+      ClientId: config.cognito.APP_CLIENT_ID
     });
 
     // create a new CognitoUser instance
@@ -215,9 +227,7 @@ class SignIn extends Component {
         <Row>
           <Col md={12}>
             <Col md={6} className="text-left padding-t-20">
-              <Label className="login-title">
-                akko
-              </Label>
+              <Label className="login-title">akko</Label>
             </Col>
             <Col md={6} className="text-right padding-t-20">
               <Button className="close-button" onClick={this.goLanding} />
@@ -225,7 +235,12 @@ class SignIn extends Component {
           </Col>
         </Row>
         <Row>
-          <Tabs defaultActiveKey={1} id="uncontrolled-tab-example" className="login-tab" onSelect={this.handleSelect}>
+          <Tabs
+            defaultActiveKey={1}
+            id="uncontrolled-tab-example"
+            className="login-tab"
+            onSelect={this.handleSelect}
+          >
             <Tab eventKey={1} title="Login">
               <div>
                 <div className="flex-center padding-t-80">
@@ -234,8 +249,12 @@ class SignIn extends Component {
                     trigger="manual"
                     ref="email"
                     overlay={
-                      <Tooltip id="tooltip"><img src={MaterialIcon} alt="icon" />{this.state.emailError}</Tooltip>
-                    }>
+                      <Tooltip id="tooltip">
+                        <img src={MaterialIcon} alt="icon" />
+                        {this.state.emailError}
+                      </Tooltip>
+                    }
+                  >
                     <FormControl
                       type="text"
                       placeholder="email"
@@ -245,7 +264,7 @@ class SignIn extends Component {
                       onKeyPress={this._handleKeyPress}
                       onFocus={this.onEmailFocus}
                       onBlur={this.emailValidation}
-                  />
+                    />
                   </OverlayTrigger>
                 </div>
                 <div className="flex-center margin-t-5">
@@ -254,8 +273,12 @@ class SignIn extends Component {
                     trigger="manual"
                     ref="password"
                     overlay={
-                      <Tooltip id="tooltip"><img src={MaterialIcon} alt="icon" />{this.state.passwordError}</Tooltip>
-                    }>
+                      <Tooltip id="tooltip">
+                        <img src={MaterialIcon} alt="icon" />
+                        {this.state.passwordError}
+                      </Tooltip>
+                    }
+                  >
                     <FormControl
                       type="password"
                       placeholder="password"
@@ -269,12 +292,25 @@ class SignIn extends Component {
                   </OverlayTrigger>
                 </div>
                 <div className="flex-center padding-t-10">
-                  <span className="forgot-text" onClick={this.onForgot} >Forgot Password ?</span>
+                  <Button
+                    className="forgot-text"
+                    bsStyle="link"
+                    onClick={this.onForgot}
+                  >
+                    Forgot Password ?
+                  </Button>
                 </div>
                 <div className="flex-center padding-t-20">
                   <Button className="login-button" onClick={this.onLogin}>
                     LOGIN
-                    <div style={{marginLeft: 10, display: this.state.pendingRequest ? 'inline-block' : 'none'}}>
+                    <div
+                      style={{
+                        marginLeft: 10,
+                        display: this.state.pendingRequest
+                          ? "inline-block"
+                          : "none"
+                      }}
+                    >
                       <Spin size="small" />
                     </div>
                   </Button>
@@ -289,8 +325,6 @@ class SignIn extends Component {
   }
 }
 
-const mapStateToProps = state => ({
-
-});
+const mapStateToProps = state => ({});
 
 export default connect(mapStateToProps)(SignIn);

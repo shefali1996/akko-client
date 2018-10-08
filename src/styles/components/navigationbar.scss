@@ -4,9 +4,9 @@
   top: 0;
   right: 0;
   left: 0;
-  border-bottom: 1px solid #ccc;
+  border-bottom: 1px solid $light-gray-color-1;
   z-index: 1;
-  >.row {
+  > .row {
     margin: $size-0;
   }
 }
@@ -18,48 +18,52 @@
   align-items: center;
   top: 20px;
   background-color: $main-blue-color;
-	left: 10px;
+  left: 10px;
   z-index: 999;
-  .logo{
-    background: url("../assets/images/transparent_white.svg") no-repeat center center;
+  .logo {
+    background: url("../assets/images/transparent_white.svg") no-repeat center
+      center;
     width: 50px;
     height: 40px;
     background-size: cover;
   }
 }
-.company-name-label{
-  display:flex;
+.company-name-label {
+  display: flex;
   align-items: center;
   height: auto;
-  font-family: Ubuntu;
+  font-family: $ubuntu;
   font-size: 16px;
   color: $white-color;
-  text-decoration: none solid rgb(255, 255, 255);
+  text-decoration: none solid $pure-white;
   text-align: center;
   background: none;
-  padding-left:10px;
-  border-left: 2px solid #ccc;
+  padding-left: 10px;
+  border-left: 2px solid $light-gray-color-1;
+}
+.app-title-container {
+  padding: 0.5% 0;
 }
 .app-title-container{
   padding: .5% 0
 }
 .user-profile {
   width: 165px;
-	height: 40px;
-	position: absolute;
+  height: 40px;
+  position: absolute;
   background: $main-blue-color;
-	float: right !important;
-	z-index: 999;
-	text-align: right;
+  float: right !important;
+  z-index: 999;
+  text-align: right;
 }
 
-.dropdown .btn-default{
+.dropdown .btn-default {
   margin-top: 4px !important;
 }
 .username {
   font-size: $size-16;
   color: $white-color;
-  text-decoration: none solid $white-color;
+  text-decoration: none solid $pure-white;
   background: none;
   display: inline-block;
   vertical-align: middle;
@@ -69,21 +73,21 @@
   font-family: $ubuntu-light;
   font-size: $size-16;
   color: $white-color;
-  text-decoration: none solid $white-color;
+  text-decoration: none solid $pure-white;
   background: none;
   display: inline-block;
   vertical-align: middle;
-	margin-top: 2px;
-	margin-left: 14px;
+  margin-top: 2px;
+  margin-left: 14px;
 }
 .dropdown .btn-default {
   border: none;
   padding-top: 10px;
 }
 .dropdown .dropdown-menu {
-	padding: 0;
-	width: 100%;
-	border: none;
+  padding: 0;
+  width: $full-width;
+  border: none;
   margin-top: 10px;
 }
 .dropdown .btn-default:hover,
@@ -96,9 +100,10 @@
   outline: none;
   background-color: $main-blue-color;
 }
-.btn-default.active, .btn-default:active,
-.open>.dropdown-toggle.btn-default {
-  background-color: $white-color;
+.btn-default.active,
+.btn-default:active,
+.open > .dropdown-toggle.btn-default {
+  background-color: $pure-white;
 }
 .dropdown .btn-default .caret {
   display: none;
@@ -110,24 +115,24 @@
   border-radius: 0px;
 }
 .custom-dropdown-view {
-	padding: 10px;
+  padding: 10px;
 }
 
-.custom-dropdown-view:hover{
+.custom-dropdown-view:hover {
   background: $custom-dropdown-background-color;
 }
-.custom-dropdown-view .username{
+.custom-dropdown-view .username {
   color: $custom-dropdown-color;
 }
 
-.custom-dropdown-view .setting{
+.custom-dropdown-view .setting {
   color: $custom-dropdown-color;
 }
 
 .profileIcon {
-	width: 34px;
-	height: 34px;
-	fill: $main-blue-color;
+  width: 34px;
+  height: 34px;
+  fill: $main-blue-color;
 }
 .dd-icon {
   width: 20px;

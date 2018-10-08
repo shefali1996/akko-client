@@ -1,5 +1,5 @@
 .update-style-title {
-  font-family: Ubuntu;
+  font-family: $ubuntu;
   font-size: 18px;
   color: $main-blue-color;
   font-weight: 500;
@@ -8,7 +8,7 @@
 }
 
 .update-style-text {
-  font-family: Ubuntu;
+  font-family: $ubuntu;
   display: block;
   font-size: 16px;
   color: $main-blue-color;
@@ -18,7 +18,7 @@
 }
 
 .inventory-alert-title {
-  font-family: Ubuntu;
+  font-family: $ubuntu;
   font-size: 18px;
   color: $main-blue-color;
   font-weight: 500;
@@ -26,7 +26,7 @@
   text-align: center;
 }
 .inventory-alert-text {
-  font-family: Ubuntu;
+  font-family: $ubuntu;
   font-size: 14px;
   color: $main-blue-color;
   font-weight: 400;
@@ -35,7 +35,7 @@
 }
 .inventory-form {
   .inventory-alert-text {
-    font-family: Ubuntu;
+    font-family: $ubuntu;
     display: inline-block;
     margin-left: 15px;
     font-size: 14px;
@@ -63,10 +63,10 @@
     background-color: $white-color;
     font-family: $ubuntu-regular;
     font-size: $size-14;
-    color: rgba(87, 93, 222, 0.75);
+    color: rgba($main-blue-color, 0.75);
     text-decoration: none solid $main-decoration-color;
     text-align: center;
-    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.5);
+    box-shadow: 0 1px 2px rgba($pure-black, 0.5);
     border: none;
     border-radius: 0;
   }
@@ -79,7 +79,7 @@
   .btn-cancel {
     width: 100px;
     margin: 10px auto;
-    color: rgba(87, 93, 222, 0.2);
+    color: rgba($main-blue-color, 0.2);
   }
 }
 

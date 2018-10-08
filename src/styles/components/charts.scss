@@ -6,14 +6,14 @@
 }
 .axis path,
 .axis line {
-  stroke: lightgrey;
+  stroke: $light-gray-color-1;
   stroke-opacity: 0.7;
   shape-rendering: crispEdges;
 }
 
 .axis--y {
   text {
-    color: $light-gray-color; 
+    color: $light-gray-color;
     font-size: 12px;
   }
 }
@@ -24,7 +24,7 @@
 }
 
 .grid line {
-  stroke: lightgrey;
+  stroke: $light-gray-color-1;
   stroke-opacity: 0.7;
   shape-rendering: crispEdges;
 }
@@ -42,15 +42,15 @@
   line-height: 1.3;
   transform: translate(-50%, -100%);
   transition: transform 0.3s, opacity 0.3s, -webkit-transform 0.3s;
-  background-color: $white-color;
+  background-color: $pure-white;
   border: 1px solid $light-gray-color-1;
-  box-shadow: 0 1px 2px rgba(96, 120, 255, 0.1);
+  box-shadow: 0 1px 2px rgba($color-var-1, 0.1);
   padding: 6px 0px 0px 0px;
   box-sizing: border-box;
   border-radius: 1px;
   color: $snow;
-  .main{
-    display:flex
+  .main {
+    display: flex;
   }
   .product-title {
     max-height: 50px;
@@ -110,7 +110,7 @@
 /* Style the dots by assigning a fill and stroke */
 .dot {
   fill: $main-blue-color;
-  stroke: $white-color;
+  stroke: $pure-white;
 }
 .overlay {
   fill: none;

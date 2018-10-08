@@ -1,16 +1,13 @@
 import React, { Component } from 'react';
 import {connect} from 'react-redux';
 import {withRouter} from 'react-router';
-import { Row, Col, Label, Button, Image, Grid, Tabs, Tab } from 'react-bootstrap';
+import { Row, Col,Grid} from 'react-bootstrap';
 import $ from 'jquery';
 import _ from 'lodash';
 import Navigationbar from '../components/Navigationbar';
 import ExploreMetrics from '../components/ExploreMetrics';
 import Footer from '../components/Footer';
-import styles from '../constants/styles';
-import invalidImg from '../assets/images/FontAwesome472.svg';
 import * as dashboardActions from '../redux/dashboard/actions';
-import {METRICS_CARD, dashboardGrid} from '../constants/index';
 import {ExpenseCard, InitialFetchIncompleteCard, InvalidCard, LoaderCards, ValidCards} from '../components/dashboard/index';
 import {getColumn} from '../helpers/functions';
 import swal from 'sweetalert2';

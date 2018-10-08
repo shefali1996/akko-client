@@ -1,22 +1,21 @@
-.sweet-alert{
-  font-family: 'ubuntu';
-  border-radius: 0px;
-  button{
-    border-radius: 0px;
+.sweet-alert {
+  font-family: $ubuntu;
+  border-radius: $size-0;
+  button {
+    border-radius: $size-0;
   }
 }
 
-
 //-----sweet-alert 2 -----------
-.swal2-container{
-  font-family: 'ubuntu';
-  .swal2-popup{
-    border-radius: 0px !important;
+.swal2-container {
+  font-family: $ubuntu;
+  .swal2-popup {
+    border-radius: $size-0 !important;
   }
-  button{
-    border-radius: 0px !important;
+  button {
+    border-radius: $size-0 !important;
   }
-  .swal2-popup .swal2-styled:focus{
+  .swal2-popup .swal2-styled:focus {
     box-shadow: none;
   }
 }
