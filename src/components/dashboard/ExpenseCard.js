@@ -7,8 +7,8 @@ import styles from '../../constants/styles';
 
 export default ({width, index, value,height}) => {
   const expensesData = value;         
-  let sales_total = expensesData.total_sales - expensesData.total_discount;
-  let gross_profit = expensesData.total_sales - expensesData.total_discount - expensesData.total_cogs - expensesData.total_tax - expensesData.total_shipping;
+  let sales_total = expensesData.total_sales + expensesData.total_discount;
+  let gross_profit = expensesData.total_sales - expensesData.total_cogs - expensesData.total_tax - expensesData.total_shipping;
   expensesData.sales_total = sales_total;
   expensesData.gross_profit = gross_profit;                                                                                        
   return (<Col key={index} id={`card_${index}`}  className="dashboard-card-container expenses-breakdown">
@@ -23,10 +23,10 @@ export default ({width, index, value,height}) => {
         <Row>
           <Col md={12} className="expense-text">
             { 
-              expensesData.total_sales != undefined ?
+              expensesData.sales_total != undefined ?
                 <Row className="expense-text-color">
                   <Col md={7} sm={6} xs={6}>Gross Sales</Col>
-                  <Col md={5} sm={6} xs={6} className="text-right">${expensesData.total_sales.toFixed(2)}</Col>
+                  <Col md={5} sm={6} xs={6} className="text-right">${expensesData.sales_total.toFixed(2)}</Col>
                 </Row> 
               : 
                 null
@@ -42,10 +42,10 @@ export default ({width, index, value,height}) => {
             }
             <hr />
             {
-              expensesData.sales_total != undefined ?
+              expensesData.total_sales != undefined ?
               <Row className="final-row">
                   <Col md={7} sm={6} xs={6}>Total Sales</Col>
-                  <Col md={5} sm={6} xs={6}className="text-right"><span className="dash" />${expensesData.sales_total.toFixed(2)}</Col>
+                  <Col md={5} sm={6} xs={6}className="text-right"><span className="dash" />${expensesData.total_sales.toFixed(2)}</Col>
                 </Row>
               :
                 null
