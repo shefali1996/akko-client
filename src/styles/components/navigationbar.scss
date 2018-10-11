@@ -6,6 +6,7 @@
   left: 0;
   border-bottom: 1px solid $light-gray-color-1;
   z-index: 1;
+  padding:0 3%;
   > .row {
     margin: $size-0;
   }
@@ -38,7 +39,7 @@
   text-decoration: none solid $pure-white;
   text-align: center;
   background: none;
-  padding-left: 10px;
+  padding-left: 3%;
   border-left: 2px solid $light-gray-color-1;
 }
 .app-title-container {
@@ -150,8 +151,5 @@
 @media screen and (max-width: 767px) {
   .app-title {
     position: unset;
-  }
-  .user-profile {
-    right: 20px;
   }
 }

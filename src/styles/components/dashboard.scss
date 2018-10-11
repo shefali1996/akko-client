@@ -16,8 +16,9 @@
   overflow: hidden;
   width: $full-width;
   background-color: $main-background-color;
-  padding: $size-0;
+  padding: 0 3%;
   position: relative;
+
   > .row {
     margin: 0;
     min-height: $min-height;
@@ -72,6 +73,9 @@
     padding-bottom: 0px !important;
     .expense-header {
       padding: 16px 16px 0px !important;
+      :first-child{
+        padding-right: 0px !important;
+      }
     }
   }
 }
@@ -88,7 +92,7 @@
 .expenses-breakdown {
   .expense-text {
     font-family: $ubuntu;
-    font-size: 16px;
+    font-size: 15px;
     color: $light-gray-color;
     font-weight: bold;
     text-decoration: none solid $light-gray-color;
@@ -104,8 +108,8 @@
       display: inline-block;
     }
     hr {
-      margin-top: 15px;
-      margin-bottom: 15px;
+      margin-top: 3%;
+      margin-bottom: 3%;
     }
     .final-row {
       color: $main-blue-color;
@@ -223,7 +227,7 @@
       rgba($new-blue, 0.6) 0px 1px 4px !important;
   }
   .dashboard-card-container {
-    min-width:310px;
+    // min-width:310px;
     float: left;
     padding-left: 4px;
     padding-right: 4px;
@@ -414,9 +418,8 @@ td.react-bs-table-expand-cell {
   float: left;
 }
 .first-price {
-  width: 80%;
+  width: 75%;
   float: left;
-  padding-left: 10px;
   white-space: normal;
 }
 .first-price-customer {
@@ -430,7 +433,7 @@ td.react-bs-table-expand-cell {
   min-height: 18px;
 }
 .third-price {
-  width: 20%;
+  width: 25%;
   float: left;
   white-space: normal;
 }
@@ -447,7 +450,7 @@ td.react-bs-table-expand-cell {
 }
 .price-value {
   font-family: $ubuntu-bold;
-  font-size: 36px;
+  font-size: 25px;
   color: $main-blue-color;
   text-decoration: none solid $main-blue-color;
 }
@@ -502,7 +505,7 @@ td.react-bs-table-expand-cell {
 }
 .card-header-style {
   padding: 0px !important;
-  height: 110px;
+  height: 90px;
 }
 .card-header-style button {
   position: absolute !important;
@@ -526,6 +529,7 @@ td.react-bs-table-expand-cell {
 }
 .price-view {
   background: $pure-white;
+  padding:0 10px
 }
 .expand-content {
   padding: 0px !important;

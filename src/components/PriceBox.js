@@ -42,7 +42,7 @@ class PriceBox extends React.Component {
             </div>
           </div>
           <div className="second-price pull-right">
-            <span className="price-value" style={analyze ? {fontSize: '30px'} : {}}>{prefix}{infix}{postfix}</span>
+            <span className="price-value" style={analyze ? {fontSize: '25px'} : {}}>{prefix}{infix}{postfix}</span>
           </div>
         </div>
       );
@@ -55,7 +55,7 @@ class PriceBox extends React.Component {
               {title} <img src={infoIcon} className="alt-price-title" alt="info icon" title={description} />
             </span>
             <br />
-            <span className="price-value" style={analyze ? {fontSize: '30px'} : {}}>{prefix}{infix}{postfix}</span>
+            <span className="price-value" style={analyze ? {fontSize: '25px'} : {}}>{prefix}{infix}{postfix}</span>
           </div>
         </div>
 

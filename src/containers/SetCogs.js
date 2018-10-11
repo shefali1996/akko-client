@@ -106,8 +106,11 @@ class SetCogs extends Component {
         title:             `WARNING`,
         html:              "This page works best on larger screens. Please try again from a device with a larger screen, like a laptop or tablet",
         allowOutsideClick: false,
-        showConfirmButton:false,
+        confirmButtonText: 'Back',
         focusConfirm:      false,
+      }).then(()=>{
+        this.props.history.push("/dashboard")
+
       });
     }
   }
