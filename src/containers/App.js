@@ -12,9 +12,6 @@ import Main from './Main';
 
 import store from '../redux/store';
 
-const Landing = asyncComponent(() =>
-    import('./Landing').then(module => module.default)
-);
 const SignIn = asyncComponent(() =>
     import('./SignIn').then(module => module.default)
 );
@@ -42,7 +39,6 @@ class App extends Component {
             <Router history={history}>
               <Main>
                 <Switch>
-                  <Route exact path={routeConstants.landing} component={Landing} />
                   <Route exact path={routeConstants.signin} component={SignIn} />
                   <Route exact path={routeConstants.signup} component={SignUp} />
                   <Route exact path={routeConstants.forgotPassword} component={ForgotPassword} />
