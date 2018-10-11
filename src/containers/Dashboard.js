@@ -78,7 +78,6 @@ class Dashboard extends Component {
   componentWillReceiveProps(props) {
     this.props, props
     const element = document.getElementById('cardSection');
-    this.setHeightWidth(element.clientWidth);
     document.title = `${this.state.userData.company == undefined ? "Akko" : `${this.state.userData.company} | Akko`} `;
     this.setState({
       metricsData:       props.metricsData.data.metrics || [],
@@ -164,7 +163,7 @@ class Dashboard extends Component {
       }
     } else if (dataLoaded &&message || dataLoaded && originalMessage ) {  
       for (let i = 0; i < dashboardGridInfo.numColumn; i++) {
-        renderCards.push(<InitialFetchIncompleteCard key={i} propsData={this.props} height={this.state.maxHeight} onClickFetchStatus={() => this.props.history.push('/fetch-status')} status={this.props.dataLoadStatus.data.completed == undefined ? null : this.props.dataLoadStatus.data.completed} width={dashboardGridInfo.colWidth} />);
+        renderCards.push(<InitialFetchIncompleteCard key={i} propsData={this.props}  onClickFetchStatus={() => this.props.history.push('/fetch-status')} status={this.props.dataLoadStatus.data.completed == undefined ? null : this.props.dataLoadStatus.data.completed} width={dashboardGridInfo.colWidth} />);
       }
     } else {      
       metricsDataWithEmptyArray.map((value, index) => {      
@@ -202,14 +201,14 @@ class Dashboard extends Component {
               value.title = 'Expenses Breakdown';
             } 
             const expenseCard = invalid ?
-            <InvalidCard key={index} height={this.state.maxHeight} index={index} width={dashboardGridInfo.colWidth} value={value} userData={this.state.userData} onClickSetCogs={() => this.props.history.push('/set-cogs')} />
-            : <ExpenseCard key={index} index={index} width={dashboardGridInfo.colWidth} value={expensesData} height={this.state.maxHeight}/>;
+            <InvalidCard key={index}  index={index} width={dashboardGridInfo.colWidth} value={value} userData={this.state.userData} onClickSetCogs={() => this.props.history.push('/set-cogs')} />
+            : <ExpenseCard key={index} index={index} width={dashboardGridInfo.colWidth} value={expensesData} />;
             renderCards.push(expenseCard);
         } else {
-          const validCards = invalid ? <InvalidCard height={this.state.maxHeight}key={index} index={index} width={dashboardGridInfo.colWidth} value={value} userData={this.state.userData} onClickSetCogs={() => this.props.history.push('/set-cogs')} />
+          const validCards = invalid ? <InvalidCard key={index} index={index} width={dashboardGridInfo.colWidth} value={value} userData={this.state.userData} onClickSetCogs={() => this.props.history.push('/set-cogs')} />
           : _.isEmpty(value.availableContexts)  ?
-                <ValidCards key={index} height={this.state.maxHeight} index={index} style={{cursor:'none'}} width={dashboardGridInfo.colWidth} value={value} active={active} data={_.cloneDeep(data)}  />
-                :   <ValidCards key={index} height={this.state.maxHeight} index={index} width={dashboardGridInfo.colWidth} value={value} active={active} openExploreMetric="openExploreMetric" data={_.cloneDeep(data)} handleClickMetrics={this.handleClickMetrics} />;
+                <ValidCards key={index}  index={index} style={{cursor:'none'}} width={dashboardGridInfo.colWidth} value={value} active={active} data={_.cloneDeep(data)}  />
+                :   <ValidCards key={index} index={index} width={dashboardGridInfo.colWidth} value={value} active={active} openExploreMetric="openExploreMetric" data={_.cloneDeep(data)} handleClickMetrics={this.handleClickMetrics} />;
                 renderCards.push(validCards);
               }
             }

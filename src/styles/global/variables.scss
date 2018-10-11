@@ -42,6 +42,8 @@ $pure-green: #00ff00;
 $light-green: #00cc00;
 $fade-red: #eb554d;
 $primary-button-hover: #e6e6e6;
+$area-color:#6078FF;
+
 
 //font-size
 $size-0: 0px;
@@ -78,33 +80,34 @@ $min-height: calc(100vh - 60px);
 
 //color variable which are defined above must be exported here
 :export {
-  mainBlueColor: $main-blue-color;
-  white-color: $white-color;
-  black-color: $black-color;
-  light-gray-color: $light-gray-color;
-  main-blue-color: $main-blue-color;
-  main-red-color: $main-red-color;
-  main-background-color: $main-background-color;
-  main-decoration-color: $main-decoration-color;
-  tooltip-error-color: $tooltip-error-color;
-  light-gray-color-1: $light-gray-color-1;
-  color-var-1: $color-var-1;
-  light-blue-color: $light-blue-color;
-  japanese-laurel: $japanese-laurel;
-  japanese-laurel-dark: $japanese-laurel-dark;
-  gray-color: $gray-color;
-  dim-white: $dim-white;
-  snow: $snow;
-  new-blue: $new-blue;
-  dark-purple: $dark-purple;
-  smooth-grey: $smooth-grey;
-  pure-white: $pure-white;
-  dull-white: $dull-white;
-  grey-color-metrics: $grey-color-metrics;
-  focus-color: $focus-color;
-  custom-dropdown-background-color: $custom-dropdown-background-color;
-  custom-dropdown-color: $custom-dropdown-color;
-  light-blue-shade: $light-blue-shade;
-  grey: $grey;
-  white-shade: $white-shade;
+    mainBlueColor: $main-blue-color;
+    white-color:$white-color;
+    black-color: $black-color;
+    light-gray-color: $light-gray-color;
+    main-blue-color: $main-blue-color;
+    main-red-color: $main-red-color;
+    main-background-color: $main-background-color; 
+    main-decoration-color:$main-decoration-color;
+    tooltip-error-color: $tooltip-error-color;
+    light-gray-color-1:  $light-gray-color-1;
+    color-var-1: $color-var-1;
+    light-blue-color: $light-blue-color;
+    japanese-laurel: $japanese-laurel;
+    japanese-laurel-dark:$japanese-laurel-dark;
+    gray-color: $gray-color;
+    dim-white: $dim-white;
+    snow: $snow; 
+    new-blue: $new-blue;
+    dark-purple: $dark-purple;
+    smooth-grey: $smooth-grey;
+    pure-white: $pure-white;
+    dull-white: $dull-white;
+    grey-color-metrics: $grey-color-metrics;
+    focus-color:$focus-color;
+    custom-dropdown-background-color:$custom-dropdown-background-color;
+    custom-dropdown-color:$custom-dropdown-color;
+    light-blue-shade:$light-blue-shade;
+    grey:$grey;
+    white-shade:$white-shade;
+    area-color:$area-color;
 }

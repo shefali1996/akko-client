@@ -6,6 +6,7 @@ import { select } from "d3-selection";
 import $ from "jquery";
 import { isEqual, cloneDeep,sortBy } from "lodash";
 import { plotByOptions, numberFormatter } from "../constants";
+import style from 'styles/global/variables.scss'
 
 const moment = require("moment");
 const elementResizeEvent = require("element-resize-event");
@@ -198,16 +199,31 @@ class LineChart extends Component {
         const postfix = data[0].postfix || "";
         return `${prefix}${rangeConvert}${postfix}`;
       });
+      var area = d3.area()
+      .x(function(d) { return x(d.label); })
+      .y0(height)
+      .y1(function(d) { return y(d.value); });
 
     const valueline = d3
       .line()
       .x(d => {
         return x(d.label);
       })
-      .y(d => {
+      .y(d => { 
         return y(d.value);
       });
+      svg.append("path")
+      .data([data])
+      .attr("class", "area")
+      .attr("d", area)
+      .attr(
+        "transform",
+        `translate(${margin.left},${margin.top})`
+      )
+      .attr("fill",`${style['area-color']}`)
+      .attr("opacity",".13")
 
+      
     g.append("path")
       .data([data])
       .attr("class", "draw-line")
