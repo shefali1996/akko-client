@@ -1,29 +1,31 @@
-import React, { Component } from 'react';
-import { Row, Col, Label, ButtonGroup, Button, Image, DropdownButton } from 'react-bootstrap';
-import {Card, CardHeader, CardText} from 'material-ui/Card';
-import Chip from 'material-ui/Chip';
-import Dialog from 'material-ui/Dialog';
-import { Select, DatePicker, Input, Spin } from 'antd';
-import ReactPlaceholder from 'react-placeholder';
-import {isEmpty, isEqual, isUndefined, chunk} from 'lodash';
-import FilterDialog from '../components/FilterDialog';
-import styles from '../constants/styles';
-import profileIcon from '../assets/images/profileIconWhite.svg';
-import downArrowWhite from '../assets/images/downArrowWhite.svg';
-import CustomRangePicker from '../components/CustomRangePicker';
-import { invokeApig } from '../libs/awsLib';
-import {plotByOptions, categoryOptions, vendorOptions} from '../constants';
-import {customerDetailOnHover, productDetailOnHover} from './CustomTable';
-import BarChart from './BarChart';
-import LineChart from './LineChart';
-import productImgPlaceholder from '../assets/images/productImgPlaceholder.svg';
+import React, { Component } from "react";
+import {
+  Row,
+  Col,
+  ButtonGroup,
+  Button
+} from "react-bootstrap";
+import { Card, CardHeader, CardText } from "material-ui/Card";
+import Chip from "material-ui/Chip";
+import Dialog from "material-ui/Dialog";
+import { Select, DatePicker, Input, Spin } from "antd";
+import ReactPlaceholder from "react-placeholder";
+import { isEmpty, isEqual, isUndefined, chunk } from "lodash";
+import FilterDialog from "../components/FilterDialog";
+import styles from "../constants/styles";
+import CustomRangePicker from "../components/CustomRangePicker";
+import { plotByOptions, categoryOptions, vendorOptions } from "../constants";
+import { customerDetailOnHover, productDetailOnHover } from "./CustomTable";
+import BarChart from "./BarChart";
+import LineChart from "./LineChart";
+import productImgPlaceholder from "../assets/images/productImgPlaceholder.svg";
 
-const moment = require('moment');
-const {Option} = Select;
-const ascendingSortOrder = 'asc';
-const descendingSortOrder = 'desc';
-const WIDTH_PER_LABEL = '50';
-const RESOLUTION_DAY = 'day';
+const moment = require("moment");
+const { Option } = Select;
+const ascendingSortOrder = "asc";
+const descendingSortOrder = "desc";
+const WIDTH_PER_LABEL = "50";
+const RESOLUTION_DAY = "day";
 const OPTION_TIME = plotByOptions.time;
 const OPTION_CATEGORIES = plotByOptions.categories;
 const OPTION_VENDOR = plotByOptions.vendors;
@@ -33,39 +35,39 @@ class ExploreMetrics extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      openFilter:             false,
-      activeMetrics:          null,
-      filterBy:               '',
-      products:               {},
-      customers:              {},
-      open:                   false,
-      chartData:              null,
-      graphError:             false,
-      graphLoadingDone:       true,
-      chartWidth:             '100%',
+      openFilter: false,
+      activeMetrics: null,
+      filterBy: "",
+      products: {},
+      customers: {},
+      open: false,
+      chartData: null,
+      graphError: false,
+      graphLoadingDone: true,
+      chartWidth: "100%",
       customRangeShouldClear: false,
-      currentSubOption:       'time',
-      currentOption:          OPTION_TIME,
-      defaultDataMap:         {},
+      currentSubOption: "time",
+      currentOption: OPTION_TIME,
+      defaultDataMap: {},
       customTimeframeDataMap: {},
-      customersData:          {},
-      categoryLabel:          '',
-      categoryId:             '',
-      metrics:                [],
-      productId:               '',
-      vendorsId:              '',
-      vendorsLabel:           '',
-      categoriesData:         {},
-      categoriesNav:          {top: categoryOptions.categories, path: []},
-      vendorsNav:             {top: vendorOptions.vendors, path: []},
-      noData:                 false,
-      productData:            {},
+      customersData: {},
+      categoryLabel: "",
+      categoryId: "",
+      metrics: [],
+      productId: "",
+      vendorsId: "",
+      vendorsLabel: "",
+      categoriesData: {},
+      categoriesNav: { top: categoryOptions.categories, path: [] },
+      vendorsNav: { top: vendorOptions.vendors, path: [] },
+      noData: false,
+      productData: {}
     };
 
     this.currentOption = OPTION_TIME;
-    this.currentSortOption = '2';
-    this.customStartTime = '';
-    this.customEndTime = '';
+    this.currentSortOption = "2";
+    this.customStartTime = "";
+    this.customEndTime = "";
     this.openFilter = this.openFilter.bind(this);
     this.closeFilter = this.closeFilter.bind(this);
     this.onRowSelect = this.onRowSelect.bind(this);
@@ -83,18 +85,52 @@ class ExploreMetrics extends Component {
     this.setCategoryMetrics = this.setCategoryMetrics.bind(this);
     this.onCategoryClick = this.onCategoryClick.bind(this);
     this.onVendorClick = this.onVendorClick.bind(this);
+    this.checkCustomDate = this.checkCustomDate.bind(this);
+    this.sortChartData = this.sortChartData.bind(this); 
   }
 
-  getMap(metric, context,subOption,currentSubOption,id) {
+  checkCustomDate = ()=>{
+    if (this.customStartTime === "" || this.customEndTime === "") {
+      const ms = moment()
+        .utc()
+        .startOf("day")
+        .valueOf();
+      this.customEndTime = moment(ms)
+        .add({ days: 1 })
+        .valueOf();
+      this.customStartTime = moment(ms)
+        .subtract({ years: 1 })
+        .valueOf();
+    }
+  };
+  sortChartData = (data)=>{
+    let sortOrder = ascendingSortOrder;
+    if (this.currentSortOption === "2") {
+      sortOrder = descendingSortOrder;
+    }
+    data.sort((a, b) => {
+        if (sortOrder === ascendingSortOrder) {
+          if (a.value !== b.value) {
+            return a.value - b.value;
+          }
+        } else if (sortOrder === descendingSortOrder) {
+          if (a.value !== b.value) {
+            return b.value - a.value;
+          }
+        }
+        return a.index - b.index;
+      });
+  }
+  getMap(metric, context, subOption, currentSubOption, id) {
     let map = this.state.defaultDataMap;
-    if (this.customStartTime !== ''
-    && this.customEndTime !== '') {
+    if (this.customStartTime !== "" && this.customEndTime !== "") {
       map = this.state.customTimeframeDataMap;
     }
     const key = `${metric}:${context}`;
-    const key2=`${metric}:${context}:${subOption}:${id}`
-    const key3=`${metric}:${context}:${subOption}:${currentSubOption}:${id}`
-    const finalKey=subOption && currentSubOption?key3:subOption?key2:key            
+    const key2 = `${metric}:${context}:${subOption}:${id}`;
+    const key3 = `${metric}:${context}:${subOption}:${currentSubOption}:${id}`;
+    const finalKey =
+      subOption && currentSubOption ? key3 : subOption ? key2 : key;
     if (map.hasOwnProperty(finalKey)) {
       return map[finalKey];
     }
@@ -103,58 +139,92 @@ class ExploreMetrics extends Component {
 
   componentWillReceiveProps(nextProps) {          
     const state = _.cloneDeep(this.state);
-    this.setState({
-      metrics: nextProps.metricsData.data.metrics,
-    },()=>{
-    const {activeMetrics, defaultDataMap, customTimeframeDataMap, categoriesData, customersData, productData, open} = state;
-    let {currentOption} = state;
-    if (nextProps.open !== open) {
-      this.setState({
-        open: nextProps.open
-      });
-      if (nextProps.open) {
-        const ms = moment().utc().startOf('day').valueOf();
-        this.customEndTime = moment(ms).add({days: 1}).valueOf();
-        this.customStartTime = moment(ms).subtract({years: 1}).valueOf();
+    this.setState(
+      {
+        metrics: nextProps.metricsData.data.metrics
+      },
+      () => {
+        const {
+          activeMetrics,
+          defaultDataMap,
+          customTimeframeDataMap,
+          categoriesData,
+          customersData,
+          productData,
+          open
+        } = state;
+        let { currentOption } = state;
+        if (nextProps.open !== open) {
+          this.setState({
+            open: nextProps.open
+          });
+          if (nextProps.open) {
+            const ms = moment()
+              .utc()
+              .startOf("day")
+              .valueOf();
+            this.customEndTime = moment(ms)
+              .add({ days: 1 })
+              .valueOf();
+            this.customStartTime = moment(ms)
+              .subtract({ years: 1 })
+              .valueOf();
+          }
+        }
+        if (nextProps.customersData != undefined) {
+          if (!_.isEqual(nextProps.customersData.data, customersData)) {
+            this.setState({
+              customersData: nextProps.customersData.data
+            });
+          }
+        }
+        if (!_.isEqual(nextProps.productData.data, productData)) {
+          this.setState({
+            productData: nextProps.productData.data
+          });
+        }
+        if (
+          nextProps.activeMetrics &&
+          nextProps.activeMetrics !== this.state.activeMetrics
+        ) {
+          if (
+            _.indexOf(
+              nextProps.activeMetrics.availableContexts,
+              currentOption.toLowerCase()
+            ) === -1
+          ) {
+            currentOption = OPTION_TIME;
+          }
+          this.setState(
+            {
+              activeMetrics: nextProps.activeMetrics,
+              currentOption
+            },
+            () => {
+              this.onOptionChange(currentOption);
+            }
+          );
+        }
+        const d = nextProps.chartData.data;
+        if (
+          !isEqual(d.defaultDataMap, defaultDataMap) ||
+          !isEqual(d.customTimeframeDataMap, customTimeframeDataMap) ||
+          !isEqual(d.categoriesData, categoriesData)
+        ) {
+          this.setState(
+            {
+              graphLoadingDone: true,
+              defaultDataMap: d.defaultDataMap,
+              customTimeframeDataMap: d.customTimeframeDataMap,
+              categoriesData: d.categoriesData
+            },
+            () => {
+              this.onOptionChange(currentOption);
+            }
+          );
+        }
       }
-    }
-    if(nextProps.customersData != undefined){
-      if (!_.isEqual(nextProps.customersData.data, customersData)) {
-        this.setState({
-          customersData: nextProps.customersData.data
-        });
-      }
-    }
-    if (!_.isEqual(nextProps.productData.data, productData)) {
-      this.setState({
-        productData: nextProps.productData.data
-      });
-    }
-    if (nextProps.activeMetrics && (nextProps.activeMetrics !== this.state.activeMetrics)) {               
-      if (_.indexOf(nextProps.activeMetrics.availableContexts, currentOption.toLowerCase()) === -1) {
-        currentOption = OPTION_TIME;
-      }
-      this.setState({
-        activeMetrics: nextProps.activeMetrics,
-        currentOption
-      }, () => {
-        this.onOptionChange(currentOption);
-      });
-    }
-    const d = nextProps.chartData.data;
-    if (( !isEqual(d.defaultDataMap, defaultDataMap)  || !isEqual(d.customTimeframeDataMap, customTimeframeDataMap) 
-    || !isEqual(d.categoriesData, categoriesData))
-    ) {      
-      this.setState({
-        graphLoadingDone:       true,
-        defaultDataMap:         d.defaultDataMap,
-        customTimeframeDataMap: d.customTimeframeDataMap,
-        categoriesData:         d.categoriesData
-      }, () => {
-        this.onOptionChange(currentOption); 
-      });
-    }
-  })
+    );
   }
 resizeFunction=()=>{
   this.setTimeMetric()
@@ -165,76 +235,74 @@ resizeFunction=()=>{
       filterBy
     });
   }
-  
+
   closeFilter() {
     this.setState({
-      openFilter:             false,
-      filterBy:               '',
-      currentOption:          OPTION_TIME,
-      defaultDataMap:         {},
+      openFilter: false,
+      filterBy: "",
+      currentOption: OPTION_TIME,
+      defaultDataMap: {},
       customTimeframeDataMap: {},
-      customersData:          {},
-      categoryLabel:          '',
-      chartData:              null,
-      categoryId:             '',
-      productId:              '',
-      vendorsId:              '',
-      categoriesData:         {},
-      categoriesNav:          {top: categoryOptions.categories, path: []},
-      vendorsNav:             {top: vendorOptions.vendors, path: []},
-
+      customersData: {},
+      categoryLabel: "",
+      chartData: null,
+      categoryId: "",
+      productId: "",
+      vendorsId: "",
+      categoriesData: {},
+      categoriesNav: { top: categoryOptions.categories, path: [] },
+      vendorsNav: { top: vendorOptions.vendors, path: [] }
     });
   }
 
   closeExploreMetrics() {
-        if (this.customStartTime !== '') {
-          this.clearStates();
-          this.customStartTime = '';
-          this.customEndTime = '';
-        }
-        this.clearStates();
-        this.props.closeFilter();
+    if (this.customStartTime !== "") {
+      this.clearStates();
+      this.customStartTime = "";
+      this.customEndTime = "";
+    }
+    this.clearStates();
+    this.props.closeFilter();
   }
-  
-  clearStates(){
+
+  clearStates() {
     this.setState({
       customRangeShouldClear: true,
-      currentOption:          OPTION_TIME,
-      defaultDataMap:         {},
+      currentOption: OPTION_TIME,
+      defaultDataMap: {},
       customTimeframeDataMap: {},
-      customersData:          {},
-      categoryLabel:          '',
-      chartData:              null,
-      categoryId:             '',
-      productId:               '',
-      vendorsId:               "",
-      categoriesData:         {},
-      categoriesNav:          {top: categoryOptions.categories, path: []},
-      vendorsNav:             {top: vendorOptions.vendors, path: []},
-      customTimeframeDataMap: {},
-
-    })
+      customersData: {},
+      categoryLabel: "",
+      chartData: null,
+      categoryId: "",
+      productId: "",
+      vendorsId: "",
+      categoriesData: {},
+      categoriesNav: { top: categoryOptions.categories, path: [] },
+      vendorsNav: { top: vendorOptions.vendors, path: [] },
+      customTimeframeDataMap: {}
+    });
   }
 
   afterCustomRangeClear() {
     this.setState({
-      customRangeShouldClear: false,
+      customRangeShouldClear: false
     });
   }
 
   onRowSelect(filterData) {
-    const {filterBy} = this.state;
-    if (filterBy === 'product') {
-      this.setState({products: filterData});
-    } else if (filterBy === 'customer') {
-      this.setState({customers: filterData});
+    const { filterBy } = this.state;
+    if (filterBy === "product") {
+      this.setState({ products: filterData });
+    } else if (filterBy === "customer") {
+      this.setState({ customers: filterData });
     }
   }
   returnData() {
-    const {filterBy, products, customers} = this.state;
-    if (filterBy === 'product') {
+    const { filterBy, products, customers } = this.state;
+    if (filterBy === "product") {
       return products;
-    } else if (filterBy === 'customer') {
+    } else if (filterBy === "customer") {
       return customers;
     }
   }
@@ -245,85 +313,203 @@ resizeFunction=()=>{
     });
   }
 
-  setMetric(option) {    
-	  const metric_name = this.state.activeMetrics.metric_name;
+  setMetric(option) {
+    const metric_name = this.state.activeMetrics.metric_name;
     let metric_map = this.getMap(metric_name, option);
-	  if (!metric_map) {
-		    metric_map = {};
+    if (!metric_map) {
+      metric_map = {};
 
-      if (this.customStartTime !== '' && this.customEndTime !== '') {
+      if (this.customStartTime !== "" && this.customEndTime !== "") {
         metric_map.start = this.customStartTime;
         metric_map.end = this.customEndTime;
         metric_map.timeFrame = true;
       } else {
-        const ms = moment().utc().startOf('day').valueOf();
-        this.customEndTime = metric_map.end = moment(ms).add({days: 1}).valueOf();
-        this.customStartTime = metric_map.start = moment(ms).subtract({years: 1}).valueOf();
+        const ms = moment()
+          .utc()
+          .startOf("day")
+          .valueOf();
+        this.customEndTime = metric_map.end = moment(ms)
+          .add({ days: 1 })
+          .valueOf();
+        this.customStartTime = metric_map.start = moment(ms)
+          .subtract({ years: 1 })
+          .valueOf();
       }
       const queryParams = {
         timeslice_start: metric_map.start,
-        timeslice_end:   metric_map.end
+        timeslice_end: metric_map.end
       };
-      if (option === OPTION_TIME && metric_map.end - metric_map.start <= DAYS_35) {        
+      if (
+        option === OPTION_TIME &&
+        metric_map.end - metric_map.start <= DAYS_35
+      ) {
         queryParams.resolution = RESOLUTION_DAY;
         metric_map.resolution = RESOLUTION_DAY;
       }
-      const { categoriesNav, vendorsNav, currentSubOption ,categoryLabel,categoryId,vendorsId} = this.state
-      if(categoriesNav.path.length != 0  && option === OPTION_CATEGORIES){
-        if(categoriesNav.path.length == 1 && this.state.currentSubOption == 'time'){
-          this.props.getCategories({activeMetrics: this.state.activeMetrics, label: this.state.categoryLabel, id: this.state.categoryId, queryParams, option, metric_map,currentSubOption,categoryLabel}).then(() => {
-            this.setState({
-              graphLoadingDone: true
-            }, () => {
-              this.onOptionChange(this.state.currentOption,categoryId);
+      const {
+        categoriesNav,
+        vendorsNav,
+        currentSubOption,
+        categoryLabel,
+        categoryId,
+        vendorsId
+      } = this.state;
+      if (categoriesNav.path.length != 0 && option === OPTION_CATEGORIES) {
+        if (
+          categoriesNav.path.length == 1 &&
+          this.state.currentSubOption == "time"
+        ) {
+          this.props
+            .getCategories({
+              activeMetrics: this.state.activeMetrics,
+              label: this.state.categoryLabel,
+              id: this.state.categoryId,
+              queryParams,
+              option,
+              metric_map,
+              currentSubOption,
+              categoryLabel
+            })
+            .then(() => {
+              this.setState(
+                {
+                  graphLoadingDone: true
+                },
+                () => {
+                  this.onOptionChange(this.state.currentOption, categoryId);
+                }
+              );
             });
-          });
-        } else if(categoriesNav.path.length == 1 && this.state.currentSubOption == 'product'){
-          this.props.getProductBySingleCategory({activeMetrics: this.state.activeMetrics, label: this.state.categoryLabel, id: this.state.categoryId, queryParams, option, metric_map,currentSubOption,categoryLabel}).then(() => {
-            this.setState({
-              graphLoadingDone: true
-            }, () => {
-              this.onOptionChange(this.state.currentOption,categoryId);
+        } else if (
+          categoriesNav.path.length == 1 &&
+          this.state.currentSubOption == "product"
+        ) {
+          this.props
+            .getProductBySingleCategory({
+              activeMetrics: this.state.activeMetrics,
+              label: this.state.categoryLabel,
+              id: this.state.categoryId,
+              queryParams,
+              option,
+              metric_map,
+              currentSubOption,
+              categoryLabel
+            })
+            .then(() => {
+              this.setState(
+                {
+                  graphLoadingDone: true
+                },
+                () => {
+                  this.onOptionChange(this.state.currentOption, categoryId);
+                }
+              );
             });
-          });
-        } else if(categoriesNav.path.length == 2 && this.state.currentSubOption == 'variant'){
-          this.props.getVariantBySingleProduct({activeMetrics: this.state.activeMetrics, label: this.state.categoryLabel, id: this.state.categoryId, queryParams, option, metric_map,currentSubOption,categoryLabel}).then(() => {
-            this.setState({
-              graphLoadingDone: true
-            }, () => {
-              this.onOptionChange(this.state.currentOption,categoryId);
+        } else if (
+          categoriesNav.path.length == 2 &&
+          this.state.currentSubOption == "variant"
+        ) {
+          this.props
+            .getVariantBySingleProduct({
+              activeMetrics: this.state.activeMetrics,
+              label: this.state.categoryLabel,
+              id: this.state.categoryId,
+              queryParams,
+              option,
+              metric_map,
+              currentSubOption,
+              categoryLabel
+            })
+            .then(() => {
+              this.setState(
+                {
+                  graphLoadingDone: true
+                },
+                () => {
+                  this.onOptionChange(this.state.currentOption, categoryId);
+                }
+              );
             });
-          });
-        } else if(categoriesNav.path.length == 2 && this.state.currentSubOption == 'time' && categoriesNav.top == 'Variant'){
-          this.props.getCategories({activeMetrics: this.state.activeMetrics, label: this.state.categoryLabel, id: this.state.categoryId, queryParams, option, metric_map,currentSubOption,categoryLabel}).then(() => {
-            this.setState({
-              graphLoadingDone: true
-            }, () => {
-              this.onOptionChange(this.state.currentOption,categoryId);
+        } else if (
+          categoriesNav.path.length == 2 &&
+          this.state.currentSubOption == "time" &&
+          categoriesNav.top == "Variant"
+        ) {
+          this.props
+            .getCategories({
+              activeMetrics: this.state.activeMetrics,
+              label: this.state.categoryLabel,
+              id: this.state.categoryId,
+              queryParams,
+              option,
+              metric_map,
+              currentSubOption,
+              categoryLabel
+            })
+            .then(() => {
+              this.setState(
+                {
+                  graphLoadingDone: true
+                },
+                () => {
+                  this.onOptionChange(this.state.currentOption, categoryId);
+                }
+              );
             });
-          });
-        } else{   
-          this.props.getTimeBySingleVariant({activeMetrics: this.state.activeMetrics, label: this.state.categoryLabel, productId: this.state.productId, id: this.state.categoryId, queryParams, option, metric_map,currentSubOption,categoryLabel}).then(() => {
-            this.setState({
-              graphLoadingDone: true
-            }, () => {
-              this.onOptionChange(this.state.currentOption,categoryId);
+        } else {
+          this.props
+            .getTimeBySingleVariant({
+              activeMetrics: this.state.activeMetrics,
+              label: this.state.categoryLabel,
+              productId: this.state.productId,
+              id: this.state.categoryId,
+              queryParams,
+              option,
+              metric_map,
+              currentSubOption,
+              categoryLabel
+            })
+            .then(() => {
+              this.setState(
+                {
+                  graphLoadingDone: true
+                },
+                () => {
+                  this.onOptionChange(this.state.currentOption, categoryId);
+                }
+              );
             });
-          });
         }
-      } else if(vendorsNav.path.length != 0 && option === OPTION_VENDOR){
-        this.props.getVendors({activeMetrics: this.state.activeMetrics, label: this.state.vendorsLabel, id: this.state.vendorsId, queryParams, option, metric_map}).then(() => {
-          this.setState({
-            graphLoadingDone: true,
-          }, () => {
-            this.onOptionChange(this.state.currentOption,vendorsId);
+      } else if (vendorsNav.path.length != 0 && option === OPTION_VENDOR) {
+        this.props
+          .getVendors({
+            activeMetrics: this.state.activeMetrics,
+            label: this.state.vendorsLabel,
+            id: this.state.vendorsId,
+            queryParams,
+            option,
+            metric_map
+          })
+          .then(() => {
+            this.setState(
+              {
+                graphLoadingDone: true
+              },
+              () => {
+                this.onOptionChange(this.state.currentOption, vendorsId);
+              }
+            );
           });
-        });
-      } else{                
-        this.props.getChartData(option, this.state.activeMetrics, metric_map, queryParams,
-          this.props.channelData.data.shopId);
+      } else {
+        this.props.getChartData(
+          option,
+          this.state.activeMetrics,
+          metric_map,
+          queryParams,
+          this.props.channelData.data.shopId
+        );
       }
-	  }
+    }
   }
 
   setTimeMetric() {  
@@ -333,22 +519,22 @@ resizeFunction=()=>{
       this.setMetric(OPTION_TIME);
     } else {
       const metrics = metric_map.result;
-      if(metrics === undefined){
+      if (metrics === undefined) {
         this.setState({
-          noData:           false,
-          graphError:       true,
-          chartData:        null,
+          noData: false,
+          graphError: true,
+          chartData: null,
           graphLoadingDone: true
-        })
+        });
       }
       if (metrics.length === 0) {
         this.setState({
-          noData:           true,
-          graphError:       true,
-          chartData:        null,
+          noData: true,
+          graphError: true,
+          chartData: null,
           graphLoadingDone: true
         });
-        throw new Error('No metrics to display');
+        throw new Error("No metrics to display");
       }
 
       const value = metrics[0];
@@ -360,7 +546,7 @@ resizeFunction=()=>{
         let postfix = (_.find(this.state.metrics, function(o) {return o.db_name == metric_name})).postfix;
         data.push({
           label,
-          value:   value.value,
+          value: value.value,
           prefix,
           postfix
         });
@@ -369,423 +555,519 @@ resizeFunction=()=>{
       let width = data.length * WIDTH_PER_LABEL;      
       const full_width = document.getElementById('chart-full-width-holder') != null ? document.getElementById('chart-full-width-holder').offsetWidth : 904;
       if (metric_map.resolution === RESOLUTION_DAY) {
-        width = full_width / 31 * data.length;
+        width = (full_width / 31) * data.length;
       }
         width = '100%';              
       this.setState({
-        chartWidth:       width,
-        chartData:        data,
+        chartWidth: width,
+        chartData: data,
         graphLoadingDone: true
       });
     }
   }
-  
-  setCategoryMetrics(id) {    
-    const metric_name = this.state.activeMetrics.metric_name;  
-    const {categoryLabel,currentSubOption}=this.state 
-    const metric_map = this.getMap(metric_name, OPTION_CATEGORIES,categoryLabel,currentSubOption,id);    
+
+  setCategoryMetrics(id) {
+    const metric_name = this.state.activeMetrics.metric_name;
+    const { categoryLabel, currentSubOption } = this.state;
+    const metric_map = this.getMap(
+      metric_name,
+      OPTION_CATEGORIES,
+      categoryLabel,
+      currentSubOption,
+      id
+    );
     if (!metric_map) {
       this.setMetric(OPTION_CATEGORIES);
     } else {
-      let sortOrder = ascendingSortOrder;
-      if (this.currentSortOption === '2') {
-        sortOrder = descendingSortOrder;
-      }
       let metrics = metric_map.result;
-      if(metrics === undefined){
+      if (metrics === undefined) {
         this.setState({
-          noData:           false,
-          graphError:       true,
-          chartData:        null,
+          noData: false,
+          graphError: true,
+          chartData: null,
           graphLoadingDone: true
-        })
+        });
       }
       if (metrics.length === 0) {
         this.setState({
-          noData:           true,
-          graphError:       true,
-          chartData:        null,
+          noData: true,
+          graphError: true,
+          chartData: null,
           graphLoadingDone: true
         });
-        throw new Error('No metrics to display');
+        throw new Error("No metrics to display");
       }
       const data = [];
-      let index = 0;      
+      let index = 0;
       const categoriesNavTop = this.state.categoriesNav.top;
-      if (categoriesNavTop === categoryOptions.product || categoriesNavTop === categoryOptions.variant || categoriesNavTop === categoryOptions.time && (this.state.currentSubOption == 'time' || this.state.currentSubOption == 'product' || this.state.currentSubOption == 'variant')) { 
-        metrics.forEach((value) => {          
-          let format = 'MMM YY';
-          if(this.state.currentSubOption == 'time'){
-            const label = moment(value.time_start).utcOffset('+00:00').format(format);
-            let prefix = (_.find(this.state.metrics, function(o) {return o.db_name == metric_name})).prefix;
-            let postfix = (_.find(this.state.metrics, function(o) {return o.db_name == metric_name})).postfix;
+      if (
+        categoriesNavTop === categoryOptions.product ||
+        categoriesNavTop === categoryOptions.variant ||
+        (categoriesNavTop === categoryOptions.time &&
+          (this.state.currentSubOption == "time" ||
+            this.state.currentSubOption == "product" ||
+            this.state.currentSubOption == "variant"))
+      ) {
+        metrics.forEach(value => {
+          let format = "MMM YY";
+          if (this.state.currentSubOption == "time") {
+            const label = moment(value.time_start)
+              .utcOffset("+00:00")
+              .format(format);
+            let prefix = _.find(this.state.metrics, function(o) {
+              return o.db_name == metric_name;
+            }).prefix;
+            let postfix = _.find(this.state.metrics, function(o) {
+              return o.db_name == metric_name;
+            }).postfix;
             data.push({
               label,
-              value:   value.value,
+              value: value.value,
               prefix,
               postfix,
-              index,
+              index
             });
-          } else if(this.state.currentSubOption == 'variant'){
-            const label = value.variantTitle
-            let prefix = (_.find(this.state.metrics, function(o) {return o.db_name == metric_name})).prefix;
-            let postfix = (_.find(this.state.metrics, function(o) {return o.db_name == metric_name})).postfix;
+          } else if (this.state.currentSubOption == "variant") {
+            const label = value.variantTitle;
+            let prefix = _.find(this.state.metrics, function(o) {
+              return o.db_name == metric_name;
+            }).prefix;
+            let postfix = _.find(this.state.metrics, function(o) {
+              return o.db_name == metric_name;
+            }).postfix;
             data.push({
               label,
-              value:         value.value,
+              value: value.value,
               prefix,
               postfix,
               index,
               categoryBarId: value.variantId
-              
             });
-          } else if(this.state.categoriesNav.top == categoryOptions.time){            
-            const label =  moment(value.time_start).utcOffset('+00:00').format(format);
-            let prefix = (_.find(this.state.metrics, function(o) {return o.db_name == metric_name})).prefix;
-            let postfix = (_.find(this.state.metrics, function(o) {return o.db_name == metric_name})).postfix;
+          } else if (this.state.categoriesNav.top == categoryOptions.time) {
+            const label = moment(value.time_start)
+              .utcOffset("+00:00")
+              .format(format);
+            let prefix = _.find(this.state.metrics, function(o) {
+              return o.db_name == metric_name;
+            }).prefix;
+            let postfix = _.find(this.state.metrics, function(o) {
+              return o.db_name == metric_name;
+            }).postfix;
             data.push({
               label,
-              value:   value.value,
+              value: value.value,
               prefix,
               postfix,
-              index,
+              index
             });
           } else {
-            this.setState({productId: value.productId})
-            const label = value.productTitle
-            const variantArr = _.find(this.state.productData.products, function(o) { return o.productId == value.productId; });
-            const image = variantArr && variantArr.variants[0].imageUrl || productImgPlaceholder    
-            
-            let prefix = (_.find(this.state.metrics, function(o) {return o.db_name == metric_name})).prefix;
-            let postfix = (_.find(this.state.metrics, function(o) {return o.db_name == metric_name})).postfix;
-            data.push({ 
-                label,
-                image,
-                value:   value.value,
-                prefix,
-                postfix,
-                index,
-                categoryBarId:value.productId   
+            this.setState({ productId: value.productId });
+            const label = value.productTitle;
+            const variantArr = _.find(this.state.productData.products, function(
+              o
+            ) {
+              return o.productId == value.productId;
+            });
+            const image =
+              (variantArr && variantArr.variants[0].imageUrl) ||
+              productImgPlaceholder;
 
-              });
-            }
-              index++;
-            });
-          } else if(this.state.activeMetrics.metric_name == 'avg_margin' || this.state.activeMetrics.metric_name == 'number_of_orders'){
-            metrics.forEach((value) => {
-              let prefix = (_.find(this.state.metrics, function(o) {return o.db_name == metric_name})).prefix;
-              let postfix = (_.find(this.state.metrics, function(o) {return o.db_name == metric_name})).postfix;
-              data.push({
-                label:   value.productType,
-                value:   value.value,
-                prefix,
-                postfix,
-                index,
-                categoryBarId:value.productTypeId
-              });
-              index++;
-            });
-          } else{
-            metrics.forEach((value) => {
-              const label = value.contextId.split(':')[1];
-              let prefix = (_.find(this.state.metrics, function(o) {return o.db_name == metric_name})).prefix;
-              let postfix = (_.find(this.state.metrics, function(o) {return o.db_name == metric_name})).postfix;
-              data.push({
-                label,
-                value:   value.value,
-                prefix,
-                postfix,
-                index,
-                categoryBarId:value.categoryId
-              });
-              index++;
-            });
-          }
-        if (sortOrder) {
-          data.sort((a, b) => {
-            if (sortOrder === ascendingSortOrder) {
-              if (a.value !== b.value) {
-                return a.value - b.value;
-              }
-            } else if (sortOrder === descendingSortOrder) {
-              if (a.value !== b.value) {
-                return b.value - a.value;
-              }
-            }
-            return a.index - b.index;
-          });
-        }
-      let width = data.length * WIDTH_PER_LABEL;
-      const full_width = document.getElementById('chart-full-width-holder') != null ? document.getElementById('chart-full-width-holder').offsetWidth : 904;
-      if (width < full_width) {
-        width = '100%';
-      } else {
-        width += 'px';
-      }
-      this.setState({
-        chartWidth:       `${width}px`,
-        chartData:        data,
-        graphLoadingDone: true
-      });      
-    }
-  }
-  
-  setVendorsMetric(id) {    
-    
-    let sortOrder = ascendingSortOrder;
-	  if (this.currentSortOption === '2') {
-      sortOrder = descendingSortOrder;
-    }
-    const {vendorsNav:{top}}= this.state
-    const label=top==="Time"?"Time":""
-    const metric_name = this.state.activeMetrics.metric_name;
-    const metric_map = this.getMap(metric_name, OPTION_VENDOR,label,'',id);    
-    
-    if (!metric_map) {
-      this.setMetric(OPTION_VENDOR);
-    } else {
-      let metrics = metric_map.result;
-      if(metrics === undefined){
-        this.setState({
-          noData:           false,
-          graphError:       true,
-          chartData:        null,
-          graphLoadingDone: true
-        })
-      }
-      if (metrics.length === 0) {
-        this.setState({
-          noData:           true,
-          graphError:       true,
-          chartData:        null,
-          graphLoadingDone: true
-        });
-        throw new Error('No metrics to display');
-      }
-      const value = metrics[0];
-      
-      const data = [];
-      
-      let index = 0;
-      const vendorsNavTop = this.state.vendorsNav.top;
-      
-      if (vendorsNavTop === vendorOptions.time) {
-        this.setState({
-          currentOption: OPTION_VENDOR
-        });
-        
-        metrics.forEach((value) => {
-          let format = 'MMM YY';
-          const label = moment(value.time_start).utcOffset('+00:00').format(format);
-          let prefix = (_.find(this.state.metrics, function(o) {return o.db_name == metric_name})).prefix;
-          let postfix = (_.find(this.state.metrics, function(o) {return o.db_name == metric_name})).postfix;
-          data.push({
-            label,
-            value:   value.value,
-            prefix,
-            postfix,
-            index,
-            vendorId:value.vendorId
-
-          });
-            index++;
-          });
-        } else if(this.state.activeMetrics.metric_name == 'avg_margin' || this.state.activeMetrics.metric_name == 'number_of_orders' || this.state.activeMetrics.metric_name == 'gross_profit' ) {
-          metrics.forEach((value) => {
-            let email = value.vendor;
-            let prefix = (_.find(this.state.metrics, function(o) {return o.db_name == metric_name})).prefix;
-            let postfix = (_.find(this.state.metrics, function(o) {return o.db_name == metric_name})).postfix;
+            let prefix = _.find(this.state.metrics, function(o) {
+              return o.db_name == metric_name;
+            }).prefix;
+            let postfix = _.find(this.state.metrics, function(o) {
+              return o.db_name == metric_name;
+            }).postfix;
             data.push({
-              label:   value.vendor,
-              value:   value.value,
+              label,
+              image,
+              value: value.value,
               prefix,
               postfix,
-              email,
               index,
-              vendorId:value.vendorId
+              categoryBarId: value.productId
             });
-            index++;
-          });
-        } else {
-          metrics.forEach((value) => {
-          let label = value.contextId.split('_')[1];
-          let email = label;
-          let prefix = (_.find(this.state.metrics, function(o) {return o.db_name == metric_name})).prefix;
-          let postfix = (_.find(this.state.metrics, function(o) {return o.db_name == metric_name})).postfix;
+          }
+          index++;
+        });
+      } else if (
+        this.state.activeMetrics.metric_name == "avg_margin" ||
+        this.state.activeMetrics.metric_name == "number_of_orders"
+      ) {
+        metrics.forEach(value => {
+          let prefix = _.find(this.state.metrics, function(o) {
+            return o.db_name == metric_name;
+          }).prefix;
+          let postfix = _.find(this.state.metrics, function(o) {
+            return o.db_name == metric_name;
+          }).postfix;
           data.push({
-            label,
-            value:   value.value,
+            label: value.productType,
+            value: value.value,
             prefix,
             postfix,
-            email,
             index,
-            vendorId:value.vendorId
+            categoryBarId: value.productTypeId
+          });
+          index++;
+        });
+      } else {
+        metrics.forEach(value => {
+          const label = value.contextId.split(":")[1];
+          let prefix = _.find(this.state.metrics, function(o) {
+            return o.db_name == metric_name;
+          }).prefix;
+          let postfix = _.find(this.state.metrics, function(o) {
+            return o.db_name == metric_name;
+          }).postfix;
+          data.push({
+            label,
+            value: value.value,
+            prefix,
+            postfix,
+            index,
+            categoryBarId: value.categoryId
           });
           index++;
         });
       }
-      if (sortOrder) {
-        data.sort((a, b) => {
-          if (sortOrder === ascendingSortOrder) {
-            if (a.value !== b.value) {
-              return a.value - b.value;
-            }
-          } else if (sortOrder === descendingSortOrder) {
-            if (a.value !== b.value) {
-              return b.value - a.value;
-            }
-          }
-          return a.index - b.index;
-        });
-      }
-
+      this.sortChartData(data);
       let width = data.length * WIDTH_PER_LABEL;
-      const full_width = document.getElementById('chart-full-width-holder') != null ? document.getElementById('chart-full-width-holder').offsetWidth : 904;
+      const full_width =
+        document.getElementById("chart-full-width-holder") != null
+          ? document.getElementById("chart-full-width-holder").offsetWidth
+          : 904;
       if (width < full_width) {
-        width = '100%';
+        width = "100%";
       } else {
-        width += 'px';
+        width += "px";
       }
       this.setState({
-        chartWidth:       `${width}px`,
-        chartData:        data,
+        chartWidth: `${width}px`,
+        chartData: data,
         graphLoadingDone: true
       });
     }
   }
 
-  onVendorClick(label, id,vendorGraphLabel){   
-    const {metric_name}=this.state.activeMetrics    
-     const currentVendorBar  = this.props.chartData.data.customTimeframeDataMap[`${metric_name}:Vendors:Time:${id}`]
-    if( !currentVendorBar){
+  setVendorsMetric(id) {   
+    const {
+      vendorsNav: { top }
+    } = this.state;
+    const label = top === "Time" ? "Time" : "";
+    const metric_name = this.state.activeMetrics.metric_name;
+    const metric_map = this.getMap(metric_name, OPTION_VENDOR, label, "", id);
+
+    if (!metric_map) {
+      this.setMetric(OPTION_VENDOR);
+    } else {
+      let metrics = metric_map.result;
+      if (metrics === undefined) {
+        this.setState({
+          noData: false,
+          graphError: true,
+          chartData: null,
+          graphLoadingDone: true
+        });
+      }
+      if (metrics.length === 0) {
+        this.setState({
+          noData: true,
+          graphError: true,
+          chartData: null,
+          graphLoadingDone: true
+        });
+        throw new Error("No metrics to display");
+      }
+      const value = metrics[0];
+
+      const data = [];
+
+      let index = 0;
+      const vendorsNavTop = this.state.vendorsNav.top;
+
+      if (vendorsNavTop === vendorOptions.time) {
+        this.setState({
+          currentOption: OPTION_VENDOR
+        });
+
+        metrics.forEach(value => {
+          let format = "MMM YY";
+          const label = moment(value.time_start)
+            .utcOffset("+00:00")
+            .format(format);
+          let prefix = _.find(this.state.metrics, function(o) {
+            return o.db_name == metric_name;
+          }).prefix;
+          let postfix = _.find(this.state.metrics, function(o) {
+            return o.db_name == metric_name;
+          }).postfix;
+          data.push({
+            label,
+            value: value.value,
+            prefix,
+            postfix,
+            index,
+            vendorId: value.vendorId
+          });
+          index++;
+        });
+      } else if (
+        this.state.activeMetrics.metric_name == "avg_margin" ||
+        this.state.activeMetrics.metric_name == "number_of_orders" ||
+        this.state.activeMetrics.metric_name == "gross_profit"
+      ) {
+        metrics.forEach(value => {
+          let email = value.vendor;
+          let prefix = _.find(this.state.metrics, function(o) {
+            return o.db_name == metric_name;
+          }).prefix;
+          let postfix = _.find(this.state.metrics, function(o) {
+            return o.db_name == metric_name;
+          }).postfix;
+          data.push({
+            label: value.vendor,
+            value: value.value,
+            prefix,
+            postfix,
+            email,
+            index,
+            vendorId: value.vendorId
+          });
+          index++;
+        });
+      } else {
+        metrics.forEach(value => {
+          let label = value.contextId.split("_")[1];
+          let email = label;
+          let prefix = _.find(this.state.metrics, function(o) {
+            return o.db_name == metric_name;
+          }).prefix;
+          let postfix = _.find(this.state.metrics, function(o) {
+            return o.db_name == metric_name;
+          }).postfix;
+          data.push({
+            label,
+            value: value.value,
+            prefix,
+            postfix,
+            email,
+            index,
+            vendorId: value.vendorId
+          });
+          index++;
+        });
+      }
+      this.sortChartData(data);
+
+      let width = data.length * WIDTH_PER_LABEL;
+      const full_width =
+        document.getElementById("chart-full-width-holder") != null
+          ? document.getElementById("chart-full-width-holder").offsetWidth
+          : 904;
+      if (width < full_width) {
+        width = "100%";
+      } else {
+        width += "px";
+      }
       this.setState({
-        vendorsId:    id,
+        chartWidth: `${width}px`,
+        chartData: data,
+        graphLoadingDone: true
+      });
+    }
+  }
+
+  onVendorClick(label, id, vendorGraphLabel) {
+    const { metric_name } = this.state.activeMetrics;
+    const currentVendorBar = this.props.chartData.data.customTimeframeDataMap[
+      `${metric_name}:Vendors:Time:${id}`
+    ];
+    if (!currentVendorBar) {
+      this.setState({
+        vendorsId: id,
         vendorsLabel: label,
-        vendorGraphLabel:vendorGraphLabel
-      })
+        vendorGraphLabel: vendorGraphLabel
+      });
       const vendorsNav = this.state.vendorsNav;
 
-      let metric_map = this.getMap(this.state.activeMetrics.metric_name, this.state.currentOption);    
+      let metric_map = this.getMap(
+        this.state.activeMetrics.metric_name,
+        this.state.currentOption
+      );
       if (label === vendorOptions.time) {
         vendorsNav.top = vendorOptions.time;
-        vendorsNav.path = [{label, id}];
+        vendorsNav.path = [{ label, id }];
       }
       this.setState({
         vendorsNav,
-        graphLoadingDone: false,
+        graphLoadingDone: false
       });
+      this.checkCustomDate();
       const queryParams = {
         timeslice_start: this.customStartTime,
-        timeslice_end:   this.customEndTime
+        timeslice_end: this.customEndTime
       };
-      if (isEmpty(this.customStartTime) || isEmpty(this.customEndTime)) {
-        const ms = moment().utc().startOf('day').valueOf();
-        this.customEndTime = queryParams.timeslice_end = moment(ms).add({days: 1}).valueOf();
-        this.customStartTime = queryParams.timeslice_start = moment(ms).subtract({years: 1}).valueOf();
-      }
       const option = this.state.currentOption;
-      this.props.getVendors({activeMetrics: this.state.activeMetrics, label, id, queryParams, option, metric_map}).then(() => {
-        this.setState({
-          graphLoadingDone: true,
-        }, () => {
-          this.onOptionChange(this.state.currentOption,id);
+      this.props
+        .getVendors({
+          activeMetrics: this.state.activeMetrics,
+          label,
+          id,
+          queryParams,
+          option,
+          metric_map
+        })
+        .then(() => {
+          this.setState(
+            {
+              graphLoadingDone: true
+            },
+            () => {
+              this.onOptionChange(this.state.currentOption, id);
+            }
+          );
         });
-      });
-    }
-    else{
+    } else {
       this.setState({
-        vendorsId:    id,
-      })
+        vendorsId: id
+      });
       const vendorsNav = this.state.vendorsNav;
       if (label === vendorOptions.time) {
         vendorsNav.top = vendorOptions.time;
-        vendorsNav.path = [{label, id}];
+        vendorsNav.path = [{ label, id }];
       }
-      this.onOptionChange(this.state.currentOption,id);
-
+      this.onOptionChange(this.state.currentOption, id);
     }
   }
 
-  onCategoryClick(label, id,graphLabel) {    
+  onCategoryClick(label, id, graphLabel) {
     const categoriesNav = this.state.categoriesNav;
-    const {metric_name}=this.state.activeMetrics
+    const { metric_name } = this.state.activeMetrics;
 
     if (label === categoryOptions.product) {
       categoriesNav.top = categoryOptions.product;
-      categoriesNav.path = [{label, id,graphLabel}];
+      categoriesNav.path = [{ label, id, graphLabel }];
     } else if (label === categoryOptions.variant) {
       categoriesNav.top = categoryOptions.variant;
-      categoriesNav.path[1] = {label, id,graphLabel};
+      categoriesNav.path[1] = { label, id, graphLabel };
     } else if (label === categoryOptions.time) {
       categoriesNav.top = categoryOptions.time;
-      categoriesNav.path[1] = {label, id,graphLabel};
+      categoriesNav.path[1] = { label, id, graphLabel };
     }
-    this.setState({
-      categoriesNav,
-      currentSubOption: 'time',
-      categoryLabel: label,
-      categoryId:    id,
-      graphLabel,
-    },()=>{
-    const{categoriesNav:{top},currentOption,currentSubOption,categoryLabel}=this.state
-    const categoryBarsId=this.props.chartData.data.customTimeframeDataMap[`${metric_name}:Categories:${this.state.categoryLabel}:${this.state.currentSubOption}:${id}`]
-    
-    if(!categoryBarsId){     
-    const categoriesNav = this.state.categoriesNav;
-    let metric_map = this.getMap(this.state.activeMetrics.metric_name, this.state.currentOption)||{};
-    this.setState({
-      graphLoadingDone: false
-    });
-    const queryParams = {
-      timeslice_start: this.customStartTime,
-      timeslice_end:   this.customEndTime
-    };
-    if (isEmpty(this.customStartTime) || isEmpty(this.customEndTime)) {
-      const ms = moment().utc().startOf('day').valueOf();
-      this.customEndTime = queryParams.timeslice_end = moment(ms).add({days: 1}).valueOf();
-      this.customStartTime = queryParams.timeslice_start = moment(ms).subtract({years: 1}).valueOf();
-    }
-    const option = this.state.currentOption;
-    if(categoriesNav.top == categoryOptions.variant && categoriesNav.top == categoryOptions.time){
-      this.setState({
-        currentSubOption: 'time'
-      })
-    }
-    const  {currentSubOption,categoryLabel}=this.state
+    this.setState(
+      {
+        categoriesNav,
+        currentSubOption: "time",
+        categoryLabel: label,
+        categoryId: id,
+        graphLabel
+      },
+      () => {
+        const {
+          categoriesNav: { top },
+          currentOption,
+          currentSubOption,
+          categoryLabel
+        } = this.state;
+        const categoryBarsId = this.props.chartData.data.customTimeframeDataMap[
+          `${metric_name}:Categories:${this.state.categoryLabel}:${
+            this.state.currentSubOption
+          }:${id}`
+        ];
 
-    if(this.state.categoriesNav.top == categoryOptions.time){      
-        const productId = this.state.productId
-      this.props.getTimeBySingleVariant({activeMetrics: this.state.activeMetrics, label, productId, id, queryParams, option, metric_map,currentSubOption,categoryLabel}).then(() => {
-        this.setState({
-          graphLoadingDone: true
-        }, () => {
-          this.onOptionChange(this.state.currentOption,id);
-        });
-      });
-    } else {
+        if (!categoryBarsId) {
+          const categoriesNav = this.state.categoriesNav;
+          let metric_map =
+            this.getMap(
+              this.state.activeMetrics.metric_name,
+              this.state.currentOption
+            ) || {};
+          this.setState({
+            graphLoadingDone: false
+          });
 
-      this.props.getCategories({activeMetrics: this.state.activeMetrics, label, id, queryParams, option, metric_map,currentSubOption,categoryLabel}).then(() => {
-        this.setState({
-          graphLoadingDone: true
-        }, () => {
-          this.onOptionChange(this.state.currentOption,id);
-        });
-      });
-    }
-  }
-  else{
-    this.setState({
-      currentSubOption:      'time',
-      categoriesNav,
-      categoryLabel:          label,
-      graphLabel,
-      categoryId:              id,
-    },()=>{
-      this.onOptionChange(this.state.currentOption,id);
-    })
-  }
-});
+          this.checkCustomDate();
 
+          const queryParams = {
+            timeslice_start: this.customStartTime,
+            timeslice_end: this.customEndTime
+          };
+
+          const option = this.state.currentOption;
+          if (
+            categoriesNav.top == categoryOptions.variant &&
+            categoriesNav.top == categoryOptions.time
+          ) {
+            this.setState({
+              currentSubOption: "time"
+            });
+          }
+          const { currentSubOption, categoryLabel } = this.state;
+
+          if (this.state.categoriesNav.top == categoryOptions.time) {
+            const productId = this.state.productId;
+            this.props
+              .getTimeBySingleVariant({
+                activeMetrics: this.state.activeMetrics,
+                label,
+                productId,
+                id,
+                queryParams,
+                option,
+                metric_map,
+                currentSubOption,
+                categoryLabel
+              })
+              .then(() => {
+                this.setState(
+                  {
+                    graphLoadingDone: true
+                  },
+                  () => {
+                    this.onOptionChange(this.state.currentOption, id);
+                  }
+                );
+              });
+          } else {
+            this.props
+              .getCategories({
+                activeMetrics: this.state.activeMetrics,
+                label,
+                id,
+                queryParams,
+                option,
+                metric_map,
+                currentSubOption,
+                categoryLabel
+              })
+              .then(() => {
+                this.setState(
+                  {
+                    graphLoadingDone: true
+                  },
+                  () => {
+                    this.onOptionChange(this.state.currentOption, id);
+                  }
+                );
+              });
+          }
+        } else {
+          this.setState(
+            {
+              currentSubOption: "time",
+              categoriesNav,
+              categoryLabel: label,
+              graphLabel,
+              categoryId: id
+            },
+            () => {
+              this.onOptionChange(this.state.currentOption, id);
+            }
+          );
+        }
+      }
+    );
   }
 
   onTimeframeChange(newStartTime, newEndTime) {
@@ -799,17 +1081,23 @@ resizeFunction=()=>{
   }
 
   onSortOptionChange(option) {
-    this.currentSortOption = option;
-    this.onOptionChange(this.state.currentOption);
+    if(this.currentSortOption !== option){
+      this.currentSortOption = option;
+      let data = _.cloneDeep(this.state.chartData);
+      this.sortChartData(data);
+      this.setState({
+        chartData: data,
+      });
+    }
   }
 
-  onOptionChange(option,id) {
+  onOptionChange(option, id) {
     this.setState({
-      chartData:        null,
-      currentOption:    option,
+      chartData: null,
+      currentOption: option,
       graphLoadingDone: false,
-      graphError:       false,
-      noData:           false
+      graphError: false,
+      noData: false
     });
     if (option === OPTION_TIME) {
       this.setTimeMetric();
@@ -820,141 +1108,208 @@ resizeFunction=()=>{
     }
   }
 
-  onSubOptionChange(e) { 
-    const {metric_name}=this.state.activeMetrics
-    const { categoryLabel, categoryId ,graphLabel} = this.state;
-    const productBarData=this.props.chartData.data.customTimeframeDataMap[`${metric_name}:Categories:Product:product:${categoryId}`]
-    const currentSubOption=e.target.value       
+  onSubOptionChange(e) {
+    const { metric_name } = this.state.activeMetrics;
+    const { categoryLabel, categoryId, graphLabel } = this.state;
+    const productBarData = this.props.chartData.data.customTimeframeDataMap[
+      `${metric_name}:Categories:Product:product:${categoryId}`
+    ];
+    const currentSubOption = e.target.value;
     this.setState({
       currentSubOption: e.target.value
     });
     const categoriesNav = this.state.categoriesNav;
-    const label = categoryLabel
-    const id = categoryId
-    if(e.target.value == 'product'){
-      if(categoryLabel != '' && categoryId != '' && !productBarData  ){ 
-        let metric_map = this.getMap(this.state.activeMetrics.metric_name, this.state.currentOption)||{};
+    const label = categoryLabel;
+    const id = categoryId;
+    if (e.target.value == "product") {
+      if (categoryLabel != "" && categoryId != "" && !productBarData) {
+        let metric_map =
+          this.getMap(
+            this.state.activeMetrics.metric_name,
+            this.state.currentOption
+          ) || {};
         if (categoryLabel === categoryOptions.product) {
           categoriesNav.top = categoryOptions.product;
-          categoriesNav.path = [{ label, id,graphLabel}];
+          categoriesNav.path = [{ label, id, graphLabel }];
         } else if (categoryLabel === categoryOptions.variant) {
           categoriesNav.top = categoryOptions.variant;
-          categoriesNav.path[1] = { label, id,graphLabel};
+          categoriesNav.path[1] = { label, id, graphLabel };
         }
         this.setState({
           categoriesNav,
           graphLoadingDone: false
         });
+        this.checkCustomDate();
         const queryParams = {
           timeslice_start: this.customStartTime,
-          timeslice_end:   this.customEndTime
+          timeslice_end: this.customEndTime
         };
-        if (isEmpty(this.customStartTime) || isEmpty(this.customEndTime)) {
-          const ms = moment().utc().startOf('day').valueOf();
-          this.customEndTime = queryParams.timeslice_end = moment(ms).add({days: 1}).valueOf();
-          this.customStartTime = queryParams.timeslice_start = moment(ms).subtract({years: 1}).valueOf();
-        }
+
         const option = this.state.currentOption;
-        this.props.getProductBySingleCategory({activeMetrics: this.state.activeMetrics, label, id, queryParams, option, metric_map,currentSubOption,categoryLabel}).then(() => {
-          this.setState({
-            graphLoadingDone: true
-          }, () => {
-            this.onOptionChange(this.state.currentOption,id);
+        this.props
+          .getProductBySingleCategory({
+            activeMetrics: this.state.activeMetrics,
+            label,
+            id,
+            queryParams,
+            option,
+            metric_map,
+            currentSubOption,
+            categoryLabel
+          })
+          .then(() => {
+            this.setState(
+              {
+                graphLoadingDone: true
+              },
+              () => {
+                this.onOptionChange(this.state.currentOption, id);
+              }
+            );
           });
-        });
-      }
-      else{
+      } else {
         if (categoryLabel === categoryOptions.product) {
           categoriesNav.top = categoryOptions.product;
-          categoriesNav.path = [{ label, id,graphLabel}];
+          categoriesNav.path = [{ label, id, graphLabel }];
         } else if (categoryLabel === categoryOptions.variant) {
           categoriesNav.top = categoryOptions.variant;
-          categoriesNav.path[1] = { label, id,graphLabel};
+          categoriesNav.path[1] = { label, id, graphLabel };
         }
-        this.setState({
-          categoriesNav,
-        },()=>{this.onOptionChange(this.state.currentOption,id)});
+        this.setState(
+          {
+            categoriesNav
+          },
+          () => {
+            this.onOptionChange(this.state.currentOption, id);
+          }
+        );
       }
-    } else if(e.target.value == 'time'){      
-      const {categoryLabel, categoryId,graphLabel} = this.state      
-      this.onCategoryClick(categoryLabel, categoryId,graphLabel,currentSubOption);
+    } else if (e.target.value == "time") {
+      const { categoryLabel, categoryId, graphLabel } = this.state;
+      this.onCategoryClick(
+        categoryLabel,
+        categoryId,
+        graphLabel,
+        currentSubOption
+      );
     } else {
-      const { categoryLabel, categoryId ,graphLabel,
-        activeMetrics:{metric_name} } = this.state;
-      const variantBarData=this.props.chartData.data.customTimeframeDataMap[`${metric_name}:Categories:Variant:variant:${categoryId}`]      
-      if(categoryLabel != '' && categoryId != '' && !variantBarData  ){
+      const {
+        categoryLabel,
+        categoryId,
+        graphLabel,
+        activeMetrics: { metric_name }
+      } = this.state;
+      const variantBarData = this.props.chartData.data.customTimeframeDataMap[
+        `${metric_name}:Categories:Variant:variant:${categoryId}`
+      ];
+      if (categoryLabel != "" && categoryId != "" && !variantBarData) {
         const categoriesNav = this.state.categoriesNav;
-        const id = categoryId
-        const label = categoryLabel
-        let metric_map = this.getMap(this.state.activeMetrics.metric_name, this.state.currentOption)||{};
+        const id = categoryId;
+        const label = categoryLabel;
+        let metric_map =
+          this.getMap(
+            this.state.activeMetrics.metric_name,
+            this.state.currentOption
+          ) || {};
         if (categoryLabel === categoryOptions.product) {
           categoriesNav.top = categoryOptions.product;
-          categoriesNav.path = [{ label, id,graphLabel}];
+          categoriesNav.path = [{ label, id, graphLabel }];
         } else if (categoryLabel === categoryOptions.variant) {
           categoriesNav.top = categoryOptions.variant;
-          categoriesNav.path[1] = { label, id,graphLabel};
+          categoriesNav.path[1] = { label, id, graphLabel };
         }
         this.setState({
           categoriesNav,
           graphLoadingDone: false
         });
+
+        this.checkCustomDate();
         const queryParams = {
           timeslice_start: this.customStartTime,
-          timeslice_end:   this.customEndTime
+          timeslice_end: this.customEndTime
         };
-        if (isEmpty(this.customStartTime) || isEmpty(this.customEndTime)) {
-          const ms = moment().utc().startOf('day').valueOf();
-          this.customEndTime = queryParams.timeslice_end = moment(ms).add({days: 1}).valueOf();
-          this.customStartTime = queryParams.timeslice_start = moment(ms).subtract({years: 1}).valueOf();
-        }
+
         const option = this.state.currentOption;
-        this.props.getVariantBySingleProduct({activeMetrics: this.state.activeMetrics, label, id, queryParams, option, metric_map,currentSubOption,categoryLabel}).then(() => {
-          this.setState({
-            graphLoadingDone: true
-          }, () => {
-            this.onOptionChange(this.state.currentOption,id);
+        this.props
+          .getVariantBySingleProduct({
+            activeMetrics: this.state.activeMetrics,
+            label,
+            id,
+            queryParams,
+            option,
+            metric_map,
+            currentSubOption,
+            categoryLabel
+          })
+          .then(() => {
+            this.setState(
+              {
+                graphLoadingDone: true
+              },
+              () => {
+                this.onOptionChange(this.state.currentOption, id);
+              }
+            );
           });
-        });
-      }
-      else{
+      } else {
         const categoriesNav = this.state.categoriesNav;
-        const id = categoryId
-        const label = categoryLabel
-        let metric_map = this.getMap(this.state.activeMetrics.metric_name, this.state.currentOption,id);
+        const id = categoryId;
+        const label = categoryLabel;
+        let metric_map = this.getMap(
+          this.state.activeMetrics.metric_name,
+          this.state.currentOption,
+          id
+        );
         if (categoryLabel === categoryOptions.product) {
           categoriesNav.top = categoryOptions.product;
-          categoriesNav.path = [{ label, id,graphLabel}];
+          categoriesNav.path = [{ label, id, graphLabel }];
         } else if (categoryLabel === categoryOptions.variant) {
           categoriesNav.top = categoryOptions.variant;
-          categoriesNav.path[1] = { label, id,graphLabel};
+          categoriesNav.path[1] = { label, id, graphLabel };
         }
-        this.setState({
-          categoriesNav,
-          graphLoadingDone: true
-        }, () => {
-          this.onOptionChange(this.state.currentOption,id);
-        });
+        this.setState(
+          {
+            categoriesNav,
+            graphLoadingDone: true
+          },
+          () => {
+            this.onOptionChange(this.state.currentOption, id);
+          }
+        );
       }
-      
     }
   }
 
-  showDetailOnHover(label) {    
-    const {customersData, productData, currentOption} = _.cloneDeep(this.state);
-    const loading = <div className="text-center padding-t-10"> <Spin /></div>;
+  showDetailOnHover(label) {
+    const { customersData, productData, currentOption } = _.cloneDeep(
+      this.state
+    );
+    const loading = (
+      <div className="text-center padding-t-10">
+        {" "}
+        <Spin />
+      </div>
+    );
     let tooltipDetailView = false;
     if (currentOption === OPTION_VENDOR) {
-      const custInfo = _.find(customersData, {name: label});
+      const custInfo = _.find(customersData, { name: label });
       if (custInfo) {
         tooltipDetailView = customerDetailOnHover(custInfo);
       } else {
         tooltipDetailView = loading;
       }
-    } else if (currentOption === OPTION_CATEGORIES && this.state.categoriesNav.top === categoryOptions.product) {
+    } else if (
+      currentOption === OPTION_CATEGORIES &&
+      this.state.categoriesNav.top === categoryOptions.product
+    ) {
       const productId = parseInt(label);
-      let productInfo = _.find(productData.products, function(o) {return o.productId == productId})
+      let productInfo = _.find(productData.products, function(o) {
+        return o.productId == productId;
+      });
       if (isNaN(productId)) {
-        productInfo = _.find(productData.products, function(o) {return o.productId == label});
+        productInfo = _.find(productData.products, function(o) {
+          return o.productId == label;
+        });
       }
       if (productInfo) {
         tooltipDetailView = productDetailOnHover(productInfo);
@@ -962,115 +1317,170 @@ resizeFunction=()=>{
         tooltipDetailView = loading;
       }
     }
-    let productInfo = _.find(productData.products, function(o) {return o.productId == label});    
+    let productInfo = _.find(productData.products, function(o) {
+      return o.productId == label;
+    });
     this.setState({
       tooltipDetail: productInfo
     });
   }
-  
+
   hideDetail() {
     if (!_.isEmpty(this.state.tooltipDetail)) {
       this.setState({
-        tooltipDetail: ''
+        tooltipDetail: ""
       });
     }
   }
 
-  onCategory=() => {
-    let metric_map = this.getMap(this.state.activeMetrics.metric_name, this.state.currentOption)||{};
+  onCategory = () => {
+    let metric_map =
+      this.getMap(
+        this.state.activeMetrics.metric_name,
+        this.state.currentOption
+      ) || {};
+    this.checkCustomDate();
     const queryParams = {
       timeslice_start: this.customStartTime,
-      timeslice_end:   this.customEndTime
-    };    
-    if (isEmpty(this.customStartTime) || isEmpty(this.customEndTime)) {
-      const ms = moment().utc().startOf('day').valueOf();
-      this.customEndTime = queryParams.timeslice_end = moment(ms).add({days: 1}).valueOf();
-      this.customStartTime = queryParams.timeslice_start = moment(ms).subtract({years: 1}).valueOf();
-    }
+      timeslice_end: this.customEndTime
+    };
+
     const option = this.state.currentOption;
-      this.setState({
-          categoriesNav: {top: categoryOptions.categories, path: []},
-          categoryLabel:"",
-          currentSubOption:"time"
-      },()=>{
+    this.setState(
+      {
+        categoriesNav: { top: categoryOptions.categories, path: [] },
+        categoryLabel: "",
+        currentSubOption: "time"
+      },
+      () => {
         this.onOptionChange(this.state.currentOption);
+      }
+    );
+  };
 
-      })  
-  }
-
-  onVendor=() => { 
-    const{metric_name}=this.props.activeMetrics
-    const vendors=this.props.chartData.data.customTimeframeDataMap[`${metric_name}:Vendors`] || {}
-    let metric_map = this.getMap(this.state.activeMetrics.metric_name, this.state.currentOption);
+  onVendor = () => {
+    const { metric_name } = this.props.activeMetrics;
+    const vendors =
+      this.props.chartData.data.customTimeframeDataMap[
+        `${metric_name}:Vendors`
+      ] || {};
+    let metric_map = this.getMap(
+      this.state.activeMetrics.metric_name,
+      this.state.currentOption
+    );
     const queryParams = {
       timeslice_start: this.customStartTime,
-      timeslice_end:   this.customEndTime
+      timeslice_end: this.customEndTime
     };
     if (isEmpty(this.customStartTime) || isEmpty(this.customEndTime)) {
-      const ms = moment().utc().startOf('day').valueOf();
-      this.customEndTime = queryParams.timeslice_end = moment(ms).add({days: 1}).valueOf();
-      this.customStartTime = queryParams.timeslice_start = moment(ms).subtract({years: 1}).valueOf();
-    }    
-    const option = this.state.currentOption;
-    if(!vendors){
-    this.setState({
-      graphLoadingDone: false,
-    })
-    this.props.getChartData(option, this.state.activeMetrics, metric_map, queryParams, this.props.channelData.data.shopId).then((results) => {
-  
-    this.setState({
-          vendorsNav: {top: vendorOptions.vendors, path: []},
-      })  
-        this.onOptionChange(this.state.currentOption);
-    });
-  }
-  else{
-    this.setState({
-      vendorsNav: {top: vendorOptions.vendors, path: []},
-      },()=>{
-        this.onOptionChange(this.state.currentOption);
-      })  
+      const ms = moment()
+        .utc()
+        .startOf("day")
+        .valueOf();
+      this.customEndTime = queryParams.timeslice_end = moment(ms)
+        .add({ days: 1 })
+        .valueOf();
+      this.customStartTime = queryParams.timeslice_start = moment(ms)
+        .subtract({ years: 1 })
+        .valueOf();
     }
-  }
+    const option = this.state.currentOption;
+    if (!vendors) {
+      this.setState({
+        graphLoadingDone: false
+      });
+      this.props
+        .getChartData(
+          option,
+          this.state.activeMetrics,
+          metric_map,
+          queryParams,
+          this.props.channelData.data.shopId
+        )
+        .then(results => {
+          this.setState({
+            vendorsNav: { top: vendorOptions.vendors, path: [] }
+          });
+          this.onOptionChange(this.state.currentOption);
+        });
+    } else {
+      this.setState(
+        {
+          vendorsNav: { top: vendorOptions.vendors, path: [] }
+        },
+        () => {
+          this.onOptionChange(this.state.currentOption);
+        }
+      );
+    }
+  };
 
   render() {                  
     const {activeMetrics} = this.props;
     const {categoriesNav, vendorsNav, currentOption,categoryId,vendorsId} = this.state;
     const CustomSpin = (
-      <div style={{width: '100%', height: 300, textAlign: 'center', maxHeight: 'calc(100vh - 325px)'}}>
+      <div
+        style={{
+          width: "100%",
+          height: 300,
+          textAlign: "center",
+          maxHeight: "calc(100vh - 325px)"
+        }}
+      >
         <Spin />
       </div>
     );
-    const fullHeight = window.innerHeight || document.documentElement.clientHeight || document.body.clientHeight;
+    const fullHeight =
+      window.innerHeight ||
+      document.documentElement.clientHeight ||
+      document.body.clientHeight;
     const chartHeight = `${fullHeight * 0.35}px`;
-    let chartTitle = '';
+    let chartTitle = "";
     if (this.state.currentOption === OPTION_TIME) {
-      chartTitle = 'Historical Trend';
+      chartTitle = "Historical Trend";
     } else if (this.state.currentOption === OPTION_CATEGORIES) {
-      if(categoriesNav.path.length == 0){
-        chartTitle = `${this.state.activeMetrics.title} by ${categoriesNav.top}`;
-      } else if(categoriesNav.path.length != 0 && this.state.currentSubOption == 'time'){
-        chartTitle = `Historical Trend of ${this.state.activeMetrics.title} for ${this.state.graphLabel}`;
-      } else{
-        chartTitle = `${this.state.activeMetrics.title} by ${categoriesNav.top} for ${this.state.graphLabel}`;
+      if (categoriesNav.path.length == 0) {
+        chartTitle = `${this.state.activeMetrics.title} by ${
+          categoriesNav.top
+        }`;
+      } else if (
+        categoriesNav.path.length != 0 &&
+        this.state.currentSubOption == "time"
+      ) {
+        chartTitle = `Historical Trend of ${
+          this.state.activeMetrics.title
+        } for ${this.state.graphLabel}`;
+      } else {
+        chartTitle = `${this.state.activeMetrics.title} by ${
+          categoriesNav.top
+        } for ${this.state.graphLabel}`;
       }
     } else if (this.state.currentOption === OPTION_VENDOR) {
-      if(vendorsNav.path.length == 0){
+      if (vendorsNav.path.length == 0) {
         chartTitle = `${this.state.activeMetrics.title} by ${vendorsNav.top}`;
-      } else if(vendorsNav.path.length != 0){
-        chartTitle = `Historical Trend of ${this.state.activeMetrics.title} for ${this.state.vendorGraphLabel}`;
+      } else if (vendorsNav.path.length != 0) {
+        chartTitle = `Historical Trend of ${
+          this.state.activeMetrics.title
+        } for ${this.state.vendorGraphLabel}`;
       }
     }
     return (
       <Dialog
         contentClassName="explore-dialog-container"
         bodyClassName="explore-dialog-body"
-        title={<div>
-          <span>{`Exploring ${activeMetrics && activeMetrics.title} metric`}</span>
-          <span className="pull-right close-btn">
-            <Button className="close-button pull-right" onClick={this.closeExploreMetrics} />
-          </span>
-        </div>}
+        autoScrollBodyContent={true}
+        title={
+          <div>
+            <span>{`Exploring ${activeMetrics &&
+              activeMetrics.title} metric`}</span>
+            <span className="pull-right close-btn">
+              <Button
+                className="close-button pull-right"
+                onClick={this.closeExploreMetrics}
+              />
+            </span>
+          </div>
+        }
         titleStyle={styles.chartsHeaderTitle}
         modal
         open={this.props.open}
@@ -1081,35 +1491,67 @@ resizeFunction=()=>{
               <CardHeader
                 textStyle={styles.chartHeader}
                 titleStyle={styles.chartsHeaderTitle}
-                subtitle={<div className="">
-                  <span className="pull-left">
-                    <span className="dd-lable">Plot By:</span><br />
-                    <span>
-                      <ButtonGroup>
-                        {
-                         this.state.activeMetrics
-                                     ? this.state.activeMetrics.availableContexts.map((ctx, i) => {
-                                     const Ctx = ctx.label;                                     
-                                     return <Button key={i} value={Ctx} className={this.state.currentOption === Ctx ? 'active' : ''} onClick={this.state.currentOption === Ctx?"":(e) => {this.onOptionChange(Ctx,e.target.value==="Categories"?categoryId:vendorsId)}  }>{Ctx}</Button>;
-                                     })
-                                     : ''
-                                     }
-                      </ButtonGroup>
+                subtitle={
+                  <div className="">
+                    <span className="pull-left">
+                      <span className="dd-lable">Plot By:</span>
+                      <br />
+                      <span>
+                        <ButtonGroup>
+                          {this.state.activeMetrics
+                            ? this.state.activeMetrics.availableContexts.map(
+                                (ctx, i) => {
+                                  const Ctx = ctx.label;
+                                  return (
+                                    <Button
+                                      key={i}
+                                      value={Ctx}
+                                      className={
+                                        this.state.currentOption === Ctx
+                                          ? "active"
+                                          : ""
+                                      }
+                                      onClick={
+                                        this.state.currentOption === Ctx
+                                          ? ""
+                                          : e => {
+                                              this.onOptionChange(
+                                                Ctx,
+                                                e.target.value === "Categories"
+                                                  ? categoryId
+                                                  : vendorsId
+                                              );
+                                            }
+                                      }
+                                    >
+                                      {Ctx}
+                                    </Button>
+                                  );
+                                }
+                              )
+                            : ""}
+                        </ButtonGroup>
+                      </span>
                     </span>
-                  </span>
-                  <span className="pull-right" style={{ width: 200 }}>
-                    <span className="dd-lable" />
-                    <span>
-                      <CustomRangePicker
-                        onTimeframeChange={this.onTimeframeChange}
-                        customRangeShouldClear={this.state.customRangeShouldClear}
-                        afterCustomRangeClear={this.afterCustomRangeClear}
-                        defaultRange={{start: this.customStartTime, end: this.customEndTime}}
-                      />
+                    <span className="pull-right" style={{ width: 200 }}>
+                      <span className="dd-lable" />
+                      <span>
+                        <CustomRangePicker
+                          onTimeframeChange={this.onTimeframeChange}
+                          customRangeShouldClear={
+                            this.state.customRangeShouldClear
+                          }
+                          afterCustomRangeClear={this.afterCustomRangeClear}
+                          defaultRange={{
+                            start: this.customStartTime,
+                            end: this.customEndTime
+                          }}
+                        />
+                      </span>
                     </span>
-                  </span>
-                          </div>}
-          />
+                  </div>
+                }
+              />
               <CardText>
                 <Row>
                   <Col md={12} className="hide">
@@ -1119,20 +1561,48 @@ resizeFunction=()=>{
                           <CardText className="card-content text-center">
                             <div className="card-title">Filter By Product</div>
                             <div className="chip-wrapper">
-                              <Chip className="chip" labelStyle={styles.chipLabelStyle}>Showing {this.state.products.rowsSelected ? this.state.products.rowsSelected : '0'} products</Chip>
+                              <Chip
+                                className="chip"
+                                labelStyle={styles.chipLabelStyle}
+                              >
+                                Showing{" "}
+                                {this.state.products.rowsSelected
+                                  ? this.state.products.rowsSelected
+                                  : "0"}{" "}
+                                products
+                              </Chip>
                             </div>
-                            <div className="link"><a onClick={() => this.openFilter('product')} >change filter</a></div>
+                            <div className="link">
+                              <a onClick={() => this.openFilter("product")}>
+                                change filter
+                              </a>
+                            </div>
                           </CardText>
                         </Card>
                       </Col>
                       <Col md={5} className="text-center padding-r-0">
                         <Card className="charts-card-style">
                           <CardText className="card-content text-center">
-                            <div className="card-title">Filter By customers</div>
-                            <div className="chip-wrapper">
-                              <Chip className="chip" labelStyle={styles.chipLabelStyle}>Showing {this.state.customers.rowsSelected ? this.state.customers.rowsSelected : '0'} customers</Chip>
+                            <div className="card-title">
+                              Filter By customers
                             </div>
-                            <div className="link"><a onClick={() => this.openFilter('customer')}>change filter</a></div>
+                            <div className="chip-wrapper">
+                              <Chip
+                                className="chip"
+                                labelStyle={styles.chipLabelStyle}
+                              >
+                                Showing{" "}
+                                {this.state.customers.rowsSelected
+                                  ? this.state.customers.rowsSelected
+                                  : "0"}{" "}
+                                customers
+                              </Chip>
+                            </div>
+                            <div className="link">
+                              <a onClick={() => this.openFilter("customer")}>
+                                change filter
+                              </a>
+                            </div>
                           </CardText>
                         </Card>
                       </Col>
@@ -1195,9 +1665,16 @@ resizeFunction=()=>{
                         titleStyle={styles.chartsHeaderTitle}
                       />
                       <CardText>
-                        <div id="chart-full-width-holder" style={{width: '100%', height: '0px'}} />
+                        <div
+                          id="chart-full-width-holder"
+                          style={{ width: "100%", height: "0px" }}
+                        />
 
-                        <ReactPlaceholder ready={this.state.graphLoadingDone} customPlaceholder={CustomSpin} className="loading-placeholder-rect-media">
+                        <ReactPlaceholder
+                          ready={this.state.graphLoadingDone}
+                          customPlaceholder={CustomSpin}
+                          className="loading-placeholder-rect-media"
+                        >
                           <div>
                             {
                             
@@ -1216,12 +1693,40 @@ resizeFunction=()=>{
                                       <BarChart
                                         data={this.state.chartData}
                                         fullHeight={fullHeight}
-                                        selectedOption={this.state.currentOption}
-                                        showDetailOnHover={this.showDetailOnHover}
-                                        hideDetail={this.hideDetail}
+                                        selectedOption={
+                                          this.state.currentOption
+                                        }
                                         tooltipDetail={this.state.tooltipDetail}
+                                        showDetailOnHover={
+                                          this.showDetailOnHover
+                                        }
+                                        hideDetail={this.hideDetail}
                                         chartName={this.state.currentOption}
-                                        productsByCategory={this.onCategoryClick}
+                                        productsByCategory={
+                                          this.onCategoryClick
+                                        }
+                                        timeByVendor={this.onVendorClick}
+                                        categoriesNav={this.state.categoriesNav}
+                                        vendorsNav={this.state.vendorsNav}
+                                      />
+                                     : this.state.currentSubOption != "time" &&
+                                    this.state.categoriesNav.top !=
+                                      categoryOptions.time ? 
+                                      <BarChart
+                                        data={this.state.chartData}
+                                        fullHeight={fullHeight}
+                                        tooltipDetail={this.state.tooltipDetail}
+                                        selectedOption={
+                                          this.state.currentOption
+                                        }
+                                        showDetailOnHover={
+                                          this.showDetailOnHover
+                                        }
+                                        hideDetail={this.hideDetail}
+                                        chartName={this.state.currentOption}
+                                        productsByCategory={
+                                          this.onCategoryClick
+                                        }
                                         timeByVendor={this.onVendorClick}
                                         categoriesNav={this.state.categoriesNav}
                                         vendorsNav={this.state.vendorsNav}
@@ -1266,7 +1771,6 @@ resizeFunction=()=>{
                             }
                           </div>
                         </ReactPlaceholder>
-
                       </CardText>
                     </Card>
                   </Col>
@@ -1277,7 +1781,7 @@ resizeFunction=()=>{
                       filterModal={this.state.filterBy}
                       onRowSelect={this.onRowSelect}
                       savedData={() => this.returnData()}
-                  />
+                    />
                   </Col>
                 </Row>
               </CardText>

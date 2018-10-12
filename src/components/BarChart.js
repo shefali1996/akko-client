@@ -306,10 +306,11 @@ class BarChart extends Component {
         .attr("xlink:href", (d, i) => {
           return data[i].image;
         })
-        .attr("x", -20)
+        .attr("x", -28)
         .attr("y", 8)
-        .attr("height", 20)
-        .attr("width", 20);
+        .attr("height", maxBandWidth)
+        .attr("width", maxBandWidth);
+        svg.attr("height",fullHeight * 0.5);
     }
 
     labelX
