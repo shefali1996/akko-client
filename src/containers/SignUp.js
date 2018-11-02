@@ -112,18 +112,12 @@ class SignUp extends Component {
   componentDidMount() {
     this.validMailCheck();
   }
-  componentWillUnmount() {
-    localStorage.removeItem("email");
-  }
 
   validMailCheck() {
-    const email = localStorage.getItem("email");
-    const isEmailValid = this.props.history.location.query;
-    if (isEmailValid !== undefined) {
-      this.setState({
-        email: isEmailValid.email
-      });
-    } else if (email !== undefined) {
+    const queryParams = new URLSearchParams(this.props.location.search)
+    const email  = queryParams.get('email')
+    
+     if (email !== undefined) {
       this.setState({
         email
       });
