@@ -4,6 +4,7 @@ import { Select, Input } from 'antd';
 import { defaultRanges, Calendar, DateRange } from 'react-date-range';
 import style from '../styles/global/variables.scss'
 import { isEmpty } from 'lodash';
+import dropdownIcon from '../assets/images/dropDownIcon.svg';
 import styles from '../constants/styles';
 
 const moment = require('moment');
@@ -137,7 +138,8 @@ class CustomRangePicker extends Component {
       <div>
         <div className="calender-btn" onClick={this.handleToggle}>
           <i className="fa fa-calendar" aria-hidden="true" />
-          <span>{selectedRange || ''}</span>
+          <span style={{fontSize:'16px', fontWeight:'500'}}>{selectedRange || ''}</span>
+          <span style={{paddingLeft:'8px'}}><img style={{marginBottom:'8px',height:'16px',width:'16px'}} src={dropdownIcon}></img></span>
         </div>
         <div className="explore-datepicker" style={this.state.open ? {display: 'block'} : {display: 'none'}}>
           <div className="custom-dropdown-view">

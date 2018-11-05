@@ -1,20 +1,40 @@
 .bar {
   fill: $main-blue-color;
 }
+
+.bar-chart{
+  overflow-x: auto
+}
 .line-chart {
   text-align: center;
 }
+.overflow_x{
+  overflow-x: auto;
+}
 .axis path,
 .axis line {
-  stroke: $light-gray-color-1;
+  stroke: $light-gray-color;
   stroke-opacity: 0.7;
   shape-rendering: crispEdges;
 }
 
 .axis--y {
   text {
-    color: $light-gray-color;
     font-size: 12px;
+    font-weight: 500;
+    font-family: $ubuntu;
+    color: $highlight-color;
+    fill: $highlight-color;
+    font-size: 12px;
+  }
+}
+.axis--x {
+  text {
+    font-size: 12px;
+    font-weight: 500;
+    font-family: $ubuntu;
+    color: $highlight-color;
+    fill: $highlight-color;
   }
 }
 .line {

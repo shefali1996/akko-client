@@ -1,5 +1,4 @@
 .fetch-status {
-  font-family: $ubuntu-regular;
   text-align: center;
   margin-top: 30px;
   .title-text {
@@ -13,7 +12,7 @@
     text-decoration: none solid $smooth-grey;
   }
   .progress-text {
-    font-family: $ubuntu-regular;
+
     .title {
       font-size: 40px;
       font-weight: 500;
@@ -42,7 +41,7 @@
     height: 44px;
     padding: 6px 10px;
     background-color: $main-blue-color;
-    font-family: $ubuntu-regular;
+
     font-size: $size-16;
     color: $white-color;
     text-decoration: none solid $pure-white;

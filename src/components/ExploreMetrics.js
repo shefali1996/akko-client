@@ -7,18 +7,20 @@ import {
 } from "react-bootstrap";
 import { Card, CardHeader, CardText } from "material-ui/Card";
 import Chip from "material-ui/Chip";
-import Dialog from "material-ui/Dialog";
 import { Select, DatePicker, Input, Spin } from "antd";
 import ReactPlaceholder from "react-placeholder";
 import { isEmpty, isEqual, isUndefined, chunk } from "lodash";
 import FilterDialog from "../components/FilterDialog";
 import styles from "../constants/styles";
 import CustomRangePicker from "../components/CustomRangePicker";
-import { plotByOptions, categoryOptions, vendorOptions } from "../constants";
+import { plotByOptions, categoryOptions, vendorOptions,routeConstants } from "../constants";
 import { customerDetailOnHover, productDetailOnHover } from "./CustomTable";
 import BarChart from "./BarChart";
 import LineChart from "./LineChart";
 import productImgPlaceholder from "../assets/images/productImgPlaceholder.svg";
+import infoIcon from '../assets/images/MaterialIcon5.svg';
+import backButton from '../assets/images/backButton.svg';
+
 
 const moment = require("moment");
 const { Option } = Select;
@@ -30,20 +32,21 @@ const OPTION_TIME = plotByOptions.time;
 const OPTION_CATEGORIES = plotByOptions.categories;
 const OPTION_VENDOR = plotByOptions.vendors;
 const DAYS_35 = 35 * 86400000;
+const subOption = {time:"Time",product:"Product",variant:"Variant"}
 
 class ExploreMetrics extends Component {
   constructor(props) {
     super(props);
     this.state = {
       openFilter: false,
-      activeMetrics: null,
+      activeMetrics: this.props.activeMetrics,
       filterBy: "",
       products: {},
       customers: {},
       open: false,
       chartData: null,
       graphError: false,
-      graphLoadingDone: true,
+      graphLoadingDone: false,
       chartWidth: "100%",
       customRangeShouldClear: false,
       currentSubOption: "time",
@@ -58,8 +61,8 @@ class ExploreMetrics extends Component {
       vendorsId: "",
       vendorsLabel: "",
       categoriesData: {},
-      categoriesNav: { top: categoryOptions.categories, path: [] },
-      vendorsNav: { top: vendorOptions.vendors, path: [] },
+      categoriesNav: [{ top: categoryOptions.categories, path: {} }],
+      vendorsNav: [{ top: vendorOptions.vendors, path: {} }],
       noData: false,
       productData: {}
     };
@@ -72,7 +75,6 @@ class ExploreMetrics extends Component {
     this.closeFilter = this.closeFilter.bind(this);
     this.onRowSelect = this.onRowSelect.bind(this);
     this.returnData = this.returnData.bind(this);
-    this.handleToggle = this.handleToggle.bind(this);
     this.onOptionChange = this.onOptionChange.bind(this);
     this.onSubOptionChange = this.onSubOptionChange.bind(this);
     this.onSortOptionChange = this.onSortOptionChange.bind(this);
@@ -87,56 +89,30 @@ class ExploreMetrics extends Component {
     this.onVendorClick = this.onVendorClick.bind(this);
     this.checkCustomDate = this.checkCustomDate.bind(this);
     this.sortChartData = this.sortChartData.bind(this); 
+    this.setMetric = this.setMetric.bind(this)
+    this.setTimeMetric = this.setTimeMetric.bind(this)
+    this.setDefaultMetric = this.setDefaultMetric.bind(this);
+    this.resizeGraph = this.resizeGraph.bind(this)
   }
 
-  checkCustomDate = ()=>{
-    if (this.customStartTime === "" || this.customEndTime === "") {
-      const ms = moment()
-        .utc()
-        .startOf("day")
-        .valueOf();
-      this.customEndTime = moment(ms)
-        .add({ days: 1 })
-        .valueOf();
-      this.customStartTime = moment(ms)
-        .subtract({ years: 1 })
-        .valueOf();
-    }
-  };
-  sortChartData = (data)=>{
-    let sortOrder = ascendingSortOrder;
-    if (this.currentSortOption === "2") {
-      sortOrder = descendingSortOrder;
-    }
-    data.sort((a, b) => {
-        if (sortOrder === ascendingSortOrder) {
-          if (a.value !== b.value) {
-            return a.value - b.value;
-          }
-        } else if (sortOrder === descendingSortOrder) {
-          if (a.value !== b.value) {
-            return b.value - a.value;
-          }
-        }
-        return a.index - b.index;
-      });
-  }
-  getMap(metric, context, subOption, currentSubOption, id) {
-    let map = this.state.defaultDataMap;
-    if (this.customStartTime !== "" && this.customEndTime !== "") {
-      map = this.state.customTimeframeDataMap;
-    }
-    const key = `${metric}:${context}`;
-    const key2 = `${metric}:${context}:${subOption}:${id}`;
-    const key3 = `${metric}:${context}:${subOption}:${currentSubOption}:${id}`;
-    const finalKey =
-      subOption && currentSubOption ? key3 : subOption ? key2 : key;
-    if (map.hasOwnProperty(finalKey)) {
-      return map[finalKey];
-    }
-    return null;
+  componentWillMount(){
+
+    this.setState({
+      activeMetrics: this.props.activeMetrics
+    })
   }
 
+  componentDidMount(){
+
+    this.setDefaultMetric();
+    window.addEventListener('resize', this.resizeGraph);
+    this.resizeGraph();
+      
+  }
+
+  componentWillUnmount(){
+    window.removeEventListener('resize',this.resizeGraph);
+  }
   componentWillReceiveProps(nextProps) {          
     const state = _.cloneDeep(this.state);
     this.setState(
@@ -154,23 +130,7 @@ class ExploreMetrics extends Component {
           open
         } = state;
         let { currentOption } = state;
-        if (nextProps.open !== open) {
-          this.setState({
-            open: nextProps.open
-          });
-          if (nextProps.open) {
-            const ms = moment()
-              .utc()
-              .startOf("day")
-              .valueOf();
-            this.customEndTime = moment(ms)
-              .add({ days: 1 })
-              .valueOf();
-            this.customStartTime = moment(ms)
-              .subtract({ years: 1 })
-              .valueOf();
-          }
-        }
+
         if (nextProps.customersData != undefined) {
           if (!_.isEqual(nextProps.customersData.data, customersData)) {
             this.setState({
@@ -226,6 +186,67 @@ class ExploreMetrics extends Component {
       }
     );
   }
+
+
+  resizeGraph()
+  {
+    const full_width = window.innerWidth * 0.85
+      const width = full_width + "px";
+
+    this.setState({
+      chartWidth: width,
+    });
+  }
+
+  checkCustomDate = ()=>{
+    if (this.customStartTime === "" || this.customEndTime === "") {
+      const ms = moment()
+        .utc()
+        .startOf("day")
+        .valueOf();
+      this.customEndTime = moment(ms)
+        .add({ days: 1 })
+        .valueOf();
+      this.customStartTime = moment(ms)
+        .subtract({ years: 1 })
+        .valueOf();
+    }
+  };
+  sortChartData = (data)=>{
+    let sortOrder = ascendingSortOrder;
+    if (this.currentSortOption === "2") {
+      sortOrder = descendingSortOrder;
+    }
+    data.sort((a, b) => {
+        if (sortOrder === ascendingSortOrder) {
+          if (a.value !== b.value) {
+            return a.value - b.value;
+          }
+        } else if (sortOrder === descendingSortOrder) {
+          if (a.value !== b.value) {
+            return b.value - a.value;
+          }
+        }
+        return a.index - b.index;
+      });
+  }
+  getMap(metric, context, subOption, currentSubOption, id) {
+    let map = this.state.defaultDataMap;
+    if (this.customStartTime !== "" && this.customEndTime !== "") {
+      map = this.state.customTimeframeDataMap;
+    }
+    const key = `${metric}:${context}`;
+    const key2 = `${metric}:${context}:${subOption}:${id}`;
+    const key3 = `${metric}:${context}:${subOption}:${currentSubOption}:${id}`;
+    const finalKey =
+      subOption && currentSubOption ? key3 : subOption ? key2 : key;
+    if (map.hasOwnProperty(finalKey)) {
+      return map[finalKey];
+    }
+    return null;
+  }
+
+
 resizeFunction=()=>{
   this.setTimeMetric()
 }
@@ -307,9 +328,25 @@ resizeFunction=()=>{
     }
   }
 
-  handleToggle() {
-    this.setState({
-      open: !this.state.open
+  setDefaultMetric(){
+    let metric_map = {}
+    this.checkCustomDate();
+    metric_map.start = this.customStartTime;
+    metric_map.end = this.customEndTime;
+
+    const queryParams = {
+      timeslice_start: metric_map.start,
+      timeslice_end: metric_map.end
+    };
+
+    this.props.getChartData(
+      OPTION_TIME,
+      this.state.activeMetrics,
+      metric_map,
+      queryParams,
+      this.props.channelData.data.shopId
+    ).then((res,error)=>{
+
     });
   }
 
@@ -354,9 +391,12 @@ resizeFunction=()=>{
         categoryId,
         vendorsId
       } = this.state;
-      if (categoriesNav.path.length != 0 && option === OPTION_CATEGORIES) {
+      
+      const categoriesNavTop = _.last(categoriesNav)
+      const vendorsNavTop = _.last(vendorsNav)
+      if (_.isEmpty(categoriesNavTop.path) == false && option === OPTION_CATEGORIES) {
         if (
-          categoriesNav.path.length == 1 &&
+          categoriesNavTop.top == "Product"  &&
           this.state.currentSubOption == "time"
         ) {
           this.props
@@ -381,7 +421,7 @@ resizeFunction=()=>{
               );
             });
         } else if (
-          categoriesNav.path.length == 1 &&
+          categoriesNav.length == 2 &&
           this.state.currentSubOption == "product"
         ) {
           this.props
@@ -406,7 +446,7 @@ resizeFunction=()=>{
               );
             });
         } else if (
-          categoriesNav.path.length == 2 &&
+          categoriesNav.length == 3 &&
           this.state.currentSubOption == "variant"
         ) {
           this.props
@@ -431,7 +471,7 @@ resizeFunction=()=>{
               );
             });
         } else if (
-          categoriesNav.path.length == 2 &&
+          categoriesNav.length == 3 &&
           this.state.currentSubOption == "time" &&
           categoriesNav.top == "Variant"
         ) {
@@ -480,7 +520,7 @@ resizeFunction=()=>{
               );
             });
         }
-      } else if (vendorsNav.path.length != 0 && option === OPTION_VENDOR) {
+      } else if (!_.isEmpty(vendorsNavTop.path) && option === OPTION_VENDOR) {
         this.props
           .getVendors({
             activeMetrics: this.state.activeMetrics,
@@ -551,18 +591,11 @@ resizeFunction=()=>{
           postfix
         });
       });
-
-      let width = data.length * WIDTH_PER_LABEL;      
-      const full_width = document.getElementById('chart-full-width-holder') != null ? document.getElementById('chart-full-width-holder').offsetWidth : 904;
-      if (metric_map.resolution === RESOLUTION_DAY) {
-        width = (full_width / 31) * data.length;
-      }
-        width = '100%';              
+                 
       this.setState({
-        chartWidth: width,
         chartData: data,
         graphLoadingDone: true
-      });
+      },()=>{this.resizeGraph()});
     }
   }
 
@@ -599,11 +632,11 @@ resizeFunction=()=>{
       }
       const data = [];
       let index = 0;
-      const categoriesNavTop = this.state.categoriesNav.top;
+      const categoriesNavTop = _.last(this.state.categoriesNav)
       if (
-        categoriesNavTop === categoryOptions.product ||
-        categoriesNavTop === categoryOptions.variant ||
-        (categoriesNavTop === categoryOptions.time &&
+        categoriesNavTop.top === categoryOptions.product ||
+        categoriesNavTop.top === categoryOptions.variant ||
+        (categoriesNavTop.top === categoryOptions.time &&
           (this.state.currentSubOption == "time" ||
             this.state.currentSubOption == "product" ||
             this.state.currentSubOption == "variant"))
@@ -643,7 +676,7 @@ resizeFunction=()=>{
               index,
               categoryBarId: value.variantId
             });
-          } else if (this.state.categoriesNav.top == categoryOptions.time) {
+          } else if (categoriesNavTop.top == categoryOptions.time) {
             const label = moment(value.time_start)
               .utcOffset("+00:00")
               .format(format);
@@ -732,29 +765,17 @@ resizeFunction=()=>{
         });
       }
       this.sortChartData(data);
-      let width = data.length * WIDTH_PER_LABEL;
-      const full_width =
-        document.getElementById("chart-full-width-holder") != null
-          ? document.getElementById("chart-full-width-holder").offsetWidth
-          : 904;
-      if (width < full_width) {
-        width = "100%";
-      } else {
-        width += "px";
-      }
       this.setState({
-        chartWidth: `${width}px`,
         chartData: data,
         graphLoadingDone: true
-      });
+      },()=>{this.resizeGraph()});
     }
   }
 
   setVendorsMetric(id) {   
-    const {
-      vendorsNav: { top }
-    } = this.state;
-    const label = top === "Time" ? "Time" : "";
+   
+    const vendorsNavTop = _.last(this.state.vendorsNav)
+    const label = vendorsNavTop.top === "Time" ? "Time" : "";
     const metric_name = this.state.activeMetrics.metric_name;
     const metric_map = this.getMap(metric_name, OPTION_VENDOR, label, "", id);
 
@@ -784,9 +805,8 @@ resizeFunction=()=>{
       const data = [];
 
       let index = 0;
-      const vendorsNavTop = this.state.vendorsNav.top;
 
-      if (vendorsNavTop === vendorOptions.time) {
+      if (vendorsNavTop.top === vendorOptions.time) {
         this.setState({
           currentOption: OPTION_VENDOR
         });
@@ -859,22 +879,10 @@ resizeFunction=()=>{
         });
       }
       this.sortChartData(data);
-
-      let width = data.length * WIDTH_PER_LABEL;
-      const full_width =
-        document.getElementById("chart-full-width-holder") != null
-          ? document.getElementById("chart-full-width-holder").offsetWidth
-          : 904;
-      if (width < full_width) {
-        width = "100%";
-      } else {
-        width += "px";
-      }
       this.setState({
-        chartWidth: `${width}px`,
         chartData: data,
         graphLoadingDone: true
-      });
+      },()=>{this.resizeGraph()});
     }
   }
 
@@ -886,6 +894,7 @@ resizeFunction=()=>{
     if (!currentVendorBar) {
       this.setState({
         vendorsId: id,
+        chartData:null,
         vendorsLabel: label,
         vendorGraphLabel: vendorGraphLabel
       });
@@ -896,8 +905,7 @@ resizeFunction=()=>{
         this.state.currentOption
       );
       if (label === vendorOptions.time) {
-        vendorsNav.top = vendorOptions.time;
-        vendorsNav.path = [{ label, id }];
+        vendorsNav.push({top:label,path:{label,id}})
       }
       this.setState({
         vendorsNav,
@@ -934,42 +942,34 @@ resizeFunction=()=>{
       });
       const vendorsNav = this.state.vendorsNav;
       if (label === vendorOptions.time) {
-        vendorsNav.top = vendorOptions.time;
-        vendorsNav.path = [{ label, id }];
+        vendorsNav.push({top:label,path:{label,id}})
       }
       this.onOptionChange(this.state.currentOption, id);
     }
   }
 
-  onCategoryClick(label, id, graphLabel) {
+  onCategoryClick(label, id, graphLabel,i) {
+   
     const categoriesNav = this.state.categoriesNav;
     const { metric_name } = this.state.activeMetrics;
-
-    if (label === categoryOptions.product) {
-      categoriesNav.top = categoryOptions.product;
-      categoriesNav.path = [{ label, id, graphLabel }];
-    } else if (label === categoryOptions.variant) {
-      categoriesNav.top = categoryOptions.variant;
-      categoriesNav.path[1] = { label, id, graphLabel };
-    } else if (label === categoryOptions.time) {
-      categoriesNav.top = categoryOptions.time;
-      categoriesNav.path[1] = { label, id, graphLabel };
+    if(i){
+      while(i--){
+        categoriesNav.pop()
+      }
     }
+    categoriesNav.push({top:label,path: { label, id, graphLabel }})
+    
     this.setState(
       {
         categoriesNav,
+        chartData: null,
         currentSubOption: "time",
         categoryLabel: label,
         categoryId: id,
         graphLabel
       },
       () => {
-        const {
-          categoriesNav: { top },
-          currentOption,
-          currentSubOption,
-          categoryLabel
-        } = this.state;
+        const navPathTop = _.last(this.state.categoriesNav)
         const categoryBarsId = this.props.chartData.data.customTimeframeDataMap[
           `${metric_name}:Categories:${this.state.categoryLabel}:${
             this.state.currentSubOption
@@ -977,7 +977,6 @@ resizeFunction=()=>{
         ];
 
         if (!categoryBarsId) {
-          const categoriesNav = this.state.categoriesNav;
           let metric_map =
             this.getMap(
               this.state.activeMetrics.metric_name,
@@ -996,8 +995,8 @@ resizeFunction=()=>{
 
           const option = this.state.currentOption;
           if (
-            categoriesNav.top == categoryOptions.variant &&
-            categoriesNav.top == categoryOptions.time
+            navPathTop.top == categoryOptions.variant &&
+            navPathTop.top == categoryOptions.time
           ) {
             this.setState({
               currentSubOption: "time"
@@ -1005,7 +1004,7 @@ resizeFunction=()=>{
           }
           const { currentSubOption, categoryLabel } = this.state;
 
-          if (this.state.categoriesNav.top == categoryOptions.time) {
+          if (navPathTop.top == categoryOptions.time) {
             const productId = this.state.productId;
             this.props
               .getTimeBySingleVariant({
@@ -1109,6 +1108,11 @@ resizeFunction=()=>{
   }
 
   onSubOptionChange(e) {
+
+    if(e.target.value == this.state.currentSubOption){
+      return
+    }
+
     const { metric_name } = this.state.activeMetrics;
     const { categoryLabel, categoryId, graphLabel } = this.state;
     const productBarData = this.props.chartData.data.customTimeframeDataMap[
@@ -1118,7 +1122,9 @@ resizeFunction=()=>{
     this.setState({
       currentSubOption: e.target.value
     });
+
     const categoriesNav = this.state.categoriesNav;
+
     const label = categoryLabel;
     const id = categoryId;
     if (e.target.value == "product") {
@@ -1128,15 +1134,7 @@ resizeFunction=()=>{
             this.state.activeMetrics.metric_name,
             this.state.currentOption
           ) || {};
-        if (categoryLabel === categoryOptions.product) {
-          categoriesNav.top = categoryOptions.product;
-          categoriesNav.path = [{ label, id, graphLabel }];
-        } else if (categoryLabel === categoryOptions.variant) {
-          categoriesNav.top = categoryOptions.variant;
-          categoriesNav.path[1] = { label, id, graphLabel };
-        }
         this.setState({
-          categoriesNav,
           graphLoadingDone: false
         });
         this.checkCustomDate();
@@ -1168,13 +1166,6 @@ resizeFunction=()=>{
             );
           });
       } else {
-        if (categoryLabel === categoryOptions.product) {
-          categoriesNav.top = categoryOptions.product;
-          categoriesNav.path = [{ label, id, graphLabel }];
-        } else if (categoryLabel === categoryOptions.variant) {
-          categoriesNav.top = categoryOptions.variant;
-          categoriesNav.path[1] = { label, id, graphLabel };
-        }
         this.setState(
           {
             categoriesNav
@@ -1190,7 +1181,7 @@ resizeFunction=()=>{
         categoryLabel,
         categoryId,
         graphLabel,
-        currentSubOption
+        1
       );
     } else {
       const {
@@ -1211,13 +1202,6 @@ resizeFunction=()=>{
             this.state.activeMetrics.metric_name,
             this.state.currentOption
           ) || {};
-        if (categoryLabel === categoryOptions.product) {
-          categoriesNav.top = categoryOptions.product;
-          categoriesNav.path = [{ label, id, graphLabel }];
-        } else if (categoryLabel === categoryOptions.variant) {
-          categoriesNav.top = categoryOptions.variant;
-          categoriesNav.path[1] = { label, id, graphLabel };
-        }
         this.setState({
           categoriesNav,
           graphLoadingDone: false
@@ -1260,13 +1244,7 @@ resizeFunction=()=>{
           this.state.currentOption,
           id
         );
-        if (categoryLabel === categoryOptions.product) {
-          categoriesNav.top = categoryOptions.product;
-          categoriesNav.path = [{ label, id, graphLabel }];
-        } else if (categoryLabel === categoryOptions.variant) {
-          categoriesNav.top = categoryOptions.variant;
-          categoriesNav.path[1] = { label, id, graphLabel };
-        }
+
         this.setState(
           {
             categoriesNav,
@@ -1291,6 +1269,7 @@ resizeFunction=()=>{
       </div>
     );
     let tooltipDetailView = false;
+    const categoriesNavTop = _.last(this.state.categoriesNav)
     if (currentOption === OPTION_VENDOR) {
       const custInfo = _.find(customersData, { name: label });
       if (custInfo) {
@@ -1300,7 +1279,7 @@ resizeFunction=()=>{
       }
     } else if (
       currentOption === OPTION_CATEGORIES &&
-      this.state.categoriesNav.top === categoryOptions.product
+      categoriesNavTop.top === categoryOptions.product
     ) {
       const productId = parseInt(label);
       let productInfo = _.find(productData.products, function(o) {
@@ -1348,7 +1327,7 @@ resizeFunction=()=>{
     const option = this.state.currentOption;
     this.setState(
       {
-        categoriesNav: { top: categoryOptions.categories, path: [] },
+        categoriesNav: [{ top: categoryOptions.categories, path: {} }],
         categoryLabel: "",
         currentSubOption: "time"
       },
@@ -1406,7 +1385,7 @@ resizeFunction=()=>{
     } else {
       this.setState(
         {
-          vendorsNav: { top: vendorOptions.vendors, path: [] }
+          vendorsNav: [{ top: vendorOptions.vendors, path: {} }]
         },
         () => {
           this.onOptionChange(this.state.currentOption);
@@ -1415,9 +1394,29 @@ resizeFunction=()=>{
     }
   };
 
-  render() {                  
-    const {activeMetrics} = this.props;
+  showLineChart(){
+    let  stats = false;
+    const categoriesNavTop = _.last(this.state.categoriesNav)
+    const vendorsNavTop = _.last(this.state.vendorsNav)
+    if(this.state.currentOption == OPTION_TIME){
+      stats = true;
+    }
+    else if(this.state.currentOption == OPTION_CATEGORIES){
+      stats = _.isEmpty(categoriesNavTop.path) ? false : this.state.currentSubOption == "time";
+    }
+    else if(this.state.currentOption == OPTION_VENDOR){
+        stats = _.isEmpty(vendorsNavTop.path) ? false : true; 
+    }
+    return stats;
+  }
+
+  render() {      
+    const showLineChart = this.showLineChart();
     const {categoriesNav, vendorsNav, currentOption,categoryId,vendorsId} = this.state;
+    const categoriesNavTop = _.last(categoriesNav)
+    const vendorsNavTop = _.last(vendorsNav)
+    const vendorsNavLink = []
+    const categoriesNavLink  = []
     const CustomSpin = (
       <div
         style={{
@@ -1439,12 +1438,12 @@ resizeFunction=()=>{
     if (this.state.currentOption === OPTION_TIME) {
       chartTitle = "Historical Trend";
     } else if (this.state.currentOption === OPTION_CATEGORIES) {
-      if (categoriesNav.path.length == 0) {
+      if (_.isEmpty(categoriesNavTop.path)) {
         chartTitle = `${this.state.activeMetrics.title} by ${
-          categoriesNav.top
+          categoriesNavTop.top
         }`;
       } else if (
-        categoriesNav.path.length != 0 &&
+        !_.isEmpty(categoriesNavTop.path) &&
         this.state.currentSubOption == "time"
       ) {
         chartTitle = `Historical Trend of ${
@@ -1452,112 +1451,106 @@ resizeFunction=()=>{
         } for ${this.state.graphLabel}`;
       } else {
         chartTitle = `${this.state.activeMetrics.title} by ${
-          categoriesNav.top
+          categoriesNavTop.top
         } for ${this.state.graphLabel}`;
       }
     } else if (this.state.currentOption === OPTION_VENDOR) {
-      if (vendorsNav.path.length == 0) {
-        chartTitle = `${this.state.activeMetrics.title} by ${vendorsNav.top}`;
-      } else if (vendorsNav.path.length != 0) {
+      if (_.isEmpty(vendorsNavTop.path)) {
+        chartTitle = `${this.state.activeMetrics.title} by ${vendorsNavTop.top}`;
+      } else if (vendorsNavTop.path.length != 0) {
         chartTitle = `Historical Trend of ${
           this.state.activeMetrics.title
         } for ${this.state.vendorGraphLabel}`;
       }
     }
+
+    let n = categoriesNav.length
+    categoriesNavLink.push(<span key = "0" className="link cursor-pointer" onClick = {this.onCategory}><u>{categoriesNav[0].top}</u>&nbsp;&nbsp;&gt;&nbsp;</span>)
+    for(let i = 1;i<n-1;i++){
+      const spanTag = <span key = {i} className="link cursor-pointer" onClick={()=>{ 
+        this.onCategoryClick(categoriesNav[i].path.label,categoriesNav[i].path.id,categoriesNav[i].path.graphLabel,n-i)}}>
+        <u>{categoriesNav[i].top}</u>&nbsp;&nbsp;&gt;&nbsp;
+        </span>
+      categoriesNavLink.push(spanTag)
+     }
+     categoriesNavLink.push(<span key = {n} className="link">By {this.state.currentSubOption}</span>)
+
+
+    vendorsNavLink.push(<span key = "0" className="link cursor-pointer" onClick={this.onVendor}><u>Vendor</u> &nbsp;&nbsp;&gt;&nbsp;</span>)
+    vendorsNavLink.push(<span key = "n" className = "link">By time</span>)
+
     return (
-      <Dialog
-        contentClassName="explore-dialog-container"
-        bodyClassName="explore-dialog-body"
-        autoScrollBodyContent={true}
-        title={
-          <div>
-            <span>{`Exploring ${activeMetrics &&
-              activeMetrics.title} metric`}</span>
-            <span className="pull-right close-btn">
-              <Button
-                className="close-button pull-right"
-                onClick={this.closeExploreMetrics}
-              />
+      <Col>
+        <div className = "explore-header">
+          <span >
+            <span className = "icon-title">
+              <span className="back-icon">
+              <img src={backButton} onClick = {()=>{this.props.clearChartData();this.props.history.push(routeConstants.dashboard)}}></img>
+              </span>
+              <span className="title">
+                {this.props.activeMetrics.title} <img src={infoIcon} className="alt-price-title" alt="info icon" title={this.props.activeMetrics.description} />
+              </span>
             </span>
-          </div>
-        }
-        titleStyle={styles.chartsHeaderTitle}
-        modal
-        open={this.props.open}
-      >
-        <Row>
-          <Col>
-            <Card className="charts-card-style" style={styles.noBorder}>
-              <CardHeader
-                textStyle={styles.chartHeader}
-                titleStyle={styles.chartsHeaderTitle}
-                subtitle={
-                  <div className="">
-                    <span className="pull-left">
-                      <span className="dd-lable">Plot By:</span>
-                      <br />
-                      <span>
-                        <ButtonGroup>
-                          {this.state.activeMetrics
-                            ? this.state.activeMetrics.availableContexts.map(
-                                (ctx, i) => {
-                                  const Ctx = ctx.label;
-                                  return (
-                                    <Button
-                                      key={i}
-                                      value={Ctx}
-                                      className={
-                                        this.state.currentOption === Ctx
-                                          ? "active"
-                                          : ""
-                                      }
-                                      onClick={
-                                        this.state.currentOption === Ctx
-                                          ? ""
-                                          : e => {
-                                              this.onOptionChange(
-                                                Ctx,
-                                                e.target.value === "Categories"
-                                                  ? categoryId
-                                                  : vendorsId
-                                              );
-                                            }
-                                      }
-                                    >
-                                      {Ctx}
-                                    </Button>
+            </span>
+            <span className="pull-right dd-lable"  style={{  }}>
+                <CustomRangePicker
+                  onTimeframeChange={this.onTimeframeChange}
+                  customRangeShouldClear={
+                    this.state.customRangeShouldClear
+                  }
+                  afterCustomRangeClear={this.afterCustomRangeClear}
+                  defaultRange={{
+                    start: this.customStartTime,
+                    end: this.customEndTime
+                  }}
+                />
+              </span>
+          </div>    
+        <Col className="explore-option" >
+          <span>
+            <ButtonGroup>
+              {this.state.activeMetrics
+                ? this.state.activeMetrics.availableContexts.map(
+                    (ctx, i) => {
+                      const Ctx = ctx.label;
+                      return (
+                        <Button
+                          key={i}
+                          value={Ctx}
+                          className = "button-group"
+                          className={
+                            this.state.currentOption === Ctx
+                              ? "button-group-active"
+                              : ""
+                          }
+                          onClick={
+                            this.state.currentOption === Ctx
+                              ? e =>{}
+                              : e => {
+                                  this.onOptionChange(
+                                    Ctx,
+                                    e.target.value === "Categories"
+                                      ? categoryId
+                                      : vendorsId
                                   );
                                 }
-                              )
-                            : ""}
-                        </ButtonGroup>
-                      </span>
-                    </span>
-                    <span className="pull-right" style={{ width: 200 }}>
-                      <span className="dd-lable" />
-                      <span>
-                        <CustomRangePicker
-                          onTimeframeChange={this.onTimeframeChange}
-                          customRangeShouldClear={
-                            this.state.customRangeShouldClear
                           }
-                          afterCustomRangeClear={this.afterCustomRangeClear}
-                          defaultRange={{
-                            start: this.customStartTime,
-                            end: this.customEndTime
-                          }}
-                        />
-                      </span>
-                    </span>
-                  </div>
-                }
-              />
-              <CardText>
-                <Row>
+                        >
+                          {Ctx}
+                        </Button>
+                      );
+                    }
+                  )
+                : ""}
+            </ButtonGroup>
+          </span>
+      </Col>
+      <Col>
+              <Row>
                   <Col md={12} className="hide">
                     <Row>
-                      <Col md={5} className="text-center padding-r-0">
-                        <Card className="charts-card-style">
+                      <Col md={4} className="text-center padding-r-0">
+                        <Card>
                           <CardText className="card-content text-center">
                             <div className="card-title">Filter By Product</div>
                             <div className="chip-wrapper">
@@ -1580,7 +1573,7 @@ resizeFunction=()=>{
                           </CardText>
                         </Card>
                       </Col>
-                      <Col md={5} className="text-center padding-r-0">
+                      <Col md={4} className="text-center padding-r-0">
                         <Card className="charts-card-style">
                           <CardText className="card-content text-center">
                             <div className="card-title">
@@ -1608,8 +1601,8 @@ resizeFunction=()=>{
                       </Col>
                     </Row>
                   </Col>
-                  <Col md={12} className="text-center">
-                    <Card className="charts-card-style">
+                  <Col md={12} className="text-center" style={{paddingBottom: "4%"}}>
+                    <Card className="charts-card-style no-border">
                       <CardHeader
                         textStyle={styles.chartHeader}
                         title={<Row>
@@ -1620,31 +1613,25 @@ resizeFunction=()=>{
                             </span>
                           </Col>
                           <Col md={3}>
-                            { this.state.categoriesNav.path.length == 0 && this.state.vendorsNav.path.length == 0 ? 
-                            <span className={this.state.currentOption === OPTION_TIME ? 'display-none' : 'pull-right close-btn'}>
+                            { showLineChart == false ? 
+                            <span className="pull-right close-btn">
                               <Select defaultValue={this.currentSortOption} onChange={(value, label) => { this.onSortOptionChange(value); }}>
                                 <Option value="1">Low to High</Option>
                                 <Option value="2">High to Low</Option>
                               </Select>
-                            </span> : this.state.categoriesNav.path.length !=0 && this.state.currentSubOption != 'time' ? 
-                            <span className={this.state.currentOption === OPTION_TIME ? 'display-none' : 'pull-right close-btn'}>
-                              <Select defaultValue={this.currentSortOption} onChange={(value, label) => { this.onSortOptionChange(value); }}>
-                                <Option value="1">Low to High</Option>
-                                <Option value="2">High to Low</Option>
-                              </Select>
-                            </span>  
+                            </span>   
                               : null}
                           </Col>
                           </Row>
                           {
-                            this.state.currentOption == OPTION_CATEGORIES && this.state.categoriesNav.path.length != 0 ?
+                            this.state.currentOption == OPTION_CATEGORIES && !_.isEmpty(categoriesNavTop.path) ?
                             <Row className="suboption-btn">
-                            <ButtonGroup style={{marginLeft:'15px', marginTop:'10px'}}>
-                             <Button value="time" className={this.state.currentSubOption === 'time' ? 'active' : ''} onClick={(e) => this.onSubOptionChange(e)}>Time</Button>
-                             { this.state.categoriesNav.top != categoryOptions.time ? this.state.categoriesNav.top == categoryOptions.product ?  
-                                <Button value='product' className={this.state.currentSubOption === 'product' ? 'active' : ''} onClick={(e) => this.onSubOptionChange(e)}>Products</Button> 
+                            <ButtonGroup style={{marginTop:'10px',paddingLeft:'15px'}}>
+                             <Button value="time" className = "button-group" className={this.state.currentSubOption === 'time' ? 'button-group-active' : ''} onClick={(e) => this.onSubOptionChange(e)}>Time</Button>
+                             { categoriesNavTop.top != categoryOptions.time ? categoriesNavTop.top == categoryOptions.product ?  
+                                <Button value='product' className = "button-group" className={this.state.currentSubOption === 'product' ? 'button-group-active' : ''}  onClick={(e) => this.onSubOptionChange(e)}>Products</Button> 
                                 : 
-                                <Button value='variant' className={this.state.currentSubOption === 'variant' ? 'active' : ''} onClick={(e) => this.onSubOptionChange(e)}>Variants</Button> 
+                                <Button value='variant' className = "button-group" className={this.state.currentSubOption === 'variant' ? 'button-group-active' : ''} onClick={(e) => this.onSubOptionChange(e)}>Variants</Button> 
                                : null}             
                           </ButtonGroup>
                           </Row>
@@ -1652,20 +1639,25 @@ resizeFunction=()=>{
                             null
                           }
                           <br />
-                          {this.state.categoriesNav.path.length == 1 && this.state.currentSubOption == 'time' ?
-                            null : currentOption === OPTION_CATEGORIES && categoriesNav.path.length ? <Col md={12} style={{marginTop:'10px'}} className="category-link-container">
-                            <span className="link cursor-pointer" onClick={this.onCategory}> <u>Category</u> </span>
-                            {categoriesNav.path[0] ? <span className={`link ${categoriesNav.path.length > 1 ? 'cursor-pointer' : ''}`} onClick={() => { categoriesNav.path.length > 1 ? this.onCategoryClick(categoriesNav.path[0].label, categoriesNav.path[0].id,categoriesNav.path[0].graphLabel) : ''; }}> &nbsp;&nbsp;&gt;&nbsp;{categoriesNav.path.length > 1?<u>Products</u>:"Products" }</span> : ''}
-                            {categoriesNav.path[1] ? <span className="link"> &nbsp;&nbsp;&gt;&nbsp; Variants </span> : ''}
-                                                                                              </Col> : null}
-                          {currentOption === OPTION_VENDOR && vendorsNav.path.length ? <Col md={12} style={{marginTop:'10px'}} className="category-link-container">
-                            <span className="link cursor-pointer" onClick={this.onVendor}> Vendor </span>
-                            {vendorsNav.path[0] ? <span className={`link ${vendorsNav.path.length > 1 ? 'cursor-pointer ' : ''}`} onClick={() => { vendorsNav.path.length > 1 ? this.onVendorClick(vendorsNav.path[0].label, vendorsNav.path[0].id) : ''; }}> &nbsp;&nbsp;&gt;&nbsp; Time </span> : ''}                                                                                              </Col> : null}                                                                                              
+                          <Col md={12} style={{marginTop:'10px'}} className="category-link-container">
+                          {
+                            currentOption === OPTION_CATEGORIES && categoriesNav.length > 1 ?
+                              categoriesNavLink
+                            : null   
+                          }
+                          {
+                            currentOption === OPTION_VENDOR && vendorsNav.length > 1 ?
+                              vendorsNavLink
+                            : null  
+                          }
+                          </Col>
+                        
                         </Row>}
                         titleStyle={styles.chartsHeaderTitle}
                       />
                       <CardText>
-                        <div
+                       
+                       <div
                           id="chart-full-width-holder"
                           style={{ width: "100%", height: "0px" }}
                         />
@@ -1684,71 +1676,11 @@ resizeFunction=()=>{
                               (this.state.graphError && !this.state.chartData && this.state.noData === false) ?
                               <div className="chart-error">Oops! Something went wrong. We have made note of this issue and will fix this as soon as possible</div>
                               :
-                              <div className="chart-wrapper">
-                                <div style={{width: this.state.chartWidth, height: chartHeight}}>
+                              <div className="chart-wrapper" style={{width:this.state.chartWidth}}>
+                                <div>
                                   {
-                                    this.state.currentOption === OPTION_VENDOR ?
-                                      this.state.vendorsNav.path.length === 0 ?
-                                      
+                                      showLineChart == false ?
                                       <BarChart
-                                        data={this.state.chartData}
-                                        fullHeight={fullHeight}
-                                        selectedOption={
-                                          this.state.currentOption
-                                        }
-                                        tooltipDetail={this.state.tooltipDetail}
-                                        showDetailOnHover={
-                                          this.showDetailOnHover
-                                        }
-                                        hideDetail={this.hideDetail}
-                                        chartName={this.state.currentOption}
-                                        productsByCategory={
-                                          this.onCategoryClick
-                                        }
-                                        timeByVendor={this.onVendorClick}
-                                        categoriesNav={this.state.categoriesNav}
-                                        vendorsNav={this.state.vendorsNav}
-                                      />
-                                     : this.state.currentSubOption != "time" &&
-                                    this.state.categoriesNav.top !=
-                                      categoryOptions.time ? 
-                                      <BarChart
-                                        data={this.state.chartData}
-                                        fullHeight={fullHeight}
-                                        tooltipDetail={this.state.tooltipDetail}
-                                        selectedOption={
-                                          this.state.currentOption
-                                        }
-                                        showDetailOnHover={
-                                          this.showDetailOnHover
-                                        }
-                                        hideDetail={this.hideDetail}
-                                        chartName={this.state.currentOption}
-                                        productsByCategory={
-                                          this.onCategoryClick
-                                        }
-                                        timeByVendor={this.onVendorClick}
-                                        categoriesNav={this.state.categoriesNav}
-                                        vendorsNav={this.state.vendorsNav}
-                                        /> :
-                                        <LineChart data={this.state.chartData} open={this.props.open} fullHeight={fullHeight} selectedOption={this.state.currentOption} chartName="timeChart" />
-                                        :  this.state.currentOption === OPTION_CATEGORIES ?
-                                        this.state.categoriesNav.path.length === 0 ?
-                                        <BarChart
-                                          data={this.state.chartData}
-                                          fullHeight={fullHeight}
-                                          selectedOption={this.state.currentOption}
-                                          tooltipDetail={this.state.tooltipDetail}
-                                          showDetailOnHover={this.showDetailOnHover}
-                                          hideDetail={this.hideDetail}
-                                          chartName={this.state.currentOption}
-                                          productsByCategory={this.onCategoryClick}
-                                          timeByVendor={this.onVendorClick}
-                                          categoriesNav={this.state.categoriesNav}
-                                          vendorsNav={this.state.vendorsNav}
-                                          /> :
-                                          this.state.currentSubOption != 'time' && this.state.categoriesNav.top != categoryOptions.time ?
-                                          <BarChart
                                           data={this.state.chartData}
                                           fullHeight={fullHeight}
                                           tooltipDetail={this.state.tooltipDetail}
@@ -1758,13 +1690,11 @@ resizeFunction=()=>{
                                           chartName={this.state.currentOption}
                                           productsByCategory={this.onCategoryClick}
                                           timeByVendor={this.onVendorClick}
-                                          categoriesNav={this.state.categoriesNav}
-                                          vendorsNav={this.state.vendorsNav}
+                                          categoriesNav={categoriesNavTop}
+                                          vendorsNav={vendorsNavTop}
                                           />
                                           :
-                                          <LineChart data={this.state.chartData} open={this.props.open} fullHeight={fullHeight} selectedOption={this.state.currentOption} chartName="timeChart" />
-                                    :      
-                                        <LineChart data={this.state.chartData} open={this.props.open} fullHeight={fullHeight} selectedOption={this.state.currentOption} chartName="timeChart" graphLoadingDone={this.state.graphLoadingDone}/>
+                                          <LineChart data={this.state.chartData} open={this.props.open} fullHeight={fullHeight} selectedOption={this.state.currentOption} chartName="timeChart" graphLoadingDone={this.state.graphLoadingDone}/>
                                   }
                                 </div>
                               </div>
@@ -1784,11 +1714,8 @@ resizeFunction=()=>{
                     />
                   </Col>
                 </Row>
-              </CardText>
-            </Card>
-          </Col>
-        </Row>
-      </Dialog>
+      </Col>
+      </Col>
     );
   }
 }

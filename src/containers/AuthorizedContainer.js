@@ -7,6 +7,7 @@ import Settings from './Settings';
 import ConnectShopify from './ConnectShopify';
 import FetchStatus from './FetchStatus'
 import user from '../auth/user';
+import Explore from './Explore/Explore'
 import {routeConstants} from '../constants';
 
 class AuthorizedContainer extends Component {
@@ -28,6 +29,7 @@ class AuthorizedContainer extends Component {
         <Route exact path={routeConstants.settings} component={Settings} />
         <Route exact path={routeConstants.fetchStatus} component={FetchStatus} />
         <Route exact path={routeConstants.connectShopify} component={ConnectShopify} />
+        <Route path={routeConstants.explore} component={Explore}/>
       </Switch>
     );
   }

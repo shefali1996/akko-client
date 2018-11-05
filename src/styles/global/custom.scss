@@ -3,7 +3,7 @@
 }
 .custom-table {
   background: $pure-white;
-  font-family: $ubuntu-regular;
+  font-family: $ubuntu;
   font-size: $size-16;
   color: $dark-purple;
   text-decoration: none solid $main-decoration-color;
@@ -36,7 +36,7 @@
 .custom-btn {
   padding: 6px 10px;
   background-color: $pure-white;
-  font-family: $ubuntu-regular;
+  font-family: $ubuntu;
   font-size: 14px;
   color: $dark-purple;
   text-decoration: none solid $dark-purple;
@@ -51,8 +51,8 @@
   font-family: $ubuntu;
   font-size: 14px;
   color: $light-gray-color;
-  font-weight: bold;
-  text-decoration: none solid $light-gray-color-1;
+  font-weight: 500;
+  text-decoration: none solid $light-gray-color;
   .ant-select-selection {
     border-radius: 0;
     height: 41px;
@@ -60,8 +60,15 @@
     border-radius: 2px;
     background-color: $pure-white;
   }
+  .ant-select-selection:hover,
+  .ant-select-selection:active,
+  .ant-select-selection:focus,
+  {
+    border-color: $main-blue-color;
+  }
   .ant-select-selection-selected-value {
     padding: 7px 15px;
+    color: $highlight-color;
   }
 }
 .ant-select-dropdown {
@@ -71,16 +78,16 @@
   font-family: $ubuntu;
   font-size: 14px;
   color: $light-gray-color;
-  font-weight: bold;
+  font-weight: 500;
   text-decoration: none solid $light-gray-color;
 }
 .ant-input {
   height: auto;
   font-family: $ubuntu;
   font-size: 14px;
-  color: $light-gray-color;
-  font-weight: bold;
-  text-decoration: none solid $light-gray-color-1;
+  color: $highlight-color;
+  font-weight: 500;
+  text-decoration: none solid $highlight-color;
   border-radius: 2px;
   padding-top: 10px;
   padding-bottom: 8px;

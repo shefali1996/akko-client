@@ -5,7 +5,26 @@ import { validateCogsValue } from '../helpers/Csv';
 // static constants
 export const testMode = false;
 export const pollingInterval = {lastUpdated: 30 * 1000, fetchStatusInterval: 5 * 1000, cogsStatus: 5 * 1000}; // seconds 30s
-export const routeConstants = { signin: '/', signup: '/signup', forgotPassword: '/forgot-password', connectShopify: '/connect-shopify', setCogs: '/set-cogs', settings: '/settings', fetchStatus: '/fetch-status', dashboard: '/dashboard'};
+export const routeConstants = { signin: '/', signup: '/signup', forgotPassword: '/forgot-password', connectShopify: '/connect-shopify', setCogs: '/set-cogs', settings: '/settings', fetchStatus: '/fetch-status', dashboard: '/dashboard',explore: '/explore'};
+
+export const routeExplore = {
+  total_sales:'/total-sales',
+  gross_profit:'/gross-profit',
+  avg_margin:'/average-margin',
+  number_of_orders:'/orders',
+  avg_order_value: '/average-order-value'
+};
+
+export const exploreCard= {
+  'total-sales':'total_sales',
+  'gross-profit':'gross_profit',
+  'average-margin':'avg_margin',
+  'orders':'number_of_orders',
+  'average-order-value':'avg_order_value'
+}
+
+export const exploreCardPathPattern = '^.*[/](.*)$'
+
 export const KEYS_TO_FILTERS = ['productDetail.title', 'stockOnHandUnits', 'stockOnHandValue.value', 'committedUnits', 'committedValue.value', 'availableForSaleUnits', 'availableForSaleValue.value'];
 export const KEYS_TO_METRICES = ['title', 'description', 'prefix', 'value', 'trend', 'trendValue', 'trendPeriod'];
 export const plotByOptions = {time: 'Time', product: 'Product', categories: 'Categories', vendors: 'Vendors'};
@@ -20,6 +39,8 @@ export const fetchRoutes = [routeConstants.setCogs, routeConstants.dashboard, ro
 export const fetchStatusInterval = 10 * 1000;
 export const METRICS_CARD = 'metrics_card';
 export const bandwidthSize = 1.1;
+export const maxBandWidth = 55;
+export const Y_AXIS_LABEL_SPACE = 20;
 export const dashboardGrid = {maxColumn: 4, maxColWidth: 320};
 export const CsvTableHeaderRow = ['ID', 'Title', 'Variant', 'SKU', 'Price', 'COGS'];
 export const defaultCogsRange = {start: '01-01-1800', end: '01-01-2200'};

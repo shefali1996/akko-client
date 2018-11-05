@@ -14,7 +14,6 @@
   height: 29px;
   padding: 6px 10px;
   background-color: $white-color;
-  font-family: $ubuntu-regular;
   font-size: $size-14;
   color: $light-gray-color;
   text-decoration: none solid $main-decoration-color;
@@ -40,7 +39,7 @@
   height: 44px;
   padding: 6px 10px;
   background-color: $main-blue-color;
-  font-family: $ubuntu-regular;
+  font-family: $ubuntu;
   font-size: $size-16;
   color: $white-color;
   text-decoration: none solid $dark-purple;
@@ -55,7 +54,7 @@
   height: 34px;
   padding: 6px 10px;
   background-color: $white-color;
-  font-family: $ubuntu-regular;
+  font-family: $ubuntu;
   font-size: $size-14;
   color: $main-blue-color;
   text-decoration: none solid $main-decoration-color;
@@ -70,7 +69,7 @@
   height: 34px;
   padding: 6px 10px;
   background-color: $white-color;
-  font-family: $ubuntu-regular;
+  font-family: $ubuntu;
   font-size: $size-14;
   color: $main-blue-color;
   text-decoration: none solid $main-decoration-color;
@@ -85,7 +84,6 @@
   height: 34px;
   padding: 6px 10px;
   background-color: $white-color;
-  font-family: $ubuntu-regular;
   font-size: $size-14;
   color: $main-blue-color;
   text-decoration: none solid $main-decoration-color;
@@ -100,7 +98,6 @@
   height: 34px;
   padding: 6px 10px;
   background-color: $white-color;
-  font-family: $ubuntu-regular;
   font-size: $size-14;
   color: $dark-purple;
   text-decoration: none solid $main-decoration-color;
@@ -124,7 +121,6 @@
   width: auto;
   padding: 8px 10px;
   background-color: $main-blue-color;
-  font-family: $ubuntu-regular;
   font-size: $size-14;
   color: $white-color;
   text-decoration: none solid $main-decoration-color;
@@ -137,7 +133,7 @@
 .signup-button-text {
   background-color: $main-blue-color;
   background-repeat: no-repeat;
-  font-family: $ubuntu-regular;
+  font-family: $ubuntu;
   font-size: $size-14;
   color: $pure-white;
   text-decoration: none solid rgba($pure-white, 0.84);
@@ -148,6 +144,31 @@
   padding: 6px 10px;
   border-radius: 2px;
   font-weight: bold;
+}
+
+.button-group{
+border: 1px solid $light-gray-color;
+font-family: $ubuntu;
+border-radius: 2px;
+background-color: $pure-white;
+background-size: cover;
+font-family: $ubuntu;
+font-size: $size-14;
+color: $highlight-color;
+text-decoration: none solid $highlight-color;
+text-align: center;
+z-index: 0;
+}
+
+
+.button-group-active,
+.button-group-active:focus,
+.button-group:focus
+{
+  background-color: $main-blue-color;
+  color: $pure-white;
+  outline: none;
+  z-index:0;
 }
 
 //button outline

@@ -9,7 +9,7 @@ $black-color: #000000;
 $light-gray-color: #c8c8e8;
 $main-blue-color: #4688ff;
 $main-red-color: #f02a1f;
-$main-background-color: #ebebeb;
+$main-background-color: #f7f7fc;
 $main-decoration-color: #1d2fb5;
 $tooltip-error-color: #e65c49;
 $light-gray-color-1: #c8c8c8;
@@ -43,7 +43,7 @@ $light-green: #00cc00;
 $fade-red: #eb554d;
 $primary-button-hover: #e6e6e6;
 $area-color:#6078FF;
-
+$highlight-color: #2e4369;
 
 //font-size
 $size-0: 0px;
@@ -81,6 +81,7 @@ $min-height: calc(100vh - 60px);
 //color variable which are defined above must be exported here
 :export {
     mainBlueColor: $main-blue-color;
+    highLightColor: $highlight-color;
     white-color:$white-color;
     black-color: $black-color;
     light-gray-color: $light-gray-color;

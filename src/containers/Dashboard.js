@@ -31,7 +31,6 @@ class Dashboard extends Component {
       explore:           false
     };
     this.setHeightWidth = this.setHeightWidth.bind(this);
-    this.handleClickMetrics = this.handleClickMetrics.bind(this);
     this.column = 4;
     this.top = 0;
   }
@@ -122,15 +121,6 @@ class Dashboard extends Component {
     }, 100);
   }
   
-  handleClickMetrics(id, value) {
-    this.scrollTop(id);
-    this.setState({
-      explore:         true,
-      activeMetrics:   value,
-      activeMetricsId: id,
-      receiveProps:true
-    });
-  }
   setReceiveProps=(data)=>{
     this.setState({
       receiveProps:data
@@ -207,8 +197,8 @@ class Dashboard extends Component {
         } else {
           const validCards = invalid ? <InvalidCard key={index} index={index} width={dashboardGridInfo.colWidth} value={value} userData={this.state.userData} onClickSetCogs={() => this.props.history.push('/set-cogs')} />
           : _.isEmpty(value.availableContexts)  ?
-                <ValidCards key={index}  index={index} style={{cursor:'none'}} width={dashboardGridInfo.colWidth} value={value} active={active} data={_.cloneDeep(data)}  />
-                :   <ValidCards key={index} index={index} width={dashboardGridInfo.colWidth} value={value} active={active} openExploreMetric="openExploreMetric" data={_.cloneDeep(data)} handleClickMetrics={this.handleClickMetrics} />;
+                <ValidCards history = {this.props.history} key={index}  index={index} style={{cursor:'none'}} width={dashboardGridInfo.colWidth} value={value} active={active} data={_.cloneDeep(data)}  />
+                :   <ValidCards history = {this.props.history} key={index} index={index} width={dashboardGridInfo.colWidth} value={value} active={active} openExploreMetric="openExploreMetric" data={_.cloneDeep(data)} />;
                 renderCards.push(validCards);
               }
             }
@@ -224,37 +214,10 @@ class Dashboard extends Component {
                 <Row id="cardSection" className="report-cards">
                   {renderCards}
                 </Row>
-              </div>
-              {screen.width>767 &&
-              <div className="right-box-0">
-                <ExploreMetrics
-                  closeFilter={() => {
-                    this.setState({
-                      explore:         false,
-                      activeMetricsId: 'none',
-                    });
-                  }}
-                  clearChartData={this.props.clearChartData}
-                  activeMetrics={this.state.activeMetrics}
-                  channelData={this.state.channelData}
-                  open={this.state.explore}
-                  receiveProps={this.state.receiveProps}
-                  getVendors={this.props.chartData.data.getVendors}
-                  getProductBySingleCategory={this.props.chartData.data.getProductBySingleCategory}
-                  getTimeBySingleProduct={this.props.chartData.data.getTimeBySingleProduct}
-                  getVariantBySingleProduct={this.props.chartData.data.getVariantBySingleProduct}
-                  getTimeBySingleVariant={this.props.chartData.data.getTimeBySingleVariant}
-                  getCategories={this.props.chartData.data.getCategories}
-                  categoriesData={this.state.categoriesData}
-                  setReceiveProps={this.setReceiveProps}
-                  {...this.props}
-                  />
-              </div>
-              }
+              </div>        
             </Col>
           </Row>
         </Grid>
-        <Footer />
       </div>
     );
   }

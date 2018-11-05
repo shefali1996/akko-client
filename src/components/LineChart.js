@@ -5,7 +5,7 @@ import { max } from "d3-array";
 import { select } from "d3-selection";
 import $ from "jquery";
 import { isEqual, cloneDeep,sortBy } from "lodash";
-import { plotByOptions, numberFormatter } from "../constants";
+import { plotByOptions, numberFormatter,bandwidthSize } from "../constants";
 import style from 'styles/global/variables.scss'
 
 const moment = require("moment");
@@ -34,20 +34,10 @@ class LineChart extends Component {
         if (
           currentOption === OPTION_CATEGORIES ||
           currentOption === OPTION_VENDOR ||
-          currentOption === OPTION_TIME
+          currentOption === OPTION_TIME || currentOption === METRICS_CARD
         ) {
           this.createLineChartTime();
-          const element = document.getElementById("cardSection");
-          elementResizeEvent(element, () => {            
-            if(d3.select(`#chart_${this.props.chartName}`)){                            
-            this.createLineChartTime();
-            }
-          });
-        } else if (currentOption === METRICS_CARD) {
-          this.createLineChartTime();
-          const element = document.getElementById("cardSection");
           window.addEventListener('resize', this.createLineChartTime);
-
         }
       }
     );
@@ -75,7 +65,7 @@ class LineChart extends Component {
     if(document.getElementById(`chart_${this.props.chartName}`)){
     $(`#chart_${this.props.chartName}`).empty();
     const currentOption = this.props.selectedOption;
-    const fullwidth =
+    let fullwidth =
       document.getElementById(`chart_${this.props.chartName}`) == null
         ? 904
         : document.getElementById(`chart_${this.props.chartName}`).clientWidth;        
@@ -97,6 +87,13 @@ class LineChart extends Component {
     } else if (currentOption === METRICS_CARD) {
       fullHeight = fullwidth * 0.5;
     }
+
+    if(currentOption !== METRICS_CARD){
+      const maxBandWidth = 55;
+      const step = maxBandWidth * bandwidthSize; 
+      fullwidth = fullwidth < step * data.length ? step * data.length : fullwidth;
+    }
+    
     const chart = d3.select(`#chart_${this.props.chartName}`);
     const svg = chart
       .append("svg")
@@ -189,7 +186,6 @@ class LineChart extends Component {
       .attr("y", 6)
       .attr("dy", "0.71em")
       .attr("text-anchor", "end")
-      .text("Y axis");
     labelY
       .selectAll("g")
       .select("text")
@@ -220,7 +216,7 @@ class LineChart extends Component {
         "transform",
         `translate(${margin.left},${margin.top})`
       )
-      .attr("fill",`${style['area-color']}`)
+      .attr("fill",`${style['mainBlueColor']}`)
       .attr("opacity",".13")
 
       
@@ -311,7 +307,11 @@ class LineChart extends Component {
 }
 
   render() {        
-    return <div>{this.state.chart} </div>;
+    let overflow_x = ""
+    if(this.props.currentOption != METRICS_CARD){
+      overflow_x = "overflow_x"
+    }
+    return <div className={overflow_x}>{this.state.chart} </div>;
   }
 }
 export default LineChart;

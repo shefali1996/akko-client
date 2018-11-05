@@ -1,5 +1,4 @@
 .shopify-comment {
-  font-family: $ubuntu-regular;
   font-size: $size-20;
   color: $main-blue-color;
   text-decoration: none solid $main-blue-color;
@@ -18,7 +17,6 @@
   margin-right: 10px;
 }
 .shopify-url-text {
-  font-family: $ubuntu-regular;
   font-size: $size-20;
   color: $main-blue-color;
   text-decoration: none solid $main-blue-color;
@@ -26,7 +24,6 @@
   margin-left: 5px;
 }
 .shopify-instruction-text {
-  font-family: $ubuntu-regular;
   font-size: $size-16;
   color: $main-blue-color;
   text-decoration: none solid $main-blue-color;
@@ -42,7 +39,6 @@
 }
 .alert-text {
   color: $pure-red;
-  font-family: $ubuntu-regular;
   font-size: $size-14;
   text-decoration: none solid $main-blue-color;
   text-align: center;
@@ -71,7 +67,6 @@
   text-align: center;
 }
 .select-style-text {
-  font-family: $ubuntu-regular;
   font-size: $size-24;
   color: $main-blue-color;
   text-decoration: none solid $main-blue-color;
@@ -104,14 +99,12 @@
 }
 
 .select-style-comment {
-  font-family: $ubuntu-regular;
   font-size: $size-16;
   color: $main-blue-color;
   text-decoration: none solid $main-blue-color;
   text-align: center;
 }
 .select-style-comment-small {
-  font-family: $ubuntu-regular;
   font-size: $size-14;
   color: $main-blue-color;
   text-decoration: none solid $main-blue-color;
@@ -159,7 +152,6 @@
 }
 .style-text-view {
   width: 408px;
-  font-family: $ubuntu-regular;
   font-size: $size-14;
   color: $main-blue-color;
   text-decoration: none solid $main-blue-color;
@@ -170,14 +162,12 @@
   align-items: center;
 }
 .select-text-large {
-  font-family: $ubuntu-regular;
   font-size: $size-16;
   color: $main-blue-color;
   text-decoration: none solid $main-blue-color;
   text-align: center;
 }
 .select-text-small {
-  font-family: $ubuntu-regular;
   font-size: $size-14;
   color: $main-blue-color;
   text-decoration: none solid $main-blue-color;
@@ -209,7 +199,6 @@
   text-decoration: none solid $main-blue-color;
 }
 .step-content {
-  font-family: $ubuntu-regular;
   font-size: $size-14;
   color: $main-blue-color;
   text-decoration: none solid $main-blue-color;
@@ -229,7 +218,6 @@
   cursor: pointer;
 }
 .drag-text {
-  font-family: $ubuntu-regular;
   font-size: $size-20;
   color: $light-gray-color;
   text-decoration: none solid $light-gray-color;
@@ -282,19 +270,16 @@
   flex-direction: column;
 }
 .product-title {
-  font-family: $ubuntu-regular;
   font-size: $size-16;
   color: $dark-purple;
   text-decoration: none solid $main-decoration-color;
 }
 .product-type {
-  font-family: $ubuntu-regular;
   font-size: $size-12;
   color: $pure-black;
   text-decoration: none solid $pure-black;
 }
 .product-price-front {
-  font-family: $ubuntu-regular;
   font-size: $size-12;
   color: $pure-black;
   text-decoration: none solid $pure-black;
@@ -303,14 +288,12 @@
 .product-price-back {
   width: 61px;
   height: 18px;
-  font-family: $ubuntu-regular;
   font-size: $size-16;
   color: $pure-black;
   text-decoration: none solid $pure-black;
   margin-left: 5px;
 }
 .product-currency {
-  font-family: $ubuntu-regular;
   font-size: $size-24;
   color: $main-blue-color;
   text-decoration: none solid $main-blue-color;
@@ -321,7 +304,6 @@
   flex-direction: column;
 }
 .product-currency-text {
-  font-family: $ubuntu-regular;
   font-size: $size-12;
   color: $light-gray-color-1;
   text-decoration: none solid $light-gray-color-1;

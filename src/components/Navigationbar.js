@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { Row, Col, Label, Image, DropdownButton } from 'react-bootstrap';
+import { Grid,Row, Col, Label, Image, DropdownButton } from 'react-bootstrap';
 import user from '../auth/user';
 import profileIcon from '../assets/images/profileIconWhite.svg';
 import downArrowWhite from '../assets/images/downArrowWhite.svg';
@@ -27,17 +27,17 @@ class Navigationbar extends Component {
   render() {
     const companyName = this.props.companyName;
     return (
-      <div className="nav-container">
-        <Row>
-          <Col md={3} sm={6} xs={8} className="flex-left app-title-container padding-left-right-7">
+      <div className="header">
+          <Row className="nav-container">
+          <Col md={8} sm={6} xs={8} className="flex-left app-title-container padding-0">
             <Label className="app-title">
-              <div className="logo" />
+              <Image src={logo} className="logo" />
             </Label>
             {companyName ? <span className="company-name-label">
               <span >{companyName}</span>
             </span> : null}
           </Col>
-          <Col md={2} sm={6} xs={4} className="pull-right text-right padding-left-right-7 setting-popup">
+          <Col  md={4} sm={6} xs={4} className="pull-right text-right setting-popup padding-0">
             <DropdownButton
               title={
                 <div>

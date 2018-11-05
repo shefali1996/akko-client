@@ -2,7 +2,9 @@
 
 body {
   width: $full-width;
+  font-family: $ubuntu !important;
   overflow: auto;
+  background-color: $main-background-color !important;
 }
 
 .NotFound {

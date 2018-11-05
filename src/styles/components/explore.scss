@@ -1,0 +1,50 @@
+.explore-metrics{
+    color: $highlight-color;
+    display: grid;
+}
+
+.explore-header{
+    padding-top: 4%;
+    padding-bottom: 2%;
+}
+
+.explore-option{
+    padding-bottom: 1%;
+}
+
+.back-icon{
+
+    background-color: $main-blue-color;
+    border-radius: 50%;
+    width: 40px;
+    height: 40px;
+    cursor: pointer;
+    img{
+        display: block;
+        width:30px;
+        height:30px;
+        margin: 5px;
+    }
+    
+}
+.back-icon:hover{
+    background-color: $primary-button-hover;
+    box-shadow: 0 0 2px $main-blue-color;
+    border-color: $light-gray-color;
+}
+
+.title{
+    padding-left: 8px;
+    font-size: 24px;
+    font-weight: 500;
+}
+
+.icon-title{
+    display: inline-flex;
+    align-items: center;
+}
+
+
+.no-border{
+    border: none;
+}

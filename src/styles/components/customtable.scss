@@ -109,7 +109,6 @@
   align-items: center;
 }
 .productName {
-  font-family: $ubuntu-regular;
   font-size: $size-16;
   color: $dark-purple;
   text-decoration: none solid $main-decoration-color;
@@ -137,7 +136,6 @@
   overflow: hidden;
 }
 .variantTitle {
-  font-family: $ubuntu-regular;
   font-size: $size-12;
   color: $color-var-1;
   text-decoration: none solid $color-var-1;
@@ -145,7 +143,6 @@
   padding-top: 1px;
 }
 .channelNumberText {
-  font-family: $ubuntu-regular;
   font-size: $size-12;
   color: $light-gray-color-1;
   text-decoration: none solid $light-gray-color-1;
@@ -179,21 +176,18 @@
 }
 
 .product-sku-text {
-  font-family: $ubuntu-regular;
   font-size: 12px;
   color: $color-var-1;
   font-style: italic;
 }
 
 .product-variant-cogs {
-  font-family: $ubuntu-regular;
   font-size: $size-12;
   color: $color-var-1;
   text-align: left;
   padding-top: 1px;
 }
 .product-cogs-text {
-  font-family: $ubuntu-regular;
   font-size: 14px;
   color: $light-gray-color-1;
   display: inline-block;

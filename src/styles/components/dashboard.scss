@@ -16,13 +16,8 @@
   overflow: hidden;
   width: $full-width;
   background-color: $main-background-color;
-  padding: 0 3%;
+  padding: 0px 4%;
   position: relative;
-
-  > .row {
-    margin: 0;
-    min-height: $min-height;
-  }
 }
 .dialog {
   height: 100%;
@@ -64,6 +59,7 @@
   padding-bottom: 50px;
 }
 .charts-card-style {
+  color: $highlight-color;
   border: 1px solid $light-gray-color;
   border-radius: 2px;
   font-family: $ubuntu !important;
@@ -83,25 +79,21 @@
   max-width: 1000px !important;
   transform: translate(0px, 0px) !important;
 }
-.explore-dialog-body {
-  
-}
+
 .dd-lable {
   font-size: 12px;
 }
 .expenses-breakdown {
   .expense-text {
     font-family: $ubuntu;
-    font-size: 15px;
-    color: $light-gray-color;
-    font-weight: bold;
-    text-decoration: none solid $light-gray-color;
+    font-size: 12px;
+    color: $highlight-color;
+    font-weight: 500;
+    text-decoration: none solid $highlight-color;
     .text-row {
       padding-top: 5px;
     }
-    .expense-text-color {
-      color: $grey-color-metrics;
-    }
+
     .dash {
       width: 5px;
       margin-right: 5px;
@@ -129,9 +121,9 @@
   .card-title {
     font-family: $ubuntu;
     font-size: 14px;
-    color: $smooth-grey;
-    font-weight: bold;
-    text-decoration: none solid $smooth-grey;
+    color: $highlight-color;
+    font-weight: 500;
+    text-decoration: none solid $highlight-color;
     text-align: center;
   }
   .chip-wrapper {
@@ -145,13 +137,13 @@
   }
   .link {
     font-family: $ubuntu;
-    font-weight: bold;
+    font-size: 14px;
     text-align: center;
     margin-top: 8px;
     text-decoration: underline;
     a {
       font-size: 14px;
-      color: $new-blue;
+      color: $highlight-color;
     }
   }
 }
@@ -317,12 +309,12 @@
   text-align: center;
   font-size: 32px;
   background-color: $dull-white;
-  color: $color-var-1;
+  color: $highlight-color;
   padding-top: 10%;
 }
 
 .chart-wrapper {
-
+  padding-left: 5%;
 }
 
 .display-none {
@@ -352,9 +344,10 @@
 }
 .category-link-container {
   .link {
-    color: $main-blue-color;
+    font-family: $ubuntu;
+    color: $highlight-color;
     font-size: 14px;
-    font-weight: 500;
+    font-weight: 400;
     float: left;
   }
 }
@@ -443,13 +436,14 @@ td.react-bs-table-expand-cell {
 .price-title {
   font-family: $ubuntu-bold;
   font-size: $size-16;
-  color: $grey;
+  color: $highlight-color;
   text-decoration: none solid $grey;
 }
 .alt-price-title {
   display: inline-block;
   width: 20px;
   margin-left: 2px;
+  padding-bottom: 15px;
 }
 .price-value {
   font-family: $ubuntu-bold;
@@ -478,8 +472,8 @@ td.react-bs-table-expand-cell {
 .price-period {
   font-family: $ubuntu-bold;
   font-size: $size-12;
-  color: $grey-color-metrics;
-  text-decoration: none solid $grey-color-metrics;
+  color: $highlight-color;
+  text-decoration: none solid $highlight-color;
 }
 .half-height {
   text-align: left;
@@ -523,7 +517,6 @@ td.react-bs-table-expand-cell {
   padding-right: 10px;
 }
 .price-description {
-  font-family: $ubuntu-regular;
   font-size: $size-12;
   color: $smooth-grey;
   text-decoration: none solid $smooth-grey;

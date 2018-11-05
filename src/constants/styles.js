@@ -8,7 +8,7 @@ const styles = {
   },
   chartsHeaderTitle: {
     fontSize:       '16px',
-    color:          `${style['grey']}`,
+    color:          `${style['highLightColor']}`,
     fontWeight:     'bold',
     textDecoration: 'none solid rgb(102, 102, 102)',
   },
@@ -28,7 +28,7 @@ const styles = {
     background: `${style['dull-white']}`
   },
   expenseCardSubtitle: {
-    color:      `${style['smooth-grey']}`,
+    color:      `${style['highLightColor']}`,
     fontWeight: '600',
     fontSize:   '11px'
   },
