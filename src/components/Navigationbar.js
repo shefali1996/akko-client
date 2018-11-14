@@ -37,7 +37,7 @@ class Navigationbar extends Component {
               <span >{companyName}</span>
             </span> : null}
           </Col>
-          <Col  md={4} sm={6} xs={4} className="pull-right text-right setting-popup padding-0">
+          <Col  md={2} sm={6} xs={4} className="pull-right text-right setting-popup padding-0">
             <DropdownButton
               title={
                 <div>
