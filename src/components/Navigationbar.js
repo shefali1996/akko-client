@@ -29,7 +29,7 @@ class Navigationbar extends Component {
     return (
       <div className="header">
           <Row className="nav-container">
-          <Col md={8} sm={6} xs={8} className="flex-left app-title-container padding-0">
+          <Col md={10} sm={6} xs={8} className="flex-left app-title-container padding-0">
             <Label className="app-title">
               <Image src={logo} className="logo" />
             </Label>
