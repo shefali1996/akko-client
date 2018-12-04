@@ -75,7 +75,7 @@ class LineChart extends Component {
       top: 20,
       right: 10,
       bottom: 50,
-      left: 50,
+      left: 55,
       svgWidthOffset: 10
     };
     if (currentOption === OPTION_CATEGORIES) {
