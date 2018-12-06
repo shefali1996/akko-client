@@ -263,9 +263,9 @@ class BarChart extends Component {
           : x(d.label)
         })
         .attr("y", d => { 
-          const height = d.value > 0 ? y(0) - y(d.value) : y(d.value) - y(0)
+          const height2 = d.value > 0 ? y(0) - y(d.value) : y(d.value) - y(0)          
           if(d.value>0){
-            return  height > 15 ? y(d.value) : y(d.value) - 15;
+            return  height2 > 15 ? y(d.value) :y(0)-15;
           } else{
             return y(0);
           }    
@@ -275,11 +275,11 @@ class BarChart extends Component {
           return bandwidth<maxBandWidth?bandwidth:maxBandWidth;
         })
         .attr("height", d => {
-          const height = d.value > 0 ? y(0) - y(d.value) : y(d.value) - y(0)
-          if(height<15){
-            return d.value > 0 ? y(0) - y(d.value) + 15 : 15;
+          const height3 = d.value > 0 ? y(0) - y(d.value) : y(d.value) - y(0)
+          if(height3<=15){
+            return  15;
           }
-          else return height
+          else return height3
            
         })
         .on("mouseover", d => {
