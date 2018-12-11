@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router';
-import toastr from 'toastr';
 import { Grid, Row, Col, Button, Label, FormControl, Tooltip, OverlayTrigger, Image,Popover } from 'react-bootstrap';
 import SearchInput, { createFilter } from 'react-search-input';
 import swal from 'sweetalert2';
@@ -16,16 +15,8 @@ import MarkupAndCsv from '../components/MarkupAndCsv';
 import SetCogsTable from '../components/SetCogsTable';
 import styles from '../constants/styles';
 import * as dashboardActions from '../redux/dashboard/actions';
-
 import { RenderProgressBar } from '../components/customTable1';
 
-
-
-const popoverHoverFocus = (
-  <Popover id="popover-trigger-hover-focus" title="Tip" color="red">
-          COGS is cost of buying on unit of product from the vendor.
-  </Popover>
-);
 
 class SetCogs extends Component {
   constructor(props) {
@@ -369,17 +360,8 @@ class SetCogs extends Component {
               <Col md={12} style={{ paddingLeft: '0' }}>
                 <div className="text-left margin-t-10">
                   <span className="select-style-text">Set COGS  
-                   <OverlayTrigger
-                     trigger={['hover', 'focus']}
-                     placement="bottom"
-                     overlay={popoverHoverFocus}
-                     container={this}
-                     containerPadding={50}
-                        >
-                          <sup><span>?</span></sup>   
-                    </OverlayTrigger>
+                          <sup id="info-icon" title="COGS is cost of buying one unit of product from the vendor."><span >?</span></sup>   
                      for your products
-                   
                   </span>
                 </div>
                 <div className="text-left margin-t-5">

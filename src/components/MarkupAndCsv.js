@@ -137,26 +137,23 @@ class MarkupAndCsv extends Component {
       } else {
         t.setState({markupError: error, setMarkupInProgress: false});
         t.refs.markupError.show();
-    }}, 1000)
+    }}, 50)
   }
   csvButtonClicked = () => {
     exportCSVFile(headers, getProductValue(this.props.tableData), `variants_${moment().format('DD-MM-YYYY_HH:mm:ss')}`);
   }
   onDrop(files) {
-    this.setState({
-      importedCSV,
-      uploadCsvInProgress: true
-    });
     const $this = this;
     $this.setState({
       importedCSV,
       uploadCsvInProgress: true
     });
-    let {tableData, progress} = this.state;
     const importedCSV = files[0];
+    let {tableData, progress} = this.state;
     if (importedCSV) {
       Papa.parse(importedCSV, {
         complete(results) {
+          setTimeout(()=>{
           let invalidCogsCount = 0;
           let cogsUpdatedCount = 0;
           const beautyData = beautifyUploadedCsvData(results.data, tableData);
@@ -192,8 +189,10 @@ class MarkupAndCsv extends Component {
             $this.closeCsvUpload();
             $this.setState({uploadCsvInProgress: false});
           }
+          },100)
         }
       });
+
     } else {
       this.setState({uploadCsvInProgress: false});
       toastr.error('Unexpected File Format. Only CSV is allowed');
@@ -225,7 +224,7 @@ class MarkupAndCsv extends Component {
                 <div className="cursor-pointer">
                   <Button className="login-button downloadCsv" onClick={this.csvButtonClicked}>
                     DOWNLOAD
-                    <div style={{ display: this.props.loading ? 'inline-block' : 'none'}}>
+                    <div style={{marginLeft: "27%", display: this.props.loading ? 'inline-block' : 'none'}}>
                       <Spin size="small" />
                     </div>
                     <div style={{marginLeft: "15%", display: this.props.loading === false ? 'inline-block' : 'none'}}>
@@ -240,7 +239,7 @@ class MarkupAndCsv extends Component {
                 >
                   <Button className="login-button uploadCsv">
                     UPLOAD   
-                    <div style={{ display: this.state.uploadCsvInProgress ? 'inline-block' : 'none'}}>
+                    <div style={{ marginLeft: "27%",display: this.state.uploadCsvInProgress ? 'inline-block' : 'none'}}>
                       <Spin size="small" />
                     </div>
 

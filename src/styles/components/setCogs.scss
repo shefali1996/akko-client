@@ -117,6 +117,9 @@
 .ReactVirtualized__Grid {
   will-change: inherit !important;
 }
+#info-icon {
+  margin: 0 5px;
+}
 @media only screen and (max-width: 767px) {
   .csv-upload {
     min-height: 101px;
