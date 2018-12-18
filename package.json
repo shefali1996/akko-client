@@ -51,7 +51,7 @@
     "react-bootstrap-table": "^4.1.1",
     "react-bootstrap-table-next": "^0.1.8",
     "react-bootstrap-table2-paginator": "^0.1.1",
-    "react-date-range": "^0.9.4",
+    "react-date-range": "^1.0.0-beta",
     "react-dom": "^15.6.1",
     "react-dropzone": "^4.2.1",
     "react-grid-layout": "^0.16.0",

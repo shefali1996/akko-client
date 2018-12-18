@@ -21,7 +21,7 @@ class BarChart extends Component {
     this.state = {
       data: this.props.data || [],
       tooltipDetail: this.props.tooltipDetail || []
-    };
+    };    
     this.createBarChart = this.createBarChart.bind(this);
     this.onMouseOver = this.onMouseOver.bind(this);
     this.onMouseOut = this.onMouseOut.bind(this);
@@ -122,8 +122,8 @@ class BarChart extends Component {
   createBarChart(){
     if(document.getElementById("barChart")){
       $("#barChart").empty(); 
-      const fullHeight = this.props.fullHeight;
-      const data = this.state.data;
+      const fullHeight = this.props.fullHeight;  
+      const data = this.state.data ||[];
       const maxBandWidth = 55;
       const step = maxBandWidth * bandwidthSize;
       let fullwidth = document.getElementById("barChart").offsetWidth;    

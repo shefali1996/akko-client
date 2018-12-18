@@ -1,14 +1,13 @@
 import React, { Component } from 'react';
 import { Row, Col, Label, Button, Image, DropdownButton } from 'react-bootstrap';
 import { Select, Input } from 'antd';
-import { defaultRanges, Calendar, DateRange } from 'react-date-range';
+import { Calendar } from 'react-date-range';
 import style from '../styles/global/variables.scss'
-import { isEmpty } from 'lodash';
+import { isEqual} from 'lodash';
 import dropdownIcon from '../assets/images/dropDownIcon.svg';
-import styles from '../constants/styles';
 
 const moment = require('moment');
-const mainThemeColor = style.mainBlueColor
+// const mainThemeColor = style.mainBlueColor
 const {Option} = Select;
 
 class CustomRangePicker extends Component {
@@ -36,15 +35,17 @@ class CustomRangePicker extends Component {
 	  // TODO: This is not the best want to handle this sort of cases. Ideally,
 	  // the state should move up and passed down as props.
     const range = nextProps.defaultRange;
+    if(!isEqual(this.props.defaultRange,nextProps.defaultRange)){
     if (range.start && range.end && (moment(range.start) !== this.state.startDate || moment(range.end) !== this.state.endDate)) {
       this.setState({
         startDate:      moment(range.start).utc(),
         endDate:        moment(range.end).utc(),
         startDateInput: range.start ? moment(range.start).format('YYYY-MM-DD') : '',
         endDateInput:   range.end ? moment(range.end).format('YYYY-MM-DD') : '',
-        selectedRange:  `${moment(range.start).utc().format('DD-MMM-YYYY')} to ${moment(range.end).utc().format('DD-MMM-YYYY')}`,
+        selectedRange:  `${moment(range.start).format('DD-MMM-YYYY')} to ${moment(range.end).format('DD-MMM-YYYY')}`,
       });
     }
+  }
 	  if (nextProps.customRangeShouldClear === true) {
 		  this.setState(this.initialState);
 		  if (this.props.afterCustomRangeClear) {
@@ -60,11 +61,12 @@ class CustomRangePicker extends Component {
   handleSubmit() {
     let valid = true;
     const {startDate, endDate} = this.state;
-    if (isEmpty(startDate)) {
+  
+    if (!startDate) {
       alert('Please select start date');
       valid = false;
     }
-    if (isEmpty(endDate)) {
+    if (!endDate) {
       alert('Please select end date');
       valid = false;
     }
@@ -159,43 +161,34 @@ class CustomRangePicker extends Component {
             <div style={{width: '50%'}} className="pull-left padding-r-7">
               <span className="dd-lable">Starting:</span>
               <span>
-                <Input placeholder="YYYY-MM-DD" value={startDateInput} onChange={(e) => this.setState({startDateInput: e.target.value})} onBlur={this.validateStartDate} />
+                <Input placeholder="YYYY-MM-DD" value={moment(startDateInput).format('DD-MMM-YYYY')}   />
               </span>
-              {rangeType === 'Custom' ? <span className="calender-container">
+              {rangeType === 'Custom' ? <span className="calender-container">              
                 <Calendar
                   date={this.state.startDate}
                   onChange={(date) => this.setState({
-                    startDate:      date,
+                    startDate:      moment(date),
                     startDateInput: moment(date).format('YYYY-MM-DD')
                   })}
-                  maxDate={endDate ? moment(endDate) : ''}
-                  theme={{
-                    DaySelected: {
-                      background: mainThemeColor
-                    }
-                  }}
+                  maxDate={new Date()}
+
                 />
               </span> : null}
             </div>
             <div style={{width: '50%'}} className="pull-left padding-l-7">
               <span className="dd-lable">Ending:</span>
               <span>
-                <Input placeholder="YYYY-MM-DD" value={endDateInput} onChange={(e) => this.setState({endDateInput: e.target.value})} onBlur={this.validateEndDate} />
+                <Input placeholder="YYYY-MM-DD" value={moment(endDateInput).format('DD-MMM-YYYY')}  />
               </span>
               {rangeType === 'Custom' ? <span className="calender-container">
                 <Calendar
                   date={this.state.endDate}
                   onChange={(date) => this.setState({
-                    endDate:      date,
+                    endDate:      moment(date),
                     endDateInput: moment(date).format('YYYY-MM-DD')
                   })}
-                  minDate={startDate ? moment(startDate) : ''}
-                  maxDate={moment()}
-                  theme={{
-                    DaySelected: {
-                      background: mainThemeColor
-                    }
-                  }}
+                  maxDate={new Date()}
+                  
                 />
               </span> : null}
             </div>

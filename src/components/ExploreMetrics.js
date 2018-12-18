@@ -205,7 +205,7 @@ class ExploreMetrics extends Component {
         .startOf("day")
         .valueOf();
       this.customEndTime = moment(ms)
-        .add({ days: 1 })
+        .add({ days: 0 })
         .valueOf();
       this.customStartTime = moment(ms)
         .subtract({ years: 1 })
@@ -338,19 +338,18 @@ resizeFunction=()=>{
       timeslice_start: metric_map.start,
       timeslice_end: metric_map.end
     };
-
+if(this.state.activeMetrics){
     this.props.getChartData(
       OPTION_TIME,
       this.state.activeMetrics,
       metric_map,
       queryParams,
       this.props.channelData.data.shopId
-    ).then((res,error)=>{
-
-    });
+    )
+}
   }
 
-  setMetric(option) {
+  setMetric(option) {    
     const metric_name = this.state.activeMetrics.metric_name;
     let metric_map = this.getMap(metric_name, option);
     if (!metric_map) {
@@ -540,7 +539,7 @@ resizeFunction=()=>{
               }
             );
           });
-      } else {
+      } else {        
         this.props.getChartData(
           option,
           this.state.activeMetrics,
@@ -1367,7 +1366,7 @@ resizeFunction=()=>{
     if (!vendors) {
       this.setState({
         graphLoadingDone: false
-      });
+      });      
       this.props
         .getChartData(
           option,
@@ -1488,7 +1487,7 @@ resizeFunction=()=>{
               <img src={backButton} onClick = {()=>{this.props.clearChartData();this.props.history.push(routeConstants.dashboard)}}></img>
               </span>
               <span className="title">
-                {this.props.activeMetrics.title} <img src={infoIcon} className="alt-price-title" alt="info icon" title={this.props.activeMetrics.description} />
+                {this.props.activeMetrics && this.props.activeMetrics.title} <img src={infoIcon} className="alt-price-title" alt="info icon" title={this.props.activeMetrics && this.props.activeMetrics.description} />
               </span>
             </span>
             </span>
@@ -1622,8 +1621,8 @@ resizeFunction=()=>{
                             </span>   
                               : null}
                           </Col>
-                          </Row>
-                          {
+                          </Row>                          
+                            {
                             this.state.currentOption == OPTION_CATEGORIES && !_.isEmpty(categoriesNavTop.path) ?
                             <Row className="suboption-btn">
                             <ButtonGroup style={{marginTop:'10px',paddingLeft:'15px'}}>

@@ -138,7 +138,7 @@ class Dashboard extends Component {
      }
     return metricsDataWithEmptyArray     
   }
-  render() {    
+  render() {        
     const {metricsData, activeMetrics} = this.state;
     const{message,originalMessage,metrics}=this.props.metricsData.data
     const {metricNameData}=this.props.metricsDataByName.data

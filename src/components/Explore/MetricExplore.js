@@ -56,7 +56,9 @@ class MetricExplore extends Component{
 
     refreshData() {
         this.props.getMetrics().then((res) => {
-            this.props.getMetricsDataByName(this.activeMetricsCardName)
+            this.props.metricsData.data.metrics.map((k)=>{
+                this.props.getMetricsDataByName(k.db_name)
+              })
             this.props.getProducts().then((products) => {
             this.props.getVariants(products);
           });
@@ -65,10 +67,8 @@ class MetricExplore extends Component{
       
     render(){
         return (
-            _.isEmpty(this.state.userData) || _.isEmpty(this.state.activeMetrics)?<div></div>:
-
             <div>
-                <Navigationbar history={this.props.history} companyName={this.state.userData.company} />
+                <Navigationbar history={this.props.history} companyName={this.state.userData && this.state.userData.company} />
                 <Grid className="page-container">
                 <Row className="explore-metrics">
                     <ExploreMetrics

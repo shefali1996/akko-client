@@ -38,7 +38,7 @@ export const getMetrics = () => {
   };
 };
 
-export const getChartData = (option, activeMetrics, metric_map, queryParams, shopId) => {
+export const getChartData = (option, activeMetrics, metric_map, queryParams, shopId) => {  
   return (dispatch, getState) => {
     return new Promise((resolve, reject) => {
       let path = '';
@@ -188,7 +188,7 @@ export const getCategories = ({activeMetrics, label, id, queryParams = {}, optio
   };
 };
 
-export const getVendors = ({activeMetrics, label, id, queryParams = {}, option, metric_map}) => {
+export const getVendors = ({activeMetrics, label, id, queryParams = {}, option, metric_map}) => {  
   return (dispatch, getState) => {
     dispatch(actions.getVendorsRequest());  
     return new Promise((resolve, reject) => {
@@ -200,7 +200,7 @@ export const getVendors = ({activeMetrics, label, id, queryParams = {}, option, 
         path: path, 
         queryParams: queryParams
       })
-      .then((results) => {
+      .then((results) => {        
           const data = _.cloneDeep(metric_map);
           data.result=results
           dispatch(actions.getVendorsSuccess({metric_name: activeMetrics.metric_name, option, data,label,id}));

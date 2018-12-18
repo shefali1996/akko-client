@@ -308,7 +308,7 @@ class LineChart extends Component {
 
   render() {        
     let overflow_x = ""
-    if(this.props.currentOption != METRICS_CARD){
+    if(this.props.selectedOption != METRICS_CARD){
       overflow_x = "overflow_x"
     }
     return <div className={overflow_x}>{this.state.chart} </div>;
