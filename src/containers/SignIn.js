@@ -25,6 +25,7 @@ import MaterialIcon from "../assets/images/MaterialIcon.svg";
 import config from "../config";
 import { invokeApigWithoutErrorReport } from "../libs/apiUtils";
 import user from "../auth/user";
+import logoImage from "../assets/images/transparent_blue.svg"
 
 const swalert = () => {
   return swal({
@@ -76,7 +77,7 @@ class SignIn extends Component {
 
   handleSelect(key) {
     if (key === 1) {
-      this.props.history.push("/signin");
+      this.props.history.push("/");
     } else if (key === 2) {
       this.props.history.push("/signup");
     }
@@ -227,11 +228,16 @@ class SignIn extends Component {
         <Row>
           <Col md={12}>
             <Col md={6} className="text-left padding-t-20">
-              <Label className="login-title">akko</Label>
-            </Col>
-            <Col md={6} className="text-right padding-t-20">
-              <Button className="close-button" onClick={this.goLanding} />
-            </Col>
+            <a className="logo" href="https://www.akko.io">
+                  <img
+                    className="fixed-logo"
+                    src={logoImage}
+                    width="52px"
+                    alt="Akko"
+                  />
+                  <span>Akko</span>
+                </a>    
+                </Col>
           </Col>
         </Row>
         <Row>

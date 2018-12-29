@@ -6,18 +6,12 @@ import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import { LocaleProvider } from 'antd';
 import enUS from 'antd/lib/locale-provider/en_US';
 import asyncComponent from './AsyncComponent';
-
+import SignIn from "./SignIn"
+import SignUp from "./SignUp"
 import {routeConstants} from '../constants';
 import Main from './Main';
-
 import store from '../redux/store';
 
-const SignIn = asyncComponent(() =>
-    import('./SignIn').then(module => module.default)
-);
-const SignUp = asyncComponent(() =>
-    import('./SignUp').then(module => module.default)
-);
 const AuthorizedContainer = asyncComponent(() =>
     import('./AuthorizedContainer').then(module => module.default)
 );
