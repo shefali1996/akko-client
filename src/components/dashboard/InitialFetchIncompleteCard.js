@@ -8,7 +8,7 @@ import {RESPONSE_TEXT_MATRICS,HAND_ON_TEXT,UPDATED_COGS_TEXT} from "../../consta
 
 export default ({width, status, onClickFetchStatus,propsData}) => {
   const cardText=propsData.metricsData.data.message===RESPONSE_TEXT_MATRICS?UPDATED_COGS_TEXT:HAND_ON_TEXT  
-  return (<Col style={{width}} className="dashboard-card-container">
+  return (<Col  className="dashboard-card-container">
     <Card className="charts-card-style" >
       <CardHeader
         titleStyle={styles.chartsHeaderTitle}
