@@ -10,7 +10,7 @@ export default ({cellData, rowData}) => {
       <div className="currency-view">
         <div>
           <span className="product-variant-cogs" >
-            {cellData && cellData.price}
+            ${cellData && cellData.price}
           </span>
         </div>
       </div>

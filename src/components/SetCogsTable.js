@@ -181,7 +181,7 @@ class SetCogsTable extends Component {
     onCogsChange = (e, row, rowIndex) => {
       const {tableData} = this.state;
       if (rowIndex && rowIndex !== -1) {
-        let value = e.target.value;
+        let value = e.target.value;        
         if (isEmpty(value)) {
           value = INVALID_COGS;
         }
@@ -194,7 +194,7 @@ class SetCogsTable extends Component {
     }
     onCogsBlur = (e, row) => {
       const {tableData, progress} = this.state;
-      const cogs = Number(e.target.value);
+      const cogs =e.target.value? Number(e.target.value):undefined;      
       const newData = updateCogs(cogs, row, tableData, progress);
       const changeState = {
         tableData:         newData.tableData,

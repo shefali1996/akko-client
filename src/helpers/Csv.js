@@ -46,8 +46,8 @@ function validateCogsValue(cogs, price) {
     ret = 'Empty COGS';  
   } else {
     cogs = Number(cogs);
-    price = Number(price);
-    if (cogs > 0) {
+    price = Number(price);    
+    if (cogs >= 0) {
       if (cogs <= price) {
         ret = true;
       }
@@ -188,7 +188,7 @@ const updateMarginDoller = (markup, row, tableData, progress) => {
   const rowIndex = findIndex(tableData, { id: row.id });
   let isValid = true;
   if (row.variant && rowIndex !== -1) {
-    let previousMargin = 0;
+    let previousMargin = -1;
     const cogsValue = row.variant.cogs;
     const priceValue = row.variant.price;
 
@@ -214,7 +214,7 @@ const updateMarginPercent = (markup, row, tableData, progress) => {
   const rowIndex = findIndex(tableData, { id: row.id });
   let isValid = true;
   if (row.variant && rowIndex !== -1) {
-    let previousMargin = 0;
+    let previousMargin = -1;
     const cogsValue = row.variant.cogs;
     const priceValue = row.variant.price;
     if (validateCogsValue(cogsValue, priceValue) === true) {
@@ -247,7 +247,7 @@ const updateCogs = (cogs, row, tableData, progress) => {
     
     if (validateCogsValue(cogs, priceValue) !== true) {
       isValid = false;
-    }
+    }    
     if(isValid){
       tableData[rowIndex].marginDoller = marginDoller;
       tableData[rowIndex].marginPercent = marginPercent;
