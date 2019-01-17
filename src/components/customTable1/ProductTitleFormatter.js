@@ -32,7 +32,7 @@ export default ({cellData, rowData, tableData}) => {
   return (
     <div className={`product-data-cell ${borderLeft} w-100`}>
       <div className="productImage">
-        <img src={rowData.variant && rowData.variant.imageUrl ||rowData.variants && rowData.variants[0].imageUrl || productImgPlaceholder} alt="Product Image" />
+        <img src={rowData.variant && rowData.variant.imageUrl ||rowData.variants && rowData.variants.length > 0 && rowData.variants[0].imageUrl || productImgPlaceholder} alt="Product Image" />
       </div>
       <div className="product-custom-title">
         <div>
