@@ -129,6 +129,7 @@ class MarkupAndCsv extends Component {
           selfProps.updateprogress(progress);
           if (numInvalidCogs > 0) {
             toastr.error(`${numInvalidCogs} of your COGS entries are invalid. Those rows are marked in red.`);
+            t.setState({markup: '', setMarkupInProgress: false});
           } else {
             t.setState({markup: '', setMarkupInProgress: false});
             selfProps.deSelectAllRows();
