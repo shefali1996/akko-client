@@ -14,3 +14,11 @@ export const validateEmail = (email) => {
   const regex = /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
   return regex.test(email);
 };
+
+export const lastTimeDate=(data)=>{
+const date=new Date(data);
+const year=date.getFullYear()
+const month=date.getMonth()
+const day=date.getDate()
+return new Date(year,month,day,11,59,59)
+}

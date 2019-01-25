@@ -20,7 +20,7 @@ import LineChart from "./LineChart";
 import productImgPlaceholder from "../assets/images/productImgPlaceholder.svg";
 import infoIcon from '../assets/images/MaterialIcon5.svg';
 import backButton from '../assets/images/backButton.svg';
-
+import {lastTimeDate} from "../helpers/functions"
 
 const moment = require("moment");
 const { Option } = Select;
@@ -204,8 +204,7 @@ class ExploreMetrics extends Component {
         .utc()
         .startOf("day")
         .valueOf();
-      this.customEndTime = moment(ms)
-        .add({ days: 0 })
+      this.customEndTime = lastTimeDate(ms)
         .valueOf();
       this.customStartTime = moment(ms)
         .subtract({ years: 1 })
@@ -364,7 +363,7 @@ if(this.state.activeMetrics){
           .utc()
           .startOf("day")
           .valueOf();
-        this.customEndTime = metric_map.end = moment(ms)
+        this.customEndTime = metric_map.end = lastTimeDate(ms)
           .add({ days: 1 })
           .valueOf();
         this.customStartTime = metric_map.start = moment(ms)
@@ -1070,7 +1069,7 @@ if(this.state.activeMetrics){
 
   onTimeframeChange(newStartTime, newEndTime) {
     this.customStartTime = newStartTime.valueOf();
-    this.customEndTime = newEndTime.valueOf();
+    this.customEndTime = lastTimeDate(newEndTime).valueOf();
     if (!isEmpty(this.state.customTimeframeDataMap)) {
       this.props.emptyTimeFrameData();
     } else {
@@ -1355,7 +1354,7 @@ if(this.state.activeMetrics){
         .utc()
         .startOf("day")
         .valueOf();
-      this.customEndTime = queryParams.timeslice_end = moment(ms)
+      this.customEndTime = queryParams.timeslice_end = lastTimeDate(newEndTime)
         .add({ days: 1 })
         .valueOf();
       this.customStartTime = queryParams.timeslice_start = moment(ms)
