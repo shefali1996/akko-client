@@ -34,7 +34,7 @@ class CustomRangePicker extends Component {
   componentWillReceiveProps(nextProps) {
 	  // TODO: This is not the best want to handle this sort of cases. Ideally,
 	  // the state should move up and passed down as props.
-    const range = nextProps.defaultRange;
+    const range = nextProps.defaultRange;    
     if(!isEqual(this.props.defaultRange,nextProps.defaultRange)){
     if (range.start && range.end && (moment(range.start) !== this.state.startDate || moment(range.end) !== this.state.endDate)) {
       this.setState({
@@ -74,7 +74,7 @@ class CustomRangePicker extends Component {
       this.handleToggle();
       this.setState({
         selectedRange: `${moment(startDate).format('DD-MMM-YYYY')} to ${moment(endDate).format('DD-MMM-YYYY')}`
-      });
+      });      
 	  if (this.props.onTimeframeChange) {
 		  this.props.onTimeframeChange(startDate, endDate);
 	  }
@@ -135,7 +135,7 @@ class CustomRangePicker extends Component {
     }
   }
   render() {
-    const {startDate, endDate, startDateInput, endDateInput, rangeType, selectedRange} = this.state;
+    const {startDate, endDate, startDateInput, endDateInput, rangeType, selectedRange} = this.state;    
     return (
       <div>
         <div className="calender-btn" onClick={this.handleToggle}>

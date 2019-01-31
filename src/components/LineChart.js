@@ -306,7 +306,14 @@ class LineChart extends Component {
   }
 }
 
-  render() {        
+  render() {   
+     if(this.state.data.length===1){
+       return <div className="single-vlaue-line-chart">
+                 <div className="single-value"><div id="value-prefix">{this.state.data[0].prefix}{Number(this.state.data[0].value).toFixed(0)}</div></div>
+                 <div id="shaded-area"></div>
+                 <div className="single-label">{this.state.data[0].label}</div>
+           </div>
+     }  
     let overflow_x = ""
     if(this.props.selectedOption != METRICS_CARD){
       overflow_x = "overflow_x"
