@@ -1,3 +1,33 @@
+.connect-shopify-container{
+  .akko-logo{
+    width: 54px;
+    height:54px
+  }
+  .first-section{
+    margin-top: 54px
+  }
+  .main-heading{
+    font-size: 32px;
+    font-weight: 700;
+    color:$highlight-color
+  }
+  .info{
+    font-size: 20px;
+    color:$highlight-color;
+    margin: 43px 0 37px;
+    font-weight: 500
+  }
+  .login-button{
+   color:$highlight-color;
+   font-weight:600
+  }
+  #wrapper{
+    text-align: center
+  }
+  .signup-email-input{
+    width:165px
+  }
+}
 .shopify-comment {
   font-size: $size-20;
   color: $main-blue-color;
@@ -9,17 +39,17 @@
   flex-direction: row;
   justify-content: center;
   align-items: center;
-  margin-top: 60px;
 }
 .shopify-icon {
   width: 37px;
   height: 37px;
   margin-right: 10px;
+  margin-bottom: 40px
 }
 .shopify-url-text {
-  font-size: $size-20;
-  color: $main-blue-color;
-  text-decoration: none solid $main-blue-color;
+  font-size: 16px;
+  color: $highlight-color;
+  text-decoration: none solid $highlight-color;
   text-align: center;
   margin-left: 5px;
 }

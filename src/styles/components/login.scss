@@ -82,20 +82,13 @@ ul.nav.nav-pills > li {
 }
 .forgot-text {
   font-family: $ubuntu-regular;
-  font-size: $size-14;
-  color: $main-blue-color;
-  text-decoration: none solid $main-decoration-color;
+  font-size: $size-16;
+  color: $highlight-color;
   background: none;
   border: none;
   cursor: pointer;
+  margin-top: 17px
 }
-.forgot-text:active,
-.forgot-text:hover,
-.forgot-text:focus,
-.forgot-text:active:focus {
-  outline: none;
-}
-
 .signup-email-input {
   width: 200px;
   height: 43px;
@@ -123,7 +116,7 @@ ul.nav.nav-pills > li {
 .signup-title {
   font-family: $ubuntu-light;
   font-size: $size-16;
-  color: $main-blue-color;
+  color: $highlight-color;
   text-decoration: none solid $main-decoration-color;
   background: none;
 }
@@ -203,4 +196,143 @@ ul.nav.nav-pills > li {
 }
 .logo:hover{
   color:black
+}
+.verification-container{
+  text-align: center;
+  pre{
+    all: unset
+  }
+  .main-heading{
+font-size: 32px;
+font-weight: 700;
+color:$highlight-color;
+margin-top: 40px;
+  }
+  .bottom-heading{
+    margin-top: 5px
+  }
+  .first-info{
+    margin-top: 43px
+  }
+  .first-detail{
+    margin-top: 59px
+  }
+  .info{
+    font-size: 20px;
+    font-weight: 500;
+    color:$highlight-color;
+  }
+  .detail{
+    font-size: 16px;
+    color:$main-blue-color;
+
+  }
+  .login-button{
+    color:$highlight-color;
+  }
+  .signup-email-input{
+    width:350px
+  }
+}
+.signup-wrapper{
+  text-align: center;
+  .main-heading{
+    font-size: 32px;
+    font-weight: 700;
+    color:$highlight-color
+  }
+  .first-section{
+    margin-top:28px
+  }
+  .signup-instruction{
+    font-size: 20px;
+    color:$highlight-color;
+    font-family: $ubuntu-regular;
+    margin: 84px 0 39px;
+    font-weight: 500
+  }
+  .text-box{
+    display: inline-flex;
+    width:346px;
+    .signup-email-input{
+      width:100%
+    }
+  }
+  .already-account{
+    text-align: center;
+    color:$highlight-color;
+    font-size: 16px;
+    margin-top: 45px;
+    u{
+     font-weight: 600;
+     cursor: pointer
+    }
+  }
+  .login-button{
+    color:$highlight-color;
+    font-weight: 600;
+    margin-top: 48px
+  }
+  .signup-text{
+    color:$highlight-color;
+    font-size: 16px;
+    margin-top: 24px;
+    u{
+      font-weight: 600;
+      cursor: pointer;
+    }
+  }
+}
+.forget-password-wrapper{
+  text-align: center;
+  .main-heading{
+    font-size: 32px;
+    font-weight: 700;
+    color:$highlight-color;
+  }
+  .email-use{
+    font-size: 20px;
+    color:$highlight-color;
+    font-family: $ubuntu-regular;
+    margin: 84px 0 40px;
+    font-weight: 500
+  }
+
+  .forget-email-section{
+    display: initial;
+    margin-bottom: 47px
+
+  }
+  .login-button{
+    width: auto;
+    color:$highlight-color;
+    font-weight:600 
+  }
+  .first-section{
+    margin-top: 40px;
+
+  }
+  .forget-write{
+    font-size: 16px;
+    color:$highlight-color;
+    margin-top: 47px;
+    a{
+      font-weight: 600;
+      cursor: pointer;
+      color:$highlight-color;
+      text-decoration: underline
+    }
+  }
+  .title-section{
+    margin-top: 84px;
+  }
+  .verification-code{
+    margin-top: 37px;
+  }
+}
+@media only screen and (max-width: 400px) {
+  .signup-wrapper .text-box{
+    width:100%
+  }
+
 }

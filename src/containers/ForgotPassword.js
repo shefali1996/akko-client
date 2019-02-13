@@ -26,16 +26,9 @@ import MaterialIcon from "../assets/images/MaterialIcon.svg";
 import config from "../config";
 import user from "../auth/user";
 import styles from "../constants/styles";
+import logoImage from "../assets/images/transparent_blue.svg"
 
-const swalert = () => {
-  return swal({
-    title: "Error!",
-    type: "error",
-    text: this.state.alertError.message,
-    allowOutsideClick: false,
-    focusConfirm: false
-  });
-};
+
 
 class ForgotPassword extends Component {
   constructor(props) {
@@ -71,7 +64,15 @@ class ForgotPassword extends Component {
     }
     return true;
   };
-
+  swalert = () => {
+    return swal({
+      title: "Error!",
+      type: "error",
+      text: this.state.alertError.message,
+      allowOutsideClick: false,
+      focusConfirm: false
+    });
+  };
   otpValidation = () => {
     const { verificationCode } = this.state;
     if (isEmpty(verificationCode)) {
@@ -134,8 +135,9 @@ class ForgotPassword extends Component {
                 pendingRequest: false,
                 message: "Username / email not found"
               }
+            },()=>{
+              _self.swalert();
             });
-            swalert();
           }
         });
       } else if (step === 1) {
@@ -157,8 +159,9 @@ class ForgotPassword extends Component {
                   pendingRequest: false,
                   message: `Could not reset password for user ${email}, Retry.`
                 }
+              },()=>{
+                _self.swalert();
               });
-              swalert();
             }
           });
         }
@@ -173,23 +176,27 @@ class ForgotPassword extends Component {
         <Row>
           <Col md={12}>
             <Col md={6} className="text-left padding-t-20">
-              <Label className="login-title">akko</Label>
-            </Col>
-            <Col md={6} className="text-right padding-t-20">
-              <Button className="close-button" onClick={this.goLanding} />
-            </Col>
+            <a className="logo" href="https://www.akko.io">
+                  <img
+                    className="fixed-logo"
+                    src={logoImage}
+                    width="52px"
+                    alt="Akko"
+                  />
+                  <span>Akko</span>
+                </a>    
+                </Col>
           </Col>
         </Row>
         <Row>
-          <Tabs
-            defaultActiveKey={1}
-            id="ForgotPasswordTabs"
-            className="login-tab forgot-password-tabs"
-            onSelect={this.handleSelect}
-          >
-            <Tab eventKey={1} title="Reset Password">
-              <div>
-                <div className="flex-center padding-t-80">
+      
+              <div className="forget-password-wrapper">
+                <h1 className="main-heading first-section">No worries. Let's get </h1>
+                <h1 className="main-heading">you back online</h1>
+                
+                {this.state.step !== 1 ? 
+                <div >
+                 <p className="email-use">What is the email you use to login?</p>
                   <OverlayTrigger
                     placement="right"
                     trigger="manual"
@@ -203,9 +210,9 @@ class ForgotPassword extends Component {
                   >
                     <FormControl
                       type="text"
-                      placeholder="email"
+                      placeholder="business email"
                       disabled={step === 1}
-                      className="email-input"
+                      className="email-input forget-email-section"
                       value={email}
                       onChange={e => this.setState({ email: e.target.value })}
                       onKeyPress={this._handleKeyPress}
@@ -213,18 +220,41 @@ class ForgotPassword extends Component {
                       onBlur={this.emailValidation}
                     />
                   </OverlayTrigger>
+                  <div>
+                    <div className="flex-center">
+                      <Button
+                        className="login-button"
+                        onClick={this.forgotPassword}
+                      >
+                        VERIFY EMAIL
+                        <div
+                          style={{
+                            marginLeft: 10,
+                            display: this.state.pendingRequest
+                              ? "inline-block"
+                              : "none"
+                          }}
+                        >
+                          <Spin size="small" />
+                        </div>
+                      </Button>
+                    </div>
+                     <p className="forget-write"> Don't remember that either?
+                     <a href="mailto:help@akko.io" target="_blank">Write to us</a>
+                     </p>
+                  </div>
                 </div>
 
-                {this.state.step === 1 ? (
+                :
                   <div>
                     <div className="flex-center margin-t-5">
-                      <Label className="signup-title">
-                        We've sent a verification code to {this.state.email}.
+                      <Label className="signup-title title-section">
+                      Check your email for verification code
                       </Label>
                     </div>
                     <div className="flex-center margin-t-5">
                       <Label className="signup-title">
-                        Please enter the code to verify your email address
+                      Enter the code to reset your password
                       </Label>
                     </div>
                     <div className="flex-center margin-t-5">
@@ -242,7 +272,7 @@ class ForgotPassword extends Component {
                         <FormControl
                           type="text"
                           placeholder="Verification Code"
-                          className="email-input"
+                          className="email-input verification-code"
                           value={verificationCode}
                           onChange={e =>
                             this.setState({ verificationCode: e.target.value })
@@ -253,7 +283,7 @@ class ForgotPassword extends Component {
                         />
                       </OverlayTrigger>
                     </div>
-                    <div className="flex-center margin-t-5">
+                    <div className="flex-center margin-t-10">
                       <OverlayTrigger
                         placement="right"
                         trigger="manual"
@@ -279,7 +309,7 @@ class ForgotPassword extends Component {
                         />
                       </OverlayTrigger>
                     </div>
-                    <div className="flex-center padding-t-20">
+                    <div className="flex-center padding-t-30">
                       <Button
                         className="reset-password-button"
                         onClick={this.forgotPassword}
@@ -298,46 +328,8 @@ class ForgotPassword extends Component {
                       </Button>
                     </div>
                   </div>
-                ) : (
-                  <div>
-                    <div className="flex-center padding-t-10">
-                      <span className="forgot-text already-have-password">
-                        Already have password ?
-                        <span>
-                          <Button
-                            className="forgot-text"
-                            bsStyle="link"
-                            onClick={() => this.props.history.push("/signin")}
-                          >
-                            {" "}
-                            Login
-                          </Button>
-                        </span>
-                      </span>
-                    </div>
-                    <div className="flex-center padding-t-20">
-                      <Button
-                        className="login-button"
-                        onClick={this.forgotPassword}
-                      >
-                        SUBMIT
-                        <div
-                          style={{
-                            marginLeft: 10,
-                            display: this.state.pendingRequest
-                              ? "inline-block"
-                              : "none"
-                          }}
-                        >
-                          <Spin size="small" />
-                        </div>
-                      </Button>
-                    </div>
-                  </div>
-                )}
+                }
               </div>
-            </Tab>
-          </Tabs>
         </Row>
       </Grid>
     );

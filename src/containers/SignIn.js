@@ -47,7 +47,6 @@ class SignIn extends Component {
       pendingRequest: false
     };
     this.goLanding = this.goLanding.bind(this);
-    this.handleSelect = this.handleSelect.bind(this);
     this.onEmailChange = this.onEmailChange.bind(this);
     this.onPasswordChange = this.onPasswordChange.bind(this);
     this._handleKeyPress = this._handleKeyPress.bind(this);
@@ -73,14 +72,6 @@ class SignIn extends Component {
 
   goLanding() {
     this.props.history.push("/");
-  }
-
-  handleSelect(key) {
-    if (key === 1) {
-      this.props.history.push("/");
-    } else if (key === 2) {
-      this.props.history.push("/signup");
-    }
   }
 
   onEmailChange(e) {
@@ -137,7 +128,7 @@ class SignIn extends Component {
     this.props.history.push("/forgot-password");
   }
 
-  onLogin() {
+  onLogin() {    
     const { email, password } = this.state;
     const emailAuth = this.emailValidation();
     const passAuth = this.passValidation();
@@ -240,16 +231,13 @@ class SignIn extends Component {
                 </Col>
           </Col>
         </Row>
-        <Row>
-          <Tabs
-            defaultActiveKey={1}
-            id="uncontrolled-tab-example"
-            className="login-tab"
-            onSelect={this.handleSelect}
-          >
-            <Tab eventKey={1} title="Login">
+        <Row className="signup-wrapper">
+          
+           
               <div>
-                <div className="flex-center padding-t-80">
+              <h1 className="main-heading first-section">Welcome back!</h1>
+                <p className="signup-instruction">Enter your credentials to login</p>
+                <div className="flex-center ">
                   <OverlayTrigger
                     placement="right"
                     trigger="manual"
@@ -263,7 +251,7 @@ class SignIn extends Component {
                   >
                     <FormControl
                       type="text"
-                      placeholder="email"
+                      placeholder="business email"
                       className="email-input"
                       value={email}
                       onChange={this.onEmailChange}
@@ -273,7 +261,7 @@ class SignIn extends Component {
                     />
                   </OverlayTrigger>
                 </div>
-                <div className="flex-center margin-t-5">
+                <div className="flex-center margin-t-20">
                   <OverlayTrigger
                     placement="right"
                     trigger="manual"
@@ -298,15 +286,15 @@ class SignIn extends Component {
                   </OverlayTrigger>
                 </div>
                 <div className="flex-center padding-t-10">
-                  <Button
+                  <u
                     className="forgot-text"
-                    bsStyle="link"
                     onClick={this.onForgot}
                   >
-                    Forgot Password ?
-                  </Button>
+                    Forgot your password?
+                  </u>
                 </div>
-                <div className="flex-center padding-t-20">
+                
+                <div className="flex-center">
                   <Button className="login-button" onClick={this.onLogin}>
                     LOGIN
                     <div
@@ -321,10 +309,15 @@ class SignIn extends Component {
                     </div>
                   </Button>
                 </div>
+                <div className="flex-center padding-t-10">
+                  <p
+                    className="signup-text"
+                    onClick={()=>{this.props.history.push('/signup')}}
+                  >
+                    Don't have an account yet? <u>Signup</u>
+                  </p>
+                </div>
               </div>
-            </Tab>
-            <Tab eventKey={2} title="Sign Up" />
-          </Tabs>
         </Row>
       </Grid>
     );

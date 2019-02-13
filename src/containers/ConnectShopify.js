@@ -6,7 +6,7 @@ import { Spin } from 'antd';
 import { testMode } from '../constants';
 import * as dashboardActions from '../redux/dashboard/actions';
 import shopifyIcon from '../assets/images/shopify.svg';
-
+import akkologo from "../assets/images/transparent_blue.svg"
 const queryString = require('query-string');
 
 const swalert = () => {
@@ -77,26 +77,15 @@ class ConnectShopify extends Component {
     return (
       <div>
         {!Object.keys(parsedParams).length ?
-          <Grid className="login-layout">
-            <Row>
-              <Col md={12}>
-                <Col md={6} className="text-left padding-t-20">
-                  <Label className="login-title">
-                    akko
-                  </Label>
-                </Col>
-                <Col md={6} className="text-right padding-t-20">
-                  <Button className="close-button" onClick={this.goLanding} />
-                </Col>
-              </Col>
-            </Row>
-            <Row className="border-view">
-              <span className="shopify-comment">
-                Let's get your Shopify store connected
-              </span>
-            </Row>
-            <div className="shopify-input-view">
+          <Grid className="login-layout connect-shopify-container">
+           
+               <Image src={akkologo} className="akko-logo" />
+            <div id="wrapper">
+               <h1 className="main-heading first-section"> Creating your new </h1>
+               <h1 className="main-heading">Akko account</h1>
+               <p className="info">Let's connect your Shopify store first</p>
               <Image src={shopifyIcon} className="shopify-icon" />
+            <div className="shopify-input-view">
               <FormControl
                 type="text"
                 autoFocus
@@ -109,17 +98,9 @@ class ConnectShopify extends Component {
                 .myshopify.com
               </span>
             </div>
-            <div className="text-center margin-t-40">
-              <span className="shopify-instruction-text">
-                You will be redirected to Shopify where you have to grant us
-              </span>
             </div>
-            <div className="text-center">
-              <span className="shopify-instruction-text">
-                permission to access your shop data.
-              </span>
-            </div>
-            <div className="text-center margin-t-50">
+          
+            <div className="text-center margin-t-25">
               <Button className="login-button" onClick={this.onConnect}>
                 CONNECT
                 <div style={{marginLeft: 10, display: this.state.pendingRequest ? 'inline-block' : 'none'}}>
