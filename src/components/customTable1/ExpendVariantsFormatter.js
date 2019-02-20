@@ -17,12 +17,11 @@ export default ({cell, row, rowIndex, tableData, toggleVariantsRows}) => {
     return (
       <div className="flex-center w-100">
         <div className="product-data-cell">
-          <div className="product-custom-title cursor-pointer" onClick={() => toggleVariantsRows(cell, row, rowIndex)}>
+        {/* onClick={() => toggleVariantsRows(cell, row, rowIndex)}
+           onclick handler is removed if needed in future use above code */}
+          <div className="product-custom-title " >
             <div>
               <span className="variantTitle" style={{fontStyle: 'italic'}}>{`${cell} variants`}</span>
-              <span>
-                <img src={row.expanded ? up : down} alt="arrow down" className={imgClass} />
-              </span>
             </div>
           </div>
         </div>

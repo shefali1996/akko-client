@@ -124,7 +124,7 @@ class SetCogs extends Component {
           prod.id = prod.productId;
           prod.rowType = PRODUCT;
           prod.numVariants = prod.variants.length;
-          prod.expanded = prod.variants.length === 1;
+          prod.expanded = prod.variants.length;
           prod.hidden = false;
           prod.index = index;
           tData.push(prod);
