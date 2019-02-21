@@ -1,5 +1,6 @@
 import React from 'react';
-import { Spin } from 'antd';
+import Spin from 'antd/lib/spin';
+import 'antd/lib/spin/style'
 import {Card, CardHeader, CardText} from 'material-ui/Card';
 import { Row, Col, Label, Button, Image, Grid, Tabs, Tab } from 'react-bootstrap';
 import styles from '../../constants/styles';

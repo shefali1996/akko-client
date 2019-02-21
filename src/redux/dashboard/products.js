@@ -1,7 +1,7 @@
 import {handleActions} from 'redux-actions';
 import update from 'immutability-helper';
 import * as constants from '../../redux/constants';
-
+import cloneDeep from "lodash/cloneDeep"
 const initialState = {
   products: {
     data: {
@@ -25,7 +25,7 @@ const getProductsRequest = (state, action) => update(state, {
   }
 });
 const getProductsSuccess = (state, action) => {
-  const newData = _.cloneDeep(state.products.data);
+  const newData = cloneDeep(state.products.data);
   newData.products = action.payload;
   return update(state, {
     products: {
@@ -55,7 +55,7 @@ const getVariantsRequest = (state, action) => update(state, {
   }
 });
 const getVariantsSuccess = (state, action) => {
-  const newData = _.cloneDeep(state.products.data);
+  const newData = cloneDeep(state.products.data);
   newData.variants = action.payload;
   return update(state, {
     products: {

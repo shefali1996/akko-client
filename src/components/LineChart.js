@@ -4,7 +4,9 @@ import { scaleLinear } from "d3-scale";
 import { max } from "d3-array";
 import { select } from "d3-selection";
 import $ from "jquery";
-import { isEqual, cloneDeep,sortBy } from "lodash";
+import isEqual from "lodash/isEqual"
+import cloneDeep from "lodash/cloneDeep"
+import sortBy from "lodash/sortBy"
 import { plotByOptions, numberFormatter,bandwidthSize } from "../constants";
 import style from 'styles/global/variables.scss'
 

@@ -2,7 +2,8 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Grid, Row, Col, Button, Label, FormControl, Image } from 'react-bootstrap';
 import swal from 'sweetalert2';
-import { Spin } from 'antd';
+import Spin from 'antd/lib/spin';
+import 'antd/lib/spin/style'
 import { testMode } from '../constants';
 import * as dashboardActions from '../redux/dashboard/actions';
 import shopifyIcon from '../assets/images/shopify.svg';

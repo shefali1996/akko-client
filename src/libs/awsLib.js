@@ -1,6 +1,5 @@
 import { CognitoUserPool } from 'amazon-cognito-identity-js';
-import AWS from 'aws-sdk';
-import swal from 'sweetalert2';
+import AWS from 'aws-sdk/global';
 import config from '../config';
 import sigV4Client from './sigV4Client';
 

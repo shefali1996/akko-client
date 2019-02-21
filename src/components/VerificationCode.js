@@ -7,7 +7,8 @@ import {
   Tooltip,
   OverlayTrigger
 } from "react-bootstrap";
-import { Spin } from "antd";
+import Spin from "antd/lib/spin";
+import 'antd/lib/spin/style'
 import MaterialIcon from "../assets/images/MaterialIcon.svg";
 
 export default class VerificationCode extends Component {

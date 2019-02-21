@@ -2,10 +2,11 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import {withRouter} from 'react-router';
-import { Spin } from 'antd';
+import Spin from 'antd/lib/spin';
+import 'antd/lib/spin/style'
 import toastr from 'toastr';
 import swal from 'sweetalert2';
-import {includes, isEmpty, isEqual} from 'lodash';
+import isEmpty from "lodash/isEmpty"
 import { hasClass } from '../helpers/Csv';
 import { fetchRoutes, pollingInterval, routeConstants } from '../constants';
 import styles from '../constants/styles';

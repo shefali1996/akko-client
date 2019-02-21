@@ -3,7 +3,9 @@ import {connect} from 'react-redux';
 import {withRouter} from 'react-router';
 import { Row, Col,Grid} from 'react-bootstrap';
 import $ from 'jquery';
-import _ from 'lodash';
+import cloneDeep from "lodash/cloneDeep"
+import isEqual from "lodash/isEqual"
+import isEmpty from "lodash/isEmpty"
 import Navigationbar from '../components/Navigationbar';
 import ExploreMetrics from '../components/ExploreMetrics';
 import Footer from '../components/Footer';
@@ -36,7 +38,7 @@ class Dashboard extends Component {
   }
 
   componentWillMount() {
-    if(_.isEmpty(this.props.metricsData.data) || _.isEmpty(this.props.userData.data)){
+    if(isEmpty(this.props.metricsData.data) || isEmpty(this.props.userData.data)){
       this.refreshData();
       this.props.getUser();
       this.props.getChannel();
@@ -128,7 +130,7 @@ class Dashboard extends Component {
   }
   arrayPush=()=>{
     const metricsData =this.props.metricsData.data.metrics
-    const metricsDataByName=_.cloneDeep(this.props.metricsDataByName.data)
+    const metricsDataByName=cloneDeep(this.props.metricsDataByName.data)
     const pushLength=(metricsData && metricsData.length)-(metricsDataByName && metricsDataByName.metricNameData.length)
     const metricsDataWithEmptyArray=metricsDataByName.metricNameData
     let i=0
@@ -196,9 +198,9 @@ class Dashboard extends Component {
             renderCards.push(expenseCard);
         } else {
           const validCards = invalid ? <InvalidCard key={index} index={index} width={dashboardGridInfo.colWidth} value={value} userData={this.state.userData} onClickSetCogs={() => this.props.history.push('/set-cogs')} />
-          : _.isEmpty(value.availableContexts)  ?
-                <ValidCards history = {this.props.history} key={index}  index={index} style={{cursor:'none'}} width={dashboardGridInfo.colWidth} value={value} active={active} data={_.cloneDeep(data)}  />
-                :   <ValidCards history = {this.props.history} key={index} index={index} width={dashboardGridInfo.colWidth} value={value} active={active} openExploreMetric="openExploreMetric" data={_.cloneDeep(data)} />;
+          : isEmpty(value.availableContexts)  ?
+                <ValidCards history = {this.props.history} key={index}  index={index} style={{cursor:'none'}} width={dashboardGridInfo.colWidth} value={value} active={active} data={cloneDeep(data)}  />
+                :   <ValidCards history = {this.props.history} key={index} index={index} width={dashboardGridInfo.colWidth} value={value} active={active} openExploreMetric="openExploreMetric" data={cloneDeep(data)} />;
                 renderCards.push(validCards);
               }
             }

@@ -4,8 +4,7 @@ import { invokeApigWithErrorReport, invokeApigWithoutErrorReport } from '../../l
 import * as api from '../../redux/api';
 import { invokeApig } from '../../libs/awsLib';
 import {plotByOptions, vendorOptions, categoryOptions} from '../../constants';
-import lodash from "lodash";
-
+import cloneDeep from "lodash/cloneDeep"
 const moment = require('moment');
 
 const dataFetchStatus = (results) => {
@@ -51,7 +50,7 @@ export const getChartData = (option, activeMetrics, metric_map, queryParams, sho
     }
     invokeApigWithErrorReport({ path, queryParams})
       .then((results) => {
-        const data=_.cloneDeep(metric_map)
+        const data=cloneDeep(metric_map)
         data.result=results
         dispatch(actions.getChartDataSuccess({metric_name: activeMetrics.metric_name, option, data}));
         resolve();
@@ -175,7 +174,7 @@ export const getCategories = ({activeMetrics, label, id, queryParams = {}, optio
       }
       invokeApigWithErrorReport({ path, queryParams })
       .then((results) => {
-        const data = _.cloneDeep(metric_map);
+        const data = cloneDeep(metric_map);
         data.result=results
           dispatch(actions.getCategoriesSuccess({metric_name: activeMetrics.metric_name, option, data,currentSubOption,categoryLabel,id}));
           resolve();
@@ -201,7 +200,7 @@ export const getVendors = ({activeMetrics, label, id, queryParams = {}, option, 
         queryParams: queryParams
       })
       .then((results) => {        
-          const data = _.cloneDeep(metric_map);
+          const data = cloneDeep(metric_map);
           data.result=results
           dispatch(actions.getVendorsSuccess({metric_name: activeMetrics.metric_name, option, data,label,id}));
           resolve();
@@ -225,7 +224,7 @@ export const getVendors = ({activeMetrics, label, id, queryParams = {}, option, 
         queryParams: queryParams
       })
       .then((results) => {
-        const data = _.cloneDeep(metric_map);
+        const data = cloneDeep(metric_map);
         data.result=results
         dispatch(actions.getProductBySingleCategorySuccess({metric_name: activeMetrics.metric_name, option,data,currentSubOption,categoryLabel,id}));
           resolve();
@@ -249,7 +248,7 @@ export const getVariantBySingleProduct = ({activeMetrics, label, id, queryParams
         queryParams: queryParams
       })
         .then((results) => {
-          const data = _.cloneDeep(metric_map);
+          const data = cloneDeep(metric_map);
           data.result=results
           dispatch(actions.getVariantBySingleProductSuccess({metric_name: activeMetrics.metric_name, option, data,currentSubOption,categoryLabel,id}));
           resolve();
@@ -273,7 +272,7 @@ export const getTimeBySingleVariant = ({activeMetrics, label, productId, id, que
         queryParams: queryParams
       })
       .then((results) => {
-        const data = _.cloneDeep(metric_map);        
+        const data = cloneDeep(metric_map);        
         data.result=results
         dispatch(actions.getTimeBySingleVariantSuccess({metric_name: activeMetrics.metric_name, option, data,currentSubOption,categoryLabel,id}));
           resolve();

@@ -1,7 +1,6 @@
 import React from 'react';
 import { Image, Label } from 'react-bootstrap';
 import { ButtonGroup } from 'react-bootstrap-table';
-import {isEmpty, find, indexOf} from 'lodash';
 import Checkbox from '../components/Checkbox';
 import { numberFormatter, INVALID_COGS, isCogsInvalid } from '../constants';
 

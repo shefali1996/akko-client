@@ -1,5 +1,6 @@
 import React from 'react';
-import {isEmpty, isUndefined, findIndex} from 'lodash';
+import isUndefined from "lodash/isUndefined"
+import findIndex from "lodash/findIndex"
 import { FormControl } from 'react-bootstrap';
 import styles from '../../constants/styles';
 import {validateCogsValue} from '../../helpers/Csv';

@@ -1,9 +1,12 @@
 import React, { Component } from 'react';
 import { Row, Col, Label, Button, Image, DropdownButton } from 'react-bootstrap';
-import { Select, Input } from 'antd';
+import Select from 'antd/lib/select';
+import Input from 'antd/lib/input';
+import 'antd/lib/select/style'
+import 'antd/lib/input/style'
 import { Calendar } from 'react-date-range';
 import style from '../styles/global/variables.scss'
-import { isEqual} from 'lodash';
+import isEqual from "lodash/isEqual"
 import dropdownIcon from '../assets/images/dropDownIcon.svg';
 
 const moment = require('moment');

@@ -1,6 +1,11 @@
 import {handleActions} from 'redux-actions';
 import update from 'immutability-helper';
-import {cloneDeep, find,findIndex,isEqual} from 'lodash';
+import cloneDeep from "lodash/cloneDeep"
+import find from "lodash/find"
+import findIndex from "lodash/findIndex"
+import isEqual from "lodash/isEqual"
+
+
 import * as constants from '../../redux/constants';
 
 let i=0

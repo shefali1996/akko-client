@@ -1,8 +1,11 @@
 import React, { Component } from 'react';
 import { Button, Row, Col, Label, FormControl, Image, Tooltip, OverlayTrigger } from 'react-bootstrap';
-import { Spin } from 'antd';
+import Spin from 'antd/lib/spin';
+import 'antd/lib/spin/style'
 import toastr from 'toastr';
-import {isEmpty, find, cloneDeep, filter, findIndex} from 'lodash';
+import isEmpty from "lodash/isEmpty"
+import cloneDeep from "lodash/cloneDeep"
+import findIndex from "lodash/findIndex"
 import Dropzone from 'react-dropzone';
 import Papa from 'papaparse';
 import $ from 'jquery';

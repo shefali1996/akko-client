@@ -3,6 +3,7 @@
  */
 const webpack = require('webpack');
 const WebpackBaseConfig = require('./Base');
+const CompressionPlugin = require('compression-webpack-plugin');
 
 class WebpackDevConfig extends WebpackBaseConfig {
   constructor() {
@@ -21,12 +22,15 @@ class WebpackDevConfig extends WebpackBaseConfig {
     this.config.plugins = this.config.plugins.concat([
       new webpack.HotModuleReplacementPlugin(),
       new webpack.NoEmitOnErrorsPlugin(),
+      new CompressionPlugin({
+        test: /\.js(\?.*)?$/i
+      })
     ]);
 
     this.config.module.rules = this.config.module.rules.concat([
       {
         test:    /\.scss$/,
-        loaders: [
+        use: [
           { loader: 'style-loader' },
           {
             loader:  'css-loader',
@@ -40,11 +44,12 @@ class WebpackDevConfig extends WebpackBaseConfig {
               sourceMap: true,
             },
           },
+          
         ],
       },
       {
         test:    /^.((?!cssmodule).)*\.less$/,
-        loaders: [
+        use: [
           { loader: 'style-loader' },
           {
             loader:  'css-loader',
@@ -58,6 +63,7 @@ class WebpackDevConfig extends WebpackBaseConfig {
               sourceMap: true,
             },
           },
+          
         ],
       },
     ]);

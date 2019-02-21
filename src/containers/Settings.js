@@ -2,8 +2,15 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import {withRouter} from 'react-router';
 import { Grid, Row, Col, Button, Label, Image } from 'react-bootstrap';
-import { Input, Select, Checkbox, Spin } from 'antd';
-import {filter, isEmpty, isNull} from 'lodash';
+import Input from 'antd/lib/input';
+import Select from 'antd/lib/select';
+import Checkbox from 'antd/lib/checkbox';
+import Spin from 'antd/lib/spin';
+import isEmpty from "lodash/isEmpty"
+import 'antd/lib/input/style'
+import 'antd/lib/select/style'
+import 'antd/lib/checkbox/style'
+import 'antd/lib/spin/style'
 import { invokeApig } from '../libs/awsLib';
 import * as dashboardActions from '../redux/dashboard/actions';
 
@@ -19,7 +26,7 @@ class Setting extends Component {
 
   componentDidMount() {
     document.title = "Settings | Akko";
-    if(_.isEmpty(this.props.productCount.data)){
+    if(isEmpty(this.props.productCount.data)){
       this.props.getCount();
     }
   }

@@ -12,8 +12,8 @@ import {
   Tooltip,
   OverlayTrigger
 } from "react-bootstrap";
-import { StyleRoot } from "radium";
-import { Spin } from "antd";
+import Spin from 'antd/lib/spin';
+import 'antd/lib/spin/style'
 import swal from "sweetalert2";
 import {
   CognitoUserPool,

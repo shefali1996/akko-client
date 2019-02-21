@@ -1,6 +1,6 @@
 import React from 'react';
 import { FormControl } from 'react-bootstrap';
-import {findIndex, indexOf} from 'lodash';
+import indexOf from "lodash/indexOf"
 import Checkbox from '../Checkbox';
 import styles from '../../constants/styles';
 import {isCogsInvalid} from '../../constants';

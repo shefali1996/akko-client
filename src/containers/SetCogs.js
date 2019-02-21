@@ -4,8 +4,12 @@ import { withRouter } from 'react-router';
 import { Grid, Row, Col, Button, Label, FormControl, Tooltip, OverlayTrigger, Image,Popover } from 'react-bootstrap';
 import SearchInput, { createFilter } from 'react-search-input';
 import swal from 'sweetalert2';
-import { Switch, Progress, Spin } from 'antd';
-import { isEmpty, isNull, isEqual, cloneDeep, find, isUndefined, findIndex, map, remove } from 'lodash';
+import Spin from 'antd/lib/spin';
+import 'antd/lib/spin/style'
+import isEmpty from "lodash/isEmpty"
+import isEqual from "lodash/isEqual"
+import cloneDeep from "lodash/cloneDeep"
+
 import HeaderWithCloseAndAlert from '../components/HeaderWithCloseAndAlert';
 import { KEYS_TO_FILTERS_VARIANTS, INVALID_COGS, convertInventoryJSONToObject, isNumeric, numberFormatter, pollingInterval, PRODUCT, VARIANT } from '../constants';
 import { invokeApig } from '../libs/awsLib';

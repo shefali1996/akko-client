@@ -3,7 +3,7 @@ import { Provider } from 'react-redux';
 import createHistory from 'history/createBrowserHistory';
 import { Router, Route, Switch } from 'react-router';
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
-import { LocaleProvider } from 'antd';
+import LocaleProvider from 'antd/lib/locale-provider';
 import enUS from 'antd/lib/locale-provider/en_US';
 import asyncComponent from './AsyncComponent';
 import SignIn from "./SignIn"
@@ -25,7 +25,7 @@ const ForgotPassword = asyncComponent(() =>
 const history = createHistory();
 
 class App extends Component {
-  render() {
+  render() {    
     return (
       <Provider store={store} key="provider">
         <MuiThemeProvider>
@@ -34,8 +34,8 @@ class App extends Component {
               <Main>
                 <Switch>
                   <Route exact path={routeConstants.signin} component={SignIn} />
-                  <Route exact path={routeConstants.signup} component={SignUp} />
-                  <Route exact path={routeConstants.forgotPassword} component={ForgotPassword} />
+                   <Route exact path={routeConstants.signup} component={SignUp} />
+                 <Route exact path={routeConstants.forgotPassword} component={ForgotPassword} />
                   <Route path={routeConstants.landing} name="Authorized Sections" component={AuthorizedContainer} />
                   <Route path="*" component={NotFound} />
                 </Switch>

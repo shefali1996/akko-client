@@ -1,7 +1,8 @@
 import React, { Component } from 'react';
 import { Grid, Row, Col, Button } from 'react-bootstrap';
-import { Progress } from 'antd';
-import {isEmpty} from 'lodash';
+import Progress from 'antd/lib/progress';
+import 'antd/lib/progress/style'
+import isEmpty from "lodash/isEmpty"
 import Navigationbar from './Navigationbar';
 
 class FetchStatus extends Component {

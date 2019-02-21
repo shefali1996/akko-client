@@ -1,5 +1,5 @@
 import React from 'react';
-import {findIndex} from 'lodash';
+import findIndex from "lodash/findIndex"
 import openDownIcon from '../../assets/images/openDownIcon.svg';
 import openUpIcon from '../../assets/images/openUpIcon.svg';
 import openDownIconHover from '../../assets/images/down_arrow_emphasis.svg';

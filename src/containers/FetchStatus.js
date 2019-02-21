@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import {withRouter} from 'react-router';
-import {isEmpty} from 'lodash';
+import isEmpty from "lodash/isEmpty"
 import FetchStatus from '../components/FetchStatus';
 import { pollingInterval } from '../constants';
 import user from '../auth/user';

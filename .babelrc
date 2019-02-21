@@ -17,7 +17,7 @@
     "transform-object-rest-spread",
     "transform-class-properties",
     "react-hot-loader/babel",
-    ["transform-runtime", { "polyfill": false }]
+    ["transform-runtime", { "polyfill": false }],
   ],
   "env": {
     "development": {

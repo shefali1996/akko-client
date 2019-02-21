@@ -1,5 +1,4 @@
 import React from 'react';
-import { Spin } from 'antd';
 import {Card, CardHeader, CardText} from 'material-ui/Card';
 import {Col} from 'react-bootstrap';
 import styles from '../../constants/styles';

@@ -1,6 +1,6 @@
 import {handleActions} from 'redux-actions';
 import update from 'immutability-helper';
-import {cloneDeep} from 'lodash';
+import cloneDeep from "lodash/cloneDeep"
 import * as constants from '../../redux/constants';
 
 const initialState = {

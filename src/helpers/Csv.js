@@ -1,9 +1,13 @@
-import {remove, isEmpty, indexOf, findIndex, isEqual} from 'lodash';
+import remove from "lodash/remove"
+import isEmpty from "lodash/isEmpty"
+import indexOf from "lodash/indexOf"
+import findIndex from "lodash/findIndex"
+import isEqual from "lodash/isEqual"
 import toastr from 'toastr';
 import { invokeApig } from '../libs/awsLib';
 import {tipBoxMsg} from '../components/TipBox';
 import {CsvTableHeaderRow, businessType, getCogsFromMarginDoller, getCogsFromMarginPercent, getMarginPercentFromCogs, getMarginDollerFromCogs, defaultCogsRange, VARIANT } from '../constants';
-
+import find from "lodash/find"
 function beautifyUploadedCsvData(data, tableData) {
   const allCsvData = [];
   const updatedCogsCsv = [];
@@ -160,7 +164,7 @@ function getTipBoxMessage(type) {
 
 function isCogsPending(variants) {
   if (variants && !isEmpty(variants)) {
-    const v = _.find(variants, (o) => { return isEmpty(o.variant_details.cogs) || o.variant_details.cogs === 'null' || o.variant_details.cogs === null || o.variant_details.cogs === 'invalid'; });
+    const v = find(variants, (o) => { return isEmpty(o.variant_details.cogs) || o.variant_details.cogs === 'null' || o.variant_details.cogs === null || o.variant_details.cogs === 'invalid'; });
     if (v) {
       return true;
     }

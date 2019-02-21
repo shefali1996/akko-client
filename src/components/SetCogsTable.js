@@ -5,15 +5,19 @@ import { BootstrapTable, TableHeaderColumn } from 'react-bootstrap-table';
 import toastr from 'toastr';
 import { Column, Table, AutoSizer, InfiniteLoader } from 'react-virtualized';
 import swal from 'sweetalert2';
-import { Switch, Progress, Spin } from 'antd';
+import Spin from 'antd/lib/spin';
+import 'antd/lib/spin/style'
 import $ from 'jquery';
-import { isEmpty, isNull, isEqual, cloneDeep, clone, find, isUndefined, findIndex, map, remove, property } from 'lodash';
+import isEmpty from "lodash/isEmpty"
+import cloneDeep from "lodash/cloneDeep"
+import find from "lodash/find"
+import findIndex from "lodash/findIndex"
 import { renderSizePerPageDropDown, renderSetTablePaginationPanel, productDetailFormatter, sortByTitle, getCaret, sortByCogsValue, productPriceFormatter, sortByProductPrice, getHeaderText} from '../components/CustomTable';
 import { KEYS_TO_FILTERS_VARIANTS, INVALID_COGS, isNumeric, numberFormatter, pollingInterval, getTableConstants } from '../constants';
 import { validateCogsValue, updatedCogsValue, updateProgress, updateMarginDoller, updateMarginPercent, updateCogs } from '../helpers/Csv';
 import styles from '../constants/styles';
 import { CogsValueFormatter, MarginDollerFormater, MarginPercentFormater, ProductTitleFormatter, ProductVariantsFormatter, ProductSkuFormatterCogs, ProductPriceFormatterCogs, ExpendVariantsFormatter, RenderProgressBar, customMultiSelect} from '../components/customTable1';
-
+import map from "lodash/map"
 const PRODUCT = 'product';
 const VARIANT = 'variant';
 const list = [];

@@ -96,6 +96,7 @@ class WebpackBaseConfig {
           {
             test: /\.json$/,
             loader: 'json-loader',
+            type: 'javascript/auto',
           },
           {
             test: /\.(js|jsx)$/,
@@ -127,6 +128,7 @@ class WebpackBaseConfig {
               { loader: 'stylus-loader' },
             ],
           },
+          
         ],
       },
       output: {

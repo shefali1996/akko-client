@@ -1,7 +1,9 @@
 import React, { Component } from 'react';
 import {Row, Col} from 'react-bootstrap';
-import { Switch, Progress } from 'antd';
-import {indexOf, find} from 'lodash';
+import Switch from 'antd/lib/switch';
+import Progress from 'antd/lib/progress';
+import 'antd/lib/switch/style'
+import 'antd/lib/progress/style'
 import styles from '../../constants/styles';
 
 export default ({data, tableData, progress, hideCompleted, doToggleRows}) => {

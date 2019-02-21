@@ -8,6 +8,7 @@ import Navigationbar from '../Navigationbar'
 import ExploreMetrics from '../ExploreMetrics'
 import Footer from '../Footer';
 import {exploreCard,exploreCardPathPattern} from '../../constants';
+import isEmpty from "lodash/isEmpty"
 class MetricExplore extends Component{
 
     constructor(props) {
@@ -22,7 +23,7 @@ class MetricExplore extends Component{
 
     componentDidMount(){
 
-        if(_.isEmpty(this.props.metricsDataByName.data.metricNameData) || _.isEmpty(this.props.userData.data)){
+        if(isEmpty(this.props.metricsDataByName.data.metricNameData) || isEmpty(this.props.userData.data)){
             this.refreshData();
             this.props.getUser();
             this.props.getChannel();

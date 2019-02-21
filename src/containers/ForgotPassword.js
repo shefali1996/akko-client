@@ -12,9 +12,9 @@ import {
   Tooltip,
   OverlayTrigger
 } from "react-bootstrap";
-import { StyleRoot } from "radium";
-import { Spin } from "antd";
-import { isEmpty } from "lodash";
+import Spin from 'antd/lib/spin';
+import 'antd/lib/spin/style'
+import isEmpty from "lodash/isEmpty"
 import swal from "sweetalert2";
 import {
   CognitoUserPool,

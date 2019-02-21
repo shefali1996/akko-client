@@ -19,14 +19,15 @@ import {
   CognitoUserPool,
   CognitoUser
 } from "amazon-cognito-identity-js";
-import { isEmpty } from "lodash";
+import isEmpty from "lodash/isEmpty"
 import { testMode } from "../constants";
 import { validateEmail } from "../helpers/functions";
 import config from "../config";
 import {signOutUser } from "../libs/awsLib";
 import MaterialIcon from "../assets/images/MaterialIcon.svg";
 import { invokeApigWithoutErrorReport } from "../libs/apiUtils";
-import { Spin } from "antd";
+import Spin from 'antd/lib/spin';
+import 'antd/lib/spin/style'
 import { withRouter } from "react-router";
 import user from "../auth/user";
 import logoImage from "../assets/images/transparent_blue.svg"

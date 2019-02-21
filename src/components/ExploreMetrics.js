@@ -7,9 +7,13 @@ import {
 } from "react-bootstrap";
 import { Card, CardHeader, CardText } from "material-ui/Card";
 import Chip from "material-ui/Chip";
-import { Select, DatePicker, Input, Spin } from "antd";
+import Select from 'antd/lib/select';
+import Spin from 'antd/lib/spin';
+import 'antd/lib/select/style'
+import 'antd/lib/spin/style'
 import ReactPlaceholder from "react-placeholder";
-import { isEmpty, isEqual, isUndefined, chunk } from "lodash";
+import isEqual from "lodash/isEqual"
+import isEmpty from "lodash/isEmpty"
 import FilterDialog from "../components/FilterDialog";
 import styles from "../constants/styles";
 import CustomRangePicker from "../components/CustomRangePicker";
@@ -21,6 +25,10 @@ import productImgPlaceholder from "../assets/images/productImgPlaceholder.svg";
 import infoIcon from '../assets/images/MaterialIcon5.svg';
 import backButton from '../assets/images/backButton.svg';
 import {lastTimeDate} from "../helpers/functions"
+import cloneDeep from "lodash/cloneDeep"
+import indexOf from "lodash/indexOf"
+import last from "lodash/last"
+import find from "lodash/find"
 
 const moment = require("moment");
 const { Option } = Select;
@@ -114,7 +122,7 @@ class ExploreMetrics extends Component {
     window.removeEventListener('resize',this.resizeGraph);
   }
   componentWillReceiveProps(nextProps) {          
-    const state = _.cloneDeep(this.state);
+    const state = cloneDeep(this.state);
     this.setState(
       {
         metrics: nextProps.metricsData.data.metrics
@@ -132,13 +140,13 @@ class ExploreMetrics extends Component {
         let { currentOption } = state;
 
         if (nextProps.customersData != undefined) {
-          if (!_.isEqual(nextProps.customersData.data, customersData)) {
+          if (!isEqual(nextProps.customersData.data, customersData)) {
             this.setState({
               customersData: nextProps.customersData.data
             });
           }
         }
-        if (!_.isEqual(nextProps.productData.data, productData)) {
+        if (!isEqual(nextProps.productData.data, productData)) {
           this.setState({
             productData: nextProps.productData.data
           });
@@ -148,7 +156,7 @@ class ExploreMetrics extends Component {
           nextProps.activeMetrics !== this.state.activeMetrics
         ) {
           if (
-            _.indexOf(
+            indexOf(
               nextProps.activeMetrics.availableContexts,
               currentOption.toLowerCase()
             ) === -1
@@ -390,9 +398,9 @@ if(this.state.activeMetrics){
         vendorsId
       } = this.state;
       
-      const categoriesNavTop = _.last(categoriesNav)
-      const vendorsNavTop = _.last(vendorsNav)
-      if (_.isEmpty(categoriesNavTop.path) == false && option === OPTION_CATEGORIES) {
+      const categoriesNavTop = last(categoriesNav)
+      const vendorsNavTop = last(vendorsNav)
+      if (isEmpty(categoriesNavTop.path) == false && option === OPTION_CATEGORIES) {
         if (
           categoriesNavTop.top == "Product"  &&
           this.state.currentSubOption == "time"
@@ -518,7 +526,7 @@ if(this.state.activeMetrics){
               );
             });
         }
-      } else if (!_.isEmpty(vendorsNavTop.path) && option === OPTION_VENDOR) {
+      } else if (!isEmpty(vendorsNavTop.path) && option === OPTION_VENDOR) {
         this.props
           .getVendors({
             activeMetrics: this.state.activeMetrics,
@@ -580,8 +588,8 @@ if(this.state.activeMetrics){
       metrics.forEach((value) => {
         let format = 'MMM YY';
         const label = moment(value.time_start).utcOffset('+00:00').format(format);        
-        let prefix = (_.find(this.state.metrics, function(o) {return o.db_name == metric_name})).prefix;
-        let postfix = (_.find(this.state.metrics, function(o) {return o.db_name == metric_name})).postfix;
+        let prefix = (find(this.state.metrics, function(o) {return o.db_name == metric_name})).prefix;
+        let postfix = (find(this.state.metrics, function(o) {return o.db_name == metric_name})).postfix;
         data.push({
           label,
           value: value.value,
@@ -630,7 +638,7 @@ if(this.state.activeMetrics){
       }
       const data = [];
       let index = 0;
-      const categoriesNavTop = _.last(this.state.categoriesNav)
+      const categoriesNavTop = last(this.state.categoriesNav)
       if (
         categoriesNavTop.top === categoryOptions.product ||
         categoriesNavTop.top === categoryOptions.variant ||
@@ -645,10 +653,10 @@ if(this.state.activeMetrics){
             const label = moment(value.time_start)
               .utcOffset("+00:00")
               .format(format);
-            let prefix = _.find(this.state.metrics, function(o) {
+            let prefix = find(this.state.metrics, function(o) {
               return o.db_name == metric_name;
             }).prefix;
-            let postfix = _.find(this.state.metrics, function(o) {
+            let postfix = find(this.state.metrics, function(o) {
               return o.db_name == metric_name;
             }).postfix;
             data.push({
@@ -660,10 +668,10 @@ if(this.state.activeMetrics){
             });
           } else if (this.state.currentSubOption == "variant") {
             const label = value.variantTitle;
-            let prefix = _.find(this.state.metrics, function(o) {
+            let prefix = find(this.state.metrics, function(o) {
               return o.db_name == metric_name;
             }).prefix;
-            let postfix = _.find(this.state.metrics, function(o) {
+            let postfix = find(this.state.metrics, function(o) {
               return o.db_name == metric_name;
             }).postfix;
             data.push({
@@ -678,10 +686,10 @@ if(this.state.activeMetrics){
             const label = moment(value.time_start)
               .utcOffset("+00:00")
               .format(format);
-            let prefix = _.find(this.state.metrics, function(o) {
+            let prefix = find(this.state.metrics, function(o) {
               return o.db_name == metric_name;
             }).prefix;
-            let postfix = _.find(this.state.metrics, function(o) {
+            let postfix = find(this.state.metrics, function(o) {
               return o.db_name == metric_name;
             }).postfix;
             data.push({
@@ -694,7 +702,7 @@ if(this.state.activeMetrics){
           } else {
             this.setState({ productId: value.productId });
             const label = value.productTitle;
-            const variantArr = _.find(this.state.productData.products, function(
+            const variantArr = find(this.state.productData.products, function(
               o
             ) {
               return o.productId == value.productId;
@@ -703,10 +711,10 @@ if(this.state.activeMetrics){
               (variantArr && variantArr.variants[0].imageUrl) ||
               productImgPlaceholder;
 
-            let prefix = _.find(this.state.metrics, function(o) {
+            let prefix = find(this.state.metrics, function(o) {
               return o.db_name == metric_name;
             }).prefix;
-            let postfix = _.find(this.state.metrics, function(o) {
+            let postfix = find(this.state.metrics, function(o) {
               return o.db_name == metric_name;
             }).postfix;
             data.push({
@@ -726,10 +734,10 @@ if(this.state.activeMetrics){
         this.state.activeMetrics.metric_name == "number_of_orders"
       ) {
         metrics.forEach(value => {
-          let prefix = _.find(this.state.metrics, function(o) {
+          let prefix = find(this.state.metrics, function(o) {
             return o.db_name == metric_name;
           }).prefix;
-          let postfix = _.find(this.state.metrics, function(o) {
+          let postfix = find(this.state.metrics, function(o) {
             return o.db_name == metric_name;
           }).postfix;
           data.push({
@@ -745,10 +753,10 @@ if(this.state.activeMetrics){
       } else {
         metrics.forEach(value => {
           const label = value.contextId.split(":")[1];
-          let prefix = _.find(this.state.metrics, function(o) {
+          let prefix = find(this.state.metrics, function(o) {
             return o.db_name == metric_name;
           }).prefix;
-          let postfix = _.find(this.state.metrics, function(o) {
+          let postfix = find(this.state.metrics, function(o) {
             return o.db_name == metric_name;
           }).postfix;
           data.push({
@@ -772,7 +780,7 @@ if(this.state.activeMetrics){
 
   setVendorsMetric(id) {   
    
-    const vendorsNavTop = _.last(this.state.vendorsNav)
+    const vendorsNavTop = last(this.state.vendorsNav)
     const label = vendorsNavTop.top === "Time" ? "Time" : "";
     const metric_name = this.state.activeMetrics.metric_name;
     const metric_map = this.getMap(metric_name, OPTION_VENDOR, label, "", id);
@@ -814,10 +822,10 @@ if(this.state.activeMetrics){
           const label = moment(value.time_start)
             .utcOffset("+00:00")
             .format(format);
-          let prefix = _.find(this.state.metrics, function(o) {
+          let prefix = find(this.state.metrics, function(o) {
             return o.db_name == metric_name;
           }).prefix;
-          let postfix = _.find(this.state.metrics, function(o) {
+          let postfix = find(this.state.metrics, function(o) {
             return o.db_name == metric_name;
           }).postfix;
           data.push({
@@ -837,10 +845,10 @@ if(this.state.activeMetrics){
       ) {
         metrics.forEach(value => {
           let email = value.vendor;
-          let prefix = _.find(this.state.metrics, function(o) {
+          let prefix = find(this.state.metrics, function(o) {
             return o.db_name == metric_name;
           }).prefix;
-          let postfix = _.find(this.state.metrics, function(o) {
+          let postfix = find(this.state.metrics, function(o) {
             return o.db_name == metric_name;
           }).postfix;
           data.push({
@@ -858,10 +866,10 @@ if(this.state.activeMetrics){
         metrics.forEach(value => {
           let label = value.contextId.split("_")[1];
           let email = label;
-          let prefix = _.find(this.state.metrics, function(o) {
+          let prefix = find(this.state.metrics, function(o) {
             return o.db_name == metric_name;
           }).prefix;
-          let postfix = _.find(this.state.metrics, function(o) {
+          let postfix = find(this.state.metrics, function(o) {
             return o.db_name == metric_name;
           }).postfix;
           data.push({
@@ -967,7 +975,7 @@ if(this.state.activeMetrics){
         graphLabel
       },
       () => {
-        const navPathTop = _.last(this.state.categoriesNav)
+        const navPathTop = last(this.state.categoriesNav)
         const categoryBarsId = this.props.chartData.data.customTimeframeDataMap[
           `${metric_name}:Categories:${this.state.categoryLabel}:${
             this.state.currentSubOption
@@ -1080,7 +1088,7 @@ if(this.state.activeMetrics){
   onSortOptionChange(option) {
     if(this.currentSortOption !== option){
       this.currentSortOption = option;
-      let data = _.cloneDeep(this.state.chartData);
+      let data = cloneDeep(this.state.chartData);
       this.sortChartData(data);
       this.setState({
         chartData: data,
@@ -1257,7 +1265,7 @@ if(this.state.activeMetrics){
   }
 
   showDetailOnHover(label) {
-    const { customersData, productData, currentOption } = _.cloneDeep(
+    const { customersData, productData, currentOption } = cloneDeep(
       this.state
     );
     const loading = (
@@ -1267,9 +1275,9 @@ if(this.state.activeMetrics){
       </div>
     );
     let tooltipDetailView = false;
-    const categoriesNavTop = _.last(this.state.categoriesNav)
+    const categoriesNavTop = last(this.state.categoriesNav)
     if (currentOption === OPTION_VENDOR) {
-      const custInfo = _.find(customersData, { name: label });
+      const custInfo = find(customersData, { name: label });
       if (custInfo) {
         tooltipDetailView = customerDetailOnHover(custInfo);
       } else {
@@ -1280,11 +1288,11 @@ if(this.state.activeMetrics){
       categoriesNavTop.top === categoryOptions.product
     ) {
       const productId = parseInt(label);
-      let productInfo = _.find(productData.products, function(o) {
+      let productInfo = find(productData.products, function(o) {
         return o.productId == productId;
       });
       if (isNaN(productId)) {
-        productInfo = _.find(productData.products, function(o) {
+        productInfo = find(productData.products, function(o) {
           return o.productId == label;
         });
       }
@@ -1294,7 +1302,7 @@ if(this.state.activeMetrics){
         tooltipDetailView = loading;
       }
     }
-    let productInfo = _.find(productData.products, function(o) {
+    let productInfo = find(productData.products, function(o) {
       return o.productId == label;
     });
     this.setState({
@@ -1303,7 +1311,7 @@ if(this.state.activeMetrics){
   }
 
   hideDetail() {
-    if (!_.isEmpty(this.state.tooltipDetail)) {
+    if (!isEmpty(this.state.tooltipDetail)) {
       this.setState({
         tooltipDetail: ""
       });
@@ -1394,16 +1402,16 @@ if(this.state.activeMetrics){
 
   showLineChart(){
     let  stats = false;
-    const categoriesNavTop = _.last(this.state.categoriesNav)
-    const vendorsNavTop = _.last(this.state.vendorsNav)
+    const categoriesNavTop = last(this.state.categoriesNav)
+    const vendorsNavTop = last(this.state.vendorsNav)
     if(this.state.currentOption == OPTION_TIME){
       stats = true;
     }
     else if(this.state.currentOption == OPTION_CATEGORIES){
-      stats = _.isEmpty(categoriesNavTop.path) ? false : this.state.currentSubOption == "time";
+      stats = isEmpty(categoriesNavTop.path) ? false : this.state.currentSubOption == "time";
     }
     else if(this.state.currentOption == OPTION_VENDOR){
-        stats = _.isEmpty(vendorsNavTop.path) ? false : true; 
+        stats = isEmpty(vendorsNavTop.path) ? false : true; 
     }
     return stats;
   }
@@ -1411,8 +1419,8 @@ if(this.state.activeMetrics){
   render() {      
     const showLineChart = this.showLineChart();
     const {categoriesNav, vendorsNav, currentOption,categoryId,vendorsId} = this.state;
-    const categoriesNavTop = _.last(categoriesNav)
-    const vendorsNavTop = _.last(vendorsNav)
+    const categoriesNavTop = last(categoriesNav)
+    const vendorsNavTop = last(vendorsNav)
     const vendorsNavLink = []
     const categoriesNavLink  = []
     const CustomSpin = (
@@ -1436,12 +1444,12 @@ if(this.state.activeMetrics){
     if (this.state.currentOption === OPTION_TIME) {
       chartTitle = "Historical Trend";
     } else if (this.state.currentOption === OPTION_CATEGORIES) {
-      if (_.isEmpty(categoriesNavTop.path)) {
+      if (isEmpty(categoriesNavTop.path)) {
         chartTitle = `${this.state.activeMetrics.title} by ${
           categoriesNavTop.top
         }`;
       } else if (
-        !_.isEmpty(categoriesNavTop.path) &&
+        !isEmpty(categoriesNavTop.path) &&
         this.state.currentSubOption == "time"
       ) {
         chartTitle = `Historical Trend of ${
@@ -1453,7 +1461,7 @@ if(this.state.activeMetrics){
         } for ${this.state.graphLabel}`;
       }
     } else if (this.state.currentOption === OPTION_VENDOR) {
-      if (_.isEmpty(vendorsNavTop.path)) {
+      if (isEmpty(vendorsNavTop.path)) {
         chartTitle = `${this.state.activeMetrics.title} by ${vendorsNavTop.top}`;
       } else if (vendorsNavTop.path.length != 0) {
         chartTitle = `Historical Trend of ${
@@ -1622,7 +1630,7 @@ if(this.state.activeMetrics){
                           </Col>
                           </Row>                          
                             {
-                            this.state.currentOption == OPTION_CATEGORIES && !_.isEmpty(categoriesNavTop.path) ?
+                            this.state.currentOption == OPTION_CATEGORIES && !isEmpty(categoriesNavTop.path) ?
                             <Row className="suboption-btn">
                             <ButtonGroup style={{marginTop:'10px',paddingLeft:'15px'}}>
                              <Button value="time" className = "button-group" className={this.state.currentSubOption === 'time' ? 'button-group-active' : ''} onClick={(e) => this.onSubOptionChange(e)}>Time</Button>

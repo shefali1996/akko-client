@@ -9,6 +9,7 @@ import {
   bandwidthSize,
   numberFormatter
 } from "../constants";
+import isEmpty from "lodash/isEmpty"
 const OPTION_VENDOR = plotByOptions.vendors;
 const OPTION_CATEGORIES = plotByOptions.categories;
 
@@ -300,7 +301,7 @@ class BarChart extends Component {
           }
           const productInfo = this.state.tooltipDetail
 
-            if (_.isEmpty(productInfo)) {          
+            if (isEmpty(productInfo)) {          
               tooltip.html( `${ToolTipIcon(prefix, value, postfix)}`);
             } else {
               let productImage =

@@ -1,5 +1,6 @@
 import React from 'react';
-import {find, findIndex} from 'lodash';
+import find from "lodash/find"
+import findIndex from "lodash/findIndex"
 import {isCogsInvalid, PRODUCT} from '../../constants';
 import {validateCogsValue} from '../../helpers/Csv';
 import productImgPlaceholder from '../../assets/images/productImgPlaceholder.svg';
