@@ -10,14 +10,13 @@ import Dropzone from 'react-dropzone';
 import Papa from 'papaparse';
 import $ from 'jquery';
 import {isNumeric, getProductValue, exportCSVFile, headers, PRODUCT, VARIANT, getCogsFromMarginDoller, getCogsFromMarginPercent, getMarginPercentFromCogs, getMarginDollerFromCogs} from '../constants';
-import giveMoney from '../assets/images/give-money.svg';
-import csvIconWhite from '../assets/images/csv-file-format-extension.svg';
+import giveMoney from '../assets/images/SetMarkupButton.svg';
+import csvIconWhite from '../assets/images/uploadCsvButton.svg';
 import downloadIcon from '../assets/images/downloadIcon.svg';
 import uploadIcon from '../assets/images/uploadicon.svg';
 import MaterialIcon from '../assets/images/MaterialIcon.svg';
 import {validateCogsValue, updateProgress, updateMarginDoller, updateMarginPercent, updateCogs, beautifyUploadedCsvData} from '../helpers/Csv';
 import styles from '../constants/styles';
-
 const moment = require('moment');
 
 const marginPercent = 'marginPercent';
@@ -54,7 +53,7 @@ class MarkupAndCsv extends Component {
   componentDidMount() {
     $(window).resize(() => {
       const w = screen.width;
-      const r = w < 768 ? 200 : 233;
+      const r = w < 768 ? 200 :150;
       let right = r + (w - 600);
       if (right < 0) {
         right = 0;
@@ -206,13 +205,22 @@ class MarkupAndCsv extends Component {
     const {selectedOption, openCsvUpload, numSelectedVariants, uploadCsvInProgress} = this.state;  
     return (
       <div style={{paddingTop: '10px', display: 'flow-root'}}>
-        <div style={{float: 'right'}}>
+      
+        <div style={{float: 'right'}} >
+        <OverlayTrigger
+          placement="bottom"
+          overlay={
+            <Tooltip className="tooltip-blue">
+              Upload CSV
+            </Tooltip>
+          }
+         >
           <Button className="cogs-page-button" onClick={this.openCsvUpload}>
             <div className="btn-icon">
               <Image src={csvIconWhite} />
             </div>
-            BULK IMPORT FROM CSV
           </Button>
+         </OverlayTrigger>
           <div className="csv-upload" style={{display: this.state.openCsvUpload ? 'block' : 'none'}}>
             <Col className="middle-box pull-left">
               <div className="product-cogs-text" style={{margin: '35px auto', width: '285px'}}>
@@ -256,13 +264,22 @@ class MarkupAndCsv extends Component {
             </Col>
           </div>
         </div>
-        <div style={{float: 'right', marginRight: 10}}>
+        <div style={{float: 'right', marginRight: 10}} >
+        <OverlayTrigger
+          
+          placement="bottom"
+          overlay={
+            <Tooltip className="tooltip-blue">
+              Set Markup
+            </Tooltip>
+          }
+         >
           <Button className="cogs-page-button" onClick={this.openMarkup}>
             <div className="btn-icon">
               <Image src={giveMoney} />
             </div>
-            SET MARKUP
           </Button>
+          </OverlayTrigger>
           <div className="set-markup" style={{display: this.state.openSetMarkup ? 'block' : 'none'}}>
             <div className="top-row">
               <span className="select-style-comment-small">{numSelectedVariants ? `${numSelectedVariants} variants selected` : 'No variants selected'} </span>

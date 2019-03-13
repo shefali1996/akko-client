@@ -44,9 +44,12 @@ function beautifyUploadedCsvData(data, tableData) {
   };
 }
 
-function validateCogsValue(cogs, price) {
+function validateCogsValue(cogs, price) {  
   let ret = 'Empty COGS';
-  if (cogs.toString().length === 0 || cogs.toString() === 'null') {
+  if(!cogs){
+    return ret
+  }
+  if ( cogs.toString().length === 0 || cogs.toString() === 'null') {
     ret = 'Empty COGS';  
   } else {
     cogs = Number(cogs);

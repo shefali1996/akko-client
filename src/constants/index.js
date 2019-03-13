@@ -51,13 +51,13 @@ export const UPDATED_COGS_TEXT="We've updated your COGS and calculating your met
 //= ====================Set cogs column width ===================
 
 export const getTableConstants = () => {
-  const w_500 = {rowHeight: 25, select: 20, title: 0.25, variant: 0.13, sku: 0.13, price: 0.08, cogs: 0.09, marginPercent: 0.11, marginDoller: 0.11, expand: 0.10};
-  const w_600 = {rowHeight: 35, select: 20, title: 0.25, variant: 0.13, sku: 0.13, price: 0.08, cogs: 0.09, marginPercent: 0.11, marginDoller: 0.11, expand: 0.10};
-  const w_767 = {rowHeight: 35, select: 25, title: 0.25, variant: 0.13, sku: 0.13, price: 0.08, cogs: 0.09, marginPercent: 0.11, marginDoller: 0.11, expand: 0.10};
-  const w_991 = {rowHeight: 40, select: 35, title: 0.22, variant: 0.12, sku: 0.12, price: 0.09, cogs: 0.10, marginDoller: 0.13, marginPercent: 0.13, expand: 0.10};
-  const w_1100 = {rowHeight: 45, select: 35, title: 0.22, variant: 0.13, sku: 0.13, price: 0.09, ogs: 0.09, marginDoller: 0.12, marginPercent: 0.12, expand: 0.10};
-  const w_1300 = {rowHeight: 45, select: 35, title: 0.22, variant: 0.13, sku: 0.13, price: 0.09, cogs: 0.09, marginDoller: 0.11, marginPercent: 0.11, expand: 0.10};
-  let colWidth = {rowHeight: 45, select: 35, title: 0.25, variant: 0.13, sku: 0.13, price: 0.09, cogs: 0.09, marginPercent: 0.11, marginDoller: 0.11, expand: 0.09};
+  const w_500 = {rowHeight: 25, select: 20, title: 0.38, sku: 0.20, price: 0.08, cogs: 0.09, marginPercent: 0.11, marginDoller: 0.11,expand:.03 };
+  const w_600 = {rowHeight: 35, select: 20, title: 0.38, sku: 0.20, price: 0.08, cogs: 0.09, marginPercent: 0.11, marginDoller: 0.11, expand:.03};
+  const w_767 = {rowHeight: 35, select: 25, title: 0.37, sku: 0.20, price: 0.09, cogs: 0.10, marginPercent: 0.13, marginDoller: 0.14, expand:.00};
+  const w_991 = {rowHeight: 40, select: 35, title: 0.37, sku: 0.19, price: 0.10, cogs: 0.11, marginDoller: 0.11, marginPercent: 0.12, expand:.01};
+  const w_1100 = {rowHeight: 45, select: 35, title: 0.35, sku: 0.19, price: 0.09, cogs: 0.12, marginDoller: 0.12, marginPercent: 0.13, expand:.03};
+  const w_1300 = {rowHeight: 45, select: 35, title: 0.38, sku: 0.20, price: 0.10, cogs: 0.11, marginDoller: 0.11, marginPercent: 0.11,expand:.02 };
+  let colWidth = {rowHeight: 45, select: 35, title: 0.38, sku: 0.20, price: 0.10, cogs: 0.11, marginPercent: 0.11, marginDoller: 0.11,expand:.02 };
 
   if (screen.width <= 500) {
     colWidth = w_500;

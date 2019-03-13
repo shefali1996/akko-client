@@ -16,8 +16,9 @@ import { renderSizePerPageDropDown, renderSetTablePaginationPanel, productDetail
 import { KEYS_TO_FILTERS_VARIANTS, INVALID_COGS, isNumeric, numberFormatter, pollingInterval, getTableConstants } from '../constants';
 import { validateCogsValue, updatedCogsValue, updateProgress, updateMarginDoller, updateMarginPercent, updateCogs } from '../helpers/Csv';
 import styles from '../constants/styles';
-import { CogsValueFormatter, MarginDollerFormater, MarginPercentFormater, ProductTitleFormatter, ProductVariantsFormatter, ProductSkuFormatterCogs, ProductPriceFormatterCogs, ExpendVariantsFormatter, RenderProgressBar, customMultiSelect} from '../components/customTable1';
+import { CogsValueFormatter, MarginDollarFormater, MarginPercentFormater, ProductTitleFormatter, ProductVariantsFormatter, ProductSkuFormatterCogs, ProductPriceFormatterCogs, ExpendVariantsFormatter, RenderProgressBar, customMultiSelect} from '../components/dataTable';
 import map from "lodash/map"
+
 const PRODUCT = 'product';
 const VARIANT = 'variant';
 const list = [];
@@ -68,7 +69,7 @@ class SetCogsTable extends Component {
   componentDidMount() {
 
   }
-  onRowSelect = (row, isSelected) => {
+  onRowSelect = (row, isSelected) => {    
     let {selectedRows, numSelectedVariants, data} = this.state;
     let selection = {};
     if (isSelected) {
@@ -136,7 +137,7 @@ class SetCogsTable extends Component {
     this.setState(selection);
     this.props.updateParentState(selection);
   }
-  onSelectAll = (isSelected, rows) => {
+  onSelectAll = (isSelected, rows) => {    
     let selection = {};
     const selectedRows = [];
     let numSelectedVariants = 0;
@@ -268,18 +269,21 @@ class SetCogsTable extends Component {
       }
       this.props.updateParentState(changeState);
     }
-    getRowClass = (row, rowIndex) => {
+    getRowClass = (row, rowIndex) => {  
+      if(row){    
+      var rowClass=row && row.rowType === PRODUCT?"product-row":"variant-row"
+      }
       if (rowIndex === -1) {
         return 'vt-table-header';
       } else if (row && row.rowType === VARIANT) {
         const cogs = row.cogs || row.variant.cogs;
         if (!row.cogs && row.variant.cogs === -1) {
-          return 'vt-table-row';
+          return `vt-table-rows ${rowClass}`;
         } else if (validateCogsValue(cogs, row.variant.price) !== true) {
-          return 'vt-table-row error';
+          return `vt-table-row error ${rowClass}`;
         }
       }
-      return 'vt-table-row';
+      return `vt-table-row ${rowClass}`;
 
     }
     onRowMouseOver = (row) => {
@@ -298,7 +302,10 @@ class SetCogsTable extends Component {
       }
       this.props.updateParentState({tableData});
     }
-
+    rowHeight=(dataTable)=>{
+        const dynamicHeight=this.filteredData[dataTable.index].rowType==PRODUCT?70:45
+        return dynamicHeight
+    }
     render() {
       const {data, selectedRows, currentPage, rowsPerPage, tableData} = this.state;
       const {hideCompleted, searchTerm, loading} = this.props;
@@ -327,25 +334,27 @@ class SetCogsTable extends Component {
       });
       filteredData = filteredData.filter(createFilter(searchTerm, KEYS_TO_FILTERS_VARIANTS));
       filteredData = (!loading && !isEmpty(filteredData) && filteredData) || [];
+      this.filteredData=filteredData
       const listItem = $('ul.pagination > li');
       listItem.hover((e) => {
         listItem.removeAttr('title');
       });
       return (
-        <div className="set-cogs-table" style={{ height: 'calc(94vh - 270px)' }}>
+        <div className="set-cogs-table" style={{ height: 'calc(94vh - 200px)' }}>
           <AutoSizer>
             {({ height, width }) => {
-              width = width < 500 ? 500 : width;
-              const w = width - tableConstants.select;
+              width = width < 500 ? 500 : width;              
+              const w = width - tableConstants.select;              
               return (
                 <Table
                   width={width}
                   height={height}
                   headerHeight={tableConstants.rowHeight}
-                  rowHeight={tableConstants.rowHeight}
+                  rowHeight={({index,rowData})=>this.rowHeight({index,rowData})}
+                  computeRowHeight={({rowData})=>this.compute({rowData})}
                   onRowMouseOver={({rowData}) => this.onRowMouseOver(rowData)}
                   onRowMouseOut={({rowData}) => this.onRowMouseOut(rowData)}
-                  rowClassName={({index}) => this.getRowClass(filteredData[index], index)}
+                  rowClassName={({index,rowData}) => this.getRowClass(filteredData[index], index,rowData)}
                   headerClassName="set-cogs-header"
                   rowCount={filteredData.length}
                   noRowsRenderer={() => <div className="no-data-text">{loading ? <Spin /> : 'No data found'}</div>}
@@ -359,21 +368,16 @@ class SetCogsTable extends Component {
                     cellRenderer={({rowIndex, rowData}) => customMultiSelect({rowIndex, selectedRows, tableData, rowData, onChange: (isSelected, row) => this.onRowSelect(row, isSelected)})}
                 />
                   <Column
+                  headerClassName="header-product"
                     width={w * tableConstants.title}
-                    headerRenderer={() => getHeaderText('PRODUCT TITLE')}
+                    headerRenderer={() => getHeaderText('Product')}
                     className="vt-cell p-title border-left"
                     disableSort
                     cellRenderer={({cellData, rowData}) => <ProductTitleFormatter cellData={cellData} rowData={rowData} tableData={tableData} />}
                     dataKey="productTitle"
                 />
                   <Column
-                    width={w * tableConstants.variant}
-                    headerRenderer={() => getHeaderText('VARIANT')}
-                    className="vt-cell border-left"
-                    cellRenderer={({cellData, rowData}) => <ProductVariantsFormatter cellData={cellData} rowData={rowData} />}
-                    dataKey="variant"
-                />
-                  <Column
+                    headerClassName="header-sku"
                     width={w * tableConstants.sku}
                     headerRenderer={() => getHeaderText('SKU')}
                     className="vt-cell border-left"
@@ -381,6 +385,7 @@ class SetCogsTable extends Component {
                     dataKey="variant"
                 />
                   <Column
+                    headerClassName="header-price"
                     width={w * tableConstants.price}
                     headerRenderer={() => getHeaderText('Price')}
                     className="vt-cell border-left"
@@ -388,6 +393,7 @@ class SetCogsTable extends Component {
                     dataKey="variant"
                 />
                   <Column
+                   headerClassName="header-cogs"
                     width={w * tableConstants.cogs}
                     headerRenderer={() => getHeaderText('COGS')}
                     className="vt-cell border-left"
@@ -395,25 +401,20 @@ class SetCogsTable extends Component {
                     dataKey="variant"
                 />
                   <Column
+                     headerClassName="header-markup-dollar"
                     width={w * tableConstants.marginDoller}
-                    headerRenderer={() => getHeaderText('MARKUP($)')}
+                    headerRenderer={() => getHeaderText('Margin ($)')}
                     className="vt-cell border-left"
-                    cellRenderer={({cellData, rowData, rowIndex}) => <MarginDollerFormater cell={cellData} row={rowData} tableData={tableData} onFocus={this.onFocus} onChange={this.onMarginDollerChange} onBlur={this.onMarginDollerBlur} />}
+                    cellRenderer={({cellData, rowData, rowIndex}) => <MarginDollarFormater cell={cellData} row={rowData} tableData={tableData} onFocus={this.onFocus} onChange={this.onMarginDollerChange} onBlur={this.onMarginDollerBlur} />}
                     dataKey="variant"
                 />
                   <Column
+                    headerClassName="header-markup-percentage"
                     width={w * tableConstants.marginPercent}
-                    headerRenderer={() => getHeaderText('MARKUP(%)')}
+                    headerRenderer={() => getHeaderText('Margin (%)')}
                     className="vt-cell border-left"
                     cellRenderer={({cellData, rowData, rowIndex}) => <MarginPercentFormater cell={cellData} row={rowData} tableData={tableData} onFocus={this.onFocus} onChange={this.onMarginPercentChange} onBlur={this.onMarginPercentBlur} />}
                     dataKey="variant border-left"
-                />
-                  <Column
-                    width={w * tableConstants.expand}
-                    label=""
-                    className="vt-cell border-left"
-                    cellRenderer={({cellData, rowData, rowIndex}) => <ExpendVariantsFormatter cell={cellData} row={rowData} tableData={tableData} toggleVariantsRows={this.toggleVariantsRows} />}
-                    dataKey="numVariants"
                 />
                 </Table>
               );

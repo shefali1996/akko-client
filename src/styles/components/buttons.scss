@@ -8,7 +8,17 @@
   border: none;
   background-size: contain;
 }
-
+.close-button-set-cogs{
+  background-color: transparent;
+  border: none;
+  background-size: contain;
+  margin-top: 8px;
+  padding: 6px 10px;
+  img{
+    width:24px;
+    height:24px
+  }
+}
 .skip-button {
   width: 119px;
   height: 29px;
@@ -111,7 +121,6 @@
 
 .cogs-page-button {
   .btn-icon {
-    padding-right: 3px;
     display: inline-block;
     img {
       height: 24px;
@@ -120,15 +129,13 @@
   }
   height: auto;
   width: auto;
-  padding: 8px 10px;
-  background-color: $main-blue-color;
+  padding: 9px 10px;
+  background-color: transparent;
   font-size: $size-14;
   color: $white-color;
   text-decoration: none solid $main-decoration-color;
   text-align: center;
-  box-shadow: 0 1px 2px rgba($pure-black, 0.5);
   border: none;
-  border-radius: 0;
 }
 
 .signup-button-text {

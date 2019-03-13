@@ -13,15 +13,15 @@ export default ({cell, row, rowIndex, tableData, onChange, onBlur}) => {
     rowIndex = findIndex(tableData, {id: row.id});
   }
   const cogsValue = isUndefined(row.cogs) ? cell.cogs : row.cogs;
-  const prefix = cogsValue >=0 ? '$' : '';  
   return (
     <div className="flex-center w-100" >
       <div className="currency-view">
         <div className="table-input-field">
-          <span className="product-cogs-text">{prefix}</span>
+          <span className="product-cogs-text">$</span>
+          {" "}
           <FormControl
-            type="text"
-            className="product-cogs-text  table-input-field"
+            type="number"
+            className="product-cogs-text  table-input-field setcogs-input"
             value={cogsValue >=0?cogsValue:undefined}
             onChange={(e) => onChange(e, row, rowIndex)}
             placeholder="NOT SET"

@@ -6,11 +6,11 @@ export default ({cellData, rowData}) => {
     return null;
   }
   return (
-    <div className="flex-center w-100">
+    <div className="flex-left w-100 sku-variant">
       <div className="currency-view">
         <div>
-          <span className="product-variant-cogs" >
-            ${cellData && cellData.price}
+          <span className="product-sku-text" >
+            {cellData && cellData.variantSku}
           </span>
         </div>
       </div>

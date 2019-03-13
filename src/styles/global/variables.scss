@@ -44,6 +44,8 @@ $fade-red: #eb554d;
 $primary-button-hover: #e6e6e6;
 $area-color:#6078FF;
 $highlight-color: #2e4369;
+$grey-shadow-color:rgba(0,0,0,0.1);
+$first-text-blue-color:#d1dffe;
 
 //font-size
 $size-0: 0px;
@@ -67,6 +69,7 @@ $ubuntu-regular: "Ubuntu-Regular";
 $ubuntu-light: "Ubuntu-Light";
 $lato-regular: "Lato-Regular";
 $ubuntu: "Ubuntu";
+$ubuntu-medium:"Ubuntu-Medium";
 $open-sans: "Open Sans";
 
 //width-size
@@ -111,4 +114,6 @@ $min-height: calc(100vh - 60px);
     grey:$grey;
     white-shade:$white-shade;
     area-color:$area-color;
+    grey-shadow-color:$grey-shadow-color;
+    first-text-blue-color:$first-text-blue-color
 }

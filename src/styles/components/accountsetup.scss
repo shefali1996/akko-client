@@ -86,9 +86,6 @@
   padding-bottom: 10px;
   border-bottom: 1px solid $light-gray-color;
 }
-.devider {
-  border-bottom: 1px solid $light-gray-color;
-}
 .account-comment {
   font-family: $ubuntu-bold;
   font-size: $size-24;
@@ -97,9 +94,10 @@
   text-align: center;
 }
 .select-style-text {
-  font-size: $size-24;
-  color: $main-blue-color;
+  font-size: $size-20;
+  color: $highlight-color;
   text-decoration: none solid $main-blue-color;
+  font-family: $ubuntu-medium;
   text-align: center;
 }
 .login-layout {
@@ -130,9 +128,11 @@
 
 .select-style-comment {
   font-size: $size-16;
-  color: $main-blue-color;
+  color: $highlight-color;
   text-decoration: none solid $main-blue-color;
   text-align: center;
+  font-family: $ubuntu-medium;
+
 }
 .select-style-comment-small {
   font-size: $size-14;
@@ -216,7 +216,14 @@
 .center-view {
   display: flex;
   flex-direction: column;
-  align-items: center;
+  padding: 0 40px;
+  .completed-count{
+      border:1px solid $light-gray-color;
+      border-radius: 4px 4px 0 0;
+      background-color:$white-color;
+      padding-top:10px;
+      box-shadow: 1px 1px 2px $grey-shadow-color, -1px -1px 2px $grey-shadow-color
+}
 }
 .step-one-view {
   display: flex;
@@ -274,6 +281,7 @@
 }
 .height-center {
   align-items: center;
+  color:$highlight-color
 }
 .left-padding {
   padding-left: 50px;
@@ -357,6 +365,7 @@
   font-weight: normal;
   margin-right: 0px;
 }
+
 .react-bs-table {
   height: unset !important;
 }
@@ -408,6 +417,7 @@
 
 .ant-progress-bg {
   border-radius: 0px !important;
+  background-color: $japanese-laurel-light
 }
 
 .padding-0 {

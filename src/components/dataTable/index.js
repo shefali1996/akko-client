@@ -1,5 +1,5 @@
 import CogsValueFormatter from './CogsValueFormatter';
-import MarginDollerFormater from './MarginDollerFormater';
+import MarginDollarFormater from './MarginDollarFormater';
 import MarginPercentFormater from './MarginPercentFormater';
 import ProductTitleFormatter from './ProductTitleFormatter';
 import ProductVariantsFormatter from './ProductVariantsFormatter';
@@ -11,7 +11,7 @@ import customMultiSelect from './customMultiSelect';
 
 export {
   CogsValueFormatter,
-  MarginDollerFormater,
+  MarginDollarFormater,
   MarginPercentFormater,
   ProductTitleFormatter,
   ProductVariantsFormatter,

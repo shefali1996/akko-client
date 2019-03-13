@@ -11,20 +11,17 @@ export default ({data, tableData, progress, hideCompleted, doToggleRows}) => {
   const per = (completed / total) * 100;
   return (
     <div>
-      <div className="margin-0 padding-0 select-style-comment-small">
-        <Col xs={4} className="flex-left height-center">
+      <div className="margin-0 padding-t select-style-comment-small setcogs-status">
+        <Col xs={6} className="flex-left height-center">
+          COMPLETED
+        <br />
           {completed} / {total}
+          
+        </Col>
+        <Col xs={6} className="flex-right height-center">
+          PENDING
           <br />
-          Completed
-        </Col>
-        <Col xs={4} className="text-center hide-completed">
-          <div className="text">{hideCompleted ? 'Hiding completed' : 'Showing completed'}</div>
-          <div className="switch"><Switch defaultChecked={hideCompleted} onChange={(checked) => doToggleRows(checked)} /></div>
-        </Col>
-        <Col xs={4} className="flex-right height-center">
           {pending}
-          <br />
-          Pending
         </Col>
       </div>
       <div className="margin-0 padding-0">

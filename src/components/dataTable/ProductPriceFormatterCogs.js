@@ -9,8 +9,8 @@ export default ({cellData, rowData}) => {
     <div className="flex-center w-100">
       <div className="currency-view">
         <div>
-          <span className="product-sku-text" style={{fontStyle: 'italic'}}>
-            {cellData && cellData.variantSku}
+          <span className="product-variant-cogs" >
+            ${cellData && cellData.price.toFixed(2)}
           </span>
         </div>
       </div>

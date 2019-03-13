@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router';
-import { Grid, Row, Col, Button, Label, FormControl, Tooltip, OverlayTrigger, Image,Popover } from 'react-bootstrap';
+import { Grid, Row, Col, Button, Label, FormControl, Tooltip, OverlayTrigger, Image } from 'react-bootstrap';
 import SearchInput, { createFilter } from 'react-search-input';
 import swal from 'sweetalert2';
 import Spin from 'antd/lib/spin';
@@ -19,7 +19,8 @@ import MarkupAndCsv from '../components/MarkupAndCsv';
 import SetCogsTable from '../components/SetCogsTable';
 import styles from '../constants/styles';
 import * as dashboardActions from '../redux/dashboard/actions';
-import { RenderProgressBar } from '../components/customTable1';
+import { RenderProgressBar } from '../components/dataTable';
+import closeIcon from "../assets/images/closeIcon.svg"
 
 
 class SetCogs extends Component {
@@ -359,29 +360,21 @@ class SetCogs extends Component {
       return (
         <div>
           {screen.width>=768 &&
-          <Grid className="login-layout">
-            <Row className="devider" style={{ margin: '0 5px' }}>
-              <Col md={12} style={{ paddingLeft: '0' }}>
-                <div className="text-left margin-t-10">
-                  <span className="select-style-text">Set COGS  
-                          <sup id="info-icon" title="COGS is cost of buying one unit of product from the vendor."><span >?</span></sup>   
+          <Grid className="login-layout setcogs-container">
+            <Row className="devider">
+              <Col md={8} style={{ padding: '0' }}>
+                <div className="text-left margin-t-10 main-heading" >
+                  <span className="select-style-text">Set COGS
                      for your products
                   </span>
                 </div>
-                <div className="text-left margin-t-5">
-                  <span className="select-style-comment" style={{ fontSize: '14px' }}>
-                    We will use these Cost of Goods Sold (COGS) estimates to calculate your gross profit
-                  </span>
+                <div className="text-left">
+                  <span className="select-style-comment" style={{ fontSize: '12px',fontWeight:500 }}>
+                  We will use these Cost of Goods Sold (COGS) estimates to calculate your profits and margins                  </span>
                 </div>
-                <Col className="text-right set-cogs-close-button-wrapper padding-y-10">
-                  <Button className="close-button" onClick={this.close} />
                 </Col>
-              </Col>
-            </Row>
-            <Row>
-              <Col md={12}>
-                {
-                  <MarkupAndCsv
+                <Col md={4} className="text-right set-cogs-close-button-wrapper">
+                <MarkupAndCsv
                     selectedRows={selectedRows}
                     numSelectedVariants={numSelectedVariants}
                     tableData={tableData}
@@ -392,26 +385,21 @@ class SetCogs extends Component {
                     updateprogress={(progressStatus) => this.setState({progress: progressStatus})}
                     {...this.props}
                     />
-                }
-              </Col>
+                  <Button className="close-button-set-cogs close-cogs" onClick={this.close} >
+                  <Image src={closeIcon}/>
+                  </Button>
+                </Col>
             </Row>
-            <Row>
+            <Row className="count-row ">
               <Col md={12} className="center-view" style={{ alignItems: 'normal' }}>
-                <div className="margin-t-20 padding-0">
+                <div className="margin-t-20 padding-0 completed-count">
                   <RenderProgressBar progress={progress} hideCompleted={this.state.hideCompleted} doToggleRows={this.doToggleRows} />
-                </div>
-                <div className="set-cogs-search">
-                  <SearchInput
-                    className="search-input padding-l-0"
-                    placeholder="Search through all your products by title or SKU"
-                    onChange={(term) => this.setState({ searchTerm: term })}
-                    />
                 </div>
               </Col>
               <Col
                 md={12}
-                className="center-view"
-                style={{ alignItems: 'normal', marginBottom: '70px' }}>
+                className="center-view table-virtulized"
+                style={{ alignItems: 'normal' }}>
                 <SetCogsTable
                   tableData={tableData}
                   loading={loading}
@@ -426,11 +414,8 @@ class SetCogs extends Component {
               </Col>
             </Row>
             <Row className="footer-set-cogs">
-              <Col xs={6} sm={3} className="">
-                <Button className="skip-button" onClick={this.onSkip}>SKIP FOR NOW</Button>
-              </Col>
-              <Col xsHidden sm={6} className="height-32" />
-              <Col xs={6} sm={3} className="text-right">
+              <Col xsHidden sm={12} className="height-32" />
+              <Col xs={12} sm={12} className="text-right">
                 <Button className="set-cogs-finish-button" onClick={this.onFinish}>SET COGS
                   <div style={{ marginLeft: 10, display: this.state.pendingRequest ? 'inline-block' : 'none'}}>
                     <Spin size="small" />
