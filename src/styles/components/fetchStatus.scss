@@ -40,6 +40,12 @@
   .ant-progress-circle-path {
     stroke: $main-blue-color;
   }
+  .ant-progress-inner{
+    background-color: $dim-white !important;
+  }
+  .ant-progress-circle-trail{
+    stroke : $light-gray-color;
+  }
   .set-cogs-loading-btn {
     width: 131px;
     height: 44px;
