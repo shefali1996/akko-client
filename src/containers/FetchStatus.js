@@ -21,7 +21,7 @@ class FetchStatusContainer extends Component {
   componentWillMount() {
     this.getStatus();
     this.statusInterval = setInterval(() => {
-      if (user.isAuthenticated != null) {
+      if (user.isAuthenticated != null && dataLoadStatus.data.completed !== 1) {
         this.getStatus();
       } else{
         clearInterval(this.statusInterval);
@@ -59,7 +59,9 @@ class FetchStatusContainer extends Component {
     if (channel.data.shopId) {
       this.props.getDataLoadStatus(channel.data.shopId);
     } else if (!channel.isLoading) {
-      this.props.getChannel();
+      this.props.getChannel().then((res)=>{
+        this.props.getDataLoadStatus(res.shopId);
+      });
     }
   }
   render() {
