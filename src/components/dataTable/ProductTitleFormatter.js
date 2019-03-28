@@ -40,7 +40,7 @@ export default ({ cellData, rowData, tableData }) => {
         <div>
           <span className="cogs-product-title" title={cellData}>
             <LinesEllipsis
-              text={titleData(rowData)}
+              text={titleData(rowData)?titleData(rowData):""}
               maxLine="2"
               ellipsis=" ..."
               trimRight
