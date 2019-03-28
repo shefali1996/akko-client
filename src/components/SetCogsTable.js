@@ -66,11 +66,9 @@ class SetCogsTable extends Component {
       progress,
     });
   }
-  componentDidMount() {
 
-  }
   onRowSelect = (row, isSelected) => {    
-    let {selectedRows, numSelectedVariants, data} = this.state;
+    let {selectedRows, numSelectedVariants,tableData} = this.state;
     let selection = {};
     if (isSelected) {
       selectedRows.push(row.id);
@@ -83,7 +81,7 @@ class SetCogsTable extends Component {
         });
       } else if (row.rowType === VARIANT) {
         numSelectedVariants += 1;
-        const p = find(data.products, {
+        const p = find(tableData, {
           productId: row.productId
         });
         if (p) {
@@ -103,7 +101,7 @@ class SetCogsTable extends Component {
         numSelectedVariants,
         inProgressSetCogs: true
       };
-    } else {
+    } else {      
       const i = selectedRows.indexOf(row.id);
       if (i !== -1) {
         selectedRows.splice(i, 1);
@@ -117,9 +115,9 @@ class SetCogsTable extends Component {
         });
       } else if (row.rowType === VARIANT) {
         numSelectedVariants -= 1;
-        const p = find(data.products, {
+        const p = find(tableData, {
           productId: row.productId
-        });
+        });        
         if (p) {
           p.variants.map((val) => {
             if (!selectedRows.includes(val.variantId) && selectedRows.includes(row.productId)) {
@@ -338,7 +336,7 @@ class SetCogsTable extends Component {
       const listItem = $('ul.pagination > li');
       listItem.hover((e) => {
         listItem.removeAttr('title');
-      });
+      });      
       return (
         <div className="set-cogs-table" style={{ height: 'calc(94vh - 200px)' }}>
           <AutoSizer>
