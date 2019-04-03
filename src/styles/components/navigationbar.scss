@@ -1,9 +1,67 @@
-.header{
+.header {
   position: sticky;
   position: -webkit-sticky;
   top: 0;
   right: 0;
   left: 0;
+  .tabs {
+    position: relative;
+    display: flex;
+    width: 330px;
+    align-items: flex-end;
+    margin: auto;
+    height: 100%;
+    > div {
+      display: block;
+      color: white;
+      font-size: 12px;
+      font-weight: 600;
+      min-width: 110px;
+      text-align: center;
+      cursor: pointer;
+      padding-right: 4px;
+      border-bottom: 3px solid transparent;
+      &.under-line {
+        position: absolute;
+        border-bottom: 3px solid white;
+        transition: 0.5s ease;
+        &.one,
+        &.two,
+        &.three {
+          transition: 0.5s ease;
+        }
+        &.one {
+          left: 0;
+        }
+        &.two {
+          left: 110px;
+        }
+        &.three {
+          left: 220px;
+        }
+      }
+      > span {
+        margin-left: 5px;
+      }
+      >img{
+        margin-bottom: 1px
+      }
+    }
+    > div:not(.under-line) {
+      margin-bottom: 4px;
+    }
+  }
+  #header-user-section {
+    display: flex;
+    right: 5px;
+    height: 100%;
+    align-items: center;
+    #user-name {
+      color: white;
+      font-size: 14px;
+      margin-right: 10px;
+    }
+  }
 }
 .nav-container {
   display: flex;
@@ -11,24 +69,27 @@
   background-color: $main-blue-color;
   border-bottom: 1px solid $light-gray-color-1;
   z-index: 1;
-  padding:0 calc(4% - 15px);
+  padding: 0 1%;
   z-index: 999;
   margin: 0px;
-  
 }
 .app-title {
   padding-top: 0px;
   padding-left: 0px;
   display: block;
-  display:flex;
+  display: flex;
   align-items: center;
   top: 20px;
   background-color: $main-blue-color;
   z-index: 999;
+  border-right: 2px solid $light-gray-color-1;
+  margin: 5px 0;
 }
 .company-name-label {
+  font-weight: 600;
+  width: fit-content;
   display: flex;
-  align-items: flex-end;
+  align-items: center;
   height: auto;
   font-family: $ubuntu;
   font-size: 14px;
@@ -37,17 +98,14 @@
   text-align: center;
   background: none;
   padding-left: 1%;
-  border-left: 2px solid $light-gray-color-1;
 }
 
-.logo{
+.logo {
   width: 36px;
   height: 36px;
 }
 
 .user-profile {
-  width: 165px;
-  height: 40px;
   position: absolute;
   background: $main-blue-color;
   float: right !important;
@@ -56,7 +114,7 @@
 }
 
 .dropdown .btn-default {
-  margin-top: 4px !important;
+  margin-top: 0px !important;
 }
 .username {
   font-size: $size-16;
@@ -137,16 +195,85 @@
   height: 10px;
   margin-left: 10px;
 }
-.setting-popup{
-  .dropdown{
-    width:100%;
-    #bg-nested-dropdown{
-      width:70%;
+.setting-popup {
+  .dropdown {
+    width: 100%;
+    #bg-nested-dropdown {
+      width: 70%;
     }
   }
 }
-@media screen and (max-width: 767px) {
+@media screen and (min-width: 1500px) {
+  .header {
+    .tabs {
+      width: 360px;
+      > div {
+        min-width: 120px;
+        &.under-line {
+          min-width: 110px;
+          &.one {
+            left: 10px;
+          }
+          &.two {
+            left: 130px;
+          }
+          &.three {
+            left: 250px;
+          }
+        }
+      }
+    }
+  }
+}
+
+@media screen and (max-width: 768px) {
   .app-title {
     position: unset;
+  }
+  .header {
+    .tabs {
+      width: 45vw;
+      > div {
+        min-width: 15vw;
+        &.under-line {
+          &.one {
+            left: 0;
+          }
+          &.two {
+            left: 15vw;
+          }
+          &.three {
+            left: 30vw;
+          }
+        }
+      }
+    }
+  }
+}
+@media screen and (max-width: 680px) {
+  .nav-container {
+    .tabs {
+      span {
+        display: none;
+      }
+    }
+  }
+}
+@media screen and (max-width: 560px) {
+  .nav-container {
+    .tabs {
+      span {
+        display: none;
+      }
+    }
+    .company-name-label {
+      display: none;
+    }
+    #user-name {
+      display: none;
+    }
+  }
+  #bg-nested-dropdown {
+    margin-right: 6px;
   }
 }

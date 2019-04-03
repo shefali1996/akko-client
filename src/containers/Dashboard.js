@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import {connect} from 'react-redux';
 import {withRouter} from 'react-router';
 import { Row, Col,Grid} from 'react-bootstrap';
+import swal from 'sweetalert2';
 import $ from 'jquery';
 import cloneDeep from "lodash/cloneDeep"
 import isEqual from "lodash/isEqual"
@@ -10,9 +11,19 @@ import Navigationbar from '../components/Navigationbar';
 import ExploreMetrics from '../components/ExploreMetrics';
 import Footer from '../components/Footer';
 import * as dashboardActions from '../redux/dashboard/actions';
+import {showModal} from '../redux/page/addGoal/action';
 import {ExpenseCard, InitialFetchIncompleteCard, InvalidCard, LoaderCards, ValidCards} from '../components/dashboard/index';
 import {getColumn} from '../helpers/functions';
-import swal from 'sweetalert2';
+import {AddGoalCard,GoalCompletedCard,GoalFailedCard,GoalOnGoingCard,GoalLoading} from "../components/goals/card";
+import GoalModal from './editGoalModal';
+
+//GOAL CARD TYPE
+const ONGOING = "ONGOING";
+const ACTIVE = "ACTIVE";
+const FAILED = "FAILED";
+const SUCCESS = "SUCCESS";
+
+
 
 const moment = require('moment');
 const elementResizeEvent = require('element-resize-event');
@@ -42,7 +53,7 @@ class Dashboard extends Component {
       this.refreshData();
       this.props.getUser();
       this.props.getChannel();
-    } else{
+    }else{
       this.setState({
         metricsData:       this.props.metricsData.data.metrics || [],
         userData:          this.props.userData.data || {},
@@ -68,11 +79,20 @@ class Dashboard extends Component {
     }
   }
   componentDidMount() {
+
+    this.refreshGoal();
     const element = document.getElementById('cardSection');
+    const goals = document.getElementById('goalCardSection');
     elementResizeEvent(element, () => {
       this.setHeightWidth(element.clientWidth);
     });
+
+    elementResizeEvent(goals, () => {
+      this.setHeightWidth(goals.clientWidth);
+    });
+
     this.setHeightWidth(element.clientWidth);
+    this.setHeightWidth(goals.clientWidth);
     this.props.getLuTimestamp()
   }
 
@@ -98,16 +118,35 @@ class Dashboard extends Component {
   }
   
   refreshData() {
+  
     this.props.getMetrics().then((res) => {
-      this.props.metricsData.data.metrics.map((k)=>{
-        this.props.getMetricsDataByName(k.db_name)
+      const {metrics=[]} = res;
+      metrics.map((k)=>{
+        this.props.getMetricsDataByName(k.db_name).then((res)=>{
+        })
       })
       this.props.getProducts().then((products) => {
       this.props.getVariants(products);
       });
     });
+    this.refreshGoal();
   }
   
+
+  handleGoalArchieve=(goalId)=>{
+    const {archiveGoal,getActiveGoals,channelData:{data:{shopId=""}={}}={}} = this.props;
+    archiveGoal(goalId).then(res=>{
+      getActiveGoals();
+    })
+  }
+
+  refreshGoal = ()=>{
+    const {getActiveGoals} = this.props;
+    getActiveGoals();
+  }
+
+  
+
   setHeightWidth(w) {    
     // ---------------set height------------    
       if (this.state.explore) {
@@ -140,8 +179,9 @@ class Dashboard extends Component {
      }
     return metricsDataWithEmptyArray     
   }
-  render() {        
+  render() {            
     const {metricsData, activeMetrics} = this.state;
+    const {handleGoalArchieve} = this;
     const{message,originalMessage,metrics}=this.props.metricsData.data
     const {metricNameData}=this.props.metricsDataByName.data
     const metricsDataWithEmptyArray=metricNameData.length && this.arrayPush()
@@ -149,7 +189,7 @@ class Dashboard extends Component {
     const dashboardGridInfo = getColumn();
     const counter=metrics?metrics.length:4
     const dataLoaded = this.state.userDataLoaded && this.state.channelDataLoaded && this.state.metricDataLoaded;
-    if ( !dataLoaded || this.state.dataLoadStatus.length == 0 ||!metricsDataWithEmptyArray) {        
+    if ( !dataLoaded || this.state.dataLoadStatus.length == 0 ||!metricsDataWithEmptyArray) {    
       for (let i = 0; i <counter; i++) {
         renderCards.push(<LoaderCards key={i} width={dashboardGridInfo.colWidth} />);
       }
@@ -157,7 +197,7 @@ class Dashboard extends Component {
       for (let i = 0; i < dashboardGridInfo.numColumn; i++) {
         renderCards.push(<InitialFetchIncompleteCard key={i} propsData={this.props}  onClickFetchStatus={() => this.props.history.push('/fetch-status')} status={this.props.dataLoadStatus.data.completed == undefined ? null : this.props.dataLoadStatus.data.completed} width={dashboardGridInfo.colWidth} />);
       }
-    } else {      
+    } else {   
       metricsDataWithEmptyArray.map((value, index) => {      
         if(!value.length && Array.isArray(value)){      
           renderCards.push(<LoaderCards key={index*20} width={dashboardGridInfo.colWidth} />);
@@ -206,13 +246,61 @@ class Dashboard extends Component {
             }
           });
     }
+
+
+    const goalCards = [];
+    const {goalsData={},goals={},openAddGoal,metricsData:{data:{metrics:metricList=[]}={}}={}} = this.props;
+    if(!goalsData.isLoading && goalsData.data){
+        let metrics = {};
+        metricList.forEach((value,index)=>{
+          metrics[value.db_name] = value;
+        })
+        if(goalsData.data.length>0){
+        goalsData.data.forEach((value,index)=>{
+        
+        const data = goals[value];
+        switch(data.status){
+          case ONGOING :
+          case ACTIVE:
+          goalCards.push(<GoalOnGoingCard key={index+data.goalId} metrics={metrics} data={data} openEditModal={openAddGoal}></GoalOnGoingCard>);
+          break;
+          case FAILED:
+          goalCards.push(<GoalFailedCard key={index+data.goalId} metrics={metrics} data={data} onOkay={handleGoalArchieve}></GoalFailedCard>);
+          break;
+          case SUCCESS:
+          goalCards.push(<GoalCompletedCard  key={index+data.goalId} data={data} metrics={metrics} onGotIt={handleGoalArchieve}></GoalCompletedCard>)
+            break;
+          default:
+            console.log("invalid Goal status");
+        }
+      })}
+      let i = 1;
+      while(goalCards.length<4){
+        goalCards.push(<AddGoalCard key={"addGoal"+i} openAddGoal = {this.props.openAddGoal}></AddGoalCard>)
+        i++;
+      }
+    }else{
+      let i = 1;
+      while(goalCards.length<4){
+        goalCards.push(<GoalLoading key={"loadingGoal"+i} openAddGoal = {this.props.openAddGoal}></GoalLoading>)
+        i++;
+       }
+      }
     return (
       <div>
-        <Navigationbar history={this.props.history} companyName={this.state.userData.company} />
         <Grid className="page-container">
+        {
+          this.props.showGoalModal && 
+          <GoalModal afterDelete={this.refreshGoal} afterAdd={this.refreshGoal}></GoalModal>
+        }
           <Row className="analysis">
             <Col>
               <div className="left-box-100 margin-t-5">
+              <div className="dashboard-section">GOALS</div>
+              <Row id="goalCardSection" className="report-cards">
+                {goalCards}
+              </Row>
+              <div className="dashboard-section">METRICS</div>
                 <Row id="cardSection" className="report-cards">
                   {renderCards}
                 </Row>
@@ -225,6 +313,16 @@ class Dashboard extends Component {
   }
 }
 
+const getActiveGoals = (data)=>{
+  const {dashboard:{goalsData:{data:goalsData=[]}},goals} = data;
+  let activeGoals = {};
+  if(goalsData.length>0){
+    for (const goal of goalsData) {
+      activeGoals[goal] = goals[goal];
+    }
+  }
+  return activeGoals;
+}
 
 const mapStateToProps = state => {
   return {
@@ -235,8 +333,11 @@ const mapStateToProps = state => {
     channelData:    state.dashboard.channelData,
     lastUpdated:    state.dashboard.lastUpdated,
     categoriesData: state.dashboard.categoriesData,
+    goalsData:      state.dashboard.goalsData,
+    goals:          getActiveGoals(state),
     dataLoadStatus: state.dashboard.dataLoadStatus,
-    metricsDataByName:state.dashboard.metricsDataByName
+    metricsDataByName:state.dashboard.metricsDataByName,
+    showGoalModal:  state.addGoal.visible
   };
 };
 
@@ -298,7 +399,14 @@ const mapDispatchToProps = (dispatch) => {
     },
     getMetricsDataByName:(metricsName)=>{
      return dispatch(dashboardActions.getMetricsDataByName(metricsName))
-    }
+    },
+    getActiveGoals: ()=>{
+      return dispatch(dashboardActions.getActiveGoals())
+    },
+    openAddGoal: (data)=>{
+      return dispatch(showModal(data));
+    },
+    archiveGoal :goalId => dispatch(dashboardActions.archiveGoal(goalId))
   };
 };
 

@@ -43,18 +43,6 @@ class Setting extends Component {
     return (
       <div>
         <Grid className="login-layout">
-          <Row>
-            <Col md={12} >
-              <Col md={6} sm={6} xs={6} className="text-left padding-t-20">
-                <Label className="login-title">
-                  akko
-                </Label>
-              </Col>
-              <Col md={6} sm={6} xs={6} className="text-right padding-t-20">
-                <Button className="close-button" onClick={this.goDashboard} />
-              </Col>
-            </Col>
-          </Row>
           <Row className="account-setup-header">
             <span className="account-comment">
               Settings

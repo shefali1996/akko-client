@@ -11,8 +11,8 @@ import { hasClass } from '../helpers/Csv';
 import { fetchRoutes, pollingInterval, routeConstants } from '../constants';
 import styles from '../constants/styles';
 import user from '../auth/user';
-import { getDataLoadStatus, getChannel, getLuTimestamp, getMetricsDataByName,getClearChartData,getMetricsWithoutLoading} from '../redux/dashboard/actions';
-
+import { getDataLoadStatus, getChannel, getLuTimestamp, getMetricsDataByName,getClearChartData,getMetricsWithoutLoading,getActiveGoals} from '../redux/dashboard/actions';
+import {getAllGoals} from '../redux/page/goals/actions';
 
 class Main extends Component {
   constructor(props) {
@@ -79,7 +79,7 @@ class Main extends Component {
         this.setState({
           lastUpdated: lastUpdated
         });
-        this,props.getClearChartData()
+        this.props.getClearChartData()
       }
     }
   }
@@ -89,6 +89,8 @@ class Main extends Component {
       this.props.getMetricsDataByName(k.db_name)
     })
   })
+  this.props.getActiveGoals();
+  this.props.getAllGoals();
   }
 
   handleSWAL() {
@@ -150,7 +152,9 @@ const mapDispatchToProps = (dispatch) => {
     getLuTimestamp,
     getMetricsWithoutLoading,
     getClearChartData,
-    getMetricsDataByName
+    getMetricsDataByName,
+    getAllGoals,
+    getActiveGoals
   }, dispatch);
 };
 

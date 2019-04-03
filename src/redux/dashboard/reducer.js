@@ -17,6 +17,12 @@ const initialState = {
     isSuccess: false,
     message:   ''
   },
+  goalsData:{
+    isLoading: false,
+    isError:   false,
+    isSuccess: false,
+    message:   ''
+  },
   userData: {
     data:      {},
     isLoading: false,
@@ -264,6 +270,75 @@ const getConnectShopifyAlertSuccess = (state, action) => update(state, {
   }
 })
 
+const getActiveGoalsRequest = (state, action) => update(state, {
+  goalsData: {
+    isLoading: {$set: true},
+    isError:   {$set: false},
+    isSuccess: {$set: false},
+    message:   {$set: ''}
+  }
+});
+const getActiveGoalsSuccess = (state, action) =>{
+  const {payload:data} = action;
+  const list = data.length > 0 ? data.map((goal)=>{return goal.goalId}) : [];
+  
+  return update(state, {
+  goalsData: {
+    data:      {$set: list},
+    isLoading: {$set: false},
+    isError:   {$set: false},
+    isSuccess: {$set: true},
+    message:   {$set: ''}
+  }
+});}
+const getActiveGoalsError = (state, action) => update(state, {
+  goalsData: {
+    isLoading: {$set: false},
+    isSuccess: {$set: false},
+    isError:   {$set: true},
+    message:   {$set: action.payload}
+  }
+});
+
+const archiveGoalSuccess = (state,action) =>{
+  const {payload:{goalId}} = action;
+  const {goalsData:{data=[]}} = state;
+  const newData = data.filter((val)=>{
+    if(val!==goalId){
+      return true;
+    }else return false;
+  });
+  return update(state, {
+    goalsData: {
+      data:      {$set: newData},
+      isLoading: {$set: false},
+      isError:   {$set: false},
+      isSuccess: {$set: true},
+      message:   {$set: ''}
+    }
+  });
+}
+
+const deleteGoalSuccess = (state,action) =>{
+  if(state.goalsData.data){
+    const newList = state.goalsData.data.filter((value)=>{
+      if(value === action.payload.id){
+          return false;
+      }
+      else return true;
+  })
+  return update(state, {
+     goalsData:{ data: { $set: newList },
+      isLoading: { $set: false },
+      isError: { $set: false },
+      isSuccess: { $set: true },
+      message: { $set: "" }
+    }});
+  }else{
+    return state;
+  }
+}
+
 export default handleActions({
   [constants.GET_METRICS_REQUEST]:                getMetricsRequest,
   [constants.GET_METRICS_SUCCESS]:                getMetricsSuccess,
@@ -282,5 +357,10 @@ export default handleActions({
   [constants.GET_DATA_LOAD_STATUS_ERROR]:         getStatusError,
   [constants.GET_LAST_UPDATED_TIMESTAMP_SUCCESS]: getLastUpdatedTimestampSuccess,
   [constants.GET_DATA_LOAD_STATUS_SUCCESS]:       getDataLoadStatusSuccess,
-  [constants.GET_CONNECT_SHOPIFY_ALERT_SUCCESS]:  getConnectShopifyAlertSuccess
+  [constants.GET_CONNECT_SHOPIFY_ALERT_SUCCESS]:  getConnectShopifyAlertSuccess,
+  [constants.GET_ACTIVE_GOALS_DATA_REQUEST]:      getActiveGoalsRequest,
+  [constants.GET_ACTIVE_GOALS_DATA_SUCCESS]:      getActiveGoalsSuccess,
+  [constants.GET_ACTIVE_GOALS_DATA_ERROR]:        getActiveGoalsError,
+  [constants.ARCHIVE_GOAL_SUCCESS]:               archiveGoalSuccess,
+  [constants.DELETE_GOAL_SUCCESS]:                deleteGoalSuccess
 }, initialState);

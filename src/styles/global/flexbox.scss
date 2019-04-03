@@ -14,3 +14,60 @@
   display: flex;
 	align-items: center;
 }
+
+
+.flex{
+	display: flex;
+	&.row{
+		flex-direction: row;
+	}
+	&.col{
+		flex-direction: column;
+	}
+	&.row-rev{
+		flex-direction: row-reverse;
+	}
+	&.col-rev{
+		flex-direction: column-reverse;
+	}
+	&.justify-flex-start {
+		justify-content: flex-start;
+	}
+	&.justify-flex-end {
+		justify-content: flex-end;
+	}
+	&.justify-content-center{
+		justify-content: center
+	}
+	&.justify-content-space-between{
+		justify-content: space-between;
+	}
+	&.justify-content-left{
+		justify-content: flex-start;
+	}
+	&.justify-content-right{
+		justify-content: flex-end;
+	}
+	&.align-flex-start {
+		align-items: flex-start;
+	}
+	&.align-center{
+		align-items: center;
+	}
+	&.align-right{
+		align-items: flex-end;
+	}
+	&.align-left{
+		align-items: flex-start;
+	}
+	.flex-grow-1{
+		flex-grow: 1;
+	}
+	.flex-shrink-0{
+		flex-shrink: 0;
+	}
+}
+
+.t-a-center{
+	text-align: center;
+}

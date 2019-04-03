@@ -99,3 +99,12 @@ input[type="number"]::-webkit-outer-spin-button {
   -webkit-appearance: none;
   margin: 0;
 }
+
+
+.hide{
+  display: none;
+}
+
+.no-border{
+  border-radius: 0 !important;
+}

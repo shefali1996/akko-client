@@ -27,7 +27,7 @@ export const getMetrics = () => {
         .then((results) => {                    
           dataFetchStatus(results);
           dispatch(actions.getMetricsSuccess(results));
-          resolve();
+          resolve(results);
         })
         .catch(error => {
           console.log('get metrics error', error);
@@ -433,4 +433,39 @@ export const getMetricsDataByName=(queryParams)=>{
       });
     });
   };
+}
+
+export const getActiveGoals = ()=>{
+  return (dispatch,getState)=>{
+    return new Promise((resolve, reject) => {
+      dispatch(actions.getActiveGoalsRequest());
+      invokeApigWithErrorReport({ path: api.activeGoals(),context:'goal'})
+      .then((results) => {      
+          dispatch(actions.getActiveGoalsSuccess(results));
+          resolve(results);
+        })
+        .catch(error => {
+          dispatch(actions.getActiveGoalsError('get active goals error'));
+          reject(error);
+        });
+      });
+  }
+}
+
+
+export const archiveGoal = goalId=>{
+  return (dispatch,getState)=>{
+    return new Promise((resolve, reject) => {
+      dispatch(actions.archiveGoalRequest());
+      invokeApigWithErrorReport({ method:'POST',path: api.archiveGoalURL(goalId),context:'goal'})
+      .then((results) => {  
+          dispatch(actions.archiveGoalSuccess({...results,goalId:goalId}));
+          resolve(results);
+        })
+        .catch(error => {
+          dispatch(actions.archiveGoalError('archive goals error'));
+          reject(error);
+        });
+      });
+  }
 }

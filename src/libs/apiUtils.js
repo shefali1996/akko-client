@@ -45,11 +45,11 @@ export const invokeApigWithErrorReport = (params) => {
         throw new Error(results.text());
       } else if(results.status !== 200 && results.status !== 404 && results.status !== 202){
         swalertWithoutReport(true, results, params);
-      } 
-      console.log('results', results);
+      }
       return results.json();
-    }).catch((err) => {
+    }).catch((err) => {    
         swalert(false, err, params);
+        throw new Error("some thing went wrong!");
     });
 };
 
@@ -59,7 +59,6 @@ export const invokeApigWithoutErrorReport = (params) => {
       if (results.status !== 200 && results.status !== 404 && results.status !== 202) {
         throw new Error(results.text());
       }
-      console.log('results', results);
       return results.json();
     });
 };
