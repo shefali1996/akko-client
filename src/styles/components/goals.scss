@@ -204,6 +204,19 @@
 .percentage-text {
   display: none;
 }
+.no-active-goal{
+  text-align: center;
+  margin-top: 80px;
+  >h3{
+    font-size: 24px;
+    font-family:600;
+    margin-bottom: 30px;
+    color:$highlight-color
+  }
+  .login-button{
+    color:$highlight-color
+  }
+}
 
 @media (max-width: 700px) {
   .goal-list-item-progess-detail {

@@ -1,11 +1,13 @@
 import React, { Component } from "react";
 import { Row, Col, Grid } from "react-bootstrap";
 import { Spin } from "antd";
-import { isEmpty } from "lodash";
+import isEmpty from "lodash/isEmpty";
+import find from "lodash/find"
 import GoalListItem from "./goalListItem";
 import GoalModal from "../../containers/editGoalModal";
-
+import  NoActiveGoal from "./noActiveGoal";
 class Goals extends Component {
+  state={listToShow:[]}
   componentDidMount() {
     const { getAllGoals } = this.props;
     this.props.getUser();
@@ -63,6 +65,10 @@ class Goals extends Component {
   };
 
   render() {
+    const allGoals = Object.keys(this.props.data).map(i => this.props.data[i])
+    let onGoingList=find(allGoals,{
+      status:"ONGOING"
+    })    
     const { isLoading, isSuccess } = this.props;
     const listToShow =
       isLoading === false && isSuccess ? (
@@ -78,6 +84,7 @@ class Goals extends Component {
         {this.props.showGoalModal && (
           <GoalModal afterDelete={this.afterDelete} />
         )}
+       {!onGoingList && !isEmpty(this.props.data) && <Row> <NoActiveGoal/></Row>}
         <Row className="goal-list">{listToShow}</Row>
       </Grid>
     );

@@ -41,7 +41,7 @@ export default ({ data = {}, onGotIt, metrics = {} }) => {
             }}
             className="goal-archive-btn bg-color-success"
           >
-            GOT IT
+            ARCHIVE
           </Button>
         </div>
       </Card>

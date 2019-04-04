@@ -5,7 +5,7 @@ export default {
       region: "us-east-2"
     },
     goal: {
-      endpoint: "https://266mpbs02j.execute-api.us-east-2.amazonaws.com/dev",
+      endpoint: "https://api-dev.akko.io",
       region: "us-east-2"
     }
   },

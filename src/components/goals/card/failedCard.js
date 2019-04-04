@@ -44,7 +44,7 @@ export default ({ data = {}, onOkay,metrics={} }) => {
             }}
             className="goal-archive-btn bg-color-failed"
           >
-            OKAY
+            ARCHIVE
           </Button>
         </div>
       </Card>

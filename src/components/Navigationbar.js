@@ -10,7 +10,10 @@ import downArrowWhite from '../assets/images/downArrowWhite.svg';
 import logo from '../assets/images/transparent_white.svg'
 import { withRouter } from "react-router";
 import * as dashboardActions from "../redux/dashboard/actions";
+import style from 'styles/global/variables.scss'
 
+const white=style['white-color']
+const grey=style['light-grey-color']
 class Navigationbar extends Component {
   constructor(props) {
     super(props);
@@ -52,9 +55,15 @@ componentDidMount(){
               <span >{company}</span>
             </span> : null}
             <div className="tabs">
-              <div onClick={()=>this.tabClick(1)} > <Image src={dashboardIcon} alt="dashboardIcon" /> <span>DASHBOARD</span></div>
-              <div onClick={()=>this.tabClick(2)} > <Image src={goalIcon} alt="goalIcon" /> <span>GOALS</span></div>
-              <div onClick={()=>this.tabClick(3)} > <Image src={settingIcon} alt="settingIcon" /> <span>SETTINGS</span></div>
+              <div onClick={()=>this.tabClick(1)} style={{color:pathname==="/dashboard"?`${white}`:`${grey}`}} >
+               <Image src={dashboardIcon} alt="dashboardIcon" />
+                <span >DASHBOARD</span></div>
+              <div onClick={()=>this.tabClick(2)} style={{color:pathname==="/goals"?`${white}`:`${grey}`}}> 
+              <Image src={goalIcon} alt="goalIcon" />
+               <span >GOALS</span></div>
+              <div onClick={()=>this.tabClick(3)} style={{color:pathname==="/settings"?`${white}`:`${grey}`}}> 
+              <Image src={settingIcon} alt="settingIcon" />
+               <span >SETTINGS</span></div>
               <div className={`under-line ${pathname=== '/dashboard' ?"one":"one"} 
                    ${pathname=== '/goals' ?"two":null}
                    ${pathname=== '/settings' ?"three":null}`}>
