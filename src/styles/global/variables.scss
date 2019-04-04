@@ -48,6 +48,8 @@ $progress-bar-color:#52a843;
 $current-goal-bar-color:#ebebeb;
 $light-grey-color:#ddddff;
 $grey-shadow-color:rgba(0,0,0,0.1);
+$setting-shadow-color:rgba(0,0,0,0.2);
+$tab-shadow-color:rgba(0,0,0,0.4);
 $first-text-blue-color:#d1dffe;
 
 //font-size
@@ -119,5 +121,7 @@ $min-height: calc(100vh - 60px);
     area-color:$area-color;
     light-grey-color:$light-grey-color;
     grey-shadow-color:$grey-shadow-color;
-    first-text-blue-color:$first-text-blue-color
+    first-text-blue-color:$first-text-blue-color;
+    tab-shadow-color:$tab-shadow-color;
+    setting-shadow-color:$setting-shadow-color
 }

@@ -8,10 +8,10 @@
 }
 
 .update-style-text {
-  font-family: $ubuntu;
+  font-family: $ubuntu-medium;
   display: block;
   font-size: 16px;
-  color: $main-blue-color;
+  color: $highlight-color;
   font-weight: 400;
   text-decoration: none solid $main-decoration-color;
   text-align: center;
@@ -81,7 +81,266 @@
     color: rgba($main-blue-color, 0.2);
   }
 }
+%design-shared {
+  width: 300px;
+  height: 100px;
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+  font-size: 14px;
+  color: $highlight-color;
+  font-family: $ubuntu-medium;
+}
 
+%label-common-design {
+  margin-bottom: 17px;
+  margin-top: 33px;
+  font-size: 12px;
+  color: $highlight-color;
+  font-family: $ubuntu-medium;
+}
+%common-btn-design {
+  position: absolute;
+  bottom: 7px;
+  left: 6px;
+  width: 96%;
+  border-radius: 0px;
+  height: 49px;
+  font-size: 12px;
+  color: $pure-white;
+  font-family: $ubuntu-medium;
+}
+
+%plan-common-design {
+  border-radius: 10px;
+  color: $pure-white;
+  font-family: $ubuntu-medium;
+  margin-top: 16px;
+  padding: 2px 10px;
+  display: inline-block;
+}
+.setting-container {
+  display: flex;
+  padding: 5% 0 0;
+  width: fit-content;
+  margin: auto;
+  .tab-container {
+    box-shadow: 0px 1px 2px $tab-shadow-color;
+    border-radius: 2px;
+    margin-right: 22px;
+    height: fit-content;
+    img {
+      margin-left: 19px;
+      margin-right: 17px;
+    }
+    .tabs {
+      background-color: $pure-white;
+      @extend %design-shared;
+      border-left: 6px solid $pure-white;
+    }
+    .tab-background {
+      @extend %design-shared;
+      border-left: 6px solid $japanese-laurel-light;
+    }
+    .tabs:hover {
+      background-color: $dim-white;
+      border-left: 6px solid $dim-white;
+    }
+    .menu-plan-plus {
+      border-radius: 10px;
+      color: $pure-white;
+      font-family: $ubuntu-medium;
+      margin-top: 16px;
+      padding: 4px 8px;
+      font-size: 12px;
+      margin-left: 13px;
+      background-color: $japanese-laurel-light;
+    }
+    .menu-plan-lite {
+      border-radius: 10px;
+      color: $pure-white;
+      font-family: $ubuntu-medium;
+      margin-top: 16px;
+      padding: 4px 8px;
+      font-size: 12px;
+      margin-left: 13px;
+      background-color: $light-gray-color;
+    }
+  }
+  .setting-page-container {
+    width: 854px;
+    min-height: 396px;
+    background-color: $pure-white;
+    box-shadow: 0px 1px 2px $tab-shadow-color;
+    border-radius: 2px;
+    padding: 20px 38px 38px;
+    .field {
+      width: 464px;
+      height: 52px;
+      border-radius: 2px;
+      font-size: 14px;
+      box-shadow: inset 1px 1px 2px $setting-shadow-color,
+        inset -1px -1px 2px $setting-shadow-color;
+      .ant-select-selection {
+        box-shadow: inset 1px 1px 2px $setting-shadow-color,
+          inset -1px -1px 2px $setting-shadow-color;
+        height: 52px;
+      }
+    }
+    .account-container {
+      .label-section {
+        @extend %label-common-design;
+      }
+      .save-button {
+        font-weight: 500;
+        font-size: 12px;
+        font-family: $ubuntu-medium;
+        width: 100px;
+        height: 39px;
+        border-radius: 0px;
+        box-shadow: 1px 1px 2px $setting-shadow-color,
+          -1px -1px 2px $setting-shadow-color;
+        .ant-spin {
+          float: right;
+        }
+      }
+    }
+    //company page design
+    .company-container {
+      .label-section {
+        @extend %label-common-design;
+      }
+      .address-section {
+        display: flex;
+        .address {
+          width: 232px;
+          height: 52px;
+          border-radius: 2px;
+          box-shadow: inset 1px 1px 2px $setting-shadow-color,
+            inset -1px -1px 2px $setting-shadow-color;
+          font-size: 14px;
+          color: $highlight-color;
+        }
+        .state,
+        .city {
+          margin-left: 7px;
+        }
+      }
+      .plan-section {
+        display: flex;
+        .lite-section {
+          width: 300px;
+          height: 224px;
+          border: 1px solid $light-gray-color;
+          background-color: $pure-white;
+          position: relative;
+          text-align: center;
+          margin-right: 31px;
+          > span {
+            background-color: $light-gray-color;
+            @extend %plan-common-design;
+          }
+        }
+        .plus-section {
+          width: 300px;
+          height: 224px;
+          border: 1px solid $light-gray-color;
+          background-color: $pure-white;
+          position: relative;
+          text-align: center;
+          > span {
+            background-color: $japanese-laurel-light;
+            @extend %plan-common-design;
+          }
+        }
+        .current-plan {
+          display: block;
+          text-align: center;
+          width: 300px;
+          font-size: 12px;
+          color: $highlight-color;
+          font-family: $ubuntu-medium;
+          margin-bottom: 6px;
+          height: 13px;
+        }
+
+        .downgrade-button {
+          background-color: $fade-red;
+          @extend %common-btn-design;
+        }
+        .upgrade-button {
+          background-color: $japanese-laurel-light;
+          @extend %common-btn-design;
+        }
+        #trial {
+          position: absolute;
+          bottom: 70px;
+          width: 100%;
+          background-color: $fade-red;
+          color: $pure-white;
+          font-family: $ubuntu-medium;
+          font-size: 11px;
+          height: 26px;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+        }
+      }
+      .plan {
+        margin-bottom: 6px;
+      }
+      .save-button {
+        width: 100px;
+        height: 39px;
+        font-size: 12px;
+        font-family: $ubuntu-medium;
+        font-weight: 500;
+        border-radius: 0px;
+        box-shadow: 1px 1px 2px $setting-shadow-color,
+          -1px -1px 2px $setting-shadow-color;
+        .ant-spin {
+          float: right;
+        }
+      }
+    }
+    .drowdon-wrapper {
+      position: relative;
+      width: fit-content;
+      .ant-select-search__field {
+        margin-top: 10px;
+      }
+      .ant-select-selection__placeholder {
+        margin-top: 0px;
+      }
+      .ant-select-selection-selected-value {
+        margin-top: 5px;
+        padding-left: 5px;
+      }
+      .ant-select-arrow {
+        font-size: 25px;
+        font-weight: 900;
+        top: 40%;
+      }
+    }
+    img {
+      position: absolute;
+      right: 0;
+      top: 10px;
+    }
+  }
+  //cogs of good design
+  .cogsof-good-container {
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    .login-button {
+      color: $highlight-color;
+      font-size: 12px;
+      font-family: $ubuntu-medium;
+    }
+  }
+}
 .margin-l-10 {
   margin-left: 10px;
 }
@@ -93,4 +352,204 @@
 }
 .margin-r-5 {
   margin-right: 5px;
+}
+.gmt {
+  position: absolute;
+  right: 40px;
+}
+@media screen and (max-width: 1300px) {
+  .company-container {
+  }
+}
+
+@media only screen and (max-width: 768px) {
+  .setting-container {
+    width: -webkit-fill-available;
+    .tab-container {
+      width: 30%;
+      .tabs {
+        width: -webkit-fill-available;
+      }
+    }
+    .setting-page-container {
+      width: 65%;
+      .field {
+        width: -webkit-fill-available;
+      }
+      .drowdon-wrapper {
+        width: -webkit-fill-available;
+      }
+      .company-container {
+        .address-section {
+          width: -webkit-fill-available;
+          .address {
+            width: 50%;
+          }
+        }
+      }
+      .plan-section {
+        .plan-div {
+          width: 50%;
+          .current-plan {
+            width: 100%;
+          }
+          .lite-section {
+            width: 95%;
+          }
+          .plus-section {
+            width: 95%;
+          }
+          .upgrade-button {
+            width: 94%;
+          }
+          .plan-border {
+            border: 2px solid $main-blue-color;
+          }
+        }
+      }
+    }
+  }
+}
+
+@media only screen and (max-width: 1024px) {
+  .setting-container {
+    width: -webkit-fill-available;
+    .tab-container {
+      width: 30%;
+      .tabs {
+        width: -webkit-fill-available;
+      }
+    }
+    .setting-page-container {
+      width: 65%;
+      .field {
+        width: -webkit-fill-available;
+      }
+      .drowdon-wrapper {
+        width: -webkit-fill-available;
+      }
+      .company-container {
+        .address-section {
+          width: -webkit-fill-available;
+          .address {
+            width: 50%;
+          }
+        }
+      }
+      .plan-section {
+        .plan-div {
+          width: 50%;
+          .current-plan {
+            width: 100%;
+          }
+          .lite-section {
+            width: 95%;
+          }
+          .plus-section {
+            width: 95%;
+          }
+          .upgrade-button {
+            width: 94%;
+          }
+        }
+      }
+    }
+  }
+}
+
+@media only screen and (max-width: 375px) {
+  .setting-container {
+    width: -webkit-fill-available;
+    .tab-container {
+      .tabs {
+        display: grid;
+        width: -webkit-fill-available;
+        .tab-text {
+          margin: 0% 15%;
+        }
+      }
+      .tab-background {
+        width: -webkit-fill-available;
+        display: grid;
+        .tab-text {
+          margin: 0% 15%;
+        }
+      }
+    }
+
+    .setting-page-container {
+      .company-container {
+        .address-section {
+          display: grid;
+          .address {
+            width: 100%;
+          }
+          .state,
+          .city {
+            margin: 5% 0%;
+          }
+        }
+
+        .plan-section {
+          display: grid;
+          .plan-div {
+            width: 100%;
+          }
+        }
+      }
+    }
+  }
+}
+
+@media only screen and (max-width: 320px) {
+  .setting-container {
+    .tab-container {
+      .tabs {
+        .tab-text {
+          font-size: 12px;
+        }
+      }
+      .tab-background {
+        .tab-text {
+          font-size: 12px;
+        }
+      }
+    }
+
+    .setting-page-container {
+      .company-container {
+        .address-section {
+          display: grid;
+          .address {
+            width: 100%;
+          }
+          .state,
+          .city {
+            margin: 5% 0%;
+          }
+        }
+
+        .plan-section {
+          display: grid;
+          .plan-div {
+            width: 100%;
+            .lite-section {
+              height: 160px;
+            }
+          }
+          .plan-section {
+            height: 170px;
+          }
+          .plan-section #trial {
+            font-size: 10px;
+          }
+          .downgrade-button,
+          .upgrade-button {
+            width: 88%;
+            font-size: 10px;
+          }
+        }
+      }
+    }
+  }
 }

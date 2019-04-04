@@ -39,11 +39,11 @@ componentDidMount(){
         this.props.history.push("/goals")
         break;
         case 3:
-        this.props.history.push("/settings")
+        this.props.history.push("/settings/account")
       }
   }
   render() {    
-    const {userData:{company,firstName,lastName},location:{pathname}} = this.props;         
+    const {userData:{company,user_name},location:{pathname}} = this.props;                 
     return (
       <div className="header">
           <Row className="nav-container">
@@ -66,11 +66,11 @@ componentDidMount(){
                <span >SETTINGS</span></div>
               <div className={`under-line ${pathname=== '/dashboard' ?"one":"one"} 
                    ${pathname=== '/goals' ?"two":null}
-                   ${pathname=== '/settings' ?"three":null}`}>
+                   ${pathname.search('/settings')===0 ?"three":null}`}>
               </div>
            </div>
             <div id="header-user-section">
-            <div id="user-name">{firstName} {lastName}</div>
+            <div id="user-name">{user_name}</div>
             <DropdownButton
              pullRight
               title={

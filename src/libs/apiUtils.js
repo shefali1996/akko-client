@@ -37,14 +37,17 @@ const swalertWithoutReport = (status, response, data ={}) => {
   })
 }
 
-export const invokeApigWithErrorReport = (params) => {
+export const invokeApigWithErrorReport = (params) => {  
   return invokeApig(params)
-    .then((results) => {
+    .then((results) => {      
       if (results.status >= 500) {
         swalert(true, results, params);
         throw new Error(results.text());
       } else if(results.status !== 200 && results.status !== 404 && results.status !== 202){
         swalertWithoutReport(true, results, params);
+      }
+      if(params.method==="PUT"){
+        return results
       }
       return results.json();
     }).catch((err) => {    

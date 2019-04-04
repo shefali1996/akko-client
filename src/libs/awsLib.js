@@ -111,7 +111,7 @@ export async function invokeApig({
         body
       });
     body = body ? JSON.stringify(body) : body;
-    headers = signedRequest.headers;
+    headers = signedRequest.headers;    
     return fetch(signedRequest.url, {
       method,
       headers,

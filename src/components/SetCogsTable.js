@@ -68,7 +68,7 @@ class SetCogsTable extends Component {
   }
 
   onRowSelect = (row, isSelected) => {    
-    let {selectedRows, numSelectedVariants,tableData} = this.state;
+    let {selectedRows, numSelectedVariants,data,tableData} = this.state;
     let selection = {};
     if (isSelected) {
       selectedRows.push(row.id);

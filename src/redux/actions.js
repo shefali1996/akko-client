@@ -91,3 +91,8 @@ export const archiveGoalError = createAction(constants.ARCHIVE_GOAL_ERROR);
 export const showEditGoalModal = createAction(constants.SHOW_EDIT_GOAL_MODAL);
 export const hideEditGoalModal = createAction(constants.HIDE_EDIT_GOAL_MODAL);
 
+export const updateUserRequest = createAction(constants.UPDATE_USER_REQUEST);
+export const updateUserSuccess = createAction(constants.UPDATE_USER_SUCCESS);
+export const updateUserError = createAction(constants.UPDATE_USER_ERROR);
+
+export const getTimeZoneSuccess=createAction(constants.GET_TIMEZONE_SUCCESS)

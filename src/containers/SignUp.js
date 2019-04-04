@@ -17,7 +17,8 @@ import swal from "sweetalert2";
 import {
   AuthenticationDetails,
   CognitoUserPool,
-  CognitoUser
+  CognitoUser,
+  CognitoUserAttribute
 } from "amazon-cognito-identity-js";
 import isEmpty from "lodash/isEmpty"
 import { testMode } from "../constants";
@@ -196,7 +197,8 @@ class SignUp extends Component {
         this.setState({
           pendingRequest: true
         });
-        this.signup(email, password)
+        const userCurrentTimeZone=Intl.DateTimeFormat().resolvedOptions().timeZone
+        this.signup(email, password,userCurrentTimeZone)
           .then(result => {
             if (!result.userConfirmed) {
               this.setState({
@@ -317,7 +319,6 @@ class SignUp extends Component {
   signup(email, password) {
     // for safety sake, sign out any logged in users first
     signOutUser();
-
     const userPool = new CognitoUserPool({
       UserPoolId: config.cognito.USER_POOL_ID,
       ClientId: config.cognito.APP_CLIENT_ID

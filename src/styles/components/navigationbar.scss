@@ -60,6 +60,10 @@
       color: white;
       font-size: 14px;
       margin-right: 10px;
+      width:100px;
+      overflow: hidden;
+      white-space: nowrap;
+      text-overflow: ellipsis;
     }
   }
 }
@@ -93,11 +97,19 @@
   height: auto;
   font-family: $ubuntu;
   font-size: 14px;
+  
   color: $white-color;
   text-decoration: none solid $pure-white;
   text-align: center;
   background: none;
   padding-left: 1%;
+  >span{
+    width: 150px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    text-align: left
+  }
 }
 
 .logo {
