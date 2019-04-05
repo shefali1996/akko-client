@@ -168,11 +168,13 @@
     
   }
 }
+.count-row{
 .ant-progress-bg{
   background-color: $japanese-laurel !important
 }
 .ant-progress-inner{
   background-color: $custom-dropdown-color !important
+}
 }
 .stock-data-cell {
   padding-top: 25px;
@@ -552,5 +554,24 @@
     .product-cogs-text {
       font-size: 0.6em;
     }
+  }
+}
+
+//t-tablet, m-mobile,d-desktop
+@media (max-width: 768px){
+ .hide-t-m{
+   display: none;
+ } 
+}
+
+@media (max-width:420px){
+  .hide-m{
+    display: none;
+  }
+}
+
+@media (min-width:768px){
+  .hide-d-t{
+    display: none;
   }
 }

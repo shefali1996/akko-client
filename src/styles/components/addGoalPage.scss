@@ -1,0 +1,501 @@
+// Add Goal Box
+.add-goal-box {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  height: auto;
+  background-color: #fff;
+  background-clip: padding-box;
+  border: 1px solid rgba(0, 0, 0, 0.2);
+  border-radius: 0.3rem;
+  outline: 0;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.09);
+  position: fixed;
+  top:0;
+  bottom: 0;
+  right:0;
+  left:0;
+
+  h1,h2,h3,h4,h5,h6,body {
+    color: #2e4369;
+  }
+
+  .ant-checkbox-inner {
+    margin: 0 auto;
+    width: 20px;
+    height: 20px;
+    border: 1px solid #c8c8e8;
+    box-shadow: inset 1px 1px 1px rgba(0, 0, 0, 0.1);
+    border-radius: 0px;
+    background-color: #f7f7fc;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+    cursor: pointer;
+    transition: all 0.2s ease-in;
+  }
+
+  .ant-table-body {
+    padding-top: 20px;
+    border: 1px solid #c8c8e8;
+    border-radius: 0px;
+  }
+
+
+  .ant-checkbox-checked .ant-checkbox-inner:after{
+    left: 5px;
+    top: 1px;
+    display: table;
+    width: 7px;
+    height: 11px;
+  }
+  .ant-table-tbody > tr > td {
+    border: none;
+  }
+  .ant-table-thead > tr > th.ant-table-selection-column, .ant-table-tbody > tr > td.ant-table-selection-column {
+    padding: 0px 10px;
+    min-width: 0;
+  }
+
+  .ant-radio-button-wrapper {
+    font-size: 14px;
+    text-transform: capitalize;
+    &.ant-radio-button-wrapper-checked {
+      background-color: #4688ff;
+      color: #ffffff;
+    }
+  }
+
+  .square-green {
+    background-color: rgba(82,171,67,0.3);
+    color: #52ab43;
+    font-size: 36px;
+    font-weight: 500;
+    text-align: center;
+    width: 50px;
+    height: 50px;
+    text-transform: uppercase;
+  }
+
+  .tac {
+    text-align: center;
+  }
+
+  .pr45 {
+    padding-right: 45px;
+  }
+
+  .h100 {
+    height: 100%;
+  }
+
+  .w100 {
+    width: 100%;
+  }
+
+  .pl15 {
+    padding-left: 15px;
+  }
+
+  .pr0 {
+    padding-right: 0;
+  }
+
+  .pl0 {
+    padding-left: 0;
+  }
+
+  .bold {
+    font-weight: 500;
+  }
+
+  .pb5 {
+    padding-bottom: 5px;
+  }
+
+  .m0 {
+    margin: 0;
+  }
+
+  .bg-white {
+    background-color: #ffffff;
+  }
+
+  .ml0 {
+    margin-left: 0;
+  }
+
+  .mln15 {
+    margin-left: -15px;
+  }
+
+  .mr15 {
+    margin-right: 15px;
+  }
+
+  .bg-pale {
+    background-color: #f7f7fc;
+  }
+
+  .float-right {
+    float: right;
+  }
+
+  .timeline_card_title {
+    padding-bottom: 45px;
+    font-size: 16px;
+    text-align: center;
+    color: #2e4369;
+    font-weight: 500;
+    text-transform: uppercase;
+    text-decoration: none solid rgb(46, 67, 105);
+  }
+  .ant-select-selection__rendered {
+    height: 100%;
+  }
+  .ant-select-selection__placeholder {
+    text-align: center;
+  }
+  .ant-select-selection-selected-value {
+    text-align: center;
+    width: 100%;
+  }
+
+  .addgoal-header {
+    height: 100px;
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    padding: 1rem;
+    border-bottom: 1px solid #c8c8e8;
+    border-top-left-radius: 0.3rem;
+    border-top-right-radius: 0.3rem;
+    //border: 1px solid #c8c8e8;
+    background-color: #f7f7fc;
+    background-size: cover;
+    padding: 20px 0 21px 0;
+    .ant-input {
+      height: 59px;
+    }
+  }
+  .addgoal-body {
+    position: relative;
+    flex-grow: 1;
+
+    .full-width-card {
+      > div {
+        width: 100%;
+        height: 100%;
+      }
+    }
+
+    .goal-step {
+      width: auto;
+      border: 1px solid #c8c8e8;
+      background-color: #fff;
+      background-size: cover;
+      border-top: none;
+      border-bottom: none;
+      border-left: none;
+      padding: 20px 18px 0px 22px;
+      .ant-steps {
+        .ant-steps-step {
+          width: auto;
+        }
+        .ant-steps-head {
+          top: 0px;
+          left: -11px;
+          .ant-steps-head-inner {
+            width: 28px;
+            height: 28px;
+            background: transparent;
+          }
+        }
+        .ant-steps-main {
+          margin-top: 0px;
+          margin-left: 20px;
+          height: 100px;
+          .ant-steps-title {
+            font-family: Ubuntu;
+            font-size: 14px;
+            color: #2e4369;
+            font-weight: 500;
+            text-decoration: none solid rgb(46, 67, 105);
+          }
+          .ant-steps-description {
+            text-align: left;
+          }
+        }
+        .ant-steps-main {
+          text-align: left;
+        }
+        .ant-steps-description {
+          font-family: Ubuntu;
+          font-size: 14px;
+          color: #4688ff;
+          font-weight: 500;
+          text-decoration: none solid rgb(70, 136, 255);
+        }
+        .ant-steps-status-finish {
+          .ant-steps-main {
+            .ant-steps-description {
+              font-family: Ubuntu;
+              font-size: 14px;
+              color: #4688ff;
+              font-weight: 500;
+              text-decoration: none solid rgb(70, 136, 255);
+            }
+          }
+          .ant-steps-tail {
+            > i {
+              width: 6px;
+              border-radius: 10px;
+              background-color: #c8c8e8;
+              &::after {
+                background-color:rgba(82,171,67,0.5);
+              } 
+            }
+          }
+        }
+        .ant-steps-tail {
+          margin-left: 0;
+          left: 0px;
+          height: auto;
+          padding: 0;
+          top: 34px;
+          bottom: 6px;
+          > i {
+            width: 6px;
+            border-radius: 10px;
+            background-color: rgba(200,200,232,0.5);
+            overflow: hidden;
+          }
+        }
+        .ant-style-dot-wait {
+          width: 28px;
+          height: 28px;
+          border: 2px solid #c8c8e8;
+          border-radius: 50%;
+        }
+        .ant-style-dot-process {
+          width: 28px;
+          height: 28px;
+          border: 2px solid #c8c8e8;
+          border-radius: 50%;
+          display: flex;
+          justify-content: center;
+          align-items: center;
+
+          > div {
+            width: 16px;
+            height: 16px;
+            background: #52ab43;
+            border-radius: 50%;
+          }
+        }
+        .ant-style-dot-finish {
+          width: 28px;
+          height: 28px;
+          border: none;
+          background: #52ab43;
+          border-radius: 50%;
+          display: flex;
+          justify-content: center;
+          align-items: center;
+        }
+
+        .ant-style-dot-locked {
+          width: 28px;
+          height: 28px;
+          border: none;
+          background: #f7f7fc;
+          border-radius: 50%;
+          display: flex;
+          justify-content: center;
+          align-items: center;
+        }
+      }
+    }
+    
+  .goal-heading {
+    padding: 20px 0px 20px 0px;
+    text-align: center;
+    border-right: 1px solid #c8c8c8;
+    background-color: #f7f7fc;
+
+    .head-text{
+      font-size:14px;
+      color:#2e4369;
+    }
+  }
+
+  .ant-calendar-picker {
+    width: 100%;
+    .ant-calendar-picker-input {
+      height: 40px;
+      border-radius: 0px;
+      text-align: center;
+    }
+  }
+
+  
+
+    .timeCard {
+      height: 300px;
+      //border: 2px solid #4688ff;
+      border-radius: 2px;
+      background-color: #ffffff;
+      background-size: cover;
+      padding: 21px 12px 12px 12px;
+    }
+    .font24 {
+      font-size: 24px
+    }
+    .card_disabled {
+      height: 300px;
+      cursor: pointer;
+      border: 1px solid #c8c8e8;
+      border-radius: 0px;
+      background-color: #f7f7fc;
+      background-size: cover;
+    }
+    .metrix_card_disabled {
+      cursor: not-allowed;
+      border: 1px solid #c8c8e8;
+      border-radius: 0px;
+      background-color: #f7f7fc;
+      background-size: cover;
+    }
+  }
+
+  .addtarget {
+    padding: 0px 10px 0px 20px;
+    align-items: center;
+    display: flex;
+    .dollerIcon {
+      font-size: 36px;
+      color: #4688ff;
+    }
+    .percent {
+      font-size: 36px;
+      color: #4688ff;
+    }
+    .target_input {
+      margin-right: 11px;
+      margin-left: 11px;
+      width: 150px;
+      height: 59px;
+      text-align: center;
+    }
+  }
+  .goal-name {
+    font-size:18px
+  }
+  .addgoal-footer {
+    height: 100px;
+    display: flex;
+    border: none;
+    position: relative;
+  }
+  .p0 {
+    padding: 0px;
+  }
+  .finish_button {
+    width: 104px;
+    height: 36px;
+    background-color: #52ab43;
+    /* background-size: cover; */
+    /* font-family: Ubuntu; */
+    font-size: 12px;
+    color: #ffffff;
+    font-weight: 500;
+    /* text-decoration: none solid rgb(255, 255, 255); */
+    /* text-align: center; */
+    box-shadow: 0px 1px 2px rgba(213, 213, 213, 0.89);
+  }
+
+  .dark {
+    color: #2e4369;
+  }
+
+  .br0 {
+    border-radius: 0;
+  }
+
+  .ant-card {
+    border-radius: 0;
+  }
+
+  .filter-product {
+    margin-top: 2%;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    background-color: #fff;
+    background-clip: padding-box;
+    border: 1px solid rgba(0, 0, 0, 0.2);
+    border-radius: 0.3rem;
+    outline: 0;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.09);
+
+    .filter-product-header {
+      height: 85px;
+      // display: flex;
+      // align-items: flex-start;
+      // justify-content: space-between;
+      padding: 1rem;
+      border-bottom: 1px solid #c8c8e8;
+      border-top-left-radius: 0.3rem;
+      border-top-right-radius: 0.3rem;
+      //border: 1px solid #c8c8e8;
+      background-color: #f7f7fc;
+      background-size: cover;
+      padding: 20px 0 21px 1%;
+    }
+  }
+  .selectedBlock{
+    border:2px solid #4688ff;
+    height: 100
+  }
+  .metricsTitle {
+    margin: auto 0px;
+    text-align: left;
+    font-size: 20px;
+    color: #4688ff; 
+  }
+  .lockedCards {
+    cursor: not-allowed;
+    border: 1px solid #c8c8e8;
+    border-radius: 0px;
+    background-color: #f7f7fc;
+    height: 100px; 
+    .lockedTitle{
+      font-size: 20px;
+      color: #4688ff;
+      opacity: 0.7;
+    }
+    .lockedIconText {
+      font-size: 9px;
+      margin-top: 3%;
+      color: #c8c8e8;
+      word-break: break-all;
+      text-align: center;
+      width: 60px;
+    }
+  }
+  .filter_tag {
+    width: auto;
+    height: 26px;
+    border: 1px solid #c8c8e8;
+    background-color: #ffffff;
+    background-size: cover;
+    color: #2e4369;
+    text-align: center;
+    margin-left: 12px;
+    >div{
+      display: flex;
+    }
+  }
+}
