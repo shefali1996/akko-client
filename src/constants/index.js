@@ -6,7 +6,7 @@ import { validateCogsValue } from '../helpers/Csv';
 // static constants
 export const testMode = false;
 export const pollingInterval = {lastUpdated: 30 * 1000, fetchStatusInterval: 5 * 1000, cogsStatus: 5 * 1000}; // seconds 30s
-export const routeConstants = { signin: '/', signup: '/signup', forgotPassword: '/forgot-password', connectShopify: '/connect-shopify', setCogs: '/set-cogs', settings: '/settings', fetchStatus: '/fetch-status', dashboard: '/dashboard',explore: '/explore',goals:'/goals',addGoals:'/addgoals'};
+export const routeConstants = { signin: '/', signup: '/signup', forgotPassword: '/forgot-password', connectShopify: '/connect-shopify', setCogs: '/set-cogs', settings: '/settings', fetchStatus: '/fetch-status', dashboard: '/dashboard',explore: '/explore'};
 
 export const routeExplore = {
   total_sales:'/total-sales',

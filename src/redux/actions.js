@@ -61,38 +61,3 @@ export const getClearChartDataSuccess = createAction(constants.GET_CLEAR_CHARTDA
 export const getConnectShopifyAlertSuccess = createAction(constants.GET_CONNECT_SHOPIFY_ALERT_SUCCESS);
 
 export const getLastUpdatedTimestampSuccess = createAction(constants.GET_LAST_UPDATED_TIMESTAMP_SUCCESS);
-
-//goals
-export const getActiveGoalsRequest = createAction(constants.GET_ACTIVE_GOALS_DATA_REQUEST);
-export const getActiveGoalsSuccess = createAction(constants.GET_ACTIVE_GOALS_DATA_SUCCESS);
-export const getActiveGoalsError = createAction(constants.GET_ACTIVE_GOALS_DATA_ERROR);
-
-export const getAllGoalsRequest = createAction(constants.GET_ALL_GOALS_DATA_REQUEST);
-export const getAllGoalsSuccess = createAction(constants.GET_ALL_GOALS_DATA_SUCCESS);
-export const getAllGoalsError = createAction(constants.GET_ALL_GOALS_DATA_ERROR);
-
-export const saveGoalRequest = createAction(constants.SAVE_GOAL_REQUEST);
-export const saveGoalSuccess = createAction(constants.SAVE_GOAL_SUCCESS);
-export const saveGoalError = createAction(constants.SAVE_GOAL_ERROR);
-
-
-export const addGoalRequest = createAction(constants.ADD_GOAL_REQUEST);
-export const addGoalSuccess = createAction(constants.ADD_GOAL_SUCCESS);
-export const addGoalError = createAction(constants.ADD_GOAL_ERROR);
-
-export const deleteGoalRequest = createAction(constants.DELETE_GOAL_REQUEST);
-export const deleteGoalSuccess = createAction(constants.DELETE_GOAL_SUCCESS);
-export const deleteGoalError = createAction(constants.DELETE_GOAL_ERROR);
-
-export const archiveGoalRequest = createAction(constants.ARCHIVE_GOAL_REQUEST);
-export const archiveGoalSuccess = createAction(constants.ARCHIVE_GOAL_SUCCESS);
-export const archiveGoalError = createAction(constants.ARCHIVE_GOAL_ERROR);
-
-export const showEditGoalModal = createAction(constants.SHOW_EDIT_GOAL_MODAL);
-export const hideEditGoalModal = createAction(constants.HIDE_EDIT_GOAL_MODAL);
-
-export const updateUserRequest = createAction(constants.UPDATE_USER_REQUEST);
-export const updateUserSuccess = createAction(constants.UPDATE_USER_SUCCESS);
-export const updateUserError = createAction(constants.UPDATE_USER_ERROR);
-
-export const getTimeZoneSuccess=createAction(constants.GET_TIMEZONE_SUCCESS)

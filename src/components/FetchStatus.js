@@ -67,6 +67,7 @@ class FetchStatus extends Component {
     const percent = isNaN(this.props.percent) ? 0 : this.props.percent;
     return (
       <div>
+        <Navigationbar history={this.props.history} companyName={this.props.userData.data.company} />
         <Grid className="login-layout fetch-status">
           <Row>
             <Col md={6} mdOffset={3}>

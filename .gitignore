@@ -68,4 +68,3 @@ linters
 
 # ignore swap files
 *.swp
-.vscode/settings.json

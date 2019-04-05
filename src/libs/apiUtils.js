@@ -37,32 +37,29 @@ const swalertWithoutReport = (status, response, data ={}) => {
   })
 }
 
-export const invokeApigWithErrorReport = (params) => {  
+export const invokeApigWithErrorReport = (params) => {
   return invokeApig(params)
-    .then((results) => {      
+    .then((results) => {
       if (results.status >= 500) {
         swalert(true, results, params);
         throw new Error(results.text());
       } else if(results.status !== 200 && results.status !== 404 && results.status !== 202){
         swalertWithoutReport(true, results, params);
-      }
-      if(params.method==="PUT"){
-        return results
-      }
+      } 
+      console.log('results', results);
       return results.json();
-    }).catch((err) => {    
+    }).catch((err) => {
         swalert(false, err, params);
-        throw new Error("some thing went wrong!");
     });
 };
 
 export const invokeApigWithoutErrorReport = (params) => {
   return invokeApig(params)
-    .then(async (results) => {
+    .then((results) => {
       if (results.status !== 200 && results.status !== 404 && results.status !== 202) {
-        const a = await results.json();
-        throw new Error(a.originalMessage || 'Error');
+        throw new Error(results.text());
       }
+      console.log('results', results);
       return results.json();
     });
 };

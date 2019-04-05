@@ -68,7 +68,7 @@ class SetCogsTable extends Component {
   }
 
   onRowSelect = (row, isSelected) => {    
-    let {selectedRows, numSelectedVariants,data,tableData} = this.state;
+    let {selectedRows, numSelectedVariants,tableData} = this.state;
     let selection = {};
     if (isSelected) {
       selectedRows.push(row.id);
@@ -413,7 +413,7 @@ class SetCogsTable extends Component {
                     className="vt-cell border-left"
                     cellRenderer={({cellData, rowData, rowIndex}) => <MarginPercentFormater cell={cellData} row={rowData} tableData={tableData} onFocus={this.onFocus} onChange={this.onMarginPercentChange} onBlur={this.onMarginPercentBlur} />}
                     dataKey="variant border-left"
-                /> 
+                />
                 </Table>
               );
 }}

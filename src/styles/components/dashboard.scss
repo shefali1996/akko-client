@@ -19,7 +19,6 @@
   padding: 0px 4%;
   position: relative;
 }
-
 .dialog {
   height: 100%;
   width: 100%;
@@ -70,7 +69,7 @@
     padding-bottom: 0px !important;
     .expense-header {
       padding: 16px 16px 0px !important;
-      :first-child {
+      :first-child{
         padding-right: 0px !important;
       }
     }
@@ -202,17 +201,6 @@
 }
 // -----------------------NEW dashboardJSON--------------
 .analysis {
-  #goalCardSection {
-    z-index: 0;
-    display: grid;
-    grid-template-columns: 1fr 1fr 1fr 1fr;
-    :first-child {
-      grid-column-start: 1;
-    }
-    .only-m {
-      display: none;
-    }
-  }
   #cardSection {
     z-index: 0;
     display: grid;
@@ -230,26 +218,6 @@
     box-shadow: rgba($new-blue, 0.6) 0px 1px 6px,
       rgba($new-blue, 0.6) 0px 1px 4px !important;
   }
-
-  .dashboard-section {
-    margin: 40px 0px 9px -10px;
-    font-family: Ubuntu;
-    font-size: 14px;
-    color: $highlight-color;
-    font-weight: bold;
-    text-decoration: none solid $highlight-color;
-  }
-
-  .dashboard-goal-card-container {
-    float: left;
-    padding-left: 4px;
-    padding-right: 4px;
-    min-height: 200px;
-    display: grid;
-    padding-top: 10px;
-    transition: width 0.5s linear 0.5s, height 0.5s linear 0.5s;
-  }
-
   .dashboard-card-container {
     // min-width:310px;
     float: left;
@@ -384,8 +352,8 @@
   }
 }
 
-.dot {
-  display: none;
+.dot{
+  display: none
 }
 .custom-shadow {
   transform: translateZ(0);
@@ -470,7 +438,7 @@ td.react-bs-table-expand-cell {
   font-size: $size-16;
   color: $highlight-color;
   text-decoration: none solid $grey;
-  font-weight: 500;
+  font-weight: 500
 }
 .alt-price-title {
   display: inline-block;
@@ -520,262 +488,6 @@ td.react-bs-table-expand-cell {
   height: 100px;
   background: $pure-white;
 }
-
-
-
-.goal-card-style {
-  border: 1px solid $light-gray-color;
-  border-radius: 2px;
-  background-color: $pure-white;
-  box-shadow: 0 1px 2px $pure-black;
-  height: 100%;
-
-  .title .ellipsis{
-    max-width: 200px;
-      white-space: nowrap;
-      overflow: hidden;
-      text-overflow: ellipsis;
-      padding-right: 8px;
-      -webkit-line-clamp: 2; /* number of lines to show */
-      -webkit-box-orient: vertical;
-  }
-
-  
-
-  &.ongoing {
-    > div > div > div {
-      width: 100%;
-      padding-right: 0px !important;
-    }
-    .total-goal {
-      width: 100%;
-      margin-bottom: 10px;
-      .progress-box {
-        max-width: 500px;
-        margin-right: 24px;
-      }
-    }
-    .progress-box {
-      display: flex;
-      margin-bottom: 8px;
-      .target {
-        .bar {
-          height: 16px;
-          background-color: $light-gray-color;
-          background-size: cover;
-        }
-      }
-      .current {
-        .bar {
-          height: 16px;
-          background-color: $current-goal-bar-color;
-          background-size: cover;
-        }
-      }
-    }
-    .goal {
-      font-size: 11px;
-      color: $japanese-laurel-light;
-      font-weight: bold;
-      text-decoration: none solid $japanese-laurel-light;
-    }
-    .card-type {
-      font-size: 12px;
-      color: $japanese-laurel-light;
-      font-weight: bold;
-      text-decoration: none solid $japanese-laurel-light;
-    }
-
-    .goal-title {
-      width: 65px;
-      font-size: 9px;
-      color: $grey;
-      font-weight: bold;
-      text-decoration: none solid $grey;
-    }
-
-    .box {
-      margin: 0px 8px;
-    }
-    .ant-progress {
-      .progress-text {
-        font-size: 12px;
-        font-weight: bold;
-        color: $japanese-laurel-light;
-      }
-    }
-
-    .trace {
-      margin-top: 16px;
-      .title {
-        padding: 0px;
-        font-family: $ubuntu;
-        font-size: 9px;
-        color: $grey;
-        font-weight: 500;
-        text-decoration: none solid $grey;
-        text-align: center;
-      }
-      .detail {
-        font-family: $ubuntu;
-        font-size: 11px;
-        color: $grey;
-        font-weight: 500;
-        text-decoration: none solid $grey;
-        text-align: center;
-      }
-      .deadline-passed {
-        font-size: 11px;
-        color: $fade-red;
-        font-weight: 500;
-        text-decoration: none solid $fade-red;
-      }
-      .progress {
-        height: 7px;
-        margin: 7px 0px 0px 0px;
-        border-radius: 0px;
-        background-color: $light-gray-color;
-        background-size: cover;
-        .progress-bar {
-          background-color: $progress-bar-color;
-        }
-      }
-    }
-  }
-
-  .bg-color-failed {
-    background-color: $main-blue-color;
-  }
-  .bg-color-success {
-    background-color: $japanese-laurel-light;
-  }
-
-  .goal-archive-btn {
-    border: 1px solid $pure-white;
-    background-size: cover;
-    font-family: $ubuntu;
-    font-size: 12px;
-    color: $main-background-color;
-    font-weight: 500;
-    text-decoration: none solid $main-background-color;
-    text-align: center;
-    border-radius: 0px;
-    float: right;
-    margin-right: 24px;
-  }
-  .goal-archive-btn:hover,
-  .goal-archive-btn:active,
-  .goal-archive-btn:focus {
-  }
-
-  .title {
-    font-family: $ubuntu;
-    padding-left: 0px;
-    font-size: 12px;
-    color: $pure-white;
-    text-decoration: none solid $pure-white;
-  }
-
-  .success {
-    margin: 10px 10px;
-    .text {
-      font-family: Ubuntu;
-      font-weight: bold;
-      font-size: 12px;
-      color: $pure-white;
-      text-decoration: none solid $pure-white;
-      text-align: center;
-    }
-  
-    .content {
-      .icon-box {
-        display: flex;
-        align-items: center;
-        width: 61px;
-        height: 61px;
-        background-color: $pure-white;
-        background-size: cover;
-        border-radius: 30px;
-        > img {
-          height: 32px;
-          width: 32px;
-          margin: 0 auto;
-        }
-      }
-      .goal-status {
-        font-family: $ubuntu;
-        font-size: 14px;
-        color: $pure-white;
-        font-weight: 500;
-        text-decoration: none solid $pure-white;
-        text-align: center;
-      }
-    }
-  }
-
-  .failed {
-    margin: 10px 10px;
-    .text {
-      font-family: $ubuntu;
-      font-size: 12px;
-      font-weight: bold;
-      color: $grey;
-      text-decoration: none solid $grey;
-      text-align: center;
-    }
-    .content {
-      .icon-box {
-        display: flex;
-        align-items: center;
-        width: 61px;
-        height: 61px;
-        background-color: $fade-red;
-        background-size: cover;
-        border-radius: 30px;
-        > img {
-          height: 32px;
-          width: 32px;
-          margin: 0 auto;
-        }
-      }
-      .goal-status {
-        font-family: $ubuntu;
-        font-size: 14px;
-        color: $fade-red;
-        font-weight: 500;
-        text-decoration: none solid $pure-white;
-        text-align: center;
-      }
-    }
-  }
-  &.add-new-goal {
-    cursor: pointer;
-    > div {
-      margin-left: auto;
-      margin-right: auto;
-      > div {
-        display: flex;
-        flex-direction: column;
-        justify-content: center;
-        > img {
-          cursor: pointer;
-          margin-left: auto;
-          margin-right: auto;
-          margin-bottom: 10px;
-          width: 48px;
-          height: 48px;
-        }
-        > div {
-          font-family: $ubuntu;
-          font-size: 11px;
-          color: $light-gray-color;
-          font-weight: bold;
-          text-decoration: none solid $light-gray-color;
-        }
-      }
-    }
-  }
-}
 .price-card-style {
   border: 1px solid $light-gray-color;
   border-radius: 2px;
@@ -814,7 +526,7 @@ td.react-bs-table-expand-cell {
 }
 .price-view {
   background: $pure-white;
-  padding: 0 10px;
+  padding:0 10px
 }
 .expand-content {
   padding: 0px !important;
@@ -853,14 +565,9 @@ td.react-bs-table-expand-cell {
   }
 }
 
+
 @media only screen and (max-width: 1024px) {
   .analysis {
-    #goalCardSection {
-      grid-template-columns: 1fr 1fr 1fr;
-      .goal-card-style .title .ellipsis {
-        max-width: 100px;
-    }
-    }
     #cardSection {
       grid-template-columns: 1fr 1fr 1fr;
     }
@@ -868,9 +575,6 @@ td.react-bs-table-expand-cell {
 }
 @media only screen and (max-width: 768px) {
   .analysis {
-    #goalCardSection {
-      grid-template-columns: 1fr 1fr;
-    }
     #cardSection {
       grid-template-columns: 1fr 1fr;
     }
@@ -878,133 +582,9 @@ td.react-bs-table-expand-cell {
 }
 @media only screen and (max-width: 650px) {
   .analysis {
-    #goalCardSection {
-      grid-template-columns: 1fr 1fr;
-      .hide-m {
-        display: none;
-      }
-      .goal-card-style .title .ellipsis {
-        max-width: 100px;
-    }
-      .only-m {
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-
-        &.box{
-          box-sizing: border-box;
-          -webkit-tap-highlight-color: rgba($pure-black, 0);
-          box-shadow: rgba($pure-black, 0.12) 0px 1px 6px, rgba($pure-black, 0.12) 0px 1px 4px;
-          border-radius: 2px;
-          z-index: 1;
-          border: 1px solid $light-gray-color;
-        }
-     
-
-        &.success-bg {
-          background-color: $japanese-laurel-light;
-        }
-        &.time-up-bg {
-          background-color: $pure-white;
-        }
-        .success-header {
-          height: 50px;
-          width: 100%;
-          background-color: $japanese-laurel-light;
-          display: flex;
-          align-items: center;
-          justify-content: flex-start;
-          background-color: $japanese-laurel-light;
-          .title {
-            font-family: $ubuntu;
-            font-size: 12px;
-            color: $pure-white;
-            text-decoration: none solid $pure-white;
-            .ellipsis{
-              max-width: 100px;
-              white-space: nowrap;
-              overflow: hidden;
-              text-overflow: ellipsis;
-              padding-right: 8px;
-              -webkit-line-clamp: 2; /* number of lines to show */
-              -webkit-box-orient: vertical;
-            }
-           
-          }
-        }
-        .time-up-header {
-          height: 50px;
-          width: 100%;
-          background-color: $japanese-laurel-light;
-          display: flex;
-          align-items: center;
-          justify-content: flex-start;
-          background-color: $main-blue-color;
-          .title {
-            font-family: $ubuntu;
-            font-size: 12px;
-            color: $pure-white;
-            text-decoration: none solid $pure-white;
-            .ellipsis{
-              max-width: 100px;
-              white-space: nowrap;
-              overflow: hidden;
-              text-overflow: ellipsis;
-              padding-right: 8px;
-              -webkit-line-clamp: 2; /* number of lines to show */
-              -webkit-box-orient: vertical;
-            }
-          }
-        }
-
-        .icon-box {
-          margin-top:16px;
-          display: flex;
-          align-items: center;
-          width: 61px;
-          height: 61px;
-          background-size: cover;
-          border-radius: 30px;
-          > img {
-            height: 32px;
-            width: 32px;
-            margin: 0 auto;
-          }
-          &.success {
-            background-color: $pure-white;
-          }
-          &.time-up {
-            background-color: $fade-red;
-          }
-        }
-        .success-text {
-          flex-grow: 1;
-          display: flex;
-          flex-direction: column;
-          justify-content: center;
-          font-family: $ubuntu;
-          font-size: 9px;
-          font-weight: bold;
-          color: $pure-white;
-          text-decoration: none solid $pure-white;
-          text-align: center;
-        }
-        .time-up-text {
-          flex-grow: 1;
-          display: flex;
-          flex-direction: column;
-          justify-content: center;
-          font-family: $ubuntu;
-          font-size: 9px;
-          font-weight: bold;
-          color: $grey;
-          text-decoration: none solid $grey;
-          text-align: center;
-        }
-      }
-    }
     #cardSection {
       grid-template-columns: 1fr;
     }
   }
 }
+

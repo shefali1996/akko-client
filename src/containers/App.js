@@ -34,8 +34,8 @@ class App extends Component {
               <Main>
                 <Switch>
                   <Route exact path={routeConstants.signin} component={SignIn} />
-                  <Route exact path={routeConstants.signup} component={SignUp} />
-                  <Route exact path={routeConstants.forgotPassword} component={ForgotPassword} />
+                   <Route exact path={routeConstants.signup} component={SignUp} />
+                 <Route exact path={routeConstants.forgotPassword} component={ForgotPassword} />
                   <Route path={routeConstants.landing} name="Authorized Sections" component={AuthorizedContainer} />
                   <Route path="*" component={NotFound} />
                 </Switch>

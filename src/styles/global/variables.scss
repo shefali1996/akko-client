@@ -44,13 +44,8 @@ $fade-red: #eb554d;
 $primary-button-hover: #e6e6e6;
 $area-color:#6078FF;
 $highlight-color: #2e4369;
-$progress-bar-color:#52a843;
-$current-goal-bar-color:#ebebeb;
 $grey-shadow-color:rgba(0,0,0,0.1);
-$setting-shadow-color:rgba(0,0,0,0.2);
-$tab-shadow-color:rgba(0,0,0,0.4);
 $first-text-blue-color:#d1dffe;
-$light-grey-color:#ddddff;
 
 //font-size
 $size-0: 0px;
@@ -119,10 +114,6 @@ $min-height: calc(100vh - 60px);
     grey:$grey;
     white-shade:$white-shade;
     area-color:$area-color;
-    light-grey-color:$light-grey-color;
     grey-shadow-color:$grey-shadow-color;
-    first-text-blue-color:$first-text-blue-color;
-    light-grey-color: $light-grey-color;
-    tab-shadow-color:$tab-shadow-color;
-    setting-shadow-color:$setting-shadow-color
+    first-text-blue-color:$first-text-blue-color
 }

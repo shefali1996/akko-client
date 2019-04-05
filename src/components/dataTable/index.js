@@ -8,7 +8,6 @@ import ProductPriceFormatterCogs from './ProductPriceFormatterCogs';
 import ExpendVariantsFormatter from './ExpendVariantsFormatter';
 import RenderProgressBar from './RenderProgressBar';
 import customMultiSelect from './customMultiSelect';
-import VendorTitleFormatter from './VendorTitleFormatter';
 
 export {
   CogsValueFormatter,
@@ -21,5 +20,4 @@ export {
   ExpendVariantsFormatter,
   RenderProgressBar,
   customMultiSelect,
-  VendorTitleFormatter,
 };

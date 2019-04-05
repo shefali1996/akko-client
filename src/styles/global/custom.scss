@@ -47,7 +47,7 @@
 }
 
 .ant-select {
-  width: $full-width ;
+  width: $full-width !important;
   font-family: $ubuntu;
   font-size: 14px;
   color: $light-gray-color;
@@ -98,13 +98,4 @@ input[type="number"]::-webkit-inner-spin-button,
 input[type="number"]::-webkit-outer-spin-button {
   -webkit-appearance: none;
   margin: 0;
-}
-
-
-.hide{
-  display: none;
-}
-
-.no-border{
-  border-radius: 0 !important;
 }

@@ -4,6 +4,7 @@ import {
     Col
   } from "react-bootstrap";
 import React, { Component } from 'react';
+import Navigationbar from '../Navigationbar'
 import ExploreMetrics from '../ExploreMetrics'
 import Footer from '../Footer';
 import {exploreCard,exploreCardPathPattern} from '../../constants';
@@ -68,6 +69,7 @@ class MetricExplore extends Component{
     render(){
         return (
             <div>
+                <Navigationbar history={this.props.history} companyName={this.state.userData && this.state.userData.company} />
                 <Grid className="page-container">
                 <Row className="explore-metrics">
                     <ExploreMetrics

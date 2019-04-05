@@ -20,11 +20,3 @@ export const metricsPathForVariantBySingleProduct = (metric_name, productId) => 
 export const metricsPathForProductBySingleCategory = (metric_name, categoryId) => `/metrics/${metric_name}/categories/${categoryId}/products`;
 export const metricsPathForTimeBySingleVariant = (metric_name, productId, variantId) => `/metrics/${metric_name}/products/${productId}/variants/${variantId}`
 export const metricsDataByName=metric_name=> `/metrics/${metric_name}/summary`;
-
-//goals api endpoint
-export const allGoals = () => `/goals/all`;
-export const activeGoals = () => `/goals/active`;
-export const addGoalURL = () => `/goals`;
-export const deleteGoalURL = (goalId) => `/goals/${goalId}`;
-export const editGoalURL = (goalId) => `/goals/${goalId}/edit`;
-export const archiveGoalURL = goalId => `/goals/${goalId}/archive`;

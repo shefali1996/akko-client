@@ -90,18 +90,16 @@ export async function invokeApig({
   method = 'GET',
   headers = {},
   queryParams = {},
-  body,
-  context = "main"
+  body
 }) {
-  const {region,endpoint} = config.apiGateway[context];
   return authUser().then(() => {
     const signedRequest = sigV4Client
       .newClient({
         accessKey:    AWS.config.credentials.accessKeyId,
         secretKey:    AWS.config.credentials.secretAccessKey,
         sessionToken: AWS.config.credentials.sessionToken,
-        region:       region,
-        endpoint:     endpoint
+        region:       config.apiGateway.REGION,
+        endpoint:     config.apiGateway.URL
       })
       .signRequest({
         method,
@@ -110,8 +108,10 @@ export async function invokeApig({
         queryParams,
         body
       });
+
     body = body ? JSON.stringify(body) : body;
-    headers = signedRequest.headers;    
+    headers = signedRequest.headers;
+    console.log('signedRequest', signedRequest);
     return fetch(signedRequest.url, {
       method,
       headers,
