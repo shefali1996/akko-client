@@ -36,4 +36,5 @@ jobs:
 
 
       # test
+      - run: npm install webpack@4.28.4
       - run: npm run build
