@@ -36,6 +36,4 @@ jobs:
 
 
       # test
-      - run: npm uninstall webpack
-      - run: npm install --save webpack@4.28.4
       - run: npm run build
