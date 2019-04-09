@@ -36,6 +36,6 @@ jobs:
 
 
       # test
-      - run: npm uninstall webpack
-      - run: npm install webpack@4.28
+      # - run: npm uninstall webpack
+      # - run: npm install webpack@4.28
       - run: npm run build
