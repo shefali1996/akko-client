@@ -1,6 +1,6 @@
 export default {
   apiGateway: {
-    URL:    'https://api.akko.io/prod',
+    URL:    'https://api-dev.akko.io/dev',
     REGION: 'us-east-2'
   },
   cognito: {

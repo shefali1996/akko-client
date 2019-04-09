@@ -45,7 +45,7 @@ class SetCogs extends Component {
         completed: 0
       },
       setMark:            0,
-      setCog:             0
+      setCog:             0,
     };
     this.onFinish = this.onFinish.bind(this);
     this.updateTableData = this.updateTableData.bind(this);
@@ -354,7 +354,7 @@ class SetCogs extends Component {
         }
       })
     }
-    render() { 
+    render() {       
       const {data, loading, selectedRows, numSelectedVariants, hideCompleted, searchTerm, currentPage, rowsPerPage, progress} = this.state;
       const {tableData} = this.state;
       return (

@@ -46,7 +46,7 @@ function beautifyUploadedCsvData(data, tableData) {
 
 function validateCogsValue(cogs, price) {  
   let ret = 'Empty COGS';
-  if(!cogs){
+  if(!cogs && cogs!==0){
     return ret
   }
   if ( cogs.toString().length === 0 || cogs.toString() === 'null') {

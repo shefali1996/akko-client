@@ -182,13 +182,16 @@ class SetCogsTable extends Component {
       });
     }
     onCogsChange = (e, row, rowIndex) => {
-      const {tableData} = this.state;
+      const {tableData} = cloneDeep(this.state);
       if (rowIndex && rowIndex !== -1) {
         let value = e.target.value;        
         if (isEmpty(value)) {
           value = INVALID_COGS;
         }
         tableData[rowIndex].cogs = value;
+        this.setState({
+          tableData
+        })
       }
       this.props.cogsChange();
       this.props.updateParentState({
@@ -210,10 +213,13 @@ class SetCogsTable extends Component {
       this.props.updateParentState(changeState);
     }
     onMarginDollerChange = (e, row, rowIndex) => {
-      const {tableData} = this.state;
+      const {tableData} = cloneDeep(this.state);
       if (rowIndex && rowIndex !== -1) {
         const markup = e.target.value;
         tableData[rowIndex].marginDoller = markup;
+        this.setState({
+          tableData
+        })
       }
       this.props.updateParentState({
         tableData
@@ -241,10 +247,13 @@ class SetCogsTable extends Component {
       change: false
     });
     onMarginPercentChange = (e, row, rowIndex) => {
-      const {tableData} = this.state;
+      const {tableData} = cloneDeep(this.state);
       if (rowIndex) {
         const markup = e.target.value;
         tableData[rowIndex].marginPercent = markup;
+        this.setState({
+          tableData
+        })
       }
       this.props.updateParentState({
         tableData
