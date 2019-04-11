@@ -17,7 +17,7 @@ export default ({cell, row, rowIndex, tableData, onFocus, onChange, onBlur}) => 
     if (!isUndefined(row.marginPercent)) {
       margin = row.marginPercent;
     } else if (validateCogsValue(cogs, price) === true) {
-      margin = ((price - cogs) * 100 / cogs).toFixed(2);
+      margin = ((price - cogs) * 100 / price).toFixed(2);
     }
   }
   return (
