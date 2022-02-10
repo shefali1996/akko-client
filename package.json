@@ -38,7 +38,7 @@
     "mini-css-extract-plugin": "^0.5.0",
     "mock-require": "^2.0.2",
     "moment": "^2.20.1",
-    "node-sass": "^4.7.2",
+    "node-sass": "^7.0.0",
     "node-sass-chokidar": "^0.0.3",
     "papaparse": "^4.3.6",
     "query-string": "^5.0.1",
