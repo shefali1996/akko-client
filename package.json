@@ -54,7 +54,7 @@
     "react-redux": "^5.0.6",
     "react-router": "^4.2.0",
     "react-router-dom": "^4.2.2",
-    "react-scripts": "0.9.5",
+    "react-scripts": "5.0.1",
     "react-search-input": "^0.11.3",
     "react-select": "^1.0.0-rc.10",
     "react-virtualized": "^9.18.5",
@@ -105,7 +105,7 @@
     "rimraf": "^2.6.2",
     "style-loader": "^0.23.1",
     "stylus-loader": "^3.0.2",
-    "svg-inline-loader": "^0.8.0",
+    "svg-inline-loader": "^0.8.2",
     "uglifyjs-3-webpack-plugin": "^1.2.4",
     "url-loader": "^0.6.2"
   },
